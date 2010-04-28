@@ -25,6 +25,10 @@ public class IntegerDefaultValue extends AbstractDefaultValue<Integer> {
 		
 	}
 	
+	public IntegerDefaultValue(Integer argInteger){
+		this(argInteger, Integer.MIN_VALUE, Integer.MAX_VALUE);
+	}
+	
 	public IntegerDefaultValue(Integer argInteger, int argMin, int argMax){
 		this(argInteger, argMin, argMax, -1, -1);
 	}

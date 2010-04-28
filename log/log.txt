@@ -1,0 +1,325 @@
+Wed 2010/04/28 04:52:59.721|   |main|StringDefaultValue|value stored: unnamed.project
+Wed 2010/04/28 04:52:59.759|   |main|StringDefaultValue|value stored: unknown
+Wed 2010/04/28 04:52:59.761|   |main|StringDefaultValue|value stored: unknown
+Wed 2010/04/28 04:52:59.763|   |main|StringDefaultValue|value stored: unnamed.object
+Wed 2010/04/28 04:52:59.764|   |main|StringDefaultValue|value stored: unnamed.element
+Wed 2010/04/28 04:52:59.765|   |main|StringDefaultValue|value stored: unnamed.sample
+Wed 2010/04/28 04:52:59.767|   |main|StringDefaultValue|value stored: unnamed.radius
+Wed 2010/04/28 04:52:59.769|   |main|StringDefaultValue|value stored: unnamed.series
+Wed 2010/04/28 04:52:59.774|   |main|StringDefaultValue|value stored: unnamed.series
+Wed 2010/04/28 04:52:59.775|   |main|StringDefaultValue|value stored: domain.value
+Wed 2010/04/28 04:52:59.778|   |main|StringDefaultValue|value stored: unnamed.project
+Wed 2010/04/28 04:52:59.781|   |main|StringDefaultValue|value stored: unknown
+Wed 2010/04/28 04:52:59.782|   |main|StringDefaultValue|value stored: unknown
+Wed 2010/04/28 04:52:59.784|   |main|StringDefaultValue|value stored: unnamed.object
+Wed 2010/04/28 04:52:59.788|   |main|StringDefaultValue|value stored: unnamed.element
+Wed 2010/04/28 04:52:59.789|   |main|StringDefaultValue|value stored: unnamed.sample
+Wed 2010/04/28 04:52:59.791|   |main|StringDefaultValue|value stored: unnamed.radius
+Wed 2010/04/28 04:52:59.793|   |main|StringDefaultValue|value stored: unnamed.series
+Wed 2010/04/28 04:52:59.794|   |main|StringDefaultValue|value stored: unnamed.series
+Wed 2010/04/28 04:52:59.796|   |main|StringDefaultValue|value stored: domain.value
+Wed 2010/04/28 04:52:59.797|   |main|StringDefaultValue|value stored: unnamed.project
+Wed 2010/04/28 04:52:59.798|   |main|StringDefaultValue|value stored: unknown
+Wed 2010/04/28 04:52:59.800|   |main|StringDefaultValue|value stored: unknown
+Wed 2010/04/28 04:52:59.802|   |main|StringDefaultValue|value stored: unnamed.object
+Wed 2010/04/28 04:52:59.803|   |main|StringDefaultValue|value stored: unnamed.element
+Wed 2010/04/28 04:52:59.805|   |main|StringDefaultValue|value stored: unnamed.sample
+Wed 2010/04/28 04:52:59.806|   |main|StringDefaultValue|value stored: unnamed.radius
+Wed 2010/04/28 04:52:59.808|   |main|StringDefaultValue|value stored: unnamed.series
+Wed 2010/04/28 04:52:59.809|   |main|StringDefaultValue|value stored: unnamed.series
+Wed 2010/04/28 04:52:59.811|   |main|StringDefaultValue|value stored: domain.value
+Wed 2010/04/28 04:52:59.814|   |main|AbstractDendroFileReader|loading file from: Tridas2.xml
+Wed 2010/04/28 04:52:59.816|   |main|FileHelper|The file 'Tridas2.xml' is missing or inaccessible, make sure the URL is valid or that the file is in the samedirectory as the jar and is readable.
+Wed 2010/04/28 04:53:01.106|   |main|StringDefaultValue|fileio.defaults.stringTooBig
+Wed 2010/04/28 04:53:01.110|   |main|AbstractMetadataFieldSet|Warning from defaults: org.tridas.io.warnings.ConversionWarning@cade31
+Wed 2010/04/28 04:53:01.112|   |main|StringDefaultValue|value stored: 0db633
+Wed 2010/04/28 04:53:01.114|   |main|StringDefaultValue|fileio.defaults.stringTooSmall
+Wed 2010/04/28 04:53:01.121|   |main|StringDefaultValue|value stored: unnamed.object                                    
+Wed 2010/04/28 04:53:01.122|   |main|StringDefaultValue|value stored: UNKN
+Wed 2010/04/28 04:53:01.124|   |main|StringDefaultValue|fileio.defaults.stringTooSmall
+Wed 2010/04/28 04:53:01.126|   |main|StringDefaultValue|value stored: Plantae 
+Wed 2010/04/28 04:53:01.127|   |main|StringDefaultValue|fileio.defaults.stringTooSmall
+Wed 2010/04/28 04:53:01.128|   |main|StringDefaultValue|value stored: unknown                                                      
+Wed 2010/04/28 04:53:01.131|   |main|StringDefaultValue|fileio.defaults.stringTooSmall
+Wed 2010/04/28 04:53:01.132|   |main|StringDefaultValue|value stored:            
+Wed 2010/04/28 04:53:01.134|   |main|StringDefaultValue|fileio.defaults.stringTooSmall
+Wed 2010/04/28 04:53:01.136|   |main|StringDefaultValue|value stored: unknown      
+Wed 2010/04/28 04:53:01.138|   |main|StringDefaultValue|value stored: 20100428
+Wed 2010/04/28 04:53:01.139|   |main|StringDefaultValue|fileio.defaults.stringTooBig
+Wed 2010/04/28 04:53:01.141|   |main|AbstractMetadataFieldSet|Warning from defaults: org.tridas.io.warnings.ConversionWarning@1e91a4d
+Wed 2010/04/28 04:53:01.142|   |main|StringDefaultValue|value stored: 372757
+Wed 2010/04/28 04:53:01.144|   |main|StringDefaultValue|fileio.defaults.stringTooSmall
+Wed 2010/04/28 04:53:01.148|   |main|StringDefaultValue|value stored: unnamed.object                                    
+Wed 2010/04/28 04:53:01.150|   |main|StringDefaultValue|value stored: UNKN
+Wed 2010/04/28 04:53:01.151|   |main|StringDefaultValue|fileio.defaults.stringTooSmall
+Wed 2010/04/28 04:53:01.153|   |main|StringDefaultValue|value stored: Plantae 
+Wed 2010/04/28 04:53:01.154|   |main|StringDefaultValue|fileio.defaults.stringTooSmall
+Wed 2010/04/28 04:53:01.155|   |main|StringDefaultValue|value stored: unknown                                                      
+Wed 2010/04/28 04:53:01.157|   |main|StringDefaultValue|fileio.defaults.stringTooSmall
+Wed 2010/04/28 04:53:01.158|   |main|StringDefaultValue|value stored:            
+Wed 2010/04/28 04:53:01.160|   |main|StringDefaultValue|fileio.defaults.stringTooSmall
+Wed 2010/04/28 04:53:01.161|   |main|StringDefaultValue|value stored: unknown      
+Wed 2010/04/28 04:53:01.163|   |main|StringDefaultValue|value stored: 20100428
+Wed 2010/04/28 04:53:01.164|   |main|StringDefaultValue|fileio.defaults.stringTooBig
+Wed 2010/04/28 04:53:01.166|   |main|AbstractMetadataFieldSet|Warning from defaults: org.tridas.io.warnings.ConversionWarning@bdc9b3
+Wed 2010/04/28 04:53:01.167|   |main|StringDefaultValue|value stored: 5ede59
+Wed 2010/04/28 04:53:01.168|   |main|StringDefaultValue|fileio.defaults.stringTooSmall
+Wed 2010/04/28 04:53:01.170|   |main|StringDefaultValue|value stored: unnamed.object                                    
+Wed 2010/04/28 04:53:01.172|   |main|StringDefaultValue|value stored: UNKN
+Wed 2010/04/28 04:53:01.173|   |main|StringDefaultValue|fileio.defaults.stringTooSmall
+Wed 2010/04/28 04:53:01.175|   |main|StringDefaultValue|value stored: Plantae 
+Wed 2010/04/28 04:53:01.176|   |main|StringDefaultValue|fileio.defaults.stringTooSmall
+Wed 2010/04/28 04:53:01.178|   |main|StringDefaultValue|value stored: unknown                                                      
+Wed 2010/04/28 04:53:01.179|   |main|StringDefaultValue|fileio.defaults.stringTooSmall
+Wed 2010/04/28 04:53:01.181|   |main|StringDefaultValue|value stored:            
+Wed 2010/04/28 04:53:01.182|   |main|StringDefaultValue|fileio.defaults.stringTooSmall
+Wed 2010/04/28 04:53:01.184|   |main|StringDefaultValue|value stored: unknown      
+Wed 2010/04/28 04:53:01.186|   |main|StringDefaultValue|value stored: 20100428
+Wed 2010/04/28 04:53:01.191|   |main|StringDefaultValue|fileio.defaults.stringTooSmall
+Wed 2010/04/28 04:53:01.192|   |main|StringDefaultValue|value stored: Hello     
+Wed 2010/04/28 04:53:01.194|   |main|StringDefaultValue|fileio.defaults.stringTooSmall
+Wed 2010/04/28 04:53:01.196|   |main|StringDefaultValue|value stored: Goodbye   
+Wed 2010/04/28 04:53:01.197|   |main|AbstractDefaultValue|fileio.defaults.stringTooSmall
+Wed 2010/04/28 04:53:01.199|   |main|IntegerDefaultValue|fileio.defaults.numTooBig
+Wed 2010/04/28 04:53:01.201|   |main|IntegerDefaultValue|fileio.defaults.nullParent
+Wed 2010/04/28 04:53:01.202|   |main|AbstractDefaultValue|fileio.defaults.stringTooSmall
+Wed 2010/04/28 04:53:01.206|   |main|StringDefaultValue|fileio.defaults.stringTooBig
+Wed 2010/04/28 04:53:01.208|   |main|AbstractMetadataFieldSet|Warning from defaults: org.tridas.io.warnings.ConversionWarning@10d3f0d
+Wed 2010/04/28 04:53:01.210|   |main|StringDefaultValue|value stored: 2c56d5
+Wed 2010/04/28 04:53:01.211|   |main|StringDefaultValue|fileio.defaults.stringTooSmall
+Wed 2010/04/28 04:53:01.213|   |main|StringDefaultValue|value stored: unnamed.object                                    
+Wed 2010/04/28 04:53:01.214|   |main|StringDefaultValue|value stored: UNKN
+Wed 2010/04/28 04:53:01.216|   |main|StringDefaultValue|fileio.defaults.stringTooSmall
+Wed 2010/04/28 04:53:01.217|   |main|StringDefaultValue|value stored: Plantae 
+Wed 2010/04/28 04:53:01.219|   |main|StringDefaultValue|fileio.defaults.stringTooSmall
+Wed 2010/04/28 04:53:01.221|   |main|StringDefaultValue|value stored: unknown                                                      
+Wed 2010/04/28 04:53:01.222|   |main|StringDefaultValue|fileio.defaults.stringTooSmall
+Wed 2010/04/28 04:53:01.223|   |main|StringDefaultValue|value stored:            
+Wed 2010/04/28 04:53:01.225|   |main|StringDefaultValue|fileio.defaults.stringTooSmall
+Wed 2010/04/28 04:53:01.227|   |main|StringDefaultValue|value stored: unknown      
+Wed 2010/04/28 04:53:01.229|   |main|StringDefaultValue|value stored: 20100428
+Wed 2010/04/28 04:53:01.273|   |main|StringDefaultValue|value stored: 1234567
+Wed 2010/04/28 04:53:01.274|   |main|StringDefaultValue|value stored: Tree
+Wed 2010/04/28 04:53:01.276|   |main|StringDefaultValue|value stored: Single curve
+Wed 2010/04/28 05:09:19.066|   |main|StringDefaultValue|fileio.defaults.stringTooSmall
+Wed 2010/04/28 05:09:19.077|   |main|StringDefaultValue|value stored: Hello     
+Wed 2010/04/28 05:09:19.080|   |main|AbstractDefaultValue|fileio.defaults.stringTooSmall
+Wed 2010/04/28 05:09:19.085|   |main|AbstractDefaultValue|fileio.defaults.stringTooSmall
+Wed 2010/04/28 05:09:19.090|   |main|IntegerDefaultValue|fileio.defaults.numTooBig
+Wed 2010/04/28 05:09:19.091|   |main|IntegerDefaultValue|fileio.defaults.nullParent
+Wed 2010/04/28 05:09:19.092|   |main|IntegerDefaultValue|fileio.defaults.numTooSmall
+Wed 2010/04/28 05:09:19.094|   |main|IntegerDefaultValue|fileio.defaults.nullParent
+Wed 2010/04/28 05:09:19.095|   |main|IntegerDefaultValue|fileio.defaults.numTooBig
+Wed 2010/04/28 05:09:19.097|   |main|IntegerDefaultValue|fileio.defaults.nullParent
+Wed 2010/04/28 05:09:19.099|   |main|IntegerDefaultValue|fileio.defaults.numTooSmall
+Wed 2010/04/28 05:09:19.100|   |main|IntegerDefaultValue|fileio.defaults.nullParent
+Wed 2010/04/28 05:09:19.103|   |main|StringDefaultValue|fileio.defaults.stringTooSmall
+Wed 2010/04/28 05:09:19.104|   |main|StringDefaultValue|value stored: Hello     
+Wed 2010/04/28 05:09:19.106|   |main|StringDefaultValue|fileio.defaults.stringTooSmall
+Wed 2010/04/28 05:09:19.107|   |main|StringDefaultValue|value stored: Goodbye   
+Wed 2010/04/28 05:09:19.129|   |main|StringDefaultValue|value stored: unnamed.project
+Wed 2010/04/28 05:09:19.132|   |main|StringDefaultValue|value stored: unknown
+Wed 2010/04/28 05:09:19.133|   |main|StringDefaultValue|value stored: unknown
+Wed 2010/04/28 05:09:19.134|   |main|StringDefaultValue|value stored: unnamed.object
+Wed 2010/04/28 05:09:19.136|   |main|StringDefaultValue|value stored: unnamed.element
+Wed 2010/04/28 05:09:19.137|   |main|StringDefaultValue|value stored: unnamed.sample
+Wed 2010/04/28 05:09:19.139|   |main|StringDefaultValue|value stored: unnamed.radius
+Wed 2010/04/28 05:09:19.140|   |main|StringDefaultValue|value stored: unnamed.series
+Wed 2010/04/28 05:09:19.142|   |main|StringDefaultValue|value stored: unnamed.series
+Wed 2010/04/28 05:09:19.143|   |main|StringDefaultValue|value stored: domain.value
+Wed 2010/04/28 05:09:19.146|   |main|StringDefaultValue|value stored: unnamed.project
+Wed 2010/04/28 05:09:19.148|   |main|StringDefaultValue|value stored: unknown
+Wed 2010/04/28 05:09:19.150|   |main|StringDefaultValue|value stored: unknown
+Wed 2010/04/28 05:09:19.151|   |main|StringDefaultValue|value stored: unnamed.object
+Wed 2010/04/28 05:09:19.152|   |main|StringDefaultValue|value stored: unnamed.element
+Wed 2010/04/28 05:09:19.153|   |main|StringDefaultValue|value stored: unnamed.sample
+Wed 2010/04/28 05:09:19.155|   |main|StringDefaultValue|value stored: unnamed.radius
+Wed 2010/04/28 05:09:19.156|   |main|StringDefaultValue|value stored: unnamed.series
+Wed 2010/04/28 05:09:19.158|   |main|StringDefaultValue|value stored: unnamed.series
+Wed 2010/04/28 05:09:19.159|   |main|StringDefaultValue|value stored: domain.value
+Wed 2010/04/28 05:09:19.161|   |main|StringDefaultValue|value stored: unnamed.project
+Wed 2010/04/28 05:09:19.163|   |main|StringDefaultValue|value stored: unknown
+Wed 2010/04/28 05:09:19.165|   |main|StringDefaultValue|value stored: unknown
+Wed 2010/04/28 05:09:19.166|   |main|StringDefaultValue|value stored: unnamed.object
+Wed 2010/04/28 05:09:19.167|   |main|StringDefaultValue|value stored: unnamed.element
+Wed 2010/04/28 05:09:19.169|   |main|StringDefaultValue|value stored: unnamed.sample
+Wed 2010/04/28 05:09:19.170|   |main|StringDefaultValue|value stored: unnamed.radius
+Wed 2010/04/28 05:09:19.172|   |main|StringDefaultValue|value stored: unnamed.series
+Wed 2010/04/28 05:09:19.173|   |main|StringDefaultValue|value stored: unnamed.series
+Wed 2010/04/28 05:09:19.175|   |main|StringDefaultValue|value stored: domain.value
+Wed 2010/04/28 05:09:19.179|   |main|AbstractDendroFileReader|loading file from: Tridas2.xml
+Wed 2010/04/28 05:09:19.181|   |main|FileHelper|The file 'Tridas2.xml' is missing or inaccessible, make sure the URL is valid or that the file is in the samedirectory as the jar and is readable.
+Wed 2010/04/28 05:09:19.787|   |main|StringDefaultValue|fileio.defaults.stringTooBig
+Wed 2010/04/28 05:09:19.791|   |main|AbstractMetadataFieldSet|Warning from defaults: org.tridas.io.warnings.ConversionWarning@11d3226
+Wed 2010/04/28 05:09:19.792|   |main|StringDefaultValue|value stored: 876d75
+Wed 2010/04/28 05:09:19.794|   |main|StringDefaultValue|fileio.defaults.stringTooSmall
+Wed 2010/04/28 05:09:19.795|   |main|StringDefaultValue|value stored: unnamed.object                                    
+Wed 2010/04/28 05:09:19.797|   |main|StringDefaultValue|value stored: UNKN
+Wed 2010/04/28 05:09:19.799|   |main|StringDefaultValue|fileio.defaults.stringTooSmall
+Wed 2010/04/28 05:09:19.800|   |main|StringDefaultValue|value stored: Plantae 
+Wed 2010/04/28 05:09:19.802|   |main|StringDefaultValue|fileio.defaults.stringTooSmall
+Wed 2010/04/28 05:09:19.803|   |main|StringDefaultValue|value stored: unknown                                                      
+Wed 2010/04/28 05:09:19.805|   |main|StringDefaultValue|fileio.defaults.stringTooSmall
+Wed 2010/04/28 05:09:19.807|   |main|StringDefaultValue|value stored:            
+Wed 2010/04/28 05:09:19.808|   |main|StringDefaultValue|fileio.defaults.stringTooSmall
+Wed 2010/04/28 05:09:19.810|   |main|StringDefaultValue|value stored: unknown      
+Wed 2010/04/28 05:09:19.812|   |main|StringDefaultValue|value stored: 20100428
+Wed 2010/04/28 05:09:19.814|   |main|StringDefaultValue|fileio.defaults.stringTooBig
+Wed 2010/04/28 05:09:19.815|   |main|AbstractMetadataFieldSet|Warning from defaults: org.tridas.io.warnings.ConversionWarning@1b8b3bb
+Wed 2010/04/28 05:09:19.817|   |main|StringDefaultValue|value stored: d06bba
+Wed 2010/04/28 05:09:19.819|   |main|StringDefaultValue|fileio.defaults.stringTooSmall
+Wed 2010/04/28 05:09:19.820|   |main|StringDefaultValue|value stored: unnamed.object                                    
+Wed 2010/04/28 05:09:19.821|   |main|StringDefaultValue|value stored: UNKN
+Wed 2010/04/28 05:09:19.823|   |main|StringDefaultValue|fileio.defaults.stringTooSmall
+Wed 2010/04/28 05:09:19.824|   |main|StringDefaultValue|value stored: Plantae 
+Wed 2010/04/28 05:09:19.826|   |main|StringDefaultValue|fileio.defaults.stringTooSmall
+Wed 2010/04/28 05:09:19.827|   |main|StringDefaultValue|value stored: unknown                                                      
+Wed 2010/04/28 05:09:19.829|   |main|StringDefaultValue|fileio.defaults.stringTooSmall
+Wed 2010/04/28 05:09:19.830|   |main|StringDefaultValue|value stored:            
+Wed 2010/04/28 05:09:19.832|   |main|StringDefaultValue|fileio.defaults.stringTooSmall
+Wed 2010/04/28 05:09:19.833|   |main|StringDefaultValue|value stored: unknown      
+Wed 2010/04/28 05:09:19.835|   |main|StringDefaultValue|value stored: 20100428
+Wed 2010/04/28 05:09:19.837|   |main|StringDefaultValue|fileio.defaults.stringTooBig
+Wed 2010/04/28 05:09:19.839|   |main|AbstractMetadataFieldSet|Warning from defaults: org.tridas.io.warnings.ConversionWarning@11ff451
+Wed 2010/04/28 05:09:19.840|   |main|StringDefaultValue|value stored: 868e67
+Wed 2010/04/28 05:09:19.842|   |main|StringDefaultValue|fileio.defaults.stringTooSmall
+Wed 2010/04/28 05:09:19.844|   |main|StringDefaultValue|value stored: unnamed.object                                    
+Wed 2010/04/28 05:09:19.846|   |main|StringDefaultValue|value stored: UNKN
+Wed 2010/04/28 05:09:19.847|   |main|StringDefaultValue|fileio.defaults.stringTooSmall
+Wed 2010/04/28 05:09:19.849|   |main|StringDefaultValue|value stored: Plantae 
+Wed 2010/04/28 05:09:19.850|   |main|StringDefaultValue|fileio.defaults.stringTooSmall
+Wed 2010/04/28 05:09:19.852|   |main|StringDefaultValue|value stored: unknown                                                      
+Wed 2010/04/28 05:09:19.853|   |main|StringDefaultValue|fileio.defaults.stringTooSmall
+Wed 2010/04/28 05:09:19.855|   |main|StringDefaultValue|value stored:            
+Wed 2010/04/28 05:09:19.856|   |main|StringDefaultValue|fileio.defaults.stringTooSmall
+Wed 2010/04/28 05:09:19.858|   |main|StringDefaultValue|value stored: unknown      
+Wed 2010/04/28 05:09:19.860|   |main|StringDefaultValue|value stored: 20100428
+Wed 2010/04/28 05:09:19.876|   |main|StringDefaultValue|fileio.defaults.stringTooBig
+Wed 2010/04/28 05:09:19.880|   |main|AbstractMetadataFieldSet|Warning from defaults: org.tridas.io.warnings.ConversionWarning@178655
+Wed 2010/04/28 05:09:19.882|   |main|StringDefaultValue|value stored: 448e39
+Wed 2010/04/28 05:09:19.884|   |main|StringDefaultValue|fileio.defaults.stringTooSmall
+Wed 2010/04/28 05:09:19.885|   |main|StringDefaultValue|value stored: unnamed.object                                    
+Wed 2010/04/28 05:09:19.887|   |main|StringDefaultValue|value stored: UNKN
+Wed 2010/04/28 05:09:19.888|   |main|StringDefaultValue|fileio.defaults.stringTooSmall
+Wed 2010/04/28 05:09:19.889|   |main|StringDefaultValue|value stored: Plantae 
+Wed 2010/04/28 05:09:19.890|   |main|StringDefaultValue|fileio.defaults.stringTooSmall
+Wed 2010/04/28 05:09:19.892|   |main|StringDefaultValue|value stored: unknown                                                      
+Wed 2010/04/28 05:09:19.893|   |main|StringDefaultValue|fileio.defaults.stringTooSmall
+Wed 2010/04/28 05:09:19.894|   |main|StringDefaultValue|value stored:            
+Wed 2010/04/28 05:09:19.896|   |main|StringDefaultValue|fileio.defaults.stringTooSmall
+Wed 2010/04/28 05:09:19.897|   |main|StringDefaultValue|value stored: unknown      
+Wed 2010/04/28 05:09:19.899|   |main|StringDefaultValue|value stored: 20100428
+Wed 2010/04/28 05:09:19.942|   |main|StringDefaultValue|value stored: 1234567
+Wed 2010/04/28 05:09:19.944|   |main|StringDefaultValue|value stored: Tree
+Wed 2010/04/28 05:09:19.946|   |main|StringDefaultValue|value stored: Single curve
+Wed 2010/04/28 05:13:36.921|   |main|StringDefaultValue|The string '{0}' is too small, padding (on the right? {1})
+Wed 2010/04/28 05:13:36.933|   |main|StringDefaultValue|value stored: Hello     
+Wed 2010/04/28 05:13:36.936|   |main|AbstractDefaultValue|The string '{0}' is too small, padding (on the right? {1})
+Wed 2010/04/28 05:13:36.940|   |main|AbstractDefaultValue|The string '{0}' is too small, padding (on the right? {1})
+Wed 2010/04/28 05:13:36.942|   |main|IntegerDefaultValue|The value {0} is too big, maximum is {1}.  Use maximum value instead? {2}
+Wed 2010/04/28 05:13:36.944|   |main|IntegerDefaultValue|Parent is null, cannot add warning.
+Wed 2010/04/28 05:13:36.946|   |main|IntegerDefaultValue|The value {0} is too small, minimum is {1}.  Use minimum value instead? {2}
+Wed 2010/04/28 05:13:36.947|   |main|IntegerDefaultValue|Parent is null, cannot add warning.
+Wed 2010/04/28 05:13:36.948|   |main|IntegerDefaultValue|The value {0} is too big, maximum is {1}.  Use maximum value instead? {2}
+Wed 2010/04/28 05:13:36.950|   |main|IntegerDefaultValue|Parent is null, cannot add warning.
+Wed 2010/04/28 05:13:36.952|   |main|IntegerDefaultValue|The value {0} is too small, minimum is {1}.  Use minimum value instead? {2}
+Wed 2010/04/28 05:13:36.953|   |main|IntegerDefaultValue|Parent is null, cannot add warning.
+Wed 2010/04/28 05:13:36.957|   |main|StringDefaultValue|The string '{0}' is too small, padding (on the right? {1})
+Wed 2010/04/28 05:13:36.958|   |main|StringDefaultValue|value stored: Hello     
+Wed 2010/04/28 05:13:36.960|   |main|StringDefaultValue|The string '{0}' is too small, padding (on the right? {1})
+Wed 2010/04/28 05:13:36.963|   |main|StringDefaultValue|value stored: Goodbye   
+Wed 2010/04/28 05:13:36.986|   |main|StringDefaultValue|value stored: Unnamed project
+Wed 2010/04/28 05:13:36.988|   |main|StringDefaultValue|value stored: Unknown
+Wed 2010/04/28 05:13:36.990|   |main|StringDefaultValue|value stored: Unknown
+Wed 2010/04/28 05:13:36.992|   |main|StringDefaultValue|value stored: Unnamed object
+Wed 2010/04/28 05:13:36.994|   |main|StringDefaultValue|value stored: Unnamed element
+Wed 2010/04/28 05:13:36.995|   |main|StringDefaultValue|value stored: Unnamed sample
+Wed 2010/04/28 05:13:36.997|   |main|StringDefaultValue|value stored: Unnamed radius
+Wed 2010/04/28 05:13:36.999|   |main|StringDefaultValue|value stored: Unnamed series
+Wed 2010/04/28 05:13:37.002|   |main|StringDefaultValue|value stored: Unnamed series
+Wed 2010/04/28 05:13:37.004|   |main|StringDefaultValue|value stored: TRiDaSDendroFileIO
+Wed 2010/04/28 05:13:37.008|   |main|StringDefaultValue|value stored: Unnamed project
+Wed 2010/04/28 05:13:37.010|   |main|StringDefaultValue|value stored: Unknown
+Wed 2010/04/28 05:13:37.012|   |main|StringDefaultValue|value stored: Unknown
+Wed 2010/04/28 05:13:37.014|   |main|StringDefaultValue|value stored: Unnamed object
+Wed 2010/04/28 05:13:37.015|   |main|StringDefaultValue|value stored: Unnamed element
+Wed 2010/04/28 05:13:37.017|   |main|StringDefaultValue|value stored: Unnamed sample
+Wed 2010/04/28 05:13:37.018|   |main|StringDefaultValue|value stored: Unnamed radius
+Wed 2010/04/28 05:13:37.020|   |main|StringDefaultValue|value stored: Unnamed series
+Wed 2010/04/28 05:13:37.022|   |main|StringDefaultValue|value stored: Unnamed series
+Wed 2010/04/28 05:13:37.023|   |main|StringDefaultValue|value stored: TRiDaSDendroFileIO
+Wed 2010/04/28 05:13:37.025|   |main|StringDefaultValue|value stored: Unnamed project
+Wed 2010/04/28 05:13:37.026|   |main|StringDefaultValue|value stored: Unknown
+Wed 2010/04/28 05:13:37.028|   |main|StringDefaultValue|value stored: Unknown
+Wed 2010/04/28 05:13:37.030|   |main|StringDefaultValue|value stored: Unnamed object
+Wed 2010/04/28 05:13:37.031|   |main|StringDefaultValue|value stored: Unnamed element
+Wed 2010/04/28 05:13:37.033|   |main|StringDefaultValue|value stored: Unnamed sample
+Wed 2010/04/28 05:13:37.035|   |main|StringDefaultValue|value stored: Unnamed radius
+Wed 2010/04/28 05:13:37.036|   |main|StringDefaultValue|value stored: Unnamed series
+Wed 2010/04/28 05:13:37.038|   |main|StringDefaultValue|value stored: Unnamed series
+Wed 2010/04/28 05:13:37.041|   |main|StringDefaultValue|value stored: TRiDaSDendroFileIO
+Wed 2010/04/28 05:13:37.045|   |main|AbstractDendroFileReader|loading file from: Tridas2.xml
+Wed 2010/04/28 05:13:37.047|   |main|FileHelper|The file 'Tridas2.xml' is missing or inaccessible, make sure the URL is valid or that the file is in the samedirectory as the jar and is readable.
+Wed 2010/04/28 05:13:37.659|   |main|StringDefaultValue|The string '{0}' is too big, max length is '{1}' characters.
+Wed 2010/04/28 05:13:37.663|   |main|AbstractMetadataFieldSet|Warning from defaults: org.tridas.io.warnings.ConversionWarning@d306dd
+Wed 2010/04/28 05:13:37.664|   |main|StringDefaultValue|value stored: 5d95a2
+Wed 2010/04/28 05:13:37.666|   |main|StringDefaultValue|The string '{0}' is too small, padding (on the right? {1})
+Wed 2010/04/28 05:13:37.668|   |main|StringDefaultValue|value stored: Unnamed object                                    
+Wed 2010/04/28 05:13:37.670|   |main|StringDefaultValue|value stored: UNKN
+Wed 2010/04/28 05:13:37.672|   |main|StringDefaultValue|The string '{0}' is too small, padding (on the right? {1})
+Wed 2010/04/28 05:13:37.673|   |main|StringDefaultValue|value stored: Plantae 
+Wed 2010/04/28 05:13:37.675|   |main|StringDefaultValue|The string '{0}' is too small, padding (on the right? {1})
+Wed 2010/04/28 05:13:37.677|   |main|StringDefaultValue|value stored: Unknown                                                      
+Wed 2010/04/28 05:13:37.678|   |main|StringDefaultValue|The string '{0}' is too small, padding (on the right? {1})
+Wed 2010/04/28 05:13:37.679|   |main|StringDefaultValue|value stored:            
+Wed 2010/04/28 05:13:37.680|   |main|StringDefaultValue|The string '{0}' is too small, padding (on the right? {1})
+Wed 2010/04/28 05:13:37.682|   |main|StringDefaultValue|value stored: Unknown      
+Wed 2010/04/28 05:13:37.683|   |main|StringDefaultValue|value stored: 20100428
+Wed 2010/04/28 05:13:37.685|   |main|StringDefaultValue|The string '{0}' is too big, max length is '{1}' characters.
+Wed 2010/04/28 05:13:37.686|   |main|AbstractMetadataFieldSet|Warning from defaults: org.tridas.io.warnings.ConversionWarning@120b2da
+Wed 2010/04/28 05:13:37.688|   |main|StringDefaultValue|value stored: 5a89d9
+Wed 2010/04/28 05:13:37.689|   |main|StringDefaultValue|The string '{0}' is too small, padding (on the right? {1})
+Wed 2010/04/28 05:13:37.691|   |main|StringDefaultValue|value stored: Unnamed object                                    
+Wed 2010/04/28 05:13:37.692|   |main|StringDefaultValue|value stored: UNKN
+Wed 2010/04/28 05:13:37.693|   |main|StringDefaultValue|The string '{0}' is too small, padding (on the right? {1})
+Wed 2010/04/28 05:13:37.695|   |main|StringDefaultValue|value stored: Plantae 
+Wed 2010/04/28 05:13:37.696|   |main|StringDefaultValue|The string '{0}' is too small, padding (on the right? {1})
+Wed 2010/04/28 05:13:37.697|   |main|StringDefaultValue|value stored: Unknown                                                      
+Wed 2010/04/28 05:13:37.699|   |main|StringDefaultValue|The string '{0}' is too small, padding (on the right? {1})
+Wed 2010/04/28 05:13:37.700|   |main|StringDefaultValue|value stored:            
+Wed 2010/04/28 05:13:37.702|   |main|StringDefaultValue|The string '{0}' is too small, padding (on the right? {1})
+Wed 2010/04/28 05:13:37.703|   |main|StringDefaultValue|value stored: Unknown      
+Wed 2010/04/28 05:13:37.705|   |main|StringDefaultValue|value stored: 20100428
+Wed 2010/04/28 05:13:37.707|   |main|StringDefaultValue|The string '{0}' is too big, max length is '{1}' characters.
+Wed 2010/04/28 05:13:37.709|   |main|AbstractMetadataFieldSet|Warning from defaults: org.tridas.io.warnings.ConversionWarning@1be4663
+Wed 2010/04/28 05:13:37.710|   |main|StringDefaultValue|value stored: 599cde
+Wed 2010/04/28 05:13:37.712|   |main|StringDefaultValue|The string '{0}' is too small, padding (on the right? {1})
+Wed 2010/04/28 05:13:37.713|   |main|StringDefaultValue|value stored: Unnamed object                                    
+Wed 2010/04/28 05:13:37.714|   |main|StringDefaultValue|value stored: UNKN
+Wed 2010/04/28 05:13:37.716|   |main|StringDefaultValue|The string '{0}' is too small, padding (on the right? {1})
+Wed 2010/04/28 05:13:37.717|   |main|StringDefaultValue|value stored: Plantae 
+Wed 2010/04/28 05:13:37.719|   |main|StringDefaultValue|The string '{0}' is too small, padding (on the right? {1})
+Wed 2010/04/28 05:13:37.720|   |main|StringDefaultValue|value stored: Unknown                                                      
+Wed 2010/04/28 05:13:37.722|   |main|StringDefaultValue|The string '{0}' is too small, padding (on the right? {1})
+Wed 2010/04/28 05:13:37.723|   |main|StringDefaultValue|value stored:            
+Wed 2010/04/28 05:13:37.724|   |main|StringDefaultValue|The string '{0}' is too small, padding (on the right? {1})
+Wed 2010/04/28 05:13:37.726|   |main|StringDefaultValue|value stored: Unknown      
+Wed 2010/04/28 05:13:37.728|   |main|StringDefaultValue|value stored: 20100428
+Wed 2010/04/28 05:13:37.744|   |main|StringDefaultValue|The string '{0}' is too big, max length is '{1}' characters.
+Wed 2010/04/28 05:13:37.747|   |main|AbstractMetadataFieldSet|Warning from defaults: org.tridas.io.warnings.ConversionWarning@f0cb3c
+Wed 2010/04/28 05:13:37.751|   |main|StringDefaultValue|value stored: 1f8b0c
+Wed 2010/04/28 05:13:37.753|   |main|StringDefaultValue|The string '{0}' is too small, padding (on the right? {1})
+Wed 2010/04/28 05:13:37.755|   |main|StringDefaultValue|value stored: Unnamed object                                    
+Wed 2010/04/28 05:13:37.756|   |main|StringDefaultValue|value stored: UNKN
+Wed 2010/04/28 05:13:37.758|   |main|StringDefaultValue|The string '{0}' is too small, padding (on the right? {1})
+Wed 2010/04/28 05:13:37.759|   |main|StringDefaultValue|value stored: Plantae 
+Wed 2010/04/28 05:13:37.760|   |main|StringDefaultValue|The string '{0}' is too small, padding (on the right? {1})
+Wed 2010/04/28 05:13:37.762|   |main|StringDefaultValue|value stored: Unknown                                                      
+Wed 2010/04/28 05:13:37.764|   |main|StringDefaultValue|The string '{0}' is too small, padding (on the right? {1})
+Wed 2010/04/28 05:13:37.768|   |main|StringDefaultValue|value stored:            
+Wed 2010/04/28 05:13:37.769|   |main|StringDefaultValue|The string '{0}' is too small, padding (on the right? {1})
+Wed 2010/04/28 05:13:37.771|   |main|StringDefaultValue|value stored: Unknown      
+Wed 2010/04/28 05:13:37.773|   |main|StringDefaultValue|value stored: 20100428
+Wed 2010/04/28 05:13:37.776|   |main|StringDefaultValue|value stored: 1234567
+Wed 2010/04/28 05:13:37.778|   |main|StringDefaultValue|value stored: Tree
+Wed 2010/04/28 05:13:37.779|   |main|StringDefaultValue|value stored: Single curve

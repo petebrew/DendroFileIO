@@ -1,0 +1,25 @@
+project.title
+project.type
+project.category
+project.investigator
+project.period
+
+object.title
+object.type
+
+element.title
+element.taxon
+
+sample.title
+sample.type
+
+radius.title
+
+measurementSeries.title
+measurementSeries.measuringMethod
+measurementSeries.interpretation / unsolved
+
+derivedSeries.title
+derivedSeries.type
+derivedSeries.linkSeries
+derivedSeries.interpretation / unsolved
