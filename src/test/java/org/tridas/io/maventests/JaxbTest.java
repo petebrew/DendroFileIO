@@ -7,6 +7,8 @@ import javax.xml.bind.JAXBContext;
 import javax.xml.bind.Marshaller;
 import javax.xml.bind.Unmarshaller;
 
+import org.tridas.io.util.FileHelper;
+import org.tridas.io.util.IOUtils;
 import org.tridas.schema.TridasObject;
 import org.tridas.schema.TridasProject;
 
@@ -17,8 +19,9 @@ public class JaxbTest extends TestCase {
 	{        
 		String filename = "complexexamplev121.xml";
 		filename = "/Users/peterbrewer/dev/java/DendroFileIOLibrary/TestData/TRiDaS/Tridas1.xml";
-		//FileInputStream is = new FileInputStream (filename);       
-		InputStream is = this.getClass().getResourceAsStream(filename);       
+		//FileInputStream is = new FileInputStream (filename); 
+		FileHelper helper = new FileHelper();
+		InputStream is = helper.createInput("TestData/TRiDaS/Tridas1.xml");
 		JAXBContext jaxbContext = JAXBContext.newInstance("org.tridas.schema");       
 		Unmarshaller unmarshaller = jaxbContext.createUnmarshaller();       
 		Object o = unmarshaller.unmarshal(is);       
@@ -29,8 +32,8 @@ public class JaxbTest extends TestCase {
 		//testing     
 		java.io.StringWriter sw = new StringWriter();    
 		marshaller.marshal(o, sw);       
-		System.out.print(sw.toString());    
-		}   
+		//System.out.print(sw.toString());    
+	}   
 	
 	public void testMarshalling() throws Exception    {        
 		TridasProject projectTridas = new TridasProject();       
@@ -46,6 +49,6 @@ public class JaxbTest extends TestCase {
 		//testing        
 		java.io.StringWriter sw = new StringWriter();    
 		marshaller.marshal(projectTridas, sw);    
-		System.out.print(sw.toString());    
+		//System.out.print(sw.toString());    
 	}
 }

@@ -164,9 +164,9 @@ public class I18n {
 	{
 		String text = getText(key);
 		
-		for(int i=0; i==replace.size(); i++)
+		for(int i=0; i<replace.size(); i++)
 		{
-			text.replace("{"+i+"}", replace.get(i));
+			text = text.replace("{"+i+"}", replace.get(i));
 		}
 		
 		return text;
@@ -182,8 +182,8 @@ public class I18n {
 	public static String getText(String argKey, String... argReplacing){
 		String text = getText(argKey);
 		
-		for(int i=0; i==argReplacing.length; i++){
-			text.replace("{"+i+"}", argReplacing[i]);
+		for(int i=0; i<argReplacing.length; i++){
+			text = text.replace("{"+i+"}", argReplacing[i]);
 		}
 		
 		return text;
@@ -290,8 +290,7 @@ public class I18n {
 	static {
 		ResourceBundle bundle;
 		try {
-			bundle = ResourceBundle
-					.getBundle("org/tridas/io/resources/translations/TextBundle");
+			bundle = ResourceBundle.getBundle("locale/TextBundle");
 		} catch (MissingResourceException mre) {
 			try {
 				bundle = ResourceBundle.getBundle("TextBundle");
