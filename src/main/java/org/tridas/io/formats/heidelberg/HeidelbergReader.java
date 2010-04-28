@@ -5,6 +5,7 @@ import java.util.HashMap;
 
 import org.grlea.log.SimpleLogger;
 import org.tridas.io.AbstractDendroFileReader;
+import org.tridas.io.I18n;
 import org.tridas.io.TridasIO;
 import org.tridas.io.defaults.IMetadataFieldSet;
 import org.tridas.io.warnings.ConversionWarning;
@@ -24,8 +25,7 @@ private static final SimpleLogger log = new SimpleLogger(HeidelbergReader.class)
 		TridasIO.registerFileReader(HeidelbergReader.class);
 	}
 	
-	public HeidelbergReader(
-			Class<? extends IMetadataFieldSet> argDefaultFieldsClass) {
+	public HeidelbergReader() {
 		super(HeidelbergToTridasDefaults.class);
 	}
 
@@ -51,7 +51,7 @@ private static final SimpleLogger log = new SimpleLogger(HeidelbergReader.class)
 			header.add(line);
 			lineNum++;
 			if(lineNum==fileLength){
-				log.error("Could not find data in file."); // TODO locale
+				log.error(I18n.getText("heidelberg.meta.error"));
 				//addWarningToList(new ConversionWarning(WarningType., warningMessage))
 				// TODO add warning of data not found
 				// TODO split up metadata warnings and general file conversion warnings
@@ -75,6 +75,7 @@ private static final SimpleLogger log = new SimpleLogger(HeidelbergReader.class)
 		for(String s: argHeader){
 			String[] split = s.split("=");
 			if(split.length != 2){
+				// TODO locale
 				new ConversionWarning(WarningType.INVALID, "Could not determine key and value", split[0]);
 				continue;
 			}
@@ -89,6 +90,7 @@ private static final SimpleLogger log = new SimpleLogger(HeidelbergReader.class)
 	
 	private void processData(String[] argData){
 		TridasRadius radius = project.getObjects().get(0).getElements().get(0).getSamples().get(0).getRadiuses().get(0);
+		
 		
 	}
 	
