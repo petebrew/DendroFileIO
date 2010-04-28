@@ -4,6 +4,7 @@ import java.io.File;
 import java.util.ArrayList;
 import java.util.List;
 
+import org.grlea.log.DebugLevel;
 import org.grlea.log.SimpleLogger;
 import org.tridas.io.defaults.IMetadataFieldSet;
 import org.tridas.io.util.FileHelper;
@@ -29,6 +30,7 @@ public abstract class AbstractDendroCollectionWriter implements IDendroCollectio
 			argDefaultFieldsClass.newInstance();
 		} catch (Exception e) {
 			log.error("Defaults class '"+argDefaultFieldsClass.getName()+"' does not have empty constructor.");
+			log.dbe(DebugLevel.L2_ERROR, e);
 			throw new RuntimeException("Defaults class must have empty constructor."); // TODO locale
 		}
 		
