@@ -1,0 +1,25 @@
+IO Library issues
+
+== GENERAL ==
+
+- How should we handle taxonomy?  Should we uses the 4 letter ITRDB codes as a 'controlledVocab'?
+
+
+
+== TUCSON ==
+
+- 6 or 8 char id
+- Different stop chars 999, -9999, 9990 and the fact they have meaning for resolution.
+- Due to use of 999 as stop char 9.99mm cannot be represented in 0.01mm resolution files.
+- When 5 digits are required for year, sometimes people use the last ID char for this.
+- Different missing data chars 0 . -0
+- Tab delimited and space delimited
+- Some programs use 'uninterpretable lines' to store comments
+- Can store multiple series in a single file
+- Doesn't handle 0BC/AD
+- Some files fudge the year char to cope with limitations e.g. add 8000.
+- Elevation is in unknown units
+- Lat-Long is in a variety of formats
+- Single 'field' for state and/or country
+- How to deal with .crn chronology files
+

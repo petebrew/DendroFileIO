@@ -1,0 +1,720 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 3.2 Final//EN">
+<HTML>
+<HEAD>
+<META HTTP-EQUIV="Content-Type" Content="text-html; charset=Windows-1252">
+<basefont face=verdana>
+<title>Non-D file types</title>
+</HEAD>
+<BODY BGCOLOR=#FFFFFF TEXT=#000000>
+<h1><a name="nondformat"></a>Non-D file types</h1>
+<p>
+File Menu Items: Catalog non-D files, Import non-D files and Export D to non-D files all manipulate data between different program formats. The following formats are supported:</p>
+<p>
+<img src="../images/menuexot.gif" border=0></p>
+<p>
+Dendro data files can be thought of as falling into 2 main categories, with a variety of subcategories for types of mean data storage.</p>
+<p>
+<b><i>Files with one series per file.</i></b></p>
+<p>
+(these are functionally very like the .D file format) Dendro directly exchanges the data into the appropriate format, with the same name but with a different file extension.</p>
+<p>
+ </p>
+<p>
+The Tucson 'Indexed format', usually with a .crn extension (single series files only);</p>
+<p>
+Jon Pilchers 'Apple format', used on the original Apple II programs, no specific file extension </p>
+<p>
+Martin Munros 'Belfast Archive format', usually with a .arx extension</p>
+<p>
+The TRIMS raw format .rw</p>
+<p>
+Roland Aniols CATRAS format', usually with a .cat extension</p>
+<p>
+John Topham 'Instrument format', usually with a .txt extension</p>
+<p>
+Dan Miles format, no specific file extension</p>
+<p>
+<b><i>Files with more than one series per file</i></b></p>
+<p>
+Importing: Dendro makes an attempt to give each series an appropriate name, but this is not always foolproof</p>
+<p>
+Exporting: In each case Dendro converts the data into a text file in PFE  which must be saved</p>
+<p>
+Hans-Hubert Leuchner and Tommy Reimers 'Gottingen VFORMAT format', primarily with a .!oj extension but a great many types of extension code are used for data in VFORMAT.</p>
+<p>
+The Tucson 'Measurement format', usually with a .rwl extension, multiple series format. NB This is also widely used as an import/export format by CATRAS, and thus may come with a variety of file extensions.</p>
+<p>
+Frank Rinns 'Heidelburg format', usually with an .fh extension as used in TSAP</p>
+<p>
+Cliff Littons 'Nottingham Laboratory format', usually with a .txt extension</p>
+<p>
+The Tucson 'Compact format'</p>
+<p>
+Andre Billambozs 'Hemmenhofen format', usually with a  *.k and *.m extensions</p>
+<p>
+<b><i>Mean data formats</i></b></p>
+<p>
+There is no consensus for what should be stored in a mean file. Different programs store just the data, the data and a histogram of weightings, or the data, the histogram, and some sort of representation of the signature sequence. Dendro has five types of mean storage files, and can usually manage to squeeze some information out of a non-D mean sequence. The following 2 tables summarise the possibilities</p>
+<p>
+<b>When exporting from D files to non-D</b></p>
+<table>
+<tr valign=top>
+<td>
+</td>
+<td>
+D type M</td>
+<td>
+D type C</td>
+<td>
+D type T</td>
+<td>
+D type X</td>
+<td>
+D type W</td>
+</tr>
+<tr valign=top>
+<td>
+Tucson Indexed</td>
+<td>
+with no weights</td>
+<td>
+with weights</td>
+<td>
+with weights</td>
+<td>
+with weights only</td>
+<td>
+with weights only</td>
+</tr>
+<tr valign=top>
+<td>
+Apple</td>
+<td>
+mean format not seen</td>
+</tr>
+<tr valign=top>
+<td>
+Apple Archive</td>
+<td>
+mean format not seen</td>
+</tr>
+<tr valign=top>
+<td>
+Trims</td>
+<td>
+mean format not seen</td>
+</tr>
+<tr valign=top>
+<td>
+Topham</td>
+<td>
+mean format not seen</td>
+</tr>
+<tr valign=top>
+<td>
+Dan Miles</td>
+<td>
+mean format not supported</td>
+</tr>
+<tr valign=top>
+<td>
+CATRAS</td>
+<td>
+saved as raw</td>
+<td>
+saved as tree-mean no weights</td>
+<td>
+saved as tree-mean no weights</td>
+<td>
+saved as chronology with weights and signatures</td>
+<td>
+saved as chronology with weights and signatures</td>
+</tr>
+<tr valign=top>
+<td>
+ Vformat</td>
+<td>
+mean formats not supported</td>
+</tr>
+<tr valign=top>
+<td>
+Tucson measurement</td>
+
+<td>
+mean format not seen</td>
+</tr>
+<tr valign=top>
+<td>
+TSAP</td>
+<td>
+saved as Tree</td>
+<td>
+saved as HalfChrono with weights</td>
+<td>
+saved as HalfChrono with weights</td>
+<td>
+saved as Chrono with weights and signatures</td>
+<td>
+saved as Chrono with weights and signatures</td>
+</tr>
+<tr valign=top>
+<td>
+Notts</td>
+<td>
+mean format not seen</td>
+</tr>
+<tr valign=top>
+<td>
+Hemmenhofen</td>
+<td>
+saved as raw</td>
+<td>
+saved as raw</td>
+<td>
+saved as raw</td>
+<td>
+saved as mean with weights and signatures</td>
+<td>
+saved as mean with weights and signatures</td>
+</tr>
+<tr valign=top>
+<td>
+Tucson Compact</td>
+<td>
+mean format not seen</td>
+</tr>
+<tr valign=top>
+<td>
+</td>
+<td>
+</td>
+<td>
+</td>
+<td>
+</td>
+<td>
+</td>
+<td>
+</td>
+</tr>
+</table><br>
+<p>
+<b>When importing from non-D files to D</b></p>
+<table>
+<tr valign=top>
+<td>
+Tucson Indexed</td>
+<td>
+with no weights becomes D type M</td>
+<td>
+with weights becomes D type T</td>
+</tr>
+<tr valign=top>
+<td>
+Apple</td>
+<td>
+mean format not seen all data saved as D raw</td>
+</tr>
+<tr valign=top>
+<td>
+Apple Archive</td>
+<td>
+mean format not seen all data saved as D raw</td>
+</tr>
+<tr valign=top>
+<td>
+Trims</td>
+<td>
+mean format not seen all data saved as D raw</td>
+</tr>
+<tr valign=top>
+<td>
+Topham</td>
+<td>
+mean format not seen all data saved as D raw</td>
+</tr>
+<tr valign=top>
+<td>
+Dan Miles</td>
+<td>
+mean format not supported all data saved as D raw</td>
+</tr>
+<tr valign=top>
+<td>
+CATRAS</td>
+<td>
+raws and tree-means saved as D raw</td>
+<td>
+chronologies saved as D type W</td>
+</tr>
+<tr valign=top>
+<td>
+Vformat</td>
+<td>
+mean formats not supported all data saved as D raw</td>
+</tr>
+<tr valign=top>
+<td>
+Tucson measurement</td>
+<td>
+mean format not seen all data saved as D raw</td>
+</tr>
+<tr valign=top>
+<td>
+TSAP</td>
+<td>
+Tree saved as D raw</td>
+<td>
+HalfChrono saved as D type T<p>
+Chrono saved as D type W</p>
+</td>
+</tr>
+<tr valign=top>
+<td>
+Notts</td>
+<td>
+mean format not seen all data saved as D raw</td>
+</tr>
+<tr valign=top>
+<td>
+Hemmenhofen</td>
+<td>
+*.K saved as raw</td>
+<td>
+*.M saved as D type W</td>
+</tr>
+<tr valign=top>
+<td>
+Tucson Compact</td>
+<td>
+mean format not seen all data saved as D raw</td>
+</tr>
+<tr valign=top>
+<td>
+</td>
+<td>
+</td>
+<td>
+</td>
+</tr>
+</table><br>
+<p>
+There are important caveats to be applied before any attempt at importing or exporting non-native data formats. Firstly you need to understand as much as possible about the non-native format as well as the .D format and attempt to appreciate the compromises that have to be made when converting between different formats.</p>
+<p>
+Generally four steps are necessary to undertake successful importing or exporting.</p>
+<p>
+1. Catalog the original data, cycle through editing and cataloging the files until the cataloging works correctly</p>
+<p>
+2. Convert the data</p>
+<p>
+3. Catalog the converted data, cycle through editing and converting and cataloging the original files until the converting works correctly</p>
+<p>
+4. Update header fields or data multiply/divide by using edit header, edit files, or the various update routines until all fields reflect the true character of the data.</p>
+<p>
+Failure at any of these stages to check all data may result in errors and inaccuracies that are hard to spot.</p>
+<p>
+There are several areas that are particularly important to think about.</p>
+<p>
+<i>Measurement multiplier</i>, the .D format doesn't require but generally assumes data is derived from .01mm measurement accuracy. much other data is not necessarily in this format and may need modification after importing.</p>
+<p>
+<i>Species coding</i>, several formats specify the species of the data, many others do not, where data can be extracted usefully it is applied to the resultant file. Tucson .CRN files, Gottingen .!oj files, and TSAP .fh files specify the species code in a readily understandable way. CATRAS specifies species number but the number may mean something different for each source of data or even each directory of data that you are processing, some indication of species from the data source is helpful here. Most other formats are imported with ITRDB species value set to UNKN (for unknown), these should be modified after importing.</p>
+<p>
+<i>Null values</i>. several formats include null value records, those at the start and end tend to be either 999, 9990 or -9999 and these are usually filtered out during importing. Gottingen format includes several obscure special value modifiers that are generally ignored, Tucson .CRNs often include negative numbers that .D format will disapprove of.</p>
+<p>
+<i>Blank lines or carriage returns at ends of files</i>. Dendro can get confused if extra blank lines are present on the ends of files, or if there isn't a blank line on the end of some files. Try changing the end of the file in PFE by adding or deleting a return on the end if cataloging fails to work properly.</p>
+<p>
+<i>Unix/Dos format files</i>. Under MS-DOS, files are normally stored with the end of every line indicated by a Carriage-Return (CR) byte followed by a Line-Feed byte (LF). Most MS-DOS and Windows programs expect files to be in this format, and will not work correctly otherwise. However, in standard UNIX format lines are terminated by a single LF byte. Dendro crashes when confronted by UNIX format files. However PFE can load and convert such files very simply. If you get a file that crashes the import routine load it into PFE and examine the status bar at the bottom. If the eighth section of the status bar shows 'UNIX' you can quickly change the format by double-clicking the left mouse button in that area. Then save the file and try importing again.</p>
+<p>
+<i>Mean data weightings</i>. The histogram data of some formats is somewhat obscurely coded and is not necessarily correctly seen or imported here, always check this data carefully or manually append it if it fails to appear successfully.</p>
+<p>
+<i>Signature years.</i> The signature data of CATRAS is somewhat obscurely coded, and certainly cannot be safely added together to make reliable signature series, it is correctly exported from Dendro to CATRAS, but it is not necessarily correctly imported, always check this data carefully or manually append it if it fails to appear successfully.</p>
+<p>
+<i>Funny characters</i>. Many files include multiple spaces, or characters that upset the Dendro to PFE link and give other problems, most data imported through these routines is converted into single spacing, the trailing spaces are deleted, and the funny characters are converted to less problematic characters</p>
+<p>
+The single series exports, and all the import routines produce new files with different file-extensions in the same directory as the source files. The exceptions are those that relate to the six of the supported formats that allow multiple sequences to be inserted into a single file.</p>
+<p>
+These are Gottingen, Heidelburg-TSAP , Nottingham, Tucson RWL, Tucson Compact, and Hemmenhofen format. Unlike the other import/export routines these rely upon internal tags to identify each sequence within the file. <u>Importing</u> these creates a series of new .D files with the appropriate tags as the filenames, the Gottingen importer creates an entirely new directory tree to cope with the differing keycode sequences within. These 6 <u>export</u> routines build up a new file within PFE, this is primarily done so that it is easy to include data from a large number of sources before saving the file. You should endeavour to open a blank PFE file before beginning to export and you should save the product into an appropriate filename when finished. Be particularly careful to not save the final newline for most of these filetypes.</p>
+<p>
+Details of file formats and conversions undertaken are provided here, primarily to help you identify what is going wrong with some file types. I am always willing to help with file import/export functions, feel free to send me your funny formats, examples of files that fail to convert properly, or other observations on the current routines.</p>
+<p>
+Data import/export issues have been addressed by a number of workers. If you have problems with one set of data in a particular format try converting it to something else either in its native program or in TSAP (which supported a similar range of format to Dendro, or in either of the 2 format converters that come with the ITRDB program library (CONVERT5 or CORING). </p>
+<p>
+A single raw data set is used for the examples that follow, hopefully making it easier to see changes in format styles, note that mean sequences, where they are known are often different again but are not illustrated here</p>
+<p>
+The data used looks like this in D format, note that the central section of the file in this and several other examples has been truncated.</p>
+<pre>Twyning Church #01
+176
+A
+11277
+R
+32
+Y
+Ian 21/01/96
+SO894360
+?
+F
+X
+0
+0
+N
+N
+Bellframe
+1
+M
+QUSP
+I~11452~0
+D
+342
+338
+334
+409
+362
+308
+360
+264
+325
+318
+.
+. etc for rings 11-170
+.
+51
+48
+47
+60
+49
+48</pre>
+
+<p>
+<i>Gottingen .!oj</i></p>
+<p>
+Immensely complicated but nevertheless powerful format. Dendro only knows about version 2 and version 12 formats and should only be used for !oj, #oj, !ij, and #oj format files not the many other types. No attempt is made to import the data weightings.</p>
+<pre>TWYN01  .!OJmm   176QUSP  1452Twyning Church #01          Ia2606199712  0 .  0 .
+1        /Pi: F /Sa: 32 /Ed: Y /In: Ian 21/01/96   
+-2.154495 52.021895 
+     342     338     334     409     362     308     360     264     325     318
+     134     151     219     268     290     222     278     258     173     198
+     294     202     170     176     172     121      87     130     114     108
+     170     135     131     126      87     100      86     104     103     127
+     112      94      96     120     168     149     119     124      79      67
+      88      90      93      77      49      42      53      38      57      43
+      50      41      56      66      62      55      55      45      47      63
+      58      60      44      45      49      50      62      61      43      54
+      91      60      56      43      52      51      65      68      55      44
+      41      75      94      78      63      69      58      75      55      47
+      58      46      62      45      52      50      77      50      63      75
+      77      64      66      57      80      57      78      65      68      75
+      65      98      85      82     119      89      85      87      83     108
+     129     123     160     117     129     121      88      69      97      77
+      96     106      71      89      50      65     133      89      88      50
+      60      95      95      91     102     158      83      55      98      70
+      45      46      40      36      64      58      52      58      56      94
+      51      48      47      60      49      48</pre>
+<p>
+<i>Belfast Apple format</i></p>
+<p>
+Simple single column format, effectively a forerunner of D format but prone to coming in UNIX format files</p>
+<pre>BELLFRAME
+1
+176
+342
+338
+334
+409
+362
+308
+360
+264
+325
+318
+.
+. etc for rings 11-170
+.
+51
+48
+47
+60
+49
+48
+IAN 21/01/96</pre>
+<p>
+<i>Belfast Archive format .arx</i></p>
+<p>
+Modification of QUB format to also give absolute and relative dates and additional archive information</p>
+<pre>BELLFRAME
+1
+176
+342
+338
+334
+409
+362
+308
+360
+264
+325
+318
+.
+. etc for rings 11-170
+.
+51
+48
+47
+60
+49
+48
+&quot;[[ARCHIVE]]&quot;
+1277
+9177
+.01
+1.035795
+0.212144
+IAN 21/01/96
+TWYNING CHURCH #01
+Pith F Sap 32
+&quot;&quot;
+&quot;[[ END OF TEXT ]]&quot;</pre>
+<p>
+<i>Tucson Indexed mean format .crn</i></p>
+<p>
+This format doesn't handle undated material very well, and it uses Tucson style BC dates i.e. 1 different from European style BC dates. Some files include an extra line of statistics at the end of the file, this doesn't appear to be used by many program's and is not included in the export routines. The output files have been tested for compatibility with the program HEADER from the ITRDB LIB version 2.1. They appear to be recognised correctly, note however that some versions of HEADER incorrectly handles dates earlier than 1000BC.</p>
+<pre>twy    1 TWYNING CHURCH #01                                  QUSP               
+twy    2 BELLFRAME                            +5201-00209          1277 1452    
+twy    3 IAN 21/01/96                                                           
+twyn0 12779990  09990  09990  09990  09990  09990  09990  0 342  1 338  1 334  1
+twyn0 1280 409  1 362  1 308  1 360  1 264  1 325  1 318  1 134  1 151  1 219  1
+twyn0 1290 268  1 290  1 222  1 278  1 258  1 173  1 198  1 294  1 202  1 170  1
+twyn0 1300 176  1 172  1 121  1  87  1 130  1 114  1 108  1 170  1 135  1 131  1
+twyn0 1310 126  1  87  1 100  1  86  1 104  1 103  1 127  1 112  1  94  1  96  1
+twyn0 1320 120  1 168  1 149  1 119  1 124  1  79  1  67  1  88  1  90  1  93  1
+twyn0 1330  77  1  49  1  42  1  53  1  38  1  57  1  43  1  50  1  41  1  56  1
+twyn0 1340  66  1  62  1  55  1  55  1  45  1  47  1  63  1  58  1  60  1  44  1
+twyn0 1350  45  1  49  1  50  1  62  1  61  1  43  1  54  1  91  1  60  1  56  1
+twyn0 1360  43  1  52  1  51  1  65  1  68  1  55  1  44  1  41  1  75  1  94  1
+twyn0 1370  78  1  63  1  69  1  58  1  75  1  55  1  47  1  58  1  46  1  62  1
+twyn0 1380  45  1  52  1  50  1  77  1  50  1  63  1  75  1  77  1  64  1  66  1
+twyn0 1390  57  1  80  1  57  1  78  1  65  1  68  1  75  1  65  1  98  1  85  1
+twyn0 1400  82  1 119  1  89  1  85  1  87  1  83  1 108  1 129  1 123  1 160  1
+twyn0 1410 117  1 129  1 121  1  88  1  69  1  97  1  77  1  96  1 106  1  71  1
+twyn0 1420  89  1  50  1  65  1 133  1  89  1  88  1  50  1  60  1  95  1  95  1
+twyn0 1430  91  1 102  1 158  1  83  1  55  1  98  1  70  1  45  1  46  1  40  1
+twyn0 1440  36  1  64  1  58  1  52  1  58  1  56  1  94  1  51  1  48  1  47  1
+twyn0 1450  60  1  49  1  48  19990  09990  09990  09990  09990  09990  09990  0</pre>
+<p>
+<i>Tucson Measurement raw format .rwl</i></p>
+<p>
+This format allows multiple sets of measurements to be stored in the same file. But; it doesn't handle undated material very well, it uses Tucson style BC dates i.e. 1 different from European style BC dates and it is only safe to use 7character identifiers. Any group of files you export through these routines will have problems if they do not have filenames unique at the 7 character level; three D files labelled SIT3939.D SIT3939A.D and SIT3939B.D will end up with the same tags in RWL format and may cause confusion in other program's. Many RWL style files include a first line descriptor (probably because this is the Tucson format exported by CATRAS) Dendro copes with these but does little with the information. The output files have been tested for compatibility with the programs from the ITRDB LIB version 2.1, particularly COFECHA and ARSTAN. The files appear to be recognised correctly. Note that ITRVIEW incorrectly handles dates earlier than AD1. CATRAS version 4.17 and 4.28 successfully read these files, but appear to need the series codes amended manually.</p>
+<pre>TWYN01  1277   342   338   334
+TWYN01  1280   409   362   308   360   264   325   318   134   151   219
+TWYN01  1290   268   290   222   278   258   173   198   294   202   170
+TWYN01  1300   176   172   121    87   130   114   108   170   135   131
+TWYN01  1310   126    87   100    86   104   103   127   112    94    96
+TWYN01  1320   120   168   149   119   124    79    67    88    90    93
+TWYN01  1330    77    49    42    53    38    57    43    50    41    56
+TWYN01  1340    66    62    55    55    45    47    63    58    60    44
+TWYN01  1350    45    49    50    62    61    43    54    91    60    56
+TWYN01  1360    43    52    51    65    68    55    44    41    75    94
+TWYN01  1370    78    63    69    58    75    55    47    58    46    62
+TWYN01  1380    45    52    50    77    50    63    75    77    64    66
+TWYN01  1390    57    80    57    78    65    68    75    65    98    85
+TWYN01  1400    82   119    89    85    87    83   108   129   123   160
+TWYN01  1410   117   129   121    88    69    97    77    96   106    71
+TWYN01  1420    89    50    65   133    89    88    50    60    95    95
+TWYN01  1430    91   102   158    83    55    98    70    45    46    40
+TWYN01  1440    36    64    58    52    58    56    94    51    48    47
+TWYN01  1450    60    49    48   999</pre>
+<p>
+<i>TRIMS raw format .rw</i></p>
+<p>
+Simple single column format</p>
+<pre>TWYNING CHURCH #01
+IAN 21/01/96
+176
+342
+338
+334
+409
+362
+308
+360
+264
+325
+318
+.
+. etc for rings 11-170
+.
+51
+48
+47
+60
+49
+48
+999</pre>
+<p>
+<i>CATRAS format .cat</i></p>
+<p>
+The only binary format widely seen in dendro work. There are many aspects of this format, not least the difficulty of checking the data has come over correctly. There is an alternative procedure which is to export in CATRAS to what it calls ITRDB or Tucson format (actually Tucson RWL format) and import those into Dendro from there. The Tucson library ITRDBLIB 2.1 also includes two utilities CONVERT5 and CORING that can convert between CATRAS and other format files. The signature sequences stored in some CATRAS files can be emulated, but they are not reliable for additive work since they fail to store the number of trees going up or down when the mean values stay the same, the import routines split the missing values between up and down which is not necessarily reliable but at least mean the bulk of the data can be used. A more reliable solution is to rebuild the mean in Dendro.</p>
+<p>
+One widespread problem with CATRAS, at least the versions I have seen, is it is very unhappy with filenames that do not include just numbers in the later 4 parts of a complete 8 character filename, and complete 8 character filenames. Since the 'keycode' is stored separately, and inside the file and Dendro sets it from the filename, and it is subject to the same restrictions the best solution is to rename files in D format before exporting them to CATRAS</p>
+<p>
+The following example is a hex-dump of the same data set as the rest of the examples, the first column group provides the file-offsets, the second group the hex-values, and the final group the ASCII equivalents. Note that CATRAS won't like this file because of the gap in the filename copy stored at offset 32-40 inclusive</p>
+<pre>00000000 5477 796E 696E 6720 4368 7572 6368 2023 Twyning Church #
+00000016 3031 2020 2020 2020 2020 2020 2020 2020 01              
+00000032 7477 796E 3031 2020 4341 5420 B000 2000 twyn01  CAT .. .
+00000048 0000 0000 0200 FD04 0000 0100 1A06 611A ..............a.
+00000064 0661 0100 0000 0000 0000 0000 0000 0000 .a..............
+00000080 0000 0000 4961 6E20 BA28 CF42 C316 9842 ....Ian .(.B...B
+00000096 A8AC 613F 5F3C 593E 0000 0000 0000 0000 ..a?_&lt;Y&gt;........
+00000112 0000 0000 0000 0000 0000 0000 0000 0000 ................
+00000128 5601 5201 4E01 9901 6A01 3401 6801 0801 V.R.N...j.4.h...
+00000144 4501 3E01 8600 9700 DB00 0C01 2201 DE00 E.&gt;.........&quot;...
+00000160 1601 0201 AD00 C600 2601 CA00 AA00 B000 ........&amp;.......
+00000176 AC00 7900 5700 8200 7200 6C00 AA00 8700 ..y.W...r.l.....
+00000192 8300 7E00 5700 6400 5600 6800 6700 7F00 ..~.W.d.V.h.g...
+00000208 7000 5E00 6000 7800 A800 9500 7700 7C00 p.^.`.x.....w.|.
+00000224 4F00 4300 5800 5A00 5D00 4D00 3100 2A00 O.C.X.Z.].M.1.*.
+00000240 3500 2600 3900 2B00 3200 2900 3800 4200 5.&amp;.9.+.2.).8.B.
+00000256 3E00 3700 3700 2D00 2F00 3F00 3A00 3C00 &gt;.7.7.-./.?.:.&lt;.
+00000272 2C00 2D00 3100 3200 3E00 3D00 2B00 3600 ,.-.1.2.&gt;.=.+.6.
+00000288 5B00 3C00 3800 2B00 3400 3300 4100 4400 [.&lt;.8.+.4.3.A.D.
+00000304 3700 2C00 2900 4B00 5E00 4E00 3F00 4500 7.,.).K.^.N.?.E.
+00000320 3A00 4B00 3700 2F00 3A00 2E00 3E00 2D00 :.K.7./.:...&gt;.-.
+00000336 3400 3200 4D00 3200 3F00 4B00 4D00 4000 4.2.M.2.?.K.M.@.
+00000352 4200 3900 5000 3900 4E00 4100 4400 4B00 B.9.P.9.N.A.D.K.
+00000368 4100 6200 5500 5200 7700 5900 5500 5700 A.b.U.R.w.Y.U.W.
+00000384 5300 6C00 8100 7B00 A000 7500 8100 7900 S.l...{...u...y.
+00000400 5800 4500 6100 4D00 6000 6A00 4700 5900 X.E.a.M.`.j.G.Y.
+00000416 3200 4100 8500 5900 5800 3200 3C00 5F00 2.A...Y.X.2.&lt;._.
+00000432 5F00 5B00 6600 9E00 5300 3700 6200 4600 _.[.f...S.7.b.F.
+00000448 2D00 2E00 2800 2400 4000 3A00 3400 3A00 -...(.$.@.:.4.:.
+00000464 3800 5E00 3300 3000 2F00 3C00 3100 3000 8.^.3.0./.&lt;.1.0.
+00000480 0000 0000 0000 0000 0000 0000 0000 0000 ................
+00000496 0000 0000 0000 0000 0000 0000 0000 0000 ................</pre>
+<p>
+<i>TSAP format .fh</i></p>
+<p>
+This free-form format was expressly designed to improve data exchanging. Although TSAP appears to have very sophisticated data reading capabilities it produces reasonably simple files that are effectively self-documenting. No header line appears to be required and therefore it seems possible that TSAP can produce and read files that Dendro cannot handle. Dendro doesn't make much effort to include all the header data it may include. Note the following problems: the example Half-Chrono files I have seen are slightly different from the normal TSAP style and may not be universally correct; second there is no facility for coding heartwood/sapwood boundaries; third although some of the header lines are compatible with D format header lines others are only approximately similar and since the encoding of these is apparently not forced they cannot be reliably imported. TSAP 2.6 supports 80 different header keywords, 3.1 even more, Dendro supports less than 20 of these. Dendro can only read data of Tree, HalfChrono, and Chrono types</p>
+<pre>HEADER:
+DateEnd=1452
+Length=176
+Species=QUSP
+SapWoodRings=32
+Waldkante=WK
+KeyCode=TWYN01
+DATA:Tree
+   342   338   334   409   362   308   360   264   325   318
+   134   151   219   268   290   222   278   258   173   198
+   294   202   170   176   172   121    87   130   114   108
+   170   135   131   126    87   100    86   104   103   127
+   112    94    96   120   168   149   119   124    79    67
+    88    90    93    77    49    42    53    38    57    43
+    50    41    56    66    62    55    55    45    47    63
+    58    60    44    45    49    50    62    61    43    54
+    91    60    56    43    52    51    65    68    55    44
+    41    75    94    78    63    69    58    75    55    47
+    58    46    62    45    52    50    77    50    63    75
+    77    64    66    57    80    57    78    65    68    75
+    65    98    85    82   119    89    85    87    83   108
+   129   123   160   117   129   121    88    69    97    77
+    96   106    71    89    50    65   133    89    88    50
+    60    95    95    91   102   158    83    55    98    70
+    45    46    40    36    64    58    52    58    56    94
+    51    48    47    60    49    48     0     0     0     0</pre>
+<p>
+<i>John Topham data .txt</i></p>
+<p>
+No header data simple column of decimal numbers</p>
+<pre>3.42
+3.38
+3.34
+4.09
+3.62
+3.08
+3.60
+2.64
+3.25
+3.18
+.
+. etc for rings 11-170
+.
+0.51
+0.48
+0.47
+0.60
+0.49
+0.48</pre>
+<p>
+<i>Nottingham data .txt</i></p>
+<p>
+I do not know if this is a generally applicable import routine</p>
+<pre>TWYN01    176
+ 342 338 334 409 362 308 360 264 325 318 134 151 219 268 290 222 278 258 173 198
+ 294 202 170 176 172 121  87 130 114 108 170 135 131 126  87 100  86 104 103 127
+ 112  94  96 120 168 149 119 124  79  67  88  90  93  77  49  42  53  38  57  43
+  50  41  56  66  62  55  55  45  47  63  58  60  44  45  49  50  62  61  43  54
+  91  60  56  43  52  51  65  68  55  44  41  75  94  78  63  69  58  75  55  47
+  58  46  62  45  52  50  77  50  63  75  77  64  66  57  80  57  78  65  68  75
+  65  98  85  82 119  89  85  87  83 108 129 123 160 117 129 121  88  69  97  77
+  96 106  71  89  50  65 133  89  88  50  60  95  95  91 102 158  83  55  98  70
+  45  46  40  36  64  58  52  58  56  94  51  48  47  60  49  48</pre>
+<p>
+<i>Dan Miles format</i></p>
+<p>
+Dan; feedback please! Is there a way of distinguishing between absolute and relatively dated sequences. Are undated sequences always given a start date of 1001. Dendro imports this data as undated except where the two separate start-date fields are the same. 2 different formats are used for storing numbers; 4 and 5 character spacing and I've seen a file with blank leading values for the first few rings of the first decade, Dendro will only handle material with 10 values per line and consistent spacing of data within a line. These routines support both 4 and 5 character spacing but do not support anything other than solid runs of data. No importing of data weightings is attempted.</p>
+<pre>'TWYN01     &lt;1277-1452&gt; Twyning Church #01'
+176,1277
+342 338 334 409 362 308 360 264 325 318 
+134 151 219 268 290 222 278 258 173 198 
+294 202 170 176 172 121  87 130 114 108 
+170 135 131 126  87 100  86 104 103 127 
+112  94  96 120 168 149 119 124  79  67 
+ 88  90  93  77  49  42  53  38  57  43 
+ 50  41  56  66  62  55  55  45  47  63 
+ 58  60  44  45  49  50  62  61  43  54 
+ 91  60  56  43  52  51  65  68  55  44 
+ 41  75  94  78  63  69  58  75  55  47 
+ 58  46  62  45  52  50  77  50  63  75 
+ 77  64  66  57  80  57  78  65  68  75 
+ 65  98  85  82 119  89  85  87  83 108 
+129 123 160 117 129 121  88  69  97  77 
+ 96 106  71  89  50  65 133  89  88  50 
+ 60  95  95  91 102 158  83  55  98  70 
+ 45  46  40  36  64  58  52  58  56  94 
+ 51  48  47  60  49  48 </pre>
+<p>
+<i>Hemmenhofen *.K and *.M</i></p>
+<p>
+These appear to be the parent of TSAP's tree and chrono file types, only raw and mean type W are imported, file naming is a bit hit and miss and may lead to a number of problems</p>
+<pre>.    0                            QUS            176  1277  1452         0      
+   342   338   334   409   362   308   360   264   325   318
+   134   151   219   268   290   222   278   258   173   198
+   294   202   170   176   172   121    87   130   114   108
+   170   135   131   126    87   100    86   104   103   127
+   112    94    96   120   168   149   119   124    79    67
+    88    90    93    77    49    42    53    38    57    43
+    50    41    56    66    62    55    55    45    47    63
+    58    60    44    45    49    50    62    61    43    54
+    91    60    56    43    52    51    65    68    55    44
+    41    75    94    78    63    69    58    75    55    47
+    58    46    62    45    52    50    77    50    63    75
+    77    64    66    57    80    57    78    65    68    75
+    65    98    85    82   119    89    85    87    83   108
+   129   123   160   117   129   121    88    69    97    77
+    96   106    71    89    50    65   133    89    88    50
+    60    95    95    91   102   158    83    55    98    70
+    45    46    40    36    64    58    52    58    56    94
+    51    48    47    60    49    48     0     0     0     0</pre>
+<p>
+<i>TucsonCompact format</i></p>
+<p>
+A format apparently designed to be difficult to read, especially in non-Fortran programs. There appears to be no mean sequence equivalent. Importing: Dendro assumes the data is in integer format, and assumes the information on the format is stored in a very specific way in the header data, Dendro converts all values to the equivalent of 1=100. Exporting: Dendro can only get curly brackets and a blank first line in, the brackets must be globally changed in PFE to round brackets and the first line must be deleted before saving the file, ITRDB lib's ITRVIEW suggests a .rwm extension for Compact format, Arstan and ITRView can both read the output files after making these amendments.</p>
+
+<pre>     176=N    1277=I TWYN01                                          -2{26F3.0}~
+342338334409362308360264325318134151219268290222278258173198294202170176172121
+ 87130114108170135131126 87100 86104103127112 94 96120168149119124 79 67 88 90
+ 93 77 49 42 53 38 57 43 50 41 56 66 62 55 55 45 47 63 58 60 44 45 49 50 62 61
+ 43 54 91 60 56 43 52 51 65 68 55 44 41 75 94 78 63 69 58 75 55 47 58 46 62 45
+ 52 50 77 50 63 75 77 64 66 57 80 57 78 65 68 75 65 98 85 82119 89 85 87 83108
+129123160117129121 88 69 97 77 96106 71 89 50 65133 89 88 50 60 95 95 91102158
+ 83 55 98 70 45 46 40 36 64 58 52 58 56 94 51 48 47 60 49 48</pre>
+</BODY>
+</HTML>

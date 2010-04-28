@@ -1,0 +1,226 @@
+<?xml version="1.0" encoding="UTF-8"?>
+	<project xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+ xsi:schemaLocation="http://www.tridas.org/1.2.1 ../dev/sourceforge/tridas/XMLSchema/1.2.1/tridas-1.2.1.xsd"
+ xmlns="http://www.tridas.org/1.2.1"
+ xmlns:xlink="http://www.w3.org/1999/xlink">
+		<title>Western Australian Museum</title>
+		<identifier domain="RING projectadministration">2007002</identifier>
+		<type>dating</type>
+		<file xlink:href="aba.fh"/>
+		<file xlink:href="aba.rwl"/>
+		<file xlink:href="2007002ABAadm.doc"/>
+		<file xlink:href="2007002ABAadm2.doc"/>		
+		<laboratory>
+			<name>The Netherlands Centre for Dendrochonology RING</name>
+			<address>
+				<addressLine1>Postbus 1600</addressLine1>
+				<addressLine2>3800 BP Amersfoort</addressLine2>
+				<cityOrTown>Amersfoort</cityOrTown>
+				<country>The Netherlands</country>
+			</address>
+		</laboratory>
+		<category>ship's archaeology</category>
+		<investigator>Esther Jansma</investigator>
+		<period>20061201-20070113</period>
+		<requestDate>2006-09-19</requestDate>
+		<commissioner>Western Australian Museum</commissioner>
+		<object>
+			<title>Batavia</title>
+			<type normalStd="AAT" normalId="125446" normal="sailing ships">sailing ship</type>
+			<description>This VOC ship was built between 1627 and 1628 at the Peperwerf (Peper Wharf) in Amsterdam and sank on June 14th 1629 at Houtman Albrolhos, Western Australia</description>
+			<creator>Peper wharf (Peperwerf), Amsterdam</creator>
+			<owner>Dutch East India Company (original); Australia (present)</owner>
+			<coverage>
+				<coverageTemporal>1627-1628</coverageTemporal>
+				<coverageTemporalFoundation>written sources</coverageTemporalFoundation>
+			</coverage>
+			<location>
+				<locationGeometry>
+					<gml:Point xmlns:gml="http://www.opengis.net/gml" srsName="urn:ogc:def:crs:EPSG:6.6:4326">
+						<gml:pos>-28.49175 113.7916</gml:pos>
+					</gml:Point>					
+				</locationGeometry>
+				<locationType>Current location</locationType>
+				<locationPrecision>5</locationPrecision>
+				<locationComment>The Batavia wreck site is located on Morning Reef in the Wallabi Group of the Houtman Abrolhos, - a series of islets and reefs, about 35 km from the mainland of Western Australia.</locationComment>
+			</location>
+			<object>
+				<title>part of Batavia</title>
+				<type>unknown</type>
+				<description>It's unknown from which part of the ship this "ceiling plank" was taken.</description>
+				<element>
+					<title>ceiling plank of Batavia</title>
+					<identifier domain="Western Australian Museum">BAT6226</identifier>
+					<description>Ceiling plank</description>
+					<taxon>Quercus robur or Quercus petraea</taxon>
+					<authenticity>original</authenticity>
+					<sample>
+						<title>cross section of BAT6226</title>
+						<type>physical cross section</type>
+						<samplingDate certainty="unknown">2006-01-01</samplingDate>
+						<state>waterlogged</state>
+						<radius>
+							<title>radius ABA00021</title>
+							<identifier domain="RING administration">ABA00021</identifier>
+							<woodCompleteness>					
+								<pith presence="absent"/>
+								<heartwood presence="complete"/>
+								<sapwood presence="absent"/>
+								<bark presence="absent"/>
+							</woodCompleteness>
+							<measurementSeries>
+								<title>measurement of ABA00021</title>
+								<createdTimestamp certainty="after">2006-12-01T00:00:00</createdTimestamp>								
+								<analyst>Elsemiek Hanraets</analyst>
+								<measuringMethod>binocular + measuring table PAST</measuringMethod>
+								<interpretation>
+									<firstYear suffix="AD" certainty="exact">1485</firstYear>									
+									<datingReference>
+										<linkSeries><identifier domain="RING administration">NLARTPO1</identifier></linkSeries>
+									</datingReference>
+
+									<statFoundation>
+										<statValue>4.6</statValue>
+										<type>t-score</type>
+										<usedSoftware/>
+									</statFoundation>
+									<statFoundation>
+										<statValue>70.4</statValue>
+										<type>Percentage for Parallel Variation (Gleichlaufigkeit)</type>
+										<significanceLevel>0.0001</significanceLevel>
+										<usedSoftware>PAST</usedSoftware>
+									</statFoundation>
+									<deathYear suffix="AD" certainty="after">1614</deathYear>
+									<provenance>Poland</provenance>
+								</interpretation>
+								<values>
+									<variable>total ring width</variable>
+									<unit normalTridas="micrometres"/>
+									<value index="nr001" value="98"/>
+									<value index="nr002" value="98"/>
+									<value index="nr003" value="91"/>
+								</values>
+							</measurementSeries>
+						</radius>
+					</sample>
+				</element>
+			</object>
+			<element>
+				<title>Planque identified BAT6375</title>
+				<identifier domain="Western Australian Museum">BAT6375</identifier>
+				<description>Hull plank</description>
+				<taxon>Quercus robur or Quercus petraea</taxon>
+				<authenticity>original</authenticity>
+				<sample>
+					<title>cross section on BAT6375</title>
+					<createdTimestamp certainty="after">2006-12-01T00:00:00</createdTimestamp>
+					<type>physical cross section</type>
+					<state>waterlogged</state>
+					<radius>
+						<title>radius ABA00011</title>
+						<identifier domain="RING administration">ABA00011</identifier>
+						<woodCompleteness>						
+						<pith presence="absent"/>
+							<heartwood presence="incomplete">
+								<missingHeartwoodRingsToPith>10</missingHeartwoodRingsToPith>
+								<missingHeartwoodRingsToPithFoundation>visual, based on ring curvature</missingHeartwoodRingsToPithFoundation>
+							</heartwood>
+							<sapwood presence="absent"/>
+							<bark presence="absent"/>
+						</woodCompleteness>
+						<measurementSeries>
+							<title>ABA00011</title>
+							<createdTimestamp certainty="after">2006-12-01T00:00:00</createdTimestamp>							
+							<analyst>Elsemiek Hanraets</analyst>
+							<measuringMethod>binocular + measuring table PAST</measuringMethod>
+							<interpretation>
+								<firstYear suffix="AD" certainty="exact">1342</firstYear>
+								<datingReference>
+									<linkSeries>
+										<identifier domain="RING administration">NLARTPO1</identifier>
+									</linkSeries>
+								</datingReference>
+								<statFoundation>
+									<statValue>6.9</statValue>
+									<type>t-score</type>
+									<usedSoftware/>
+								</statFoundation>
+								<statFoundation>
+									<statValue>63.8</statValue>
+									<type>Percentage for Parallel Variation (Gleichlaufigkeit)</type>
+									<significanceLevel>0.0002</significanceLevel>
+									<usedSoftware>PAST</usedSoftware>
+								</statFoundation>
+								<deathYear suffix="AD" certainty="after">1540</deathYear>
+								<provenance>Poland</provenance>
+							</interpretation>
+							<values>
+								<variable>total ring width</variable>
+								<unit normalTridas="micrometres"/>
+								<value index="nr001" value="98"/>
+								<value index="nr002" value="98"/>
+								<value index="nr003" value="91"/>
+							</values>
+						</measurementSeries>
+					</radius>
+				</sample>
+			</element>
+			<element>
+				<title>element genummerd BAT6068A</title>
+				<identifier domain="Western Australian Museum">BAT6068A</identifier>
+				<description>Hull plank</description>				
+				<taxon>Quercus robur or Quercus petraea</taxon>
+				<authenticity>original</authenticity>
+				<sample>
+					<title>cross section of BAT6068A</title>
+					<createdTimestamp certainty="after">2006-12-01T00:00:00</createdTimestamp>
+					<type>physical cross section</type>
+					<state>waterlogged</state>
+					<radius>
+						<title>ABA00032</title>
+						<identifier domain="RING administration">ABA00032</identifier>
+						<woodCompleteness>						
+							<pith presence="absent"/>
+							<heartwood presence="unknown"/>
+							<sapwood presence="absent"/>
+							<bark presence="absent"/>
+						</woodCompleteness>							
+						<measurementSeries id="ABA00032">
+							<title>ABA00032</title>
+							<createdTimestamp certainty="after">2006-12-01T00:00:00</createdTimestamp>							
+							<analyst>Elsemiek Hanraets</analyst>
+							<measuringMethod>binocular + measuring table PAST</measuringMethod>
+							<interpretation>
+								<firstYear suffix="AD" certainty="exact">1484</firstYear>
+								<datingReference>
+									<linkSeries>
+										<identifier domain="RING administration">NLARTPO1</identifier>
+									</linkSeries>
+								</datingReference>
+								<statFoundation>
+									<statValue>5.2</statValue>
+									<type>t-score</type>
+									<usedSoftware>PAST</usedSoftware>
+								</statFoundation>
+								<statFoundation>
+									<statValue>64.2</statValue>
+									<type>Percentage for Parallel Variation (Gleichlaufigkeit)</type>
+									<significanceLevel>0.005</significanceLevel>
+									<usedSoftware>PAST</usedSoftware>
+								</statFoundation>
+								<deathYear suffix="AD" certainty="after">1616</deathYear>
+								<provenance>Poland</provenance>
+							</interpretation>
+							<values>
+								<variable>total ring width</variable>
+								<unit normalTridas="micrometres"/>
+								<value value="98"/>
+								<value value="98"/>
+								<value value="91"/>
+							</values>
+						</measurementSeries>
+					</radius>
+				</sample>
+			</element>
+		</object>
+	</project>

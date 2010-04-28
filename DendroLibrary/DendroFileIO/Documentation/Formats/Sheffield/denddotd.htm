@@ -1,0 +1,404 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 3.2 Final//EN">
+<HTML>
+<HEAD>
+<META HTTP-EQUIV="Content-Type" Content="text-html; charset=Windows-1252">
+<basefont face=verdana>
+<title>D format</title>
+</HEAD>
+<BODY BGCOLOR=#FFFFFF TEXT=#000000>
+<h1><a name="dformat"></a>Dendro format files (*.D)</h1>
+<p>
+The standard .D format (no line may be blank)</p>
+<table>
+<tr valign=top>
+<td>
+<b>Line</b></td>
+<td>
+<b>Description</b></td>
+<td>
+<b>Details</b></td>
+<td>
+<b>Example</b></td>
+</tr>
+<tr valign=top>
+<td>
+<b>1</b></td>
+<td>
+Site name/sample number</td>
+<td>
+free form text not including , &quot; ( ) up to 64 characters</td>
+<td>
+<i>Fennings Wharf 1080a</i></td>
+</tr>
+<tr valign=top>
+<td>
+<b>2</b></td>
+<td>
+Number of rings</td>
+<td>
+whole positive number</td>
+<td>
+<i>124</i></td>
+</tr>
+<tr valign=top>
+<td>
+<b>3</b></td>
+<td>
+Date type</td>
+<td>
+single character; A = absolute date, R = relative date
+</td>
+<td>
+<i>A</i></td>
+</tr>
+<tr valign=top>
+<td>
+<b>4</b></td>
+<td>
+Start date</td>
+<td>
+whole number (can be negative) (if absolute 10001 = 1AD)
+</td>
+<td>
+<i>10943</i></td>
+</tr>
+<tr valign=top>
+<td>
+<b>5</b></td>
+<td>
+<b>Raw </b>Data type</td>
+<td>
+single character; R = annual raw ring width data (NB earlier versions used some other codes here for species e.g. ABEFPSU these are all interpreted as equivalent to R) 
+</td>
+<td>
+<i>R</i></td>
+</tr>
+<tr valign=top>
+<td>
+</td>
+<td>
+<b>Mean</b> Data type</td>
+<td>
+single character; W=timber mean with signatures, X=chron mean with signatures, T = timber mean, C = chron mean, M = un-weighted master sequence
+</td>
+<td>
+</td>
+</tr>
+<tr valign=top>
+<td>
+<b>6</b></td>
+<td>
+<b>Raw</b> Sap number</td>
+<td>
+whole positive number or 0</td>
+<td>
+<i>9</i></td>
+</tr>
+<tr valign=top>
+<td>
+</td>
+<td>
+<b>Mean</b> Number of timbers/chronologies</td>
+<td>
+whole positive number</td>
+<td>
+</td>
+</tr>
+<tr valign=top>
+<td>
+<b>7</b></td>
+<td>
+<b>Raw</b> Edges inf.</td>
+<td>
+single character; Y = has bark, ! = has ?bark, W = terminal ring probably complete (i.e. possibly Winter Felled), S = terminal ring probably incomplete (i.e. possibly Summer Felled), B = has h/s boundary, ? = has ?h/s boundary, N = has no specific edge, (NB but may have sap), U = sap/bark unknown, C = charred outer edge, P = possibly charred outer edge
+</td>
+<td>
+<i>Y</i></td>
+</tr>
+<tr valign=top>
+<td>
+</td>
+<td>
+<b>Mean</b> Chronology Type</td>
+<td>
+single character; R = raw unfiltered data, 5 = 5 year running mean, I = indexed data, U = unknown mean type
+</td>
+<td>
+</td>
+</tr>
+<tr valign=top>
+<td>
+<b>8</b></td>
+<td>
+Author and comment</td>
+<td>
+free form text not including , &quot; ( ) up to 64 characters</td>
+<td>
+<i>IGT 4/2/1995</i></td>
+</tr>
+<tr valign=top>
+<td>
+<b>9</b></td>
+<td>
+UK National grid reference</td>
+<td>
+2 characters +even no of digits up to 14 characters in all, ? = not known
+</td>
+<td>
+<i>TQ67848675</i></td>
+</tr>
+<tr valign=top>
+<td>
+<b>10</b></td>
+<td>
+Latitude and longitude</td>
+<td>
+NEW e.g. 53.382457;-1.513623 previously e.g. N54^50 W003^50,
+? = not known
+</td>
+<td>
+<i>N51^30 W1^20</i></td>
+</tr>
+<tr valign=top>
+<td>
+<b>11</b></td>
+<td>
+Pith</td>
+<td>
+single character; C = centre of tree, V = within 5 years of centre, F = 5-10 years of centre, G = greater than 10, ? = unknown
+</td>
+<td>
+<i>G</i></td>
+</tr>
+<tr valign=top>
+<td>
+<b>12</b></td>
+<td>
+Cross-section code</td>
+<td>
+Two character code; <i>first character</i>, A = whole roundwood, B = half round, C quartered, D radial/split plank, E tangential/sawn plank. <i>second character</i>, 1 untrimmed, 2 trimmed, X irregularly trimmed. <i>or</i>, 
+X = core /unclassifiable, ? unknown/unrecorded
+</td>
+<td>
+<i>D1</i></td>
+</tr>
+<tr valign=top>
+<td>
+<b>13</b></td>
+<td>
+major dimension </td>
+<td>
+whole number in mm, 0 if unrecorded or mean
+</td>
+<td>
+<i>140</i></td>
+</tr>
+<tr valign=top>
+<td>
+<b>14</b></td>
+<td>
+minor dimension </td>
+<td>
+whole number in mm, 0 if unrecorded or mean
+</td>
+<td>
+<i>50</i></td>
+</tr>
+<tr valign=top>
+<td>
+<b>15</b></td>
+<td>
+unmeasured inner rings</td>
+<td>
+single character+whole number; use pith codes + number of rings or, H = heartwood, N = none
+</td>
+<td>
+<i>C15</i></td>
+</tr>
+<tr valign=top>
+<td>
+<b>16</b></td>
+<td>
+unmeasured outer rings</td>
+<td>
+single character+whole number; use edges code + number of rings except that S = sapwood with no edge and V is the spring felling equivalent other codes are, H = heartwood with no edge, N = none
+</td>
+<td>
+<i>Y13</i></td>
+</tr>
+<tr valign=top>
+<td>
+<b>17</b></td>
+<td>
+group/phase</td>
+<td>
+free form text not including , &quot; ( ) up to 14 characters</td>
+<td>
+<i>Well 34</i></td>
+</tr>
+<tr valign=top>
+<td>
+<b>18</b></td>
+<td>
+short title</td>
+<td>
+free form text not including , &quot; ( ) up to 8 characters</td>
+<td>
+<i>1080a</i></td>
+</tr>
+<tr valign=top>
+<td>
+<b>19</b></td>
+<td>
+period</td>
+<td>
+single character; C = modern, P = post medieval, M = medieval, S = Saxon, R = Roman, A = pre Roman, 2 = duplicate e.g. repeat measure, B = multiperiod e.g. long master, ? = unknown
+</td>
+<td>
+<i>M</i></td>
+</tr>
+<tr valign=top>
+<td>
+<b>20</b></td>
+<td>
+ITRDB species code</td>
+<td>
+4 character code<p>
+refer to <a href="dend731f.htm">ITRDB species codes</a></p>
+</td>
+<td>
+<i>QUSP</i></td>
+</tr>
+<tr valign=top>
+<td>
+<b>21</b></td>
+<td>
+Interpretation<p>
+ and anatomical notes</p>
+</td>
+<td>
+Up to 64 characters <p>
+? =no interpretation/notes</p>
+<p>
+the interpretation and the anatomical notes can be in any order but each must consist of three parts, a single character A or I for anatomy or interpretation, a separator ~, for interpretations the date of the start, for anatomy the ringno, a separator ~,  for anatomy the anatomical code for interpretations P for plus, 0 for felled and a number for the length of the range, where more than one record is present these are separated by ~, there must not be a terminal separator and each record must consist of the tree parts. The anatomical codings can be anything of a single character but supported usage is based on Hans-Hubert Leuschners anatomical codes; D = Density Band, R = Reaction Wood, 
+L = Light Latewood, 
+H = Dense Latewood, 
+F = Frost Ring, 
+K = Small Earlywood Vessels - oak, 
+G = Great Latewood Vessels - oak, 
+T = Wound Tissue, 
+N = Narrow Latewood, 
+A = Light Latewood End, 
+P = Narrow and Light Latewood, 
+Q = Narrow and Dense Latewood
+</td>
+<td>
+<i>I~11066~0~A~100~S</i></td>
+</tr>
+<tr valign=top>
+<td>
+<b>22</b></td>
+<td>
+data type</td>
+<td>
+single character; D = ring widths, E = early-wood widths only, 
+L = late-wood widths only, R = late+early wood widths (i.e. reverse of normal rings), I = minimum density, A = maximum density, 
+S = early, late; (i.e. sequentially &amp; separately), 
+M = mixed (?means of others)
+</td>
+<td>
+<i>D</i></td>
+</tr>
+<tr valign=top>
+<td>
+<b>23+</b></td>
+<td>
+for each width (equivalent to the value of length) the individual increments etc.</td>
+<td>
+no negatives or 0's</td>
+<td>
+<i>etc</i></td>
+</tr>
+<tr valign=top>
+<td>
+</td>
+<td>
+<b>if a C X T or W type mean</b></td>
+<td>
+</td>
+<td>
+</td>
+</tr>
+<tr valign=top>
+<td>
+<b>+</b></td>
+<td>
+check field</td>
+<td>
+single character H</td>
+<td>
+</td>
+</tr>
+<tr valign=top>
+<td>
+<b>+</b></td>
+<td>
+for each width the individual weightings of the mean sequences</td>
+<td>
+no negatives or 0's</td>
+<td>
+</td>
+</tr>
+<tr valign=top>
+<td>
+</td>
+<td>
+<b>if a X or W type mean</b></td>
+<td>
+</td>
+<td>
+</td>
+</tr>
+<tr valign=top>
+<td>
+<b>+</b></td>
+<td>
+check field</td>
+<td>
+single character R</td>
+<td>
+</td>
+</tr>
+<tr valign=top>
+<td>
+<b>+</b></td>
+<td>
+for each width the number of individual series with rising values</td>
+<td>
+no negatives</td>
+<td>
+</td>
+</tr>
+<tr valign=top>
+<td>
+<b>+</b></td>
+<td>
+check field</td>
+<td>
+single character F</td>
+<td>
+</td>
+</tr>
+<tr valign=top>
+<td>
+<b>+</b></td>
+<td>
+for each width the number of individual series with falling values</td>
+<td>
+no negatives</td>
+<td>
+</td>
+</tr>
+</table><br>
+</BODY>
+</HTML>

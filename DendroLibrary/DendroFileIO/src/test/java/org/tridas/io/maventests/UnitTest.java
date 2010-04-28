@@ -6,7 +6,7 @@
  * formated using a non-Tridas standard
  */
 
-package org.tridas.io.test;
+package org.tridas.io.maventests;
 
 //import edu.cornell.dendro.corina.sample.Sample;
 //import edu.cornell.dendro.corina.util.StringUtils;
@@ -44,8 +44,8 @@ import org.tridas.io.warnings.IncorrectDefaultFieldsException;
 import org.tridas.schema.TridasObject;
 import org.tridas.schema.TridasProject;
 
-public class UnitTests extends TestCase {
-	public UnitTests(String name) {
+public class UnitTest extends TestCase {
+	public UnitTest(String name) {
 		super(name);
 	}
 
@@ -258,96 +258,4 @@ public class UnitTests extends TestCase {
 		assertEquals(x[1], 2);
 		assertEquals(x[2], 3);
 	}
-	
-	public void testDefaultValues(){
-		StringDefaultValue defString = new StringDefaultValue("Hello", -1, -1);
-		assertEquals("Hello", defString.getValue());
-		defString.setMinLength(10);
-		assertEquals("Hello     ", defString.getValue());
-		
-		defString.setOverridingValue("Goodbye");
-		defString.setValue("wait!");
-		assertEquals("Goodbye   ", defString.getValue());
-		
-		IntegerDefaultValue defInt = new IntegerDefaultValue(3, 0, 5, -1, -1);
-		assertEquals(Integer.valueOf(3), defInt.getValue());
-		assertEquals("3", defInt.getStringValue());
-		defInt.setMinLength(5);
-		assertEquals(Integer.valueOf(3), defInt.getValue());
-		assertEquals("3    ", defInt.getStringValue());
-		
-		defInt.setValue(10);
-		assertEquals(Integer.valueOf(3), defInt.getValue());
-		
-		defInt.setOverridingValue(4);
-		defInt.setValue(3);
-		assertEquals(Integer.valueOf(4), defInt.getValue());
-		assertEquals("4    ", defInt.getStringValue());
-	}
-	
-	public void testNamingConventions(){
-		NumericalNamingConvention naming = new NumericalNamingConvention();
-		ArrayList<DendroFile> files = new ArrayList<DendroFile>();
-		files.add(new TridasFile());
-		files.add(new TucsonFile());
-		files.add(new HeidelbergFile());
-		for(DendroFile f : files){
-			naming.registerFile(f, null, null, null, null, null, null);
-		}
-		
-		for(int i=0; i<files.size(); i++){
-			assertEquals((i+1)+"", naming.getFilename(files.get(i)));
-		}
-		
-		naming.setBaseFilename("file");
-		naming.clearRegisteredFiles();
-		
-		for(DendroFile f : files){
-			naming.registerFile(f, null, null, null, null, null, null);
-		}
-		
-		for(int i=0; i<files.size(); i++){
-			assertEquals("file"+(i+1), naming.getFilename(files.get(i)));
-		}
-	}
-	
-	public void testLoading() throws Exception    
-	{        
-		String filename = "complexexamplev121.xml";
-		filename = "/Users/peterbrewer/dev/java/DendroFileIOLibrary/TestData/TRiDaS/Tridas1.xml";
-		//FileInputStream is = new FileInputStream (filename);       
-		InputStream is = this.getClass().getResourceAsStream(filename);       
-		JAXBContext jaxbContext = JAXBContext.newInstance("org.tridas.schema");       
-		Unmarshaller unmarshaller = jaxbContext.createUnmarshaller();       
-		Object o = unmarshaller.unmarshal(is);       
-		//logger.info("Unmarshalled object of class: " + o.getClass().getName());       
-		Marshaller marshaller = jaxbContext.createMarshaller();        
-		marshaller.setProperty(Marshaller.JAXB_ENCODING, "UTF-8");        
-		marshaller.setProperty(Marshaller.JAXB_FORMATTED_OUTPUT, true);
-		//testing     
-		java.io.StringWriter sw = new StringWriter();    
-		marshaller.marshal(o, sw);       
-		System.out.print(sw.toString());    
-		}   
-	
-	public void testMarshalling() throws Exception    {        
-		TridasProject projectTridas = new TridasProject();       
-		projectTridas.setTitle("my test project");       
-		// Add a tridas object entity      
-		TridasObject objectTridas = new TridasObject();    
-		objectTridas.setTitle("my test object");       
-		projectTridas.getObjects().add(objectTridas);   
-		JAXBContext jaxbContext = JAXBContext.newInstance("org.tridas.schema");     
-		Marshaller marshaller = jaxbContext.createMarshaller();      
-		marshaller.setProperty(Marshaller.JAXB_ENCODING, "UTF-8");     
-		marshaller.setProperty(Marshaller.JAXB_FORMATTED_OUTPUT, true);
-		//testing        
-		java.io.StringWriter sw = new StringWriter();    
-		marshaller.marshal(projectTridas, sw);    
-		System.out.print(sw.toString());    
-	}
-	
-	
-	
-	
 }
