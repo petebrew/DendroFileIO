@@ -19,7 +19,9 @@ import org.tridas.io.defaults.values.TridasVariableDefaultValue;
 import org.tridas.io.formats.tucson.TridasToTucsonDefaults.TucsonField;
 import org.tridas.io.util.DateUtils;
 import org.tridas.io.util.SafeIntYear;
+import org.tridas.io.util.YearRange;
 import org.tridas.io.warnings.ConversionWarning;
+import org.tridas.io.warnings.InvalidDendroFileException;
 import org.tridas.io.warnings.ConversionWarning.WarningType;
 import org.tridas.schema.ControlledVoc;
 import org.tridas.schema.DatingSuffix;
@@ -67,8 +69,9 @@ public class TucsonReader extends AbstractDendroFileReader {
 	private ArrayList<TridasDerivedSeries> dseriesList = new ArrayList<TridasDerivedSeries>();
 
 	private String lastSeriesCode = null;
-
 	private TridasProject project = null;
+	private SafeIntYear lastYearMarker = null;
+
 	
 	static {
 		TridasIO.registerFileReader(TucsonReader.class);
@@ -78,36 +81,24 @@ public class TucsonReader extends AbstractDendroFileReader {
 		super(TucsonToTridasDefaults.class);
 	}
 		
+	
+	
 	@Override
-	protected void parseFile(String[] argFileString, IMetadataFieldSet argDefaultFields) {
+	protected void parseFile(String[] argFileString, IMetadataFieldSet argDefaultFields) throws InvalidDendroFileException{
 		defaults = (TucsonToTridasDefaults) argDefaultFields;
 		log.debug("starting tucson file parsing");
+		int index = 0;
 		
 		String headercache1 = argFileString[0];
 		String headercache2 = argFileString[1];
 		String headercache3 = argFileString[2];
-		log.debug("Header lines:");
-		log.debug(headercache1);
-		log.debug(headercache2);
-		log.debug(headercache3);
-		
-		int index;
-		if(isLikelyHeader(headercache1,headercache2,headercache3)){	
-			// Extract metadata from header
-			log.debug("likely header data, loading");
-			loadMetadata(headercache1, headercache2, headercache3);
-			index = 3;
-		}else{
-			log.debug("header data doesn't look right");
-			index = 0;
-		}
-
-		
+				
 		// Now continue and read data
 		Boolean isChronology = false;
 		
 		for( ; index < argFileString.length; index++){
 			String line = argFileString[index];
+			setCurrentLineNumber(index+1);
 			
 			switch (getLineType(line))
 			{
@@ -222,8 +213,9 @@ public class TucsonReader extends AbstractDendroFileReader {
 	 * of the line should have previously been checked using matchesLineType();
 	 * 
 	 * @param line
+	 * @throws InvalidDendroFileException 
 	 */
-	private void loadRWLData(String line)
+	private void loadRWLData(String line) throws InvalidDendroFileException
 	{
 		TridasUnit units = new TridasUnit();
 		
@@ -240,9 +232,36 @@ public class TucsonReader extends AbstractDendroFileReader {
 		String thisCode = line.substring(0, codeLength);
 		line = line.substring(codeLength);
 		
-		// Extract the year value and remove
+		// Extract the year value and remove from line
 		SafeIntYear youngestYear = new SafeIntYear(line.substring(0,4));
 		line = line.substring(5).trim();
+		
+		// Check this year marker to see it is within expected range
+		if(this.lastYearMarker==null)
+		{
+			// This is the first marker in the series so fine.
+			this.lastYearMarker = youngestYear;
+		}
+		else
+		{
+			YearRange expectedRange = new YearRange(lastYearMarker, lastYearMarker.add(10));
+			
+			if (expectedRange.contains(youngestYear))
+			{
+				lastYearMarker = youngestYear;
+			}
+			else
+			{
+				// This year marker is not within a decade of the last year marker
+				// ALARM ALARM!	
+				throw new InvalidDendroFileException(I18n.getText("fileio.invalidDecadeMarker", 
+						new String[] {youngestYear.toString(), lastYearMarker.toString()}));
+			}
+	
+		}
+		
+		
+		// Split values into string array.  Limiting to 10 values (decade).
 		String[] vals = line.split("\\s+", 10);
 		Boolean lastYearFlag = false;
 		
@@ -376,7 +395,7 @@ public class TucsonReader extends AbstractDendroFileReader {
 	 *  
 	 * @param line
 	 */
-	private void loadCRNData(String line)
+	private void loadCRNData(String line) throws InvalidDendroFileException
 	{
 		
 		ArrayList<TridasValue> thisDecadesValues = new ArrayList<TridasValue>();
@@ -399,6 +418,30 @@ public class TucsonReader extends AbstractDendroFileReader {
 		Boolean containsOldestYear = false;
 		line = line.substring(4);
 		
+		// Check this year marker to see it is within expected range
+		if(this.lastYearMarker==null)
+		{
+			// This is the first marker in the series so fine.
+			this.lastYearMarker = youngestYear;
+		}
+		else
+		{
+			YearRange expectedRange = new YearRange(lastYearMarker, lastYearMarker.add(10));
+			
+			if (expectedRange.contains(youngestYear))
+			{
+				lastYearMarker = youngestYear;
+			}
+			else
+			{
+				// This year marker is not within a decade of the last year marker
+				// ALARM ALARM!	
+				throw new InvalidDendroFileException(I18n.getText("fileio.invalidDecadeMarker", 
+						new String[] {youngestYear.toString(), lastYearMarker.toString(), getCurrentLineNumberAsString()}));
+			}
+	
+		}
+		
 		ArrayList<Integer> vals = new ArrayList<Integer>();
 		ArrayList<Integer> counts = new ArrayList<Integer>();
 		for(int charpos = 0; charpos<=line.length()-7; charpos = charpos+7)
@@ -410,20 +453,14 @@ public class TucsonReader extends AbstractDendroFileReader {
 				counts.add(count);
 			} catch (NumberFormatException e)
 			{
-				this.addWarningToList(new ConversionWarning(
-						WarningType.INVALID, 
-						"Value or count data encountered in this file were in an unexpected format"));
-				return;	
+				throw new InvalidDendroFileException(I18n.getText("fileio.invalidDataValue", getCurrentLineNumberAsString()));
 			}
 		}
 		
 		// number of values and counts *must* be the same
 		if (vals.size()!= counts.size() ) 
 		{ 
-			this.addWarningToList(new ConversionWarning(
-					WarningType.INVALID, 
-					"Number of values and number of counts extracted from file are different"));
-			return;	
+			throw new InvalidDendroFileException(I18n.getText("fileio.countsAndValuesDontMatch"));
 		}
 		
 		Boolean inLeader = true;   // Flag to show if we're in the lead in 9990 values
@@ -732,6 +769,10 @@ public class TucsonReader extends AbstractDendroFileReader {
 
 			// Store these metadata in the raw metadata list
 			addRawMetadataLine(line1); addRawMetadataLine(line2); addRawMetadataLine(line3);
+			
+			// Reset last year marker
+			this.lastYearMarker = null;
+			
 		
 
 		}

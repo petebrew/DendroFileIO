@@ -11,6 +11,7 @@ import org.tridas.io.warnings.ConversionWarning;
 import org.tridas.io.warnings.ConversionWarningException;
 import org.tridas.io.warnings.IncompleteTridasDataException;
 import org.tridas.io.warnings.IncorrectDefaultFieldsException;
+import org.tridas.io.warnings.InvalidDendroFileException;
 import org.tridas.schema.TridasProject;
 
 public class ConvertFile {
@@ -122,6 +123,9 @@ public class ConvertFile {
 		} catch (IncorrectDefaultFieldsException e1) {
 			// TODO Auto-generated catch block
 			e1.printStackTrace();
+		} catch (InvalidDendroFileException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
 		}
 		
 	    // Write out project

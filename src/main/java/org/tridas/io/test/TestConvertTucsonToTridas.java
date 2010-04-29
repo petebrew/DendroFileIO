@@ -12,6 +12,7 @@ import org.tridas.io.warnings.ConversionWarning;
 import org.tridas.io.warnings.ConversionWarningException;
 import org.tridas.io.warnings.IncompleteTridasDataException;
 import org.tridas.io.warnings.IncorrectDefaultFieldsException;
+import org.tridas.io.warnings.InvalidDendroFileException;
 import org.tridas.schema.TridasProject;
 
 
@@ -27,7 +28,7 @@ public class TestConvertTucsonToTridas {
 		// Parse the legacy data file
 		try {
 			//TridasEntitiesFromDefaults def = new TridasEntitiesFromDefaults();
-			reader.loadFile("TestData/Tucson", "Tucson1.crn", new TucsonToTridasDefaults());
+			reader.loadFile("TestData/Tucson", "Tucson7.rwl", new TucsonToTridasDefaults());
 		} catch (IOException e) {
 			// TODO Auto-generated catch block
 			System.out.println(e.getLocalizedMessage());
@@ -35,6 +36,11 @@ public class TestConvertTucsonToTridas {
 		} catch (IncorrectDefaultFieldsException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
+		} catch (InvalidDendroFileException e) {
+			// TODO Auto-generated catch block
+			System.out.println(e.getLocalizedMessage());
+			e.printStackTrace();
+			return;
 		}
 		
 		if (reader.getRawMetadata().size()>0) 

@@ -5,9 +5,11 @@ import java.io.StringWriter;
 import javax.xml.bind.JAXBContext;
 import javax.xml.bind.JAXBException;
 import javax.xml.bind.Marshaller;
+import javax.xml.bind.PropertyException;
 
 import org.tridas.interfaces.ITridasSeries;
 import org.tridas.io.DendroFile;
+import org.tridas.io.TridasNamespacePrefixMapper;
 import org.tridas.io.warnings.ConversionWarningException;
 import org.tridas.schema.TridasProject;
 
@@ -52,6 +54,7 @@ public class TridasFile extends DendroFile {
 		try {
 			jc = JAXBContext.newInstance("org.tridas.schema");
 			Marshaller m = jc.createMarshaller() ;
+	        m.setProperty("com.sun.xml.bind.namespacePrefixMapper",new TridasNamespacePrefixMapper());
 			m.marshal(project, writer);
 			//m.marshal(project,new File("/tmp/test.xml"));
 		} catch (JAXBException e) {

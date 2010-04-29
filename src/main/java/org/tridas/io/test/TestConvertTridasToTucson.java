@@ -12,6 +12,7 @@ import org.tridas.io.warnings.ConversionWarning;
 import org.tridas.io.warnings.ConversionWarningException;
 import org.tridas.io.warnings.IncompleteTridasDataException;
 import org.tridas.io.warnings.IncorrectDefaultFieldsException;
+import org.tridas.io.warnings.InvalidDendroFileException;
 import org.tridas.schema.TridasProject;
 
 
@@ -41,6 +42,9 @@ public class TestConvertTridasToTucson {
 			System.out.println(e.getLocalizedMessage());
 			return;
 		} catch (IncorrectDefaultFieldsException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		} catch (InvalidDendroFileException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}

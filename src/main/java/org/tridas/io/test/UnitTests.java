@@ -41,6 +41,7 @@ import org.tridas.io.warnings.ConversionWarning;
 import org.tridas.io.warnings.ConversionWarningException;
 import org.tridas.io.warnings.IncompleteTridasDataException;
 import org.tridas.io.warnings.IncorrectDefaultFieldsException;
+import org.tridas.io.warnings.InvalidDendroFileException;
 import org.tridas.schema.ObjectFactory;
 import org.tridas.schema.TridasObject;
 import org.tridas.schema.TridasProject;
@@ -68,6 +69,9 @@ public class UnitTests extends TestCase {
 		} catch (IncorrectDefaultFieldsException e) {
 			// TODO Auto-generated catch block
 			fail();
+		} catch (InvalidDendroFileException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
 		}
 			
 		
