@@ -9,9 +9,11 @@ import org.tridas.io.defaults.IMetadataFieldSet;
 import org.tridas.io.util.FileHelper;
 import org.tridas.io.warnings.ConversionWarning;
 import org.tridas.io.warnings.IncorrectDefaultFieldsException;
+import org.tridas.io.warnings.InvalidDendroFileException;
 
 public abstract class AbstractDendroFileReader implements IDendroFileReader {
 
+	private int currentLineNumber = 0;
 	private static final SimpleLogger log = new SimpleLogger(AbstractDendroFileReader.class);
 	private ArrayList<ConversionWarning> warnings =  new ArrayList<ConversionWarning>();
 	private FileHelper fileHelper;
@@ -62,10 +64,11 @@ public abstract class AbstractDendroFileReader implements IDendroFileReader {
 	
 	/**
 	 * @throws IncorrectDefaultFieldsException 
+	 * @throws InvalidDendroFileException 
 	 * @see org.tridas.io.IDendroCollectionWriter#loadFile(java.lang.String)
 	 */
 	@Override
-	public void loadFile(String argFilename, IMetadataFieldSet argDefaultFields) throws IOException, IncorrectDefaultFieldsException{
+	public void loadFile(String argFilename, IMetadataFieldSet argDefaultFields) throws IOException, IncorrectDefaultFieldsException, InvalidDendroFileException{
 		fileHelper = new FileHelper();
 		log.debug("loading file from: "+argFilename);
 		String[] strings = fileHelper.loadStrings(argFilename);
@@ -77,7 +80,7 @@ public abstract class AbstractDendroFileReader implements IDendroFileReader {
 
 	@Override
 	public void loadFile(String argPath, String argFilename,
-			IMetadataFieldSet argDefaultFields) throws IOException, IncorrectDefaultFieldsException{
+			IMetadataFieldSet argDefaultFields) throws IOException, IncorrectDefaultFieldsException, InvalidDendroFileException{
 		fileHelper = new FileHelper(argPath);
 		log.debug("loading file from: "+argFilename);
 		String[] strings = fileHelper.loadStrings(argFilename);
@@ -88,7 +91,7 @@ public abstract class AbstractDendroFileReader implements IDendroFileReader {
 	}
 	
 	@Override
-	public void loadFile(String[] argFileStrings, IMetadataFieldSet argDefaults) throws IncorrectDefaultFieldsException{
+	public void loadFile(String[] argFileStrings, IMetadataFieldSet argDefaults) throws IncorrectDefaultFieldsException, InvalidDendroFileException{
 		if(!argDefaults.getClass().equals(defaultFieldsClass)){
 			throw new IncorrectDefaultFieldsException(defaultFieldsClass);
 		}
@@ -96,7 +99,7 @@ public abstract class AbstractDendroFileReader implements IDendroFileReader {
 	}
 	
 	
-	protected abstract void parseFile( String[] argFileString, IMetadataFieldSet argDefaultFields);
+	protected abstract void parseFile( String[] argFileString, IMetadataFieldSet argDefaultFields) throws InvalidDendroFileException;
 
 	/**
 	 * Get the raw metadata for this file
@@ -118,5 +121,36 @@ public abstract class AbstractDendroFileReader implements IDendroFileReader {
 		}
 		
 		rawMetadata.add(argLine);
+	}
+	
+	/**
+	 * Get the current line number that is being processed.  Typically
+	 * used to determine at which point the reader failed.
+	 * 
+	 * @return
+	 */
+	public int getCurrentLineNumber()
+	{
+		return this.currentLineNumber;
+	}
+	
+	/**
+	 * Get the current line number that is being processed.  Typically
+	 * used to determine at which point the reader failed.
+	 * 
+	 * @return
+	 */
+	public String getCurrentLineNumberAsString()
+	{
+		return String.valueOf(this.currentLineNumber);
+	}
+	
+	/**
+	 * Set the line number currently being read.
+	 * @param num
+	 */
+	protected void setCurrentLineNumber(int num)
+	{
+		this.currentLineNumber = num;
 	}
 }

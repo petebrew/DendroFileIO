@@ -102,7 +102,6 @@ import org.tridas.schema.TridasValue;
  * >CDendro wiki</a> also contains useful information.
  * </p>
  * */
-@SuppressWarnings("restriction")
 public class TucsonFile extends DendroFile{
 
 	/**
@@ -137,20 +136,6 @@ public class TucsonFile extends DendroFile{
 		this.setExtension("rwl");
 		this.defaults = (TridasToTucsonDefaults) argDefaults;
 	}
-
-	/*private void setDefaults(){
-
-		siteCode= df.getDefaultFieldValue(TucsonField.SITE_CODE);
-		siteName= df.getDefaultFieldValue(TucsonField.SITE_NAME);
-		speciesCode= df.getDefaultFieldValue(TucsonField.SPECIES_CODE);
-		speciesName= df.getDefaultFieldValue(TucsonField.SPECIES_NAME);
-		investigator= df.getDefaultFieldValue(TucsonField.INVESTIGATOR);
-		elevation= df.getDefaultFieldValue(TucsonField.ELEVATION);
-		latlong= df.getDefaultFieldValue(TucsonField.LATLONG);
-		stateCountry= df.getDefaultFieldValue(TucsonField.STATE_COUNTRY);
-		compDate= df.getDefaultFieldValue(TucsonField.COMP_DATE);
-		range = null;
-	}*/
 	
 	/**
 	 * Set the site code for this file.  Should strictly be <=6 chars long 
