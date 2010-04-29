@@ -290,7 +290,7 @@ public class I18n {
 	static {
 		ResourceBundle bundle;
 		try {
-			bundle = ResourceBundle.getBundle("locale/TextBundle");
+			bundle = ResourceBundle.getBundle("org/tridas/io/resources/translations/TextBundle");
 		} catch (MissingResourceException mre) {
 			try {
 				bundle = ResourceBundle.getBundle("TextBundle");
