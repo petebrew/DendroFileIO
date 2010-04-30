@@ -28,7 +28,7 @@ public class TestConvertTucsonToTridas {
 		// Parse the legacy data file
 		try {
 			//TridasEntitiesFromDefaults def = new TridasEntitiesFromDefaults();
-			reader.loadFile("TestData/Tucson", "Tucson7.rwl", new TucsonToTridasDefaults());
+			reader.loadFile("TestData/Tucson", "Tucson4.crn", new TucsonToTridasDefaults());
 		} catch (IOException e) {
 			// TODO Auto-generated catch block
 			System.out.println(e.getLocalizedMessage());
@@ -39,7 +39,6 @@ public class TestConvertTucsonToTridas {
 		} catch (InvalidDendroFileException e) {
 			// TODO Auto-generated catch block
 			System.out.println(e.getLocalizedMessage());
-			e.printStackTrace();
 			return;
 		}
 		

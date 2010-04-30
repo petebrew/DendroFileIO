@@ -233,33 +233,11 @@ public class TucsonReader extends AbstractDendroFileReader {
 		line = line.substring(codeLength);
 		
 		// Extract the year value and remove from line
-		SafeIntYear youngestYear = new SafeIntYear(line.substring(0,4));
+		SafeIntYear currentLineYearMarker = new SafeIntYear(line.substring(0,4));
 		line = line.substring(5).trim();
 		
-		// Check this year marker to see it is within expected range
-		if(this.lastYearMarker==null)
-		{
-			// This is the first marker in the series so fine.
-			this.lastYearMarker = youngestYear;
-		}
-		else
-		{
-			YearRange expectedRange = new YearRange(lastYearMarker, lastYearMarker.add(10));
-			
-			if (expectedRange.contains(youngestYear))
-			{
-				lastYearMarker = youngestYear;
-			}
-			else
-			{
-				// This year marker is not within a decade of the last year marker
-				// ALARM ALARM!	
-				throw new InvalidDendroFileException(I18n.getText("fileio.invalidDecadeMarker", 
-						new String[] {youngestYear.toString(), lastYearMarker.toString()}));
-			}
-	
-		}
-		
+
+		checkYearMarker(thisCode, currentLineYearMarker);
 		
 		// Split values into string array.  Limiting to 10 values (decade).
 		String[] vals = line.split("\\s+", 10);
@@ -332,7 +310,7 @@ public class TucsonReader extends AbstractDendroFileReader {
 			
 			// Build interpretation group for series
 			TridasInterpretation interp = new TridasInterpretation();
-			interp.setFirstYear(youngestYear.toTridasYear(DatingSuffix.AD));
+			interp.setFirstYear(currentLineYearMarker.toTridasYear(DatingSuffix.AD));
 
 			// Add values to nested value(s) tags
 			TridasValues valuesGroup = new TridasValues();
@@ -380,7 +358,7 @@ public class TucsonReader extends AbstractDendroFileReader {
 			if(lastYearFlag)
 			{
 				TridasInterpretation interp = halfdone.getInterpretation();
-				interp.setLastYear(youngestYear.add(thisDecadesValues.size()-1).toTridasYear(DatingSuffix.AD));
+				interp.setLastYear(currentLineYearMarker.add(thisDecadesValues.size()-1).toTridasYear(DatingSuffix.AD));
 			}
 			
 		}
@@ -412,36 +390,16 @@ public class TucsonReader extends AbstractDendroFileReader {
 		line = line.substring(codeLength);
 		
 		// Extract the year value and remove
-		SafeIntYear youngestYear = new SafeIntYear(line.substring(0,4));
-		SafeIntYear oldestYear = youngestYear;
+		SafeIntYear currentLineYearMarker = new SafeIntYear(line.substring(0,4));
+		SafeIntYear oldestYear = currentLineYearMarker;
 		Boolean containsYoungestYear = false;
 		Boolean containsOldestYear = false;
 		line = line.substring(4);
 		
 		// Check this year marker to see it is within expected range
-		if(this.lastYearMarker==null)
-		{
-			// This is the first marker in the series so fine.
-			this.lastYearMarker = youngestYear;
-		}
-		else
-		{
-			YearRange expectedRange = new YearRange(lastYearMarker, lastYearMarker.add(10));
-			
-			if (expectedRange.contains(youngestYear))
-			{
-				lastYearMarker = youngestYear;
-			}
-			else
-			{
-				// This year marker is not within a decade of the last year marker
-				// ALARM ALARM!	
-				throw new InvalidDendroFileException(I18n.getText("fileio.invalidDecadeMarker", 
-						new String[] {youngestYear.toString(), lastYearMarker.toString(), getCurrentLineNumberAsString()}));
-			}
-	
-		}
+		this.checkYearMarker(thisCode, currentLineYearMarker);
 		
+		// Extract values and counts
 		ArrayList<Integer> vals = new ArrayList<Integer>();
 		ArrayList<Integer> counts = new ArrayList<Integer>();
 		for(int charpos = 0; charpos<=line.length()-7; charpos = charpos+7)
@@ -453,14 +411,17 @@ public class TucsonReader extends AbstractDendroFileReader {
 				counts.add(count);
 			} catch (NumberFormatException e)
 			{
-				throw new InvalidDendroFileException(I18n.getText("fileio.invalidDataValue", getCurrentLineNumberAsString()));
+				throw new InvalidDendroFileException(I18n.getText("fileio.invalidDataValue"),
+						getCurrentLineNumber());
 			}
 		}
 		
 		// number of values and counts *must* be the same
 		if (vals.size()!= counts.size() ) 
 		{ 
-			throw new InvalidDendroFileException(I18n.getText("fileio.countsAndValuesDontMatch"));
+			throw new InvalidDendroFileException(I18n.getText("fileio.countsAndValuesDontMatch",
+					new String [] {String.valueOf(vals.size()), String.valueOf(counts.size())}),
+					getCurrentLineNumber());
 		}
 		
 		Boolean inLeader = true;   // Flag to show if we're in the lead in 9990 values
@@ -494,7 +455,7 @@ public class TucsonReader extends AbstractDendroFileReader {
 				// inLeader is true but but this is not a 9990 value so this must
 				// be the first *proper* value.  Set the youngestYear and turn off
 				// the leader flag.
-				youngestYear.add(i+1);
+				currentLineYearMarker.add(i+1);
 				inLeader=false;
 			}
 
@@ -519,7 +480,7 @@ public class TucsonReader extends AbstractDendroFileReader {
 				TridasInterpretation interp = new TridasInterpretation();
 				
 				// Build interpretation group for series	
-				interp.setFirstYear(youngestYear.toTridasYear(DatingSuffix.AD));					
+				interp.setFirstYear(currentLineYearMarker.toTridasYear(DatingSuffix.AD));					
 				
 				
 				// Build identifier for series
@@ -627,7 +588,56 @@ public class TucsonReader extends AbstractDendroFileReader {
 		return false;
 			
 	}
-		
+	
+	/**
+	 * The year marker at the beginning of the row should typically be 10 years
+	 * larger than the year marker from the previous row.  For the first and last
+	 * row of a dataset, this could also be between 1 and 10 years larger.  
+	 * Complications arise when we have a file with multiple series.  If each series
+	 * has a valid header, then we're fine as the loadMetadata() call resets the 
+	 * lastYearMarker.  If the header is malformed though, we have to rely on the
+	 * series code changing.  If the series code remains the same *and* the year
+	 * marker gets reset, we have to throw a fatal error.
+	 * 
+	 * @param thisCode
+	 * @param currentLineYearMarker
+	 * @throws InvalidDendroFileException
+	 */
+	private void checkYearMarker(String thisCode, SafeIntYear currentLineYearMarker) throws InvalidDendroFileException 
+	{
+
+		if(this.lastYearMarker==null || !lastSeriesCode.equals(thisCode))
+		{
+			// This is the first marker in the series so fine.
+			this.lastYearMarker = currentLineYearMarker;
+		}
+		else
+		{
+			YearRange expectedRange = new YearRange(lastYearMarker.add(1), lastYearMarker.add(10));		
+			if (expectedRange.contains(currentLineYearMarker))
+			{
+				// Marker is in expected range (1 to 10 years of last marker)
+				lastYearMarker = currentLineYearMarker;
+			}
+			else if ((currentLineYearMarker.compareTo(lastYearMarker)<0) && 
+					 (lastSeriesCode.equals(thisCode)))
+			{
+				// Marker is less than the previous marker. 
+				throw new InvalidDendroFileException(I18n.getText("fileio.newSeriesSameCode", 
+						currentLineYearMarker.toString()),
+						this.getCurrentLineNumber());						
+			}
+			else
+			{
+				// This year marker is not within a decade of the last year marker 
+				throw new InvalidDendroFileException(I18n.getText("fileio.invalidDecadeMarker", 
+						currentLineYearMarker.toString()),
+						Integer.parseInt(lastYearMarker.toString()));
+			}
+		}
+	}
+	
+	
 	/**
 	 * Check whether a line matches a specific line type.  This is simple 
 	 * regexing so it isn't perfect, especially for headers.  The HEADER_LINE3

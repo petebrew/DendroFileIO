@@ -67,7 +67,7 @@ public class UnitTest extends TestCase {
 		} catch (InvalidDendroFileException e) {
 			// TODO Auto-generated catch block
 			fail();
-		}
+		} 
 			
 		
 		// Write project classes out to a temp file
