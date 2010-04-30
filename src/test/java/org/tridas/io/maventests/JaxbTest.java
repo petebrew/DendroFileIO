@@ -1,5 +1,6 @@
 package org.tridas.io.maventests;
 
+import java.io.IOException;
 import java.io.InputStream;
 import java.io.StringWriter;
 
@@ -7,8 +8,20 @@ import javax.xml.bind.JAXBContext;
 import javax.xml.bind.Marshaller;
 import javax.xml.bind.Unmarshaller;
 
+import org.tridas.io.DendroFile;
+import org.tridas.io.defaults.TridasMetadataFieldSet;
+import org.tridas.io.formats.tridas.TridasReader;
+import org.tridas.io.formats.tucson.TridasToTucsonDefaults;
+import org.tridas.io.formats.tucson.TucsonFile;
+import org.tridas.io.formats.tucson.TucsonWriter;
 import org.tridas.io.util.FileHelper;
 import org.tridas.io.util.IOUtils;
+import org.tridas.io.warnings.ConversionWarning;
+import org.tridas.io.warnings.ConversionWarningException;
+import org.tridas.io.warnings.IncompleteTridasDataException;
+import org.tridas.io.warnings.IncorrectDefaultFieldsException;
+import org.tridas.io.warnings.InvalidDendroFileException;
+import org.tridas.schema.ObjectFactory;
 import org.tridas.schema.TridasObject;
 import org.tridas.schema.TridasProject;
 
@@ -39,7 +52,7 @@ public class JaxbTest extends TestCase {
 		TridasProject projectTridas = new TridasProject();       
 		projectTridas.setTitle("my test project");       
 		// Add a tridas object entity      
-		TridasObject objectTridas = new TridasObject();    
+		TridasObject objectTridas = new ObjectFactory().createTridasObject();    
 		objectTridas.setTitle("my test object");       
 		projectTridas.getObjects().add(objectTridas);   
 		JAXBContext jaxbContext = JAXBContext.newInstance("org.tridas.schema");     
@@ -51,4 +64,7 @@ public class JaxbTest extends TestCase {
 		marshaller.marshal(projectTridas, sw);    
 		//System.out.print(sw.toString());    
 	}
+	
+	
+
 }
