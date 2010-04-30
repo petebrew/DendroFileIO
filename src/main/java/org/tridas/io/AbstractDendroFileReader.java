@@ -17,9 +17,9 @@ public abstract class AbstractDendroFileReader implements IDendroFileReader {
 	private int currentLineNumber = 0;
 	private static final SimpleLogger log = new SimpleLogger(AbstractDendroFileReader.class);
 	private ArrayList<ConversionWarning> warnings =  new ArrayList<ConversionWarning>();
-	private FileHelper fileHelper;
+	protected FileHelper fileHelper;
 	private ArrayList<String> rawMetadata = new ArrayList<String>();
-	private Class<? extends IMetadataFieldSet> defaultFieldsClass;
+	protected Class<? extends IMetadataFieldSet> defaultFieldsClass;
 	
 	public AbstractDendroFileReader(Class<? extends IMetadataFieldSet> argDefaultFieldsClass){
 		if(argDefaultFieldsClass == null){
