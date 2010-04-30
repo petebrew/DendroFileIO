@@ -37,9 +37,9 @@ public abstract class AbstractDendroCollectionWriter implements IDendroCollectio
 		defaultFieldsClass = argDefaultFieldsClass;
 	}
 	
-	public void loadProject(TridasProject argProject) throws IncompleteTridasDataException, ConversionWarningException, IncorrectDefaultFieldsException{
+	public void loadProject(TridasProject argProject) throws IncompleteTridasDataException, ConversionWarningException{
 		IMetadataFieldSet defaults = constructDefaults();
-		loadProject(argProject, defaults);
+		parseTridasProject(argProject, defaults);
 	}
 	
 	public IMetadataFieldSet constructDefaults(){
