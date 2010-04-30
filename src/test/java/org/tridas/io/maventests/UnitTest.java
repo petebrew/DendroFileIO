@@ -41,6 +41,7 @@ import org.tridas.io.warnings.ConversionWarning;
 import org.tridas.io.warnings.ConversionWarningException;
 import org.tridas.io.warnings.IncompleteTridasDataException;
 import org.tridas.io.warnings.IncorrectDefaultFieldsException;
+import org.tridas.io.warnings.InvalidDendroFileException;
 import org.tridas.schema.TridasObject;
 import org.tridas.schema.TridasProject;
 
@@ -58,12 +59,12 @@ public class UnitTest extends TestCase {
 		
 		// Load and extract project from XML file
 		try {
-			reader.loadFile("TestData/TRiDaS/", "Tridas2.xml", new TridasMetadataFieldSet());
+			reader.loadFile("TestData/TRiDaS/", "Tridas2.xml");
 			project = reader.getProject();
 		} catch (IOException e) {		
 			System.out.println(e.getLocalizedMessage());
 			fail();
-		} catch (IncorrectDefaultFieldsException e) {
+		} catch (InvalidDendroFileException e) {
 			// TODO Auto-generated catch block
 			fail();
 		}

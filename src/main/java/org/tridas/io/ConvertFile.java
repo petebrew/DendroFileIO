@@ -1,12 +1,6 @@
 package org.tridas.io;
 
 import java.io.IOException;
-import java.util.List;
-
-import org.tridas.io.formats.tridas.TridasReader;
-import org.tridas.io.formats.tridas.TridasWriter;
-import org.tridas.io.formats.tucson.TucsonReader;
-import org.tridas.io.formats.tucson.TucsonWriter;
 import org.tridas.io.warnings.ConversionWarning;
 import org.tridas.io.warnings.ConversionWarningException;
 import org.tridas.io.warnings.IncompleteTridasDataException;
@@ -68,8 +62,8 @@ public class ConvertFile {
 		
 		String inputfilename = null;
 		String outputFolder = null;
-		AbstractDendroCollectionWriter writer;
-		AbstractDendroFileReader reader;
+		IDendroCollectionWriter writer;
+		IDendroFileReader reader;
 		TridasProject project = null;
 		
 		// Check we have the right number of args
@@ -83,44 +77,23 @@ public class ConvertFile {
 		inputfilename = args[1];
 		outputFolder = args[3];
 		
-		// Set up Reader
-		if(args[0].equalsIgnoreCase("tridas"))
-		{
-			reader = new TridasReader();
-		}
-		else if(args[0].equalsIgnoreCase("tucson"))
-		{
-			reader = new TucsonReader();
-		}
-		else
-		{
+		reader = TridasIO.getFileReader(args[0]);
+		if(reader == null){
 			showHelp();
 			return;
 		}
 		
-		// Set up Writer
-		if(args[2].equalsIgnoreCase("tridas"))
-		{
-			writer = new TridasWriter();
-		}
-		else if(args[2].equalsIgnoreCase("tucson"))
-		{
-			writer = new TucsonWriter();
-		}
-		else
-		{
+		writer = TridasIO.getFileWriter(args[2]);
+		if(writer == null){
 			showHelp();
 			return;
 		}
 
 		// Read in File
 		try {
-			reader.loadFile(inputfilename, null);
+			reader.loadFile(inputfilename);
 			project = reader.getProject();
 		} catch (IOException e1) {
-			// TODO Auto-generated catch block
-			e1.printStackTrace();
-		} catch (IncorrectDefaultFieldsException e1) {
 			// TODO Auto-generated catch block
 			e1.printStackTrace();
 		} catch (InvalidDendroFileException e) {
@@ -152,7 +125,7 @@ public class ConvertFile {
 			System.out.println("  - ["+ cw.getWarningType().toString()+ "]: " + cw.getMessage());
 		
 		// Grab a list of dendro files that will be written
-		List<DendroFile> files = writer.getFileList();
+		DendroFile[] files = writer.getFiles();
 		
 		// Show list of output files
 		for(DendroFile f : files)

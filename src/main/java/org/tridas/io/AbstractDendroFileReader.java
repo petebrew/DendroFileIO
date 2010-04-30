@@ -4,6 +4,7 @@ import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 
+import org.grlea.log.DebugLevel;
 import org.grlea.log.SimpleLogger;
 import org.tridas.io.defaults.IMetadataFieldSet;
 import org.tridas.io.util.FileHelper;
@@ -24,6 +25,16 @@ public abstract class AbstractDendroFileReader implements IDendroFileReader {
 		if(argDefaultFieldsClass == null){
 			throw new RuntimeException(I18n.getText("fileio.defaultsnull")); 
 		}
+		defaultFieldsClass = argDefaultFieldsClass;
+		// see if we can construct an instance
+		try {
+			argDefaultFieldsClass.newInstance();
+		} catch (Exception e) {
+			log.error("Defaults class '"+argDefaultFieldsClass.getName()+"' does not have empty constructor.");
+			log.dbe(DebugLevel.L2_ERROR, e);
+			throw new RuntimeException("Defaults class must have empty constructor."); // TODO locale
+		}
+		
 		defaultFieldsClass = argDefaultFieldsClass;
 	}
 	
@@ -61,6 +72,17 @@ public abstract class AbstractDendroFileReader implements IDendroFileReader {
 	}
 	
 	
+	public IMetadataFieldSet constructDefaults(){
+		try {
+			return defaultFieldsClass.newInstance();
+		} catch (InstantiationException e) {
+			log.error("Defaults class '"+defaultFieldsClass.getName()+"' does not have empty constructor.");
+			return null;
+		} catch (IllegalAccessException e) {
+			log.error("Defaults class cannot be created");
+			return null;
+		}
+	}
 	
 	/**
 	 * @throws IncorrectDefaultFieldsException 
@@ -77,6 +99,17 @@ public abstract class AbstractDendroFileReader implements IDendroFileReader {
 		}
 		loadFile(strings, argDefaultFields);
 	}
+	
+	@Override
+	public void loadFile(String argFilename) throws IOException, InvalidDendroFileException{
+		fileHelper = new FileHelper();
+		log.debug("loading file from: "+argFilename);
+		String[] strings = fileHelper.loadStrings(argFilename);
+		if(strings == null){
+			throw new IOException(I18n.getText("fileio.loadfailed")); 
+		}
+		loadFile(strings);
+	}
 
 	@Override
 	public void loadFile(String argPath, String argFilename,
@@ -91,11 +124,27 @@ public abstract class AbstractDendroFileReader implements IDendroFileReader {
 	}
 	
 	@Override
+	public void loadFile(String argPath, String argFilename) throws IOException, InvalidDendroFileException{
+		fileHelper = new FileHelper(argPath);
+		log.debug("loading file from: "+argFilename);
+		String[] strings = fileHelper.loadStrings(argFilename);
+		if(strings == null){
+			throw new IOException(I18n.getText("fileio.loadfailed")); 
+		}
+		loadFile(strings);
+	}
+	
+	@Override
 	public void loadFile(String[] argFileStrings, IMetadataFieldSet argDefaults) throws IncorrectDefaultFieldsException, InvalidDendroFileException{
 		if(!argDefaults.getClass().equals(defaultFieldsClass)){
 			throw new IncorrectDefaultFieldsException(defaultFieldsClass);
 		}
 		parseFile(argFileStrings, argDefaults);
+	}
+	
+	@Override
+	public void loadFile(String[] argFileStrings) throws InvalidDendroFileException{
+		parseFile(argFileStrings, constructDefaults());
 	}
 	
 	
