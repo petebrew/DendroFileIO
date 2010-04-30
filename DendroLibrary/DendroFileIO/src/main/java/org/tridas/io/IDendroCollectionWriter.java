@@ -1,7 +1,10 @@
 package org.tridas.io;
 
+import java.util.List;
+
 import org.tridas.io.defaults.IMetadataFieldSet;
 import org.tridas.io.naming.INamingConvention;
+import org.tridas.io.warnings.ConversionWarning;
 import org.tridas.io.warnings.ConversionWarningException;
 import org.tridas.io.warnings.IncompleteTridasDataException;
 import org.tridas.io.warnings.IncorrectDefaultFieldsException;
@@ -61,4 +64,10 @@ public interface IDendroCollectionWriter {
 	 */
 	public String[] getFileExtensions();
 	
+	/**
+	 * Save all associated files to disk
+	 */
+	public void saveAllToDisk(String argFolderName);
+	
+	public List<ConversionWarning> getWarnings();
 }

@@ -27,6 +27,15 @@ public interface IDendroFileReader {
 	public void loadFile(String argFilename, IMetadataFieldSet argDefaultFields ) throws IOException, IncorrectDefaultFieldsException, InvalidDendroFileException;
 	
 	/**
+	 * Loads a file from a given filename.  Filename can be absolute, local, or
+	 * a url.  Uses default fields.
+	 * @param argFilename
+	 * @throws InvalidDendroFileException 
+	 */
+	public void loadFile(String argFilename) throws IOException, InvalidDendroFileException;
+	
+	
+	/**
 	 * Loads a file from a given filename at the given path.
 	 * @param argPath
 	 * @param argFilename
@@ -36,6 +45,16 @@ public interface IDendroFileReader {
 	public void loadFile(String argPath, String argFilename, IMetadataFieldSet argDefaultFields) throws IOException,IncorrectDefaultFieldsException, InvalidDendroFileException;
 
 	/**
+	 * Loads a file from a given filename at the given path.
+	 * @param argPath
+	 * @param argFilename
+	 * @param argDefaultFields
+	 * @throws InvalidDendroFileException 
+	 */
+	public void loadFile(String argPath, String argFilename) throws IOException, InvalidDendroFileException;
+
+	
+	/**
 	 * Loads the file from the given strings.
 	 * @param argFileStrings
 	 * @param argDefaultFields
@@ -43,6 +62,16 @@ public interface IDendroFileReader {
 	 * @throws InvalidDendroFileException 
 	 */
 	public void loadFile(String argFileStrings[], IMetadataFieldSet argDefaultFields) throws IncorrectDefaultFieldsException, InvalidDendroFileException;
+	
+	/**
+	 * Loads the file from the given strings.
+	 * @param argFileStrings
+	 * @param argDefaultFields
+	 * @throws IncorrectDefaultFieldsException
+	 * @throws InvalidDendroFileException 
+	 */
+	public void loadFile(String argFileStrings[]) throws InvalidDendroFileException;
+	
 	
 	/**
 	 * Returns a list of the file extensions for this file
