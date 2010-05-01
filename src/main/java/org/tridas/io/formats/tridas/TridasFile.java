@@ -7,6 +7,8 @@ import javax.xml.bind.JAXBException;
 import javax.xml.bind.Marshaller;
 import javax.xml.bind.PropertyException;
 
+import org.grlea.log.DebugLevel;
+import org.grlea.log.SimpleLogger;
 import org.tridas.interfaces.ITridasSeries;
 import org.tridas.io.DendroFile;
 import org.tridas.io.TridasNamespacePrefixMapper;
@@ -29,7 +31,8 @@ import org.tridas.schema.TridasProject;
  */
 public class TridasFile extends DendroFile {
 
-
+	private final static SimpleLogger log = new SimpleLogger(TridasFile.class);
+	
 	TridasProject project;
 	
 	
@@ -58,6 +61,8 @@ public class TridasFile extends DendroFile {
 			m.marshal(project, writer);
 			//m.marshal(project,new File("/tmp/test.xml"));
 		} catch (JAXBException e) {
+			log.error("Jaxb error");
+			log.dbe(DebugLevel.L2_ERROR, e);
 			return null;
 		}
 		

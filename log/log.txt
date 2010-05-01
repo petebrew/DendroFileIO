@@ -770,3 +770,1058 @@ Wed 2010/04/28 13:48:34.674|   |main|StringDefaultValue|value stored: 20100428
 Wed 2010/04/28 13:48:34.712|   |main|StringDefaultValue|value stored: 1234567
 Wed 2010/04/28 13:48:34.725|   |main|StringDefaultValue|value stored: Tree
 Wed 2010/04/28 13:48:34.728|   |main|StringDefaultValue|value stored: Single curve
+Fri 2010/04/30 16:14:03.114|   |main|StringDefaultValue|The string 'Hello' is too small, padding (on the right? true)
+Fri 2010/04/30 16:14:03.219|   |main|StringDefaultValue|value stored: Hello     
+Fri 2010/04/30 16:14:03.239|   |main|AbstractDefaultValue|The string '3' is too small, padding (on the right? true)
+Fri 2010/04/30 16:14:03.246|   |main|AbstractDefaultValue|The string '3' is too small, padding (on the right? true)
+Fri 2010/04/30 16:14:03.247|   |main|IntegerDefaultValue|The value 10 is too big, maximum is 5.  Use maximum value instead? false
+Fri 2010/04/30 16:14:03.250|   |main|IntegerDefaultValue|Parent is null, cannot add warning.
+Fri 2010/04/30 16:14:03.262|   |main|IntegerDefaultValue|The value -1 is too small, minimum is 0.  Use minimum value instead? false
+Fri 2010/04/30 16:14:03.279|   |main|IntegerDefaultValue|Parent is null, cannot add warning.
+Fri 2010/04/30 16:14:03.299|   |main|IntegerDefaultValue|The value 10 is too big, maximum is 5.  Use maximum value instead? true
+Fri 2010/04/30 16:14:03.300|   |main|IntegerDefaultValue|Parent is null, cannot add warning.
+Fri 2010/04/30 16:14:03.301|   |main|IntegerDefaultValue|The value -1 is too small, minimum is 0.  Use minimum value instead? true
+Fri 2010/04/30 16:14:03.302|   |main|IntegerDefaultValue|Parent is null, cannot add warning.
+Fri 2010/04/30 16:14:03.304|   |main|StringDefaultValue|The string 'Hello' is too small, padding (on the right? true)
+Fri 2010/04/30 16:14:03.305|   |main|StringDefaultValue|value stored: Hello     
+Fri 2010/04/30 16:14:03.306|   |main|StringDefaultValue|The string 'Goodbye' is too small, padding (on the right? true)
+Fri 2010/04/30 16:14:03.306|   |main|StringDefaultValue|value stored: Goodbye   
+Fri 2010/04/30 16:14:03.324|   |main|StringDefaultValue|value stored: Unnamed project
+Fri 2010/04/30 16:14:03.342|   |main|StringDefaultValue|value stored: Unknown
+Fri 2010/04/30 16:14:03.342|   |main|StringDefaultValue|value stored: Unknown
+Fri 2010/04/30 16:14:03.343|   |main|StringDefaultValue|value stored: Unnamed object
+Fri 2010/04/30 16:14:03.345|   |main|StringDefaultValue|value stored: Unnamed element
+Fri 2010/04/30 16:14:03.346|   |main|StringDefaultValue|value stored: Unnamed sample
+Fri 2010/04/30 16:14:03.347|   |main|StringDefaultValue|value stored: Unnamed radius
+Fri 2010/04/30 16:14:03.347|   |main|StringDefaultValue|value stored: Unnamed series
+Fri 2010/04/30 16:14:03.348|   |main|StringDefaultValue|value stored: Unnamed series
+Fri 2010/04/30 16:14:03.349|   |main|StringDefaultValue|value stored: TRiDaSDendroFileIO
+Fri 2010/04/30 16:14:03.351|   |main|StringDefaultValue|value stored: Unnamed project
+Fri 2010/04/30 16:14:03.352|   |main|StringDefaultValue|value stored: Unknown
+Fri 2010/04/30 16:14:03.353|   |main|StringDefaultValue|value stored: Unknown
+Fri 2010/04/30 16:14:03.354|   |main|StringDefaultValue|value stored: Unnamed object
+Fri 2010/04/30 16:14:03.354|   |main|StringDefaultValue|value stored: Unnamed element
+Fri 2010/04/30 16:14:03.355|   |main|StringDefaultValue|value stored: Unnamed sample
+Fri 2010/04/30 16:14:03.356|   |main|StringDefaultValue|value stored: Unnamed radius
+Fri 2010/04/30 16:14:03.357|   |main|StringDefaultValue|value stored: Unnamed series
+Fri 2010/04/30 16:14:03.358|   |main|StringDefaultValue|value stored: Unnamed series
+Fri 2010/04/30 16:14:03.358|   |main|StringDefaultValue|value stored: TRiDaSDendroFileIO
+Fri 2010/04/30 16:14:03.362|   |main|StringDefaultValue|value stored: Unnamed project
+Fri 2010/04/30 16:14:03.418|   |main|StringDefaultValue|value stored: Unknown
+Fri 2010/04/30 16:14:03.419|   |main|StringDefaultValue|value stored: Unknown
+Fri 2010/04/30 16:14:03.420|   |main|StringDefaultValue|value stored: Unnamed object
+Fri 2010/04/30 16:14:03.421|   |main|StringDefaultValue|value stored: Unnamed element
+Fri 2010/04/30 16:14:03.422|   |main|StringDefaultValue|value stored: Unnamed sample
+Fri 2010/04/30 16:14:03.432|   |main|StringDefaultValue|value stored: Unnamed radius
+Fri 2010/04/30 16:14:03.433|   |main|StringDefaultValue|value stored: Unnamed series
+Fri 2010/04/30 16:14:03.433|   |main|StringDefaultValue|value stored: Unnamed series
+Fri 2010/04/30 16:14:03.434|   |main|StringDefaultValue|value stored: TRiDaSDendroFileIO
+Fri 2010/04/30 16:14:03.436|   |main|StringDefaultValue|value stored: Unnamed project
+Fri 2010/04/30 16:14:03.464|   |main|StringDefaultValue|value stored: Unknown
+Fri 2010/04/30 16:14:03.465|   |main|StringDefaultValue|value stored: Unknown
+Fri 2010/04/30 16:14:03.466|   |main|StringDefaultValue|value stored: Unnamed object
+Fri 2010/04/30 16:14:03.466|   |main|StringDefaultValue|value stored: Unnamed element
+Fri 2010/04/30 16:14:03.468|   |main|StringDefaultValue|value stored: Unnamed sample
+Fri 2010/04/30 16:14:03.469|   |main|StringDefaultValue|value stored: Unnamed radius
+Fri 2010/04/30 16:14:03.469|   |main|StringDefaultValue|value stored: Unnamed series
+Fri 2010/04/30 16:14:03.470|   |main|StringDefaultValue|value stored: Unnamed series
+Fri 2010/04/30 16:14:03.470|   |main|StringDefaultValue|value stored: TRiDaSDendroFileIO
+Fri 2010/04/30 16:14:03.471|   |main|AbstractDendroFileReader|loading file from: Tridas2.xml
+Fri 2010/04/30 16:14:03.484|   |main|StringDefaultValue|value stored: Unnamed project
+Fri 2010/04/30 16:14:03.486|   |main|StringDefaultValue|value stored: Unknown
+Fri 2010/04/30 16:14:03.486|   |main|StringDefaultValue|value stored: Unknown
+Fri 2010/04/30 16:14:03.487|   |main|StringDefaultValue|value stored: Unnamed object
+Fri 2010/04/30 16:14:03.488|   |main|StringDefaultValue|value stored: Unnamed element
+Fri 2010/04/30 16:14:03.488|   |main|StringDefaultValue|value stored: Unnamed sample
+Fri 2010/04/30 16:14:03.489|   |main|StringDefaultValue|value stored: Unnamed radius
+Fri 2010/04/30 16:14:03.490|   |main|StringDefaultValue|value stored: Unnamed series
+Fri 2010/04/30 16:14:03.490|   |main|StringDefaultValue|value stored: Unnamed series
+Fri 2010/04/30 16:14:03.491|   |main|StringDefaultValue|value stored: TRiDaSDendroFileIO
+Fri 2010/04/30 16:14:03.690|   |main|StringDefaultValue|value stored: Unnamed project
+Fri 2010/04/30 16:14:03.693|   |main|StringDefaultValue|value stored: Unknown
+Fri 2010/04/30 16:14:03.694|   |main|StringDefaultValue|value stored: Unknown
+Fri 2010/04/30 16:14:03.695|   |main|StringDefaultValue|value stored: Unnamed object
+Fri 2010/04/30 16:14:03.695|   |main|StringDefaultValue|value stored: Unnamed element
+Fri 2010/04/30 16:14:03.696|   |main|StringDefaultValue|value stored: Unnamed sample
+Fri 2010/04/30 16:14:03.697|   |main|StringDefaultValue|value stored: Unnamed radius
+Fri 2010/04/30 16:14:03.697|   |main|StringDefaultValue|value stored: Unnamed series
+Fri 2010/04/30 16:14:03.698|   |main|StringDefaultValue|value stored: Unnamed series
+Fri 2010/04/30 16:14:03.699|   |main|StringDefaultValue|value stored: TRiDaSDendroFileIO
+Fri 2010/04/30 16:14:04.190|   |main|StringDefaultValue|The string 'f73084ad-2888-4baf-89dc-879576f9a1fa' is too big, max length is '6' characters.
+Fri 2010/04/30 16:14:04.219|   |main|AbstractMetadataFieldSet|Warning from defaults: org.tridas.io.warnings.ConversionWarning@6e7616ad
+Fri 2010/04/30 16:14:04.220|   |main|StringDefaultValue|value stored: f73084
+Fri 2010/04/30 16:14:04.221|   |main|StringDefaultValue|The string 'Unnamed object' is too small, padding (on the right? true)
+Fri 2010/04/30 16:14:04.222|   |main|StringDefaultValue|value stored: Unnamed object                                    
+Fri 2010/04/30 16:14:04.224|   |main|StringDefaultValue|value stored: UNKN
+Fri 2010/04/30 16:14:04.225|   |main|StringDefaultValue|The string 'Plantae' is too small, padding (on the right? true)
+Fri 2010/04/30 16:14:04.225|   |main|StringDefaultValue|value stored: Plantae 
+Fri 2010/04/30 16:14:04.226|   |main|StringDefaultValue|The string 'Unknown' is too small, padding (on the right? true)
+Fri 2010/04/30 16:14:04.227|   |main|StringDefaultValue|value stored: Unknown                                                      
+Fri 2010/04/30 16:14:04.229|   |main|StringDefaultValue|The string '' is too small, padding (on the right? true)
+Fri 2010/04/30 16:14:04.230|   |main|StringDefaultValue|value stored:            
+Fri 2010/04/30 16:14:04.231|   |main|StringDefaultValue|The string 'Unknown' is too small, padding (on the right? true)
+Fri 2010/04/30 16:14:04.232|   |main|StringDefaultValue|value stored: Unknown      
+Fri 2010/04/30 16:14:04.233|   |main|StringDefaultValue|value stored: 20100430
+Fri 2010/04/30 16:14:04.234|   |main|StringDefaultValue|The string 'bea24541-f0fd-461f-bf36-50a1ca23fd76' is too big, max length is '6' characters.
+Fri 2010/04/30 16:14:04.234|   |main|AbstractMetadataFieldSet|Warning from defaults: org.tridas.io.warnings.ConversionWarning@6af2da21
+Fri 2010/04/30 16:14:04.235|   |main|StringDefaultValue|value stored: bea245
+Fri 2010/04/30 16:14:04.236|   |main|StringDefaultValue|The string 'Unnamed object' is too small, padding (on the right? true)
+Fri 2010/04/30 16:14:04.236|   |main|StringDefaultValue|value stored: Unnamed object                                    
+Fri 2010/04/30 16:14:04.237|   |main|StringDefaultValue|value stored: UNKN
+Fri 2010/04/30 16:14:04.238|   |main|StringDefaultValue|The string 'Plantae' is too small, padding (on the right? true)
+Fri 2010/04/30 16:14:04.238|   |main|StringDefaultValue|value stored: Plantae 
+Fri 2010/04/30 16:14:04.239|   |main|StringDefaultValue|The string 'Unknown' is too small, padding (on the right? true)
+Fri 2010/04/30 16:14:04.240|   |main|StringDefaultValue|value stored: Unknown                                                      
+Fri 2010/04/30 16:14:04.241|   |main|StringDefaultValue|The string '' is too small, padding (on the right? true)
+Fri 2010/04/30 16:14:04.249|   |main|StringDefaultValue|value stored:            
+Fri 2010/04/30 16:14:04.263|   |main|StringDefaultValue|The string 'Unknown' is too small, padding (on the right? true)
+Fri 2010/04/30 16:14:04.264|   |main|StringDefaultValue|value stored: Unknown      
+Fri 2010/04/30 16:14:04.265|   |main|StringDefaultValue|value stored: 20100430
+Fri 2010/04/30 16:14:04.266|   |main|StringDefaultValue|The string 'd9ddd9b7-8b02-4a9b-8122-db4c159cd8d0' is too big, max length is '6' characters.
+Fri 2010/04/30 16:14:04.267|   |main|AbstractMetadataFieldSet|Warning from defaults: org.tridas.io.warnings.ConversionWarning@6dcee361
+Fri 2010/04/30 16:14:04.268|   |main|StringDefaultValue|value stored: d9ddd9
+Fri 2010/04/30 16:14:04.269|   |main|StringDefaultValue|The string 'Unnamed object' is too small, padding (on the right? true)
+Fri 2010/04/30 16:14:04.270|   |main|StringDefaultValue|value stored: Unnamed object                                    
+Fri 2010/04/30 16:14:04.271|   |main|StringDefaultValue|value stored: UNKN
+Fri 2010/04/30 16:14:04.272|   |main|StringDefaultValue|The string 'Plantae' is too small, padding (on the right? true)
+Fri 2010/04/30 16:14:04.272|   |main|StringDefaultValue|value stored: Plantae 
+Fri 2010/04/30 16:14:04.273|   |main|StringDefaultValue|The string 'Unknown' is too small, padding (on the right? true)
+Fri 2010/04/30 16:14:04.274|   |main|StringDefaultValue|value stored: Unknown                                                      
+Fri 2010/04/30 16:14:04.274|   |main|StringDefaultValue|The string '' is too small, padding (on the right? true)
+Fri 2010/04/30 16:14:04.275|   |main|StringDefaultValue|value stored:            
+Fri 2010/04/30 16:14:04.276|   |main|StringDefaultValue|The string 'Unknown' is too small, padding (on the right? true)
+Fri 2010/04/30 16:14:04.277|   |main|StringDefaultValue|value stored: Unknown      
+Fri 2010/04/30 16:14:04.278|   |main|StringDefaultValue|value stored: 20100430
+Fri 2010/04/30 16:14:04.279|   |main|StringDefaultValue|The string 'Peter I Kuniholm' is too small, padding (on the right? true)
+Fri 2010/04/30 16:14:04.279|   |main|StringDefaultValue|value stored: Peter I Kuniholm                                             
+Fri 2010/04/30 16:14:04.280|   |main|StringDefaultValue|The string '28acb483-f337-412f-a063-59d911c37594' is too big, max length is '6' characters.
+Fri 2010/04/30 16:14:04.281|   |main|AbstractMetadataFieldSet|Warning from defaults: org.tridas.io.warnings.ConversionWarning@29b22d99
+Fri 2010/04/30 16:14:04.281|   |main|StringDefaultValue|value stored: 28acb4
+Fri 2010/04/30 16:14:04.282|   |main|StringDefaultValue|The string 'White Tower, Thessaloniki' is too small, padding (on the right? true)
+Fri 2010/04/30 16:14:04.283|   |main|StringDefaultValue|value stored: White Tower, Thessaloniki                         
+Fri 2010/04/30 16:14:04.300|   |main|StringDefaultValue|value stored: +4037+02256
+Fri 2010/04/30 16:14:04.300|   |main|StringDefaultValue|The string '1997-02-01T14:13:51.0Z' is too big, max length is '8' characters.
+Fri 2010/04/30 16:14:04.301|   |main|AbstractMetadataFieldSet|Warning from defaults: org.tridas.io.warnings.ConversionWarning@268be9ef
+Fri 2010/04/30 16:14:04.302|   |main|StringDefaultValue|value stored: 1997-02-
+Fri 2010/04/30 16:14:04.303|   |main|StringDefaultValue|The string 'Quercus' is too small, padding (on the right? true)
+Fri 2010/04/30 16:14:04.303|   |main|StringDefaultValue|value stored: Quercus 
+Fri 2010/04/30 16:14:04.305|   |main|StringDefaultValue|value stored: ABCD
+Fri 2010/04/30 16:14:04.307|   |main|AbstractDefaultValue|The string '' is too small, padding (on the right? true)
+Fri 2010/04/30 16:14:04.322|   |main|StringDefaultValue|The string 'd50e9f33-f09b-43ea-9d84-41b2b17a22a2' is too big, max length is '6' characters.
+Fri 2010/04/30 16:14:04.326|   |main|AbstractMetadataFieldSet|Warning from defaults: org.tridas.io.warnings.ConversionWarning@6a8ef455
+Fri 2010/04/30 16:14:04.328|   |main|StringDefaultValue|value stored: d50e9f
+Fri 2010/04/30 16:14:04.329|   |main|StringDefaultValue|The string 'Unnamed object' is too small, padding (on the right? true)
+Fri 2010/04/30 16:14:04.331|   |main|StringDefaultValue|value stored: Unnamed object                                    
+Fri 2010/04/30 16:14:04.333|   |main|StringDefaultValue|value stored: UNKN
+Fri 2010/04/30 16:14:04.335|   |main|StringDefaultValue|The string 'Plantae' is too small, padding (on the right? true)
+Fri 2010/04/30 16:14:04.337|   |main|StringDefaultValue|value stored: Plantae 
+Fri 2010/04/30 16:14:04.339|   |main|StringDefaultValue|The string 'Unknown' is too small, padding (on the right? true)
+Fri 2010/04/30 16:14:04.340|   |main|StringDefaultValue|value stored: Unknown                                                      
+Fri 2010/04/30 16:14:04.342|   |main|StringDefaultValue|The string '' is too small, padding (on the right? true)
+Fri 2010/04/30 16:14:04.344|   |main|StringDefaultValue|value stored:            
+Fri 2010/04/30 16:14:04.346|   |main|StringDefaultValue|The string 'Unknown' is too small, padding (on the right? true)
+Fri 2010/04/30 16:14:04.347|   |main|StringDefaultValue|value stored: Unknown      
+Fri 2010/04/30 16:14:04.349|   |main|StringDefaultValue|value stored: 20100430
+Fri 2010/04/30 16:14:04.352|   |main|StringDefaultValue|value stored: 1234567
+Fri 2010/04/30 16:14:04.354|   |main|StringDefaultValue|value stored: Tree
+Fri 2010/04/30 16:14:04.356|   |main|StringDefaultValue|value stored: Single curve
+Sat 2010/05/01 02:07:20.604|   |main|StringDefaultValue|value stored: Unnamed project
+Sat 2010/05/01 02:07:20.628|   |main|StringDefaultValue|value stored: Unknown
+Sat 2010/05/01 02:07:20.629|   |main|StringDefaultValue|value stored: Unknown
+Sat 2010/05/01 02:07:20.629|   |main|StringDefaultValue|value stored: Unnamed object
+Sat 2010/05/01 02:07:20.630|   |main|StringDefaultValue|value stored: Unnamed element
+Sat 2010/05/01 02:07:20.631|   |main|StringDefaultValue|value stored: Unnamed sample
+Sat 2010/05/01 02:07:20.631|   |main|StringDefaultValue|value stored: Unnamed radius
+Sat 2010/05/01 02:07:20.632|   |main|StringDefaultValue|value stored: Unnamed series
+Sat 2010/05/01 02:07:20.635|   |main|StringDefaultValue|value stored: Unnamed series
+Sat 2010/05/01 02:07:20.636|   |main|StringDefaultValue|value stored: TRiDaSDendroFileIO
+Sat 2010/05/01 02:07:20.637|   |main|StringDefaultValue|value stored: Unnamed project
+Sat 2010/05/01 02:07:20.638|   |main|StringDefaultValue|value stored: Unknown
+Sat 2010/05/01 02:07:20.639|   |main|StringDefaultValue|value stored: Unknown
+Sat 2010/05/01 02:07:20.639|   |main|StringDefaultValue|value stored: Unnamed object
+Sat 2010/05/01 02:07:20.640|   |main|StringDefaultValue|value stored: Unnamed element
+Sat 2010/05/01 02:07:20.641|   |main|StringDefaultValue|value stored: Unnamed sample
+Sat 2010/05/01 02:07:20.642|   |main|StringDefaultValue|value stored: Unnamed radius
+Sat 2010/05/01 02:07:20.642|   |main|StringDefaultValue|value stored: Unnamed series
+Sat 2010/05/01 02:07:20.643|   |main|StringDefaultValue|value stored: Unnamed series
+Sat 2010/05/01 02:07:20.644|   |main|StringDefaultValue|value stored: TRiDaSDendroFileIO
+Sat 2010/05/01 02:07:20.645|   |main|AbstractDendroFileReader|loading file from: TestData/Heidelberg/UAKK0530.fh
+Sat 2010/05/01 02:07:20.665|   |main|StringDefaultValue|value stored: Unnamed project
+Sat 2010/05/01 02:07:20.665|   |main|StringDefaultValue|value stored: Unknown
+Sat 2010/05/01 02:07:20.666|   |main|StringDefaultValue|value stored: Unknown
+Sat 2010/05/01 02:07:20.667|   |main|StringDefaultValue|value stored: Unnamed object
+Sat 2010/05/01 02:07:20.668|   |main|StringDefaultValue|value stored: Unnamed element
+Sat 2010/05/01 02:07:20.668|   |main|StringDefaultValue|value stored: Unnamed sample
+Sat 2010/05/01 02:07:20.669|   |main|StringDefaultValue|value stored: Unnamed radius
+Sat 2010/05/01 02:07:20.670|   |main|StringDefaultValue|value stored: Unnamed series
+Sat 2010/05/01 02:07:20.670|   |main|StringDefaultValue|value stored: Unnamed series
+Sat 2010/05/01 02:07:20.671|   |main|StringDefaultValue|value stored: TRiDaSDendroFileIO
+Sat 2010/05/01 02:07:20.673|   |main|StringDefaultValue|value stored: 1234567
+Sat 2010/05/01 02:07:20.674|   |main|StringDefaultValue|value stored: Tree
+Sat 2010/05/01 02:07:20.674|   |main|StringDefaultValue|value stored: Single curve
+Sat 2010/05/01 02:07:20.675|   |main|HeidelbergReader|Could not find data in file.
+Sat 2010/05/01 02:07:20.677|   |main|StringDefaultValue|value stored: UAKK0530
+Sat 2010/05/01 02:09:59.737|   |main|StringDefaultValue|value stored: Unnamed project
+Sat 2010/05/01 02:09:59.757|   |main|StringDefaultValue|value stored: Unknown
+Sat 2010/05/01 02:09:59.758|   |main|StringDefaultValue|value stored: Unknown
+Sat 2010/05/01 02:09:59.759|   |main|StringDefaultValue|value stored: Unnamed object
+Sat 2010/05/01 02:09:59.759|   |main|StringDefaultValue|value stored: Unnamed element
+Sat 2010/05/01 02:09:59.760|   |main|StringDefaultValue|value stored: Unnamed sample
+Sat 2010/05/01 02:09:59.761|   |main|StringDefaultValue|value stored: Unnamed radius
+Sat 2010/05/01 02:09:59.761|   |main|StringDefaultValue|value stored: Unnamed series
+Sat 2010/05/01 02:09:59.764|   |main|StringDefaultValue|value stored: Unnamed series
+Sat 2010/05/01 02:09:59.765|   |main|StringDefaultValue|value stored: TRiDaSDendroFileIO
+Sat 2010/05/01 02:09:59.766|   |main|StringDefaultValue|value stored: Unnamed project
+Sat 2010/05/01 02:09:59.767|   |main|StringDefaultValue|value stored: Unknown
+Sat 2010/05/01 02:09:59.768|   |main|StringDefaultValue|value stored: Unknown
+Sat 2010/05/01 02:09:59.769|   |main|StringDefaultValue|value stored: Unnamed object
+Sat 2010/05/01 02:09:59.769|   |main|StringDefaultValue|value stored: Unnamed element
+Sat 2010/05/01 02:09:59.770|   |main|StringDefaultValue|value stored: Unnamed sample
+Sat 2010/05/01 02:09:59.771|   |main|StringDefaultValue|value stored: Unnamed radius
+Sat 2010/05/01 02:09:59.771|   |main|StringDefaultValue|value stored: Unnamed series
+Sat 2010/05/01 02:09:59.772|   |main|StringDefaultValue|value stored: Unnamed series
+Sat 2010/05/01 02:09:59.773|   |main|StringDefaultValue|value stored: TRiDaSDendroFileIO
+Sat 2010/05/01 02:09:59.774|   |main|AbstractDendroFileReader|loading file from: TestData/Heidelberg/UAKK0530.fh
+Sat 2010/05/01 02:09:59.777|   |main|StringDefaultValue|value stored: Unnamed project
+Sat 2010/05/01 02:09:59.778|   |main|StringDefaultValue|value stored: Unknown
+Sat 2010/05/01 02:09:59.781|   |main|StringDefaultValue|value stored: Unknown
+Sat 2010/05/01 02:09:59.782|   |main|StringDefaultValue|value stored: Unnamed object
+Sat 2010/05/01 02:09:59.783|   |main|StringDefaultValue|value stored: Unnamed element
+Sat 2010/05/01 02:09:59.784|   |main|StringDefaultValue|value stored: Unnamed sample
+Sat 2010/05/01 02:09:59.784|   |main|StringDefaultValue|value stored: Unnamed radius
+Sat 2010/05/01 02:09:59.785|   |main|StringDefaultValue|value stored: Unnamed series
+Sat 2010/05/01 02:09:59.786|   |main|StringDefaultValue|value stored: Unnamed series
+Sat 2010/05/01 02:09:59.786|   |main|StringDefaultValue|value stored: TRiDaSDendroFileIO
+Sat 2010/05/01 02:09:59.787|   |main|HeidelbergReader|Parsing: [Ljava.lang.String;@4e513d61
+Sat 2010/05/01 02:09:59.789|   |main|StringDefaultValue|value stored: 1234567
+Sat 2010/05/01 02:09:59.789|   |main|StringDefaultValue|value stored: Tree
+Sat 2010/05/01 02:09:59.790|   |main|StringDefaultValue|value stored: Single curve
+Sat 2010/05/01 02:09:59.791|   |main|HeidelbergReader|Could not find data in file.
+Sat 2010/05/01 02:11:43.963|   |main|HeidelbergReader|Parsing: [Ljava.lang.String;@4e513d61
+Sat 2010/05/01 02:11:43.964|   |main|StringDefaultValue|value stored: 1234567
+Sat 2010/05/01 02:11:43.965|   |main|StringDefaultValue|value stored: Tree
+Sat 2010/05/01 02:11:43.966|   |main|StringDefaultValue|value stored: Single curve
+Sat 2010/05/01 02:11:49.476|   |main|StringDefaultValue|value stored: HalfChrono
+Sat 2010/05/01 02:11:49.479|   |main|TridasToHeidelbergDefaults|Default value object for field 'LOCATION' was not found, ignoring.
+Sat 2010/05/01 02:11:49.479|   |main|TridasToHeidelbergDefaults|For key/value pair Location/Akkerman  53 ABCD, the key was not found in the enumeration
+Sat 2010/05/01 02:11:49.481|   |main|TridasToHeidelbergDefaults|For key/value pair ImageCount/0, the key was not found in the enumeration
+Sat 2010/05/01 02:11:49.482|   |main|TridasToHeidelbergDefaults|Default value object for field 'DATED' was not found, ignoring.
+Sat 2010/05/01 02:11:49.483|   |main|TridasToHeidelbergDefaults|For key/value pair Dated/Dated, the key was not found in the enumeration
+Sat 2010/05/01 02:11:49.485|   |main|TridasToHeidelbergDefaults|For key/value pair BibliographyCount/0, the key was not found in the enumeration
+Sat 2010/05/01 02:11:49.485|   |main|StringDefaultValue|value stored: Mean curve
+Sat 2010/05/01 02:11:49.486|   |main|TridasToHeidelbergDefaults|For key/value pair GlobalMathCommentCount/0, the key was not found in the enumeration
+Sat 2010/05/01 02:11:49.487|   |main|StringDefaultValue|value stored: UAKK0530
+Sat 2010/05/01 02:11:49.488|   |main|TridasToHeidelbergDefaults|Default value object for field 'SPECIES' was not found, ignoring.
+Sat 2010/05/01 02:11:49.488|   |main|TridasToHeidelbergDefaults|For key/value pair Species/QUSP, the key was not found in the enumeration
+Sat 2010/05/01 02:11:49.489|   |main|TridasToHeidelbergDefaults|For key/value pair CommentCount/0, the key was not found in the enumeration
+Sat 2010/05/01 02:12:40.915|   |main|StringDefaultValue|value stored: Unnamed project
+Sat 2010/05/01 02:12:40.937|   |main|StringDefaultValue|value stored: Unknown
+Sat 2010/05/01 02:12:40.938|   |main|StringDefaultValue|value stored: Unknown
+Sat 2010/05/01 02:12:40.939|   |main|StringDefaultValue|value stored: Unnamed object
+Sat 2010/05/01 02:12:40.940|   |main|StringDefaultValue|value stored: Unnamed element
+Sat 2010/05/01 02:12:40.940|   |main|StringDefaultValue|value stored: Unnamed sample
+Sat 2010/05/01 02:12:40.941|   |main|StringDefaultValue|value stored: Unnamed radius
+Sat 2010/05/01 02:12:40.942|   |main|StringDefaultValue|value stored: Unnamed series
+Sat 2010/05/01 02:12:40.945|   |main|StringDefaultValue|value stored: Unnamed series
+Sat 2010/05/01 02:12:40.945|   |main|StringDefaultValue|value stored: TRiDaSDendroFileIO
+Sat 2010/05/01 02:12:40.946|   |main|StringDefaultValue|value stored: Unnamed project
+Sat 2010/05/01 02:12:40.947|   |main|StringDefaultValue|value stored: Unknown
+Sat 2010/05/01 02:12:40.948|   |main|StringDefaultValue|value stored: Unknown
+Sat 2010/05/01 02:12:40.949|   |main|StringDefaultValue|value stored: Unnamed object
+Sat 2010/05/01 02:12:40.949|   |main|StringDefaultValue|value stored: Unnamed element
+Sat 2010/05/01 02:12:40.950|   |main|StringDefaultValue|value stored: Unnamed sample
+Sat 2010/05/01 02:12:40.950|   |main|StringDefaultValue|value stored: Unnamed radius
+Sat 2010/05/01 02:12:40.952|   |main|StringDefaultValue|value stored: Unnamed series
+Sat 2010/05/01 02:12:40.952|   |main|StringDefaultValue|value stored: Unnamed series
+Sat 2010/05/01 02:12:40.953|   |main|StringDefaultValue|value stored: TRiDaSDendroFileIO
+Sat 2010/05/01 02:12:40.955|   |main|AbstractDendroFileReader|loading file from: TestData/Heidelberg/UAKK0530.fh
+Sat 2010/05/01 02:12:40.958|   |main|StringDefaultValue|value stored: Unnamed project
+Sat 2010/05/01 02:12:40.958|   |main|StringDefaultValue|value stored: Unknown
+Sat 2010/05/01 02:12:40.959|   |main|StringDefaultValue|value stored: Unknown
+Sat 2010/05/01 02:12:40.960|   |main|StringDefaultValue|value stored: Unnamed object
+Sat 2010/05/01 02:12:40.960|   |main|StringDefaultValue|value stored: Unnamed element
+Sat 2010/05/01 02:12:40.961|   |main|StringDefaultValue|value stored: Unnamed sample
+Sat 2010/05/01 02:12:40.962|   |main|StringDefaultValue|value stored: Unnamed radius
+Sat 2010/05/01 02:12:40.962|   |main|StringDefaultValue|value stored: Unnamed series
+Sat 2010/05/01 02:12:40.963|   |main|StringDefaultValue|value stored: Unnamed series
+Sat 2010/05/01 02:12:40.964|   |main|StringDefaultValue|value stored: TRiDaSDendroFileIO
+Sat 2010/05/01 02:12:40.964|   |main|HeidelbergReader|Parsing: [Ljava.lang.String;@122e7820
+Sat 2010/05/01 02:12:40.966|   |main|StringDefaultValue|value stored: 1234567
+Sat 2010/05/01 02:12:40.967|   |main|StringDefaultValue|value stored: Tree
+Sat 2010/05/01 02:12:40.967|   |main|StringDefaultValue|value stored: Single curve
+Sat 2010/05/01 02:12:40.968|   |main|StringDefaultValue|value stored: HalfChrono
+Sat 2010/05/01 02:12:40.969|   |main|TridasToHeidelbergDefaults|Default value object for field 'LOCATION' was not found, ignoring.
+Sat 2010/05/01 02:12:40.970|   |main|TridasToHeidelbergDefaults|For key/value pair Location/Akkerman  53 ABCD, the key was not found in the enumeration
+Sat 2010/05/01 02:12:40.971|   |main|TridasToHeidelbergDefaults|For key/value pair ImageCount/0, the key was not found in the enumeration
+Sat 2010/05/01 02:12:40.972|   |main|TridasToHeidelbergDefaults|Default value object for field 'DATED' was not found, ignoring.
+Sat 2010/05/01 02:12:40.972|   |main|TridasToHeidelbergDefaults|For key/value pair Dated/Dated, the key was not found in the enumeration
+Sat 2010/05/01 02:12:40.973|   |main|TridasToHeidelbergDefaults|For key/value pair BibliographyCount/0, the key was not found in the enumeration
+Sat 2010/05/01 02:12:40.974|   |main|StringDefaultValue|value stored: Mean curve
+Sat 2010/05/01 02:12:40.975|   |main|TridasToHeidelbergDefaults|For key/value pair GlobalMathCommentCount/0, the key was not found in the enumeration
+Sat 2010/05/01 02:12:40.975|   |main|StringDefaultValue|value stored: UAKK0530
+Sat 2010/05/01 02:12:40.976|   |main|TridasToHeidelbergDefaults|Default value object for field 'SPECIES' was not found, ignoring.
+Sat 2010/05/01 02:12:40.977|   |main|TridasToHeidelbergDefaults|For key/value pair Species/QUSP, the key was not found in the enumeration
+Sat 2010/05/01 02:12:40.977|   |main|TridasToHeidelbergDefaults|For key/value pair CommentCount/0, the key was not found in the enumeration
+Sat 2010/05/01 02:13:45.672|   |main|StringDefaultValue|value stored: Unnamed project
+Sat 2010/05/01 02:13:45.694|   |main|StringDefaultValue|value stored: Unknown
+Sat 2010/05/01 02:13:45.694|   |main|StringDefaultValue|value stored: Unknown
+Sat 2010/05/01 02:13:45.695|   |main|StringDefaultValue|value stored: Unnamed object
+Sat 2010/05/01 02:13:45.696|   |main|StringDefaultValue|value stored: Unnamed element
+Sat 2010/05/01 02:13:45.697|   |main|StringDefaultValue|value stored: Unnamed sample
+Sat 2010/05/01 02:13:45.698|   |main|StringDefaultValue|value stored: Unnamed radius
+Sat 2010/05/01 02:13:45.698|   |main|StringDefaultValue|value stored: Unnamed series
+Sat 2010/05/01 02:13:45.701|   |main|StringDefaultValue|value stored: Unnamed series
+Sat 2010/05/01 02:13:45.702|   |main|StringDefaultValue|value stored: TRiDaSDendroFileIO
+Sat 2010/05/01 02:13:45.703|   |main|StringDefaultValue|value stored: Unnamed project
+Sat 2010/05/01 02:13:45.704|   |main|StringDefaultValue|value stored: Unknown
+Sat 2010/05/01 02:13:45.705|   |main|StringDefaultValue|value stored: Unknown
+Sat 2010/05/01 02:13:45.705|   |main|StringDefaultValue|value stored: Unnamed object
+Sat 2010/05/01 02:13:45.706|   |main|StringDefaultValue|value stored: Unnamed element
+Sat 2010/05/01 02:13:45.707|   |main|StringDefaultValue|value stored: Unnamed sample
+Sat 2010/05/01 02:13:45.707|   |main|StringDefaultValue|value stored: Unnamed radius
+Sat 2010/05/01 02:13:45.708|   |main|StringDefaultValue|value stored: Unnamed series
+Sat 2010/05/01 02:13:45.709|   |main|StringDefaultValue|value stored: Unnamed series
+Sat 2010/05/01 02:13:45.709|   |main|StringDefaultValue|value stored: TRiDaSDendroFileIO
+Sat 2010/05/01 02:13:45.711|   |main|AbstractDendroFileReader|loading file from: TestData/Heidelberg/UAKK0530.fh
+Sat 2010/05/01 02:13:45.714|   |main|StringDefaultValue|value stored: Unnamed project
+Sat 2010/05/01 02:13:45.715|   |main|StringDefaultValue|value stored: Unknown
+Sat 2010/05/01 02:13:45.716|   |main|StringDefaultValue|value stored: Unknown
+Sat 2010/05/01 02:13:45.717|   |main|StringDefaultValue|value stored: Unnamed object
+Sat 2010/05/01 02:13:45.718|   |main|StringDefaultValue|value stored: Unnamed element
+Sat 2010/05/01 02:13:45.718|   |main|StringDefaultValue|value stored: Unnamed sample
+Sat 2010/05/01 02:13:45.719|   |main|StringDefaultValue|value stored: Unnamed radius
+Sat 2010/05/01 02:13:45.720|   |main|StringDefaultValue|value stored: Unnamed series
+Sat 2010/05/01 02:13:45.720|   |main|StringDefaultValue|value stored: Unnamed series
+Sat 2010/05/01 02:13:45.721|   |main|StringDefaultValue|value stored: TRiDaSDendroFileIO
+Sat 2010/05/01 02:13:45.722|   |main|HeidelbergReader|Parsing: [Ljava.lang.String;@122e7820
+Sat 2010/05/01 02:13:45.724|   |main|StringDefaultValue|value stored: 1234567
+Sat 2010/05/01 02:13:45.724|   |main|StringDefaultValue|value stored: Tree
+Sat 2010/05/01 02:13:45.725|   |main|StringDefaultValue|value stored: Single curve
+Sat 2010/05/01 02:13:45.726|   |main|StringDefaultValue|value stored: HalfChrono
+Sat 2010/05/01 02:13:45.727|   |main|TridasToHeidelbergDefaults|Default value object for field 'LOCATION' was not found, ignoring.
+Sat 2010/05/01 02:13:45.728|   |main|TridasToHeidelbergDefaults|For key/value pair Location/Akkerman  53 ABCD, the key was not found in the enumeration
+Sat 2010/05/01 02:13:45.728|   |main|TridasToHeidelbergDefaults|For key/value pair ImageCount/0, the key was not found in the enumeration
+Sat 2010/05/01 02:13:45.730|   |main|TridasToHeidelbergDefaults|Default value object for field 'DATED' was not found, ignoring.
+Sat 2010/05/01 02:13:45.733|   |main|TridasToHeidelbergDefaults|For key/value pair Dated/Dated, the key was not found in the enumeration
+Sat 2010/05/01 02:13:45.734|   |main|TridasToHeidelbergDefaults|For key/value pair BibliographyCount/0, the key was not found in the enumeration
+Sat 2010/05/01 02:13:45.735|   |main|StringDefaultValue|value stored: Mean curve
+Sat 2010/05/01 02:13:45.735|   |main|TridasToHeidelbergDefaults|For key/value pair GlobalMathCommentCount/0, the key was not found in the enumeration
+Sat 2010/05/01 02:13:45.749|   |main|StringDefaultValue|value stored: UAKK0530
+Sat 2010/05/01 02:13:45.750|   |main|TridasToHeidelbergDefaults|Default value object for field 'SPECIES' was not found, ignoring.
+Sat 2010/05/01 02:13:45.751|   |main|TridasToHeidelbergDefaults|For key/value pair Species/QUSP, the key was not found in the enumeration
+Sat 2010/05/01 02:13:45.752|   |main|TridasToHeidelbergDefaults|For key/value pair CommentCount/0, the key was not found in the enumeration
+Sat 2010/05/01 02:13:45.814|   |main|StringDefaultValue|value stored: Unnamed project
+Sat 2010/05/01 02:13:45.815|   |main|StringDefaultValue|value stored: Unknown
+Sat 2010/05/01 02:13:45.816|   |main|StringDefaultValue|value stored: Unknown
+Sat 2010/05/01 02:13:45.817|   |main|StringDefaultValue|value stored: Unnamed object
+Sat 2010/05/01 02:13:45.818|   |main|StringDefaultValue|value stored: Unnamed element
+Sat 2010/05/01 02:13:45.818|   |main|StringDefaultValue|value stored: Unnamed sample
+Sat 2010/05/01 02:13:45.820|   |main|StringDefaultValue|value stored: Unnamed radius
+Sat 2010/05/01 02:13:45.820|   |main|StringDefaultValue|value stored: Unnamed series
+Sat 2010/05/01 02:13:45.821|   |main|StringDefaultValue|value stored: Unnamed series
+Sat 2010/05/01 02:13:45.822|   |main|StringDefaultValue|value stored: TRiDaSDendroFileIO
+Sat 2010/05/01 02:13:45.824|   |main|StringDefaultValue|value stored: Unnamed project
+Sat 2010/05/01 02:13:45.826|   |main|StringDefaultValue|value stored: Unknown
+Sat 2010/05/01 02:13:45.827|   |main|StringDefaultValue|value stored: Unknown
+Sat 2010/05/01 02:13:45.828|   |main|StringDefaultValue|value stored: Unnamed object
+Sat 2010/05/01 02:13:45.828|   |main|StringDefaultValue|value stored: Unnamed element
+Sat 2010/05/01 02:13:45.829|   |main|StringDefaultValue|value stored: Unnamed sample
+Sat 2010/05/01 02:13:45.830|   |main|StringDefaultValue|value stored: Unnamed radius
+Sat 2010/05/01 02:13:45.830|   |main|StringDefaultValue|value stored: Unnamed series
+Sat 2010/05/01 02:13:45.831|   |main|StringDefaultValue|value stored: Unnamed series
+Sat 2010/05/01 02:13:45.832|   |main|StringDefaultValue|value stored: TRiDaSDendroFileIO
+Sat 2010/05/01 02:13:45.834|   |main|StringDefaultValue|value stored: Unnamed project
+Sat 2010/05/01 02:13:45.836|   |main|StringDefaultValue|value stored: Unknown
+Sat 2010/05/01 02:13:45.836|   |main|StringDefaultValue|value stored: Unknown
+Sat 2010/05/01 02:13:45.837|   |main|StringDefaultValue|value stored: Unnamed object
+Sat 2010/05/01 02:13:45.838|   |main|StringDefaultValue|value stored: Unnamed element
+Sat 2010/05/01 02:13:45.840|   |main|StringDefaultValue|value stored: Unnamed sample
+Sat 2010/05/01 02:13:45.840|   |main|StringDefaultValue|value stored: Unnamed radius
+Sat 2010/05/01 02:13:45.841|   |main|StringDefaultValue|value stored: Unnamed series
+Sat 2010/05/01 02:13:45.842|   |main|StringDefaultValue|value stored: Unnamed series
+Sat 2010/05/01 02:13:45.842|   |main|StringDefaultValue|value stored: TRiDaSDendroFileIO
+Sat 2010/05/01 02:15:11.552|   |main|StringDefaultValue|value stored: Unnamed project
+Sat 2010/05/01 02:15:11.574|   |main|StringDefaultValue|value stored: Unknown
+Sat 2010/05/01 02:15:11.575|   |main|StringDefaultValue|value stored: Unknown
+Sat 2010/05/01 02:15:11.575|   |main|StringDefaultValue|value stored: Unnamed object
+Sat 2010/05/01 02:15:11.576|   |main|StringDefaultValue|value stored: Unnamed element
+Sat 2010/05/01 02:15:11.577|   |main|StringDefaultValue|value stored: Unnamed sample
+Sat 2010/05/01 02:15:11.578|   |main|StringDefaultValue|value stored: Unnamed radius
+Sat 2010/05/01 02:15:11.579|   |main|StringDefaultValue|value stored: Unnamed series
+Sat 2010/05/01 02:15:11.582|   |main|StringDefaultValue|value stored: Unnamed series
+Sat 2010/05/01 02:15:11.582|   |main|StringDefaultValue|value stored: TRiDaSDendroFileIO
+Sat 2010/05/01 02:15:11.583|   |main|StringDefaultValue|value stored: Unnamed project
+Sat 2010/05/01 02:15:11.584|   |main|StringDefaultValue|value stored: Unknown
+Sat 2010/05/01 02:15:11.585|   |main|StringDefaultValue|value stored: Unknown
+Sat 2010/05/01 02:15:11.585|   |main|StringDefaultValue|value stored: Unnamed object
+Sat 2010/05/01 02:15:11.586|   |main|StringDefaultValue|value stored: Unnamed element
+Sat 2010/05/01 02:15:11.587|   |main|StringDefaultValue|value stored: Unnamed sample
+Sat 2010/05/01 02:15:11.587|   |main|StringDefaultValue|value stored: Unnamed radius
+Sat 2010/05/01 02:15:11.588|   |main|StringDefaultValue|value stored: Unnamed series
+Sat 2010/05/01 02:15:11.589|   |main|StringDefaultValue|value stored: Unnamed series
+Sat 2010/05/01 02:15:11.589|   |main|StringDefaultValue|value stored: TRiDaSDendroFileIO
+Sat 2010/05/01 02:15:11.591|   |main|AbstractDendroFileReader|loading file from: TestData/Heidelberg/UAKK0530.fh
+Sat 2010/05/01 02:15:11.593|   |main|StringDefaultValue|value stored: Unnamed project
+Sat 2010/05/01 02:15:11.594|   |main|StringDefaultValue|value stored: Unknown
+Sat 2010/05/01 02:15:11.595|   |main|StringDefaultValue|value stored: Unknown
+Sat 2010/05/01 02:15:11.595|   |main|StringDefaultValue|value stored: Unnamed object
+Sat 2010/05/01 02:15:11.597|   |main|StringDefaultValue|value stored: Unnamed element
+Sat 2010/05/01 02:15:11.597|   |main|StringDefaultValue|value stored: Unnamed sample
+Sat 2010/05/01 02:15:11.598|   |main|StringDefaultValue|value stored: Unnamed radius
+Sat 2010/05/01 02:15:11.599|   |main|StringDefaultValue|value stored: Unnamed series
+Sat 2010/05/01 02:15:11.599|   |main|StringDefaultValue|value stored: Unnamed series
+Sat 2010/05/01 02:15:11.601|   |main|StringDefaultValue|value stored: TRiDaSDendroFileIO
+Sat 2010/05/01 02:15:11.601|   |main|HeidelbergReader|Parsing: [Ljava.lang.String;@1f5b0afd
+Sat 2010/05/01 02:15:11.603|   |main|StringDefaultValue|value stored: 1234567
+Sat 2010/05/01 02:15:11.604|   |main|StringDefaultValue|value stored: Tree
+Sat 2010/05/01 02:15:11.605|   |main|StringDefaultValue|value stored: Single curve
+Sat 2010/05/01 02:15:11.606|   |main|StringDefaultValue|value stored: HalfChrono
+Sat 2010/05/01 02:15:11.607|   |main|TridasToHeidelbergDefaults|Default value object for field 'LOCATION' was not found, ignoring.
+Sat 2010/05/01 02:15:11.607|   |main|TridasToHeidelbergDefaults|For key/value pair Location/Akkerman  53 ABCD, the key was not found in the enumeration
+Sat 2010/05/01 02:15:11.609|   |main|TridasToHeidelbergDefaults|For key/value pair ImageCount/0, the key was not found in the enumeration
+Sat 2010/05/01 02:15:11.609|   |main|TridasToHeidelbergDefaults|Default value object for field 'DATED' was not found, ignoring.
+Sat 2010/05/01 02:15:11.610|   |main|TridasToHeidelbergDefaults|For key/value pair Dated/Dated, the key was not found in the enumeration
+Sat 2010/05/01 02:15:11.611|   |main|TridasToHeidelbergDefaults|For key/value pair BibliographyCount/0, the key was not found in the enumeration
+Sat 2010/05/01 02:15:11.612|   |main|StringDefaultValue|value stored: Mean curve
+Sat 2010/05/01 02:15:11.612|   |main|TridasToHeidelbergDefaults|For key/value pair GlobalMathCommentCount/0, the key was not found in the enumeration
+Sat 2010/05/01 02:15:11.613|   |main|StringDefaultValue|value stored: UAKK0530
+Sat 2010/05/01 02:15:11.614|   |main|TridasToHeidelbergDefaults|Default value object for field 'SPECIES' was not found, ignoring.
+Sat 2010/05/01 02:15:11.614|   |main|TridasToHeidelbergDefaults|For key/value pair Species/QUSP, the key was not found in the enumeration
+Sat 2010/05/01 02:15:11.615|   |main|TridasToHeidelbergDefaults|For key/value pair CommentCount/0, the key was not found in the enumeration
+Sat 2010/05/01 02:15:11.676|   |main|StringDefaultValue|value stored: Unnamed project
+Sat 2010/05/01 02:15:11.676|   |main|StringDefaultValue|value stored: Unknown
+Sat 2010/05/01 02:15:11.677|   |main|StringDefaultValue|value stored: Unknown
+Sat 2010/05/01 02:15:11.678|   |main|StringDefaultValue|value stored: Unnamed object
+Sat 2010/05/01 02:15:11.678|   |main|StringDefaultValue|value stored: Unnamed element
+Sat 2010/05/01 02:15:11.679|   |main|StringDefaultValue|value stored: Unnamed sample
+Sat 2010/05/01 02:15:11.680|   |main|StringDefaultValue|value stored: Unnamed radius
+Sat 2010/05/01 02:15:11.680|   |main|StringDefaultValue|value stored: Unnamed series
+Sat 2010/05/01 02:15:11.681|   |main|StringDefaultValue|value stored: Unnamed series
+Sat 2010/05/01 02:15:11.682|   |main|StringDefaultValue|value stored: TRiDaSDendroFileIO
+Sat 2010/05/01 02:15:11.684|   |main|StringDefaultValue|value stored: Unnamed project
+Sat 2010/05/01 02:15:11.684|   |main|StringDefaultValue|value stored: Unknown
+Sat 2010/05/01 02:15:11.685|   |main|StringDefaultValue|value stored: Unknown
+Sat 2010/05/01 02:15:11.686|   |main|StringDefaultValue|value stored: Unnamed object
+Sat 2010/05/01 02:15:11.687|   |main|StringDefaultValue|value stored: Unnamed element
+Sat 2010/05/01 02:15:11.688|   |main|StringDefaultValue|value stored: Unnamed sample
+Sat 2010/05/01 02:15:11.689|   |main|StringDefaultValue|value stored: Unnamed radius
+Sat 2010/05/01 02:15:11.689|   |main|StringDefaultValue|value stored: Unnamed series
+Sat 2010/05/01 02:15:11.690|   |main|StringDefaultValue|value stored: Unnamed series
+Sat 2010/05/01 02:15:11.691|   |main|StringDefaultValue|value stored: TRiDaSDendroFileIO
+Sat 2010/05/01 02:15:11.692|   |main|StringDefaultValue|value stored: Unnamed project
+Sat 2010/05/01 02:15:11.693|   |main|StringDefaultValue|value stored: Unknown
+Sat 2010/05/01 02:15:11.694|   |main|StringDefaultValue|value stored: Unknown
+Sat 2010/05/01 02:15:11.695|   |main|StringDefaultValue|value stored: Unnamed object
+Sat 2010/05/01 02:15:11.695|   |main|StringDefaultValue|value stored: Unnamed element
+Sat 2010/05/01 02:15:11.696|   |main|StringDefaultValue|value stored: Unnamed sample
+Sat 2010/05/01 02:15:11.697|   |main|StringDefaultValue|value stored: Unnamed radius
+Sat 2010/05/01 02:15:11.698|   |main|StringDefaultValue|value stored: Unnamed series
+Sat 2010/05/01 02:15:11.698|   |main|StringDefaultValue|value stored: Unnamed series
+Sat 2010/05/01 02:15:11.699|   |main|StringDefaultValue|value stored: TRiDaSDendroFileIO
+Sat 2010/05/01 02:17:01.966|   |main|StringDefaultValue|value stored: Unnamed project
+Sat 2010/05/01 02:17:01.987|   |main|StringDefaultValue|value stored: Unknown
+Sat 2010/05/01 02:17:01.988|   |main|StringDefaultValue|value stored: Unknown
+Sat 2010/05/01 02:17:01.988|   |main|StringDefaultValue|value stored: Unnamed object
+Sat 2010/05/01 02:17:01.989|   |main|StringDefaultValue|value stored: Unnamed element
+Sat 2010/05/01 02:17:01.990|   |main|StringDefaultValue|value stored: Unnamed sample
+Sat 2010/05/01 02:17:01.991|   |main|StringDefaultValue|value stored: Unnamed radius
+Sat 2010/05/01 02:17:01.991|   |main|StringDefaultValue|value stored: Unnamed series
+Sat 2010/05/01 02:17:01.994|   |main|StringDefaultValue|value stored: Unnamed series
+Sat 2010/05/01 02:17:01.995|   |main|StringDefaultValue|value stored: TRiDaSDendroFileIO
+Sat 2010/05/01 02:17:01.996|   |main|StringDefaultValue|value stored: Unnamed project
+Sat 2010/05/01 02:17:01.997|   |main|StringDefaultValue|value stored: Unknown
+Sat 2010/05/01 02:17:01.997|   |main|StringDefaultValue|value stored: Unknown
+Sat 2010/05/01 02:17:01.998|   |main|StringDefaultValue|value stored: Unnamed object
+Sat 2010/05/01 02:17:01.999|   |main|StringDefaultValue|value stored: Unnamed element
+Sat 2010/05/01 02:17:02.000|   |main|StringDefaultValue|value stored: Unnamed sample
+Sat 2010/05/01 02:17:02.001|   |main|StringDefaultValue|value stored: Unnamed radius
+Sat 2010/05/01 02:17:02.001|   |main|StringDefaultValue|value stored: Unnamed series
+Sat 2010/05/01 02:17:02.002|   |main|StringDefaultValue|value stored: Unnamed series
+Sat 2010/05/01 02:17:02.003|   |main|StringDefaultValue|value stored: TRiDaSDendroFileIO
+Sat 2010/05/01 02:17:02.004|   |main|AbstractDendroFileReader|loading file from: TestData/Heidelberg/UAKK0530.fh
+Sat 2010/05/01 02:17:02.007|   |main|StringDefaultValue|value stored: Unnamed project
+Sat 2010/05/01 02:17:02.007|   |main|StringDefaultValue|value stored: Unknown
+Sat 2010/05/01 02:17:02.008|   |main|StringDefaultValue|value stored: Unknown
+Sat 2010/05/01 02:17:02.009|   |main|StringDefaultValue|value stored: Unnamed object
+Sat 2010/05/01 02:17:02.010|   |main|StringDefaultValue|value stored: Unnamed element
+Sat 2010/05/01 02:17:02.012|   |main|StringDefaultValue|value stored: Unnamed sample
+Sat 2010/05/01 02:17:02.012|   |main|StringDefaultValue|value stored: Unnamed radius
+Sat 2010/05/01 02:17:02.013|   |main|StringDefaultValue|value stored: Unnamed series
+Sat 2010/05/01 02:17:02.014|   |main|StringDefaultValue|value stored: Unnamed series
+Sat 2010/05/01 02:17:02.015|   |main|StringDefaultValue|value stored: TRiDaSDendroFileIO
+Sat 2010/05/01 02:17:02.015|   |main|HeidelbergReader|Parsing: [Ljava.lang.String;@30384065
+Sat 2010/05/01 02:17:02.017|   |main|StringDefaultValue|value stored: 1234567
+Sat 2010/05/01 02:17:02.018|   |main|StringDefaultValue|value stored: Tree
+Sat 2010/05/01 02:17:02.019|   |main|StringDefaultValue|value stored: Single curve
+Sat 2010/05/01 02:17:12.579|   |main|StringDefaultValue|value stored: HalfChrono
+Sat 2010/05/01 02:17:12.580|   |main|TridasToHeidelbergDefaults|Default value object for field 'LOCATION' was not found, ignoring.
+Sat 2010/05/01 02:17:12.581|   |main|TridasToHeidelbergDefaults|For key/value pair Location/Akkerman  53 ABCD, the key was not found in the enumeration
+Sat 2010/05/01 02:17:12.582|   |main|TridasToHeidelbergDefaults|For key/value pair ImageCount/0, the key was not found in the enumeration
+Sat 2010/05/01 02:17:12.583|   |main|TridasToHeidelbergDefaults|Default value object for field 'DATED' was not found, ignoring.
+Sat 2010/05/01 02:17:12.583|   |main|TridasToHeidelbergDefaults|For key/value pair Dated/Dated, the key was not found in the enumeration
+Sat 2010/05/01 02:17:12.585|   |main|TridasToHeidelbergDefaults|For key/value pair BibliographyCount/0, the key was not found in the enumeration
+Sat 2010/05/01 02:17:12.585|   |main|StringDefaultValue|value stored: Mean curve
+Sat 2010/05/01 02:17:12.586|   |main|TridasToHeidelbergDefaults|For key/value pair GlobalMathCommentCount/0, the key was not found in the enumeration
+Sat 2010/05/01 02:17:12.587|   |main|StringDefaultValue|value stored: UAKK0530
+Sat 2010/05/01 02:17:12.588|   |main|TridasToHeidelbergDefaults|Default value object for field 'SPECIES' was not found, ignoring.
+Sat 2010/05/01 02:17:12.588|   |main|TridasToHeidelbergDefaults|For key/value pair Species/QUSP, the key was not found in the enumeration
+Sat 2010/05/01 02:17:12.589|   |main|TridasToHeidelbergDefaults|For key/value pair CommentCount/0, the key was not found in the enumeration
+Sat 2010/05/01 02:17:12.658|   |main|StringDefaultValue|value stored: Unnamed project
+Sat 2010/05/01 02:17:12.666|   |main|StringDefaultValue|value stored: Unknown
+Sat 2010/05/01 02:17:12.667|   |main|StringDefaultValue|value stored: Unknown
+Sat 2010/05/01 02:17:12.668|   |main|StringDefaultValue|value stored: Unnamed object
+Sat 2010/05/01 02:17:12.668|   |main|StringDefaultValue|value stored: Unnamed element
+Sat 2010/05/01 02:17:12.669|   |main|StringDefaultValue|value stored: Unnamed sample
+Sat 2010/05/01 02:17:12.670|   |main|StringDefaultValue|value stored: Unnamed radius
+Sat 2010/05/01 02:17:12.671|   |main|StringDefaultValue|value stored: Unnamed series
+Sat 2010/05/01 02:17:12.672|   |main|StringDefaultValue|value stored: Unnamed series
+Sat 2010/05/01 02:17:12.672|   |main|StringDefaultValue|value stored: TRiDaSDendroFileIO
+Sat 2010/05/01 02:17:12.674|   |main|StringDefaultValue|value stored: Unnamed project
+Sat 2010/05/01 02:17:12.687|   |main|StringDefaultValue|value stored: Unknown
+Sat 2010/05/01 02:17:12.688|   |main|StringDefaultValue|value stored: Unknown
+Sat 2010/05/01 02:17:12.688|   |main|StringDefaultValue|value stored: Unnamed object
+Sat 2010/05/01 02:17:12.689|   |main|StringDefaultValue|value stored: Unnamed element
+Sat 2010/05/01 02:17:12.689|   |main|StringDefaultValue|value stored: Unnamed sample
+Sat 2010/05/01 02:17:12.690|   |main|StringDefaultValue|value stored: Unnamed radius
+Sat 2010/05/01 02:17:12.691|   |main|StringDefaultValue|value stored: Unnamed series
+Sat 2010/05/01 02:17:12.692|   |main|StringDefaultValue|value stored: Unnamed series
+Sat 2010/05/01 02:17:12.692|   |main|StringDefaultValue|value stored: TRiDaSDendroFileIO
+Sat 2010/05/01 02:17:12.694|   |main|StringDefaultValue|value stored: Unnamed project
+Sat 2010/05/01 02:17:12.695|   |main|StringDefaultValue|value stored: Unknown
+Sat 2010/05/01 02:17:12.696|   |main|StringDefaultValue|value stored: Unknown
+Sat 2010/05/01 02:17:12.697|   |main|StringDefaultValue|value stored: Unnamed object
+Sat 2010/05/01 02:17:12.697|   |main|StringDefaultValue|value stored: Unnamed element
+Sat 2010/05/01 02:17:12.698|   |main|StringDefaultValue|value stored: Unnamed sample
+Sat 2010/05/01 02:17:12.699|   |main|StringDefaultValue|value stored: Unnamed radius
+Sat 2010/05/01 02:17:12.703|   |main|StringDefaultValue|value stored: Unnamed series
+Sat 2010/05/01 02:17:12.704|   |main|StringDefaultValue|value stored: Unnamed series
+Sat 2010/05/01 02:17:12.704|   |main|StringDefaultValue|value stored: TRiDaSDendroFileIO
+Sat 2010/05/01 02:17:24.839|   |main|StringDefaultValue|value stored: Unnamed project
+Sat 2010/05/01 02:17:24.859|   |main|StringDefaultValue|value stored: Unknown
+Sat 2010/05/01 02:17:24.860|   |main|StringDefaultValue|value stored: Unknown
+Sat 2010/05/01 02:17:24.861|   |main|StringDefaultValue|value stored: Unnamed object
+Sat 2010/05/01 02:17:24.862|   |main|StringDefaultValue|value stored: Unnamed element
+Sat 2010/05/01 02:17:24.862|   |main|StringDefaultValue|value stored: Unnamed sample
+Sat 2010/05/01 02:17:24.863|   |main|StringDefaultValue|value stored: Unnamed radius
+Sat 2010/05/01 02:17:24.864|   |main|StringDefaultValue|value stored: Unnamed series
+Sat 2010/05/01 02:17:24.867|   |main|StringDefaultValue|value stored: Unnamed series
+Sat 2010/05/01 02:17:24.868|   |main|StringDefaultValue|value stored: TRiDaSDendroFileIO
+Sat 2010/05/01 02:17:24.869|   |main|StringDefaultValue|value stored: Unnamed project
+Sat 2010/05/01 02:17:24.869|   |main|StringDefaultValue|value stored: Unknown
+Sat 2010/05/01 02:17:24.870|   |main|StringDefaultValue|value stored: Unknown
+Sat 2010/05/01 02:17:24.871|   |main|StringDefaultValue|value stored: Unnamed object
+Sat 2010/05/01 02:17:24.871|   |main|StringDefaultValue|value stored: Unnamed element
+Sat 2010/05/01 02:17:24.872|   |main|StringDefaultValue|value stored: Unnamed sample
+Sat 2010/05/01 02:17:24.873|   |main|StringDefaultValue|value stored: Unnamed radius
+Sat 2010/05/01 02:17:24.873|   |main|StringDefaultValue|value stored: Unnamed series
+Sat 2010/05/01 02:17:24.874|   |main|StringDefaultValue|value stored: Unnamed series
+Sat 2010/05/01 02:17:24.875|   |main|StringDefaultValue|value stored: TRiDaSDendroFileIO
+Sat 2010/05/01 02:17:24.876|   |main|AbstractDendroFileReader|loading file from: TestData/Heidelberg/UAKK0530.fh
+Sat 2010/05/01 02:17:24.879|   |main|StringDefaultValue|value stored: Unnamed project
+Sat 2010/05/01 02:17:24.880|   |main|StringDefaultValue|value stored: Unknown
+Sat 2010/05/01 02:17:24.880|   |main|StringDefaultValue|value stored: Unknown
+Sat 2010/05/01 02:17:24.881|   |main|StringDefaultValue|value stored: Unnamed object
+Sat 2010/05/01 02:17:24.882|   |main|StringDefaultValue|value stored: Unnamed element
+Sat 2010/05/01 02:17:24.883|   |main|StringDefaultValue|value stored: Unnamed sample
+Sat 2010/05/01 02:17:24.883|   |main|StringDefaultValue|value stored: Unnamed radius
+Sat 2010/05/01 02:17:24.884|   |main|StringDefaultValue|value stored: Unnamed series
+Sat 2010/05/01 02:17:24.885|   |main|StringDefaultValue|value stored: Unnamed series
+Sat 2010/05/01 02:17:24.885|   |main|StringDefaultValue|value stored: TRiDaSDendroFileIO
+Sat 2010/05/01 02:17:24.886|   |main|HeidelbergReader|Parsing: [Ljava.lang.String;@5982bcde
+Sat 2010/05/01 02:17:24.888|   |main|StringDefaultValue|value stored: 1234567
+Sat 2010/05/01 02:17:24.889|   |main|StringDefaultValue|value stored: Tree
+Sat 2010/05/01 02:17:24.889|   |main|StringDefaultValue|value stored: Single curve
+Sat 2010/05/01 02:17:24.891|   |main|StringDefaultValue|value stored: HalfChrono
+Sat 2010/05/01 02:17:24.892|   |main|TridasToHeidelbergDefaults|Default value object for field 'LOCATION' was not found, ignoring.
+Sat 2010/05/01 02:17:24.892|   |main|TridasToHeidelbergDefaults|For key/value pair Location/Akkerman  53 ABCD, the key was not found in the enumeration
+Sat 2010/05/01 02:17:24.893|   |main|TridasToHeidelbergDefaults|For key/value pair ImageCount/0, the key was not found in the enumeration
+Sat 2010/05/01 02:17:24.894|   |main|TridasToHeidelbergDefaults|Default value object for field 'DATED' was not found, ignoring.
+Sat 2010/05/01 02:17:24.894|   |main|TridasToHeidelbergDefaults|For key/value pair Dated/Dated, the key was not found in the enumeration
+Sat 2010/05/01 02:17:24.896|   |main|TridasToHeidelbergDefaults|For key/value pair BibliographyCount/0, the key was not found in the enumeration
+Sat 2010/05/01 02:17:24.896|   |main|StringDefaultValue|value stored: Mean curve
+Sat 2010/05/01 02:17:24.897|   |main|TridasToHeidelbergDefaults|For key/value pair GlobalMathCommentCount/0, the key was not found in the enumeration
+Sat 2010/05/01 02:17:24.898|   |main|StringDefaultValue|value stored: UAKK0530
+Sat 2010/05/01 02:17:24.898|   |main|TridasToHeidelbergDefaults|Default value object for field 'SPECIES' was not found, ignoring.
+Sat 2010/05/01 02:17:24.899|   |main|TridasToHeidelbergDefaults|For key/value pair Species/QUSP, the key was not found in the enumeration
+Sat 2010/05/01 02:17:24.900|   |main|TridasToHeidelbergDefaults|For key/value pair CommentCount/0, the key was not found in the enumeration
+Sat 2010/05/01 02:17:24.959|   |main|StringDefaultValue|value stored: Unnamed project
+Sat 2010/05/01 02:17:24.960|   |main|StringDefaultValue|value stored: Unknown
+Sat 2010/05/01 02:17:24.960|   |main|StringDefaultValue|value stored: Unknown
+Sat 2010/05/01 02:17:24.968|   |main|StringDefaultValue|value stored: Unnamed object
+Sat 2010/05/01 02:17:24.968|   |main|StringDefaultValue|value stored: Unnamed element
+Sat 2010/05/01 02:17:24.969|   |main|StringDefaultValue|value stored: Unnamed sample
+Sat 2010/05/01 02:17:24.970|   |main|StringDefaultValue|value stored: Unnamed radius
+Sat 2010/05/01 02:17:24.970|   |main|StringDefaultValue|value stored: Unnamed series
+Sat 2010/05/01 02:17:24.971|   |main|StringDefaultValue|value stored: Unnamed series
+Sat 2010/05/01 02:17:24.972|   |main|StringDefaultValue|value stored: TRiDaSDendroFileIO
+Sat 2010/05/01 02:17:24.974|   |main|StringDefaultValue|value stored: Unnamed project
+Sat 2010/05/01 02:17:24.974|   |main|StringDefaultValue|value stored: Unknown
+Sat 2010/05/01 02:17:24.975|   |main|StringDefaultValue|value stored: Unknown
+Sat 2010/05/01 02:17:24.976|   |main|StringDefaultValue|value stored: Unnamed object
+Sat 2010/05/01 02:17:24.977|   |main|StringDefaultValue|value stored: Unnamed element
+Sat 2010/05/01 02:17:24.977|   |main|StringDefaultValue|value stored: Unnamed sample
+Sat 2010/05/01 02:17:24.978|   |main|StringDefaultValue|value stored: Unnamed radius
+Sat 2010/05/01 02:17:24.979|   |main|StringDefaultValue|value stored: Unnamed series
+Sat 2010/05/01 02:17:24.980|   |main|StringDefaultValue|value stored: Unnamed series
+Sat 2010/05/01 02:17:24.980|   |main|StringDefaultValue|value stored: TRiDaSDendroFileIO
+Sat 2010/05/01 02:17:24.982|   |main|StringDefaultValue|value stored: Unnamed project
+Sat 2010/05/01 02:17:24.983|   |main|StringDefaultValue|value stored: Unknown
+Sat 2010/05/01 02:17:24.983|   |main|StringDefaultValue|value stored: Unknown
+Sat 2010/05/01 02:17:24.984|   |main|StringDefaultValue|value stored: Unnamed object
+Sat 2010/05/01 02:17:24.984|   |main|StringDefaultValue|value stored: Unnamed element
+Sat 2010/05/01 02:17:24.985|   |main|StringDefaultValue|value stored: Unnamed sample
+Sat 2010/05/01 02:17:24.986|   |main|StringDefaultValue|value stored: Unnamed radius
+Sat 2010/05/01 02:17:24.986|   |main|StringDefaultValue|value stored: Unnamed series
+Sat 2010/05/01 02:17:24.987|   |main|StringDefaultValue|value stored: Unnamed series
+Sat 2010/05/01 02:17:24.988|   |main|StringDefaultValue|value stored: TRiDaSDendroFileIO
+Sat 2010/05/01 02:17:40.872|   |main|StringDefaultValue|value stored: Unnamed project
+Sat 2010/05/01 02:17:40.895|   |main|StringDefaultValue|value stored: Unknown
+Sat 2010/05/01 02:17:40.895|   |main|StringDefaultValue|value stored: Unknown
+Sat 2010/05/01 02:17:40.896|   |main|StringDefaultValue|value stored: Unnamed object
+Sat 2010/05/01 02:17:40.897|   |main|StringDefaultValue|value stored: Unnamed element
+Sat 2010/05/01 02:17:40.898|   |main|StringDefaultValue|value stored: Unnamed sample
+Sat 2010/05/01 02:17:40.899|   |main|StringDefaultValue|value stored: Unnamed radius
+Sat 2010/05/01 02:17:40.900|   |main|StringDefaultValue|value stored: Unnamed series
+Sat 2010/05/01 02:17:40.904|   |main|StringDefaultValue|value stored: Unnamed series
+Sat 2010/05/01 02:17:40.905|   |main|StringDefaultValue|value stored: TRiDaSDendroFileIO
+Sat 2010/05/01 02:17:40.907|   |main|StringDefaultValue|value stored: Unnamed project
+Sat 2010/05/01 02:17:40.908|   |main|StringDefaultValue|value stored: Unknown
+Sat 2010/05/01 02:17:40.908|   |main|StringDefaultValue|value stored: Unknown
+Sat 2010/05/01 02:17:40.909|   |main|StringDefaultValue|value stored: Unnamed object
+Sat 2010/05/01 02:17:40.910|   |main|StringDefaultValue|value stored: Unnamed element
+Sat 2010/05/01 02:17:40.910|   |main|StringDefaultValue|value stored: Unnamed sample
+Sat 2010/05/01 02:17:40.911|   |main|StringDefaultValue|value stored: Unnamed radius
+Sat 2010/05/01 02:17:40.911|   |main|StringDefaultValue|value stored: Unnamed series
+Sat 2010/05/01 02:17:40.912|   |main|StringDefaultValue|value stored: Unnamed series
+Sat 2010/05/01 02:17:40.913|   |main|StringDefaultValue|value stored: TRiDaSDendroFileIO
+Sat 2010/05/01 02:17:40.915|   |main|AbstractDendroFileReader|loading file from: TestData/Heidelberg/UAKK0530.fh
+Sat 2010/05/01 02:17:40.926|   |main|StringDefaultValue|value stored: Unnamed project
+Sat 2010/05/01 02:17:40.927|   |main|StringDefaultValue|value stored: Unknown
+Sat 2010/05/01 02:17:40.927|   |main|StringDefaultValue|value stored: Unknown
+Sat 2010/05/01 02:17:40.928|   |main|StringDefaultValue|value stored: Unnamed object
+Sat 2010/05/01 02:17:40.929|   |main|StringDefaultValue|value stored: Unnamed element
+Sat 2010/05/01 02:17:40.929|   |main|StringDefaultValue|value stored: Unnamed sample
+Sat 2010/05/01 02:17:40.930|   |main|StringDefaultValue|value stored: Unnamed radius
+Sat 2010/05/01 02:17:40.931|   |main|StringDefaultValue|value stored: Unnamed series
+Sat 2010/05/01 02:17:40.932|   |main|StringDefaultValue|value stored: Unnamed series
+Sat 2010/05/01 02:17:40.932|   |main|StringDefaultValue|value stored: TRiDaSDendroFileIO
+Sat 2010/05/01 02:17:40.933|   |main|HeidelbergReader|Parsing: [Ljava.lang.String;@30384065
+Sat 2010/05/01 02:17:40.935|   |main|StringDefaultValue|value stored: 1234567
+Sat 2010/05/01 02:17:40.936|   |main|StringDefaultValue|value stored: Tree
+Sat 2010/05/01 02:17:40.937|   |main|StringDefaultValue|value stored: Single curve
+Sat 2010/05/01 02:17:40.938|   |main|StringDefaultValue|value stored: HalfChrono
+Sat 2010/05/01 02:17:40.939|   |main|TridasToHeidelbergDefaults|Default value object for field 'LOCATION' was not found, ignoring.
+Sat 2010/05/01 02:17:40.940|   |main|TridasToHeidelbergDefaults|For key/value pair Location/Akkerman  53 ABCD, the key was not found in the enumeration
+Sat 2010/05/01 02:17:40.940|   |main|TridasToHeidelbergDefaults|For key/value pair ImageCount/0, the key was not found in the enumeration
+Sat 2010/05/01 02:17:40.941|   |main|TridasToHeidelbergDefaults|Default value object for field 'DATED' was not found, ignoring.
+Sat 2010/05/01 02:17:40.942|   |main|TridasToHeidelbergDefaults|For key/value pair Dated/Dated, the key was not found in the enumeration
+Sat 2010/05/01 02:17:40.943|   |main|TridasToHeidelbergDefaults|For key/value pair BibliographyCount/0, the key was not found in the enumeration
+Sat 2010/05/01 02:17:40.944|   |main|StringDefaultValue|value stored: Mean curve
+Sat 2010/05/01 02:17:40.944|   |main|TridasToHeidelbergDefaults|For key/value pair GlobalMathCommentCount/0, the key was not found in the enumeration
+Sat 2010/05/01 02:17:40.945|   |main|StringDefaultValue|value stored: UAKK0530
+Sat 2010/05/01 02:17:40.945|   |main|TridasToHeidelbergDefaults|Default value object for field 'SPECIES' was not found, ignoring.
+Sat 2010/05/01 02:17:40.947|   |main|TridasToHeidelbergDefaults|For key/value pair Species/QUSP, the key was not found in the enumeration
+Sat 2010/05/01 02:17:40.948|   |main|TridasToHeidelbergDefaults|For key/value pair CommentCount/0, the key was not found in the enumeration
+Sat 2010/05/01 02:17:41.009|   |main|StringDefaultValue|value stored: Unnamed project
+Sat 2010/05/01 02:17:41.010|   |main|StringDefaultValue|value stored: Unknown
+Sat 2010/05/01 02:17:41.011|   |main|StringDefaultValue|value stored: Unknown
+Sat 2010/05/01 02:17:41.012|   |main|StringDefaultValue|value stored: Unnamed object
+Sat 2010/05/01 02:17:41.012|   |main|StringDefaultValue|value stored: Unnamed element
+Sat 2010/05/01 02:17:41.013|   |main|StringDefaultValue|value stored: Unnamed sample
+Sat 2010/05/01 02:17:41.014|   |main|StringDefaultValue|value stored: Unnamed radius
+Sat 2010/05/01 02:17:41.014|   |main|StringDefaultValue|value stored: Unnamed series
+Sat 2010/05/01 02:17:41.015|   |main|StringDefaultValue|value stored: Unnamed series
+Sat 2010/05/01 02:17:41.016|   |main|StringDefaultValue|value stored: TRiDaSDendroFileIO
+Sat 2010/05/01 02:17:41.018|   |main|StringDefaultValue|value stored: Unnamed project
+Sat 2010/05/01 02:17:41.019|   |main|StringDefaultValue|value stored: Unknown
+Sat 2010/05/01 02:17:41.019|   |main|StringDefaultValue|value stored: Unknown
+Sat 2010/05/01 02:17:41.020|   |main|StringDefaultValue|value stored: Unnamed object
+Sat 2010/05/01 02:17:41.021|   |main|StringDefaultValue|value stored: Unnamed element
+Sat 2010/05/01 02:17:41.021|   |main|StringDefaultValue|value stored: Unnamed sample
+Sat 2010/05/01 02:17:41.022|   |main|StringDefaultValue|value stored: Unnamed radius
+Sat 2010/05/01 02:17:41.023|   |main|StringDefaultValue|value stored: Unnamed series
+Sat 2010/05/01 02:17:41.023|   |main|StringDefaultValue|value stored: Unnamed series
+Sat 2010/05/01 02:17:41.024|   |main|StringDefaultValue|value stored: TRiDaSDendroFileIO
+Sat 2010/05/01 02:17:41.025|   |main|StringDefaultValue|value stored: Unnamed project
+Sat 2010/05/01 02:17:41.027|   |main|StringDefaultValue|value stored: Unknown
+Sat 2010/05/01 02:17:41.028|   |main|StringDefaultValue|value stored: Unknown
+Sat 2010/05/01 02:17:41.029|   |main|StringDefaultValue|value stored: Unnamed object
+Sat 2010/05/01 02:17:41.029|   |main|StringDefaultValue|value stored: Unnamed element
+Sat 2010/05/01 02:17:41.030|   |main|StringDefaultValue|value stored: Unnamed sample
+Sat 2010/05/01 02:17:41.031|   |main|StringDefaultValue|value stored: Unnamed radius
+Sat 2010/05/01 02:17:41.032|   |main|StringDefaultValue|value stored: Unnamed series
+Sat 2010/05/01 02:17:41.032|   |main|StringDefaultValue|value stored: Unnamed series
+Sat 2010/05/01 02:17:41.033|   |main|StringDefaultValue|value stored: TRiDaSDendroFileIO
+Sat 2010/05/01 02:20:55.352|   |main|StringDefaultValue|value stored: Unnamed project
+Sat 2010/05/01 02:20:55.374|   |main|StringDefaultValue|value stored: Unknown
+Sat 2010/05/01 02:20:55.375|   |main|StringDefaultValue|value stored: Unknown
+Sat 2010/05/01 02:20:55.376|   |main|StringDefaultValue|value stored: Unnamed object
+Sat 2010/05/01 02:20:55.377|   |main|StringDefaultValue|value stored: Unnamed element
+Sat 2010/05/01 02:20:55.377|   |main|StringDefaultValue|value stored: Unnamed sample
+Sat 2010/05/01 02:20:55.378|   |main|StringDefaultValue|value stored: Unnamed radius
+Sat 2010/05/01 02:20:55.379|   |main|StringDefaultValue|value stored: Unnamed series
+Sat 2010/05/01 02:20:55.382|   |main|StringDefaultValue|value stored: Unnamed series
+Sat 2010/05/01 02:20:55.383|   |main|StringDefaultValue|value stored: TRiDaSDendroFileIO
+Sat 2010/05/01 02:20:55.384|   |main|StringDefaultValue|value stored: Unnamed project
+Sat 2010/05/01 02:20:55.385|   |main|StringDefaultValue|value stored: Unknown
+Sat 2010/05/01 02:20:55.386|   |main|StringDefaultValue|value stored: Unknown
+Sat 2010/05/01 02:20:55.387|   |main|StringDefaultValue|value stored: Unnamed object
+Sat 2010/05/01 02:20:55.387|   |main|StringDefaultValue|value stored: Unnamed element
+Sat 2010/05/01 02:20:55.388|   |main|StringDefaultValue|value stored: Unnamed sample
+Sat 2010/05/01 02:20:55.389|   |main|StringDefaultValue|value stored: Unnamed radius
+Sat 2010/05/01 02:20:55.389|   |main|StringDefaultValue|value stored: Unnamed series
+Sat 2010/05/01 02:20:55.390|   |main|StringDefaultValue|value stored: Unnamed series
+Sat 2010/05/01 02:20:55.391|   |main|StringDefaultValue|value stored: TRiDaSDendroFileIO
+Sat 2010/05/01 02:20:55.393|   |main|AbstractDendroFileReader|loading file from: TestData/Heidelberg/UAKK0530.fh
+Sat 2010/05/01 02:20:55.396|   |main|StringDefaultValue|value stored: Unnamed project
+Sat 2010/05/01 02:20:55.396|   |main|StringDefaultValue|value stored: Unknown
+Sat 2010/05/01 02:20:55.397|   |main|StringDefaultValue|value stored: Unknown
+Sat 2010/05/01 02:20:55.398|   |main|StringDefaultValue|value stored: Unnamed object
+Sat 2010/05/01 02:20:55.398|   |main|StringDefaultValue|value stored: Unnamed element
+Sat 2010/05/01 02:20:55.399|   |main|StringDefaultValue|value stored: Unnamed sample
+Sat 2010/05/01 02:20:55.399|   |main|StringDefaultValue|value stored: Unnamed radius
+Sat 2010/05/01 02:20:55.400|   |main|StringDefaultValue|value stored: Unnamed series
+Sat 2010/05/01 02:20:55.401|   |main|StringDefaultValue|value stored: Unnamed series
+Sat 2010/05/01 02:20:55.402|   |main|StringDefaultValue|value stored: TRiDaSDendroFileIO
+Sat 2010/05/01 02:20:55.402|   |main|HeidelbergReader|Parsing: [Ljava.lang.String;@62587c94
+Sat 2010/05/01 02:20:55.404|   |main|StringDefaultValue|value stored: 1234567
+Sat 2010/05/01 02:20:55.405|   |main|StringDefaultValue|value stored: Tree
+Sat 2010/05/01 02:20:55.405|   |main|StringDefaultValue|value stored: Single curve
+Sat 2010/05/01 02:20:55.407|   |main|StringDefaultValue|value stored: HalfChrono
+Sat 2010/05/01 02:20:55.407|   |main|TridasToHeidelbergDefaults|Default value object for field 'LOCATION' was not found, ignoring.
+Sat 2010/05/01 02:20:55.408|   |main|TridasToHeidelbergDefaults|For key/value pair Location/Akkerman  53 ABCD, the key was not found in the enumeration
+Sat 2010/05/01 02:20:55.409|   |main|TridasToHeidelbergDefaults|For key/value pair ImageCount/0, the key was not found in the enumeration
+Sat 2010/05/01 02:20:55.409|   |main|TridasToHeidelbergDefaults|Default value object for field 'DATED' was not found, ignoring.
+Sat 2010/05/01 02:20:55.410|   |main|TridasToHeidelbergDefaults|For key/value pair Dated/Dated, the key was not found in the enumeration
+Sat 2010/05/01 02:20:55.411|   |main|TridasToHeidelbergDefaults|For key/value pair BibliographyCount/0, the key was not found in the enumeration
+Sat 2010/05/01 02:20:55.412|   |main|StringDefaultValue|value stored: Mean curve
+Sat 2010/05/01 02:20:55.412|   |main|TridasToHeidelbergDefaults|For key/value pair GlobalMathCommentCount/0, the key was not found in the enumeration
+Sat 2010/05/01 02:20:55.413|   |main|StringDefaultValue|value stored: UAKK0530
+Sat 2010/05/01 02:20:55.414|   |main|TridasToHeidelbergDefaults|Default value object for field 'SPECIES' was not found, ignoring.
+Sat 2010/05/01 02:20:55.415|   |main|TridasToHeidelbergDefaults|For key/value pair Species/QUSP, the key was not found in the enumeration
+Sat 2010/05/01 02:20:55.417|   |main|TridasToHeidelbergDefaults|For key/value pair CommentCount/0, the key was not found in the enumeration
+Sat 2010/05/01 02:20:55.478|   |main|StringDefaultValue|value stored: Unnamed project
+Sat 2010/05/01 02:20:55.479|   |main|StringDefaultValue|value stored: Unknown
+Sat 2010/05/01 02:20:55.480|   |main|StringDefaultValue|value stored: Unknown
+Sat 2010/05/01 02:20:55.480|   |main|StringDefaultValue|value stored: Unnamed object
+Sat 2010/05/01 02:20:55.481|   |main|StringDefaultValue|value stored: Unnamed element
+Sat 2010/05/01 02:20:55.482|   |main|StringDefaultValue|value stored: Unnamed sample
+Sat 2010/05/01 02:20:55.482|   |main|StringDefaultValue|value stored: Unnamed radius
+Sat 2010/05/01 02:20:55.483|   |main|StringDefaultValue|value stored: Unnamed series
+Sat 2010/05/01 02:20:55.484|   |main|StringDefaultValue|value stored: Unnamed series
+Sat 2010/05/01 02:20:55.485|   |main|StringDefaultValue|value stored: TRiDaSDendroFileIO
+Sat 2010/05/01 02:20:55.486|   |main|StringDefaultValue|value stored: Unnamed project
+Sat 2010/05/01 02:20:55.487|   |main|StringDefaultValue|value stored: Unknown
+Sat 2010/05/01 02:20:55.488|   |main|StringDefaultValue|value stored: Unknown
+Sat 2010/05/01 02:20:55.488|   |main|StringDefaultValue|value stored: Unnamed object
+Sat 2010/05/01 02:20:55.489|   |main|StringDefaultValue|value stored: Unnamed element
+Sat 2010/05/01 02:20:55.490|   |main|StringDefaultValue|value stored: Unnamed sample
+Sat 2010/05/01 02:20:55.490|   |main|StringDefaultValue|value stored: Unnamed radius
+Sat 2010/05/01 02:20:55.491|   |main|StringDefaultValue|value stored: Unnamed series
+Sat 2010/05/01 02:20:55.492|   |main|StringDefaultValue|value stored: Unnamed series
+Sat 2010/05/01 02:20:55.492|   |main|StringDefaultValue|value stored: TRiDaSDendroFileIO
+Sat 2010/05/01 02:20:55.493|   |main|StringDefaultValue|value stored: Unnamed project
+Sat 2010/05/01 02:20:55.494|   |main|StringDefaultValue|value stored: Unknown
+Sat 2010/05/01 02:20:55.495|   |main|StringDefaultValue|value stored: Unknown
+Sat 2010/05/01 02:20:55.495|   |main|StringDefaultValue|value stored: Unnamed object
+Sat 2010/05/01 02:20:55.496|   |main|StringDefaultValue|value stored: Unnamed element
+Sat 2010/05/01 02:20:55.497|   |main|StringDefaultValue|value stored: Unnamed sample
+Sat 2010/05/01 02:20:55.497|   |main|StringDefaultValue|value stored: Unnamed radius
+Sat 2010/05/01 02:20:55.498|   |main|StringDefaultValue|value stored: Unnamed series
+Sat 2010/05/01 02:20:55.499|   |main|StringDefaultValue|value stored: Unnamed series
+Sat 2010/05/01 02:20:55.499|   |main|StringDefaultValue|value stored: TRiDaSDendroFileIO
+Sat 2010/05/01 02:20:56.146|   |main|TridasFile|Jaxb error
+Sat 2010/05/01 02:20:56.149|***|main|TridasFile|javax.xml.bind.MarshalException
+ - with linked exception:
+[com.sun.istack.SAXException2: Object "XREF-1d1ed5e5-17df-42b5-a4c1-b70381741f73" is found in an IDREF property but this object doesnt have an ID.]
+javax.xml.bind.MarshalException
+ - with linked exception:
+[com.sun.istack.SAXException2: Object "XREF-1d1ed5e5-17df-42b5-a4c1-b70381741f73" is found in an IDREF property but this object doesnt have an ID.]
+	at com.sun.xml.bind.v2.runtime.MarshallerImpl.write(MarshallerImpl.java:331)
+	at com.sun.xml.bind.v2.runtime.MarshallerImpl.marshal(MarshallerImpl.java:257)
+	at javax.xml.bind.helpers.AbstractMarshallerImpl.marshal(AbstractMarshallerImpl.java:96)
+	at org.tridas.io.formats.tridas.TridasFile.saveToString(TridasFile.java:61)
+	at org.tridas.io.AbstractDendroCollectionWriter.saveAllToDisk(AbstractDendroCollectionWriter.java:121)
+	at org.tridas.io.maventests.ConvertTests.testHeidelberg(ConvertTests.java:52)
+	at sun.reflect.NativeMethodAccessorImpl.invoke0(Native Method)
+	at sun.reflect.NativeMethodAccessorImpl.invoke(NativeMethodAccessorImpl.java:39)
+	at sun.reflect.DelegatingMethodAccessorImpl.invoke(DelegatingMethodAccessorImpl.java:25)
+	at java.lang.reflect.Method.invoke(Method.java:597)
+	at junit.framework.TestCase.runTest(TestCase.java:168)
+	at junit.framework.TestCase.runBare(TestCase.java:134)
+	at junit.framework.TestResult$1.protect(TestResult.java:110)
+	at junit.framework.TestResult.runProtected(TestResult.java:128)
+	at junit.framework.TestResult.run(TestResult.java:113)
+	at junit.framework.TestCase.run(TestCase.java:124)
+	at junit.framework.TestSuite.runTest(TestSuite.java:232)
+	at junit.framework.TestSuite.run(TestSuite.java:227)
+	at org.junit.internal.runners.JUnit38ClassRunner.run(JUnit38ClassRunner.java:83)
+	at org.eclipse.jdt.internal.junit4.runner.JUnit4TestReference.run(JUnit4TestReference.java:46)
+	at org.eclipse.jdt.internal.junit.runner.TestExecution.run(TestExecution.java:38)
+	at org.eclipse.jdt.internal.junit.runner.RemoteTestRunner.runTests(RemoteTestRunner.java:467)
+	at org.eclipse.jdt.internal.junit.runner.RemoteTestRunner.runTests(RemoteTestRunner.java:683)
+	at org.eclipse.jdt.internal.junit.runner.RemoteTestRunner.run(RemoteTestRunner.java:390)
+	at org.eclipse.jdt.internal.junit.runner.RemoteTestRunner.main(RemoteTestRunner.java:197)
+Caused by: com.sun.istack.SAXException2: Object "XREF-1d1ed5e5-17df-42b5-a4c1-b70381741f73" is found in an IDREF property but this object doesnt have an ID.
+	at com.sun.xml.bind.v2.runtime.XMLSerializer.reportError(XMLSerializer.java:244)
+	at com.sun.xml.bind.v2.runtime.XMLSerializer.errorMissingId(XMLSerializer.java:1030)
+	at com.sun.xml.bind.v2.runtime.reflect.TransducedAccessor$IDREFTransducedAccessorImpl.print(TransducedAccessor.java:286)
+	at com.sun.xml.bind.v2.runtime.reflect.TransducedAccessor$IDREFTransducedAccessorImpl.print(TransducedAccessor.java:265)
+	at com.sun.xml.bind.v2.runtime.property.AttributeProperty.serializeAttributes(AttributeProperty.java:97)
+	at com.sun.xml.bind.v2.runtime.ClassBeanInfoImpl.serializeAttributes(ClassBeanInfoImpl.java:331)
+	at com.sun.xml.bind.v2.runtime.XMLSerializer.childAsXsiType(XMLSerializer.java:679)
+	at com.sun.xml.bind.v2.runtime.property.SingleElementNodeProperty.serializeBody(SingleElementNodeProperty.java:150)
+	at com.sun.xml.bind.v2.runtime.ClassBeanInfoImpl.serializeBody(ClassBeanInfoImpl.java:322)
+	at com.sun.xml.bind.v2.runtime.XMLSerializer.childAsXsiType(XMLSerializer.java:681)
+	at com.sun.xml.bind.v2.runtime.property.ArrayElementNodeProperty.serializeItem(ArrayElementNodeProperty.java:65)
+	at com.sun.xml.bind.v2.runtime.property.ArrayElementProperty.serializeListBody(ArrayElementProperty.java:168)
+	at com.sun.xml.bind.v2.runtime.property.ArrayERProperty.serializeBody(ArrayERProperty.java:152)
+	at com.sun.xml.bind.v2.runtime.ClassBeanInfoImpl.serializeBody(ClassBeanInfoImpl.java:322)
+	at com.sun.xml.bind.v2.runtime.XMLSerializer.childAsXsiType(XMLSerializer.java:681)
+	at com.sun.xml.bind.v2.runtime.property.SingleElementNodeProperty.serializeBody(SingleElementNodeProperty.java:150)
+	at com.sun.xml.bind.v2.runtime.ClassBeanInfoImpl.serializeBody(ClassBeanInfoImpl.java:322)
+	at com.sun.xml.bind.v2.runtime.XMLSerializer.childAsXsiType(XMLSerializer.java:681)
+	at com.sun.xml.bind.v2.runtime.property.ArrayElementNodeProperty.serializeItem(ArrayElementNodeProperty.java:65)
+	at com.sun.xml.bind.v2.runtime.property.ArrayElementProperty.serializeListBody(ArrayElementProperty.java:168)
+	at com.sun.xml.bind.v2.runtime.property.ArrayERProperty.serializeBody(ArrayERProperty.java:152)
+	at com.sun.xml.bind.v2.runtime.ClassBeanInfoImpl.serializeBody(ClassBeanInfoImpl.java:322)
+	at com.sun.xml.bind.v2.runtime.XMLSerializer.childAsSoleContent(XMLSerializer.java:589)
+	at com.sun.xml.bind.v2.runtime.ClassBeanInfoImpl.serializeRoot(ClassBeanInfoImpl.java:312)
+	at com.sun.xml.bind.v2.runtime.XMLSerializer.childAsRoot(XMLSerializer.java:490)
+	at com.sun.xml.bind.v2.runtime.MarshallerImpl.write(MarshallerImpl.java:328)
+	... 24 more
+
+Sat 2010/05/01 02:22:42.728|   |main|StringDefaultValue|value stored: Unnamed project
+Sat 2010/05/01 02:22:42.752|   |main|StringDefaultValue|value stored: Unknown
+Sat 2010/05/01 02:22:42.754|   |main|StringDefaultValue|value stored: Unknown
+Sat 2010/05/01 02:22:42.756|   |main|StringDefaultValue|value stored: Unnamed object
+Sat 2010/05/01 02:22:42.757|   |main|StringDefaultValue|value stored: Unnamed element
+Sat 2010/05/01 02:22:42.758|   |main|StringDefaultValue|value stored: Unnamed sample
+Sat 2010/05/01 02:22:42.760|   |main|StringDefaultValue|value stored: Unnamed radius
+Sat 2010/05/01 02:22:42.762|   |main|StringDefaultValue|value stored: Unnamed series
+Sat 2010/05/01 02:22:42.765|   |main|StringDefaultValue|value stored: Unnamed series
+Sat 2010/05/01 02:22:42.767|   |main|StringDefaultValue|value stored: TRiDaSDendroFileIO
+Sat 2010/05/01 02:22:42.769|   |main|StringDefaultValue|value stored: Unnamed project
+Sat 2010/05/01 02:22:42.771|   |main|StringDefaultValue|value stored: Unknown
+Sat 2010/05/01 02:22:42.772|   |main|StringDefaultValue|value stored: Unknown
+Sat 2010/05/01 02:22:42.773|   |main|StringDefaultValue|value stored: Unnamed object
+Sat 2010/05/01 02:22:42.775|   |main|StringDefaultValue|value stored: Unnamed element
+Sat 2010/05/01 02:22:42.775|   |main|StringDefaultValue|value stored: Unnamed sample
+Sat 2010/05/01 02:22:42.776|   |main|StringDefaultValue|value stored: Unnamed radius
+Sat 2010/05/01 02:22:42.777|   |main|StringDefaultValue|value stored: Unnamed series
+Sat 2010/05/01 02:22:42.777|   |main|StringDefaultValue|value stored: Unnamed series
+Sat 2010/05/01 02:22:42.778|   |main|StringDefaultValue|value stored: TRiDaSDendroFileIO
+Sat 2010/05/01 02:22:42.781|   |main|AbstractDendroFileReader|loading file from: TestData/Heidelberg/UAKK0530.fh
+Sat 2010/05/01 02:22:42.785|   |main|StringDefaultValue|value stored: Unnamed project
+Sat 2010/05/01 02:22:42.786|   |main|StringDefaultValue|value stored: Unknown
+Sat 2010/05/01 02:22:42.787|   |main|StringDefaultValue|value stored: Unknown
+Sat 2010/05/01 02:22:42.788|   |main|StringDefaultValue|value stored: Unnamed object
+Sat 2010/05/01 02:22:42.788|   |main|StringDefaultValue|value stored: Unnamed element
+Sat 2010/05/01 02:22:42.789|   |main|StringDefaultValue|value stored: Unnamed sample
+Sat 2010/05/01 02:22:42.790|   |main|StringDefaultValue|value stored: Unnamed radius
+Sat 2010/05/01 02:22:42.790|   |main|StringDefaultValue|value stored: Unnamed series
+Sat 2010/05/01 02:22:42.791|   |main|StringDefaultValue|value stored: Unnamed series
+Sat 2010/05/01 02:22:42.792|   |main|StringDefaultValue|value stored: TRiDaSDendroFileIO
+Sat 2010/05/01 02:22:42.792|   |main|HeidelbergReader|Parsing: [Ljava.lang.String;@62587c94
+Sat 2010/05/01 02:22:42.794|   |main|StringDefaultValue|value stored: 1234567
+Sat 2010/05/01 02:22:42.795|   |main|StringDefaultValue|value stored: Tree
+Sat 2010/05/01 02:22:42.796|   |main|StringDefaultValue|value stored: Single curve
+Sat 2010/05/01 02:22:42.797|   |main|StringDefaultValue|value stored: HalfChrono
+Sat 2010/05/01 02:22:42.798|   |main|TridasToHeidelbergDefaults|Default value object for field 'LOCATION' was not found, ignoring.
+Sat 2010/05/01 02:22:42.798|   |main|TridasToHeidelbergDefaults|For key/value pair Location/Akkerman  53 ABCD, the key was not found in the enumeration
+Sat 2010/05/01 02:22:42.799|   |main|TridasToHeidelbergDefaults|For key/value pair ImageCount/0, the key was not found in the enumeration
+Sat 2010/05/01 02:22:42.800|   |main|TridasToHeidelbergDefaults|Default value object for field 'DATED' was not found, ignoring.
+Sat 2010/05/01 02:22:42.800|   |main|TridasToHeidelbergDefaults|For key/value pair Dated/Dated, the key was not found in the enumeration
+Sat 2010/05/01 02:22:42.801|   |main|TridasToHeidelbergDefaults|For key/value pair BibliographyCount/0, the key was not found in the enumeration
+Sat 2010/05/01 02:22:42.802|   |main|StringDefaultValue|value stored: Mean curve
+Sat 2010/05/01 02:22:42.803|   |main|TridasToHeidelbergDefaults|For key/value pair GlobalMathCommentCount/0, the key was not found in the enumeration
+Sat 2010/05/01 02:22:42.804|   |main|StringDefaultValue|value stored: UAKK0530
+Sat 2010/05/01 02:22:42.804|   |main|TridasToHeidelbergDefaults|Default value object for field 'SPECIES' was not found, ignoring.
+Sat 2010/05/01 02:22:42.805|   |main|TridasToHeidelbergDefaults|For key/value pair Species/QUSP, the key was not found in the enumeration
+Sat 2010/05/01 02:22:42.806|   |main|TridasToHeidelbergDefaults|For key/value pair CommentCount/0, the key was not found in the enumeration
+Sat 2010/05/01 02:22:42.847|   |main|StringDefaultValue|value stored: Unnamed project
+Sat 2010/05/01 02:22:42.865|   |main|StringDefaultValue|value stored: Unknown
+Sat 2010/05/01 02:22:42.869|   |main|StringDefaultValue|value stored: Unknown
+Sat 2010/05/01 02:22:42.870|   |main|StringDefaultValue|value stored: Unnamed object
+Sat 2010/05/01 02:22:42.872|   |main|StringDefaultValue|value stored: Unnamed element
+Sat 2010/05/01 02:22:42.874|   |main|StringDefaultValue|value stored: Unnamed sample
+Sat 2010/05/01 02:22:42.876|   |main|StringDefaultValue|value stored: Unnamed radius
+Sat 2010/05/01 02:22:42.878|   |main|StringDefaultValue|value stored: Unnamed series
+Sat 2010/05/01 02:22:42.879|   |main|StringDefaultValue|value stored: Unnamed series
+Sat 2010/05/01 02:22:42.880|   |main|StringDefaultValue|value stored: TRiDaSDendroFileIO
+Sat 2010/05/01 02:22:42.882|   |main|StringDefaultValue|value stored: Unnamed project
+Sat 2010/05/01 02:22:42.888|   |main|StringDefaultValue|value stored: Unknown
+Sat 2010/05/01 02:22:42.890|   |main|StringDefaultValue|value stored: Unknown
+Sat 2010/05/01 02:22:42.892|   |main|StringDefaultValue|value stored: Unnamed object
+Sat 2010/05/01 02:22:42.893|   |main|StringDefaultValue|value stored: Unnamed element
+Sat 2010/05/01 02:22:42.895|   |main|StringDefaultValue|value stored: Unnamed sample
+Sat 2010/05/01 02:22:42.897|   |main|StringDefaultValue|value stored: Unnamed radius
+Sat 2010/05/01 02:22:42.899|   |main|StringDefaultValue|value stored: Unnamed series
+Sat 2010/05/01 02:22:42.900|   |main|StringDefaultValue|value stored: Unnamed series
+Sat 2010/05/01 02:22:42.902|   |main|StringDefaultValue|value stored: TRiDaSDendroFileIO
+Sat 2010/05/01 02:22:42.904|   |main|StringDefaultValue|value stored: Unnamed project
+Sat 2010/05/01 02:22:42.906|   |main|StringDefaultValue|value stored: Unknown
+Sat 2010/05/01 02:22:42.908|   |main|StringDefaultValue|value stored: Unknown
+Sat 2010/05/01 02:22:42.910|   |main|StringDefaultValue|value stored: Unnamed object
+Sat 2010/05/01 02:22:42.912|   |main|StringDefaultValue|value stored: Unnamed element
+Sat 2010/05/01 02:22:42.914|   |main|StringDefaultValue|value stored: Unnamed sample
+Sat 2010/05/01 02:22:42.915|   |main|StringDefaultValue|value stored: Unnamed radius
+Sat 2010/05/01 02:22:42.917|   |main|StringDefaultValue|value stored: Unnamed series
+Sat 2010/05/01 02:22:42.919|   |main|StringDefaultValue|value stored: Unnamed series
+Sat 2010/05/01 02:22:42.921|   |main|StringDefaultValue|value stored: TRiDaSDendroFileIO
+Sat 2010/05/01 02:24:11.027|   |main|StringDefaultValue|value stored: Unnamed project
+Sat 2010/05/01 02:24:11.046|   |main|StringDefaultValue|value stored: Unknown
+Sat 2010/05/01 02:24:11.047|   |main|StringDefaultValue|value stored: Unknown
+Sat 2010/05/01 02:24:11.047|   |main|StringDefaultValue|value stored: Unnamed object
+Sat 2010/05/01 02:24:11.048|   |main|StringDefaultValue|value stored: Unnamed element
+Sat 2010/05/01 02:24:11.049|   |main|StringDefaultValue|value stored: Unnamed sample
+Sat 2010/05/01 02:24:11.049|   |main|StringDefaultValue|value stored: Unnamed radius
+Sat 2010/05/01 02:24:11.050|   |main|StringDefaultValue|value stored: Unnamed series
+Sat 2010/05/01 02:24:11.053|   |main|StringDefaultValue|value stored: Unnamed series
+Sat 2010/05/01 02:24:11.054|   |main|StringDefaultValue|value stored: TRiDaSDendroFileIO
+Sat 2010/05/01 02:24:11.055|   |main|StringDefaultValue|value stored: Unnamed project
+Sat 2010/05/01 02:24:11.055|   |main|StringDefaultValue|value stored: Unknown
+Sat 2010/05/01 02:24:11.056|   |main|StringDefaultValue|value stored: Unknown
+Sat 2010/05/01 02:24:11.057|   |main|StringDefaultValue|value stored: Unnamed object
+Sat 2010/05/01 02:24:11.057|   |main|StringDefaultValue|value stored: Unnamed element
+Sat 2010/05/01 02:24:11.058|   |main|StringDefaultValue|value stored: Unnamed sample
+Sat 2010/05/01 02:24:11.058|   |main|StringDefaultValue|value stored: Unnamed radius
+Sat 2010/05/01 02:24:11.059|   |main|StringDefaultValue|value stored: Unnamed series
+Sat 2010/05/01 02:24:11.060|   |main|StringDefaultValue|value stored: Unnamed series
+Sat 2010/05/01 02:24:11.061|   |main|StringDefaultValue|value stored: TRiDaSDendroFileIO
+Sat 2010/05/01 02:24:11.062|   |main|AbstractDendroFileReader|loading file from: TestData/Heidelberg/UAKK0530.fh
+Sat 2010/05/01 02:24:11.065|   |main|StringDefaultValue|value stored: Unnamed project
+Sat 2010/05/01 02:24:11.065|   |main|StringDefaultValue|value stored: Unknown
+Sat 2010/05/01 02:24:11.066|   |main|StringDefaultValue|value stored: Unknown
+Sat 2010/05/01 02:24:11.067|   |main|StringDefaultValue|value stored: Unnamed object
+Sat 2010/05/01 02:24:11.067|   |main|StringDefaultValue|value stored: Unnamed element
+Sat 2010/05/01 02:24:11.068|   |main|StringDefaultValue|value stored: Unnamed sample
+Sat 2010/05/01 02:24:11.069|   |main|StringDefaultValue|value stored: Unnamed radius
+Sat 2010/05/01 02:24:11.070|   |main|StringDefaultValue|value stored: Unnamed series
+Sat 2010/05/01 02:24:11.070|   |main|StringDefaultValue|value stored: Unnamed series
+Sat 2010/05/01 02:24:11.071|   |main|StringDefaultValue|value stored: TRiDaSDendroFileIO
+Sat 2010/05/01 02:24:11.072|   |main|HeidelbergReader|Parsing: [Ljava.lang.String;@122e7820
+Sat 2010/05/01 02:24:11.073|   |main|StringDefaultValue|value stored: 1234567
+Sat 2010/05/01 02:24:11.074|   |main|StringDefaultValue|value stored: Tree
+Sat 2010/05/01 02:24:11.075|   |main|StringDefaultValue|value stored: Single curve
+Sat 2010/05/01 02:24:11.076|   |main|StringDefaultValue|value stored: HalfChrono
+Sat 2010/05/01 02:24:11.077|   |main|TridasToHeidelbergDefaults|Default value object for field 'LOCATION' was not found, ignoring.
+Sat 2010/05/01 02:24:11.077|   |main|TridasToHeidelbergDefaults|For key/value pair Location/Akkerman  53 ABCD, the key was not found in the enumeration
+Sat 2010/05/01 02:24:11.078|   |main|TridasToHeidelbergDefaults|For key/value pair ImageCount/0, the key was not found in the enumeration
+Sat 2010/05/01 02:24:11.079|   |main|TridasToHeidelbergDefaults|Default value object for field 'DATED' was not found, ignoring.
+Sat 2010/05/01 02:24:11.079|   |main|TridasToHeidelbergDefaults|For key/value pair Dated/Dated, the key was not found in the enumeration
+Sat 2010/05/01 02:24:11.080|   |main|TridasToHeidelbergDefaults|For key/value pair BibliographyCount/0, the key was not found in the enumeration
+Sat 2010/05/01 02:24:11.081|   |main|StringDefaultValue|value stored: Mean curve
+Sat 2010/05/01 02:24:11.082|   |main|TridasToHeidelbergDefaults|For key/value pair GlobalMathCommentCount/0, the key was not found in the enumeration
+Sat 2010/05/01 02:24:11.082|   |main|StringDefaultValue|value stored: UAKK0530
+Sat 2010/05/01 02:24:11.083|   |main|TridasToHeidelbergDefaults|Default value object for field 'SPECIES' was not found, ignoring.
+Sat 2010/05/01 02:24:11.084|   |main|TridasToHeidelbergDefaults|For key/value pair Species/QUSP, the key was not found in the enumeration
+Sat 2010/05/01 02:24:11.085|   |main|TridasToHeidelbergDefaults|For key/value pair CommentCount/0, the key was not found in the enumeration
+Sat 2010/05/01 02:24:11.126|   |main|StringDefaultValue|value stored: Unnamed project
+Sat 2010/05/01 02:24:11.128|   |main|StringDefaultValue|value stored: Unknown
+Sat 2010/05/01 02:24:11.129|   |main|StringDefaultValue|value stored: Unknown
+Sat 2010/05/01 02:24:11.129|   |main|StringDefaultValue|value stored: Unnamed object
+Sat 2010/05/01 02:24:11.130|   |main|StringDefaultValue|value stored: Unnamed element
+Sat 2010/05/01 02:24:11.131|   |main|StringDefaultValue|value stored: Unnamed sample
+Sat 2010/05/01 02:24:11.132|   |main|StringDefaultValue|value stored: Unnamed radius
+Sat 2010/05/01 02:24:11.132|   |main|StringDefaultValue|value stored: Unnamed series
+Sat 2010/05/01 02:24:11.134|   |main|StringDefaultValue|value stored: Unnamed series
+Sat 2010/05/01 02:24:11.135|   |main|StringDefaultValue|value stored: TRiDaSDendroFileIO
+Sat 2010/05/01 02:24:11.136|   |main|StringDefaultValue|value stored: Unnamed project
+Sat 2010/05/01 02:24:11.137|   |main|StringDefaultValue|value stored: Unknown
+Sat 2010/05/01 02:24:11.138|   |main|StringDefaultValue|value stored: Unknown
+Sat 2010/05/01 02:24:11.144|   |main|StringDefaultValue|value stored: Unnamed object
+Sat 2010/05/01 02:24:11.145|   |main|StringDefaultValue|value stored: Unnamed element
+Sat 2010/05/01 02:24:11.145|   |main|StringDefaultValue|value stored: Unnamed sample
+Sat 2010/05/01 02:24:11.146|   |main|StringDefaultValue|value stored: Unnamed radius
+Sat 2010/05/01 02:24:11.147|   |main|StringDefaultValue|value stored: Unnamed series
+Sat 2010/05/01 02:24:11.147|   |main|StringDefaultValue|value stored: Unnamed series
+Sat 2010/05/01 02:24:11.148|   |main|StringDefaultValue|value stored: TRiDaSDendroFileIO
+Sat 2010/05/01 02:24:11.150|   |main|StringDefaultValue|value stored: Unnamed project
+Sat 2010/05/01 02:24:11.150|   |main|StringDefaultValue|value stored: Unknown
+Sat 2010/05/01 02:24:11.151|   |main|StringDefaultValue|value stored: Unknown
+Sat 2010/05/01 02:24:11.152|   |main|StringDefaultValue|value stored: Unnamed object
+Sat 2010/05/01 02:24:11.153|   |main|StringDefaultValue|value stored: Unnamed element
+Sat 2010/05/01 02:24:11.154|   |main|StringDefaultValue|value stored: Unnamed sample
+Sat 2010/05/01 02:24:11.154|   |main|StringDefaultValue|value stored: Unnamed radius
+Sat 2010/05/01 02:24:11.155|   |main|StringDefaultValue|value stored: Unnamed series
+Sat 2010/05/01 02:24:11.156|   |main|StringDefaultValue|value stored: Unnamed series
+Sat 2010/05/01 02:24:11.156|   |main|StringDefaultValue|value stored: TRiDaSDendroFileIO
+Sat 2010/05/01 02:24:38.029|   |main|StringDefaultValue|value stored: Unnamed project
+Sat 2010/05/01 02:24:38.049|   |main|StringDefaultValue|value stored: Unknown
+Sat 2010/05/01 02:24:38.050|   |main|StringDefaultValue|value stored: Unknown
+Sat 2010/05/01 02:24:38.051|   |main|StringDefaultValue|value stored: Unnamed object
+Sat 2010/05/01 02:24:38.051|   |main|StringDefaultValue|value stored: Unnamed element
+Sat 2010/05/01 02:24:38.052|   |main|StringDefaultValue|value stored: Unnamed sample
+Sat 2010/05/01 02:24:38.053|   |main|StringDefaultValue|value stored: Unnamed radius
+Sat 2010/05/01 02:24:38.053|   |main|StringDefaultValue|value stored: Unnamed series
+Sat 2010/05/01 02:24:38.056|   |main|StringDefaultValue|value stored: Unnamed series
+Sat 2010/05/01 02:24:38.059|   |main|StringDefaultValue|value stored: TRiDaSDendroFileIO
+Sat 2010/05/01 02:24:38.060|   |main|StringDefaultValue|value stored: Unnamed project
+Sat 2010/05/01 02:24:38.061|   |main|StringDefaultValue|value stored: Unknown
+Sat 2010/05/01 02:24:38.062|   |main|StringDefaultValue|value stored: Unknown
+Sat 2010/05/01 02:24:38.062|   |main|StringDefaultValue|value stored: Unnamed object
+Sat 2010/05/01 02:24:38.063|   |main|StringDefaultValue|value stored: Unnamed element
+Sat 2010/05/01 02:24:38.064|   |main|StringDefaultValue|value stored: Unnamed sample
+Sat 2010/05/01 02:24:38.064|   |main|StringDefaultValue|value stored: Unnamed radius
+Sat 2010/05/01 02:24:38.065|   |main|StringDefaultValue|value stored: Unnamed series
+Sat 2010/05/01 02:24:38.066|   |main|StringDefaultValue|value stored: Unnamed series
+Sat 2010/05/01 02:24:38.067|   |main|StringDefaultValue|value stored: TRiDaSDendroFileIO
+Sat 2010/05/01 02:24:38.068|   |main|AbstractDendroFileReader|loading file from: TestData/Heidelberg/UAKK0530.fh
+Sat 2010/05/01 02:24:38.071|   |main|StringDefaultValue|value stored: Unnamed project
+Sat 2010/05/01 02:24:38.071|   |main|StringDefaultValue|value stored: Unknown
+Sat 2010/05/01 02:24:38.072|   |main|StringDefaultValue|value stored: Unknown
+Sat 2010/05/01 02:24:38.073|   |main|StringDefaultValue|value stored: Unnamed object
+Sat 2010/05/01 02:24:38.074|   |main|StringDefaultValue|value stored: Unnamed element
+Sat 2010/05/01 02:24:38.074|   |main|StringDefaultValue|value stored: Unnamed sample
+Sat 2010/05/01 02:24:38.075|   |main|StringDefaultValue|value stored: Unnamed radius
+Sat 2010/05/01 02:24:38.076|   |main|StringDefaultValue|value stored: Unnamed series
+Sat 2010/05/01 02:24:38.076|   |main|StringDefaultValue|value stored: Unnamed series
+Sat 2010/05/01 02:24:38.077|   |main|StringDefaultValue|value stored: TRiDaSDendroFileIO
+Sat 2010/05/01 02:24:38.078|   |main|HeidelbergReader|Parsing: [Ljava.lang.String;@1f5b0afd
+Sat 2010/05/01 02:24:38.080|   |main|StringDefaultValue|value stored: 1234567
+Sat 2010/05/01 02:24:38.080|   |main|StringDefaultValue|value stored: Tree
+Sat 2010/05/01 02:24:38.081|   |main|StringDefaultValue|value stored: Single curve
+Sat 2010/05/01 02:24:38.083|   |main|StringDefaultValue|value stored: HalfChrono
+Sat 2010/05/01 02:24:38.083|   |main|TridasToHeidelbergDefaults|Default value object for field 'LOCATION' was not found, ignoring.
+Sat 2010/05/01 02:24:38.084|   |main|TridasToHeidelbergDefaults|For key/value pair Location/Akkerman  53 ABCD, the key was not found in the enumeration
+Sat 2010/05/01 02:24:38.085|   |main|TridasToHeidelbergDefaults|For key/value pair ImageCount/0, the key was not found in the enumeration
+Sat 2010/05/01 02:24:38.085|   |main|TridasToHeidelbergDefaults|Default value object for field 'DATED' was not found, ignoring.
+Sat 2010/05/01 02:24:38.086|   |main|TridasToHeidelbergDefaults|For key/value pair Dated/Dated, the key was not found in the enumeration
+Sat 2010/05/01 02:24:38.087|   |main|TridasToHeidelbergDefaults|For key/value pair BibliographyCount/0, the key was not found in the enumeration
+Sat 2010/05/01 02:24:38.088|   |main|StringDefaultValue|value stored: Mean curve
+Sat 2010/05/01 02:24:38.088|   |main|TridasToHeidelbergDefaults|For key/value pair GlobalMathCommentCount/0, the key was not found in the enumeration
+Sat 2010/05/01 02:24:38.089|   |main|StringDefaultValue|value stored: UAKK0530
+Sat 2010/05/01 02:24:38.090|   |main|TridasToHeidelbergDefaults|Default value object for field 'SPECIES' was not found, ignoring.
+Sat 2010/05/01 02:24:38.091|   |main|TridasToHeidelbergDefaults|For key/value pair Species/QUSP, the key was not found in the enumeration
+Sat 2010/05/01 02:24:38.091|   |main|TridasToHeidelbergDefaults|For key/value pair CommentCount/0, the key was not found in the enumeration
+Sat 2010/05/01 02:24:38.148|   |main|StringDefaultValue|value stored: Unnamed project
+Sat 2010/05/01 02:24:38.149|   |main|StringDefaultValue|value stored: Unknown
+Sat 2010/05/01 02:24:38.149|   |main|StringDefaultValue|value stored: Unknown
+Sat 2010/05/01 02:24:38.150|   |main|StringDefaultValue|value stored: Unnamed object
+Sat 2010/05/01 02:24:38.155|   |main|StringDefaultValue|value stored: Unnamed element
+Sat 2010/05/01 02:24:38.157|   |main|StringDefaultValue|value stored: Unnamed sample
+Sat 2010/05/01 02:24:38.159|   |main|StringDefaultValue|value stored: Unnamed radius
+Sat 2010/05/01 02:24:38.161|   |main|StringDefaultValue|value stored: Unnamed series
+Sat 2010/05/01 02:24:38.163|   |main|StringDefaultValue|value stored: Unnamed series
+Sat 2010/05/01 02:24:38.165|   |main|StringDefaultValue|value stored: TRiDaSDendroFileIO
+Sat 2010/05/01 02:24:38.167|   |main|StringDefaultValue|value stored: Unnamed project
+Sat 2010/05/01 02:24:38.169|   |main|StringDefaultValue|value stored: Unknown
+Sat 2010/05/01 02:24:38.171|   |main|StringDefaultValue|value stored: Unknown
+Sat 2010/05/01 02:24:38.173|   |main|StringDefaultValue|value stored: Unnamed object
+Sat 2010/05/01 02:24:38.174|   |main|StringDefaultValue|value stored: Unnamed element
+Sat 2010/05/01 02:24:38.176|   |main|StringDefaultValue|value stored: Unnamed sample
+Sat 2010/05/01 02:24:38.178|   |main|StringDefaultValue|value stored: Unnamed radius
+Sat 2010/05/01 02:24:38.180|   |main|StringDefaultValue|value stored: Unnamed series
+Sat 2010/05/01 02:24:38.181|   |main|StringDefaultValue|value stored: Unnamed series
+Sat 2010/05/01 02:24:38.183|   |main|StringDefaultValue|value stored: TRiDaSDendroFileIO
+Sat 2010/05/01 02:24:38.185|   |main|StringDefaultValue|value stored: Unnamed project
+Sat 2010/05/01 02:24:38.187|   |main|StringDefaultValue|value stored: Unknown
+Sat 2010/05/01 02:24:38.189|   |main|StringDefaultValue|value stored: Unknown
+Sat 2010/05/01 02:24:38.191|   |main|StringDefaultValue|value stored: Unnamed object
+Sat 2010/05/01 02:24:38.193|   |main|StringDefaultValue|value stored: Unnamed element
+Sat 2010/05/01 02:24:38.194|   |main|StringDefaultValue|value stored: Unnamed sample
+Sat 2010/05/01 02:24:38.196|   |main|StringDefaultValue|value stored: Unnamed radius
+Sat 2010/05/01 02:24:38.198|   |main|StringDefaultValue|value stored: Unnamed series
+Sat 2010/05/01 02:24:38.199|   |main|StringDefaultValue|value stored: Unnamed series
+Sat 2010/05/01 02:24:38.201|   |main|StringDefaultValue|value stored: TRiDaSDendroFileIO

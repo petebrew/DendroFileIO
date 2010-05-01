@@ -4,6 +4,7 @@ import java.io.IOException;
 
 import org.tridas.io.DendroFile;
 import org.tridas.io.defaults.TridasMetadataFieldSet;
+import org.tridas.io.formats.heidelberg.HeidelbergReader;
 import org.tridas.io.formats.tridas.TridasReader;
 import org.tridas.io.formats.tridas.TridasWriter;
 import org.tridas.io.formats.tucson.TridasToTucsonDefaults;
@@ -23,6 +24,35 @@ import junit.framework.TestCase;
 
 public class ConvertTests extends TestCase {
 
+	public void testHeidelberg(){
+		HeidelbergReader reader = new HeidelbergReader();
+		
+		try {
+			reader.loadFile("TestData/Heidelberg/UAKK0530.fh");
+		} catch (IOException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		} catch (InvalidDendroFileException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		
+		
+		TridasProject project = reader.getProject();
+		
+		TridasWriter writer = new TridasWriter();
+		writer.setNamingConvention(new UUIDNamingConvention());
+		
+		try {
+			writer.loadProject(project);
+		} catch (IncompleteTridasDataException e) {
+			fail();
+		} catch (ConversionWarningException e) {
+		}
+		writer.saveAllToDisk("TestData/Output");
+		
+	}
+	
 	public void testTridasToTucson() 
 	{
 		// Create a dummy project to export.  This would need to

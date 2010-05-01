@@ -89,6 +89,10 @@ public abstract class AbstractTridasMetadataFieldSet extends AbstractMetadataFie
 		return getElementWithDefaults(false);
 	}
 	
+	public TridasSample getSampleWithDefaults(){
+		return getSampleWithDefaults(false);
+	}
+	
 	public TridasSample getSampleWithDefaults(boolean argCascade){
 		TridasSample s = getDefaultTridasSample();
 		
