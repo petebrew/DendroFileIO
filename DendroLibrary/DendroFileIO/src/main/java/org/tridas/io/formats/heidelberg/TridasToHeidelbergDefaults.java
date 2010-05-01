@@ -62,6 +62,8 @@ public class TridasToHeidelbergDefaults extends AbstractMetadataFieldSet impleme
 		setDefaultValue(HeidelbergField.DATA_FORMAT, new StringDefaultValue("Tree"));
 		setDefaultValue(HeidelbergField.SERIES_TYPE, new StringDefaultValue("Single curve"));
 		setDefaultValue(HeidelbergField.LENGTH, new IntegerDefaultValue(null, 0, 99999));
+		setDefaultValue(HeidelbergField.DATEBEGIN, new IntegerDefaultValue());
+		setDefaultValue(HeidelbergField.DATEEND, new IntegerDefaultValue());
 		// TODO do the rest of these
 	}
 	
