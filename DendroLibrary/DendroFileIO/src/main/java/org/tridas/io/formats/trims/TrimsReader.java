@@ -68,7 +68,11 @@ public class TrimsReader extends AbstractDendroFileReader {
 		// Extract 'metadata' ;-)
 		String userid = argFileString[0].trim();
 		String createdTimestamp = argFileString[1].trim();
-		SafeIntYear startYear = new SafeIntYear(argFileString[2].trim());
+		SafeIntYear startYear = null;
+		
+		try{
+			startYear = new SafeIntYear(argFileString[2].trim());
+		} catch (NumberFormatException e) { }
 		
 		// Extract data
 		ArrayList<TridasValue> ringWidthValues = new ArrayList<TridasValue>();
