@@ -4,10 +4,13 @@ import java.io.IOException;
 
 import org.tridas.io.DendroFile;
 import org.tridas.io.defaults.TridasMetadataFieldSet;
+import org.tridas.io.formats.belfastapple.BelfastAppleReader;
+import org.tridas.io.formats.belfastarchive.BelfastArchiveReader;
 import org.tridas.io.formats.catras.CatrasReader;
+import org.tridas.io.formats.sheffield.SheffieldReader;
 import org.tridas.io.formats.tridas.TridasReader;
 import org.tridas.io.formats.tridas.TridasWriter;
-import org.tridas.io.formats.tucson.TridasToTucsonDefaults;
+import org.tridas.io.formats.trims.TrimsReader;
 import org.tridas.io.formats.tucson.TucsonFile;
 import org.tridas.io.formats.tucson.TucsonReader;
 import org.tridas.io.formats.tucson.TucsonToTridasDefaults;
@@ -99,7 +102,7 @@ public class ConvertTests extends TestCase {
 		// Parse the legacy data file
 		try {
 			//TridasEntitiesFromDefaults def = new TridasEntitiesFromDefaults();
-			reader.loadFile("TestData/Tucson", "Tucson1.crn", new TucsonToTridasDefaults());
+			reader.loadFile("TestData/Tucson", "Tucson1.rwl", new TucsonToTridasDefaults());
 		} catch (IOException e) {
 			// Standard IO Exception
 			System.out.println(e.getLocalizedMessage());
@@ -187,12 +190,187 @@ public class ConvertTests extends TestCase {
 		writer.setNamingConvention(new UUIDNamingConvention());
 		
 		try {
-			writer.loadProject(myproject, new TridasMetadataFieldSet());
+			writer.loadProject(myproject);
 		} catch (IncompleteTridasDataException e) {
 			fail();
 		} catch (ConversionWarningException e) {
-		} catch (IncorrectDefaultFieldsException e) {
+		}
+		writer.saveAllToDisk("TestData/Output");
+		
+		for(DendroFile file : writer.getFiles())
+		{
+			System.out.println("Saved: " + writer.getNamingConvention().getFilename(file)+"."+file.getExtension());
+		}
+		
+	}
+	
+	
+	public void testTrimsToTridas() 
+	{
+		
+		// Create a new converter
+		TrimsReader reader = new TrimsReader();
+		
+		// Parse the legacy data file
+		try {
+			//TridasEntitiesFromDefaults def = new TridasEntitiesFromDefaults();
+			reader.loadFile("TestData/TRIMS", "GRC04B.txt");
+		} catch (IOException e) {
+			// Standard IO Exception
+			System.out.println(e.getLocalizedMessage());
 			fail();
+		} catch (InvalidDendroFileException e) {
+			// Fatal error interpreting file
+			System.out.println(e.getLocalizedMessage());
+			fail();
+		}
+		
+		
+		
+		// Extract the TridasProject
+		TridasProject myproject = reader.getProject();
+		
+			
+		TridasWriter writer = new TridasWriter();
+		writer.setNamingConvention(new UUIDNamingConvention());
+		
+		try {
+			writer.loadProject(myproject);
+		} catch (IncompleteTridasDataException e) {
+			fail();
+		} catch (ConversionWarningException e) {
+		}
+		writer.saveAllToDisk("TestData/Output");
+		
+		for(DendroFile file : writer.getFiles())
+		{
+			System.out.println("Saved: " + writer.getNamingConvention().getFilename(file)+"."+file.getExtension());
+		}
+		
+	}
+	
+	public void testSheffieldToTridas() 
+	{
+		
+		// Create a new converter
+		SheffieldReader reader = new SheffieldReader();
+		
+		// Parse the legacy data file
+		try {
+			//TridasEntitiesFromDefaults def = new TridasEntitiesFromDefaults();
+			reader.loadFile("TestData/Sheffield", "yhg50683.d");
+		} catch (IOException e) {
+			// Standard IO Exception
+			System.out.println(e.getLocalizedMessage());
+			fail();
+		} catch (InvalidDendroFileException e) {
+			// Fatal error interpreting file
+			System.out.println(e.getLocalizedMessage());
+			fail();
+		}
+		
+		
+		
+		// Extract the TridasProject
+		TridasProject myproject = reader.getProject();
+		
+			
+		TridasWriter writer = new TridasWriter();
+		writer.setNamingConvention(new UUIDNamingConvention());
+		
+		try {
+			writer.loadProject(myproject);
+		} catch (IncompleteTridasDataException e) {
+			fail();
+		} catch (ConversionWarningException e) {
+		}
+		writer.saveAllToDisk("TestData/Output");
+		
+		for(DendroFile file : writer.getFiles())
+		{
+			System.out.println("Saved: " + writer.getNamingConvention().getFilename(file)+"."+file.getExtension());
+		}
+		
+	}
+	
+	public void testBelfastAppleToTridas() 
+	{
+		
+		// Create a new converter
+		BelfastAppleReader reader = new BelfastAppleReader();
+		
+		// Parse the legacy data file
+		try {
+			//TridasEntitiesFromDefaults def = new TridasEntitiesFromDefaults();
+			reader.loadFile("TestData/BelfastApple", "A1805.txt");
+		} catch (IOException e) {
+			// Standard IO Exception
+			System.out.println(e.getLocalizedMessage());
+			fail();
+		} catch (InvalidDendroFileException e) {
+			// Fatal error interpreting file
+			System.out.println(e.getLocalizedMessage());
+			fail();
+		}
+		
+		
+		
+		// Extract the TridasProject
+		TridasProject myproject = reader.getProject();
+		
+			
+		TridasWriter writer = new TridasWriter();
+		writer.setNamingConvention(new UUIDNamingConvention());
+		
+		try {
+			writer.loadProject(myproject);
+		} catch (IncompleteTridasDataException e) {
+			fail();
+		} catch (ConversionWarningException e) {
+		}
+		writer.saveAllToDisk("TestData/Output");
+		
+		for(DendroFile file : writer.getFiles())
+		{
+			System.out.println("Saved: " + writer.getNamingConvention().getFilename(file)+"."+file.getExtension());
+		}
+		
+	}
+	
+	public void testBelfastArchiveToTridas() 
+	{
+		
+		// Create a new converter
+		BelfastArchiveReader reader = new BelfastArchiveReader();
+		
+		// Parse the legacy data file
+		try {
+			//TridasEntitiesFromDefaults def = new TridasEntitiesFromDefaults();
+			reader.loadFile("TestData/BelfastArchive", "bellframe1.arx");
+		} catch (IOException e) {
+			// Standard IO Exception
+			System.out.println(e.getLocalizedMessage());
+			fail();
+		} catch (InvalidDendroFileException e) {
+			// Fatal error interpreting file
+			System.out.println(e.getLocalizedMessage());
+			fail();
+		}
+		
+		
+		
+		// Extract the TridasProject
+		TridasProject myproject = reader.getProject();
+		
+			
+		TridasWriter writer = new TridasWriter();
+		writer.setNamingConvention(new UUIDNamingConvention());
+		
+		try {
+			writer.loadProject(myproject);
+		} catch (IncompleteTridasDataException e) {
+			fail();
+		} catch (ConversionWarningException e) {
 		}
 		writer.saveAllToDisk("TestData/Output");
 		
