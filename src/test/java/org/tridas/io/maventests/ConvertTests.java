@@ -4,7 +4,7 @@ import java.io.IOException;
 
 import org.tridas.io.DendroFile;
 import org.tridas.io.defaults.TridasMetadataFieldSet;
-import org.tridas.io.formats.heidelberg.HeidelbergReader;
+import org.tridas.io.formats.catras.CatrasReader;
 import org.tridas.io.formats.tridas.TridasReader;
 import org.tridas.io.formats.tridas.TridasWriter;
 import org.tridas.io.formats.tucson.TridasToTucsonDefaults;
@@ -24,35 +24,6 @@ import junit.framework.TestCase;
 
 public class ConvertTests extends TestCase {
 
-	public void testHeidelberg(){
-		HeidelbergReader reader = new HeidelbergReader();
-		
-		try {
-			reader.loadFile("TestData/Heidelberg/UAKK0530.fh");
-		} catch (IOException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		} catch (InvalidDendroFileException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		}
-		
-		
-		TridasProject project = reader.getProject();
-		
-		TridasWriter writer = new TridasWriter();
-		writer.setNamingConvention(new UUIDNamingConvention());
-		
-		try {
-			writer.loadProject(project);
-		} catch (IncompleteTridasDataException e) {
-			fail();
-		} catch (ConversionWarningException e) {
-		}
-		writer.saveAllToDisk("TestData/Output");
-		
-	}
-	
 	public void testTridasToTucson() 
 	{
 		// Create a dummy project to export.  This would need to
@@ -69,14 +40,11 @@ public class ConvertTests extends TestCase {
 	    
 		TridasReader reader = new TridasReader();
 		try {
-			reader.loadFile("TestData/TRiDaS", "Tridas1.xml", new TridasMetadataFieldSet());
+			reader.loadFile("TestData/TRiDaS", "Tridas1.xml");
 		} catch (IOException e) {
 			// TODO Auto-generated catch block
 			System.out.println(e.getLocalizedMessage());
 			return;
-		} catch (IncorrectDefaultFieldsException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
 		} catch (InvalidDendroFileException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
@@ -88,14 +56,11 @@ public class ConvertTests extends TestCase {
 		// Create a new converter based on a TridasProject
 		TucsonWriter tucsonwriter = new TucsonWriter();
 		try {
-			tucsonwriter.loadProject(project, new TridasToTucsonDefaults());
+			tucsonwriter.loadProject(project);
 		} catch (IncompleteTridasDataException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		} catch (ConversionWarningException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		} catch (IncorrectDefaultFieldsException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
@@ -191,5 +156,51 @@ public class ConvertTests extends TestCase {
 		
 	}
 	
+	
+	public void testCatrasToTridas() 
+	{
+		
+		// Create a new converter
+		CatrasReader reader = new CatrasReader();
+		
+		// Parse the legacy data file
+		try {
+			//TridasEntitiesFromDefaults def = new TridasEntitiesFromDefaults();
+			reader.loadFile("TestData/CATRAS", "UAKK0550.CAT");
+		} catch (IOException e) {
+			// Standard IO Exception
+			System.out.println(e.getLocalizedMessage());
+			return;
+		} catch (InvalidDendroFileException e) {
+			// Fatal error interpreting file
+			System.out.println(e.getLocalizedMessage());
+			return;
+		}
+		
+		
+		
+		// Extract the TridasProject
+		TridasProject myproject = reader.getProject();
+		
+			
+		TridasWriter writer = new TridasWriter();
+		writer.setNamingConvention(new UUIDNamingConvention());
+		
+		try {
+			writer.loadProject(myproject, new TridasMetadataFieldSet());
+		} catch (IncompleteTridasDataException e) {
+			fail();
+		} catch (ConversionWarningException e) {
+		} catch (IncorrectDefaultFieldsException e) {
+			fail();
+		}
+		writer.saveAllToDisk("TestData/Output");
+		
+		for(DendroFile file : writer.getFiles())
+		{
+			System.out.println("Saved: " + writer.getNamingConvention().getFilename(file)+"."+file.getExtension());
+		}
+		
+	}
 	
 }

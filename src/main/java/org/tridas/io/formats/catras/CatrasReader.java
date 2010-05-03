@@ -8,16 +8,44 @@ import org.tridas.io.AbstractDendroFileReader;
 import org.tridas.io.I18n;
 import org.tridas.io.TridasIO;
 import org.tridas.io.defaults.IMetadataFieldSet;
+import org.tridas.io.defaults.TridasMetadataFieldSet.TridasMandatoryField;
+import org.tridas.io.defaults.values.TridasVariableDefaultValue;
 import org.tridas.io.formats.tucson.TridasToTucsonDefaults;
 import org.tridas.io.formats.tucson.TucsonReader;
 import org.tridas.io.formats.tucson.TucsonToTridasDefaults;
+import org.tridas.io.util.DateUtils;
 import org.tridas.io.util.FileHelper;
+import org.tridas.io.util.SafeIntYear;
+import org.tridas.io.warnings.ConversionWarning;
 import org.tridas.io.warnings.IncorrectDefaultFieldsException;
 import org.tridas.io.warnings.InvalidDendroFileException;
+import org.tridas.io.warnings.ConversionWarning.WarningType;
+import org.tridas.schema.DatingSuffix;
+import org.tridas.schema.NormalTridasUnit;
+import org.tridas.schema.ObjectFactory;
 import org.tridas.schema.TridasDerivedSeries;
+import org.tridas.schema.TridasElement;
+import org.tridas.schema.TridasIdentifier;
+import org.tridas.schema.TridasInterpretation;
 import org.tridas.schema.TridasMeasurementSeries;
+import org.tridas.schema.TridasObject;
 import org.tridas.schema.TridasProject;
+import org.tridas.schema.TridasRadius;
+import org.tridas.schema.TridasSample;
+import org.tridas.schema.TridasUnit;
+import org.tridas.schema.TridasUnitless;
+import org.tridas.schema.TridasValue;
+import org.tridas.schema.TridasValues;
 
+/**
+ * Reader for the CATRAS file format.  This is a binary format for software written 
+ * by R. Aniol released in 1983.  There are no specifications published for the 
+ * format.  This code is based on Matlab and Fortran code of Ronald Visser and Henri 
+ * Grissino-Mayer.
+ * 
+ * @author peterbrewer
+ *
+ */
 public class CatrasReader extends AbstractDendroFileReader {
 
 	private static final SimpleLogger log = new SimpleLogger(CatrasReader.class);
@@ -26,6 +54,8 @@ public class CatrasReader extends AbstractDendroFileReader {
 	
 	private ArrayList<TridasMeasurementSeries> mseriesList = new ArrayList<TridasMeasurementSeries>();
 	private ArrayList<TridasDerivedSeries> dseriesList = new ArrayList<TridasDerivedSeries>();;
+	
+	
 	
 	static {
 		TridasIO.registerFileReader(CatrasReader.class);
@@ -139,23 +169,90 @@ public class CatrasReader extends AbstractDendroFileReader {
 		String unknowntext = new String(getSubByteArray(argFileBytes, 48, 52));	 //49-53
 		//String date = new String(getSubByteArray(argFileBytes, 58, 64));		 //59-65
 		String sapwood = new String(getSubByteArray(argFileBytes, 66, 67));		 //67
-		byte[] dated = new byte[7];
-		byte[] startyear = new byte[1];
-		byte[] userid = new byte[2];
+		String dated = new String(getSubByteArray(argFileBytes, 68, 74));    	 //69-75
+		//int startyear = getIntFromBytePairByPos(argFileBytes, 80);	 //81
+		SafeIntYear startyear = new SafeIntYear(2010);
+		String userid = new String(getSubByteArray(argFileBytes, 84, 85));       //85-86
 		
+		// Log the metadata
 		log.debug("Whole meta = ["+new String(argFileBytes)+"]");
 		log.debug("Header text = ["+headertext+"]");
 		log.debug("Series Code = ["+seriesCode+"]");
 		log.debug("Length = "+String.valueOf(length));
 		log.debug("Sapwood? = ["+sapwood+"]");
+		log.debug("Dated = ["+dated+"]");
+		log.debug("Start year = ["+String.valueOf(startyear)+"]");
+		log.debug("Userid = ["+userid+"]");
 
-		byte[] theData = getSubByteArray(argFileBytes, 129, argFileBytes.length-1);
-		
+		// Extract the data 
+		ArrayList<TridasValue> ringWidthValues = new ArrayList<TridasValue>();
+		byte[] theData = getSubByteArray(argFileBytes, 127, argFileBytes.length-1);		
 		for(int i = 1 ; i<theData.length; i=i+2)
 		{
-			log.debug("value = "+String.valueOf(this.getIntFromBytePairByPos(theData, i)));
+			int ringwidth = this.getIntFromBytePairByPos(theData, i);
+			TridasValue v = new TridasValue();
+			
+			if (ringwidth==999)
+			{
+				// Stop marker found so break
+				// There are several bytes after this but we have
+				// no idea what they mean.
+				break;
+			}
+			
+			v.setValue(String.valueOf(this.getIntFromBytePairByPos(theData, i)));
+			ringWidthValues.add(v);
+			log.debug("value = "+String.valueOf(ringwidth));
+		}
+						
+		// Check length metadata is valid for the number of ring width values
+		if(ringWidthValues.size()!=length)
+		{
+			this.addWarningToList(new ConversionWarning(
+					WarningType.INVALID, 
+					I18n.getText("catras.valueCountMismatch")));
+			length = ringWidthValues.size();
 			
 		}
+		
+		// Now build up our measurementSeries
+		
+		TridasMeasurementSeries series = defaults.getMeasurementSeriesWithDefaults();
+		TridasUnit units = new TridasUnit();
+		
+		// Set units to 1/100th mm.  Is this always the case?
+		units.setNormalTridas(NormalTridasUnit.HUNDREDTH_MM);
+		
+		// Build identifier for series
+		TridasIdentifier seriesId = new ObjectFactory().createTridasIdentifier();
+		seriesId.setValue(seriesCode.trim());
+		seriesId.setDomain(defaults.getDefaultValue(TridasMandatoryField.IDENTIFIER_DOMAN).getStringValue());
+		
+		// Build interpretation group for series
+		TridasInterpretation interp = new TridasInterpretation();
+		interp.setFirstYear(startyear.toTridasYear(DatingSuffix.AD));
+
+		// Add values to nested value(s) tags
+		TridasValues valuesGroup = new TridasValues();
+		valuesGroup.setValues(ringWidthValues);
+		valuesGroup.setUnit(units);
+		TridasVariableDefaultValue variable = (TridasVariableDefaultValue) defaults.getDefaultValue(TridasMandatoryField.MEASUREMENTSERIES_VARIABLE);
+		valuesGroup.setVariable(variable.getValue());
+		ArrayList<TridasValues> valuesGroupList = new ArrayList<TridasValues>();
+		valuesGroupList.add(valuesGroup);	
+		
+		// Add all the data to the series
+		series.setValues(valuesGroupList);
+		series.setInterpretation(interp);
+		series.setIdentifier(seriesId);
+		series.setTitle(headertext.trim());
+		series.setLastModifiedTimestamp(DateUtils.getTodaysDateTime() );
+		series.setDendrochronologist(userid);
+
+		// Add series to our list
+		mseriesList.add(series);
+		
+		
 		
 	}
 	
@@ -187,14 +284,20 @@ public class CatrasReader extends AbstractDendroFileReader {
 	 */
 	private byte[] getBytePairByPos(byte[] bytes, int pos)
 	{
+		byte wBytes[] = new byte[2];
+		
 		if(pos<0)
 		{
 			return null;
 		}
-		
-		byte wBytes[] = new byte[2];
-		wBytes[0] = bytes[pos];
-		wBytes[1] = bytes[pos+1];		
+		try{
+			
+			wBytes[0] = bytes[pos];
+			wBytes[1] = bytes[pos+1];
+		} catch (ArrayIndexOutOfBoundsException e){
+			
+		}
+
 		return wBytes;
 	}
 	
@@ -227,19 +330,23 @@ public class CatrasReader extends AbstractDendroFileReader {
 		int msb;    // most significant byte
 		int w = -1; // actual value
 		
-		// Depending on endian, extract bytes in correct order
+		// Depending on endian, extract bytes in correct order.  Java is always
+		// big endian, but Windoze i386 are always (?) little endian.  As CATRAS
+		// is the only (?) program that writes CATRAS files then they should
+		// always be little endian I think!
 		if(littleEndian)
 		{
-			lsb = wBytes[0]; 
-			msb = wBytes[1]; 
+			lsb = (0x000000FF & ((int)wBytes[0]));  // least significant byte
+			msb = (0x000000FF & ((int)wBytes[1]));  // most significant byte
 		}
 		else
 		{
-			lsb = wBytes[1]; // least significant byte
-			msb = wBytes[0]; // most significant byte
+			lsb = (0x000000FF & ((int)wBytes[1]));  // least significant byte
+			msb = (0x000000FF & ((int)wBytes[0]));  // most significant byte
 		}
 		
-		
+		//log.debug("LSB = "+String.valueOf(lsb)+"  MSB = "+String.valueOf(lsb));
+				
         if (msb == 1 && lsb >= 0) {
             w = lsb+256;
         } else if (msb == 0 && lsb >= 0) {
@@ -250,10 +357,7 @@ public class CatrasReader extends AbstractDendroFileReader {
             w = lsb+768;
         } else if ( msb == 4 && lsb >= 0 ) {
             w = lsb+1024;
-		} else if (lsb < 0) {
-			w = -2; // signal!
-
-		}
+		} 
  		
         return w;
 		
@@ -281,8 +385,34 @@ public class CatrasReader extends AbstractDendroFileReader {
 
 	@Override
 	public TridasProject getProject() {
-		// TODO Auto-generated method stub
-		return null;
+		TridasProject project = null;
+		
+		try{
+			project = defaults.getProjectWithDefaults(true);
+			TridasObject o = project.getObjects().get(0);
+			TridasElement e = o.getElements().get(0);
+			TridasSample s = e.getSamples().get(0);
+			
+			if(mseriesList.size()>0)
+			{
+				TridasRadius r = s.getRadiuses().get(0);
+				r.setMeasurementSeries(mseriesList);
+			}
+			
+			if(dseriesList.size()>0)
+			{
+				project.setDerivedSeries(dseriesList);
+			}
+			
+			} catch (NullPointerException e){
+				
+			} catch (IndexOutOfBoundsException e2){
+				
+			}
+			
+			
+			return project;
+		
 	}
 
 	private char[] byteArr2CharArr(byte[] byteArr) {
