@@ -204,7 +204,7 @@ public class CatrasReader extends AbstractDendroFileReader {
 		{
 			this.addWarningToList(new ConversionWarning(
 					WarningType.INVALID, 
-					I18n.getText("catras.valueCountMismatch")));
+					I18n.getText("fileio.valueCountMismatch")));
 			length = ringWidthValues.size();
 			
 		}
