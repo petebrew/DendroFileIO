@@ -64,12 +64,6 @@ public class CatrasReader extends AbstractDendroFileReader {
 	public CatrasReader() {
 		super(CatrasToTridasDefaults.class);
 	}
-	
-	
-	public CatrasReader(Class<? extends IMetadataFieldSet> argDefaultFieldsClass) {
-		super(argDefaultFieldsClass);
-		// TODO Auto-generated constructor stub
-	}
 
 	/**
 	 * @throws IncorrectDefaultFieldsException 

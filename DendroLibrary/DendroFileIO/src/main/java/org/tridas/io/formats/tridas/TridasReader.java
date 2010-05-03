@@ -34,7 +34,6 @@ public class TridasReader extends AbstractDendroFileReader {
 		super(TridasMetadataFieldSet.class);
 	}
 	
-	@SuppressWarnings("restriction")
 	@Override
 	protected void parseFile(String[] argFileString,
 			IMetadataFieldSet argDefaultFields) {
