@@ -1,13 +1,18 @@
 package org.tridas.io.formats.catras;
 
-import org.tridas.io.defaults.AbstractMetadataFieldSet;
+import org.tridas.io.defaults.IMetadataFieldSet;
+import org.tridas.io.defaults.TridasMetadataFieldSet;
+import org.tridas.schema.TridasObject;
 
-public class CatrasToTridasDefaults extends AbstractMetadataFieldSet {
 
+public class CatrasToTridasDefaults extends TridasMetadataFieldSet implements IMetadataFieldSet {
+
+	
+	// example of customizing
 	@Override
-	protected void initDefaultValues() {
-		// TODO Auto-generated method stub
-
+	protected TridasObject getDefaultTridasObject(){
+		TridasObject object = super.getDefaultTridasObject();
+		object.setComments("Converted from Tucson file");
+		return object;
 	}
-
 }

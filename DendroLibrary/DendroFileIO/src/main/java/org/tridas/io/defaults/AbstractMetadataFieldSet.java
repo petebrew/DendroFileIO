@@ -40,7 +40,7 @@ public abstract class AbstractMetadataFieldSet implements IMetadataFieldSet {
 	
 	
 	/**
-	 * @see org.tridas.io.defaults.IMetadataFieldSet2#getDefaultValue(java.lang.Enum)
+	 * @see org.tridas.io.defaults.IMetadataFieldSet#getDefaultValue(java.lang.Enum)
 	 */
 	@Override
 	public AbstractDefaultValue<?> getDefaultValue(Enum<?> argValueType) {
