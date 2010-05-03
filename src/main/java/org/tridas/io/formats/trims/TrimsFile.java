@@ -1,10 +1,10 @@
-package org.tridas.io.formats.catras;
+package org.tridas.io.formats.trims;
 
 import org.tridas.interfaces.ITridasSeries;
 import org.tridas.io.DendroFile;
 import org.tridas.io.warnings.ConversionWarningException;
 
-public class CatrasFile extends DendroFile {
+public class TrimsFile extends DendroFile {
 
 	@Override
 	public void addSeries(ITridasSeries series)
