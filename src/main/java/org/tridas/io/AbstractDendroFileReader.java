@@ -93,7 +93,12 @@ public abstract class AbstractDendroFileReader implements IDendroFileReader {
 	public void loadFile(String argFilename, IMetadataFieldSet argDefaultFields) throws IOException, IncorrectDefaultFieldsException, InvalidDendroFileException{
 		fileHelper = new FileHelper();
 		log.debug("loading file from: "+argFilename);
-		String[] strings = fileHelper.loadStrings(argFilename);
+		String[] strings;
+		if(TridasIO.isCharsetDetection()){
+			strings = fileHelper.loadStringsFromDetectedCharset(argFilename);
+		}else{
+			strings = fileHelper.loadStrings(argFilename);
+		}
 		if(strings == null){
 			throw new IOException(I18n.getText("fileio.loadfailed")); 
 		}
@@ -104,7 +109,12 @@ public abstract class AbstractDendroFileReader implements IDendroFileReader {
 	public void loadFile(String argFilename) throws IOException, InvalidDendroFileException{
 		fileHelper = new FileHelper();
 		log.debug("loading file from: "+argFilename);
-		String[] strings = fileHelper.loadStrings(argFilename);
+		String[] strings;
+		if(TridasIO.isCharsetDetection()){
+			strings = fileHelper.loadStringsFromDetectedCharset(argFilename);
+		}else{
+			strings = fileHelper.loadStrings(argFilename);
+		}
 		if(strings == null){
 			throw new IOException(I18n.getText("fileio.loadfailed")); 
 		}
@@ -116,7 +126,12 @@ public abstract class AbstractDendroFileReader implements IDendroFileReader {
 			IMetadataFieldSet argDefaultFields) throws IOException, IncorrectDefaultFieldsException, InvalidDendroFileException{
 		fileHelper = new FileHelper(argPath);
 		log.debug("loading file from: "+argFilename);
-		String[] strings = fileHelper.loadStrings(argFilename);
+		String[] strings;
+		if(TridasIO.isCharsetDetection()){
+			strings = fileHelper.loadStringsFromDetectedCharset(argFilename);
+		}else{
+			strings = fileHelper.loadStrings(argFilename);
+		}
 		if(strings == null){
 			throw new IOException(I18n.getText("fileio.loadfailed")); 
 		}
@@ -127,7 +142,12 @@ public abstract class AbstractDendroFileReader implements IDendroFileReader {
 	public void loadFile(String argPath, String argFilename) throws IOException, InvalidDendroFileException{
 		fileHelper = new FileHelper(argPath);
 		log.debug("loading file from: "+argFilename);
-		String[] strings = fileHelper.loadStrings(argFilename);
+		String[] strings;
+		if(TridasIO.isCharsetDetection()){
+			strings = fileHelper.loadStringsFromDetectedCharset(argFilename);
+		}else{
+			strings = fileHelper.loadStrings(argFilename);
+		}
 		if(strings == null){
 			throw new IOException(I18n.getText("fileio.loadfailed")); 
 		}

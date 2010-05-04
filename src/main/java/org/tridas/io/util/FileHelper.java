@@ -16,6 +16,9 @@ import java.util.zip.GZIPInputStream;
 import org.grlea.log.DebugLevel;
 import org.grlea.log.SimpleLogger;
 
+import com.ibm.icu.text.CharsetDetector;
+import com.ibm.icu.text.CharsetMatch;
+
 /**
  * Helps working with most files.
  * @author daniel
@@ -77,6 +80,32 @@ public class FileHelper {
 		return null;
 	}
 	
+	public String[] loadStringsFromDetectedCharset(String argFilename){
+		InputStream is = createInput(argFilename);
+		if(is == null){
+			log.error("The file '" + argFilename + "' "
+					+ "is missing or inaccessible, make sure "
+					+ "the URL is valid or that the file is in the same"
+					+ "directory as the jar and is readable.");
+		}
+		byte[] bytes = IOUtils.loadBytes(is);
+		CharsetDetector detector = new CharsetDetector();
+		CharsetMatch match;
+		try {
+			detector.setText(bytes);
+			match = detector.detect();
+			
+			log.debug("Best charset match for file '"+argFilename+"' is "+match.getLanguage()+" "+match.getName()+" with a confidence of "+match.getConfidence()+"%");
+			
+			String all = match.getString();
+			return all.split("\n");
+		} catch (IOException e) {
+			log.error("Error while detecting or decoding charset on file: "+argFilename);
+			log.dbe(DebugLevel.L2_ERROR, e);
+		}
+		return null;
+	}
+	
 	/**
 	 * Load data from a file and shove it into a String array.
 	 * <P>
@@ -92,6 +121,19 @@ public class FileHelper {
 		InputStream is = createInput(filename);
 		if (is != null) {
 			return IOUtils.loadStrings(is);
+		}
+
+		log.error("The file '" + filename + "' "
+				+ "is missing or inaccessible, make sure "
+				+ "the URL is valid or that the file is in the same"
+				+ "directory as the jar and is readable.");
+		return null;
+	}
+	
+	public String[] loadStrings(String filename, String argEncoding) throws UnsupportedEncodingException{
+		InputStream is = createInput(filename);
+		if (is != null) {
+			return IOUtils.loadStrings(is, argEncoding);
 		}
 
 		log.error("The file '" + filename + "' "

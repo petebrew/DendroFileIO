@@ -18,9 +18,19 @@ import org.grlea.log.SimpleLogger;
 public class TridasIO {
 	
 	private static final SimpleLogger log = new SimpleLogger(TridasIO.class);
-	
 	private static HashMap<String, TridasIOEntry> converterMap = new HashMap<String, TridasIOEntry>();
 	
+	private static boolean charsetDetection = false;
+	
+	
+	public static void setCharsetDetection(boolean argCharsetDetection) {
+		charsetDetection = argCharsetDetection;
+	}
+
+	public static boolean isCharsetDetection() {
+		return charsetDetection;
+	}
+
 	/**
 	 * Register a reader
 	 * @param argReader
