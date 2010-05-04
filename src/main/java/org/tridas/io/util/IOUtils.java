@@ -19,6 +19,7 @@ import java.io.UnsupportedEncodingException;
 import java.util.zip.GZIPInputStream;
 import java.util.zip.GZIPOutputStream;
 
+import org.grlea.log.DebugLevel;
 import org.grlea.log.SimpleLogger;
 
 /**
@@ -98,24 +99,39 @@ public class IOUtils {
 	 */
 	public static BufferedReader createReader(File file) {
 		try {
+			return createReader(file, "UTF-8");
+		} catch (UnsupportedEncodingException e) {
+		} // not gonna happen
+		return null; // won't happen
+	}
+	
+	/**
+	 * I want to read lines from a file. with an encoding!
+	 * @throws UnsupportedEncodingException 
+	 */
+	public static BufferedReader createReader(File file, String argEncoding) throws UnsupportedEncodingException {
+		if (file == null) {
+			throw new RuntimeException(
+					"File passed to createReader() was null. "
+							+ "Why are you doing this to me?");
+		} 
+		try {
 			InputStream is = new FileInputStream(file);
 			if (file.getName().toLowerCase().endsWith(".gz")) {
 				is = new GZIPInputStream(is);
 			}
-			return createReader(is);
+			return createReader(is, argEncoding);
 
 		} catch (Exception e) {
-			if (file == null) {
-				throw new RuntimeException(
-						"File passed to createReader() was null. "
-								+ "Why are you doing this to me?");
-			} else {
-				e.printStackTrace();
-				throw new RuntimeException("Couldn't create a reader for "
-						+ file.getAbsolutePath());
+			if(e instanceof UnsupportedEncodingException){
+				throw (UnsupportedEncodingException)e;
 			}
+			log.error("Couldn't create a reader for "
+					+ file.getAbsolutePath());
+			log.dbe(DebugLevel.L2_ERROR, e);
+			throw new RuntimeException("Couldn't create a reader for "
+					+ file.getAbsolutePath());
 		}
-		// return null;
 	}
 
 	/**
@@ -129,27 +145,52 @@ public class IOUtils {
 		} // not gonna happen
 		return new BufferedReader(isr);
 	}
+	
+	/**
+	 * I want to read lines from a stream. with an encoding!
+	 * @throws UnsupportedEncodingException 
+	 */
+	public static BufferedReader createReader(InputStream input, String argEncoding) throws UnsupportedEncodingException {
+		InputStreamReader isr = new InputStreamReader(input, argEncoding);
+		return new BufferedReader(isr);
+	}
 
 	/**
 	 * I want to print lines to a file. 
 	 */
 	public static PrintWriter createWriter(File file) {
 		try {
+			return createWriter(file, "UTF-8");
+		} catch (UnsupportedEncodingException e) {
+		} // won't happen
+		return null; // won't happen
+	}
+	
+	/**
+	 * I want to print lines to a file. 
+	 */
+	public static PrintWriter createWriter(File file, String argEncoding) throws UnsupportedEncodingException{
+		if (file == null) {
+			log.error("File passed to createWriter() was null.  Why are you doing this to me?");
+			throw new RuntimeException(
+					"File passed to createWriter() was null.  Why are you doing this to me?");
+		}
+		try {
 			OutputStream output = new FileOutputStream(file);
 			if (file.getName().toLowerCase().endsWith(".gz")) {
 				output = new GZIPOutputStream(output);
 			}
-			return createWriter(output);
+			return createWriter(output, argEncoding);
 
 		} catch (Exception e) {
-			if (file == null) {
-				throw new RuntimeException(
-						"File passed to createWriter() was null");
-			} else {
-				e.printStackTrace();
-				throw new RuntimeException("Couldn't create a writer for "
-						+ file.getAbsolutePath());
+			if( e instanceof UnsupportedEncodingException){
+				throw (UnsupportedEncodingException)e;
 			}
+			log.error("Couldn't create a writer for "
+					+ file.getAbsolutePath());
+			log.dbe(DebugLevel.L2_ERROR, e);
+			throw new RuntimeException("Couldn't create a writer for "
+					+ file.getAbsolutePath());
 		}
 	}
 
@@ -158,11 +199,19 @@ public class IOUtils {
 	 */
 	public static PrintWriter createWriter(OutputStream output) {
 		try {
-			OutputStreamWriter osw = new OutputStreamWriter(output, "UTF-8");
-			return new PrintWriter(osw);
+			return createWriter(output, "UTF-8");
 		} catch (UnsupportedEncodingException e) {
-		}
+		} // won't happen
 		return null;
+	}
+	
+	/**
+	 * I want to print lines to a file.
+	 * @throws UnsupportedEncodingException 
+	 */
+	public static PrintWriter createWriter(OutputStream output, String argEncoding) throws UnsupportedEncodingException {
+		OutputStreamWriter osw = new OutputStreamWriter(output, argEncoding);
+		return new PrintWriter(osw);
 	}
 
 	/*
@@ -172,6 +221,11 @@ public class IOUtils {
 	 */
 	
 	public static InputStream createInput(File file) {
+		if (file == null) {
+			throw new RuntimeException(
+					"File passed to createInput() was null.  Stop doing this!");
+
+		}
 		try {
 			InputStream input = new FileInputStream(file);
 			if (file.getName().toLowerCase().endsWith(".gz")) {
@@ -180,15 +234,11 @@ public class IOUtils {
 			return input;
 
 		} catch (IOException e) {
-			if (file == null) {
-				throw new RuntimeException(
-						"File passed to createInput() was null");
-
-			} else {
-				e.printStackTrace();
-				throw new RuntimeException("Couldn't createInput() for "
-						+ file.getAbsolutePath());
-			}
+			log.error("Couldn't createInput() for "
+					+ file.getAbsolutePath());
+			log.dbe(DebugLevel.L2_ERROR, e);
+			throw new RuntimeException("Couldn't createInput() for "
+					+ file.getAbsolutePath());
 		}
 	}
 
@@ -205,7 +255,7 @@ public class IOUtils {
 			return out.toByteArray();
 
 		} catch (IOException e) {
-			e.printStackTrace();
+			log.dbe(DebugLevel.L2_ERROR, e);
 		}
 		return null;
 	}
@@ -217,11 +267,27 @@ public class IOUtils {
 		}
 		return null;
 	}
+	
+	public static String[] loadStrings(File file, String argEncoding) throws UnsupportedEncodingException {
+		InputStream is = createInput(file);
+		if (is != null) {
+			return loadStrings(is, argEncoding);
+		}
+		return null;
+	}
 
 	public static String[] loadStrings(InputStream input) {
 		try {
+			return loadStrings(input, "UTF-8");
+		} catch (UnsupportedEncodingException e) {
+		}	// not gonna happen
+		return null;
+	}
+	
+	public static String[] loadStrings(InputStream input, String argEncoding) throws UnsupportedEncodingException{
+		try {
 			BufferedReader reader = new BufferedReader(new InputStreamReader(
-					input, "UTF-8"));
+					input, argEncoding));
 
 			String lines[] = new String[100];
 			int lineCount = 0;
@@ -246,7 +312,10 @@ public class IOUtils {
 			return output;
 
 		} catch (IOException e) {
-			e.printStackTrace();
+			if(e instanceof UnsupportedEncodingException){
+				throw (UnsupportedEncodingException) e;
+			}
+			log.dbe(DebugLevel.L2_ERROR, e);
 		}
 		return null;
 	}
@@ -262,7 +331,7 @@ public class IOUtils {
 			return new FileOutputStream(file);
 
 		} catch (IOException e) {
-			e.printStackTrace();
+			log.dbe(DebugLevel.L2_ERROR, e);
 		}
 		return null;
 	}
@@ -298,7 +367,7 @@ public class IOUtils {
 			if (tempFile != null) {
 				tempFile.delete();
 			}
-			e.printStackTrace();
+			log.dbe(DebugLevel.L2_ERROR, e);
 		}
 	}
 
@@ -318,7 +387,7 @@ public class IOUtils {
 
 		} catch (IOException e) {
 			log.error("error saving bytes to " + file);
-			e.printStackTrace();
+			log.dbe(DebugLevel.L2_ERROR, e);
 		}
 	}
 
@@ -336,30 +405,44 @@ public class IOUtils {
 
 	public static void saveStrings(File file, String strings[]) {
 		try {
+			saveStrings(file, strings, "UTF-8");
+		} catch (UnsupportedEncodingException e) {
+		}	// not gonna happen
+	}
+	
+	public static void saveStrings(File file, String strings[], String argEncoding) throws UnsupportedEncodingException{
+		try {
 			String location = file.getAbsolutePath();
 			createPath(location);
 			OutputStream output = new FileOutputStream(location);
 			if (file.getName().toLowerCase().endsWith(".gz")) {
 				output = new GZIPOutputStream(output);
 			}
-			saveStrings(output, strings);
+			saveStrings(output, strings, argEncoding);
 			output.close();
 
 		} catch (IOException e) {
-			e.printStackTrace();
+			if(e instanceof UnsupportedEncodingException){
+				throw (UnsupportedEncodingException)e;
+			}
+			log.dbe(DebugLevel.L2_ERROR, e);
 		}
 	}
 
 	public static void saveStrings(OutputStream output, String strings[]) {
 		try {
-			OutputStreamWriter osw = new OutputStreamWriter(output, "UTF-8");
-			PrintWriter writer = new PrintWriter(osw);
-			for (int i = 0; i < strings.length; i++) {
-				writer.println(strings[i]);
-			}
-			writer.flush();
+			saveStrings(output, strings, "UTF-8");
 		} catch (UnsupportedEncodingException e) {
+		}	// not gonna happen
+	}
+	
+	public static void saveStrings(OutputStream output, String strings[], String argEncoding) throws UnsupportedEncodingException{
+		OutputStreamWriter osw = new OutputStreamWriter(output, argEncoding);
+		PrintWriter writer = new PrintWriter(osw);
+		for (int i = 0; i < strings.length; i++) {
+			writer.println(strings[i]);
 		}
+		writer.flush();
 	}
 
 	/**

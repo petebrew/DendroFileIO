@@ -8,6 +8,7 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.io.OutputStream;
 import java.io.PrintWriter;
+import java.io.UnsupportedEncodingException;
 import java.net.MalformedURLException;
 import java.net.URL;
 import java.util.zip.GZIPInputStream;
@@ -222,7 +223,7 @@ public class FileHelper {
 			} // online?
 
 		} catch (Exception e) {
-			e.printStackTrace();
+			log.dbe(DebugLevel.L2_ERROR, e);
 		}
 		return null;
 	}
@@ -261,7 +262,7 @@ public class FileHelper {
 			try {
 				return new GZIPInputStream(input);
 			} catch (IOException e) {
-				e.printStackTrace();
+				log.dbe(DebugLevel.L2_ERROR, e);
 				return null;
 			}
 		}
@@ -273,9 +274,13 @@ public class FileHelper {
 		IOUtils.saveStrings(saveFile(filename), strings);
 	}
 	
+	public void saveStrings(String filename, String strings[], String argEncoding) throws UnsupportedEncodingException {
+		IOUtils.saveStrings(saveFile(filename), strings, argEncoding);
+	}
+	
 	/**
 	 * Saves bytes to a file to the Environment path.  Usually where the jar is located, but
-	 * can be customized with the {@link #IOHelper(String)} constructor. The filename can be a
+	 * can be customized with the {@link #FileHelper(String)} constructor. The filename can be a
 	 * relative path, i.e. "hey/more/directories/wowbytes.txt" would save the "hey"
 	 * directory in the Environment path.
 	 */
@@ -294,7 +299,7 @@ public class FileHelper {
 
 	/**
 	 * Save the contents of a stream to a file usually where the jar is located,
-	 * but can be customized with the {@link #IOHelper(String)} constructor. This is
+	 * but can be customized with the {@link #FileHelper(String)} constructor. This is
 	 * basically saveBytes(blah, loadBytes()), but done in a less confusing
 	 * manner.
 	 */
@@ -305,7 +310,7 @@ public class FileHelper {
 	/**
 	 * Similar to createInput(), this creates a Java
 	 * OutputStream for a given filename or path. The file will be created where
-	 * the jar is located folder, or customized with {@link #IOHelper(String)}. <p/>
+	 * the jar is located folder, or customized with {@link #FileHelper(String)}. <p/>
 	 * If the path does not exist, intermediate folders will be created. If an
 	 * exception occurs, it will be printed to the console, and null will be
 	 * returned.
