@@ -8,11 +8,4 @@ import org.tridas.schema.TridasObject;
 public class CatrasToTridasDefaults extends TridasMetadataFieldSet implements IMetadataFieldSet {
 
 	
-	// example of customizing
-	@Override
-	protected TridasObject getDefaultTridasObject(){
-		TridasObject object = super.getDefaultTridasObject();
-		object.setComments("Converted from Tucson file");
-		return object;
-	}
 }
