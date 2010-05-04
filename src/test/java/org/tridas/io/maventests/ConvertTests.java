@@ -169,7 +169,7 @@ public class ConvertTests extends TestCase {
 		// Parse the legacy data file
 		try {
 			//TridasEntitiesFromDefaults def = new TridasEntitiesFromDefaults();
-			reader.loadFile("TestData/CATRAS", "UAKK0550.CAT");
+			reader.loadFile("TestData/CATRAS", "OBL10002.CAT");
 		} catch (IOException e) {
 			// Standard IO Exception
 			System.out.println(e.getLocalizedMessage());
