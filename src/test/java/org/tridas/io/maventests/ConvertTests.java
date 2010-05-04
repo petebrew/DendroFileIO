@@ -7,6 +7,7 @@ import org.tridas.io.defaults.TridasMetadataFieldSet;
 import org.tridas.io.formats.belfastapple.BelfastAppleReader;
 import org.tridas.io.formats.belfastarchive.BelfastArchiveReader;
 import org.tridas.io.formats.catras.CatrasReader;
+import org.tridas.io.formats.heidelberg.HeidelbergReader;
 import org.tridas.io.formats.sheffield.SheffieldReader;
 import org.tridas.io.formats.tridas.TridasReader;
 import org.tridas.io.formats.tridas.TridasWriter;
@@ -204,6 +205,45 @@ public class ConvertTests extends TestCase {
 		
 	}
 	
+	public void testHeidelbergToTridas(){
+		HeidelbergReader reader = new HeidelbergReader();
+		
+		// Parse the legacy data file
+		try {
+			//TridasEntitiesFromDefaults def = new TridasEntitiesFromDefaults();
+			reader.loadFile("TestData/Heidelberg", "UAKK0540.fh");
+		} catch (IOException e) {
+			// Standard IO Exception
+			System.out.println(e.getLocalizedMessage());
+			fail();
+		} catch (InvalidDendroFileException e) {
+			// Fatal error interpreting file
+			System.out.println(e.getLocalizedMessage());
+			fail();
+		}
+		
+		
+		
+		// Extract the TridasProject
+		TridasProject myproject = reader.getProject();
+		
+		TridasWriter writer = new TridasWriter();
+		writer.setNamingConvention(new UUIDNamingConvention());
+		
+		try {
+			writer.loadProject(myproject);
+		} catch (IncompleteTridasDataException e) {
+			fail();
+		} catch (ConversionWarningException e) {
+		}
+		writer.saveAllToDisk("target/testOutput/");
+		
+		for(DendroFile file : writer.getFiles())
+		{
+			System.out.println("Saved: " + writer.getNamingConvention().getFilename(file)+"."+file.getExtension());
+		}
+		
+	}
 	
 	public void testTrimsToTridas() 
 	{
