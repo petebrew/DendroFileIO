@@ -59,7 +59,7 @@ public class StringDefaultValue extends AbstractDefaultValue<String> {
 		}
 		argValue = validValue(argValue);
 		if(argValue != null){
-			log.debug("value stored: "+argValue);
+			log.verbose("value stored: "+argValue);
 			value = argValue;
 			return true;
 		}
