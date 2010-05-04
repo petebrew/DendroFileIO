@@ -1825,3 +1825,349 @@ Sat 2010/05/01 02:24:38.196|   |main|StringDefaultValue|value stored: Unnamed ra
 Sat 2010/05/01 02:24:38.198|   |main|StringDefaultValue|value stored: Unnamed series
 Sat 2010/05/01 02:24:38.199|   |main|StringDefaultValue|value stored: Unnamed series
 Sat 2010/05/01 02:24:38.201|   |main|StringDefaultValue|value stored: TRiDaSDendroFileIO
+Tue 2010/05/04 19:25:59.738|   |main|AbstractDendroFileReader|loading file from: UAKK0540.fh
+Tue 2010/05/04 19:25:59.839|   |main|FileHelper|Error while detecting or decoding charset on file: UAKK0540.fh
+Tue 2010/05/04 19:25:59.866|***|main|FileHelper|java.io.IOException: mark/reset not supported
+java.io.IOException: mark/reset not supported
+	at java.io.InputStream.reset(InputStream.java:334)
+	at com.ibm.icu.text.CharsetDetector.setText(CharsetDetector.java:131)
+	at org.tridas.io.util.FileHelper.loadStringsFromDetectedCharset(FileHelper.java:94)
+	at org.tridas.io.AbstractDendroFileReader.loadFile(AbstractDendroFileReader.java:130)
+	at org.tridas.io.maventests.ConvertTests.testHeidelbergToTridas(ConvertTests.java:214)
+	at sun.reflect.NativeMethodAccessorImpl.invoke0(Native Method)
+	at sun.reflect.NativeMethodAccessorImpl.invoke(NativeMethodAccessorImpl.java:39)
+	at sun.reflect.DelegatingMethodAccessorImpl.invoke(DelegatingMethodAccessorImpl.java:25)
+	at java.lang.reflect.Method.invoke(Method.java:597)
+	at junit.framework.TestCase.runTest(TestCase.java:168)
+	at junit.framework.TestCase.runBare(TestCase.java:134)
+	at junit.framework.TestResult$1.protect(TestResult.java:110)
+	at junit.framework.TestResult.runProtected(TestResult.java:128)
+	at junit.framework.TestResult.run(TestResult.java:113)
+	at junit.framework.TestCase.run(TestCase.java:124)
+	at junit.framework.TestSuite.runTest(TestSuite.java:232)
+	at junit.framework.TestSuite.run(TestSuite.java:227)
+	at org.junit.internal.runners.JUnit38ClassRunner.run(JUnit38ClassRunner.java:83)
+	at org.eclipse.jdt.internal.junit4.runner.JUnit4TestReference.run(JUnit4TestReference.java:46)
+	at org.eclipse.jdt.internal.junit.runner.TestExecution.run(TestExecution.java:38)
+	at org.eclipse.jdt.internal.junit.runner.RemoteTestRunner.runTests(RemoteTestRunner.java:467)
+	at org.eclipse.jdt.internal.junit.runner.RemoteTestRunner.runTests(RemoteTestRunner.java:683)
+	at org.eclipse.jdt.internal.junit.runner.RemoteTestRunner.run(RemoteTestRunner.java:390)
+	at org.eclipse.jdt.internal.junit.runner.RemoteTestRunner.main(RemoteTestRunner.java:197)
+
+Tue 2010/05/04 19:27:36.912|   |main|AbstractDendroFileReader|loading file from: UAKK0540.fh
+Tue 2010/05/04 19:27:36.974|   |main|FileHelper|Best charset match for file 'UAKK0540.fh' is ISO-8859-1 with a confidence of 40%
+Tue 2010/05/04 19:27:36.978|   |main|HeidelbergReader|Parsing: [Ljava.lang.String;@1016632
+Tue 2010/05/04 19:30:33.004|   |main|AbstractDendroFileReader|loading file from: UAKK0540.fh
+Tue 2010/05/04 19:30:33.076|   |main|FileHelper|Best charset match for file 'UAKK0540.fh' is fr ISO-8859-1 with a confidence of 40%
+Tue 2010/05/04 19:30:33.079|   |main|HeidelbergReader|Parsing: [Ljava.lang.String;@d1e89e
+Tue 2010/05/04 19:32:29.196|   |main|AbstractDendroFileReader|loading file from: UAKK0540.fh
+Tue 2010/05/04 19:32:29.263|   |main|FileHelper|Best charset match for file 'UAKK0540.fh' is fr ISO-8859-1 with a confidence of 40%
+Tue 2010/05/04 19:32:29.267|   |main|HeidelbergReader|Parsing: [Ljava.lang.String;@d1e89e
+Tue 2010/05/04 19:33:52.137|   |main|AbstractDendroFileReader|loading file from: UAKK0540.fh
+Tue 2010/05/04 19:33:52.202|   |main|FileHelper|Best charset match for file 'UAKK0540.fh' is en ISO-8859-1 with a confidence of 40%
+Tue 2010/05/04 19:33:52.207|   |main|HeidelbergReader|Parsing: [Ljava.lang.String;@ff057f
+Tue 2010/05/04 19:48:40.105|   |main|AbstractDendroFileReader|loading file from: UAKK0540.fh
+Tue 2010/05/04 19:48:40.122|   |main|FileHelper|The file 'UAKK0540.fh' is missing or inaccessible, make sure the URL is valid or that the file is in the samedirectory as the jar and is readable.
+Tue 2010/05/04 19:48:40.126|***|main|IOUtils|java.io.IOException: Stream closed
+java.io.IOException: Stream closed
+	at java.io.BufferedInputStream.getInIfOpen(BufferedInputStream.java:134)
+	at java.io.BufferedInputStream.fill(BufferedInputStream.java:218)
+	at java.io.BufferedInputStream.read(BufferedInputStream.java:237)
+	at org.tridas.io.util.IOUtils.loadBytes(IOUtils.java:250)
+	at org.tridas.io.util.FileHelper.loadStringsFromDetectedCharset(FileHelper.java:91)
+	at org.tridas.io.AbstractDendroFileReader.loadFile(AbstractDendroFileReader.java:147)
+	at org.tridas.io.maventests.ConvertTests.testHeidelbergToTridas(ConvertTests.java:216)
+	at sun.reflect.NativeMethodAccessorImpl.invoke0(Native Method)
+	at sun.reflect.NativeMethodAccessorImpl.invoke(NativeMethodAccessorImpl.java:39)
+	at sun.reflect.DelegatingMethodAccessorImpl.invoke(DelegatingMethodAccessorImpl.java:25)
+	at java.lang.reflect.Method.invoke(Method.java:597)
+	at junit.framework.TestCase.runTest(TestCase.java:168)
+	at junit.framework.TestCase.runBare(TestCase.java:134)
+	at junit.framework.TestResult$1.protect(TestResult.java:110)
+	at junit.framework.TestResult.runProtected(TestResult.java:128)
+	at junit.framework.TestResult.run(TestResult.java:113)
+	at junit.framework.TestCase.run(TestCase.java:124)
+	at junit.framework.TestSuite.runTest(TestSuite.java:232)
+	at junit.framework.TestSuite.run(TestSuite.java:227)
+	at org.junit.internal.runners.JUnit38ClassRunner.run(JUnit38ClassRunner.java:83)
+	at org.eclipse.jdt.internal.junit4.runner.JUnit4TestReference.run(JUnit4TestReference.java:46)
+	at org.eclipse.jdt.internal.junit.runner.TestExecution.run(TestExecution.java:38)
+	at org.eclipse.jdt.internal.junit.runner.RemoteTestRunner.runTests(RemoteTestRunner.java:467)
+	at org.eclipse.jdt.internal.junit.runner.RemoteTestRunner.runTests(RemoteTestRunner.java:683)
+	at org.eclipse.jdt.internal.junit.runner.RemoteTestRunner.run(RemoteTestRunner.java:390)
+	at org.eclipse.jdt.internal.junit.runner.RemoteTestRunner.main(RemoteTestRunner.java:197)
+
+Tue 2010/05/04 19:49:26.048|   |main|AbstractDendroFileReader|loading file from: Tridas1.xml
+Tue 2010/05/04 19:49:27.338|   |main|StringDefaultValue|The string 'f3cd6855-fe17-4bec-83e2-2ca92aba4ef7' is too big, max length is '6' characters.
+Tue 2010/05/04 19:49:27.342|   |main|AbstractMetadataFieldSet|Warning from defaults: org.tridas.io.warnings.ConversionWarning@16d835f
+Tue 2010/05/04 19:49:27.346|   |main|StringDefaultValue|The string 'Unnamed object' is too small, padding (on the right? true)
+Tue 2010/05/04 19:49:27.353|   |main|StringDefaultValue|The string 'Plantae' is too small, padding (on the right? true)
+Tue 2010/05/04 19:49:27.355|   |main|StringDefaultValue|The string 'Unknown' is too small, padding (on the right? true)
+Tue 2010/05/04 19:49:27.357|   |main|StringDefaultValue|The string '' is too small, padding (on the right? true)
+Tue 2010/05/04 19:49:27.358|   |main|StringDefaultValue|The string 'Unknown' is too small, padding (on the right? true)
+Tue 2010/05/04 19:49:27.361|   |main|StringDefaultValue|The string 'a338e24d-0e32-4ed6-be84-0534de4b229c' is too big, max length is '6' characters.
+Tue 2010/05/04 19:49:27.363|   |main|AbstractMetadataFieldSet|Warning from defaults: org.tridas.io.warnings.ConversionWarning@1de4dd8
+Tue 2010/05/04 19:49:27.364|   |main|StringDefaultValue|The string 'Unnamed object' is too small, padding (on the right? true)
+Tue 2010/05/04 19:49:27.366|   |main|StringDefaultValue|The string 'Plantae' is too small, padding (on the right? true)
+Tue 2010/05/04 19:49:27.367|   |main|StringDefaultValue|The string 'Unknown' is too small, padding (on the right? true)
+Tue 2010/05/04 19:49:27.369|   |main|StringDefaultValue|The string '' is too small, padding (on the right? true)
+Tue 2010/05/04 19:49:27.370|   |main|StringDefaultValue|The string 'Unknown' is too small, padding (on the right? true)
+Tue 2010/05/04 19:49:27.372|   |main|StringDefaultValue|The string '739161be-ed6e-4b52-98a8-7cdeb6378776' is too big, max length is '6' characters.
+Tue 2010/05/04 19:49:27.374|   |main|AbstractMetadataFieldSet|Warning from defaults: org.tridas.io.warnings.ConversionWarning@4a5c78
+Tue 2010/05/04 19:49:27.375|   |main|StringDefaultValue|The string 'Unnamed object' is too small, padding (on the right? true)
+Tue 2010/05/04 19:49:27.377|   |main|StringDefaultValue|The string 'Plantae' is too small, padding (on the right? true)
+Tue 2010/05/04 19:49:27.378|   |main|StringDefaultValue|The string 'Unknown' is too small, padding (on the right? true)
+Tue 2010/05/04 19:49:27.380|   |main|StringDefaultValue|The string '' is too small, padding (on the right? true)
+Tue 2010/05/04 19:49:27.414|   |main|StringDefaultValue|The string 'Unknown' is too small, padding (on the right? true)
+Tue 2010/05/04 19:49:27.417|   |main|StringDefaultValue|The string 'Peter I Kuniholm' is too small, padding (on the right? true)
+Tue 2010/05/04 19:49:27.419|   |main|StringDefaultValue|The string '28acb483-f337-412f-a063-59d911c37594' is too big, max length is '6' characters.
+Tue 2010/05/04 19:49:27.436|   |main|AbstractMetadataFieldSet|Warning from defaults: org.tridas.io.warnings.ConversionWarning@14c28db
+Tue 2010/05/04 19:49:27.506|   |main|StringDefaultValue|The string 'White Tower, Thessaloniki' is too small, padding (on the right? true)
+Tue 2010/05/04 19:49:27.843|   |main|StringDefaultValue|The string '1997-02-01T14:13:51.0Z' is too big, max length is '8' characters.
+Tue 2010/05/04 19:49:27.862|   |main|AbstractMetadataFieldSet|Warning from defaults: org.tridas.io.warnings.ConversionWarning@1c8fb4b
+Tue 2010/05/04 19:49:27.880|   |main|StringDefaultValue|The string 'Quercus' is too small, padding (on the right? true)
+Tue 2010/05/04 19:49:28.017|   |main|AbstractDefaultValue|The string '' is too small, padding (on the right? true)
+Tue 2010/05/04 19:49:28.053|   |main|StringDefaultValue|The string '59cfc1a0-81ea-469a-b443-1e1808e79c4d' is too big, max length is '6' characters.
+Tue 2010/05/04 19:49:28.055|   |main|AbstractMetadataFieldSet|Warning from defaults: org.tridas.io.warnings.ConversionWarning@a68fd8
+Tue 2010/05/04 19:49:28.058|   |main|StringDefaultValue|The string 'Unnamed object' is too small, padding (on the right? true)
+Tue 2010/05/04 19:49:28.061|   |main|StringDefaultValue|The string 'Plantae' is too small, padding (on the right? true)
+Tue 2010/05/04 19:49:28.063|   |main|StringDefaultValue|The string 'Unknown' is too small, padding (on the right? true)
+Tue 2010/05/04 19:49:28.064|   |main|StringDefaultValue|The string '' is too small, padding (on the right? true)
+Tue 2010/05/04 19:49:28.066|   |main|StringDefaultValue|The string 'Unknown' is too small, padding (on the right? true)
+Tue 2010/05/04 19:49:28.068|   |main|StringDefaultValue|The string 'c033de39-a2aa-4736-847e-bb51548c48e9' is too big, max length is '6' characters.
+Tue 2010/05/04 19:49:28.070|   |main|AbstractMetadataFieldSet|Warning from defaults: org.tridas.io.warnings.ConversionWarning@12dd538
+Tue 2010/05/04 19:49:28.072|   |main|StringDefaultValue|The string 'Unnamed object' is too small, padding (on the right? true)
+Tue 2010/05/04 19:49:28.074|   |main|StringDefaultValue|The string 'Plantae' is too small, padding (on the right? true)
+Tue 2010/05/04 19:49:28.075|   |main|StringDefaultValue|The string 'Unknown' is too small, padding (on the right? true)
+Tue 2010/05/04 19:49:28.077|   |main|StringDefaultValue|The string '' is too small, padding (on the right? true)
+Tue 2010/05/04 19:49:28.079|   |main|StringDefaultValue|The string 'Unknown' is too small, padding (on the right? true)
+Tue 2010/05/04 19:49:28.081|   |main|AbstractDendroFileReader|loading file from: Tucson1.rwl
+Tue 2010/05/04 19:49:28.084|   |main|FileHelper|The file 'Tucson1.rwl' is missing or inaccessible, make sure the URL is valid or that the file is in the samedirectory as the jar and is readable.
+Tue 2010/05/04 19:49:28.088|   |main|CatrasReader|loading file from: OBL10002.CAT
+Tue 2010/05/04 19:49:28.091|   |main|FileHelper|The file 'OBL10002.CAT' is missing or inaccessible, make sure the URL is valid or that the file is in the samedirectory as the jar and is readable.
+Tue 2010/05/04 19:49:28.096|   |main|AbstractDendroFileReader|loading file from: UAKK0560.fh
+Tue 2010/05/04 19:49:28.159|   |main|FileHelper|Best charset match for file 'UAKK0560.fh' is fr ISO-8859-1 with a confidence of 40%
+Tue 2010/05/04 19:49:28.162|   |main|HeidelbergReader|Parsing: [Ljava.lang.String;@178920a
+Tue 2010/05/04 19:49:28.587|   |main|AbstractDendroFileReader|loading file from: GRC04B.txt
+Tue 2010/05/04 19:49:28.590|   |main|FileHelper|The file 'GRC04B.txt' is missing or inaccessible, make sure the URL is valid or that the file is in the samedirectory as the jar and is readable.
+Tue 2010/05/04 19:49:28.592|***|main|IOUtils|java.io.IOException: Stream closed
+java.io.IOException: Stream closed
+	at java.io.BufferedInputStream.getInIfOpen(BufferedInputStream.java:134)
+	at java.io.BufferedInputStream.fill(BufferedInputStream.java:218)
+	at java.io.BufferedInputStream.read(BufferedInputStream.java:237)
+	at org.tridas.io.util.IOUtils.loadBytes(IOUtils.java:250)
+	at org.tridas.io.util.FileHelper.loadStringsFromDetectedCharset(FileHelper.java:91)
+	at org.tridas.io.AbstractDendroFileReader.loadFile(AbstractDendroFileReader.java:147)
+	at org.tridas.io.maventests.ConvertTests.testTrimsToTridas(ConvertTests.java:259)
+	at sun.reflect.NativeMethodAccessorImpl.invoke0(Native Method)
+	at sun.reflect.NativeMethodAccessorImpl.invoke(NativeMethodAccessorImpl.java:39)
+	at sun.reflect.DelegatingMethodAccessorImpl.invoke(DelegatingMethodAccessorImpl.java:25)
+	at java.lang.reflect.Method.invoke(Method.java:597)
+	at junit.framework.TestCase.runTest(TestCase.java:168)
+	at junit.framework.TestCase.runBare(TestCase.java:134)
+	at junit.framework.TestResult$1.protect(TestResult.java:110)
+	at junit.framework.TestResult.runProtected(TestResult.java:128)
+	at junit.framework.TestResult.run(TestResult.java:113)
+	at junit.framework.TestCase.run(TestCase.java:124)
+	at junit.framework.TestSuite.runTest(TestSuite.java:232)
+	at junit.framework.TestSuite.run(TestSuite.java:227)
+	at org.junit.internal.runners.JUnit38ClassRunner.run(JUnit38ClassRunner.java:83)
+	at org.eclipse.jdt.internal.junit4.runner.JUnit4TestReference.run(JUnit4TestReference.java:46)
+	at org.eclipse.jdt.internal.junit.runner.TestExecution.run(TestExecution.java:38)
+	at org.eclipse.jdt.internal.junit.runner.RemoteTestRunner.runTests(RemoteTestRunner.java:467)
+	at org.eclipse.jdt.internal.junit.runner.RemoteTestRunner.runTests(RemoteTestRunner.java:683)
+	at org.eclipse.jdt.internal.junit.runner.RemoteTestRunner.run(RemoteTestRunner.java:390)
+	at org.eclipse.jdt.internal.junit.runner.RemoteTestRunner.main(RemoteTestRunner.java:197)
+
+Tue 2010/05/04 19:49:28.641|   |main|AbstractDendroFileReader|loading file from: yhg50683.d
+Tue 2010/05/04 19:49:28.720|   |main|FileHelper|Best charset match for file 'yhg50683.d' is ro ISO-8859-2 with a confidence of 27%
+Tue 2010/05/04 19:49:28.775|   |main|SheffieldReader|value = 454
+Tue 2010/05/04 19:49:28.777|   |main|SheffieldReader|value = 309
+Tue 2010/05/04 19:49:28.778|   |main|SheffieldReader|value = 314
+Tue 2010/05/04 19:49:28.780|   |main|SheffieldReader|value = 270
+Tue 2010/05/04 19:49:28.781|   |main|SheffieldReader|value = 273
+Tue 2010/05/04 19:49:28.783|   |main|SheffieldReader|value = 229
+Tue 2010/05/04 19:49:28.785|   |main|SheffieldReader|value = 319
+Tue 2010/05/04 19:49:28.786|   |main|SheffieldReader|value = 267
+Tue 2010/05/04 19:49:28.789|   |main|SheffieldReader|value = 276
+Tue 2010/05/04 19:49:28.791|   |main|SheffieldReader|value = 128
+Tue 2010/05/04 19:49:28.793|   |main|SheffieldReader|value = 163
+Tue 2010/05/04 19:49:28.795|   |main|SheffieldReader|value = 221
+Tue 2010/05/04 19:49:28.796|   |main|SheffieldReader|value = 269
+Tue 2010/05/04 19:49:28.798|   |main|SheffieldReader|value = 214
+Tue 2010/05/04 19:49:28.799|   |main|SheffieldReader|value = 201
+Tue 2010/05/04 19:49:28.801|   |main|SheffieldReader|value = 218
+Tue 2010/05/04 19:49:28.803|   |main|SheffieldReader|value = 199
+Tue 2010/05/04 19:49:28.805|   |main|SheffieldReader|value = 198
+Tue 2010/05/04 19:49:28.806|   |main|SheffieldReader|value = 209
+Tue 2010/05/04 19:49:28.808|   |main|SheffieldReader|value = 156
+Tue 2010/05/04 19:49:28.809|   |main|SheffieldReader|value = 177
+Tue 2010/05/04 19:49:28.811|   |main|SheffieldReader|value = 182
+Tue 2010/05/04 19:49:28.812|   |main|SheffieldReader|value = 193
+Tue 2010/05/04 19:49:28.814|   |main|SheffieldReader|value = 198
+Tue 2010/05/04 19:49:28.815|   |main|SheffieldReader|value = 153
+Tue 2010/05/04 19:49:28.817|   |main|SheffieldReader|value = 160
+Tue 2010/05/04 19:49:28.818|   |main|SheffieldReader|value = 213
+Tue 2010/05/04 19:49:28.820|   |main|SheffieldReader|value = 146
+Tue 2010/05/04 19:49:28.822|   |main|SheffieldReader|value = 160
+Tue 2010/05/04 19:49:28.824|   |main|SheffieldReader|value = 152
+Tue 2010/05/04 19:49:28.825|   |main|SheffieldReader|value = 124
+Tue 2010/05/04 19:49:28.827|   |main|SheffieldReader|value = 144
+Tue 2010/05/04 19:49:28.829|   |main|SheffieldReader|value = 137
+Tue 2010/05/04 19:49:28.831|   |main|SheffieldReader|value = 159
+Tue 2010/05/04 19:49:28.833|   |main|SheffieldReader|value = 107
+Tue 2010/05/04 19:49:28.835|   |main|SheffieldReader|value = 162
+Tue 2010/05/04 19:49:28.836|   |main|SheffieldReader|value = 184
+Tue 2010/05/04 19:49:28.838|   |main|SheffieldReader|value = 193
+Tue 2010/05/04 19:49:28.839|   |main|SheffieldReader|value = 186
+Tue 2010/05/04 19:49:28.841|   |main|SheffieldReader|value = 175
+Tue 2010/05/04 19:49:28.844|   |main|SheffieldReader|value = 166
+Tue 2010/05/04 19:49:28.846|   |main|SheffieldReader|value = 222
+Tue 2010/05/04 19:49:28.847|   |main|SheffieldReader|value = 206
+Tue 2010/05/04 19:49:28.849|   |main|SheffieldReader|value = 168
+Tue 2010/05/04 19:49:28.850|   |main|SheffieldReader|value = 130
+Tue 2010/05/04 19:49:28.852|   |main|SheffieldReader|value = 144
+Tue 2010/05/04 19:49:28.855|   |main|SheffieldReader|value = 148
+Tue 2010/05/04 19:49:28.856|   |main|SheffieldReader|value = 113
+Tue 2010/05/04 19:49:28.858|   |main|SheffieldReader|value = 122
+Tue 2010/05/04 19:49:28.859|   |main|SheffieldReader|value = 145
+Tue 2010/05/04 19:49:28.861|   |main|SheffieldReader|value = 128
+Tue 2010/05/04 19:49:28.863|   |main|SheffieldReader|value = 151
+Tue 2010/05/04 19:49:28.864|   |main|SheffieldReader|value = 193
+Tue 2010/05/04 19:49:28.866|   |main|SheffieldReader|value = 122
+Tue 2010/05/04 19:49:28.867|   |main|SheffieldReader|value = 165
+Tue 2010/05/04 19:49:28.869|   |main|SheffieldReader|value = 142
+Tue 2010/05/04 19:49:28.871|   |main|SheffieldReader|value = 168
+Tue 2010/05/04 19:49:28.873|   |main|SheffieldReader|value = 146
+Tue 2010/05/04 19:49:28.874|   |main|SheffieldReader|value = 143
+Tue 2010/05/04 19:49:28.876|   |main|SheffieldReader|value = 186
+Tue 2010/05/04 19:49:28.877|   |main|SheffieldReader|value = 199
+Tue 2010/05/04 19:49:28.879|   |main|SheffieldReader|value = 156
+Tue 2010/05/04 19:49:28.880|   |main|SheffieldReader|value = 163
+Tue 2010/05/04 19:49:28.882|   |main|SheffieldReader|value = 125
+Tue 2010/05/04 19:49:28.883|   |main|SheffieldReader|value = 168
+Tue 2010/05/04 19:49:28.885|   |main|SheffieldReader|value = 130
+Tue 2010/05/04 19:49:28.886|   |main|SheffieldReader|value = 108
+Tue 2010/05/04 19:49:28.888|   |main|SheffieldReader|value = 148
+Tue 2010/05/04 19:49:28.889|   |main|SheffieldReader|value = 165
+Tue 2010/05/04 19:49:28.891|   |main|SheffieldReader|value = 153
+Tue 2010/05/04 19:49:28.892|   |main|SheffieldReader|value = 161
+Tue 2010/05/04 19:49:28.894|   |main|SheffieldReader|value = 158
+Tue 2010/05/04 19:49:28.896|   |main|SheffieldReader|value = 165
+Tue 2010/05/04 19:49:28.897|   |main|SheffieldReader|value = 152
+Tue 2010/05/04 19:49:28.898|   |main|SheffieldReader|value = 146
+Tue 2010/05/04 19:49:28.900|   |main|SheffieldReader|value = 187
+Tue 2010/05/04 19:49:28.901|   |main|SheffieldReader|value = 186
+Tue 2010/05/04 19:49:28.903|   |main|SheffieldReader|value = 186
+Tue 2010/05/04 19:49:28.905|   |main|SheffieldReader|value = 178
+Tue 2010/05/04 19:49:28.906|   |main|SheffieldReader|value = 168
+Tue 2010/05/04 19:49:28.908|   |main|SheffieldReader|value = 153
+Tue 2010/05/04 19:49:28.909|   |main|SheffieldReader|value = 219
+Tue 2010/05/04 19:49:28.910|   |main|SheffieldReader|value = 217
+Tue 2010/05/04 19:49:28.912|   |main|SheffieldReader|value = 203
+Tue 2010/05/04 19:49:28.914|   |main|SheffieldReader|value = 167
+Tue 2010/05/04 19:49:28.915|   |main|SheffieldReader|value = 170
+Tue 2010/05/04 19:49:28.917|   |main|SheffieldReader|value = 148
+Tue 2010/05/04 19:49:28.919|   |main|SheffieldReader|value = 151
+Tue 2010/05/04 19:49:28.920|   |main|SheffieldReader|value = 154
+Tue 2010/05/04 19:49:28.921|   |main|SheffieldReader|value = 92
+Tue 2010/05/04 19:49:28.923|   |main|SheffieldReader|value = 130
+Tue 2010/05/04 19:49:28.925|   |main|SheffieldReader|value = 165
+Tue 2010/05/04 19:49:28.926|   |main|SheffieldReader|value = 150
+Tue 2010/05/04 19:49:28.928|   |main|SheffieldReader|value = 158
+Tue 2010/05/04 19:49:28.930|   |main|SheffieldReader|value = 166
+Tue 2010/05/04 19:49:28.931|   |main|SheffieldReader|value = 187
+Tue 2010/05/04 19:49:28.933|   |main|SheffieldReader|value = 196
+Tue 2010/05/04 19:49:28.934|   |main|SheffieldReader|value = 140
+Tue 2010/05/04 19:49:28.936|   |main|SheffieldReader|value = 168
+Tue 2010/05/04 19:49:28.937|   |main|SheffieldReader|value = 144
+Tue 2010/05/04 19:49:28.939|   |main|SheffieldReader|value = 142
+Tue 2010/05/04 19:49:28.941|   |main|SheffieldReader|value = 125
+Tue 2010/05/04 19:49:28.942|   |main|SheffieldReader|value = 133
+Tue 2010/05/04 19:49:28.943|   |main|SheffieldReader|value = 122
+Tue 2010/05/04 19:49:28.945|   |main|SheffieldReader|value = 134
+Tue 2010/05/04 19:49:28.946|   |main|SheffieldReader|value = 154
+Tue 2010/05/04 19:49:28.948|   |main|SheffieldReader|value = 159
+Tue 2010/05/04 19:49:28.950|   |main|SheffieldReader|value = 162
+Tue 2010/05/04 19:49:28.952|   |main|SheffieldReader|value = 138
+Tue 2010/05/04 19:49:28.957|   |main|SheffieldReader|value = 133
+Tue 2010/05/04 19:49:28.958|   |main|SheffieldReader|value = 132
+Tue 2010/05/04 19:49:28.960|   |main|SheffieldReader|value = 117
+Tue 2010/05/04 19:49:28.962|   |main|SheffieldReader|value = 83
+Tue 2010/05/04 19:49:28.964|   |main|SheffieldReader|value = 90
+Tue 2010/05/04 19:49:28.965|   |main|SheffieldReader|value = 82
+Tue 2010/05/04 19:49:28.967|   |main|SheffieldReader|value = 129
+Tue 2010/05/04 19:49:28.969|   |main|SheffieldReader|value = 107
+Tue 2010/05/04 19:49:28.970|   |main|SheffieldReader|value = 98
+Tue 2010/05/04 19:49:28.972|   |main|SheffieldReader|value = 113
+Tue 2010/05/04 19:49:28.974|   |main|SheffieldReader|value = 129
+Tue 2010/05/04 19:49:28.978|   |main|SheffieldReader|value = 103
+Tue 2010/05/04 19:49:28.979|   |main|SheffieldReader|value = 95
+Tue 2010/05/04 19:49:28.981|   |main|SheffieldReader|value = 88
+Tue 2010/05/04 19:49:28.982|   |main|SheffieldReader|value = 90
+Tue 2010/05/04 19:49:28.984|   |main|SheffieldReader|value = 97
+Tue 2010/05/04 19:49:28.986|   |main|SheffieldReader|value = 84
+Tue 2010/05/04 19:49:28.987|   |main|SheffieldReader|value = 102
+Tue 2010/05/04 19:49:28.989|   |main|SheffieldReader|value = 106
+Tue 2010/05/04 19:49:29.341|   |main|AbstractDendroFileReader|loading file from: A1805.txt
+Tue 2010/05/04 19:49:29.355|   |main|FileHelper|The file 'A1805.txt' is missing or inaccessible, make sure the URL is valid or that the file is in the samedirectory as the jar and is readable.
+Tue 2010/05/04 19:49:29.356|***|main|IOUtils|java.io.IOException: Stream closed
+java.io.IOException: Stream closed
+	at java.io.BufferedInputStream.getInIfOpen(BufferedInputStream.java:134)
+	at java.io.BufferedInputStream.fill(BufferedInputStream.java:218)
+	at java.io.BufferedInputStream.read(BufferedInputStream.java:237)
+	at org.tridas.io.util.IOUtils.loadBytes(IOUtils.java:250)
+	at org.tridas.io.util.FileHelper.loadStringsFromDetectedCharset(FileHelper.java:91)
+	at org.tridas.io.AbstractDendroFileReader.loadFile(AbstractDendroFileReader.java:147)
+	at org.tridas.io.maventests.ConvertTests.testBelfastAppleToTridas(ConvertTests.java:347)
+	at sun.reflect.NativeMethodAccessorImpl.invoke0(Native Method)
+	at sun.reflect.NativeMethodAccessorImpl.invoke(NativeMethodAccessorImpl.java:39)
+	at sun.reflect.DelegatingMethodAccessorImpl.invoke(DelegatingMethodAccessorImpl.java:25)
+	at java.lang.reflect.Method.invoke(Method.java:597)
+	at junit.framework.TestCase.runTest(TestCase.java:168)
+	at junit.framework.TestCase.runBare(TestCase.java:134)
+	at junit.framework.TestResult$1.protect(TestResult.java:110)
+	at junit.framework.TestResult.runProtected(TestResult.java:128)
+	at junit.framework.TestResult.run(TestResult.java:113)
+	at junit.framework.TestCase.run(TestCase.java:124)
+	at junit.framework.TestSuite.runTest(TestSuite.java:232)
+	at junit.framework.TestSuite.run(TestSuite.java:227)
+	at org.junit.internal.runners.JUnit38ClassRunner.run(JUnit38ClassRunner.java:83)
+	at org.eclipse.jdt.internal.junit4.runner.JUnit4TestReference.run(JUnit4TestReference.java:46)
+	at org.eclipse.jdt.internal.junit.runner.TestExecution.run(TestExecution.java:38)
+	at org.eclipse.jdt.internal.junit.runner.RemoteTestRunner.runTests(RemoteTestRunner.java:467)
+	at org.eclipse.jdt.internal.junit.runner.RemoteTestRunner.runTests(RemoteTestRunner.java:683)
+	at org.eclipse.jdt.internal.junit.runner.RemoteTestRunner.run(RemoteTestRunner.java:390)
+	at org.eclipse.jdt.internal.junit.runner.RemoteTestRunner.main(RemoteTestRunner.java:197)
+
+Tue 2010/05/04 19:49:29.362|   |main|AbstractDendroFileReader|loading file from: bellframe1.arx
+Tue 2010/05/04 19:49:29.364|   |main|FileHelper|The file 'bellframe1.arx' is missing or inaccessible, make sure the URL is valid or that the file is in the samedirectory as the jar and is readable.
+Tue 2010/05/04 19:49:29.366|***|main|IOUtils|java.io.IOException: Stream closed
+java.io.IOException: Stream closed
+	at java.io.BufferedInputStream.getInIfOpen(BufferedInputStream.java:134)
+	at java.io.BufferedInputStream.fill(BufferedInputStream.java:218)
+	at java.io.BufferedInputStream.read(BufferedInputStream.java:237)
+	at org.tridas.io.util.IOUtils.loadBytes(IOUtils.java:250)
+	at org.tridas.io.util.FileHelper.loadStringsFromDetectedCharset(FileHelper.java:91)
+	at org.tridas.io.AbstractDendroFileReader.loadFile(AbstractDendroFileReader.java:147)
+	at org.tridas.io.maventests.ConvertTests.testBelfastArchiveToTridas(ConvertTests.java:391)
+	at sun.reflect.NativeMethodAccessorImpl.invoke0(Native Method)
+	at sun.reflect.NativeMethodAccessorImpl.invoke(NativeMethodAccessorImpl.java:39)
+	at sun.reflect.DelegatingMethodAccessorImpl.invoke(DelegatingMethodAccessorImpl.java:25)
+	at java.lang.reflect.Method.invoke(Method.java:597)
+	at junit.framework.TestCase.runTest(TestCase.java:168)
+	at junit.framework.TestCase.runBare(TestCase.java:134)
+	at junit.framework.TestResult$1.protect(TestResult.java:110)
+	at junit.framework.TestResult.runProtected(TestResult.java:128)
+	at junit.framework.TestResult.run(TestResult.java:113)
+	at junit.framework.TestCase.run(TestCase.java:124)
+	at junit.framework.TestSuite.runTest(TestSuite.java:232)
+	at junit.framework.TestSuite.run(TestSuite.java:227)
+	at org.junit.internal.runners.JUnit38ClassRunner.run(JUnit38ClassRunner.java:83)
+	at org.eclipse.jdt.internal.junit4.runner.JUnit4TestReference.run(JUnit4TestReference.java:46)
+	at org.eclipse.jdt.internal.junit.runner.TestExecution.run(TestExecution.java:38)
+	at org.eclipse.jdt.internal.junit.runner.RemoteTestRunner.runTests(RemoteTestRunner.java:467)
+	at org.eclipse.jdt.internal.junit.runner.RemoteTestRunner.runTests(RemoteTestRunner.java:683)
+	at org.eclipse.jdt.internal.junit.runner.RemoteTestRunner.run(RemoteTestRunner.java:390)
+	at org.eclipse.jdt.internal.junit.runner.RemoteTestRunner.main(RemoteTestRunner.java:197)
+
