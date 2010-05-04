@@ -10,12 +10,15 @@ import org.tridas.io.I18n;
 import org.tridas.io.TridasIO;
 import org.tridas.io.defaults.IMetadataFieldSet;
 import org.tridas.io.defaults.TridasMetadataFieldSet.TridasMandatoryField;
+import org.tridas.io.defaults.values.ControlledVocDefaultValue;
 import org.tridas.io.defaults.values.TridasVariableDefaultValue;
+import org.tridas.io.formats.heidelberg.HeidelbergToTridasDefaults.DefaultFields;
 import org.tridas.io.formats.heidelberg.TridasToHeidelbergDefaults.HeidelbergField;
 import org.tridas.io.util.SafeIntYear;
 import org.tridas.io.util.StringUtils;
 import org.tridas.io.warnings.ConversionWarning;
 import org.tridas.io.warnings.ConversionWarning.WarningType;
+import org.tridas.schema.ControlledVoc;
 import org.tridas.schema.DatingSuffix;
 import org.tridas.schema.ObjectFactory;
 import org.tridas.schema.SeriesLink;
@@ -79,7 +82,7 @@ private static final SimpleLogger log = new SimpleLogger(HeidelbergReader.class)
 				break;
 			}
 		}
-		processHeader(header.toArray(new String[0]));
+		extractHeader(header.toArray(new String[0]));
 		
 		// DATA
 		lineNum++; // we're still on the "DATA" line, so move forward
@@ -89,12 +92,16 @@ private static final SimpleLogger log = new SimpleLogger(HeidelbergReader.class)
 			data.add(argFileString[lineNum]);
 			lineNum++;
 		}
-		processData(data.toArray(new String[0]));
+		extractData(data.toArray(new String[0]));
+		
+		populateHeaderInformation();
+		populateDataInformation();
+		
 		
 		createProject();
 	}
 
-	private void processHeader(String[] argHeader){
+	private void extractHeader(String[] argHeader){
 		HashMap<String,String> data = new HashMap<String, String>();
 		for(String s: argHeader){
 			String[] split = s.split("=");
@@ -112,7 +119,7 @@ private static final SimpleLogger log = new SimpleLogger(HeidelbergReader.class)
 		}
 	}
 	
-	private void processData(String[] argData){
+	private void extractData(String[] argData){
 		
 		ArrayList<Integer> ints = new ArrayList<Integer>();
 		for(String line : argData){
@@ -129,17 +136,29 @@ private static final SimpleLogger log = new SimpleLogger(HeidelbergReader.class)
 		dataInts = ints.toArray(new Integer[0]);
 	}
 	
+	private void populateHeaderInformation(){
+		defaults.getStringDefaultValue(DefaultFields.SERIES_ID).setValue( fileMetadata.get("KeyCode"));
+		ControlledVocDefaultValue val = (ControlledVocDefaultValue) defaults.getDefaultValue(DefaultFields.TAXON);
+		ControlledVoc v = new ControlledVoc();
+		v.setValue(fileMetadata.get("Species"));
+		val.setValue(v);
+		try{
+			defaults.getIntegerDefaultValue(DefaultFields.DATE_BEGIN).setValue( Integer.parseInt(fileMetadata.get("DateBegin")));
+		}catch(Exception e){}
+		try{
+			defaults.getIntegerDefaultValue(DefaultFields.DATE_END).setValue( Integer.parseInt(fileMetadata.get("DateEnd")));
+		}catch(Exception e){}
+	}
+	
+	private void populateDataInformation(){
+		// nothing to populate with
+	}
+	
 	private void createProject(){
 		project = defaults.getProjectWithDefaults();
 		TridasObject object = defaults.getObjectWithDefaults();
 		TridasElement element = defaults.getElementWithDefaults();
 		TridasSample sample = defaults.getSampleWithDefaults();		
-		
-		// to metadata stuff first
-		// FIXME i guess this is only AD stuff for now
-		SafeIntYear startYear = new SafeIntYear( Integer.parseInt(fileMetadata.get("DateBegin")));
-		SafeIntYear endYear = new SafeIntYear( Integer.parseInt(fileMetadata.get("DateEnd")));
-		String keyCode = fileMetadata.get("KeyCode");
 		
 		String dataFormat = fileMetadata.get("DataFormat").trim();
 		
@@ -151,17 +170,7 @@ private static final SimpleLogger log = new SimpleLogger(HeidelbergReader.class)
 			TridasMeasurementSeriesPlaceholder ms = new TridasMeasurementSeriesPlaceholder();
 			radius.setMeasurementSeriesPlaceholder(ms);
 			ms.setId(uuidKey);
-			
-			TridasInterpretation interp = new TridasInterpretation();
-			
-			// Build interpretation group for series	
-			interp.setFirstYear(startYear.toTridasYear(DatingSuffix.AD));					
-			interp.setLastYear(endYear.toTridasYear(DatingSuffix.AD));
-			
-			// Build identifier for series
-			TridasIdentifier seriesId = new ObjectFactory().createTridasIdentifier();
-			seriesId.setValue(keyCode.trim());
-			seriesId.setDomain(defaults.getDefaultValue(TridasMandatoryField.IDENTIFIER_DOMAN).getStringValue());
+
 			
 			TridasDerivedSeries series = defaults.getDerivedSeriesWithDefaults();
 			ArrayList<TridasValue> tridasValues = new ArrayList<TridasValue>();
@@ -191,12 +200,11 @@ private static final SimpleLogger log = new SimpleLogger(HeidelbergReader.class)
 				tridasValues.add(val);
 			}
 			
-			series.setIdentifier(seriesId);
-			series.setInterpretation(interp);
-			
 			sample.setRadiusPlaceholder(radius);
 			sample.setRadiuses(null);
 			project.getDerivedSeries().add(series);
+		}else{
+			// TODO not chronology
 		}
 		
 		project.getObjects().add(object);

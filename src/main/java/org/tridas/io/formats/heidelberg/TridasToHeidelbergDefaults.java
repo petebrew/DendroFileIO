@@ -12,48 +12,15 @@ public class TridasToHeidelbergDefaults extends AbstractMetadataFieldSet impleme
 	private static final SimpleLogger log = new SimpleLogger(TridasToHeidelbergDefaults.class);
 
 	public enum HeidelbergField{
-		KEY_CODE("KeyCode"),
-		DATA_FORMAT("DataFormat"),
-		SERIES_TYPE("SeriesType"),
-		LENGTH("Length"),
-		DATEBEGIN("DateBegin"),
-		DATEEND("DateEnd"),
-		DATED("Dated"),
-		LOCATION("Location"),
-		SPECIES("Species");
-		
-		private String key;
-		private HeidelbergField(String argKey){
-			key = argKey;
-		}
-
-		public String getKeyString() {
-			return key;
-		}
-	}
-	
-	public void loadData(String argKey, String argValue){
-		HeidelbergField[] fields = HeidelbergField.values();
-		boolean found = false;
-		for(HeidelbergField field : fields){
-			if(field.getKeyString().equalsIgnoreCase(argKey.trim())){
-				AbstractDefaultValue<?> val = getDefaultValue(field);
-				if(val == null){
-					log.warn("Default value object for field '"+field+"' was not found, ignoring."); // TODO locale
-					continue;
-				}
-				if(val instanceof StringDefaultValue){
-					((StringDefaultValue)val).setValue(argValue.trim());
-				}else if(val instanceof IntegerDefaultValue){
-					((IntegerDefaultValue)val).setValue(Integer.parseInt(argValue.trim()));
-				}
-				found = true;
-			}
-		}
-		if(!found){
-			// TODO locale
-			log.warn("For key/value pair "+argKey+"/"+argValue+", the key was not found in the enumeration");
-		}
+		KEY_CODE,
+		DATA_FORMAT,
+		SERIES_TYPE,
+		LENGTH,
+		DATEBEGIN,
+		DATEEND,
+		DATED,
+		LOCATION,
+		SPECIES
 	}
 	
 	@Override
