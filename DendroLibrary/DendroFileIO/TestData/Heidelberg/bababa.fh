@@ -1,0 +1,12 @@
+HEADER:
+DataFormat=Tree
+KeyCode=bababa
+Unit=1/100 mm
+Length=22
+DateBegin=1001
+DateEnd=1022
+Dated=Dated
+DATA:Single
+    50    50    50    50    50    50    50    50    50    50
+    50    50    50    50    50    50    50    50    50    50
+     5    50     0     0     0     0     0     0     0     0
