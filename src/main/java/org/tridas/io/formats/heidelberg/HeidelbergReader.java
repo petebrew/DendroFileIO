@@ -2,30 +2,34 @@ package org.tridas.io.formats.heidelberg;
 
 import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.List;
 import java.util.UUID;
 
 import org.grlea.log.SimpleLogger;
 import org.tridas.io.AbstractDendroFileReader;
-import org.tridas.io.TridasIO;
 import org.tridas.io.defaults.IMetadataFieldSet;
 import org.tridas.io.defaults.TridasMetadataFieldSet.TridasMandatoryField;
-import org.tridas.io.defaults.values.ControlledVocDefaultValue;
-import org.tridas.io.defaults.values.TridasVariableDefaultValue;
+import org.tridas.io.defaults.values.GenericDefaultValue;
 import org.tridas.io.formats.heidelberg.HeidelbergToTridasDefaults.DefaultFields;
 import org.tridas.io.util.StringUtils;
 import org.tridas.io.warnings.InvalidDendroFileException;
 import org.tridas.schema.ControlledVoc;
+import org.tridas.schema.NormalTridasUnit;
 import org.tridas.schema.SeriesLink;
 import org.tridas.schema.TridasDerivedSeries;
 import org.tridas.schema.TridasElement;
+import org.tridas.schema.TridasMeasurementSeries;
 import org.tridas.schema.TridasMeasurementSeriesPlaceholder;
 import org.tridas.schema.TridasObject;
 import org.tridas.schema.TridasProject;
+import org.tridas.schema.TridasRadius;
 import org.tridas.schema.TridasRadiusPlaceholder;
 import org.tridas.schema.TridasSample;
+import org.tridas.schema.TridasUnit;
 import org.tridas.schema.TridasUnitless;
 import org.tridas.schema.TridasValue;
 import org.tridas.schema.TridasValues;
+import org.tridas.schema.TridasVariable;
 import org.tridas.schema.SeriesLink.IdRef;
 
 public class HeidelbergReader extends AbstractDendroFileReader {
@@ -172,9 +176,10 @@ public class HeidelbergReader extends AbstractDendroFileReader {
 		dataInts = ints.toArray(new Integer[0]);
 	}
 	
+	@SuppressWarnings("unchecked")
 	private void populateHeaderInformation(){
 		defaults.getStringDefaultValue(DefaultFields.SERIES_ID).setValue( fileMetadata.get("KeyCode"));
-		ControlledVocDefaultValue val = (ControlledVocDefaultValue) defaults.getDefaultValue(DefaultFields.TAXON);
+		GenericDefaultValue<ControlledVoc> val = (GenericDefaultValue<ControlledVoc>) defaults.getDefaultValue(DefaultFields.TAXON);
 		ControlledVoc v = new ControlledVoc();
 		v.setValue(fileMetadata.get("Species"));
 		val.setValue(v);
@@ -184,6 +189,26 @@ public class HeidelbergReader extends AbstractDendroFileReader {
 		try{
 			defaults.getIntegerDefaultValue(DefaultFields.DATE_END).setValue( Integer.parseInt(fileMetadata.get("DateEnd")));
 		}catch(Exception e){}
+		
+		GenericDefaultValue<TridasUnit> unit = (GenericDefaultValue<TridasUnit>) defaults.getDefaultValue(DefaultFields.UNIT);
+		if(fileMetadata.containsKey("Unit")){
+			String units = fileMetadata.get("Unit");
+			TridasUnit value = new TridasUnit();
+			if(units.equals("mm")){
+				value.setNormalTridas(NormalTridasUnit.MILLIMETRES);
+			}else if(units.equals("1/10 mm")){
+				value.setNormalTridas(NormalTridasUnit.TENTH_MM);
+			}else if(units.equals("1/100 mm")){
+				value.setNormalTridas(NormalTridasUnit.HUNDREDTH_MM);
+			}else if(units.equals("1/1000 mm")){
+				value.setNormalTridas(NormalTridasUnit.MICROMETRES);
+			}else{
+				value = null; //TODO add warning
+			}
+			unit.setValue(value);
+		}else{
+			unit.setValue(null);
+		}
 	}
 	
 	private void populateDataInformation(){
@@ -194,7 +219,7 @@ public class HeidelbergReader extends AbstractDendroFileReader {
 		TridasProject project = defaults.getProjectWithDefaults();
 		TridasObject object = defaults.getObjectWithDefaults();
 		TridasElement element = defaults.getElementWithDefaults();
-		TridasSample sample = defaults.getSampleWithDefaults();		
+		TridasSample sample = defaults.getSampleWithDefaults();	
 		
 		String dataFormat = fileMetadata.get("DataFormat").trim();
 		
@@ -212,11 +237,8 @@ public class HeidelbergReader extends AbstractDendroFileReader {
 			ArrayList<TridasValue> tridasValues = new ArrayList<TridasValue>();
 			
 			// Add values to nested value(s) tags
-			TridasValues valuesGroup = new TridasValues();
+			TridasValues valuesGroup = defaults.getTridasValuesWithDefaults();
 			valuesGroup.setValues(tridasValues);
-			valuesGroup.setUnitless(new TridasUnitless());
-			TridasVariableDefaultValue variable = (TridasVariableDefaultValue) defaults.getDefaultValue(TridasMandatoryField.MEASUREMENTSERIES_VARIABLE);
-			valuesGroup.setVariable(variable.getValue());
 			
 			//link series to placeholder
 			IdRef idref = new IdRef();
@@ -239,8 +261,23 @@ public class HeidelbergReader extends AbstractDendroFileReader {
 			sample.setRadiusPlaceholder(radius);
 			sample.setRadiuses(null);
 			project.getDerivedSeries().add(series);
-		}else{
-			// TODO not chronology
+		}else if(dataFormat.equals("Tree")){
+			TridasRadius radius = defaults.getRadiusWithDefaults(false);
+			TridasMeasurementSeries series = defaults.getMeasurementSeriesWithDefaults();
+			
+			TridasValues valuesGroup = defaults.getTridasValuesWithDefaults();
+			List<TridasValue> values = valuesGroup.getValues();
+			
+			for(int i=0; i<dataInts.length; i++){
+				log.debug("Value: "+dataInts[i]);
+				TridasValue val = new TridasValue();
+				val.setValue(dataInts[i]+"");
+				values.add(val);
+			}
+			
+			series.getValues().add(valuesGroup);
+			radius.getMeasurementSeries().add(series);
+			sample.getRadiuses().add(radius);
 		}
 		
 		project.getObjects().add(object);

@@ -15,7 +15,7 @@ import org.tridas.io.I18n;
 import org.tridas.io.TridasIO;
 import org.tridas.io.defaults.IMetadataFieldSet;
 import org.tridas.io.defaults.TridasMetadataFieldSet.TridasMandatoryField;
-import org.tridas.io.defaults.values.TridasVariableDefaultValue;
+import org.tridas.io.defaults.values.GenericDefaultValue;
 import org.tridas.io.formats.tucson.TridasToTucsonDefaults.TucsonField;
 import org.tridas.io.util.DateUtils;
 import org.tridas.io.util.SafeIntYear;
@@ -46,6 +46,7 @@ import org.tridas.schema.TridasUnit;
 import org.tridas.schema.TridasUnitless;
 import org.tridas.schema.TridasValue;
 import org.tridas.schema.TridasValues;
+import org.tridas.schema.TridasVariable;
 import org.tridas.schema.SeriesLink.IdRef;
 
 
@@ -314,7 +315,7 @@ public class TucsonReader extends AbstractDendroFileReader {
 			TridasValues valuesGroup = new TridasValues();
 			valuesGroup.setValues(thisDecadesValues);
 			valuesGroup.setUnitless(new TridasUnitless());
-			TridasVariableDefaultValue variable = (TridasVariableDefaultValue) defaults.getDefaultValue(TridasMandatoryField.MEASUREMENTSERIES_VARIABLE);
+			GenericDefaultValue<TridasVariable> variable = (GenericDefaultValue<TridasVariable>) defaults.getDefaultValue(TridasMandatoryField.MEASUREMENTSERIES_VARIABLE);
 			valuesGroup.setVariable(variable.getValue());
 			ArrayList<TridasValues> valuesGroupList = new ArrayList<TridasValues>();
 			valuesGroupList.add(valuesGroup);	
@@ -490,7 +491,7 @@ public class TucsonReader extends AbstractDendroFileReader {
 				TridasValues valuesGroup = new TridasValues();
 				valuesGroup.setValues(thisDecadesValues);
 				valuesGroup.setUnitless(new TridasUnitless());
-				TridasVariableDefaultValue variable = (TridasVariableDefaultValue) defaults.getDefaultValue(TridasMandatoryField.MEASUREMENTSERIES_VARIABLE).getValue();
+				GenericDefaultValue<TridasVariable> variable = (GenericDefaultValue<TridasVariable>) defaults.getDefaultValue(TridasMandatoryField.MEASUREMENTSERIES_VARIABLE).getValue();
 				valuesGroup.setVariable(variable.getValue());
 				ArrayList<TridasValues> valuesGroupList = new ArrayList<TridasValues>();
 				valuesGroupList.add(valuesGroup);	
