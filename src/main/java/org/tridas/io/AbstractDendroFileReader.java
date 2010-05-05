@@ -14,24 +14,26 @@ import org.tridas.io.warnings.InvalidDendroFileException;
 
 public abstract class AbstractDendroFileReader implements IDendroFileReader {
 
-	private int currentLineNumber = 0;
 	private static final SimpleLogger log = new SimpleLogger(AbstractDendroFileReader.class);
 	private ArrayList<ConversionWarning> warnings =  new ArrayList<ConversionWarning>();
-	protected FileHelper fileHelper;
+	private FileHelper fileHelper;
 	private ArrayList<String> rawMetadata = new ArrayList<String>();
-	protected Class<? extends IMetadataFieldSet> defaultFieldsClass;
+	private final Class<? extends IMetadataFieldSet> defaultFieldsClass;
 	
 	public AbstractDendroFileReader(Class<? extends IMetadataFieldSet> argDefaultFieldsClass){
 		if(argDefaultFieldsClass == null){
 			throw new RuntimeException(I18n.getText("fileio.defaultsnull")); 
 		}
-		defaultFieldsClass = argDefaultFieldsClass;
-		// see if we can construct an instance
+		
 		try {
-			argDefaultFieldsClass.newInstance();
-		} catch (Exception e) {
+			if(argDefaultFieldsClass.getConstructor(new Class<?>[]{}) == null){
+				log.error("Defaults class '"+argDefaultFieldsClass.getName()+"' does not have empty constructor.");
+				throw new RuntimeException("Defaults class must have empty constructor."); // TODO locale
+			}
+		} catch (SecurityException e) {
+			throw new RuntimeException("Defaults class must have empty constructor."); // TODO locale
+		} catch (NoSuchMethodException e) {
 			log.error("Defaults class '"+argDefaultFieldsClass.getName()+"' does not have empty constructor.");
-			log.dbe(DebugLevel.L2_ERROR, e);
 			throw new RuntimeException("Defaults class must have empty constructor."); // TODO locale
 		}
 		
@@ -198,28 +200,5 @@ public abstract class AbstractDendroFileReader implements IDendroFileReader {
 	 * 
 	 * @return
 	 */
-	public int getCurrentLineNumber()
-	{
-		return this.currentLineNumber;
-	}
-	
-	/**
-	 * Get the current line number that is being processed.  Typically
-	 * used to determine at which point the reader failed.
-	 * 
-	 * @return
-	 */
-	public String getCurrentLineNumberAsString()
-	{
-		return String.valueOf(this.currentLineNumber);
-	}
-	
-	/**
-	 * Set the line number currently being read.
-	 * @param num
-	 */
-	protected void setCurrentLineNumber(int num)
-	{
-		this.currentLineNumber = num;
-	}
+	public abstract int getCurrentLineNumber();
 }

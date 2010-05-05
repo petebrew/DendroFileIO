@@ -42,10 +42,6 @@ public class BelfastAppleReader extends AbstractDendroFileReader {
 	String objectname;
 	String samplename;
 	
-	static {
-		TridasIO.registerFileReader(BelfastAppleReader.class);
-	}
-	
 	public BelfastAppleReader() {
 		super(BelfastAppleToTridasDefaults.class);
 	}
@@ -154,6 +150,25 @@ public class BelfastAppleReader extends AbstractDendroFileReader {
 			
 			
 			return project;
+	}
+	
+	@Override
+	public String getName() {
+		return "BelfastApple";
+	}
+	
+	/**
+	 * @see org.tridas.io.IDendroFileReader#getDefaults()
+	 */
+	@Override
+	public IMetadataFieldSet getDefaults() {
+		return defaults;
+	}
+	
+	@Override
+	public int getCurrentLineNumber() {
+		// TODO keep track of this
+		return 0;
 	}
 
 }

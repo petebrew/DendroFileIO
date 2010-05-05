@@ -80,6 +80,14 @@ public interface IDendroFileReader {
 	public String[] getFileExtensions();
 	
 	/**
+	 * Return the name of the format.
+	 * @return
+	 */
+	public String getName();
+	
+	public IMetadataFieldSet getDefaults();
+	
+	/**
 	 * Gets the parsed project after it's loaded.
 	 */
 	public TridasProject getProject();

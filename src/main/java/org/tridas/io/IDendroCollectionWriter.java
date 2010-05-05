@@ -62,12 +62,20 @@ public interface IDendroCollectionWriter {
 	 * Get all the file extensions associated with this writer
 	 * @return
 	 */
-	public String[] getFileExtensions();
+	public String getFileExtension();
 	
 	/**
 	 * Save all associated files to disk
 	 */
 	public void saveAllToDisk(String argFolderName);
+	
+	/**
+	 * Return the name of the format.
+	 * @return
+	 */
+	public String getName();
+	
+	public IMetadataFieldSet getDefaults();
 	
 	public List<ConversionWarning> getWarnings();
 }

@@ -26,9 +26,6 @@ public class TridasReader extends AbstractDendroFileReader {
 
 	private TridasProject project = null;
 	
-	static{
-		TridasIO.registerFileReader(TridasReader.class);
-	}
 	
 	public TridasReader() {
 		super(TridasMetadataFieldSet.class);
@@ -66,5 +63,27 @@ public class TridasReader extends AbstractDendroFileReader {
 	@Override
 	public TridasProject getProject() {
 		return project;
+	}
+	
+	/**
+	 * @see org.tridas.io.IDendroFileReader#getName()
+	 */
+	@Override
+	public String getName() {
+		return "Tridas";
+	}
+	
+	/**
+	 * @see org.tridas.io.IDendroFileReader#getDefaults()
+	 */
+	@Override
+	public IMetadataFieldSet getDefaults() {
+		return null;
+	}
+
+	@Override
+	public int getCurrentLineNumber() {
+		// TODO Auto-generated method stub
+		return 0;
 	}
 }

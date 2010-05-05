@@ -29,10 +29,7 @@ import org.tridas.schema.TridasSample;
 public class TridasWriter extends AbstractDendroCollectionWriter {
 	
 	private INamingConvention naming = new HierarchicalNamingConvention();
-	
-	static{
-		TridasIO.registerFileWriter(TridasWriter.class);
-	}
+
 	public TridasWriter(){
 		super(TridasMetadataFieldSet.class);
 	}
@@ -77,8 +74,8 @@ public class TridasWriter extends AbstractDendroCollectionWriter {
 	}
 
 	@Override
-	public String[] getFileExtensions() {
-		return new String[]{"xml"};
+	public String getFileExtension() {
+		return "xml";
 	}
 
 	/**
@@ -95,5 +92,21 @@ public class TridasWriter extends AbstractDendroCollectionWriter {
 	@Override
 	public void setNamingConvention(INamingConvention argConvension) {
 		naming = argConvension;
+	}
+	
+	/**
+	 * @see org.tridas.io.IDendroCollectionWriter#getName()
+	 */
+	@Override
+	public String getName() {
+		return "Tridas";
+	}
+
+	/**
+	 * @see org.tridas.io.IDendroCollectionWriter#getDefaults()
+	 */
+	@Override
+	public IMetadataFieldSet getDefaults() {
+		return null;
 	}
 }

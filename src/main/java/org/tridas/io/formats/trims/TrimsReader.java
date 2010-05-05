@@ -51,10 +51,6 @@ public class TrimsReader extends AbstractDendroFileReader {
 	// defaults given by user
 	private TrimsToTridasDefaults defaults = new TrimsToTridasDefaults();
 	private ArrayList<TridasMeasurementSeries> mseriesList = new ArrayList<TridasMeasurementSeries>();
-
-	static{
-		TridasIO.registerFileReader(TrimsReader.class);
-	}
 	
 	public TrimsReader() {
 		super(TrimsToTridasDefaults.class);
@@ -162,6 +158,28 @@ public class TrimsReader extends AbstractDendroFileReader {
 			
 			
 			return project;
+	}
+	
+	/**
+	 * @see org.tridas.io.IDendroFileReader#getName()
+	 */
+	@Override
+	public String getName() {
+		return "Trims";
+	}
+	
+	/**
+	 * @see org.tridas.io.IDendroFileReader#getDefaults()
+	 */
+	@Override
+	public IMetadataFieldSet getDefaults() {
+		return defaults;
+	}
+
+	@Override
+	public int getCurrentLineNumber() {
+		// TODO Auto-generated method stub
+		return 0;
 	}
 
 }

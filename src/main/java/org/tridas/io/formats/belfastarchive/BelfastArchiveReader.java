@@ -42,10 +42,6 @@ public class BelfastArchiveReader extends AbstractDendroFileReader {
 	String objectname;
 	String samplename;
 	
-	static {
-		TridasIO.registerFileReader(BelfastArchiveReader.class);
-	}
-	
 	public BelfastArchiveReader() {
 		super(BelfastArchiveToTridasDefaults.class);
 	}
@@ -176,6 +172,31 @@ public class BelfastArchiveReader extends AbstractDendroFileReader {
 			
 			
 			return project;
+	}
+	
+	/**
+	 * @see org.tridas.io.IDendroFileReader#getName()
+	 */
+	@Override
+	public String getName() {
+		return "BelfastArchive";
+	}
+	
+	/**
+	 * @see org.tridas.io.IDendroFileReader#getDefaults()
+	 */
+	@Override
+	public IMetadataFieldSet getDefaults() {
+		return defaults;
+	}
+	
+	/**
+	 * @see org.tridas.io.AbstractDendroFileReader#getCurrentLineNumber()
+	 */
+	@Override
+	public int getCurrentLineNumber() {
+		// TODO track this
+		return 0;
 	}
 
 }

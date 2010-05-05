@@ -6,30 +6,21 @@ import java.util.UUID;
 
 import org.grlea.log.SimpleLogger;
 import org.tridas.io.AbstractDendroFileReader;
-import org.tridas.io.I18n;
 import org.tridas.io.TridasIO;
 import org.tridas.io.defaults.IMetadataFieldSet;
 import org.tridas.io.defaults.TridasMetadataFieldSet.TridasMandatoryField;
 import org.tridas.io.defaults.values.ControlledVocDefaultValue;
 import org.tridas.io.defaults.values.TridasVariableDefaultValue;
 import org.tridas.io.formats.heidelberg.HeidelbergToTridasDefaults.DefaultFields;
-import org.tridas.io.formats.heidelberg.TridasToHeidelbergDefaults.HeidelbergField;
-import org.tridas.io.util.SafeIntYear;
 import org.tridas.io.util.StringUtils;
-import org.tridas.io.warnings.ConversionWarning;
-import org.tridas.io.warnings.ConversionWarning.WarningType;
+import org.tridas.io.warnings.InvalidDendroFileException;
 import org.tridas.schema.ControlledVoc;
-import org.tridas.schema.DatingSuffix;
-import org.tridas.schema.ObjectFactory;
 import org.tridas.schema.SeriesLink;
 import org.tridas.schema.TridasDerivedSeries;
 import org.tridas.schema.TridasElement;
-import org.tridas.schema.TridasIdentifier;
-import org.tridas.schema.TridasInterpretation;
 import org.tridas.schema.TridasMeasurementSeriesPlaceholder;
 import org.tridas.schema.TridasObject;
 import org.tridas.schema.TridasProject;
-import org.tridas.schema.TridasRadius;
 import org.tridas.schema.TridasRadiusPlaceholder;
 import org.tridas.schema.TridasSample;
 import org.tridas.schema.TridasUnitless;
@@ -38,78 +29,126 @@ import org.tridas.schema.TridasValues;
 import org.tridas.schema.SeriesLink.IdRef;
 
 public class HeidelbergReader extends AbstractDendroFileReader {
-
-private static final SimpleLogger log = new SimpleLogger(HeidelbergReader.class);
+	private static final SimpleLogger log = new SimpleLogger(HeidelbergReader.class);
 	
-	private TridasProject project = null;
+	public static final int DATA_CHARS_PER_NUMBER = 6;
+	
 	private HeidelbergToTridasDefaults defaults = null;
-	
 	private HashMap<String,String> fileMetadata = null;
 	private Integer[] dataInts;
 	
-	static {
-		TridasIO.registerFileReader(HeidelbergReader.class);
-	}
+	private int currentLineNum = 0;
+	private int headerNumLines = 0;
 	
 	public HeidelbergReader() {
 		super(HeidelbergToTridasDefaults.class);
 	}
 
 	@Override
-	protected void parseFile(String[] argFileString, IMetadataFieldSet argDefaultFields) {
+	protected void parseFile(String[] argFileString, IMetadataFieldSet argDefaultFields) throws InvalidDendroFileException {
 		log.debug("Parsing: "+argFileString);
 		defaults = (HeidelbergToTridasDefaults) argDefaultFields;
 		fileMetadata = new HashMap<String, String>();
 		
-		int lineNum = 0;
+		// first lets see if we look like a heidelberg file
+		checkFile(argFileString);
+
+		
+		int lineNum = 1; // first line is just HEADER:
 		int fileLength = argFileString.length;
-		if(argFileString[lineNum].trim().equals("HEADER:")){
-			lineNum++;
-		}
+		currentLineNum = lineNum; // update line num
 		
 		// HEADER
-		
 		ArrayList<String> header = new ArrayList<String>();
 		String line = argFileString[lineNum];
 		while(!line.startsWith("DATA")){
+			currentLineNum = lineNum; // update line num
 			header.add(line);
 			line = argFileString[++lineNum];
-			if(lineNum==fileLength){
-				log.error(I18n.getText("heidelberg.meta.error"));
-				//addWarningToList(new ConversionWarning(WarningType., warningMessage))
-				// TODO add warning of data not found
-				// TODO split up metadata warnings and general file conversion warnings
-				break;
-			}
 		}
 		extractHeader(header.toArray(new String[0]));
 		
 		// DATA
 		lineNum++; // we're still on the "DATA" line, so move forward
+		currentLineNum = lineNum; // update line num
+		headerNumLines = lineNum;
 		
 		ArrayList<String> data = new ArrayList<String>();
 		while(lineNum<fileLength){
+			currentLineNum = lineNum; // update line num
 			data.add(argFileString[lineNum]);
 			lineNum++;
 		}
 		extractData(data.toArray(new String[0]));
 		
+		currentLineNum = 0; // now for processing
+		
 		populateHeaderInformation();
 		populateDataInformation();
+	}
+	
+	// check file to see if it generally looks like a Heidelberg file
+	private void checkFile(String[] argStrings) throws InvalidDendroFileException{
+		log.debug("Checking file to see if it looks like a Heidelberg file");
 		
+		if(!argStrings[0].startsWith("HEADER") && !argStrings[0].startsWith("DATA")){
+			log.error("First line is 'HEADER' or 'DATA'");
+			throw new InvalidDendroFileException("First line is 'HEADER' or 'DATA'", 1);
+		}
 		
-		createProject();
+		boolean pastHeader = false;
+		for(int i=0; i<argStrings.length; i++){
+			currentLineNum = i; // update line number
+			String s = argStrings[i];
+			if(s.startsWith("HEADER")){
+				if(pastHeader){
+					log.error("Can't have a header after the data starts.  It's a header silly.");
+					throw new InvalidDendroFileException("Can't have a header after the data starts.  It's a header silly.", 1);
+				}
+				continue;
+			}else if(s.startsWith("DATA")){
+				pastHeader = true;
+				continue;
+			}
+			
+			// so we're in the header or data
+			
+			if(s.equals("")){
+				//empty line?
+				continue;
+			}
+			
+			if(!pastHeader){
+				// in header!
+				if(s.split("=").length != 2){
+					log.error("Header must be 'key=value' combinations");
+					throw new InvalidDendroFileException("Header must be 'key=value' combinations", i+1);
+				}
+			}else{
+				// in data!
+				String[] nums = StringUtils.chopString(s, DATA_CHARS_PER_NUMBER);
+				try{
+					for(String num : nums){
+						Integer.parseInt(num.trim());
+					}
+				}catch(NumberFormatException e){
+					log.error("Could not parse numbers in data.");
+					throw new InvalidDendroFileException("Could not parse numbers in data.", i+1);
+				}
+			}
+		}
+		if(!pastHeader){
+			log.error("Could not detect any data in file.");
+			throw new InvalidDendroFileException("Could not detect any data in file.", currentLineNum);
+		}
 	}
 
 	private void extractHeader(String[] argHeader){
 		HashMap<String,String> data = new HashMap<String, String>();
-		for(String s: argHeader){
+		for(int i=0; i<argHeader.length; i++){
+			String s = argHeader[i];
+			currentLineNum = i+1; // +1 because of the HEADER line
 			String[] split = s.split("=");
-			if(split.length != 2){
-				// TODO locale
-				new ConversionWarning(WarningType.INVALID, "Could not determine key and value", split[0]);
-				continue;
-			}
 			data.put(split[0], split[1]);
 		}
 		
@@ -122,15 +161,12 @@ private static final SimpleLogger log = new SimpleLogger(HeidelbergReader.class)
 	private void extractData(String[] argData){
 		
 		ArrayList<Integer> ints = new ArrayList<Integer>();
-		for(String line : argData){
-			String[] s = StringUtils.chopString(line, 6);
+		for(int i=0; i<argData.length; i++){
+			String line = argData[i];
+			currentLineNum = headerNumLines + i;
+			String[] s = StringUtils.chopString(line, DATA_CHARS_PER_NUMBER);
 			for(String entry : s){
-				try{
-					ints.add(Integer.parseInt(entry.trim()));						
-				}catch (Exception e) {
-					log.error("Cannot parse an integer from '"+entry.trim()+"'.");
-					// TODO throw warning
-				}
+				ints.add(Integer.parseInt(entry.trim()));						
 			}
 		}
 		dataInts = ints.toArray(new Integer[0]);
@@ -154,8 +190,8 @@ private static final SimpleLogger log = new SimpleLogger(HeidelbergReader.class)
 		// nothing to populate with
 	}
 	
-	private void createProject(){
-		project = defaults.getProjectWithDefaults();
+	private TridasProject createProject(){
+		TridasProject project = defaults.getProjectWithDefaults();
 		TridasObject object = defaults.getObjectWithDefaults();
 		TridasElement element = defaults.getElementWithDefaults();
 		TridasSample sample = defaults.getSampleWithDefaults();		
@@ -210,6 +246,8 @@ private static final SimpleLogger log = new SimpleLogger(HeidelbergReader.class)
 		project.getObjects().add(object);
 		object.getElements().add(element);
 		element.getSamples().add(sample);
+		
+		return project;
 	}
 	
 	
@@ -220,6 +258,27 @@ private static final SimpleLogger log = new SimpleLogger(HeidelbergReader.class)
 
 	@Override
 	public TridasProject getProject() {
-		return project;
+		return createProject();
+	}
+	
+	/**
+	 * @see org.tridas.io.IDendroFileReader#getName()
+	 */
+	@Override
+	public String getName() {
+		return "Heidelberg";
+	}
+	
+	/**
+	 * @see org.tridas.io.IDendroFileReader#getDefaults()
+	 */
+	@Override
+	public IMetadataFieldSet getDefaults() {
+		return defaults;
+	}
+
+	@Override
+	public int getCurrentLineNumber() {
+		return currentLineNum + 1; // plus one because line numbers start at 1, not 0
 	}
 }

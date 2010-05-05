@@ -60,10 +60,10 @@ public class TucsonReader extends AbstractDendroFileReader {
 
 	private static final SimpleLogger log = new SimpleLogger(TucsonReader.class);
 	// defaults given by user
-	private TucsonToTridasDefaults defaults = new TucsonToTridasDefaults();
+	private TucsonToTridasDefaults defaults = null;
 	
 	// helper for parsing
-	private TridasToTucsonDefaults tucsonFields = new TridasToTucsonDefaults();
+	private TridasToTucsonDefaults tucsonFields = null;
 	
 	private ArrayList<TridasMeasurementSeries> mseriesList = new ArrayList<TridasMeasurementSeries>();
 	private ArrayList<TridasDerivedSeries> dseriesList = new ArrayList<TridasDerivedSeries>();
@@ -72,10 +72,7 @@ public class TucsonReader extends AbstractDendroFileReader {
 	private TridasProject project = null;
 	private SafeIntYear lastYearMarker = null;
 
-	
-	static {
-		TridasIO.registerFileReader(TucsonReader.class);
-	}
+	private int currentLineNumber = 0;
 	
 	public TucsonReader() {
 		super(TucsonToTridasDefaults.class);
@@ -86,6 +83,7 @@ public class TucsonReader extends AbstractDendroFileReader {
 	@Override
 	protected void parseFile(String[] argFileString, IMetadataFieldSet argDefaultFields) throws InvalidDendroFileException{
 		defaults = (TucsonToTridasDefaults) argDefaultFields;
+		tucsonFields = new TridasToTucsonDefaults();
 		log.debug("starting tucson file parsing");
 		int index = 0;
 		
@@ -98,7 +96,7 @@ public class TucsonReader extends AbstractDendroFileReader {
 		
 		for( ; index < argFileString.length; index++){
 			String line = argFileString[index];
-			setCurrentLineNumber(index+1);
+			currentLineNumber = index+1;
 			
 			switch (getLineType(line))
 			{
@@ -956,5 +954,26 @@ public class TucsonReader extends AbstractDendroFileReader {
 		
 		
 		return project;
+	}
+	
+	/**
+	 * @see org.tridas.io.IDendroFileReader#getName()
+	 */
+	@Override
+	public String getName() {
+		return "Tucson";
+	}
+	
+	/**
+	 * @see org.tridas.io.IDendroFileReader#getDefaults()
+	 */
+	@Override
+	public IMetadataFieldSet getDefaults() {
+		return defaults;
+	}
+
+	@Override
+	public int getCurrentLineNumber() {
+		return currentLineNumber;
 	}
 }

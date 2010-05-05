@@ -2171,3 +2171,9 @@ java.io.IOException: Stream closed
 	at org.eclipse.jdt.internal.junit.runner.RemoteTestRunner.run(RemoteTestRunner.java:390)
 	at org.eclipse.jdt.internal.junit.runner.RemoteTestRunner.main(RemoteTestRunner.java:197)
 
+Wed 2010/05/05 02:57:55.315|   |main|AbstractDendroFileReader|loading file from: UAKK0540.fh
+Wed 2010/05/05 02:57:55.399|   |main|HeidelbergReader|Parsing: [Ljava.lang.String;@6f50a8
+Wed 2010/05/05 02:57:55.401|   |main|HeidelbergReader|Checking file to see if it looks like a Heidelberg file
+Wed 2010/05/05 02:58:02.503|   |main|AbstractDendroFileReader|loading file from: UAKK0540.fh
+Wed 2010/05/05 02:58:02.512|   |main|HeidelbergReader|Parsing: [Ljava.lang.String;@1d3cdaa
+Wed 2010/05/05 02:58:02.514|   |main|HeidelbergReader|Checking file to see if it looks like a Heidelberg file
