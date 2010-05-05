@@ -10,7 +10,7 @@ import org.tridas.io.TridasIO;
 import org.tridas.io.defaults.IMetadataFieldSet;
 import org.tridas.io.defaults.TridasMetadataFieldSet;
 import org.tridas.io.defaults.TridasMetadataFieldSet.TridasMandatoryField;
-import org.tridas.io.defaults.values.TridasVariableDefaultValue;
+import org.tridas.io.defaults.values.GenericDefaultValue;
 import org.tridas.io.formats.catras.CatrasReader;
 import org.tridas.io.formats.catras.CatrasToTridasDefaults;
 import org.tridas.io.formats.tridas.TridasReader;
@@ -31,6 +31,7 @@ import org.tridas.schema.TridasSample;
 import org.tridas.schema.TridasUnit;
 import org.tridas.schema.TridasValue;
 import org.tridas.schema.TridasValues;
+import org.tridas.schema.TridasVariable;
 
 /**
  * Reader for the TRIMS data format.  These were files popular in the 1980's and 1990's
@@ -110,7 +111,7 @@ public class TrimsReader extends AbstractDendroFileReader {
 		TridasValues valuesGroup = new TridasValues();
 		valuesGroup.setValues(ringWidthValues);
 		valuesGroup.setUnit(units);
-		TridasVariableDefaultValue variable = (TridasVariableDefaultValue) defaults.getDefaultValue(TridasMandatoryField.MEASUREMENTSERIES_VARIABLE);
+		GenericDefaultValue<TridasVariable> variable = (GenericDefaultValue<TridasVariable>) defaults.getDefaultValue(TridasMandatoryField.MEASUREMENTSERIES_VARIABLE);
 		valuesGroup.setVariable(variable.getValue());
 		ArrayList<TridasValues> valuesGroupList = new ArrayList<TridasValues>();
 		valuesGroupList.add(valuesGroup);	
