@@ -95,8 +95,7 @@ public class FileHelper {
 			detector.setText(bytes);
 			match = detector.detect();
 			
-			log.debug("Best charset match for file '"+argFilename+"' is "+match.getLanguage()+" "+match.getName()+" with a confidence of "+match.getConfidence()+"%");
-			
+			log.debug("Best charset match for file '"+argFilename+"' is "+match.getName()+" ("+match.getLanguage()+") with a confidence of "+match.getConfidence()+"%");
 			String all = match.getString();
 			return all.split("\n");
 		} catch (IOException e) {

@@ -67,10 +67,6 @@ public class CatrasReader extends AbstractDendroFileReader {
 	
 	int speciesCode;
 	
-	static {
-		TridasIO.registerFileReader(CatrasReader.class);
-	}
-	
 	public CatrasReader() {
 		super(CatrasToTridasDefaults.class);
 	}
@@ -82,7 +78,7 @@ public class CatrasReader extends AbstractDendroFileReader {
 	 */
 	@Override
 	public void loadFile(String argFilename, IMetadataFieldSet argDefaultFields) throws IOException, IncorrectDefaultFieldsException, InvalidDendroFileException{
-		fileHelper = new FileHelper();
+		FileHelper fileHelper = new FileHelper();
 		log.debug("loading file from: "+argFilename);
 		byte[] bytes = fileHelper.loadBytes(argFilename);
 		if(bytes == null){
@@ -93,7 +89,7 @@ public class CatrasReader extends AbstractDendroFileReader {
 	
 	@Override
 	public void loadFile(String argFilename) throws IOException, InvalidDendroFileException{
-		fileHelper = new FileHelper();
+		FileHelper fileHelper = new FileHelper();
 		log.debug("loading file from: "+argFilename);
 		byte[] bytes = fileHelper.loadBytes(argFilename);
 		if(bytes == null){
@@ -105,7 +101,7 @@ public class CatrasReader extends AbstractDendroFileReader {
 	@Override
 	public void loadFile(String argPath, String argFilename,
 			IMetadataFieldSet argDefaultFields) throws IOException, IncorrectDefaultFieldsException, InvalidDendroFileException{
-		fileHelper = new FileHelper(argPath);
+		FileHelper fileHelper = new FileHelper(argPath);
 		log.debug("loading file from: "+argFilename);
 		byte[] bytes = fileHelper.loadBytes(argFilename);
 		if(bytes == null){
@@ -116,7 +112,7 @@ public class CatrasReader extends AbstractDendroFileReader {
 	
 	@Override
 	public void loadFile(String argPath, String argFilename) throws IOException, InvalidDendroFileException{
-		fileHelper = new FileHelper(argPath);
+		FileHelper fileHelper = new FileHelper(argPath);
 		log.debug("loading file from: "+argFilename);
 		byte[] bytes = fileHelper.loadBytes(argFilename);
 		if(bytes == null){
@@ -127,8 +123,8 @@ public class CatrasReader extends AbstractDendroFileReader {
 	
 
 	public void loadFile(byte[] argFileBytes, IMetadataFieldSet argDefaults) throws IncorrectDefaultFieldsException, InvalidDendroFileException{
-		if(!argDefaults.getClass().equals(defaultFieldsClass)){
-			throw new IncorrectDefaultFieldsException(defaultFieldsClass);
+		if(!argDefaults.getClass().equals(getDefaultFieldsClass())){
+			throw new IncorrectDefaultFieldsException(getDefaultFieldsClass());
 		}
 		parseFile(argFileBytes, argDefaults);
 	}
@@ -507,11 +503,37 @@ public class CatrasReader extends AbstractDendroFileReader {
 	
 	@Override
 	protected void parseFile(String[] argFileString,
-			IMetadataFieldSet argDefaultFields) {}
+			IMetadataFieldSet argDefaultFields) {
+		throw new UnsupportedOperationException("Binary file type, cannot load from strings");
+	}
 	
 	@Override
-	public void loadFile(String[] argFileStrings) throws InvalidDendroFileException{}
+	public void loadFile(String[] argFileStrings) throws InvalidDendroFileException{
+		throw new UnsupportedOperationException("Binary file type, cannot load from strings");
+	}
 	
+	/**
+	 * @see org.tridas.io.IDendroFileReader#getName()
+	 */
+	@Override
+	public String getName() {
+		return "Catras";
+	}
 	
-	
+	/**
+	 * @see org.tridas.io.IDendroFileReader#getDefaults()
+	 */
+	@Override
+	public IMetadataFieldSet getDefaults() {
+		return defaults;
+	}
+
+	/**
+	 * @see org.tridas.io.AbstractDendroFileReader#getCurrentLineNumber()
+	 */
+	@Override
+	public int getCurrentLineNumber() {
+		// TODO track this
+		return 0;
+	}
 }

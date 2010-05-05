@@ -25,12 +25,16 @@ public abstract class AbstractDendroCollectionWriter implements IDendroCollectio
 		if(argDefaultFieldsClass == null){
 			throw new RuntimeException(I18n.getText("fileio.defaultsnull")); 
 		}
-		// see if we can construct an instance
+		
 		try {
-			argDefaultFieldsClass.newInstance();
-		} catch (Exception e) {
+			if(argDefaultFieldsClass.getConstructor(new Class<?>[]{}) == null){
+				log.error("Defaults class '"+argDefaultFieldsClass.getName()+"' does not have empty constructor.");
+				throw new RuntimeException("Defaults class must have empty constructor."); // TODO locale
+			}
+		} catch (SecurityException e) {
+			throw new RuntimeException("Defaults class must have empty constructor."); // TODO locale
+		} catch (NoSuchMethodException e) {
 			log.error("Defaults class '"+argDefaultFieldsClass.getName()+"' does not have empty constructor.");
-			log.dbe(DebugLevel.L2_ERROR, e);
 			throw new RuntimeException("Defaults class must have empty constructor."); // TODO locale
 		}
 		

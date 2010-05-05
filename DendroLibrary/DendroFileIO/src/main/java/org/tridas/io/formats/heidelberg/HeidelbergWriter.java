@@ -27,7 +27,7 @@ public class HeidelbergWriter extends AbstractDendroCollectionWriter {
 	}
 
 	@Override
-	public String[] getFileExtensions() {
+	public String getFileExtension() {
 		// TODO Auto-generated method stub
 		return null;
 	}
@@ -40,6 +40,15 @@ public class HeidelbergWriter extends AbstractDendroCollectionWriter {
 		// TODO Auto-generated method stub
 		return null;
 	}
+	
+	/**
+	 * @see org.tridas.io.IDendroCollectionWriter#getName()
+	 */
+	@Override
+	public String getName() {
+		// TODO Auto-generated method stub
+		return null;
+	}
 
 	/**
 	 * @see org.tridas.io.IDendroCollectionWriter#setNamingConvention(org.tridas.io.naming.INamingConvention)
@@ -48,6 +57,15 @@ public class HeidelbergWriter extends AbstractDendroCollectionWriter {
 	public void setNamingConvention(INamingConvention argConvension) {
 		// TODO Auto-generated method stub
 		
+	}
+
+	/**
+	 * @see org.tridas.io.IDendroCollectionWriter#getDefaults()
+	 */
+	@Override
+	public IMetadataFieldSet getDefaults() {
+		// TODO Auto-generated method stub
+		return null;
 	}
 
 }

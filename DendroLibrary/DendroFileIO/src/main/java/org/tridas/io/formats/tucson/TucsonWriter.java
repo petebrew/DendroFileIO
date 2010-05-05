@@ -36,10 +36,6 @@ public class TucsonWriter extends AbstractDendroCollectionWriter {
 
 	IMetadataFieldSet defaults;
 	INamingConvention naming = new HierarchicalNamingConvention();
-	
-	static {
-		TridasIO.registerFileWriter(TucsonWriter.class);		
-	}
 
 	/**
 	 * Standard constructor
@@ -259,8 +255,8 @@ public class TucsonWriter extends AbstractDendroCollectionWriter {
 	}
 
 	@Override
-	public String[] getFileExtensions() {
-		return new String[]{"crn"};
+	public String getFileExtension() {
+		return "crn";
 	}
 
 	/**
@@ -277,5 +273,21 @@ public class TucsonWriter extends AbstractDendroCollectionWriter {
 	@Override
 	public void setNamingConvention(INamingConvention argConvension) {
 		naming = argConvension;
+	}
+	
+	/**
+	 * @see org.tridas.io.IDendroCollectionWriter#getName()
+	 */
+	@Override
+	public String getName() {
+		return "Tucson";
+	}
+	
+	/**
+	 * @see org.tridas.io.IDendroFileReader#getDefaults()
+	 */
+	@Override
+	public IMetadataFieldSet getDefaults() {
+		return defaults;
 	}
 }

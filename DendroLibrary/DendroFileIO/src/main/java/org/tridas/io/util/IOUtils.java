@@ -16,11 +16,15 @@ import java.io.OutputStream;
 import java.io.OutputStreamWriter;
 import java.io.PrintWriter;
 import java.io.UnsupportedEncodingException;
+import java.nio.charset.Charset;
 import java.util.zip.GZIPInputStream;
 import java.util.zip.GZIPOutputStream;
 
 import org.grlea.log.DebugLevel;
 import org.grlea.log.SimpleLogger;
+
+import com.ibm.icu.text.CharsetDetector;
+import com.ibm.icu.text.CharsetMatch;
 
 /**
  * Static IO utility methods
@@ -459,5 +463,13 @@ public class IOUtils {
 				unit.mkdirs();
 			}
 		}
+	}
+	
+	public static Charset detectCharset(byte[] argBytes){
+		CharsetDetector detector = new CharsetDetector();
+		detector.setText(argBytes);
+		CharsetMatch match = detector.detect();
+		log.debug("Best charset match is "+match.getName()+" ("+match.getLanguage()+") with a confidence of "+match.getConfidence()+"%");
+		return Charset.forName(match.getName());
 	}
 }
