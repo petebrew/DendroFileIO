@@ -211,7 +211,7 @@ public class ConvertTests extends TestCase {
 		// Parse the legacy data file
 		try {
 			//TridasEntitiesFromDefaults def = new TridasEntitiesFromDefaults();
-			reader.loadFile("TestData/Heidelberg", "UAKK0540.fh");
+			reader.loadFile("TestData/Heidelberg", "bababa.fh");
 		} catch (IOException e) {
 			// Standard IO Exception
 			System.out.println(e.getLocalizedMessage());
@@ -236,7 +236,7 @@ public class ConvertTests extends TestCase {
 			fail();
 		} catch (ConversionWarningException e) {
 		}
-		writer.saveAllToDisk("target/testOutput/");
+		writer.saveAllToDisk("TestData/Output/");
 		
 		for(DendroFile file : writer.getFiles())
 		{
