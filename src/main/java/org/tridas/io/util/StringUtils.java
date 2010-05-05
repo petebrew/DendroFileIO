@@ -124,6 +124,13 @@ public class StringUtils {
 	 * @return
 	 */
 	public static String[] chopString(String argString, int argLength){
+		if(argString.length() == 0){
+			return new String[0];
+		}
+		if(argString.length() <= argLength){
+			return new String[]{argString};
+		}
+		
 		String[] ret = new String[(int) Math.ceil(argString.length()/argLength)];
 		int i;
 		for(i=0; i<ret.length -1; i++){
