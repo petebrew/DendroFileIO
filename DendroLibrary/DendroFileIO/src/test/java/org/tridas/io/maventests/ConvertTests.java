@@ -212,6 +212,7 @@ public class ConvertTests extends TestCase {
 		try {
 			//TridasEntitiesFromDefaults def = new TridasEntitiesFromDefaults();
 			reader.loadFile("TestData/Heidelberg", "bababa.fh");
+			//reader.loadFile("TestData/Heidelberg", "UAKK0530.fh");
 		} catch (IOException e) {
 			// Standard IO Exception
 			System.out.println(e.getLocalizedMessage());
