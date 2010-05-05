@@ -53,6 +53,11 @@ public abstract class DendroFile {
 		seriesList.clear();
 	}
 	
+	/**
+	 * Set the extension for this file
+	 * 
+	 * @param ext
+	 */
 	public void setExtension(String ext){
 		// Strip leading dot if present
 		if(ext.substring(0,1).equals("."))
@@ -61,7 +66,13 @@ public abstract class DendroFile {
 			extension = ext;
 	}
 	
+	/**
+	 * Get the extension for this file
+	 * 
+	 * @return
+	 */
 	public String getExtension(){
 		return extension;
 	}
+	
 }
