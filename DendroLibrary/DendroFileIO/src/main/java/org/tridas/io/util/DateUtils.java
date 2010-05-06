@@ -1,5 +1,6 @@
 package org.tridas.io.util;
 
+import java.util.Calendar;
 import java.util.Date;
 import java.util.GregorianCalendar;
 
@@ -26,6 +27,21 @@ public class DateUtils {
 			
 		}
 		return new DateTime();
+	}
+	
+	public static DateTime getDateTime(Integer day, Integer month, Integer year)
+	{
+		try {
+			GregorianCalendar c = new GregorianCalendar(year, month, day);
+			XMLGregorianCalendar requestedDate = DatatypeFactory.newInstance().newXMLGregorianCalendar(c);
+			DateTime returnval = new DateTime();
+			returnval.setValue(requestedDate);
+			return returnval;
+		} catch (DatatypeConfigurationException e) {
+			// TODO Auto-generated catch block
+			
+		}
+		return null;
 	}
 	
 }
