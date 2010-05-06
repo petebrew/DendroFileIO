@@ -16,6 +16,7 @@ import org.tridas.io.formats.tucson.TucsonFile;
 import org.tridas.io.formats.tucson.TucsonReader;
 import org.tridas.io.formats.tucson.TucsonToTridasDefaults;
 import org.tridas.io.formats.tucson.TucsonWriter;
+import org.tridas.io.formats.vformat.VFormatReader;
 import org.tridas.io.naming.UUIDNamingConvention;
 import org.tridas.io.warnings.ConversionWarning;
 import org.tridas.io.warnings.ConversionWarningException;
@@ -421,5 +422,68 @@ public class ConvertTests extends TestCase {
 		}
 		
 	}
+	
+	public void testVFormatToTridas() 
+	{
+		// Create a new converter
+		VFormatReader reader = new VFormatReader();
+
+		// Parse the legacy data file
+		try {
+			//TridasEntitiesFromDefaults def = new TridasEntitiesFromDefaults();
+			reader.loadFile("TestData/VFormat", "DE_V.!oj");
+		} catch (IOException e) {
+			// Standard IO Exception
+			System.out.println(e.getLocalizedMessage());
+			return;
+		} catch (InvalidDendroFileException e) {
+			// Fatal error interpreting file
+			System.out.println(e.getLocalizedMessage());
+			return;
+		}
+		
+		// Get the metadata lines that were interpreted
+		if (reader.getRawMetadata().size()>0) 
+		System.out.println("Following metadata lines were interpreted");
+		for (String md : reader.getRawMetadata())
+		{
+			System.out.println(md);
+		}
+			
+		// Get any warnings thrown during conversion
+		if(reader.getWarnings().size()>0)
+		System.out.println("Some issues were found whilst converting your file...");
+		for (ConversionWarning w : reader.getWarnings())
+		{
+			System.out.println("  ["+w.getWarningType()+"] -  "+w.getMessage());
+		}		
+		
+		
+		// Extract the TridasProject
+		TridasProject myproject = reader.getProject();
+		
+			
+		TridasWriter writer = new TridasWriter();
+		writer.setNamingConvention(new UUIDNamingConvention());
+		
+		try {
+			writer.loadProject(myproject, new TridasMetadataFieldSet());
+		} catch (IncompleteTridasDataException e) {
+			fail();
+		} catch (ConversionWarningException e) {
+		} catch (IncorrectDefaultFieldsException e) {
+			fail();
+		}
+		writer.saveAllToDisk("TestData/Output");
+		
+		for(DendroFile file : writer.getFiles())
+		{
+			System.out.println("Saved: " + writer.getNamingConvention().getFilename(file)+"."+file.getExtension());
+		}
+		
+		
+		
+	}
+	
 	
 }
