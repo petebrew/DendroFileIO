@@ -91,7 +91,7 @@ public class ConvertFile {
 		outputFolder = args[index+2];
 		
 		if(debug){
-			// ! figure this out, how do I change log stuff
+			// TODO ! figure this out, how do I change log stuff
 		}
 		
 		if(inputFormat != null){

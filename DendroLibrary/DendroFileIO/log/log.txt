@@ -2177,3 +2177,2482 @@ Wed 2010/05/05 02:57:55.401|   |main|HeidelbergReader|Checking file to see if it
 Wed 2010/05/05 02:58:02.503|   |main|AbstractDendroFileReader|loading file from: UAKK0540.fh
 Wed 2010/05/05 02:58:02.512|   |main|HeidelbergReader|Parsing: [Ljava.lang.String;@1d3cdaa
 Wed 2010/05/05 02:58:02.514|   |main|HeidelbergReader|Checking file to see if it looks like a Heidelberg file
+Wed 2010/05/05 10:07:58.292|   |main|AbstractDendroFileReader|loading file from: Tridas1.xml
+Wed 2010/05/05 10:07:59.476|   |main|StringDefaultValue|The string '074c844d-95cc-4484-a982-edbc4f73da82' is too big, max length is '6' characters.
+Wed 2010/05/05 10:07:59.477|   |main|AbstractMetadataFieldSet|Warning from defaults: org.tridas.io.warnings.ConversionWarning@6545d2
+Wed 2010/05/05 10:07:59.479|   |main|StringDefaultValue|The string 'Unnamed object' is too small, padding (on the right? true)
+Wed 2010/05/05 10:07:59.482|   |main|StringDefaultValue|The string 'Plantae' is too small, padding (on the right? true)
+Wed 2010/05/05 10:07:59.483|   |main|StringDefaultValue|The string 'Unknown' is too small, padding (on the right? true)
+Wed 2010/05/05 10:07:59.484|   |main|StringDefaultValue|The string '' is too small, padding (on the right? true)
+Wed 2010/05/05 10:07:59.484|   |main|StringDefaultValue|The string 'Unknown' is too small, padding (on the right? true)
+Wed 2010/05/05 10:07:59.486|   |main|StringDefaultValue|The string 'Peter I Kuniholm' is too small, padding (on the right? true)
+Wed 2010/05/05 10:07:59.486|   |main|StringDefaultValue|The string '28acb483-f337-412f-a063-59d911c37594' is too big, max length is '6' characters.
+Wed 2010/05/05 10:07:59.487|   |main|AbstractMetadataFieldSet|Warning from defaults: org.tridas.io.warnings.ConversionWarning@53ea0105
+Wed 2010/05/05 10:07:59.488|   |main|StringDefaultValue|The string 'White Tower, Thessaloniki' is too small, padding (on the right? true)
+Wed 2010/05/05 10:07:59.502|   |main|StringDefaultValue|The string '1997-02-01T14:13:51.0Z' is too big, max length is '8' characters.
+Wed 2010/05/05 10:07:59.502|   |main|AbstractMetadataFieldSet|Warning from defaults: org.tridas.io.warnings.ConversionWarning@3d762027
+Wed 2010/05/05 10:07:59.504|   |main|StringDefaultValue|The string 'Quercus' is too small, padding (on the right? true)
+Wed 2010/05/05 10:07:59.506|   |main|AbstractDefaultValue|The string '' is too small, padding (on the right? true)
+Wed 2010/05/05 10:07:59.508|   |main|AbstractDendroFileReader|loading file from: Tucson1.rwl
+Wed 2010/05/05 10:07:59.509|   |main|FileHelper|The file 'Tucson1.rwl' is missing or inaccessible, make sure the URL is valid or that the file is in the samedirectory as the jar and is readable.
+Wed 2010/05/05 10:07:59.510|   |main|CatrasReader|loading file from: OBL10002.CAT
+Wed 2010/05/05 10:07:59.519|   |main|CatrasReader|starting catras file parsing
+Wed 2010/05/05 10:07:59.520|   |main|CatrasReader|Whole meta = [AVERAGE 2                       OBL10002CAT `         ˘ 	   n                 A TW  Uµ~C4ÅB€° ?t J>` _                     å v f q µ é ˆ « π ◊ Õ † ∞ Ô ˛ “ ˙ tHÁ Ã ä ﬁ › ô Ÿ Á t≤ Á éE(;rˇ SË jb'¿ Õ ,– "~Dr˚ › Á PÙ È ⁄ e ˜ 
+3Ô € 	"B˙ 	G” Ï Í Á ± ú € Áï ‹   § ª Õ Ê – ø   ¶ ∂ ∆ Áæ Î “ ’ ¢ Á€ ñ ¶ Ø › ù ∞ ø ®                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                               ]
+Wed 2010/05/05 10:07:59.521|   |main|CatrasReader|Header text = [AVERAGE 2                       ]
+Wed 2010/05/05 10:07:59.521|   |main|CatrasReader|Speices Code = [96]
+Wed 2010/05/05 10:07:59.522|   |main|CatrasReader|Series Code = [OBL10002]
+Wed 2010/05/05 10:07:59.522|   |main|CatrasReader|Length = 96
+Wed 2010/05/05 10:07:59.523|   |main|CatrasReader|Sapwood? = [ ]
+Wed 2010/05/05 10:07:59.523|   |main|CatrasReader|Dated = [       ]
+Wed 2010/05/05 10:07:59.524|   |main|CatrasReader|Start year = [249AD]
+Wed 2010/05/05 10:07:59.525|   |main|CatrasReader|Userid = [TW]
+Wed 2010/05/05 10:07:59.525|   |main|CatrasReader|value = 140
+Wed 2010/05/05 10:07:59.526|   |main|CatrasReader|value = 118
+Wed 2010/05/05 10:07:59.526|   |main|CatrasReader|value = 102
+Wed 2010/05/05 10:07:59.527|   |main|CatrasReader|value = 113
+Wed 2010/05/05 10:07:59.527|   |main|CatrasReader|value = 181
+Wed 2010/05/05 10:07:59.528|   |main|CatrasReader|value = 142
+Wed 2010/05/05 10:07:59.529|   |main|CatrasReader|value = 246
+Wed 2010/05/05 10:07:59.529|   |main|CatrasReader|value = 199
+Wed 2010/05/05 10:07:59.530|   |main|CatrasReader|value = 185
+Wed 2010/05/05 10:07:59.530|   |main|CatrasReader|value = 215
+Wed 2010/05/05 10:07:59.531|   |main|CatrasReader|value = 205
+Wed 2010/05/05 10:07:59.531|   |main|CatrasReader|value = 160
+Wed 2010/05/05 10:07:59.532|   |main|CatrasReader|value = 176
+Wed 2010/05/05 10:07:59.532|   |main|CatrasReader|value = 239
+Wed 2010/05/05 10:07:59.533|   |main|CatrasReader|value = 254
+Wed 2010/05/05 10:07:59.533|   |main|CatrasReader|value = 210
+Wed 2010/05/05 10:07:59.534|   |main|CatrasReader|value = 250
+Wed 2010/05/05 10:07:59.534|   |main|CatrasReader|value = 372
+Wed 2010/05/05 10:07:59.535|   |main|CatrasReader|value = 328
+Wed 2010/05/05 10:07:59.535|   |main|CatrasReader|value = 231
+Wed 2010/05/05 10:07:59.536|   |main|CatrasReader|value = 204
+Wed 2010/05/05 10:07:59.536|   |main|CatrasReader|value = 138
+Wed 2010/05/05 10:07:59.537|   |main|CatrasReader|value = 222
+Wed 2010/05/05 10:07:59.537|   |main|CatrasReader|value = 221
+Wed 2010/05/05 10:07:59.538|   |main|CatrasReader|value = 153
+Wed 2010/05/05 10:07:59.538|   |main|CatrasReader|value = 278
+Wed 2010/05/05 10:07:59.539|   |main|CatrasReader|value = 280
+Wed 2010/05/05 10:07:59.539|   |main|CatrasReader|value = 217
+Wed 2010/05/05 10:07:59.540|   |main|CatrasReader|value = 231
+Wed 2010/05/05 10:07:59.541|   |main|CatrasReader|value = 372
+Wed 2010/05/05 10:07:59.541|   |main|CatrasReader|value = 178
+Wed 2010/05/05 10:07:59.542|   |main|CatrasReader|value = 231
+Wed 2010/05/05 10:07:59.542|   |main|CatrasReader|value = 398
+Wed 2010/05/05 10:07:59.542|   |main|CatrasReader|value = 325
+Wed 2010/05/05 10:07:59.543|   |main|CatrasReader|value = 296
+Wed 2010/05/05 10:07:59.543|   |main|CatrasReader|value = 315
+Wed 2010/05/05 10:07:59.544|   |main|CatrasReader|value = 370
+Wed 2010/05/05 10:07:59.544|   |main|CatrasReader|value = 255
+Wed 2010/05/05 10:07:59.545|   |main|CatrasReader|value = 339
+Wed 2010/05/05 10:07:59.546|   |main|CatrasReader|value = 232
+Wed 2010/05/05 10:07:59.546|   |main|CatrasReader|value = 362
+Wed 2010/05/05 10:07:59.547|   |main|CatrasReader|value = 354
+Wed 2010/05/05 10:07:59.547|   |main|CatrasReader|value = 295
+Wed 2010/05/05 10:07:59.547|   |main|CatrasReader|value = 192
+Wed 2010/05/05 10:07:59.548|   |main|CatrasReader|value = 205
+Wed 2010/05/05 10:07:59.548|   |main|CatrasReader|value = 300
+Wed 2010/05/05 10:07:59.549|   |main|CatrasReader|value = 208
+Wed 2010/05/05 10:07:59.549|   |main|CatrasReader|value = 269
+Wed 2010/05/05 10:07:59.549|   |main|CatrasReader|value = 264
+Wed 2010/05/05 10:07:59.550|   |main|CatrasReader|value = 290
+Wed 2010/05/05 10:07:59.550|   |main|CatrasReader|value = 283
+Wed 2010/05/05 10:07:59.551|   |main|CatrasReader|value = 383
+Wed 2010/05/05 10:07:59.551|   |main|CatrasReader|value = 382
+Wed 2010/05/05 10:07:59.552|   |main|CatrasReader|value = 324
+Wed 2010/05/05 10:07:59.562|   |main|CatrasReader|value = 370
+Wed 2010/05/05 10:07:59.562|   |main|CatrasReader|value = 251
+Wed 2010/05/05 10:07:59.563|   |main|CatrasReader|value = 221
+Wed 2010/05/05 10:07:59.563|   |main|CatrasReader|value = 231
+Wed 2010/05/05 10:07:59.564|   |main|CatrasReader|value = 336
+Wed 2010/05/05 10:07:59.564|   |main|CatrasReader|value = 244
+Wed 2010/05/05 10:07:59.565|   |main|CatrasReader|value = 233
+Wed 2010/05/05 10:07:59.565|   |main|CatrasReader|value = 218
+Wed 2010/05/05 10:07:59.566|   |main|CatrasReader|value = 286
+Wed 2010/05/05 10:07:59.566|   |main|CatrasReader|value = 357
+Wed 2010/05/05 10:07:59.567|   |main|CatrasReader|value = 284
+Wed 2010/05/05 10:07:59.567|   |main|CatrasReader|value = 256
+Wed 2010/05/05 10:07:59.568|   |main|CatrasReader|value = 247
+Wed 2010/05/05 10:07:59.568|   |main|CatrasReader|value = 266
+Wed 2010/05/05 10:07:59.569|   |main|CatrasReader|value = 307
+Wed 2010/05/05 10:07:59.569|   |main|CatrasReader|value = 282
+Wed 2010/05/05 10:07:59.570|   |main|CatrasReader|value = 260
+Wed 2010/05/05 10:07:59.570|   |main|CatrasReader|value = 278
+Wed 2010/05/05 10:07:59.571|   |main|CatrasReader|value = 239
+Wed 2010/05/05 10:07:59.571|   |main|CatrasReader|value = 276
+Wed 2010/05/05 10:07:59.571|   |main|CatrasReader|value = 219
+Wed 2010/05/05 10:07:59.572|   |main|CatrasReader|value = 273
+Wed 2010/05/05 10:07:59.572|   |main|CatrasReader|value = 274
+Wed 2010/05/05 10:07:59.573|   |main|CatrasReader|value = 265
+Wed 2010/05/05 10:07:59.573|   |main|CatrasReader|value = 269
+Wed 2010/05/05 10:07:59.574|   |main|CatrasReader|value = 290
+Wed 2010/05/05 10:07:59.574|   |main|CatrasReader|value = 322
+Wed 2010/05/05 10:07:59.575|   |main|CatrasReader|value = 250
+Wed 2010/05/05 10:07:59.576|   |main|CatrasReader|value = 279
+Wed 2010/05/05 10:07:59.576|   |main|CatrasReader|value = 265
+Wed 2010/05/05 10:07:59.577|   |main|CatrasReader|value = 285
+Wed 2010/05/05 10:07:59.577|   |main|CatrasReader|value = 261
+Wed 2010/05/05 10:07:59.578|   |main|CatrasReader|value = 327
+Wed 2010/05/05 10:07:59.578|   |main|CatrasReader|value = 257
+Wed 2010/05/05 10:07:59.580|   |main|CatrasReader|value = 211
+Wed 2010/05/05 10:07:59.581|   |main|CatrasReader|value = 236
+Wed 2010/05/05 10:07:59.581|   |main|CatrasReader|value = 278
+Wed 2010/05/05 10:07:59.582|   |main|CatrasReader|value = 234
+Wed 2010/05/05 10:07:59.582|   |main|CatrasReader|value = 231
+Wed 2010/05/05 10:07:59.583|   |main|CatrasReader|value = 177
+Wed 2010/05/05 10:07:59.583|   |main|CatrasReader|value = 156
+Wed 2010/05/05 10:07:59.584|   |main|CatrasReader|value = 219
+Wed 2010/05/05 10:07:59.584|   |main|CatrasReader|sample depth as int = 2
+Wed 2010/05/05 10:07:59.585|   |main|CatrasReader|sample depth as int = 2
+Wed 2010/05/05 10:07:59.585|   |main|CatrasReader|sample depth as int = 2
+Wed 2010/05/05 10:07:59.586|   |main|CatrasReader|sample depth as int = 2
+Wed 2010/05/05 10:07:59.586|   |main|CatrasReader|sample depth as int = 2
+Wed 2010/05/05 10:07:59.587|   |main|CatrasReader|sample depth as int = 3
+Wed 2010/05/05 10:07:59.587|   |main|CatrasReader|sample depth as int = 3
+Wed 2010/05/05 10:07:59.588|   |main|CatrasReader|sample depth as int = 3
+Wed 2010/05/05 10:07:59.588|   |main|CatrasReader|sample depth as int = 3
+Wed 2010/05/05 10:07:59.589|   |main|CatrasReader|sample depth as int = 3
+Wed 2010/05/05 10:07:59.589|   |main|CatrasReader|sample depth as int = 3
+Wed 2010/05/05 10:07:59.590|   |main|CatrasReader|sample depth as int = 3
+Wed 2010/05/05 10:07:59.590|   |main|CatrasReader|sample depth as int = 3
+Wed 2010/05/05 10:07:59.590|   |main|CatrasReader|sample depth as int = 3
+Wed 2010/05/05 10:07:59.591|   |main|CatrasReader|sample depth as int = 3
+Wed 2010/05/05 10:07:59.591|   |main|CatrasReader|sample depth as int = 3
+Wed 2010/05/05 10:07:59.592|   |main|CatrasReader|sample depth as int = 3
+Wed 2010/05/05 10:07:59.592|   |main|CatrasReader|sample depth as int = 3
+Wed 2010/05/05 10:07:59.593|   |main|CatrasReader|sample depth as int = 3
+Wed 2010/05/05 10:07:59.593|   |main|CatrasReader|sample depth as int = 3
+Wed 2010/05/05 10:07:59.594|   |main|CatrasReader|sample depth as int = 3
+Wed 2010/05/05 10:07:59.594|   |main|CatrasReader|sample depth as int = 3
+Wed 2010/05/05 10:07:59.594|   |main|CatrasReader|sample depth as int = 3
+Wed 2010/05/05 10:07:59.595|   |main|CatrasReader|sample depth as int = 3
+Wed 2010/05/05 10:07:59.595|   |main|CatrasReader|sample depth as int = 3
+Wed 2010/05/05 10:07:59.596|   |main|CatrasReader|sample depth as int = 3
+Wed 2010/05/05 10:07:59.596|   |main|CatrasReader|sample depth as int = 3
+Wed 2010/05/05 10:07:59.597|   |main|CatrasReader|sample depth as int = 3
+Wed 2010/05/05 10:07:59.597|   |main|CatrasReader|sample depth as int = 3
+Wed 2010/05/05 10:07:59.598|   |main|CatrasReader|sample depth as int = 3
+Wed 2010/05/05 10:07:59.598|   |main|CatrasReader|sample depth as int = 3
+Wed 2010/05/05 10:07:59.598|   |main|CatrasReader|sample depth as int = 3
+Wed 2010/05/05 10:07:59.599|   |main|CatrasReader|sample depth as int = 3
+Wed 2010/05/05 10:07:59.599|   |main|CatrasReader|sample depth as int = 3
+Wed 2010/05/05 10:07:59.600|   |main|CatrasReader|sample depth as int = 3
+Wed 2010/05/05 10:07:59.600|   |main|CatrasReader|sample depth as int = 3
+Wed 2010/05/05 10:07:59.601|   |main|CatrasReader|sample depth as int = 3
+Wed 2010/05/05 10:07:59.601|   |main|CatrasReader|sample depth as int = 3
+Wed 2010/05/05 10:07:59.602|   |main|CatrasReader|sample depth as int = 3
+Wed 2010/05/05 10:07:59.602|   |main|CatrasReader|sample depth as int = 3
+Wed 2010/05/05 10:07:59.603|   |main|CatrasReader|sample depth as int = 3
+Wed 2010/05/05 10:07:59.603|   |main|CatrasReader|sample depth as int = 3
+Wed 2010/05/05 10:07:59.604|   |main|CatrasReader|sample depth as int = 3
+Wed 2010/05/05 10:07:59.604|   |main|CatrasReader|sample depth as int = 3
+Wed 2010/05/05 10:07:59.605|   |main|CatrasReader|sample depth as int = 3
+Wed 2010/05/05 10:07:59.620|   |main|CatrasReader|sample depth as int = 3
+Wed 2010/05/05 10:07:59.620|   |main|CatrasReader|sample depth as int = 3
+Wed 2010/05/05 10:07:59.621|   |main|CatrasReader|sample depth as int = 3
+Wed 2010/05/05 10:07:59.621|   |main|CatrasReader|sample depth as int = 3
+Wed 2010/05/05 10:07:59.622|   |main|CatrasReader|sample depth as int = 3
+Wed 2010/05/05 10:07:59.622|   |main|CatrasReader|sample depth as int = 3
+Wed 2010/05/05 10:07:59.623|   |main|CatrasReader|sample depth as int = 3
+Wed 2010/05/05 10:07:59.623|   |main|CatrasReader|sample depth as int = 3
+Wed 2010/05/05 10:07:59.624|   |main|CatrasReader|sample depth as int = 3
+Wed 2010/05/05 10:07:59.624|   |main|CatrasReader|sample depth as int = 3
+Wed 2010/05/05 10:07:59.625|   |main|CatrasReader|sample depth as int = 3
+Wed 2010/05/05 10:07:59.625|   |main|CatrasReader|sample depth as int = 3
+Wed 2010/05/05 10:07:59.626|   |main|CatrasReader|sample depth as int = 3
+Wed 2010/05/05 10:07:59.626|   |main|CatrasReader|sample depth as int = 3
+Wed 2010/05/05 10:07:59.627|   |main|CatrasReader|sample depth as int = 3
+Wed 2010/05/05 10:07:59.627|   |main|CatrasReader|sample depth as int = 3
+Wed 2010/05/05 10:07:59.628|   |main|CatrasReader|sample depth as int = 3
+Wed 2010/05/05 10:07:59.628|   |main|CatrasReader|sample depth as int = 3
+Wed 2010/05/05 10:07:59.629|   |main|CatrasReader|sample depth as int = 3
+Wed 2010/05/05 10:07:59.629|   |main|CatrasReader|sample depth as int = 3
+Wed 2010/05/05 10:07:59.630|   |main|CatrasReader|sample depth as int = 3
+Wed 2010/05/05 10:07:59.630|   |main|CatrasReader|sample depth as int = 3
+Wed 2010/05/05 10:07:59.631|   |main|CatrasReader|sample depth as int = 3
+Wed 2010/05/05 10:07:59.631|   |main|CatrasReader|sample depth as int = 3
+Wed 2010/05/05 10:07:59.631|   |main|CatrasReader|sample depth as int = 3
+Wed 2010/05/05 10:07:59.632|   |main|CatrasReader|sample depth as int = 3
+Wed 2010/05/05 10:07:59.632|   |main|CatrasReader|sample depth as int = 3
+Wed 2010/05/05 10:07:59.633|   |main|CatrasReader|sample depth as int = 3
+Wed 2010/05/05 10:07:59.633|   |main|CatrasReader|sample depth as int = 3
+Wed 2010/05/05 10:07:59.634|   |main|CatrasReader|sample depth as int = 3
+Wed 2010/05/05 10:07:59.634|   |main|CatrasReader|sample depth as int = 3
+Wed 2010/05/05 10:07:59.635|   |main|CatrasReader|sample depth as int = 2
+Wed 2010/05/05 10:07:59.635|   |main|CatrasReader|sample depth as int = 2
+Wed 2010/05/05 10:07:59.636|   |main|CatrasReader|sample depth as int = 2
+Wed 2010/05/05 10:07:59.636|   |main|CatrasReader|sample depth as int = 2
+Wed 2010/05/05 10:07:59.637|   |main|CatrasReader|sample depth as int = 2
+Wed 2010/05/05 10:07:59.637|   |main|CatrasReader|sample depth as int = 2
+Wed 2010/05/05 10:07:59.637|   |main|CatrasReader|sample depth as int = 2
+Wed 2010/05/05 10:07:59.638|   |main|CatrasReader|sample depth as int = 2
+Wed 2010/05/05 10:07:59.638|   |main|CatrasReader|reached end of count values
+Wed 2010/05/05 10:07:59.986|   |main|AbstractDendroFileReader|loading file from: UAKK0540.fh
+Wed 2010/05/05 10:07:59.995|   |main|HeidelbergReader|Parsing: [Ljava.lang.String;@54cb2185
+Wed 2010/05/05 10:07:59.995|   |main|HeidelbergReader|Checking file to see if it looks like a Heidelberg file
+Wed 2010/05/05 10:08:00.262|   |main|AbstractDendroFileReader|loading file from: GRC04B.txt
+Wed 2010/05/05 10:08:00.269|   |main|TrimsReader|value =  169 
+Wed 2010/05/05 10:08:00.270|   |main|TrimsReader|value =  96 
+Wed 2010/05/05 10:08:00.270|   |main|TrimsReader|value =  165 
+Wed 2010/05/05 10:08:00.271|   |main|TrimsReader|value =  85 
+Wed 2010/05/05 10:08:00.272|   |main|TrimsReader|value =  139 
+Wed 2010/05/05 10:08:00.272|   |main|TrimsReader|value =  87 
+Wed 2010/05/05 10:08:00.273|   |main|TrimsReader|value =  112 
+Wed 2010/05/05 10:08:00.273|   |main|TrimsReader|value =  102 
+Wed 2010/05/05 10:08:00.274|   |main|TrimsReader|value =  60 
+Wed 2010/05/05 10:08:00.274|   |main|TrimsReader|value =  43 
+Wed 2010/05/05 10:08:00.275|   |main|TrimsReader|value =  164 
+Wed 2010/05/05 10:08:00.275|   |main|TrimsReader|value =  172 
+Wed 2010/05/05 10:08:00.276|   |main|TrimsReader|value =  142 
+Wed 2010/05/05 10:08:00.276|   |main|TrimsReader|value =  193 
+Wed 2010/05/05 10:08:00.277|   |main|TrimsReader|value =  143 
+Wed 2010/05/05 10:08:00.278|   |main|TrimsReader|value =  172 
+Wed 2010/05/05 10:08:00.278|   |main|TrimsReader|value =  229 
+Wed 2010/05/05 10:08:00.279|   |main|TrimsReader|value =  198 
+Wed 2010/05/05 10:08:00.279|   |main|TrimsReader|value =  158 
+Wed 2010/05/05 10:08:00.280|   |main|TrimsReader|value =  112 
+Wed 2010/05/05 10:08:00.280|   |main|TrimsReader|value =  128 
+Wed 2010/05/05 10:08:00.281|   |main|TrimsReader|value =  181 
+Wed 2010/05/05 10:08:00.282|   |main|TrimsReader|value =  171 
+Wed 2010/05/05 10:08:00.282|   |main|TrimsReader|value =  206 
+Wed 2010/05/05 10:08:00.283|   |main|TrimsReader|value =  137 
+Wed 2010/05/05 10:08:00.283|   |main|TrimsReader|value =  73 
+Wed 2010/05/05 10:08:00.284|   |main|TrimsReader|value =  103 
+Wed 2010/05/05 10:08:00.284|   |main|TrimsReader|value =  131 
+Wed 2010/05/05 10:08:00.285|   |main|TrimsReader|value =  177 
+Wed 2010/05/05 10:08:00.285|   |main|TrimsReader|value =  179 
+Wed 2010/05/05 10:08:00.286|   |main|TrimsReader|value =  244 
+Wed 2010/05/05 10:08:00.286|   |main|TrimsReader|value =  173 
+Wed 2010/05/05 10:08:00.287|   |main|TrimsReader|value =  161 
+Wed 2010/05/05 10:08:00.287|   |main|TrimsReader|value =  202 
+Wed 2010/05/05 10:08:00.288|   |main|TrimsReader|value =  341 
+Wed 2010/05/05 10:08:00.288|   |main|TrimsReader|value =  149 
+Wed 2010/05/05 10:08:00.289|   |main|TrimsReader|value =  263 
+Wed 2010/05/05 10:08:00.289|   |main|TrimsReader|value =  197 
+Wed 2010/05/05 10:08:00.290|   |main|TrimsReader|value =  375 
+Wed 2010/05/05 10:08:00.290|   |main|TrimsReader|value =  266 
+Wed 2010/05/05 10:08:00.291|   |main|TrimsReader|value =  369 
+Wed 2010/05/05 10:08:00.291|   |main|TrimsReader|value =  120 
+Wed 2010/05/05 10:08:00.292|   |main|TrimsReader|value =  212 
+Wed 2010/05/05 10:08:00.292|   |main|TrimsReader|value =  217 
+Wed 2010/05/05 10:08:00.292|   |main|TrimsReader|value =  191 
+Wed 2010/05/05 10:08:00.293|   |main|TrimsReader|value =  238 
+Wed 2010/05/05 10:08:00.293|   |main|TrimsReader|value =  254 
+Wed 2010/05/05 10:08:00.294|   |main|TrimsReader|value =  147 
+Wed 2010/05/05 10:08:00.294|   |main|TrimsReader|value =  225 
+Wed 2010/05/05 10:08:00.295|   |main|TrimsReader|value =  103 
+Wed 2010/05/05 10:08:00.295|   |main|TrimsReader|value =  207 
+Wed 2010/05/05 10:08:00.296|   |main|TrimsReader|value =  207 
+Wed 2010/05/05 10:08:00.296|   |main|TrimsReader|value =  140 
+Wed 2010/05/05 10:08:00.297|   |main|TrimsReader|value =  182 
+Wed 2010/05/05 10:08:00.297|   |main|TrimsReader|value =  148 
+Wed 2010/05/05 10:08:00.298|   |main|TrimsReader|value =  110 
+Wed 2010/05/05 10:08:00.298|   |main|TrimsReader|value =  181 
+Wed 2010/05/05 10:08:00.298|   |main|TrimsReader|value =  120 
+Wed 2010/05/05 10:08:00.299|   |main|TrimsReader|value =  263 
+Wed 2010/05/05 10:08:00.299|   |main|TrimsReader|value =  256 
+Wed 2010/05/05 10:08:00.300|   |main|TrimsReader|value =  999 
+Wed 2010/05/05 10:08:00.560|   |main|AbstractDendroFileReader|loading file from: yhg50683.d
+Wed 2010/05/05 10:08:00.568|   |main|SheffieldReader|value = 454
+Wed 2010/05/05 10:08:00.568|   |main|SheffieldReader|value = 309
+Wed 2010/05/05 10:08:00.569|   |main|SheffieldReader|value = 314
+Wed 2010/05/05 10:08:00.570|   |main|SheffieldReader|value = 270
+Wed 2010/05/05 10:08:00.570|   |main|SheffieldReader|value = 273
+Wed 2010/05/05 10:08:00.571|   |main|SheffieldReader|value = 229
+Wed 2010/05/05 10:08:00.572|   |main|SheffieldReader|value = 319
+Wed 2010/05/05 10:08:00.572|   |main|SheffieldReader|value = 267
+Wed 2010/05/05 10:08:00.573|   |main|SheffieldReader|value = 276
+Wed 2010/05/05 10:08:00.573|   |main|SheffieldReader|value = 128
+Wed 2010/05/05 10:08:00.573|   |main|SheffieldReader|value = 163
+Wed 2010/05/05 10:08:00.574|   |main|SheffieldReader|value = 221
+Wed 2010/05/05 10:08:00.574|   |main|SheffieldReader|value = 269
+Wed 2010/05/05 10:08:00.575|   |main|SheffieldReader|value = 214
+Wed 2010/05/05 10:08:00.575|   |main|SheffieldReader|value = 201
+Wed 2010/05/05 10:08:00.576|   |main|SheffieldReader|value = 218
+Wed 2010/05/05 10:08:00.576|   |main|SheffieldReader|value = 199
+Wed 2010/05/05 10:08:00.577|   |main|SheffieldReader|value = 198
+Wed 2010/05/05 10:08:00.577|   |main|SheffieldReader|value = 209
+Wed 2010/05/05 10:08:00.578|   |main|SheffieldReader|value = 156
+Wed 2010/05/05 10:08:00.578|   |main|SheffieldReader|value = 177
+Wed 2010/05/05 10:08:00.579|   |main|SheffieldReader|value = 182
+Wed 2010/05/05 10:08:00.579|   |main|SheffieldReader|value = 193
+Wed 2010/05/05 10:08:00.580|   |main|SheffieldReader|value = 198
+Wed 2010/05/05 10:08:00.581|   |main|SheffieldReader|value = 153
+Wed 2010/05/05 10:08:00.581|   |main|SheffieldReader|value = 160
+Wed 2010/05/05 10:08:00.582|   |main|SheffieldReader|value = 213
+Wed 2010/05/05 10:08:00.582|   |main|SheffieldReader|value = 146
+Wed 2010/05/05 10:08:00.583|   |main|SheffieldReader|value = 160
+Wed 2010/05/05 10:08:00.583|   |main|SheffieldReader|value = 152
+Wed 2010/05/05 10:08:00.584|   |main|SheffieldReader|value = 124
+Wed 2010/05/05 10:08:00.584|   |main|SheffieldReader|value = 144
+Wed 2010/05/05 10:08:00.584|   |main|SheffieldReader|value = 137
+Wed 2010/05/05 10:08:00.585|   |main|SheffieldReader|value = 159
+Wed 2010/05/05 10:08:00.585|   |main|SheffieldReader|value = 107
+Wed 2010/05/05 10:08:00.586|   |main|SheffieldReader|value = 162
+Wed 2010/05/05 10:08:00.586|   |main|SheffieldReader|value = 184
+Wed 2010/05/05 10:08:00.587|   |main|SheffieldReader|value = 193
+Wed 2010/05/05 10:08:00.587|   |main|SheffieldReader|value = 186
+Wed 2010/05/05 10:08:00.588|   |main|SheffieldReader|value = 175
+Wed 2010/05/05 10:08:00.588|   |main|SheffieldReader|value = 166
+Wed 2010/05/05 10:08:00.589|   |main|SheffieldReader|value = 222
+Wed 2010/05/05 10:08:00.589|   |main|SheffieldReader|value = 206
+Wed 2010/05/05 10:08:00.589|   |main|SheffieldReader|value = 168
+Wed 2010/05/05 10:08:00.590|   |main|SheffieldReader|value = 130
+Wed 2010/05/05 10:08:00.590|   |main|SheffieldReader|value = 144
+Wed 2010/05/05 10:08:00.591|   |main|SheffieldReader|value = 148
+Wed 2010/05/05 10:08:00.591|   |main|SheffieldReader|value = 113
+Wed 2010/05/05 10:08:00.592|   |main|SheffieldReader|value = 122
+Wed 2010/05/05 10:08:00.592|   |main|SheffieldReader|value = 145
+Wed 2010/05/05 10:08:00.593|   |main|SheffieldReader|value = 128
+Wed 2010/05/05 10:08:00.593|   |main|SheffieldReader|value = 151
+Wed 2010/05/05 10:08:00.594|   |main|SheffieldReader|value = 193
+Wed 2010/05/05 10:08:00.594|   |main|SheffieldReader|value = 122
+Wed 2010/05/05 10:08:00.595|   |main|SheffieldReader|value = 165
+Wed 2010/05/05 10:08:00.595|   |main|SheffieldReader|value = 142
+Wed 2010/05/05 10:08:00.596|   |main|SheffieldReader|value = 168
+Wed 2010/05/05 10:08:00.596|   |main|SheffieldReader|value = 146
+Wed 2010/05/05 10:08:00.597|   |main|SheffieldReader|value = 143
+Wed 2010/05/05 10:08:00.597|   |main|SheffieldReader|value = 186
+Wed 2010/05/05 10:08:00.598|   |main|SheffieldReader|value = 199
+Wed 2010/05/05 10:08:00.598|   |main|SheffieldReader|value = 156
+Wed 2010/05/05 10:08:00.599|   |main|SheffieldReader|value = 163
+Wed 2010/05/05 10:08:00.599|   |main|SheffieldReader|value = 125
+Wed 2010/05/05 10:08:00.600|   |main|SheffieldReader|value = 168
+Wed 2010/05/05 10:08:00.600|   |main|SheffieldReader|value = 130
+Wed 2010/05/05 10:08:00.601|   |main|SheffieldReader|value = 108
+Wed 2010/05/05 10:08:00.601|   |main|SheffieldReader|value = 148
+Wed 2010/05/05 10:08:00.602|   |main|SheffieldReader|value = 165
+Wed 2010/05/05 10:08:00.602|   |main|SheffieldReader|value = 153
+Wed 2010/05/05 10:08:00.603|   |main|SheffieldReader|value = 161
+Wed 2010/05/05 10:08:00.603|   |main|SheffieldReader|value = 158
+Wed 2010/05/05 10:08:00.604|   |main|SheffieldReader|value = 165
+Wed 2010/05/05 10:08:00.604|   |main|SheffieldReader|value = 152
+Wed 2010/05/05 10:08:00.604|   |main|SheffieldReader|value = 146
+Wed 2010/05/05 10:08:00.605|   |main|SheffieldReader|value = 187
+Wed 2010/05/05 10:08:00.605|   |main|SheffieldReader|value = 186
+Wed 2010/05/05 10:08:00.606|   |main|SheffieldReader|value = 186
+Wed 2010/05/05 10:08:00.606|   |main|SheffieldReader|value = 178
+Wed 2010/05/05 10:08:00.607|   |main|SheffieldReader|value = 168
+Wed 2010/05/05 10:08:00.607|   |main|SheffieldReader|value = 153
+Wed 2010/05/05 10:08:00.608|   |main|SheffieldReader|value = 219
+Wed 2010/05/05 10:08:00.608|   |main|SheffieldReader|value = 217
+Wed 2010/05/05 10:08:00.609|   |main|SheffieldReader|value = 203
+Wed 2010/05/05 10:08:00.609|   |main|SheffieldReader|value = 167
+Wed 2010/05/05 10:08:00.610|   |main|SheffieldReader|value = 170
+Wed 2010/05/05 10:08:00.610|   |main|SheffieldReader|value = 148
+Wed 2010/05/05 10:08:00.611|   |main|SheffieldReader|value = 151
+Wed 2010/05/05 10:08:00.611|   |main|SheffieldReader|value = 154
+Wed 2010/05/05 10:08:00.612|   |main|SheffieldReader|value = 92
+Wed 2010/05/05 10:08:00.612|   |main|SheffieldReader|value = 130
+Wed 2010/05/05 10:08:00.613|   |main|SheffieldReader|value = 165
+Wed 2010/05/05 10:08:00.613|   |main|SheffieldReader|value = 150
+Wed 2010/05/05 10:08:00.613|   |main|SheffieldReader|value = 158
+Wed 2010/05/05 10:08:00.614|   |main|SheffieldReader|value = 166
+Wed 2010/05/05 10:08:00.615|   |main|SheffieldReader|value = 187
+Wed 2010/05/05 10:08:00.615|   |main|SheffieldReader|value = 196
+Wed 2010/05/05 10:08:00.616|   |main|SheffieldReader|value = 140
+Wed 2010/05/05 10:08:00.616|   |main|SheffieldReader|value = 168
+Wed 2010/05/05 10:08:00.616|   |main|SheffieldReader|value = 144
+Wed 2010/05/05 10:08:00.617|   |main|SheffieldReader|value = 142
+Wed 2010/05/05 10:08:00.617|   |main|SheffieldReader|value = 125
+Wed 2010/05/05 10:08:00.618|   |main|SheffieldReader|value = 133
+Wed 2010/05/05 10:08:00.618|   |main|SheffieldReader|value = 122
+Wed 2010/05/05 10:08:00.619|   |main|SheffieldReader|value = 134
+Wed 2010/05/05 10:08:00.619|   |main|SheffieldReader|value = 154
+Wed 2010/05/05 10:08:00.620|   |main|SheffieldReader|value = 159
+Wed 2010/05/05 10:08:00.620|   |main|SheffieldReader|value = 162
+Wed 2010/05/05 10:08:00.621|   |main|SheffieldReader|value = 138
+Wed 2010/05/05 10:08:00.621|   |main|SheffieldReader|value = 133
+Wed 2010/05/05 10:08:00.622|   |main|SheffieldReader|value = 132
+Wed 2010/05/05 10:08:00.622|   |main|SheffieldReader|value = 117
+Wed 2010/05/05 10:08:00.623|   |main|SheffieldReader|value = 83
+Wed 2010/05/05 10:08:00.623|   |main|SheffieldReader|value = 90
+Wed 2010/05/05 10:08:00.624|   |main|SheffieldReader|value = 82
+Wed 2010/05/05 10:08:00.624|   |main|SheffieldReader|value = 129
+Wed 2010/05/05 10:08:00.625|   |main|SheffieldReader|value = 107
+Wed 2010/05/05 10:08:00.625|   |main|SheffieldReader|value = 98
+Wed 2010/05/05 10:08:00.625|   |main|SheffieldReader|value = 113
+Wed 2010/05/05 10:08:00.626|   |main|SheffieldReader|value = 129
+Wed 2010/05/05 10:08:00.626|   |main|SheffieldReader|value = 103
+Wed 2010/05/05 10:08:00.627|   |main|SheffieldReader|value = 95
+Wed 2010/05/05 10:08:00.627|   |main|SheffieldReader|value = 88
+Wed 2010/05/05 10:08:00.628|   |main|SheffieldReader|value = 90
+Wed 2010/05/05 10:08:00.628|   |main|SheffieldReader|value = 97
+Wed 2010/05/05 10:08:00.629|   |main|SheffieldReader|value = 84
+Wed 2010/05/05 10:08:00.629|   |main|SheffieldReader|value = 102
+Wed 2010/05/05 10:08:00.630|   |main|SheffieldReader|value = 106
+Wed 2010/05/05 10:08:00.888|   |main|AbstractDendroFileReader|loading file from: A1805.txt
+Wed 2010/05/05 10:08:00.898|   |main|BelfastAppleReader|value = 106
+Wed 2010/05/05 10:08:00.898|   |main|BelfastAppleReader|value = 188
+Wed 2010/05/05 10:08:00.899|   |main|BelfastAppleReader|value = 165
+Wed 2010/05/05 10:08:00.899|   |main|BelfastAppleReader|value = 184
+Wed 2010/05/05 10:08:00.900|   |main|BelfastAppleReader|value = 112
+Wed 2010/05/05 10:08:00.900|   |main|BelfastAppleReader|value = 103
+Wed 2010/05/05 10:08:00.901|   |main|BelfastAppleReader|value = 111
+Wed 2010/05/05 10:08:00.901|   |main|BelfastAppleReader|value = 239
+Wed 2010/05/05 10:08:00.902|   |main|BelfastAppleReader|value = 226
+Wed 2010/05/05 10:08:00.902|   |main|BelfastAppleReader|value = 132
+Wed 2010/05/05 10:08:00.903|   |main|BelfastAppleReader|value = 143
+Wed 2010/05/05 10:08:00.903|   |main|BelfastAppleReader|value = 146
+Wed 2010/05/05 10:08:00.904|   |main|BelfastAppleReader|value = 140
+Wed 2010/05/05 10:08:00.904|   |main|BelfastAppleReader|value = 100
+Wed 2010/05/05 10:08:00.905|   |main|BelfastAppleReader|value = 176
+Wed 2010/05/05 10:08:00.905|   |main|BelfastAppleReader|value = 139
+Wed 2010/05/05 10:08:00.906|   |main|BelfastAppleReader|value = 124
+Wed 2010/05/05 10:08:00.906|   |main|BelfastAppleReader|value = 115
+Wed 2010/05/05 10:08:00.906|   |main|BelfastAppleReader|value = 78
+Wed 2010/05/05 10:08:00.907|   |main|BelfastAppleReader|value = 80
+Wed 2010/05/05 10:08:00.907|   |main|BelfastAppleReader|value = 156
+Wed 2010/05/05 10:08:00.908|   |main|BelfastAppleReader|value = 75
+Wed 2010/05/05 10:08:00.909|   |main|BelfastAppleReader|value = 110
+Wed 2010/05/05 10:08:00.910|   |main|BelfastAppleReader|value = 80
+Wed 2010/05/05 10:08:00.910|   |main|BelfastAppleReader|value = 130
+Wed 2010/05/05 10:08:00.911|   |main|BelfastAppleReader|value = 83
+Wed 2010/05/05 10:08:00.913|   |main|BelfastAppleReader|value = 157
+Wed 2010/05/05 10:08:00.914|   |main|BelfastAppleReader|value = 99
+Wed 2010/05/05 10:08:00.915|   |main|BelfastAppleReader|value = 115
+Wed 2010/05/05 10:08:00.915|   |main|BelfastAppleReader|value = 102
+Wed 2010/05/05 10:08:00.916|   |main|BelfastAppleReader|value = 110
+Wed 2010/05/05 10:08:00.916|   |main|BelfastAppleReader|value = 108
+Wed 2010/05/05 10:08:00.917|   |main|BelfastAppleReader|value = 87
+Wed 2010/05/05 10:08:00.917|   |main|BelfastAppleReader|value = 135
+Wed 2010/05/05 10:08:00.918|   |main|BelfastAppleReader|value = 107
+Wed 2010/05/05 10:08:00.918|   |main|BelfastAppleReader|value = 96
+Wed 2010/05/05 10:08:00.919|   |main|BelfastAppleReader|value = 70
+Wed 2010/05/05 10:08:00.919|   |main|BelfastAppleReader|value = 128
+Wed 2010/05/05 10:08:00.920|   |main|BelfastAppleReader|value = 119
+Wed 2010/05/05 10:08:00.920|   |main|BelfastAppleReader|value = 86
+Wed 2010/05/05 10:08:00.921|   |main|BelfastAppleReader|value = 101
+Wed 2010/05/05 10:08:00.921|   |main|BelfastAppleReader|value = 106
+Wed 2010/05/05 10:08:00.922|   |main|BelfastAppleReader|value = 129
+Wed 2010/05/05 10:08:00.922|   |main|BelfastAppleReader|value = 88
+Wed 2010/05/05 10:08:00.923|   |main|BelfastAppleReader|value = 101
+Wed 2010/05/05 10:08:00.923|   |main|BelfastAppleReader|value = 151
+Wed 2010/05/05 10:08:00.924|   |main|BelfastAppleReader|value = 106
+Wed 2010/05/05 10:08:00.924|   |main|BelfastAppleReader|value = 97
+Wed 2010/05/05 10:08:00.925|   |main|BelfastAppleReader|value = 110
+Wed 2010/05/05 10:08:00.925|   |main|BelfastAppleReader|value = 97
+Wed 2010/05/05 10:08:00.926|   |main|BelfastAppleReader|value = 91
+Wed 2010/05/05 10:08:00.927|   |main|BelfastAppleReader|value = 93
+Wed 2010/05/05 10:08:00.927|   |main|BelfastAppleReader|value = 100
+Wed 2010/05/05 10:08:00.928|   |main|BelfastAppleReader|value = 124
+Wed 2010/05/05 10:08:00.928|   |main|BelfastAppleReader|value = 99
+Wed 2010/05/05 10:08:00.929|   |main|BelfastAppleReader|value = 134
+Wed 2010/05/05 10:08:00.929|   |main|BelfastAppleReader|value = 125
+Wed 2010/05/05 10:08:00.930|   |main|BelfastAppleReader|value = 105
+Wed 2010/05/05 10:08:00.930|   |main|BelfastAppleReader|value = 96
+Wed 2010/05/05 10:08:00.931|   |main|BelfastAppleReader|value = 107
+Wed 2010/05/05 10:08:00.931|   |main|BelfastAppleReader|value = 142
+Wed 2010/05/05 10:08:00.932|   |main|BelfastAppleReader|value = 100
+Wed 2010/05/05 10:08:00.932|   |main|BelfastAppleReader|value = 208
+Wed 2010/05/05 10:08:00.933|   |main|BelfastAppleReader|value = 233
+Wed 2010/05/05 10:08:00.933|   |main|BelfastAppleReader|value = 149
+Wed 2010/05/05 10:08:00.934|   |main|BelfastAppleReader|value = 81
+Wed 2010/05/05 10:08:00.934|   |main|BelfastAppleReader|value = 221
+Wed 2010/05/05 10:08:00.935|   |main|BelfastAppleReader|value = 178
+Wed 2010/05/05 10:08:00.935|   |main|BelfastAppleReader|value = 140
+Wed 2010/05/05 10:08:00.936|   |main|BelfastAppleReader|value = 179
+Wed 2010/05/05 10:08:00.936|   |main|BelfastAppleReader|value = 84
+Wed 2010/05/05 10:08:00.937|   |main|BelfastAppleReader|value = 121
+Wed 2010/05/05 10:08:00.937|   |main|BelfastAppleReader|value = 169
+Wed 2010/05/05 10:08:00.938|   |main|BelfastAppleReader|value = 137
+Wed 2010/05/05 10:08:00.938|   |main|BelfastAppleReader|value = 190
+Wed 2010/05/05 10:08:00.939|   |main|BelfastAppleReader|value = 128
+Wed 2010/05/05 10:08:00.939|   |main|BelfastAppleReader|value = 150
+Wed 2010/05/05 10:08:00.940|   |main|BelfastAppleReader|value = 113
+Wed 2010/05/05 10:08:00.940|   |main|BelfastAppleReader|value = 150
+Wed 2010/05/05 10:08:00.941|   |main|BelfastAppleReader|value = 99
+Wed 2010/05/05 10:08:00.941|   |main|BelfastAppleReader|value = 238
+Wed 2010/05/05 10:08:00.942|   |main|BelfastAppleReader|value = 128
+Wed 2010/05/05 10:08:00.942|   |main|BelfastAppleReader|value = 170
+Wed 2010/05/05 10:08:00.943|   |main|BelfastAppleReader|value = 101
+Wed 2010/05/05 10:08:00.943|   |main|BelfastAppleReader|value = 110
+Wed 2010/05/05 10:08:00.944|   |main|BelfastAppleReader|value = 124
+Wed 2010/05/05 10:08:00.944|   |main|BelfastAppleReader|value = 143
+Wed 2010/05/05 10:08:00.945|   |main|BelfastAppleReader|value = 184
+Wed 2010/05/05 10:08:00.945|   |main|BelfastAppleReader|value = 142
+Wed 2010/05/05 10:08:00.946|   |main|BelfastAppleReader|value = 221
+Wed 2010/05/05 10:08:00.946|   |main|BelfastAppleReader|value = 99
+Wed 2010/05/05 10:08:00.947|   |main|BelfastAppleReader|value = 125
+Wed 2010/05/05 10:08:00.947|   |main|BelfastAppleReader|value = 121
+Wed 2010/05/05 10:08:00.948|   |main|BelfastAppleReader|value = 162
+Wed 2010/05/05 10:08:00.948|   |main|BelfastAppleReader|value = 132
+Wed 2010/05/05 10:08:00.949|   |main|BelfastAppleReader|value = 100
+Wed 2010/05/05 10:08:00.949|   |main|BelfastAppleReader|value = 152
+Wed 2010/05/05 10:08:00.950|   |main|BelfastAppleReader|value = 184
+Wed 2010/05/05 10:08:00.950|   |main|BelfastAppleReader|value = 178
+Wed 2010/05/05 10:08:00.951|   |main|BelfastAppleReader|value = 195
+Wed 2010/05/05 10:08:00.951|   |main|BelfastAppleReader|value = 106
+Wed 2010/05/05 10:08:00.952|   |main|BelfastAppleReader|value = 90
+Wed 2010/05/05 10:08:00.952|   |main|BelfastAppleReader|value = 91
+Wed 2010/05/05 10:08:00.953|   |main|BelfastAppleReader|value = 84
+Wed 2010/05/05 10:08:00.953|   |main|BelfastAppleReader|value = 95
+Wed 2010/05/05 10:08:00.954|   |main|BelfastAppleReader|value = 115
+Wed 2010/05/05 10:08:00.954|   |main|BelfastAppleReader|value = 122
+Wed 2010/05/05 10:08:01.203|   |main|AbstractDendroFileReader|loading file from: bellframe1.arx
+Wed 2010/05/05 10:08:01.209|   |main|BelfastArchiveReader|value = 176
+Wed 2010/05/05 10:08:01.210|   |main|BelfastArchiveReader|value = 342
+Wed 2010/05/05 10:08:01.210|   |main|BelfastArchiveReader|value = 338
+Wed 2010/05/05 10:08:01.211|   |main|BelfastArchiveReader|value = 334
+Wed 2010/05/05 10:08:01.211|   |main|BelfastArchiveReader|value = 409
+Wed 2010/05/05 10:08:01.212|   |main|BelfastArchiveReader|value = 362
+Wed 2010/05/05 10:08:01.212|   |main|BelfastArchiveReader|value = 308
+Wed 2010/05/05 10:08:01.213|   |main|BelfastArchiveReader|value = 360
+Wed 2010/05/05 10:08:01.214|   |main|BelfastArchiveReader|value = 264
+Wed 2010/05/05 10:08:01.214|   |main|BelfastArchiveReader|value = 325
+Wed 2010/05/05 10:08:01.215|   |main|BelfastArchiveReader|value = 318
+Wed 2010/05/05 10:08:01.215|   |main|BelfastArchiveReader|value = 51
+Wed 2010/05/05 10:08:01.216|   |main|BelfastArchiveReader|value = 48
+Wed 2010/05/05 10:08:01.216|   |main|BelfastArchiveReader|value = 47
+Wed 2010/05/05 10:08:01.217|   |main|BelfastArchiveReader|value = 60
+Wed 2010/05/05 10:08:01.217|   |main|BelfastArchiveReader|value = 49
+Wed 2010/05/05 10:08:01.218|   |main|BelfastArchiveReader|value = 48
+Wed 2010/05/05 10:08:06.802|   |main|AbstractDendroFileReader|loading file from: UAKK0540.fh
+Wed 2010/05/05 10:08:06.849|   |main|HeidelbergReader|Parsing: [Ljava.lang.String;@5b40c281
+Wed 2010/05/05 10:08:06.849|   |main|HeidelbergReader|Checking file to see if it looks like a Heidelberg file
+Wed 2010/05/05 10:19:56.422|   |main|AbstractDendroFileReader|loading file from: bababa.fh
+Wed 2010/05/05 10:19:56.469|   |main|HeidelbergReader|Parsing: [Ljava.lang.String;@78a1d1f4
+Wed 2010/05/05 10:19:56.470|   |main|HeidelbergReader|Checking file to see if it looks like a Heidelberg file
+Thu 2010/05/06 15:14:34.254|   |main|AbstractDendroFileReader|loading file from: Tridas1.xml
+Thu 2010/05/06 15:14:35.623|   |main|StringDefaultValue|The string '38895c80-f76c-435b-bd87-d649aea456d0' is too big, max length is '6' characters.
+Thu 2010/05/06 15:14:35.625|   |main|AbstractMetadataFieldSet|Warning from defaults: org.tridas.io.warnings.ConversionWarning@4ee14d81
+Thu 2010/05/06 15:14:35.637|   |main|StringDefaultValue|The string 'Unnamed object' is too small, padding (on the right? true)
+Thu 2010/05/06 15:14:35.651|   |main|StringDefaultValue|The string 'Plantae' is too small, padding (on the right? true)
+Thu 2010/05/06 15:14:35.652|   |main|StringDefaultValue|The string 'Unknown' is too small, padding (on the right? true)
+Thu 2010/05/06 15:14:35.653|   |main|StringDefaultValue|The string '' is too small, padding (on the right? true)
+Thu 2010/05/06 15:14:35.654|   |main|StringDefaultValue|The string 'Unknown' is too small, padding (on the right? true)
+Thu 2010/05/06 15:14:35.655|   |main|StringDefaultValue|The string 'Peter I Kuniholm' is too small, padding (on the right? true)
+Thu 2010/05/06 15:14:35.656|   |main|StringDefaultValue|The string '28acb483-f337-412f-a063-59d911c37594' is too big, max length is '6' characters.
+Thu 2010/05/06 15:14:35.657|   |main|AbstractMetadataFieldSet|Warning from defaults: org.tridas.io.warnings.ConversionWarning@746db33c
+Thu 2010/05/06 15:14:35.658|   |main|StringDefaultValue|The string 'White Tower, Thessaloniki' is too small, padding (on the right? true)
+Thu 2010/05/06 15:14:35.678|   |main|StringDefaultValue|The string '1997-02-01T14:13:51.0Z' is too big, max length is '8' characters.
+Thu 2010/05/06 15:14:35.679|   |main|AbstractMetadataFieldSet|Warning from defaults: org.tridas.io.warnings.ConversionWarning@45389b3f
+Thu 2010/05/06 15:14:35.686|   |main|StringDefaultValue|The string 'Quercus' is too small, padding (on the right? true)
+Thu 2010/05/06 15:14:35.689|   |main|AbstractDefaultValue|The string '' is too small, padding (on the right? true)
+Thu 2010/05/06 15:14:35.691|   |main|AbstractDendroFileReader|loading file from: Tucson1.rwl
+Thu 2010/05/06 15:14:35.692|   |main|FileHelper|The file 'Tucson1.rwl' is missing or inaccessible, make sure the URL is valid or that the file is in the samedirectory as the jar and is readable.
+Thu 2010/05/06 15:14:35.694|   |main|CatrasReader|loading file from: OBL10002.CAT
+Thu 2010/05/06 15:14:35.704|   |main|CatrasReader|starting catras file parsing
+Thu 2010/05/06 15:14:35.705|   |main|CatrasReader|Whole meta = [AVERAGE 2                       OBL10002CAT `         ˘ 	   n                 A TW  Uµ~C4ÅB€° ?t J>` _                     å v f q µ é ˆ « π ◊ Õ † ∞ Ô ˛ “ ˙ tHÁ Ã ä ﬁ › ô Ÿ Á t≤ Á éE(;rˇ SË jb'¿ Õ ,– "~Dr˚ › Á PÙ È ⁄ e ˜ 
+3Ô € 	"B˙ 	G” Ï Í Á ± ú € Áï ‹   § ª Õ Ê – ø   ¶ ∂ ∆ Áæ Î “ ’ ¢ Á€ ñ ¶ Ø › ù ∞ ø ®                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                               ]
+Thu 2010/05/06 15:14:35.706|   |main|CatrasReader|Header text = [AVERAGE 2                       ]
+Thu 2010/05/06 15:14:35.707|   |main|CatrasReader|Speices Code = [96]
+Thu 2010/05/06 15:14:35.708|   |main|CatrasReader|Series Code = [OBL10002]
+Thu 2010/05/06 15:14:35.708|   |main|CatrasReader|Length = 96
+Thu 2010/05/06 15:14:35.709|   |main|CatrasReader|Sapwood? = [ ]
+Thu 2010/05/06 15:14:35.709|   |main|CatrasReader|Dated = [       ]
+Thu 2010/05/06 15:14:35.710|   |main|CatrasReader|Start year = [249AD]
+Thu 2010/05/06 15:14:35.710|   |main|CatrasReader|Userid = [TW]
+Thu 2010/05/06 15:14:35.711|   |main|CatrasReader|value = 140
+Thu 2010/05/06 15:14:35.712|   |main|CatrasReader|value = 118
+Thu 2010/05/06 15:14:35.712|   |main|CatrasReader|value = 102
+Thu 2010/05/06 15:14:35.713|   |main|CatrasReader|value = 113
+Thu 2010/05/06 15:14:35.713|   |main|CatrasReader|value = 181
+Thu 2010/05/06 15:14:35.714|   |main|CatrasReader|value = 142
+Thu 2010/05/06 15:14:35.714|   |main|CatrasReader|value = 246
+Thu 2010/05/06 15:14:35.715|   |main|CatrasReader|value = 199
+Thu 2010/05/06 15:14:35.715|   |main|CatrasReader|value = 185
+Thu 2010/05/06 15:14:35.716|   |main|CatrasReader|value = 215
+Thu 2010/05/06 15:14:35.717|   |main|CatrasReader|value = 205
+Thu 2010/05/06 15:14:35.717|   |main|CatrasReader|value = 160
+Thu 2010/05/06 15:14:35.718|   |main|CatrasReader|value = 176
+Thu 2010/05/06 15:14:35.718|   |main|CatrasReader|value = 239
+Thu 2010/05/06 15:14:35.719|   |main|CatrasReader|value = 254
+Thu 2010/05/06 15:14:35.720|   |main|CatrasReader|value = 210
+Thu 2010/05/06 15:14:35.720|   |main|CatrasReader|value = 250
+Thu 2010/05/06 15:14:35.721|   |main|CatrasReader|value = 372
+Thu 2010/05/06 15:14:35.721|   |main|CatrasReader|value = 328
+Thu 2010/05/06 15:14:35.721|   |main|CatrasReader|value = 231
+Thu 2010/05/06 15:14:35.722|   |main|CatrasReader|value = 204
+Thu 2010/05/06 15:14:35.723|   |main|CatrasReader|value = 138
+Thu 2010/05/06 15:14:35.723|   |main|CatrasReader|value = 222
+Thu 2010/05/06 15:14:35.724|   |main|CatrasReader|value = 221
+Thu 2010/05/06 15:14:35.724|   |main|CatrasReader|value = 153
+Thu 2010/05/06 15:14:35.725|   |main|CatrasReader|value = 278
+Thu 2010/05/06 15:14:35.726|   |main|CatrasReader|value = 280
+Thu 2010/05/06 15:14:35.726|   |main|CatrasReader|value = 217
+Thu 2010/05/06 15:14:35.726|   |main|CatrasReader|value = 231
+Thu 2010/05/06 15:14:35.727|   |main|CatrasReader|value = 372
+Thu 2010/05/06 15:14:35.727|   |main|CatrasReader|value = 178
+Thu 2010/05/06 15:14:35.728|   |main|CatrasReader|value = 231
+Thu 2010/05/06 15:14:35.728|   |main|CatrasReader|value = 398
+Thu 2010/05/06 15:14:35.729|   |main|CatrasReader|value = 325
+Thu 2010/05/06 15:14:35.729|   |main|CatrasReader|value = 296
+Thu 2010/05/06 15:14:35.730|   |main|CatrasReader|value = 315
+Thu 2010/05/06 15:14:35.730|   |main|CatrasReader|value = 370
+Thu 2010/05/06 15:14:35.731|   |main|CatrasReader|value = 255
+Thu 2010/05/06 15:14:35.731|   |main|CatrasReader|value = 339
+Thu 2010/05/06 15:14:35.732|   |main|CatrasReader|value = 232
+Thu 2010/05/06 15:14:35.732|   |main|CatrasReader|value = 362
+Thu 2010/05/06 15:14:35.733|   |main|CatrasReader|value = 354
+Thu 2010/05/06 15:14:35.733|   |main|CatrasReader|value = 295
+Thu 2010/05/06 15:14:35.734|   |main|CatrasReader|value = 192
+Thu 2010/05/06 15:14:35.734|   |main|CatrasReader|value = 205
+Thu 2010/05/06 15:14:35.735|   |main|CatrasReader|value = 300
+Thu 2010/05/06 15:14:35.735|   |main|CatrasReader|value = 208
+Thu 2010/05/06 15:14:35.736|   |main|CatrasReader|value = 269
+Thu 2010/05/06 15:14:35.736|   |main|CatrasReader|value = 264
+Thu 2010/05/06 15:14:35.737|   |main|CatrasReader|value = 290
+Thu 2010/05/06 15:14:35.737|   |main|CatrasReader|value = 283
+Thu 2010/05/06 15:14:35.738|   |main|CatrasReader|value = 383
+Thu 2010/05/06 15:14:35.738|   |main|CatrasReader|value = 382
+Thu 2010/05/06 15:14:35.739|   |main|CatrasReader|value = 324
+Thu 2010/05/06 15:14:35.739|   |main|CatrasReader|value = 370
+Thu 2010/05/06 15:14:35.740|   |main|CatrasReader|value = 251
+Thu 2010/05/06 15:14:35.740|   |main|CatrasReader|value = 221
+Thu 2010/05/06 15:14:35.741|   |main|CatrasReader|value = 231
+Thu 2010/05/06 15:14:35.741|   |main|CatrasReader|value = 336
+Thu 2010/05/06 15:14:35.742|   |main|CatrasReader|value = 244
+Thu 2010/05/06 15:14:35.742|   |main|CatrasReader|value = 233
+Thu 2010/05/06 15:14:35.743|   |main|CatrasReader|value = 218
+Thu 2010/05/06 15:14:35.743|   |main|CatrasReader|value = 286
+Thu 2010/05/06 15:14:35.744|   |main|CatrasReader|value = 357
+Thu 2010/05/06 15:14:35.745|   |main|CatrasReader|value = 284
+Thu 2010/05/06 15:14:35.745|   |main|CatrasReader|value = 256
+Thu 2010/05/06 15:14:35.746|   |main|CatrasReader|value = 247
+Thu 2010/05/06 15:14:35.746|   |main|CatrasReader|value = 266
+Thu 2010/05/06 15:14:35.747|   |main|CatrasReader|value = 307
+Thu 2010/05/06 15:14:35.747|   |main|CatrasReader|value = 282
+Thu 2010/05/06 15:14:35.748|   |main|CatrasReader|value = 260
+Thu 2010/05/06 15:14:35.748|   |main|CatrasReader|value = 278
+Thu 2010/05/06 15:14:35.749|   |main|CatrasReader|value = 239
+Thu 2010/05/06 15:14:35.749|   |main|CatrasReader|value = 276
+Thu 2010/05/06 15:14:35.750|   |main|CatrasReader|value = 219
+Thu 2010/05/06 15:14:35.750|   |main|CatrasReader|value = 273
+Thu 2010/05/06 15:14:35.751|   |main|CatrasReader|value = 274
+Thu 2010/05/06 15:14:35.751|   |main|CatrasReader|value = 265
+Thu 2010/05/06 15:14:35.751|   |main|CatrasReader|value = 269
+Thu 2010/05/06 15:14:35.752|   |main|CatrasReader|value = 290
+Thu 2010/05/06 15:14:35.753|   |main|CatrasReader|value = 322
+Thu 2010/05/06 15:14:35.753|   |main|CatrasReader|value = 250
+Thu 2010/05/06 15:14:35.754|   |main|CatrasReader|value = 279
+Thu 2010/05/06 15:14:35.755|   |main|CatrasReader|value = 265
+Thu 2010/05/06 15:14:35.755|   |main|CatrasReader|value = 285
+Thu 2010/05/06 15:14:35.756|   |main|CatrasReader|value = 261
+Thu 2010/05/06 15:14:35.756|   |main|CatrasReader|value = 327
+Thu 2010/05/06 15:14:35.757|   |main|CatrasReader|value = 257
+Thu 2010/05/06 15:14:35.757|   |main|CatrasReader|value = 211
+Thu 2010/05/06 15:14:35.758|   |main|CatrasReader|value = 236
+Thu 2010/05/06 15:14:35.758|   |main|CatrasReader|value = 278
+Thu 2010/05/06 15:14:35.759|   |main|CatrasReader|value = 234
+Thu 2010/05/06 15:14:35.759|   |main|CatrasReader|value = 231
+Thu 2010/05/06 15:14:35.760|   |main|CatrasReader|value = 177
+Thu 2010/05/06 15:14:35.760|   |main|CatrasReader|value = 156
+Thu 2010/05/06 15:14:35.761|   |main|CatrasReader|value = 219
+Thu 2010/05/06 15:14:35.761|   |main|CatrasReader|sample depth as int = 2
+Thu 2010/05/06 15:14:35.762|   |main|CatrasReader|sample depth as int = 2
+Thu 2010/05/06 15:14:35.762|   |main|CatrasReader|sample depth as int = 2
+Thu 2010/05/06 15:14:35.763|   |main|CatrasReader|sample depth as int = 2
+Thu 2010/05/06 15:14:35.763|   |main|CatrasReader|sample depth as int = 2
+Thu 2010/05/06 15:14:35.764|   |main|CatrasReader|sample depth as int = 3
+Thu 2010/05/06 15:14:35.764|   |main|CatrasReader|sample depth as int = 3
+Thu 2010/05/06 15:14:35.765|   |main|CatrasReader|sample depth as int = 3
+Thu 2010/05/06 15:14:35.765|   |main|CatrasReader|sample depth as int = 3
+Thu 2010/05/06 15:14:35.766|   |main|CatrasReader|sample depth as int = 3
+Thu 2010/05/06 15:14:35.766|   |main|CatrasReader|sample depth as int = 3
+Thu 2010/05/06 15:14:35.767|   |main|CatrasReader|sample depth as int = 3
+Thu 2010/05/06 15:14:35.767|   |main|CatrasReader|sample depth as int = 3
+Thu 2010/05/06 15:14:35.768|   |main|CatrasReader|sample depth as int = 3
+Thu 2010/05/06 15:14:35.768|   |main|CatrasReader|sample depth as int = 3
+Thu 2010/05/06 15:14:35.769|   |main|CatrasReader|sample depth as int = 3
+Thu 2010/05/06 15:14:35.769|   |main|CatrasReader|sample depth as int = 3
+Thu 2010/05/06 15:14:35.770|   |main|CatrasReader|sample depth as int = 3
+Thu 2010/05/06 15:14:35.770|   |main|CatrasReader|sample depth as int = 3
+Thu 2010/05/06 15:14:35.770|   |main|CatrasReader|sample depth as int = 3
+Thu 2010/05/06 15:14:35.771|   |main|CatrasReader|sample depth as int = 3
+Thu 2010/05/06 15:14:35.772|   |main|CatrasReader|sample depth as int = 3
+Thu 2010/05/06 15:14:35.772|   |main|CatrasReader|sample depth as int = 3
+Thu 2010/05/06 15:14:35.773|   |main|CatrasReader|sample depth as int = 3
+Thu 2010/05/06 15:14:35.773|   |main|CatrasReader|sample depth as int = 3
+Thu 2010/05/06 15:14:35.774|   |main|CatrasReader|sample depth as int = 3
+Thu 2010/05/06 15:14:35.775|   |main|CatrasReader|sample depth as int = 3
+Thu 2010/05/06 15:14:35.775|   |main|CatrasReader|sample depth as int = 3
+Thu 2010/05/06 15:14:35.776|   |main|CatrasReader|sample depth as int = 3
+Thu 2010/05/06 15:14:35.776|   |main|CatrasReader|sample depth as int = 3
+Thu 2010/05/06 15:14:35.777|   |main|CatrasReader|sample depth as int = 3
+Thu 2010/05/06 15:14:35.777|   |main|CatrasReader|sample depth as int = 3
+Thu 2010/05/06 15:14:35.778|   |main|CatrasReader|sample depth as int = 3
+Thu 2010/05/06 15:14:35.778|   |main|CatrasReader|sample depth as int = 3
+Thu 2010/05/06 15:14:35.779|   |main|CatrasReader|sample depth as int = 3
+Thu 2010/05/06 15:14:35.779|   |main|CatrasReader|sample depth as int = 3
+Thu 2010/05/06 15:14:35.779|   |main|CatrasReader|sample depth as int = 3
+Thu 2010/05/06 15:14:35.780|   |main|CatrasReader|sample depth as int = 3
+Thu 2010/05/06 15:14:35.799|   |main|CatrasReader|sample depth as int = 3
+Thu 2010/05/06 15:14:35.800|   |main|CatrasReader|sample depth as int = 3
+Thu 2010/05/06 15:14:35.801|   |main|CatrasReader|sample depth as int = 3
+Thu 2010/05/06 15:14:35.801|   |main|CatrasReader|sample depth as int = 3
+Thu 2010/05/06 15:14:35.802|   |main|CatrasReader|sample depth as int = 3
+Thu 2010/05/06 15:14:35.802|   |main|CatrasReader|sample depth as int = 3
+Thu 2010/05/06 15:14:35.803|   |main|CatrasReader|sample depth as int = 3
+Thu 2010/05/06 15:14:35.803|   |main|CatrasReader|sample depth as int = 3
+Thu 2010/05/06 15:14:35.804|   |main|CatrasReader|sample depth as int = 3
+Thu 2010/05/06 15:14:35.804|   |main|CatrasReader|sample depth as int = 3
+Thu 2010/05/06 15:14:35.805|   |main|CatrasReader|sample depth as int = 3
+Thu 2010/05/06 15:14:35.805|   |main|CatrasReader|sample depth as int = 3
+Thu 2010/05/06 15:14:35.806|   |main|CatrasReader|sample depth as int = 3
+Thu 2010/05/06 15:14:35.806|   |main|CatrasReader|sample depth as int = 3
+Thu 2010/05/06 15:14:35.807|   |main|CatrasReader|sample depth as int = 3
+Thu 2010/05/06 15:14:35.807|   |main|CatrasReader|sample depth as int = 3
+Thu 2010/05/06 15:14:35.808|   |main|CatrasReader|sample depth as int = 3
+Thu 2010/05/06 15:14:35.808|   |main|CatrasReader|sample depth as int = 3
+Thu 2010/05/06 15:14:35.808|   |main|CatrasReader|sample depth as int = 3
+Thu 2010/05/06 15:14:35.809|   |main|CatrasReader|sample depth as int = 3
+Thu 2010/05/06 15:14:35.809|   |main|CatrasReader|sample depth as int = 3
+Thu 2010/05/06 15:14:35.810|   |main|CatrasReader|sample depth as int = 3
+Thu 2010/05/06 15:14:35.810|   |main|CatrasReader|sample depth as int = 3
+Thu 2010/05/06 15:14:35.811|   |main|CatrasReader|sample depth as int = 3
+Thu 2010/05/06 15:14:35.811|   |main|CatrasReader|sample depth as int = 3
+Thu 2010/05/06 15:14:35.812|   |main|CatrasReader|sample depth as int = 3
+Thu 2010/05/06 15:14:35.812|   |main|CatrasReader|sample depth as int = 3
+Thu 2010/05/06 15:14:35.813|   |main|CatrasReader|sample depth as int = 3
+Thu 2010/05/06 15:14:35.813|   |main|CatrasReader|sample depth as int = 3
+Thu 2010/05/06 15:14:35.814|   |main|CatrasReader|sample depth as int = 3
+Thu 2010/05/06 15:14:35.814|   |main|CatrasReader|sample depth as int = 3
+Thu 2010/05/06 15:14:35.815|   |main|CatrasReader|sample depth as int = 3
+Thu 2010/05/06 15:14:35.815|   |main|CatrasReader|sample depth as int = 3
+Thu 2010/05/06 15:14:35.816|   |main|CatrasReader|sample depth as int = 3
+Thu 2010/05/06 15:14:35.816|   |main|CatrasReader|sample depth as int = 3
+Thu 2010/05/06 15:14:35.817|   |main|CatrasReader|sample depth as int = 3
+Thu 2010/05/06 15:14:35.817|   |main|CatrasReader|sample depth as int = 3
+Thu 2010/05/06 15:14:35.818|   |main|CatrasReader|sample depth as int = 3
+Thu 2010/05/06 15:14:35.818|   |main|CatrasReader|sample depth as int = 2
+Thu 2010/05/06 15:14:35.819|   |main|CatrasReader|sample depth as int = 2
+Thu 2010/05/06 15:14:35.819|   |main|CatrasReader|sample depth as int = 2
+Thu 2010/05/06 15:14:35.820|   |main|CatrasReader|sample depth as int = 2
+Thu 2010/05/06 15:14:35.820|   |main|CatrasReader|sample depth as int = 2
+Thu 2010/05/06 15:14:35.821|   |main|CatrasReader|sample depth as int = 2
+Thu 2010/05/06 15:14:35.821|   |main|CatrasReader|sample depth as int = 2
+Thu 2010/05/06 15:14:35.822|   |main|CatrasReader|sample depth as int = 2
+Thu 2010/05/06 15:14:35.822|   |main|CatrasReader|reached end of count values
+Thu 2010/05/06 15:14:36.163|   |main|AbstractDendroFileReader|loading file from: bababa.fh
+Thu 2010/05/06 15:14:36.171|   |main|HeidelbergReader|Parsing: [Ljava.lang.String;@1fdbb27d
+Thu 2010/05/06 15:14:36.172|   |main|HeidelbergReader|Checking file to see if it looks like a Heidelberg file
+Thu 2010/05/06 15:14:36.443|   |main|AbstractDendroFileReader|loading file from: GRC04B.txt
+Thu 2010/05/06 15:14:36.445|   |main|TrimsReader|value =  169 
+Thu 2010/05/06 15:14:36.446|   |main|TrimsReader|value =  96 
+Thu 2010/05/06 15:14:36.446|   |main|TrimsReader|value =  165 
+Thu 2010/05/06 15:14:36.447|   |main|TrimsReader|value =  85 
+Thu 2010/05/06 15:14:36.447|   |main|TrimsReader|value =  139 
+Thu 2010/05/06 15:14:36.448|   |main|TrimsReader|value =  87 
+Thu 2010/05/06 15:14:36.448|   |main|TrimsReader|value =  112 
+Thu 2010/05/06 15:14:36.448|   |main|TrimsReader|value =  102 
+Thu 2010/05/06 15:14:36.449|   |main|TrimsReader|value =  60 
+Thu 2010/05/06 15:14:36.449|   |main|TrimsReader|value =  43 
+Thu 2010/05/06 15:14:36.450|   |main|TrimsReader|value =  164 
+Thu 2010/05/06 15:14:36.450|   |main|TrimsReader|value =  172 
+Thu 2010/05/06 15:14:36.451|   |main|TrimsReader|value =  142 
+Thu 2010/05/06 15:14:36.451|   |main|TrimsReader|value =  193 
+Thu 2010/05/06 15:14:36.452|   |main|TrimsReader|value =  143 
+Thu 2010/05/06 15:14:36.452|   |main|TrimsReader|value =  172 
+Thu 2010/05/06 15:14:36.452|   |main|TrimsReader|value =  229 
+Thu 2010/05/06 15:14:36.453|   |main|TrimsReader|value =  198 
+Thu 2010/05/06 15:14:36.453|   |main|TrimsReader|value =  158 
+Thu 2010/05/06 15:14:36.454|   |main|TrimsReader|value =  112 
+Thu 2010/05/06 15:14:36.454|   |main|TrimsReader|value =  128 
+Thu 2010/05/06 15:14:36.455|   |main|TrimsReader|value =  181 
+Thu 2010/05/06 15:14:36.455|   |main|TrimsReader|value =  171 
+Thu 2010/05/06 15:14:36.456|   |main|TrimsReader|value =  206 
+Thu 2010/05/06 15:14:36.456|   |main|TrimsReader|value =  137 
+Thu 2010/05/06 15:14:36.457|   |main|TrimsReader|value =  73 
+Thu 2010/05/06 15:14:36.457|   |main|TrimsReader|value =  103 
+Thu 2010/05/06 15:14:36.458|   |main|TrimsReader|value =  131 
+Thu 2010/05/06 15:14:36.458|   |main|TrimsReader|value =  177 
+Thu 2010/05/06 15:14:36.458|   |main|TrimsReader|value =  179 
+Thu 2010/05/06 15:14:36.459|   |main|TrimsReader|value =  244 
+Thu 2010/05/06 15:14:36.459|   |main|TrimsReader|value =  173 
+Thu 2010/05/06 15:14:36.460|   |main|TrimsReader|value =  161 
+Thu 2010/05/06 15:14:36.460|   |main|TrimsReader|value =  202 
+Thu 2010/05/06 15:14:36.461|   |main|TrimsReader|value =  341 
+Thu 2010/05/06 15:14:36.461|   |main|TrimsReader|value =  149 
+Thu 2010/05/06 15:14:36.462|   |main|TrimsReader|value =  263 
+Thu 2010/05/06 15:14:36.462|   |main|TrimsReader|value =  197 
+Thu 2010/05/06 15:14:36.463|   |main|TrimsReader|value =  375 
+Thu 2010/05/06 15:14:36.463|   |main|TrimsReader|value =  266 
+Thu 2010/05/06 15:14:36.464|   |main|TrimsReader|value =  369 
+Thu 2010/05/06 15:14:36.464|   |main|TrimsReader|value =  120 
+Thu 2010/05/06 15:14:36.465|   |main|TrimsReader|value =  212 
+Thu 2010/05/06 15:14:36.465|   |main|TrimsReader|value =  217 
+Thu 2010/05/06 15:14:36.466|   |main|TrimsReader|value =  191 
+Thu 2010/05/06 15:14:36.466|   |main|TrimsReader|value =  238 
+Thu 2010/05/06 15:14:36.467|   |main|TrimsReader|value =  254 
+Thu 2010/05/06 15:14:36.467|   |main|TrimsReader|value =  147 
+Thu 2010/05/06 15:14:36.468|   |main|TrimsReader|value =  225 
+Thu 2010/05/06 15:14:36.468|   |main|TrimsReader|value =  103 
+Thu 2010/05/06 15:14:36.469|   |main|TrimsReader|value =  207 
+Thu 2010/05/06 15:14:36.469|   |main|TrimsReader|value =  207 
+Thu 2010/05/06 15:14:36.470|   |main|TrimsReader|value =  140 
+Thu 2010/05/06 15:14:36.470|   |main|TrimsReader|value =  182 
+Thu 2010/05/06 15:14:36.471|   |main|TrimsReader|value =  148 
+Thu 2010/05/06 15:14:36.471|   |main|TrimsReader|value =  110 
+Thu 2010/05/06 15:14:36.472|   |main|TrimsReader|value =  181 
+Thu 2010/05/06 15:14:36.472|   |main|TrimsReader|value =  120 
+Thu 2010/05/06 15:14:36.473|   |main|TrimsReader|value =  263 
+Thu 2010/05/06 15:14:36.473|   |main|TrimsReader|value =  256 
+Thu 2010/05/06 15:14:36.474|   |main|TrimsReader|value =  999 
+Thu 2010/05/06 15:14:36.757|   |main|AbstractDendroFileReader|loading file from: yhg50683.d
+Thu 2010/05/06 15:14:36.769|   |main|SheffieldReader|value = 454
+Thu 2010/05/06 15:14:36.770|   |main|SheffieldReader|value = 309
+Thu 2010/05/06 15:14:36.771|   |main|SheffieldReader|value = 314
+Thu 2010/05/06 15:14:36.772|   |main|SheffieldReader|value = 270
+Thu 2010/05/06 15:14:36.773|   |main|SheffieldReader|value = 273
+Thu 2010/05/06 15:14:36.773|   |main|SheffieldReader|value = 229
+Thu 2010/05/06 15:14:36.774|   |main|SheffieldReader|value = 319
+Thu 2010/05/06 15:14:36.774|   |main|SheffieldReader|value = 267
+Thu 2010/05/06 15:14:36.775|   |main|SheffieldReader|value = 276
+Thu 2010/05/06 15:14:36.775|   |main|SheffieldReader|value = 128
+Thu 2010/05/06 15:14:36.776|   |main|SheffieldReader|value = 163
+Thu 2010/05/06 15:14:36.776|   |main|SheffieldReader|value = 221
+Thu 2010/05/06 15:14:36.777|   |main|SheffieldReader|value = 269
+Thu 2010/05/06 15:14:36.777|   |main|SheffieldReader|value = 214
+Thu 2010/05/06 15:14:36.778|   |main|SheffieldReader|value = 201
+Thu 2010/05/06 15:14:36.778|   |main|SheffieldReader|value = 218
+Thu 2010/05/06 15:14:36.779|   |main|SheffieldReader|value = 199
+Thu 2010/05/06 15:14:36.779|   |main|SheffieldReader|value = 198
+Thu 2010/05/06 15:14:36.780|   |main|SheffieldReader|value = 209
+Thu 2010/05/06 15:14:36.780|   |main|SheffieldReader|value = 156
+Thu 2010/05/06 15:14:36.781|   |main|SheffieldReader|value = 177
+Thu 2010/05/06 15:14:36.782|   |main|SheffieldReader|value = 182
+Thu 2010/05/06 15:14:36.782|   |main|SheffieldReader|value = 193
+Thu 2010/05/06 15:14:36.783|   |main|SheffieldReader|value = 198
+Thu 2010/05/06 15:14:36.783|   |main|SheffieldReader|value = 153
+Thu 2010/05/06 15:14:36.784|   |main|SheffieldReader|value = 160
+Thu 2010/05/06 15:14:36.785|   |main|SheffieldReader|value = 213
+Thu 2010/05/06 15:14:36.785|   |main|SheffieldReader|value = 146
+Thu 2010/05/06 15:14:36.785|   |main|SheffieldReader|value = 160
+Thu 2010/05/06 15:14:36.786|   |main|SheffieldReader|value = 152
+Thu 2010/05/06 15:14:36.787|   |main|SheffieldReader|value = 124
+Thu 2010/05/06 15:14:36.787|   |main|SheffieldReader|value = 144
+Thu 2010/05/06 15:14:36.788|   |main|SheffieldReader|value = 137
+Thu 2010/05/06 15:14:36.788|   |main|SheffieldReader|value = 159
+Thu 2010/05/06 15:14:36.789|   |main|SheffieldReader|value = 107
+Thu 2010/05/06 15:14:36.789|   |main|SheffieldReader|value = 162
+Thu 2010/05/06 15:14:36.790|   |main|SheffieldReader|value = 184
+Thu 2010/05/06 15:14:36.790|   |main|SheffieldReader|value = 193
+Thu 2010/05/06 15:14:36.791|   |main|SheffieldReader|value = 186
+Thu 2010/05/06 15:14:36.791|   |main|SheffieldReader|value = 175
+Thu 2010/05/06 15:14:36.792|   |main|SheffieldReader|value = 166
+Thu 2010/05/06 15:14:36.792|   |main|SheffieldReader|value = 222
+Thu 2010/05/06 15:14:36.793|   |main|SheffieldReader|value = 206
+Thu 2010/05/06 15:14:36.793|   |main|SheffieldReader|value = 168
+Thu 2010/05/06 15:14:36.794|   |main|SheffieldReader|value = 130
+Thu 2010/05/06 15:14:36.794|   |main|SheffieldReader|value = 144
+Thu 2010/05/06 15:14:36.795|   |main|SheffieldReader|value = 148
+Thu 2010/05/06 15:14:36.795|   |main|SheffieldReader|value = 113
+Thu 2010/05/06 15:14:36.796|   |main|SheffieldReader|value = 122
+Thu 2010/05/06 15:14:36.796|   |main|SheffieldReader|value = 145
+Thu 2010/05/06 15:14:36.797|   |main|SheffieldReader|value = 128
+Thu 2010/05/06 15:14:36.797|   |main|SheffieldReader|value = 151
+Thu 2010/05/06 15:14:36.798|   |main|SheffieldReader|value = 193
+Thu 2010/05/06 15:14:36.798|   |main|SheffieldReader|value = 122
+Thu 2010/05/06 15:14:36.799|   |main|SheffieldReader|value = 165
+Thu 2010/05/06 15:14:36.799|   |main|SheffieldReader|value = 142
+Thu 2010/05/06 15:14:36.800|   |main|SheffieldReader|value = 168
+Thu 2010/05/06 15:14:36.800|   |main|SheffieldReader|value = 146
+Thu 2010/05/06 15:14:36.800|   |main|SheffieldReader|value = 143
+Thu 2010/05/06 15:14:36.801|   |main|SheffieldReader|value = 186
+Thu 2010/05/06 15:14:36.801|   |main|SheffieldReader|value = 199
+Thu 2010/05/06 15:14:36.802|   |main|SheffieldReader|value = 156
+Thu 2010/05/06 15:14:36.802|   |main|SheffieldReader|value = 163
+Thu 2010/05/06 15:14:36.803|   |main|SheffieldReader|value = 125
+Thu 2010/05/06 15:14:36.803|   |main|SheffieldReader|value = 168
+Thu 2010/05/06 15:14:36.804|   |main|SheffieldReader|value = 130
+Thu 2010/05/06 15:14:36.804|   |main|SheffieldReader|value = 108
+Thu 2010/05/06 15:14:36.805|   |main|SheffieldReader|value = 148
+Thu 2010/05/06 15:14:36.805|   |main|SheffieldReader|value = 165
+Thu 2010/05/06 15:14:36.806|   |main|SheffieldReader|value = 153
+Thu 2010/05/06 15:14:36.806|   |main|SheffieldReader|value = 161
+Thu 2010/05/06 15:14:36.807|   |main|SheffieldReader|value = 158
+Thu 2010/05/06 15:14:36.807|   |main|SheffieldReader|value = 165
+Thu 2010/05/06 15:14:36.808|   |main|SheffieldReader|value = 152
+Thu 2010/05/06 15:14:36.808|   |main|SheffieldReader|value = 146
+Thu 2010/05/06 15:14:36.808|   |main|SheffieldReader|value = 187
+Thu 2010/05/06 15:14:36.809|   |main|SheffieldReader|value = 186
+Thu 2010/05/06 15:14:36.809|   |main|SheffieldReader|value = 186
+Thu 2010/05/06 15:14:36.810|   |main|SheffieldReader|value = 178
+Thu 2010/05/06 15:14:36.810|   |main|SheffieldReader|value = 168
+Thu 2010/05/06 15:14:36.811|   |main|SheffieldReader|value = 153
+Thu 2010/05/06 15:14:36.812|   |main|SheffieldReader|value = 219
+Thu 2010/05/06 15:14:36.812|   |main|SheffieldReader|value = 217
+Thu 2010/05/06 15:14:36.813|   |main|SheffieldReader|value = 203
+Thu 2010/05/06 15:14:36.813|   |main|SheffieldReader|value = 167
+Thu 2010/05/06 15:14:36.814|   |main|SheffieldReader|value = 170
+Thu 2010/05/06 15:14:36.814|   |main|SheffieldReader|value = 148
+Thu 2010/05/06 15:14:36.815|   |main|SheffieldReader|value = 151
+Thu 2010/05/06 15:14:36.815|   |main|SheffieldReader|value = 154
+Thu 2010/05/06 15:14:36.816|   |main|SheffieldReader|value = 92
+Thu 2010/05/06 15:14:36.816|   |main|SheffieldReader|value = 130
+Thu 2010/05/06 15:14:36.817|   |main|SheffieldReader|value = 165
+Thu 2010/05/06 15:14:36.817|   |main|SheffieldReader|value = 150
+Thu 2010/05/06 15:14:36.818|   |main|SheffieldReader|value = 158
+Thu 2010/05/06 15:14:36.818|   |main|SheffieldReader|value = 166
+Thu 2010/05/06 15:14:36.819|   |main|SheffieldReader|value = 187
+Thu 2010/05/06 15:14:36.819|   |main|SheffieldReader|value = 196
+Thu 2010/05/06 15:14:36.820|   |main|SheffieldReader|value = 140
+Thu 2010/05/06 15:14:36.820|   |main|SheffieldReader|value = 168
+Thu 2010/05/06 15:14:36.821|   |main|SheffieldReader|value = 144
+Thu 2010/05/06 15:14:36.821|   |main|SheffieldReader|value = 142
+Thu 2010/05/06 15:14:36.822|   |main|SheffieldReader|value = 125
+Thu 2010/05/06 15:14:36.822|   |main|SheffieldReader|value = 133
+Thu 2010/05/06 15:14:36.823|   |main|SheffieldReader|value = 122
+Thu 2010/05/06 15:14:36.823|   |main|SheffieldReader|value = 134
+Thu 2010/05/06 15:14:36.824|   |main|SheffieldReader|value = 154
+Thu 2010/05/06 15:14:36.824|   |main|SheffieldReader|value = 159
+Thu 2010/05/06 15:14:36.825|   |main|SheffieldReader|value = 162
+Thu 2010/05/06 15:14:36.825|   |main|SheffieldReader|value = 138
+Thu 2010/05/06 15:14:36.826|   |main|SheffieldReader|value = 133
+Thu 2010/05/06 15:14:36.826|   |main|SheffieldReader|value = 132
+Thu 2010/05/06 15:14:36.827|   |main|SheffieldReader|value = 117
+Thu 2010/05/06 15:14:36.827|   |main|SheffieldReader|value = 83
+Thu 2010/05/06 15:14:36.828|   |main|SheffieldReader|value = 90
+Thu 2010/05/06 15:14:36.828|   |main|SheffieldReader|value = 82
+Thu 2010/05/06 15:14:36.829|   |main|SheffieldReader|value = 129
+Thu 2010/05/06 15:14:36.829|   |main|SheffieldReader|value = 107
+Thu 2010/05/06 15:14:36.830|   |main|SheffieldReader|value = 98
+Thu 2010/05/06 15:14:36.830|   |main|SheffieldReader|value = 113
+Thu 2010/05/06 15:14:36.831|   |main|SheffieldReader|value = 129
+Thu 2010/05/06 15:14:36.831|   |main|SheffieldReader|value = 103
+Thu 2010/05/06 15:14:36.832|   |main|SheffieldReader|value = 95
+Thu 2010/05/06 15:14:36.832|   |main|SheffieldReader|value = 88
+Thu 2010/05/06 15:14:36.833|   |main|SheffieldReader|value = 90
+Thu 2010/05/06 15:14:36.833|   |main|SheffieldReader|value = 97
+Thu 2010/05/06 15:14:36.834|   |main|SheffieldReader|value = 84
+Thu 2010/05/06 15:14:36.834|   |main|SheffieldReader|value = 102
+Thu 2010/05/06 15:14:36.835|   |main|SheffieldReader|value = 106
+Thu 2010/05/06 15:14:37.091|   |main|AbstractDendroFileReader|loading file from: A1805.txt
+Thu 2010/05/06 15:14:37.092|   |main|BelfastAppleReader|value = 106
+Thu 2010/05/06 15:14:37.092|   |main|BelfastAppleReader|value = 188
+Thu 2010/05/06 15:14:37.093|   |main|BelfastAppleReader|value = 165
+Thu 2010/05/06 15:14:37.093|   |main|BelfastAppleReader|value = 184
+Thu 2010/05/06 15:14:37.094|   |main|BelfastAppleReader|value = 112
+Thu 2010/05/06 15:14:37.094|   |main|BelfastAppleReader|value = 103
+Thu 2010/05/06 15:14:37.095|   |main|BelfastAppleReader|value = 111
+Thu 2010/05/06 15:14:37.095|   |main|BelfastAppleReader|value = 239
+Thu 2010/05/06 15:14:37.096|   |main|BelfastAppleReader|value = 226
+Thu 2010/05/06 15:14:37.096|   |main|BelfastAppleReader|value = 132
+Thu 2010/05/06 15:14:37.097|   |main|BelfastAppleReader|value = 143
+Thu 2010/05/06 15:14:37.097|   |main|BelfastAppleReader|value = 146
+Thu 2010/05/06 15:14:37.098|   |main|BelfastAppleReader|value = 140
+Thu 2010/05/06 15:14:37.098|   |main|BelfastAppleReader|value = 100
+Thu 2010/05/06 15:14:37.099|   |main|BelfastAppleReader|value = 176
+Thu 2010/05/06 15:14:37.099|   |main|BelfastAppleReader|value = 139
+Thu 2010/05/06 15:14:37.100|   |main|BelfastAppleReader|value = 124
+Thu 2010/05/06 15:14:37.101|   |main|BelfastAppleReader|value = 115
+Thu 2010/05/06 15:14:37.101|   |main|BelfastAppleReader|value = 78
+Thu 2010/05/06 15:14:37.102|   |main|BelfastAppleReader|value = 80
+Thu 2010/05/06 15:14:37.102|   |main|BelfastAppleReader|value = 156
+Thu 2010/05/06 15:14:37.103|   |main|BelfastAppleReader|value = 75
+Thu 2010/05/06 15:14:37.103|   |main|BelfastAppleReader|value = 110
+Thu 2010/05/06 15:14:37.104|   |main|BelfastAppleReader|value = 80
+Thu 2010/05/06 15:14:37.104|   |main|BelfastAppleReader|value = 130
+Thu 2010/05/06 15:14:37.105|   |main|BelfastAppleReader|value = 83
+Thu 2010/05/06 15:14:37.105|   |main|BelfastAppleReader|value = 157
+Thu 2010/05/06 15:14:37.106|   |main|BelfastAppleReader|value = 99
+Thu 2010/05/06 15:14:37.106|   |main|BelfastAppleReader|value = 115
+Thu 2010/05/06 15:14:37.107|   |main|BelfastAppleReader|value = 102
+Thu 2010/05/06 15:14:37.107|   |main|BelfastAppleReader|value = 110
+Thu 2010/05/06 15:14:37.108|   |main|BelfastAppleReader|value = 108
+Thu 2010/05/06 15:14:37.108|   |main|BelfastAppleReader|value = 87
+Thu 2010/05/06 15:14:37.109|   |main|BelfastAppleReader|value = 135
+Thu 2010/05/06 15:14:37.109|   |main|BelfastAppleReader|value = 107
+Thu 2010/05/06 15:14:37.110|   |main|BelfastAppleReader|value = 96
+Thu 2010/05/06 15:14:37.110|   |main|BelfastAppleReader|value = 70
+Thu 2010/05/06 15:14:37.111|   |main|BelfastAppleReader|value = 128
+Thu 2010/05/06 15:14:37.111|   |main|BelfastAppleReader|value = 119
+Thu 2010/05/06 15:14:37.112|   |main|BelfastAppleReader|value = 86
+Thu 2010/05/06 15:14:37.112|   |main|BelfastAppleReader|value = 101
+Thu 2010/05/06 15:14:37.113|   |main|BelfastAppleReader|value = 106
+Thu 2010/05/06 15:14:37.113|   |main|BelfastAppleReader|value = 129
+Thu 2010/05/06 15:14:37.114|   |main|BelfastAppleReader|value = 88
+Thu 2010/05/06 15:14:37.114|   |main|BelfastAppleReader|value = 101
+Thu 2010/05/06 15:14:37.114|   |main|BelfastAppleReader|value = 151
+Thu 2010/05/06 15:14:37.115|   |main|BelfastAppleReader|value = 106
+Thu 2010/05/06 15:14:37.115|   |main|BelfastAppleReader|value = 97
+Thu 2010/05/06 15:14:37.116|   |main|BelfastAppleReader|value = 110
+Thu 2010/05/06 15:14:37.116|   |main|BelfastAppleReader|value = 97
+Thu 2010/05/06 15:14:37.117|   |main|BelfastAppleReader|value = 91
+Thu 2010/05/06 15:14:37.117|   |main|BelfastAppleReader|value = 93
+Thu 2010/05/06 15:14:37.118|   |main|BelfastAppleReader|value = 100
+Thu 2010/05/06 15:14:37.118|   |main|BelfastAppleReader|value = 124
+Thu 2010/05/06 15:14:37.119|   |main|BelfastAppleReader|value = 99
+Thu 2010/05/06 15:14:37.120|   |main|BelfastAppleReader|value = 134
+Thu 2010/05/06 15:14:37.120|   |main|BelfastAppleReader|value = 125
+Thu 2010/05/06 15:14:37.121|   |main|BelfastAppleReader|value = 105
+Thu 2010/05/06 15:14:37.121|   |main|BelfastAppleReader|value = 96
+Thu 2010/05/06 15:14:37.122|   |main|BelfastAppleReader|value = 107
+Thu 2010/05/06 15:14:37.122|   |main|BelfastAppleReader|value = 142
+Thu 2010/05/06 15:14:37.123|   |main|BelfastAppleReader|value = 100
+Thu 2010/05/06 15:14:37.123|   |main|BelfastAppleReader|value = 208
+Thu 2010/05/06 15:14:37.124|   |main|BelfastAppleReader|value = 233
+Thu 2010/05/06 15:14:37.124|   |main|BelfastAppleReader|value = 149
+Thu 2010/05/06 15:14:37.125|   |main|BelfastAppleReader|value = 81
+Thu 2010/05/06 15:14:37.125|   |main|BelfastAppleReader|value = 221
+Thu 2010/05/06 15:14:37.126|   |main|BelfastAppleReader|value = 178
+Thu 2010/05/06 15:14:37.126|   |main|BelfastAppleReader|value = 140
+Thu 2010/05/06 15:14:37.127|   |main|BelfastAppleReader|value = 179
+Thu 2010/05/06 15:14:37.127|   |main|BelfastAppleReader|value = 84
+Thu 2010/05/06 15:14:37.128|   |main|BelfastAppleReader|value = 121
+Thu 2010/05/06 15:14:37.128|   |main|BelfastAppleReader|value = 169
+Thu 2010/05/06 15:14:37.129|   |main|BelfastAppleReader|value = 137
+Thu 2010/05/06 15:14:37.129|   |main|BelfastAppleReader|value = 190
+Thu 2010/05/06 15:14:37.130|   |main|BelfastAppleReader|value = 128
+Thu 2010/05/06 15:14:37.130|   |main|BelfastAppleReader|value = 150
+Thu 2010/05/06 15:14:37.131|   |main|BelfastAppleReader|value = 113
+Thu 2010/05/06 15:14:37.131|   |main|BelfastAppleReader|value = 150
+Thu 2010/05/06 15:14:37.132|   |main|BelfastAppleReader|value = 99
+Thu 2010/05/06 15:14:37.132|   |main|BelfastAppleReader|value = 238
+Thu 2010/05/06 15:14:37.133|   |main|BelfastAppleReader|value = 128
+Thu 2010/05/06 15:14:37.133|   |main|BelfastAppleReader|value = 170
+Thu 2010/05/06 15:14:37.134|   |main|BelfastAppleReader|value = 101
+Thu 2010/05/06 15:14:37.134|   |main|BelfastAppleReader|value = 110
+Thu 2010/05/06 15:14:37.135|   |main|BelfastAppleReader|value = 124
+Thu 2010/05/06 15:14:37.135|   |main|BelfastAppleReader|value = 143
+Thu 2010/05/06 15:14:37.136|   |main|BelfastAppleReader|value = 184
+Thu 2010/05/06 15:14:37.136|   |main|BelfastAppleReader|value = 142
+Thu 2010/05/06 15:14:37.137|   |main|BelfastAppleReader|value = 221
+Thu 2010/05/06 15:14:37.137|   |main|BelfastAppleReader|value = 99
+Thu 2010/05/06 15:14:37.138|   |main|BelfastAppleReader|value = 125
+Thu 2010/05/06 15:14:37.138|   |main|BelfastAppleReader|value = 121
+Thu 2010/05/06 15:14:37.139|   |main|BelfastAppleReader|value = 162
+Thu 2010/05/06 15:14:37.139|   |main|BelfastAppleReader|value = 132
+Thu 2010/05/06 15:14:37.140|   |main|BelfastAppleReader|value = 100
+Thu 2010/05/06 15:14:37.140|   |main|BelfastAppleReader|value = 152
+Thu 2010/05/06 15:14:37.141|   |main|BelfastAppleReader|value = 184
+Thu 2010/05/06 15:14:37.142|   |main|BelfastAppleReader|value = 178
+Thu 2010/05/06 15:14:37.142|   |main|BelfastAppleReader|value = 195
+Thu 2010/05/06 15:14:37.143|   |main|BelfastAppleReader|value = 106
+Thu 2010/05/06 15:14:37.143|   |main|BelfastAppleReader|value = 90
+Thu 2010/05/06 15:14:37.144|   |main|BelfastAppleReader|value = 91
+Thu 2010/05/06 15:14:37.144|   |main|BelfastAppleReader|value = 84
+Thu 2010/05/06 15:14:37.145|   |main|BelfastAppleReader|value = 95
+Thu 2010/05/06 15:14:37.145|   |main|BelfastAppleReader|value = 115
+Thu 2010/05/06 15:14:37.146|   |main|BelfastAppleReader|value = 122
+Thu 2010/05/06 15:14:37.392|   |main|AbstractDendroFileReader|loading file from: bellframe1.arx
+Thu 2010/05/06 15:14:37.403|   |main|BelfastArchiveReader|value = 176
+Thu 2010/05/06 15:14:37.403|   |main|BelfastArchiveReader|value = 342
+Thu 2010/05/06 15:14:37.404|   |main|BelfastArchiveReader|value = 338
+Thu 2010/05/06 15:14:37.404|   |main|BelfastArchiveReader|value = 334
+Thu 2010/05/06 15:14:37.405|   |main|BelfastArchiveReader|value = 409
+Thu 2010/05/06 15:14:37.405|   |main|BelfastArchiveReader|value = 362
+Thu 2010/05/06 15:14:37.406|   |main|BelfastArchiveReader|value = 308
+Thu 2010/05/06 15:14:37.406|   |main|BelfastArchiveReader|value = 360
+Thu 2010/05/06 15:14:37.407|   |main|BelfastArchiveReader|value = 264
+Thu 2010/05/06 15:14:37.408|   |main|BelfastArchiveReader|value = 325
+Thu 2010/05/06 15:14:37.408|   |main|BelfastArchiveReader|value = 318
+Thu 2010/05/06 15:14:37.409|   |main|BelfastArchiveReader|value = 51
+Thu 2010/05/06 15:14:37.409|   |main|BelfastArchiveReader|value = 48
+Thu 2010/05/06 15:14:37.410|   |main|BelfastArchiveReader|value = 47
+Thu 2010/05/06 15:14:37.410|   |main|BelfastArchiveReader|value = 60
+Thu 2010/05/06 15:14:37.411|   |main|BelfastArchiveReader|value = 49
+Thu 2010/05/06 15:14:37.411|   |main|BelfastArchiveReader|value = 48
+Thu 2010/05/06 15:14:37.652|   |main|AbstractDendroFileReader|loading file from: DE_V.!oj
+Thu 2010/05/06 15:16:39.785|   |main|AbstractDendroFileReader|loading file from: DE_V.!oj
+Thu 2010/05/06 15:16:55.926|   |main|AbstractDendroFileReader|loading file from: DE_V.!oj
+Thu 2010/05/06 15:17:18.550|   |main|AbstractDendroFileReader|loading file from: DE_V.!oj
+Thu 2010/05/06 15:26:32.149|   |main|AbstractDendroFileReader|loading file from: DE_V.!oj
+Thu 2010/05/06 15:27:37.244|   |main|AbstractDendroFileReader|loading file from: DE_V.!oj
+Thu 2010/05/06 15:28:12.351|   |main|AbstractDendroFileReader|loading file from: DE_V.!oj
+Thu 2010/05/06 15:28:47.468|   |main|AbstractDendroFileReader|loading file from: DE_V.!oj
+Thu 2010/05/06 15:44:59.545|   |main|AbstractDendroFileReader|loading file from: DE_V.!oj
+Thu 2010/05/06 15:47:35.385|   |main|AbstractDendroFileReader|loading file from: DE_V.!oj
+Thu 2010/05/06 15:57:49.871|   |main|AbstractDendroFileReader|loading file from: DE_V.!oj
+Thu 2010/05/06 16:00:02.864|   |main|AbstractDendroFileReader|loading file from: DE_V.!oj
+Thu 2010/05/06 16:22:35.883|   |main|AbstractDendroFileReader|loading file from: DE_V.!oj
+Thu 2010/05/06 16:23:16.051|   |main|AbstractDendroFileReader|loading file from: DE_V.!oj
+Thu 2010/05/06 16:31:33.720|   |main|AbstractDendroFileReader|loading file from: DE_V.!oj
+Thu 2010/05/06 16:32:41.574|   |main|AbstractDendroFileReader|loading file from: DE_V.!oj
+Thu 2010/05/06 16:41:19.515|   |main|AbstractDendroFileReader|loading file from: H_V.!oj
+Thu 2010/05/06 16:44:32.814|   |main|AbstractDendroFileReader|loading file from: H_V.!oj
+Thu 2010/05/06 16:44:56.337|   |main|AbstractDendroFileReader|loading file from: H_V.!oj
+Fri 2010/05/07 08:54:45.823|   |main|AbstractDendroFileReader|loading file from: H_V.!oj
+Fri 2010/05/07 09:05:05.195|   |main|AbstractDendroFileReader|loading file from: H_V.!oj
+Fri 2010/05/07 09:11:51.557|   |main|AbstractDendroFileReader|loading file from: H_V.!oj
+Fri 2010/05/07 09:14:46.126|   |main|AbstractDendroFileReader|loading file from: H_V.!oj
+vr 2010/05/07 09:18:22.557|   |main|AbstractDendroFileReader|loading file from: Tridas1.xml
+vr 2010/05/07 09:18:23.465|   |main|StringDefaultValue|The string '5cef3d0a-b48c-44a3-bfe3-0e44f1c7f2f4' is too big, max length is '6' characters.
+vr 2010/05/07 09:18:23.468|   |main|AbstractMetadataFieldSet|Warning from defaults: org.tridas.io.warnings.ConversionWarning@584a5c78
+vr 2010/05/07 09:18:23.469|   |main|StringDefaultValue|The string 'Unnamed object' is too small, padding (on the right? true)
+vr 2010/05/07 09:18:23.473|   |main|StringDefaultValue|The string 'Plantae' is too small, padding (on the right? true)
+vr 2010/05/07 09:18:23.474|   |main|StringDefaultValue|The string 'Unknown' is too small, padding (on the right? true)
+vr 2010/05/07 09:18:23.475|   |main|StringDefaultValue|The string '' is too small, padding (on the right? true)
+vr 2010/05/07 09:18:23.476|   |main|StringDefaultValue|The string 'Unknown' is too small, padding (on the right? true)
+vr 2010/05/07 09:18:23.478|   |main|StringDefaultValue|The string 'Peter I Kuniholm' is too small, padding (on the right? true)
+vr 2010/05/07 09:18:23.478|   |main|StringDefaultValue|The string '28acb483-f337-412f-a063-59d911c37594' is too big, max length is '6' characters.
+vr 2010/05/07 09:18:23.479|   |main|AbstractMetadataFieldSet|Warning from defaults: org.tridas.io.warnings.ConversionWarning@2658dd2d
+vr 2010/05/07 09:18:23.480|   |main|StringDefaultValue|The string 'White Tower, Thessaloniki' is too small, padding (on the right? true)
+vr 2010/05/07 09:18:23.481|   |main|StringDefaultValue|The string '1997-02-01T14:13:51.0Z' is too big, max length is '8' characters.
+vr 2010/05/07 09:18:23.482|   |main|AbstractMetadataFieldSet|Warning from defaults: org.tridas.io.warnings.ConversionWarning@1959e6e8
+vr 2010/05/07 09:18:23.483|   |main|StringDefaultValue|The string 'Quercus' is too small, padding (on the right? true)
+vr 2010/05/07 09:18:23.486|   |main|AbstractDefaultValue|The string '' is too small, padding (on the right? true)
+vr 2010/05/07 09:18:23.488|   |main|AbstractDendroFileReader|loading file from: Tucson1.rwl
+vr 2010/05/07 09:18:23.489|   |main|FileHelper|The file 'Tucson1.rwl' is missing or inaccessible, make sure the URL is valid or that the file is in the samedirectory as the jar and is readable.
+vr 2010/05/07 09:18:23.491|   |main|CatrasReader|loading file from: OBL10002.CAT
+vr 2010/05/07 09:18:23.492|   |main|CatrasReader|starting catras file parsing
+vr 2010/05/07 09:18:23.493|   |main|CatrasReader|Whole meta = [AVERAGE 2                       OBL10002CAT `         ˘ 	   n                 A TW  Uµ~C4ÅB€° ?t J>` _                     å v f q µ é ˆ « π ◊ Õ † ∞ Ô ˛ “ ˙ tHÁ Ã ä ﬁ › ô Ÿ Á t≤ Á éE(;rˇ SË jb'¿ Õ ,– "~Dr˚ › Á PÙ È ⁄ e ˜ 
+3Ô € 	"B˙ 	G” Ï Í Á ± ú € Áï ‹   § ª Õ Ê – ø   ¶ ∂ ∆ Áæ Î “ ’ ¢ Á€ ñ ¶ Ø › ù ∞ ø ®                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                               ]
+vr 2010/05/07 09:18:23.494|   |main|CatrasReader|Header text = [AVERAGE 2                       ]
+vr 2010/05/07 09:18:23.495|   |main|CatrasReader|Speices Code = [96]
+vr 2010/05/07 09:18:23.495|   |main|CatrasReader|Series Code = [OBL10002]
+vr 2010/05/07 09:18:23.496|   |main|CatrasReader|Length = 96
+vr 2010/05/07 09:18:23.496|   |main|CatrasReader|Sapwood? = [ ]
+vr 2010/05/07 09:18:23.497|   |main|CatrasReader|Dated = [       ]
+vr 2010/05/07 09:18:23.498|   |main|CatrasReader|Start year = [249AD]
+vr 2010/05/07 09:18:23.498|   |main|CatrasReader|Userid = [TW]
+vr 2010/05/07 09:18:23.499|   |main|CatrasReader|value = 140
+vr 2010/05/07 09:18:23.500|   |main|CatrasReader|value = 118
+vr 2010/05/07 09:18:23.500|   |main|CatrasReader|value = 102
+vr 2010/05/07 09:18:23.501|   |main|CatrasReader|value = 113
+vr 2010/05/07 09:18:23.501|   |main|CatrasReader|value = 181
+vr 2010/05/07 09:18:23.502|   |main|CatrasReader|value = 142
+vr 2010/05/07 09:18:23.502|   |main|CatrasReader|value = 246
+vr 2010/05/07 09:18:23.503|   |main|CatrasReader|value = 199
+vr 2010/05/07 09:18:23.503|   |main|CatrasReader|value = 185
+vr 2010/05/07 09:18:23.504|   |main|CatrasReader|value = 215
+vr 2010/05/07 09:18:23.504|   |main|CatrasReader|value = 205
+vr 2010/05/07 09:18:23.505|   |main|CatrasReader|value = 160
+vr 2010/05/07 09:18:23.505|   |main|CatrasReader|value = 176
+vr 2010/05/07 09:18:23.506|   |main|CatrasReader|value = 239
+vr 2010/05/07 09:18:23.506|   |main|CatrasReader|value = 254
+vr 2010/05/07 09:18:23.507|   |main|CatrasReader|value = 210
+vr 2010/05/07 09:18:23.508|   |main|CatrasReader|value = 250
+vr 2010/05/07 09:18:23.508|   |main|CatrasReader|value = 372
+vr 2010/05/07 09:18:23.509|   |main|CatrasReader|value = 328
+vr 2010/05/07 09:18:23.509|   |main|CatrasReader|value = 231
+vr 2010/05/07 09:18:23.510|   |main|CatrasReader|value = 204
+vr 2010/05/07 09:18:23.510|   |main|CatrasReader|value = 138
+vr 2010/05/07 09:18:23.511|   |main|CatrasReader|value = 222
+vr 2010/05/07 09:18:23.511|   |main|CatrasReader|value = 221
+vr 2010/05/07 09:18:23.512|   |main|CatrasReader|value = 153
+vr 2010/05/07 09:18:23.512|   |main|CatrasReader|value = 278
+vr 2010/05/07 09:18:23.513|   |main|CatrasReader|value = 280
+vr 2010/05/07 09:18:23.513|   |main|CatrasReader|value = 217
+vr 2010/05/07 09:18:23.514|   |main|CatrasReader|value = 231
+vr 2010/05/07 09:18:23.514|   |main|CatrasReader|value = 372
+vr 2010/05/07 09:18:23.515|   |main|CatrasReader|value = 178
+vr 2010/05/07 09:18:23.515|   |main|CatrasReader|value = 231
+vr 2010/05/07 09:18:23.516|   |main|CatrasReader|value = 398
+vr 2010/05/07 09:18:23.516|   |main|CatrasReader|value = 325
+vr 2010/05/07 09:18:23.517|   |main|CatrasReader|value = 296
+vr 2010/05/07 09:18:23.517|   |main|CatrasReader|value = 315
+vr 2010/05/07 09:18:23.518|   |main|CatrasReader|value = 370
+vr 2010/05/07 09:18:23.518|   |main|CatrasReader|value = 255
+vr 2010/05/07 09:18:23.519|   |main|CatrasReader|value = 339
+vr 2010/05/07 09:18:23.519|   |main|CatrasReader|value = 232
+vr 2010/05/07 09:18:23.519|   |main|CatrasReader|value = 362
+vr 2010/05/07 09:18:23.520|   |main|CatrasReader|value = 354
+vr 2010/05/07 09:18:23.520|   |main|CatrasReader|value = 295
+vr 2010/05/07 09:18:23.521|   |main|CatrasReader|value = 192
+vr 2010/05/07 09:18:23.522|   |main|CatrasReader|value = 205
+vr 2010/05/07 09:18:23.522|   |main|CatrasReader|value = 300
+vr 2010/05/07 09:18:23.523|   |main|CatrasReader|value = 208
+vr 2010/05/07 09:18:23.523|   |main|CatrasReader|value = 269
+vr 2010/05/07 09:18:23.524|   |main|CatrasReader|value = 264
+vr 2010/05/07 09:18:23.535|   |main|CatrasReader|value = 290
+vr 2010/05/07 09:18:23.536|   |main|CatrasReader|value = 283
+vr 2010/05/07 09:18:23.536|   |main|CatrasReader|value = 383
+vr 2010/05/07 09:18:23.537|   |main|CatrasReader|value = 382
+vr 2010/05/07 09:18:23.538|   |main|CatrasReader|value = 324
+vr 2010/05/07 09:18:23.539|   |main|CatrasReader|value = 370
+vr 2010/05/07 09:18:23.539|   |main|CatrasReader|value = 251
+vr 2010/05/07 09:18:23.540|   |main|CatrasReader|value = 221
+vr 2010/05/07 09:18:23.540|   |main|CatrasReader|value = 231
+vr 2010/05/07 09:18:23.541|   |main|CatrasReader|value = 336
+vr 2010/05/07 09:18:23.541|   |main|CatrasReader|value = 244
+vr 2010/05/07 09:18:23.542|   |main|CatrasReader|value = 233
+vr 2010/05/07 09:18:23.542|   |main|CatrasReader|value = 218
+vr 2010/05/07 09:18:23.543|   |main|CatrasReader|value = 286
+vr 2010/05/07 09:18:23.544|   |main|CatrasReader|value = 357
+vr 2010/05/07 09:18:23.544|   |main|CatrasReader|value = 284
+vr 2010/05/07 09:18:23.545|   |main|CatrasReader|value = 256
+vr 2010/05/07 09:18:23.545|   |main|CatrasReader|value = 247
+vr 2010/05/07 09:18:23.546|   |main|CatrasReader|value = 266
+vr 2010/05/07 09:18:23.547|   |main|CatrasReader|value = 307
+vr 2010/05/07 09:18:23.548|   |main|CatrasReader|value = 282
+vr 2010/05/07 09:18:23.548|   |main|CatrasReader|value = 260
+vr 2010/05/07 09:18:23.549|   |main|CatrasReader|value = 278
+vr 2010/05/07 09:18:23.550|   |main|CatrasReader|value = 239
+vr 2010/05/07 09:18:23.550|   |main|CatrasReader|value = 276
+vr 2010/05/07 09:18:23.551|   |main|CatrasReader|value = 219
+vr 2010/05/07 09:18:23.551|   |main|CatrasReader|value = 273
+vr 2010/05/07 09:18:23.552|   |main|CatrasReader|value = 274
+vr 2010/05/07 09:18:23.553|   |main|CatrasReader|value = 265
+vr 2010/05/07 09:18:23.553|   |main|CatrasReader|value = 269
+vr 2010/05/07 09:18:23.554|   |main|CatrasReader|value = 290
+vr 2010/05/07 09:18:23.554|   |main|CatrasReader|value = 322
+vr 2010/05/07 09:18:23.555|   |main|CatrasReader|value = 250
+vr 2010/05/07 09:18:23.556|   |main|CatrasReader|value = 279
+vr 2010/05/07 09:18:23.557|   |main|CatrasReader|value = 265
+vr 2010/05/07 09:18:23.557|   |main|CatrasReader|value = 285
+vr 2010/05/07 09:18:23.558|   |main|CatrasReader|value = 261
+vr 2010/05/07 09:18:23.558|   |main|CatrasReader|value = 327
+vr 2010/05/07 09:18:23.559|   |main|CatrasReader|value = 257
+vr 2010/05/07 09:18:23.559|   |main|CatrasReader|value = 211
+vr 2010/05/07 09:18:23.560|   |main|CatrasReader|value = 236
+vr 2010/05/07 09:18:23.560|   |main|CatrasReader|value = 278
+vr 2010/05/07 09:18:23.564|   |main|CatrasReader|value = 234
+vr 2010/05/07 09:18:23.565|   |main|CatrasReader|value = 231
+vr 2010/05/07 09:18:23.566|   |main|CatrasReader|value = 177
+vr 2010/05/07 09:18:23.567|   |main|CatrasReader|value = 156
+vr 2010/05/07 09:18:23.568|   |main|CatrasReader|value = 219
+vr 2010/05/07 09:18:23.568|   |main|CatrasReader|sample depth as int = 2
+vr 2010/05/07 09:18:23.569|   |main|CatrasReader|sample depth as int = 2
+vr 2010/05/07 09:18:23.569|   |main|CatrasReader|sample depth as int = 2
+vr 2010/05/07 09:18:23.570|   |main|CatrasReader|sample depth as int = 2
+vr 2010/05/07 09:18:23.571|   |main|CatrasReader|sample depth as int = 2
+vr 2010/05/07 09:18:23.571|   |main|CatrasReader|sample depth as int = 3
+vr 2010/05/07 09:18:23.572|   |main|CatrasReader|sample depth as int = 3
+vr 2010/05/07 09:18:23.573|   |main|CatrasReader|sample depth as int = 3
+vr 2010/05/07 09:18:23.573|   |main|CatrasReader|sample depth as int = 3
+vr 2010/05/07 09:18:23.574|   |main|CatrasReader|sample depth as int = 3
+vr 2010/05/07 09:18:23.574|   |main|CatrasReader|sample depth as int = 3
+vr 2010/05/07 09:18:23.575|   |main|CatrasReader|sample depth as int = 3
+vr 2010/05/07 09:18:23.576|   |main|CatrasReader|sample depth as int = 3
+vr 2010/05/07 09:18:23.576|   |main|CatrasReader|sample depth as int = 3
+vr 2010/05/07 09:18:23.577|   |main|CatrasReader|sample depth as int = 3
+vr 2010/05/07 09:18:23.578|   |main|CatrasReader|sample depth as int = 3
+vr 2010/05/07 09:18:23.580|   |main|CatrasReader|sample depth as int = 3
+vr 2010/05/07 09:18:23.581|   |main|CatrasReader|sample depth as int = 3
+vr 2010/05/07 09:18:23.581|   |main|CatrasReader|sample depth as int = 3
+vr 2010/05/07 09:18:23.582|   |main|CatrasReader|sample depth as int = 3
+vr 2010/05/07 09:18:23.582|   |main|CatrasReader|sample depth as int = 3
+vr 2010/05/07 09:18:23.582|   |main|CatrasReader|sample depth as int = 3
+vr 2010/05/07 09:18:23.583|   |main|CatrasReader|sample depth as int = 3
+vr 2010/05/07 09:18:23.583|   |main|CatrasReader|sample depth as int = 3
+vr 2010/05/07 09:18:23.584|   |main|CatrasReader|sample depth as int = 3
+vr 2010/05/07 09:18:23.584|   |main|CatrasReader|sample depth as int = 3
+vr 2010/05/07 09:18:23.585|   |main|CatrasReader|sample depth as int = 3
+vr 2010/05/07 09:18:23.585|   |main|CatrasReader|sample depth as int = 3
+vr 2010/05/07 09:18:23.586|   |main|CatrasReader|sample depth as int = 3
+vr 2010/05/07 09:18:23.586|   |main|CatrasReader|sample depth as int = 3
+vr 2010/05/07 09:18:23.587|   |main|CatrasReader|sample depth as int = 3
+vr 2010/05/07 09:18:23.588|   |main|CatrasReader|sample depth as int = 3
+vr 2010/05/07 09:18:23.588|   |main|CatrasReader|sample depth as int = 3
+vr 2010/05/07 09:18:23.606|   |main|CatrasReader|sample depth as int = 3
+vr 2010/05/07 09:18:23.607|   |main|CatrasReader|sample depth as int = 3
+vr 2010/05/07 09:18:23.607|   |main|CatrasReader|sample depth as int = 3
+vr 2010/05/07 09:18:23.608|   |main|CatrasReader|sample depth as int = 3
+vr 2010/05/07 09:18:23.632|   |main|CatrasReader|sample depth as int = 3
+vr 2010/05/07 09:18:23.632|   |main|CatrasReader|sample depth as int = 3
+vr 2010/05/07 09:18:23.633|   |main|CatrasReader|sample depth as int = 3
+vr 2010/05/07 09:18:23.634|   |main|CatrasReader|sample depth as int = 3
+vr 2010/05/07 09:18:23.634|   |main|CatrasReader|sample depth as int = 3
+vr 2010/05/07 09:18:23.635|   |main|CatrasReader|sample depth as int = 3
+vr 2010/05/07 09:18:23.635|   |main|CatrasReader|sample depth as int = 3
+vr 2010/05/07 09:18:23.635|   |main|CatrasReader|sample depth as int = 3
+vr 2010/05/07 09:18:23.636|   |main|CatrasReader|sample depth as int = 3
+vr 2010/05/07 09:18:23.637|   |main|CatrasReader|sample depth as int = 3
+vr 2010/05/07 09:18:23.637|   |main|CatrasReader|sample depth as int = 3
+vr 2010/05/07 09:18:23.638|   |main|CatrasReader|sample depth as int = 3
+vr 2010/05/07 09:18:23.638|   |main|CatrasReader|sample depth as int = 3
+vr 2010/05/07 09:18:23.638|   |main|CatrasReader|sample depth as int = 3
+vr 2010/05/07 09:18:23.639|   |main|CatrasReader|sample depth as int = 3
+vr 2010/05/07 09:18:23.640|   |main|CatrasReader|sample depth as int = 3
+vr 2010/05/07 09:18:23.640|   |main|CatrasReader|sample depth as int = 3
+vr 2010/05/07 09:18:23.641|   |main|CatrasReader|sample depth as int = 3
+vr 2010/05/07 09:18:23.641|   |main|CatrasReader|sample depth as int = 3
+vr 2010/05/07 09:18:23.642|   |main|CatrasReader|sample depth as int = 3
+vr 2010/05/07 09:18:23.642|   |main|CatrasReader|sample depth as int = 3
+vr 2010/05/07 09:18:23.643|   |main|CatrasReader|sample depth as int = 3
+vr 2010/05/07 09:18:23.643|   |main|CatrasReader|sample depth as int = 3
+vr 2010/05/07 09:18:23.643|   |main|CatrasReader|sample depth as int = 3
+vr 2010/05/07 09:18:23.644|   |main|CatrasReader|sample depth as int = 3
+vr 2010/05/07 09:18:23.644|   |main|CatrasReader|sample depth as int = 3
+vr 2010/05/07 09:18:23.645|   |main|CatrasReader|sample depth as int = 3
+vr 2010/05/07 09:18:23.645|   |main|CatrasReader|sample depth as int = 3
+vr 2010/05/07 09:18:23.646|   |main|CatrasReader|sample depth as int = 3
+vr 2010/05/07 09:18:23.647|   |main|CatrasReader|sample depth as int = 3
+vr 2010/05/07 09:18:23.647|   |main|CatrasReader|sample depth as int = 3
+vr 2010/05/07 09:18:23.648|   |main|CatrasReader|sample depth as int = 3
+vr 2010/05/07 09:18:23.648|   |main|CatrasReader|sample depth as int = 3
+vr 2010/05/07 09:18:23.648|   |main|CatrasReader|sample depth as int = 3
+vr 2010/05/07 09:18:23.649|   |main|CatrasReader|sample depth as int = 3
+vr 2010/05/07 09:18:23.649|   |main|CatrasReader|sample depth as int = 3
+vr 2010/05/07 09:18:23.650|   |main|CatrasReader|sample depth as int = 3
+vr 2010/05/07 09:18:23.650|   |main|CatrasReader|sample depth as int = 3
+vr 2010/05/07 09:18:23.651|   |main|CatrasReader|sample depth as int = 3
+vr 2010/05/07 09:18:23.651|   |main|CatrasReader|sample depth as int = 2
+vr 2010/05/07 09:18:23.651|   |main|CatrasReader|sample depth as int = 2
+vr 2010/05/07 09:18:23.652|   |main|CatrasReader|sample depth as int = 2
+vr 2010/05/07 09:18:23.652|   |main|CatrasReader|sample depth as int = 2
+vr 2010/05/07 09:18:23.653|   |main|CatrasReader|sample depth as int = 2
+vr 2010/05/07 09:18:23.653|   |main|CatrasReader|sample depth as int = 2
+vr 2010/05/07 09:18:23.653|   |main|CatrasReader|sample depth as int = 2
+vr 2010/05/07 09:18:23.654|   |main|CatrasReader|sample depth as int = 2
+vr 2010/05/07 09:18:23.655|   |main|CatrasReader|reached end of count values
+vr 2010/05/07 09:18:23.999|   |main|AbstractDendroFileReader|loading file from: bababa.fh
+vr 2010/05/07 09:18:24.025|   |main|HeidelbergReader|Parsing: [Ljava.lang.String;@29cb2795
+vr 2010/05/07 09:18:24.026|   |main|HeidelbergReader|Checking file to see if it looks like a Heidelberg file
+vr 2010/05/07 09:18:24.027|   |main|HeidelbergReader|Value: 50
+vr 2010/05/07 09:18:24.028|   |main|HeidelbergReader|Value: 50
+vr 2010/05/07 09:18:24.029|   |main|HeidelbergReader|Value: 50
+vr 2010/05/07 09:18:24.029|   |main|HeidelbergReader|Value: 50
+vr 2010/05/07 09:18:24.030|   |main|HeidelbergReader|Value: 50
+vr 2010/05/07 09:18:24.030|   |main|HeidelbergReader|Value: 50
+vr 2010/05/07 09:18:24.031|   |main|HeidelbergReader|Value: 50
+vr 2010/05/07 09:18:24.031|   |main|HeidelbergReader|Value: 50
+vr 2010/05/07 09:18:24.032|   |main|HeidelbergReader|Value: 50
+vr 2010/05/07 09:18:24.033|   |main|HeidelbergReader|Value: 50
+vr 2010/05/07 09:18:24.033|   |main|HeidelbergReader|Value: 50
+vr 2010/05/07 09:18:24.034|   |main|HeidelbergReader|Value: 50
+vr 2010/05/07 09:18:24.034|   |main|HeidelbergReader|Value: 50
+vr 2010/05/07 09:18:24.035|   |main|HeidelbergReader|Value: 50
+vr 2010/05/07 09:18:24.035|   |main|HeidelbergReader|Value: 50
+vr 2010/05/07 09:18:24.036|   |main|HeidelbergReader|Value: 50
+vr 2010/05/07 09:18:24.037|   |main|HeidelbergReader|Value: 50
+vr 2010/05/07 09:18:24.037|   |main|HeidelbergReader|Value: 50
+vr 2010/05/07 09:18:24.038|   |main|HeidelbergReader|Value: 50
+vr 2010/05/07 09:18:24.038|   |main|HeidelbergReader|Value: 50
+vr 2010/05/07 09:18:24.038|   |main|HeidelbergReader|Value: 5
+vr 2010/05/07 09:18:24.039|   |main|HeidelbergReader|Value: 50
+vr 2010/05/07 09:18:24.040|   |main|HeidelbergReader|Value: 0
+vr 2010/05/07 09:18:24.040|   |main|HeidelbergReader|Value: 0
+vr 2010/05/07 09:18:24.040|   |main|HeidelbergReader|Value: 0
+vr 2010/05/07 09:18:24.041|   |main|HeidelbergReader|Value: 0
+vr 2010/05/07 09:18:24.041|   |main|HeidelbergReader|Value: 0
+vr 2010/05/07 09:18:24.042|   |main|HeidelbergReader|Value: 0
+vr 2010/05/07 09:18:24.042|   |main|HeidelbergReader|Value: 0
+vr 2010/05/07 09:18:24.043|   |main|HeidelbergReader|Value: 0
+vr 2010/05/07 09:18:24.325|   |main|AbstractDendroFileReader|loading file from: GRC04B.txt
+vr 2010/05/07 09:18:24.348|   |main|TrimsReader|value =  169 
+vr 2010/05/07 09:18:24.349|   |main|TrimsReader|value =  96 
+vr 2010/05/07 09:18:24.349|   |main|TrimsReader|value =  165 
+vr 2010/05/07 09:18:24.350|   |main|TrimsReader|value =  85 
+vr 2010/05/07 09:18:24.350|   |main|TrimsReader|value =  139 
+vr 2010/05/07 09:18:24.351|   |main|TrimsReader|value =  87 
+vr 2010/05/07 09:18:24.351|   |main|TrimsReader|value =  112 
+vr 2010/05/07 09:18:24.352|   |main|TrimsReader|value =  102 
+vr 2010/05/07 09:18:24.352|   |main|TrimsReader|value =  60 
+vr 2010/05/07 09:18:24.353|   |main|TrimsReader|value =  43 
+vr 2010/05/07 09:18:24.354|   |main|TrimsReader|value =  164 
+vr 2010/05/07 09:18:24.354|   |main|TrimsReader|value =  172 
+vr 2010/05/07 09:18:24.355|   |main|TrimsReader|value =  142 
+vr 2010/05/07 09:18:24.355|   |main|TrimsReader|value =  193 
+vr 2010/05/07 09:18:24.356|   |main|TrimsReader|value =  143 
+vr 2010/05/07 09:18:24.356|   |main|TrimsReader|value =  172 
+vr 2010/05/07 09:18:24.357|   |main|TrimsReader|value =  229 
+vr 2010/05/07 09:18:24.358|   |main|TrimsReader|value =  198 
+vr 2010/05/07 09:18:24.359|   |main|TrimsReader|value =  158 
+vr 2010/05/07 09:18:24.359|   |main|TrimsReader|value =  112 
+vr 2010/05/07 09:18:24.360|   |main|TrimsReader|value =  128 
+vr 2010/05/07 09:18:24.360|   |main|TrimsReader|value =  181 
+vr 2010/05/07 09:18:24.360|   |main|TrimsReader|value =  171 
+vr 2010/05/07 09:18:24.361|   |main|TrimsReader|value =  206 
+vr 2010/05/07 09:18:24.361|   |main|TrimsReader|value =  137 
+vr 2010/05/07 09:18:24.362|   |main|TrimsReader|value =  73 
+vr 2010/05/07 09:18:24.362|   |main|TrimsReader|value =  103 
+vr 2010/05/07 09:18:24.363|   |main|TrimsReader|value =  131 
+vr 2010/05/07 09:18:24.363|   |main|TrimsReader|value =  177 
+vr 2010/05/07 09:18:24.364|   |main|TrimsReader|value =  179 
+vr 2010/05/07 09:18:24.364|   |main|TrimsReader|value =  244 
+vr 2010/05/07 09:18:24.365|   |main|TrimsReader|value =  173 
+vr 2010/05/07 09:18:24.365|   |main|TrimsReader|value =  161 
+vr 2010/05/07 09:18:24.365|   |main|TrimsReader|value =  202 
+vr 2010/05/07 09:18:24.366|   |main|TrimsReader|value =  341 
+vr 2010/05/07 09:18:24.367|   |main|TrimsReader|value =  149 
+vr 2010/05/07 09:18:24.367|   |main|TrimsReader|value =  263 
+vr 2010/05/07 09:18:24.367|   |main|TrimsReader|value =  197 
+vr 2010/05/07 09:18:24.368|   |main|TrimsReader|value =  375 
+vr 2010/05/07 09:18:24.368|   |main|TrimsReader|value =  266 
+vr 2010/05/07 09:18:24.369|   |main|TrimsReader|value =  369 
+vr 2010/05/07 09:18:24.369|   |main|TrimsReader|value =  120 
+vr 2010/05/07 09:18:24.370|   |main|TrimsReader|value =  212 
+vr 2010/05/07 09:18:24.371|   |main|TrimsReader|value =  217 
+vr 2010/05/07 09:18:24.371|   |main|TrimsReader|value =  191 
+vr 2010/05/07 09:18:24.371|   |main|TrimsReader|value =  238 
+vr 2010/05/07 09:18:24.372|   |main|TrimsReader|value =  254 
+vr 2010/05/07 09:18:24.373|   |main|TrimsReader|value =  147 
+vr 2010/05/07 09:18:24.373|   |main|TrimsReader|value =  225 
+vr 2010/05/07 09:18:24.374|   |main|TrimsReader|value =  103 
+vr 2010/05/07 09:18:24.374|   |main|TrimsReader|value =  207 
+vr 2010/05/07 09:18:24.375|   |main|TrimsReader|value =  207 
+vr 2010/05/07 09:18:24.375|   |main|TrimsReader|value =  140 
+vr 2010/05/07 09:18:24.376|   |main|TrimsReader|value =  182 
+vr 2010/05/07 09:18:24.376|   |main|TrimsReader|value =  148 
+vr 2010/05/07 09:18:24.377|   |main|TrimsReader|value =  110 
+vr 2010/05/07 09:18:24.377|   |main|TrimsReader|value =  181 
+vr 2010/05/07 09:18:24.378|   |main|TrimsReader|value =  120 
+vr 2010/05/07 09:18:24.378|   |main|TrimsReader|value =  263 
+vr 2010/05/07 09:18:24.378|   |main|TrimsReader|value =  256 
+vr 2010/05/07 09:18:24.379|   |main|TrimsReader|value =  999 
+vr 2010/05/07 09:18:24.695|   |main|AbstractDendroFileReader|loading file from: yhg50683.d
+vr 2010/05/07 09:18:24.709|   |main|SheffieldReader|value = 454
+vr 2010/05/07 09:18:24.710|   |main|SheffieldReader|value = 309
+vr 2010/05/07 09:18:24.711|   |main|SheffieldReader|value = 314
+vr 2010/05/07 09:18:24.712|   |main|SheffieldReader|value = 270
+vr 2010/05/07 09:18:24.712|   |main|SheffieldReader|value = 273
+vr 2010/05/07 09:18:24.713|   |main|SheffieldReader|value = 229
+vr 2010/05/07 09:18:24.713|   |main|SheffieldReader|value = 319
+vr 2010/05/07 09:18:24.714|   |main|SheffieldReader|value = 267
+vr 2010/05/07 09:18:24.715|   |main|SheffieldReader|value = 276
+vr 2010/05/07 09:18:24.715|   |main|SheffieldReader|value = 128
+vr 2010/05/07 09:18:24.716|   |main|SheffieldReader|value = 163
+vr 2010/05/07 09:18:24.717|   |main|SheffieldReader|value = 221
+vr 2010/05/07 09:18:24.717|   |main|SheffieldReader|value = 269
+vr 2010/05/07 09:18:24.718|   |main|SheffieldReader|value = 214
+vr 2010/05/07 09:18:24.718|   |main|SheffieldReader|value = 201
+vr 2010/05/07 09:18:24.719|   |main|SheffieldReader|value = 218
+vr 2010/05/07 09:18:24.720|   |main|SheffieldReader|value = 199
+vr 2010/05/07 09:18:24.720|   |main|SheffieldReader|value = 198
+vr 2010/05/07 09:18:24.721|   |main|SheffieldReader|value = 209
+vr 2010/05/07 09:18:24.721|   |main|SheffieldReader|value = 156
+vr 2010/05/07 09:18:24.722|   |main|SheffieldReader|value = 177
+vr 2010/05/07 09:18:24.722|   |main|SheffieldReader|value = 182
+vr 2010/05/07 09:18:24.723|   |main|SheffieldReader|value = 193
+vr 2010/05/07 09:18:24.723|   |main|SheffieldReader|value = 198
+vr 2010/05/07 09:18:24.724|   |main|SheffieldReader|value = 153
+vr 2010/05/07 09:18:24.724|   |main|SheffieldReader|value = 160
+vr 2010/05/07 09:18:24.725|   |main|SheffieldReader|value = 213
+vr 2010/05/07 09:18:24.725|   |main|SheffieldReader|value = 146
+vr 2010/05/07 09:18:24.726|   |main|SheffieldReader|value = 160
+vr 2010/05/07 09:18:24.726|   |main|SheffieldReader|value = 152
+vr 2010/05/07 09:18:24.727|   |main|SheffieldReader|value = 124
+vr 2010/05/07 09:18:24.727|   |main|SheffieldReader|value = 144
+vr 2010/05/07 09:18:24.728|   |main|SheffieldReader|value = 137
+vr 2010/05/07 09:18:24.729|   |main|SheffieldReader|value = 159
+vr 2010/05/07 09:18:24.729|   |main|SheffieldReader|value = 107
+vr 2010/05/07 09:18:24.730|   |main|SheffieldReader|value = 162
+vr 2010/05/07 09:18:24.730|   |main|SheffieldReader|value = 184
+vr 2010/05/07 09:18:24.731|   |main|SheffieldReader|value = 193
+vr 2010/05/07 09:18:24.731|   |main|SheffieldReader|value = 186
+vr 2010/05/07 09:18:24.732|   |main|SheffieldReader|value = 175
+vr 2010/05/07 09:18:24.732|   |main|SheffieldReader|value = 166
+vr 2010/05/07 09:18:24.733|   |main|SheffieldReader|value = 222
+vr 2010/05/07 09:18:24.733|   |main|SheffieldReader|value = 206
+vr 2010/05/07 09:18:24.734|   |main|SheffieldReader|value = 168
+vr 2010/05/07 09:18:24.734|   |main|SheffieldReader|value = 130
+vr 2010/05/07 09:18:24.735|   |main|SheffieldReader|value = 144
+vr 2010/05/07 09:18:24.735|   |main|SheffieldReader|value = 148
+vr 2010/05/07 09:18:24.736|   |main|SheffieldReader|value = 113
+vr 2010/05/07 09:18:24.736|   |main|SheffieldReader|value = 122
+vr 2010/05/07 09:18:24.737|   |main|SheffieldReader|value = 145
+vr 2010/05/07 09:18:24.737|   |main|SheffieldReader|value = 128
+vr 2010/05/07 09:18:24.738|   |main|SheffieldReader|value = 151
+vr 2010/05/07 09:18:24.738|   |main|SheffieldReader|value = 193
+vr 2010/05/07 09:18:24.739|   |main|SheffieldReader|value = 122
+vr 2010/05/07 09:18:24.739|   |main|SheffieldReader|value = 165
+vr 2010/05/07 09:18:24.740|   |main|SheffieldReader|value = 142
+vr 2010/05/07 09:18:24.740|   |main|SheffieldReader|value = 168
+vr 2010/05/07 09:18:24.740|   |main|SheffieldReader|value = 146
+vr 2010/05/07 09:18:24.741|   |main|SheffieldReader|value = 143
+vr 2010/05/07 09:18:24.741|   |main|SheffieldReader|value = 186
+vr 2010/05/07 09:18:24.742|   |main|SheffieldReader|value = 199
+vr 2010/05/07 09:18:24.742|   |main|SheffieldReader|value = 156
+vr 2010/05/07 09:18:24.743|   |main|SheffieldReader|value = 163
+vr 2010/05/07 09:18:24.743|   |main|SheffieldReader|value = 125
+vr 2010/05/07 09:18:24.744|   |main|SheffieldReader|value = 168
+vr 2010/05/07 09:18:24.744|   |main|SheffieldReader|value = 130
+vr 2010/05/07 09:18:24.745|   |main|SheffieldReader|value = 108
+vr 2010/05/07 09:18:24.745|   |main|SheffieldReader|value = 148
+vr 2010/05/07 09:18:24.746|   |main|SheffieldReader|value = 165
+vr 2010/05/07 09:18:24.746|   |main|SheffieldReader|value = 153
+vr 2010/05/07 09:18:24.747|   |main|SheffieldReader|value = 161
+vr 2010/05/07 09:18:24.747|   |main|SheffieldReader|value = 158
+vr 2010/05/07 09:18:24.748|   |main|SheffieldReader|value = 165
+vr 2010/05/07 09:18:24.748|   |main|SheffieldReader|value = 152
+vr 2010/05/07 09:18:24.749|   |main|SheffieldReader|value = 146
+vr 2010/05/07 09:18:24.749|   |main|SheffieldReader|value = 187
+vr 2010/05/07 09:18:24.750|   |main|SheffieldReader|value = 186
+vr 2010/05/07 09:18:24.750|   |main|SheffieldReader|value = 186
+vr 2010/05/07 09:18:24.751|   |main|SheffieldReader|value = 178
+vr 2010/05/07 09:18:24.751|   |main|SheffieldReader|value = 168
+vr 2010/05/07 09:18:24.752|   |main|SheffieldReader|value = 153
+vr 2010/05/07 09:18:24.752|   |main|SheffieldReader|value = 219
+vr 2010/05/07 09:18:24.753|   |main|SheffieldReader|value = 217
+vr 2010/05/07 09:18:24.753|   |main|SheffieldReader|value = 203
+vr 2010/05/07 09:18:24.754|   |main|SheffieldReader|value = 167
+vr 2010/05/07 09:18:24.754|   |main|SheffieldReader|value = 170
+vr 2010/05/07 09:18:24.755|   |main|SheffieldReader|value = 148
+vr 2010/05/07 09:18:24.755|   |main|SheffieldReader|value = 151
+vr 2010/05/07 09:18:24.756|   |main|SheffieldReader|value = 154
+vr 2010/05/07 09:18:24.756|   |main|SheffieldReader|value = 92
+vr 2010/05/07 09:18:24.756|   |main|SheffieldReader|value = 130
+vr 2010/05/07 09:18:24.757|   |main|SheffieldReader|value = 165
+vr 2010/05/07 09:18:24.758|   |main|SheffieldReader|value = 150
+vr 2010/05/07 09:18:24.758|   |main|SheffieldReader|value = 158
+vr 2010/05/07 09:18:24.759|   |main|SheffieldReader|value = 166
+vr 2010/05/07 09:18:24.759|   |main|SheffieldReader|value = 187
+vr 2010/05/07 09:18:24.760|   |main|SheffieldReader|value = 196
+vr 2010/05/07 09:18:24.760|   |main|SheffieldReader|value = 140
+vr 2010/05/07 09:18:24.761|   |main|SheffieldReader|value = 168
+vr 2010/05/07 09:18:24.761|   |main|SheffieldReader|value = 144
+vr 2010/05/07 09:18:24.762|   |main|SheffieldReader|value = 142
+vr 2010/05/07 09:18:24.762|   |main|SheffieldReader|value = 125
+vr 2010/05/07 09:18:24.763|   |main|SheffieldReader|value = 133
+vr 2010/05/07 09:18:24.764|   |main|SheffieldReader|value = 122
+vr 2010/05/07 09:18:24.764|   |main|SheffieldReader|value = 134
+vr 2010/05/07 09:18:24.765|   |main|SheffieldReader|value = 154
+vr 2010/05/07 09:18:24.765|   |main|SheffieldReader|value = 159
+vr 2010/05/07 09:18:24.766|   |main|SheffieldReader|value = 162
+vr 2010/05/07 09:18:24.767|   |main|SheffieldReader|value = 138
+vr 2010/05/07 09:18:24.767|   |main|SheffieldReader|value = 133
+vr 2010/05/07 09:18:24.768|   |main|SheffieldReader|value = 132
+vr 2010/05/07 09:18:24.768|   |main|SheffieldReader|value = 117
+vr 2010/05/07 09:18:24.769|   |main|SheffieldReader|value = 83
+vr 2010/05/07 09:18:24.769|   |main|SheffieldReader|value = 90
+vr 2010/05/07 09:18:24.770|   |main|SheffieldReader|value = 82
+vr 2010/05/07 09:18:24.770|   |main|SheffieldReader|value = 129
+vr 2010/05/07 09:18:24.771|   |main|SheffieldReader|value = 107
+vr 2010/05/07 09:18:24.771|   |main|SheffieldReader|value = 98
+vr 2010/05/07 09:18:24.772|   |main|SheffieldReader|value = 113
+vr 2010/05/07 09:18:24.772|   |main|SheffieldReader|value = 129
+vr 2010/05/07 09:18:24.773|   |main|SheffieldReader|value = 103
+vr 2010/05/07 09:18:24.773|   |main|SheffieldReader|value = 95
+vr 2010/05/07 09:18:24.774|   |main|SheffieldReader|value = 88
+vr 2010/05/07 09:18:24.774|   |main|SheffieldReader|value = 90
+vr 2010/05/07 09:18:24.775|   |main|SheffieldReader|value = 97
+vr 2010/05/07 09:18:24.775|   |main|SheffieldReader|value = 84
+vr 2010/05/07 09:18:24.776|   |main|SheffieldReader|value = 102
+vr 2010/05/07 09:18:24.776|   |main|SheffieldReader|value = 106
+vr 2010/05/07 09:18:25.048|   |main|AbstractDendroFileReader|loading file from: A1805.txt
+vr 2010/05/07 09:18:25.055|   |main|BelfastAppleReader|value = 106
+vr 2010/05/07 09:18:25.056|   |main|BelfastAppleReader|value = 188
+vr 2010/05/07 09:18:25.056|   |main|BelfastAppleReader|value = 165
+vr 2010/05/07 09:18:25.057|   |main|BelfastAppleReader|value = 184
+vr 2010/05/07 09:18:25.057|   |main|BelfastAppleReader|value = 112
+vr 2010/05/07 09:18:25.058|   |main|BelfastAppleReader|value = 103
+vr 2010/05/07 09:18:25.059|   |main|BelfastAppleReader|value = 111
+vr 2010/05/07 09:18:25.059|   |main|BelfastAppleReader|value = 239
+vr 2010/05/07 09:18:25.060|   |main|BelfastAppleReader|value = 226
+vr 2010/05/07 09:18:25.060|   |main|BelfastAppleReader|value = 132
+vr 2010/05/07 09:18:25.061|   |main|BelfastAppleReader|value = 143
+vr 2010/05/07 09:18:25.061|   |main|BelfastAppleReader|value = 146
+vr 2010/05/07 09:18:25.062|   |main|BelfastAppleReader|value = 140
+vr 2010/05/07 09:18:25.063|   |main|BelfastAppleReader|value = 100
+vr 2010/05/07 09:18:25.063|   |main|BelfastAppleReader|value = 176
+vr 2010/05/07 09:18:25.064|   |main|BelfastAppleReader|value = 139
+vr 2010/05/07 09:18:25.065|   |main|BelfastAppleReader|value = 124
+vr 2010/05/07 09:18:25.065|   |main|BelfastAppleReader|value = 115
+vr 2010/05/07 09:18:25.066|   |main|BelfastAppleReader|value = 78
+vr 2010/05/07 09:18:25.066|   |main|BelfastAppleReader|value = 80
+vr 2010/05/07 09:18:25.067|   |main|BelfastAppleReader|value = 156
+vr 2010/05/07 09:18:25.067|   |main|BelfastAppleReader|value = 75
+vr 2010/05/07 09:18:25.068|   |main|BelfastAppleReader|value = 110
+vr 2010/05/07 09:18:25.069|   |main|BelfastAppleReader|value = 80
+vr 2010/05/07 09:18:25.069|   |main|BelfastAppleReader|value = 130
+vr 2010/05/07 09:18:25.070|   |main|BelfastAppleReader|value = 83
+vr 2010/05/07 09:18:25.070|   |main|BelfastAppleReader|value = 157
+vr 2010/05/07 09:18:25.071|   |main|BelfastAppleReader|value = 99
+vr 2010/05/07 09:18:25.071|   |main|BelfastAppleReader|value = 115
+vr 2010/05/07 09:18:25.072|   |main|BelfastAppleReader|value = 102
+vr 2010/05/07 09:18:25.072|   |main|BelfastAppleReader|value = 110
+vr 2010/05/07 09:18:25.073|   |main|BelfastAppleReader|value = 108
+vr 2010/05/07 09:18:25.073|   |main|BelfastAppleReader|value = 87
+vr 2010/05/07 09:18:25.074|   |main|BelfastAppleReader|value = 135
+vr 2010/05/07 09:18:25.074|   |main|BelfastAppleReader|value = 107
+vr 2010/05/07 09:18:25.075|   |main|BelfastAppleReader|value = 96
+vr 2010/05/07 09:18:25.075|   |main|BelfastAppleReader|value = 70
+vr 2010/05/07 09:18:25.076|   |main|BelfastAppleReader|value = 128
+vr 2010/05/07 09:18:25.076|   |main|BelfastAppleReader|value = 119
+vr 2010/05/07 09:18:25.077|   |main|BelfastAppleReader|value = 86
+vr 2010/05/07 09:18:25.077|   |main|BelfastAppleReader|value = 101
+vr 2010/05/07 09:18:25.078|   |main|BelfastAppleReader|value = 106
+vr 2010/05/07 09:18:25.078|   |main|BelfastAppleReader|value = 129
+vr 2010/05/07 09:18:25.079|   |main|BelfastAppleReader|value = 88
+vr 2010/05/07 09:18:25.079|   |main|BelfastAppleReader|value = 101
+vr 2010/05/07 09:18:25.080|   |main|BelfastAppleReader|value = 151
+vr 2010/05/07 09:18:25.080|   |main|BelfastAppleReader|value = 106
+vr 2010/05/07 09:18:25.081|   |main|BelfastAppleReader|value = 97
+vr 2010/05/07 09:18:25.081|   |main|BelfastAppleReader|value = 110
+vr 2010/05/07 09:18:25.082|   |main|BelfastAppleReader|value = 97
+vr 2010/05/07 09:18:25.083|   |main|BelfastAppleReader|value = 91
+vr 2010/05/07 09:18:25.083|   |main|BelfastAppleReader|value = 93
+vr 2010/05/07 09:18:25.084|   |main|BelfastAppleReader|value = 100
+vr 2010/05/07 09:18:25.084|   |main|BelfastAppleReader|value = 124
+vr 2010/05/07 09:18:25.085|   |main|BelfastAppleReader|value = 99
+vr 2010/05/07 09:18:25.085|   |main|BelfastAppleReader|value = 134
+vr 2010/05/07 09:18:25.086|   |main|BelfastAppleReader|value = 125
+vr 2010/05/07 09:18:25.086|   |main|BelfastAppleReader|value = 105
+vr 2010/05/07 09:18:25.087|   |main|BelfastAppleReader|value = 96
+vr 2010/05/07 09:18:25.087|   |main|BelfastAppleReader|value = 107
+vr 2010/05/07 09:18:25.088|   |main|BelfastAppleReader|value = 142
+vr 2010/05/07 09:18:25.088|   |main|BelfastAppleReader|value = 100
+vr 2010/05/07 09:18:25.089|   |main|BelfastAppleReader|value = 208
+vr 2010/05/07 09:18:25.089|   |main|BelfastAppleReader|value = 233
+vr 2010/05/07 09:18:25.090|   |main|BelfastAppleReader|value = 149
+vr 2010/05/07 09:18:25.090|   |main|BelfastAppleReader|value = 81
+vr 2010/05/07 09:18:25.091|   |main|BelfastAppleReader|value = 221
+vr 2010/05/07 09:18:25.091|   |main|BelfastAppleReader|value = 178
+vr 2010/05/07 09:18:25.092|   |main|BelfastAppleReader|value = 140
+vr 2010/05/07 09:18:25.092|   |main|BelfastAppleReader|value = 179
+vr 2010/05/07 09:18:25.093|   |main|BelfastAppleReader|value = 84
+vr 2010/05/07 09:18:25.093|   |main|BelfastAppleReader|value = 121
+vr 2010/05/07 09:18:25.094|   |main|BelfastAppleReader|value = 169
+vr 2010/05/07 09:18:25.094|   |main|BelfastAppleReader|value = 137
+vr 2010/05/07 09:18:25.095|   |main|BelfastAppleReader|value = 190
+vr 2010/05/07 09:18:25.095|   |main|BelfastAppleReader|value = 128
+vr 2010/05/07 09:18:25.096|   |main|BelfastAppleReader|value = 150
+vr 2010/05/07 09:18:25.096|   |main|BelfastAppleReader|value = 113
+vr 2010/05/07 09:18:25.097|   |main|BelfastAppleReader|value = 150
+vr 2010/05/07 09:18:25.097|   |main|BelfastAppleReader|value = 99
+vr 2010/05/07 09:18:25.098|   |main|BelfastAppleReader|value = 238
+vr 2010/05/07 09:18:25.098|   |main|BelfastAppleReader|value = 128
+vr 2010/05/07 09:18:25.099|   |main|BelfastAppleReader|value = 170
+vr 2010/05/07 09:18:25.099|   |main|BelfastAppleReader|value = 101
+vr 2010/05/07 09:18:25.100|   |main|BelfastAppleReader|value = 110
+vr 2010/05/07 09:18:25.100|   |main|BelfastAppleReader|value = 124
+vr 2010/05/07 09:18:25.100|   |main|BelfastAppleReader|value = 143
+vr 2010/05/07 09:18:25.101|   |main|BelfastAppleReader|value = 184
+vr 2010/05/07 09:18:25.101|   |main|BelfastAppleReader|value = 142
+vr 2010/05/07 09:18:25.102|   |main|BelfastAppleReader|value = 221
+vr 2010/05/07 09:18:25.102|   |main|BelfastAppleReader|value = 99
+vr 2010/05/07 09:18:25.103|   |main|BelfastAppleReader|value = 125
+vr 2010/05/07 09:18:25.103|   |main|BelfastAppleReader|value = 121
+vr 2010/05/07 09:18:25.104|   |main|BelfastAppleReader|value = 162
+vr 2010/05/07 09:18:25.104|   |main|BelfastAppleReader|value = 132
+vr 2010/05/07 09:18:25.105|   |main|BelfastAppleReader|value = 100
+vr 2010/05/07 09:18:25.105|   |main|BelfastAppleReader|value = 152
+vr 2010/05/07 09:18:25.106|   |main|BelfastAppleReader|value = 184
+vr 2010/05/07 09:18:25.106|   |main|BelfastAppleReader|value = 178
+vr 2010/05/07 09:18:25.107|   |main|BelfastAppleReader|value = 195
+vr 2010/05/07 09:18:25.107|   |main|BelfastAppleReader|value = 106
+vr 2010/05/07 09:18:25.108|   |main|BelfastAppleReader|value = 90
+vr 2010/05/07 09:18:25.108|   |main|BelfastAppleReader|value = 91
+vr 2010/05/07 09:18:25.109|   |main|BelfastAppleReader|value = 84
+vr 2010/05/07 09:18:25.109|   |main|BelfastAppleReader|value = 95
+vr 2010/05/07 09:18:25.110|   |main|BelfastAppleReader|value = 115
+vr 2010/05/07 09:18:25.110|   |main|BelfastAppleReader|value = 122
+vr 2010/05/07 09:18:25.367|   |main|AbstractDendroFileReader|loading file from: bellframe1.arx
+vr 2010/05/07 09:18:25.374|   |main|BelfastArchiveReader|value = 176
+vr 2010/05/07 09:18:25.375|   |main|BelfastArchiveReader|value = 342
+vr 2010/05/07 09:18:25.375|   |main|BelfastArchiveReader|value = 338
+vr 2010/05/07 09:18:25.376|   |main|BelfastArchiveReader|value = 334
+vr 2010/05/07 09:18:25.376|   |main|BelfastArchiveReader|value = 409
+vr 2010/05/07 09:18:25.377|   |main|BelfastArchiveReader|value = 362
+vr 2010/05/07 09:18:25.377|   |main|BelfastArchiveReader|value = 308
+vr 2010/05/07 09:18:25.378|   |main|BelfastArchiveReader|value = 360
+vr 2010/05/07 09:18:25.378|   |main|BelfastArchiveReader|value = 264
+vr 2010/05/07 09:18:25.379|   |main|BelfastArchiveReader|value = 325
+vr 2010/05/07 09:18:25.379|   |main|BelfastArchiveReader|value = 318
+vr 2010/05/07 09:18:25.380|   |main|BelfastArchiveReader|value = 51
+vr 2010/05/07 09:18:25.381|   |main|BelfastArchiveReader|value = 48
+vr 2010/05/07 09:18:25.381|   |main|BelfastArchiveReader|value = 47
+vr 2010/05/07 09:18:25.382|   |main|BelfastArchiveReader|value = 60
+vr 2010/05/07 09:18:25.382|   |main|BelfastArchiveReader|value = 49
+vr 2010/05/07 09:18:25.383|   |main|BelfastArchiveReader|value = 48
+vr 2010/05/07 09:18:25.619|   |main|AbstractDendroFileReader|loading file from: H_V.!oj
+vr 2010/05/07 09:18:50.614|   |main|AbstractDendroFileReader|loading file from: H_V.!oj
+vr 2010/05/07 12:01:07.779|   |main|AbstractDendroFileReader|loading file from: H_V.!oj
+vr 2010/05/07 12:03:07.741|   |main|AbstractDendroFileReader|loading file from: H_V.!oj
+vr 2010/05/07 12:11:18.982|   |main|AbstractDendroFileReader|loading file from: H_V.!oj
+vr 2010/05/07 12:58:24.931|   |main|AbstractDendroFileReader|loading file from: H_V.!oj
+vr 2010/05/07 13:01:04.631|   |main|AbstractDendroFileReader|loading file from: H_V.!oj
+vr 2010/05/07 13:01:51.357|   |main|AbstractDendroFileReader|loading file from: H_V.!oj
+vr 2010/05/07 13:03:01.149|   |main|AbstractDendroFileReader|loading file from: H_V.!oj
+vr 2010/05/07 13:07:39.939|   |main|AbstractDendroFileReader|loading file from: H_V.!oj
+vr 2010/05/07 13:14:01.455|   |main|AbstractDendroFileReader|loading file from: H_V.!oj
+Fri 2010/05/07 13:18:43.822|   |main|StringDefaultValue|The string 'Hello' is too small, padding (on the right? true)
+Fri 2010/05/07 13:18:43.832|   |main|AbstractDefaultValue|The string '3' is too small, padding (on the right? true)
+Fri 2010/05/07 13:18:43.834|   |main|AbstractDefaultValue|The string '3' is too small, padding (on the right? true)
+Fri 2010/05/07 13:18:43.835|   |main|IntegerDefaultValue|The value 10 is too big, maximum is 5.  Use maximum value instead? false
+Fri 2010/05/07 13:18:43.836|   |main|IntegerDefaultValue|Parent is null, cannot add warning.
+Fri 2010/05/07 13:18:43.837|   |main|IntegerDefaultValue|The value -1 is too small, minimum is 0.  Use minimum value instead? false
+Fri 2010/05/07 13:18:43.838|   |main|IntegerDefaultValue|Parent is null, cannot add warning.
+Fri 2010/05/07 13:18:43.838|   |main|IntegerDefaultValue|The value 10 is too big, maximum is 5.  Use maximum value instead? true
+Fri 2010/05/07 13:18:43.839|   |main|IntegerDefaultValue|Parent is null, cannot add warning.
+Fri 2010/05/07 13:18:43.840|   |main|IntegerDefaultValue|The value -1 is too small, minimum is 0.  Use minimum value instead? true
+Fri 2010/05/07 13:18:43.840|   |main|IntegerDefaultValue|Parent is null, cannot add warning.
+Fri 2010/05/07 13:18:43.842|   |main|StringDefaultValue|The string 'Hello' is too small, padding (on the right? true)
+Fri 2010/05/07 13:18:43.842|   |main|StringDefaultValue|The string 'Goodbye' is too small, padding (on the right? true)
+Fri 2010/05/07 13:18:43.854|   |main|AbstractDendroFileReader|loading file from: Tridas2.xml
+Fri 2010/05/07 13:18:44.856|   |main|StringDefaultValue|The string 'bab342a7-205f-4203-beec-4a699cb898b3' is too big, max length is '6' characters.
+Fri 2010/05/07 13:18:44.859|   |main|AbstractMetadataFieldSet|Warning from defaults: org.tridas.io.warnings.ConversionWarning@3df89785
+Fri 2010/05/07 13:18:44.859|   |main|StringDefaultValue|The string 'Unnamed object' is too small, padding (on the right? true)
+Fri 2010/05/07 13:18:44.860|   |main|StringDefaultValue|The string 'Plantae' is too small, padding (on the right? true)
+Fri 2010/05/07 13:18:44.861|   |main|StringDefaultValue|The string 'Unknown' is too small, padding (on the right? true)
+Fri 2010/05/07 13:18:44.861|   |main|StringDefaultValue|The string '' is too small, padding (on the right? true)
+Fri 2010/05/07 13:18:44.862|   |main|StringDefaultValue|The string 'Unknown' is too small, padding (on the right? true)
+Fri 2010/05/07 13:18:44.863|   |main|StringDefaultValue|The string 'Peter I Kuniholm' is too small, padding (on the right? true)
+Fri 2010/05/07 13:18:44.864|   |main|StringDefaultValue|The string '28acb483-f337-412f-a063-59d911c37594' is too big, max length is '6' characters.
+Fri 2010/05/07 13:18:44.865|   |main|AbstractMetadataFieldSet|Warning from defaults: org.tridas.io.warnings.ConversionWarning@24442c76
+Fri 2010/05/07 13:18:44.866|   |main|StringDefaultValue|The string 'White Tower, Thessaloniki' is too small, padding (on the right? true)
+Fri 2010/05/07 13:18:44.867|   |main|StringDefaultValue|The string '1997-02-01T14:13:51.0Z' is too big, max length is '8' characters.
+Fri 2010/05/07 13:18:44.868|   |main|AbstractMetadataFieldSet|Warning from defaults: org.tridas.io.warnings.ConversionWarning@2f6a23cf
+Fri 2010/05/07 13:18:44.869|   |main|StringDefaultValue|The string 'Quercus' is too small, padding (on the right? true)
+Fri 2010/05/07 13:18:44.871|   |main|AbstractDefaultValue|The string '' is too small, padding (on the right? true)
+Fri 2010/05/07 13:18:44.877|   |main|StringDefaultValue|The string 'd381fe04-be3c-47a5-86da-efb30f726766' is too big, max length is '6' characters.
+Fri 2010/05/07 13:18:44.877|   |main|AbstractMetadataFieldSet|Warning from defaults: org.tridas.io.warnings.ConversionWarning@72a60191
+Fri 2010/05/07 13:18:44.878|   |main|StringDefaultValue|The string 'Unnamed object' is too small, padding (on the right? true)
+Fri 2010/05/07 13:18:44.879|   |main|StringDefaultValue|The string 'Plantae' is too small, padding (on the right? true)
+Fri 2010/05/07 13:18:44.880|   |main|StringDefaultValue|The string 'Unknown' is too small, padding (on the right? true)
+Fri 2010/05/07 13:18:44.880|   |main|StringDefaultValue|The string '' is too small, padding (on the right? true)
+Fri 2010/05/07 13:18:44.881|   |main|StringDefaultValue|The string 'Unknown' is too small, padding (on the right? true)
+Fri 2010/05/07 13:24:04.008|   |main|StringDefaultValue|The string 'Hello' is too small, padding (on the right? true)
+Fri 2010/05/07 13:24:04.018|   |main|AbstractDefaultValue|The string '3' is too small, padding (on the right? true)
+Fri 2010/05/07 13:24:04.019|   |main|AbstractDefaultValue|The string '3' is too small, padding (on the right? true)
+Fri 2010/05/07 13:24:04.020|   |main|IntegerDefaultValue|The value 10 is too big, maximum is 5.  Use maximum value instead? false
+Fri 2010/05/07 13:24:04.021|   |main|IntegerDefaultValue|Parent is null, cannot add warning.
+Fri 2010/05/07 13:24:04.021|   |main|IntegerDefaultValue|The value -1 is too small, minimum is 0.  Use minimum value instead? false
+Fri 2010/05/07 13:24:04.022|   |main|IntegerDefaultValue|Parent is null, cannot add warning.
+Fri 2010/05/07 13:24:04.023|   |main|IntegerDefaultValue|The value 10 is too big, maximum is 5.  Use maximum value instead? true
+Fri 2010/05/07 13:24:04.023|   |main|IntegerDefaultValue|Parent is null, cannot add warning.
+Fri 2010/05/07 13:24:04.024|   |main|IntegerDefaultValue|The value -1 is too small, minimum is 0.  Use minimum value instead? true
+Fri 2010/05/07 13:24:04.024|   |main|IntegerDefaultValue|Parent is null, cannot add warning.
+Fri 2010/05/07 13:24:04.026|   |main|StringDefaultValue|The string 'Hello' is too small, padding (on the right? true)
+Fri 2010/05/07 13:24:04.026|   |main|StringDefaultValue|The string 'Goodbye' is too small, padding (on the right? true)
+Fri 2010/05/07 13:24:04.040|   |main|AbstractDendroFileReader|loading file from: Tridas2.xml
+Fri 2010/05/07 13:24:04.977|   |main|StringDefaultValue|The string 'a0ff034e-2365-4f2b-829e-a54c027b4ac7' is too big, max length is '6' characters.
+Fri 2010/05/07 13:24:04.979|   |main|AbstractMetadataFieldSet|Warning from defaults: org.tridas.io.warnings.ConversionWarning@4b7d03c5
+Fri 2010/05/07 13:24:04.980|   |main|StringDefaultValue|The string 'Unnamed object' is too small, padding (on the right? true)
+Fri 2010/05/07 13:24:04.980|   |main|StringDefaultValue|The string 'Plantae' is too small, padding (on the right? true)
+Fri 2010/05/07 13:24:04.981|   |main|StringDefaultValue|The string 'Unknown' is too small, padding (on the right? true)
+Fri 2010/05/07 13:24:04.982|   |main|StringDefaultValue|The string '' is too small, padding (on the right? true)
+Fri 2010/05/07 13:24:04.982|   |main|StringDefaultValue|The string 'Unknown' is too small, padding (on the right? true)
+Fri 2010/05/07 13:24:04.983|   |main|StringDefaultValue|The string 'Peter I Kuniholm' is too small, padding (on the right? true)
+Fri 2010/05/07 13:24:04.984|   |main|StringDefaultValue|The string '28acb483-f337-412f-a063-59d911c37594' is too big, max length is '6' characters.
+Fri 2010/05/07 13:24:04.985|   |main|AbstractMetadataFieldSet|Warning from defaults: org.tridas.io.warnings.ConversionWarning@6c6c2a78
+Fri 2010/05/07 13:24:04.985|   |main|StringDefaultValue|The string 'White Tower, Thessaloniki' is too small, padding (on the right? true)
+Fri 2010/05/07 13:24:04.987|   |main|StringDefaultValue|The string '1997-02-01T14:13:51.0Z' is too big, max length is '8' characters.
+Fri 2010/05/07 13:24:04.988|   |main|AbstractMetadataFieldSet|Warning from defaults: org.tridas.io.warnings.ConversionWarning@41ed54a0
+Fri 2010/05/07 13:24:04.988|   |main|StringDefaultValue|The string 'Quercus' is too small, padding (on the right? true)
+Fri 2010/05/07 13:24:04.991|   |main|AbstractDefaultValue|The string '' is too small, padding (on the right? true)
+Fri 2010/05/07 13:24:04.996|   |main|StringDefaultValue|The string 'e17a51bd-229e-498a-9eaf-792a05740caa' is too big, max length is '6' characters.
+Fri 2010/05/07 13:24:04.997|   |main|AbstractMetadataFieldSet|Warning from defaults: org.tridas.io.warnings.ConversionWarning@25a9cf52
+Fri 2010/05/07 13:24:04.997|   |main|StringDefaultValue|The string 'Unnamed object' is too small, padding (on the right? true)
+Fri 2010/05/07 13:24:04.998|   |main|StringDefaultValue|The string 'Plantae' is too small, padding (on the right? true)
+Fri 2010/05/07 13:24:04.999|   |main|StringDefaultValue|The string 'Unknown' is too small, padding (on the right? true)
+Fri 2010/05/07 13:24:04.999|   |main|StringDefaultValue|The string '' is too small, padding (on the right? true)
+Fri 2010/05/07 13:24:05.000|   |main|StringDefaultValue|The string 'Unknown' is too small, padding (on the right? true)
+Fri 2010/05/07 13:25:01.155|   |main|StringDefaultValue|The string 'Hello' is too small, padding (on the right? true)
+Fri 2010/05/07 13:25:01.168|   |main|AbstractDefaultValue|The string '3' is too small, padding (on the right? true)
+Fri 2010/05/07 13:25:01.169|   |main|AbstractDefaultValue|The string '3' is too small, padding (on the right? true)
+Fri 2010/05/07 13:25:01.170|   |main|IntegerDefaultValue|The value 10 is too big, maximum is 5.  Use maximum value instead? false
+Fri 2010/05/07 13:25:01.170|   |main|IntegerDefaultValue|Parent is null, cannot add warning.
+Fri 2010/05/07 13:25:01.171|   |main|IntegerDefaultValue|The value -1 is too small, minimum is 0.  Use minimum value instead? false
+Fri 2010/05/07 13:25:01.172|   |main|IntegerDefaultValue|Parent is null, cannot add warning.
+Fri 2010/05/07 13:25:01.172|   |main|IntegerDefaultValue|The value 10 is too big, maximum is 5.  Use maximum value instead? true
+Fri 2010/05/07 13:25:01.173|   |main|IntegerDefaultValue|Parent is null, cannot add warning.
+Fri 2010/05/07 13:25:01.173|   |main|IntegerDefaultValue|The value -1 is too small, minimum is 0.  Use minimum value instead? true
+Fri 2010/05/07 13:25:01.174|   |main|IntegerDefaultValue|Parent is null, cannot add warning.
+Fri 2010/05/07 13:25:01.176|   |main|StringDefaultValue|The string 'Hello' is too small, padding (on the right? true)
+Fri 2010/05/07 13:25:01.176|   |main|StringDefaultValue|The string 'Goodbye' is too small, padding (on the right? true)
+Fri 2010/05/07 13:25:01.189|   |main|AbstractDendroFileReader|loading file from: Tridas2.xml
+Fri 2010/05/07 13:25:02.155|   |main|StringDefaultValue|The string 'c0060939-6a74-4e4a-890f-f80f4ac99448' is too big, max length is '6' characters.
+Fri 2010/05/07 13:25:02.158|   |main|AbstractMetadataFieldSet|Warning from defaults: org.tridas.io.warnings.ConversionWarning@4d8dfa76
+Fri 2010/05/07 13:25:02.159|   |main|StringDefaultValue|The string 'Unnamed object' is too small, padding (on the right? true)
+Fri 2010/05/07 13:25:02.160|   |main|StringDefaultValue|The string 'Plantae' is too small, padding (on the right? true)
+Fri 2010/05/07 13:25:02.160|   |main|StringDefaultValue|The string 'Unknown' is too small, padding (on the right? true)
+Fri 2010/05/07 13:25:02.161|   |main|StringDefaultValue|The string '' is too small, padding (on the right? true)
+Fri 2010/05/07 13:25:02.161|   |main|StringDefaultValue|The string 'Unknown' is too small, padding (on the right? true)
+Fri 2010/05/07 13:25:02.163|   |main|StringDefaultValue|The string 'Peter I Kuniholm' is too small, padding (on the right? true)
+Fri 2010/05/07 13:25:02.163|   |main|StringDefaultValue|The string '28acb483-f337-412f-a063-59d911c37594' is too big, max length is '6' characters.
+Fri 2010/05/07 13:25:02.164|   |main|AbstractMetadataFieldSet|Warning from defaults: org.tridas.io.warnings.ConversionWarning@21b38cdc
+Fri 2010/05/07 13:25:02.165|   |main|StringDefaultValue|The string 'White Tower, Thessaloniki' is too small, padding (on the right? true)
+Fri 2010/05/07 13:25:02.166|   |main|StringDefaultValue|The string '1997-02-01T14:13:51.0Z' is too big, max length is '8' characters.
+Fri 2010/05/07 13:25:02.167|   |main|AbstractMetadataFieldSet|Warning from defaults: org.tridas.io.warnings.ConversionWarning@7e913c56
+Fri 2010/05/07 13:25:02.168|   |main|StringDefaultValue|The string 'Quercus' is too small, padding (on the right? true)
+Fri 2010/05/07 13:25:02.170|   |main|AbstractDefaultValue|The string '' is too small, padding (on the right? true)
+Fri 2010/05/07 13:25:02.175|   |main|StringDefaultValue|The string '453f4279-3c96-44c9-b305-386f9bc8bc7e' is too big, max length is '6' characters.
+Fri 2010/05/07 13:25:02.176|   |main|AbstractMetadataFieldSet|Warning from defaults: org.tridas.io.warnings.ConversionWarning@7c92eb86
+Fri 2010/05/07 13:25:02.177|   |main|StringDefaultValue|The string 'Unnamed object' is too small, padding (on the right? true)
+Fri 2010/05/07 13:25:02.177|   |main|StringDefaultValue|The string 'Plantae' is too small, padding (on the right? true)
+Fri 2010/05/07 13:25:02.178|   |main|StringDefaultValue|The string 'Unknown' is too small, padding (on the right? true)
+Fri 2010/05/07 13:25:02.179|   |main|StringDefaultValue|The string '' is too small, padding (on the right? true)
+Fri 2010/05/07 13:25:02.179|   |main|StringDefaultValue|The string 'Unknown' is too small, padding (on the right? true)
+Fri 2010/05/07 13:36:23.607|   |main|StringDefaultValue|The string 'Hello' is too small, padding (on the right? true)
+Fri 2010/05/07 13:36:23.619|   |main|AbstractDefaultValue|The string '3' is too small, padding (on the right? true)
+Fri 2010/05/07 13:36:23.621|   |main|AbstractDefaultValue|The string '3' is too small, padding (on the right? true)
+Fri 2010/05/07 13:36:23.622|   |main|IntegerDefaultValue|The value 10 is too big, maximum is 5.  Use maximum value instead? false
+Fri 2010/05/07 13:36:23.623|   |main|IntegerDefaultValue|Parent is null, cannot add warning.
+Fri 2010/05/07 13:36:23.623|   |main|IntegerDefaultValue|The value -1 is too small, minimum is 0.  Use minimum value instead? false
+Fri 2010/05/07 13:36:23.624|   |main|IntegerDefaultValue|Parent is null, cannot add warning.
+Fri 2010/05/07 13:36:23.625|   |main|IntegerDefaultValue|The value 10 is too big, maximum is 5.  Use maximum value instead? true
+Fri 2010/05/07 13:36:23.625|   |main|IntegerDefaultValue|Parent is null, cannot add warning.
+Fri 2010/05/07 13:36:23.626|   |main|IntegerDefaultValue|The value -1 is too small, minimum is 0.  Use minimum value instead? true
+Fri 2010/05/07 13:36:23.626|   |main|IntegerDefaultValue|Parent is null, cannot add warning.
+Fri 2010/05/07 13:36:23.628|   |main|StringDefaultValue|The string 'Hello' is too small, padding (on the right? true)
+Fri 2010/05/07 13:36:23.628|   |main|StringDefaultValue|The string 'Goodbye' is too small, padding (on the right? true)
+Fri 2010/05/07 13:36:23.645|   |main|AbstractDendroFileReader|loading file from: Tridas2.xml
+Fri 2010/05/07 13:36:24.569|   |main|StringDefaultValue|The string 'd26461d7-7817-4a39-a458-c305ebde1211' is too big, max length is '6' characters.
+Fri 2010/05/07 13:36:24.571|   |main|AbstractMetadataFieldSet|Warning from defaults: org.tridas.io.warnings.ConversionWarning@6e75d758
+Fri 2010/05/07 13:36:24.571|   |main|StringDefaultValue|The string 'Unnamed object' is too small, padding (on the right? true)
+Fri 2010/05/07 13:36:24.572|   |main|StringDefaultValue|The string 'Plantae' is too small, padding (on the right? true)
+Fri 2010/05/07 13:36:24.573|   |main|StringDefaultValue|The string 'Unknown' is too small, padding (on the right? true)
+Fri 2010/05/07 13:36:24.573|   |main|StringDefaultValue|The string '' is too small, padding (on the right? true)
+Fri 2010/05/07 13:36:24.574|   |main|StringDefaultValue|The string 'Unknown' is too small, padding (on the right? true)
+Fri 2010/05/07 13:36:24.575|   |main|StringDefaultValue|The string 'Peter I Kuniholm' is too small, padding (on the right? true)
+Fri 2010/05/07 13:36:24.576|   |main|StringDefaultValue|The string '28acb483-f337-412f-a063-59d911c37594' is too big, max length is '6' characters.
+Fri 2010/05/07 13:36:24.577|   |main|AbstractMetadataFieldSet|Warning from defaults: org.tridas.io.warnings.ConversionWarning@546e3e5e
+Fri 2010/05/07 13:36:24.579|   |main|StringDefaultValue|The string 'White Tower, Thessaloniki' is too small, padding (on the right? true)
+Fri 2010/05/07 13:36:24.580|   |main|StringDefaultValue|The string '1997-02-01T14:13:51.0Z' is too big, max length is '8' characters.
+Fri 2010/05/07 13:36:24.581|   |main|AbstractMetadataFieldSet|Warning from defaults: org.tridas.io.warnings.ConversionWarning@3857dc15
+Fri 2010/05/07 13:36:24.582|   |main|StringDefaultValue|The string 'Quercus' is too small, padding (on the right? true)
+Fri 2010/05/07 13:36:24.585|   |main|AbstractDefaultValue|The string '' is too small, padding (on the right? true)
+Fri 2010/05/07 13:36:24.591|   |main|StringDefaultValue|The string '98f63d2d-eef0-47bb-bfee-aee29bed4b70' is too big, max length is '6' characters.
+Fri 2010/05/07 13:36:24.591|   |main|AbstractMetadataFieldSet|Warning from defaults: org.tridas.io.warnings.ConversionWarning@56e20ef8
+Fri 2010/05/07 13:36:24.592|   |main|StringDefaultValue|The string 'Unnamed object' is too small, padding (on the right? true)
+Fri 2010/05/07 13:36:24.593|   |main|StringDefaultValue|The string 'Plantae' is too small, padding (on the right? true)
+Fri 2010/05/07 13:36:24.593|   |main|StringDefaultValue|The string 'Unknown' is too small, padding (on the right? true)
+Fri 2010/05/07 13:36:24.594|   |main|StringDefaultValue|The string '' is too small, padding (on the right? true)
+Fri 2010/05/07 13:36:24.595|   |main|StringDefaultValue|The string 'Unknown' is too small, padding (on the right? true)
+Fri 2010/05/07 13:37:51.618|   |main|StringDefaultValue|The string 'Hello' is too small, padding (on the right? true)
+Fri 2010/05/07 13:37:51.635|   |main|AbstractDefaultValue|The string '3' is too small, padding (on the right? true)
+Fri 2010/05/07 13:37:51.637|   |main|AbstractDefaultValue|The string '3' is too small, padding (on the right? true)
+Fri 2010/05/07 13:37:51.637|   |main|IntegerDefaultValue|The value 10 is too big, maximum is 5.  Use maximum value instead? false
+Fri 2010/05/07 13:37:51.638|   |main|IntegerDefaultValue|Parent is null, cannot add warning.
+Fri 2010/05/07 13:37:51.639|   |main|IntegerDefaultValue|The value -1 is too small, minimum is 0.  Use minimum value instead? false
+Fri 2010/05/07 13:37:51.639|   |main|IntegerDefaultValue|Parent is null, cannot add warning.
+Fri 2010/05/07 13:37:51.640|   |main|IntegerDefaultValue|The value 10 is too big, maximum is 5.  Use maximum value instead? true
+Fri 2010/05/07 13:37:51.641|   |main|IntegerDefaultValue|Parent is null, cannot add warning.
+Fri 2010/05/07 13:37:51.642|   |main|IntegerDefaultValue|The value -1 is too small, minimum is 0.  Use minimum value instead? true
+Fri 2010/05/07 13:37:51.642|   |main|IntegerDefaultValue|Parent is null, cannot add warning.
+Fri 2010/05/07 13:37:51.644|   |main|StringDefaultValue|The string 'Hello' is too small, padding (on the right? true)
+Fri 2010/05/07 13:37:51.644|   |main|StringDefaultValue|The string 'Goodbye' is too small, padding (on the right? true)
+Fri 2010/05/07 13:37:51.659|   |main|AbstractDendroFileReader|loading file from: Tridas2.xml
+Fri 2010/05/07 13:37:52.618|   |main|StringDefaultValue|The string 'e68e0848-5b59-4578-a9fa-8330b7061581' is too big, max length is '6' characters.
+Fri 2010/05/07 13:37:52.620|   |main|AbstractMetadataFieldSet|Warning from defaults: org.tridas.io.warnings.ConversionWarning@4cd1ad08
+Fri 2010/05/07 13:37:52.621|   |main|StringDefaultValue|The string 'Unnamed object' is too small, padding (on the right? true)
+Fri 2010/05/07 13:37:52.621|   |main|StringDefaultValue|The string 'Plantae' is too small, padding (on the right? true)
+Fri 2010/05/07 13:37:52.622|   |main|StringDefaultValue|The string 'Unknown' is too small, padding (on the right? true)
+Fri 2010/05/07 13:37:52.623|   |main|StringDefaultValue|The string '' is too small, padding (on the right? true)
+Fri 2010/05/07 13:37:52.623|   |main|StringDefaultValue|The string 'Unknown' is too small, padding (on the right? true)
+Fri 2010/05/07 13:37:52.624|   |main|StringDefaultValue|The string 'Peter I Kuniholm' is too small, padding (on the right? true)
+Fri 2010/05/07 13:37:52.625|   |main|StringDefaultValue|The string '28acb483-f337-412f-a063-59d911c37594' is too big, max length is '6' characters.
+Fri 2010/05/07 13:37:52.625|   |main|AbstractMetadataFieldSet|Warning from defaults: org.tridas.io.warnings.ConversionWarning@3ab28980
+Fri 2010/05/07 13:37:52.626|   |main|StringDefaultValue|The string 'White Tower, Thessaloniki' is too small, padding (on the right? true)
+Fri 2010/05/07 13:37:52.628|   |main|StringDefaultValue|The string '1997-02-01T14:13:51.0Z' is too big, max length is '8' characters.
+Fri 2010/05/07 13:37:52.629|   |main|AbstractMetadataFieldSet|Warning from defaults: org.tridas.io.warnings.ConversionWarning@2c92af24
+Fri 2010/05/07 13:37:52.630|   |main|StringDefaultValue|The string 'Quercus' is too small, padding (on the right? true)
+Fri 2010/05/07 13:37:52.632|   |main|AbstractDefaultValue|The string '' is too small, padding (on the right? true)
+Fri 2010/05/07 13:37:52.638|   |main|StringDefaultValue|The string '574af686-7dc4-4197-b0d6-ff09a275cf24' is too big, max length is '6' characters.
+Fri 2010/05/07 13:37:52.639|   |main|AbstractMetadataFieldSet|Warning from defaults: org.tridas.io.warnings.ConversionWarning@5057f57f
+Fri 2010/05/07 13:37:52.639|   |main|StringDefaultValue|The string 'Unnamed object' is too small, padding (on the right? true)
+Fri 2010/05/07 13:37:52.641|   |main|StringDefaultValue|The string 'Plantae' is too small, padding (on the right? true)
+Fri 2010/05/07 13:37:52.642|   |main|StringDefaultValue|The string 'Unknown' is too small, padding (on the right? true)
+Fri 2010/05/07 13:37:52.642|   |main|StringDefaultValue|The string '' is too small, padding (on the right? true)
+Fri 2010/05/07 13:37:52.643|   |main|StringDefaultValue|The string 'Unknown' is too small, padding (on the right? true)
+Fri 2010/05/07 13:43:47.217|   |main|StringDefaultValue|The string 'Hello' is too small, padding (on the right? true)
+Fri 2010/05/07 13:43:47.243|   |main|AbstractDefaultValue|The string '3' is too small, padding (on the right? true)
+Fri 2010/05/07 13:43:47.244|   |main|AbstractDefaultValue|The string '3' is too small, padding (on the right? true)
+Fri 2010/05/07 13:43:47.245|   |main|IntegerDefaultValue|The value 10 is too big, maximum is 5.  Use maximum value instead? false
+Fri 2010/05/07 13:43:47.246|   |main|IntegerDefaultValue|Parent is null, cannot add warning.
+Fri 2010/05/07 13:43:47.246|   |main|IntegerDefaultValue|The value -1 is too small, minimum is 0.  Use minimum value instead? false
+Fri 2010/05/07 13:43:47.247|   |main|IntegerDefaultValue|Parent is null, cannot add warning.
+Fri 2010/05/07 13:43:47.247|   |main|IntegerDefaultValue|The value 10 is too big, maximum is 5.  Use maximum value instead? true
+Fri 2010/05/07 13:43:47.248|   |main|IntegerDefaultValue|Parent is null, cannot add warning.
+Fri 2010/05/07 13:43:47.249|   |main|IntegerDefaultValue|The value -1 is too small, minimum is 0.  Use minimum value instead? true
+Fri 2010/05/07 13:43:47.249|   |main|IntegerDefaultValue|Parent is null, cannot add warning.
+Fri 2010/05/07 13:43:47.250|   |main|StringDefaultValue|The string 'Hello' is too small, padding (on the right? true)
+Fri 2010/05/07 13:43:47.251|   |main|StringDefaultValue|The string 'Goodbye' is too small, padding (on the right? true)
+Fri 2010/05/07 13:43:47.265|   |main|AbstractDendroFileReader|loading file from: Tridas2.xml
+Fri 2010/05/07 13:43:47.813|   |main|StringDefaultValue|The string 'eb2cdcef-e5e8-49a2-969c-040969261cce' is too big, max length is '6' characters.
+Fri 2010/05/07 13:43:47.814|   |main|AbstractMetadataFieldSet|Warning from defaults: org.tridas.io.warnings.ConversionWarning@306bba64
+Fri 2010/05/07 13:43:47.816|   |main|StringDefaultValue|The string 'Unnamed object' is too small, padding (on the right? true)
+Fri 2010/05/07 13:43:47.817|   |main|StringDefaultValue|The string 'Plantae' is too small, padding (on the right? true)
+Fri 2010/05/07 13:43:47.819|   |main|StringDefaultValue|The string 'Unknown' is too small, padding (on the right? true)
+Fri 2010/05/07 13:43:47.820|   |main|StringDefaultValue|The string '' is too small, padding (on the right? true)
+Fri 2010/05/07 13:43:47.822|   |main|StringDefaultValue|The string 'Unknown' is too small, padding (on the right? true)
+Fri 2010/05/07 13:43:47.823|   |main|StringDefaultValue|The string 'Peter I Kuniholm' is too small, padding (on the right? true)
+Fri 2010/05/07 13:43:47.824|   |main|StringDefaultValue|The string '28acb483-f337-412f-a063-59d911c37594' is too big, max length is '6' characters.
+Fri 2010/05/07 13:43:47.825|   |main|AbstractMetadataFieldSet|Warning from defaults: org.tridas.io.warnings.ConversionWarning@71cbd4f7
+Fri 2010/05/07 13:43:47.825|   |main|StringDefaultValue|The string 'White Tower, Thessaloniki' is too small, padding (on the right? true)
+Fri 2010/05/07 13:43:47.827|   |main|StringDefaultValue|The string '1997-02-01T14:13:51.0Z' is too big, max length is '8' characters.
+Fri 2010/05/07 13:43:47.828|   |main|AbstractMetadataFieldSet|Warning from defaults: org.tridas.io.warnings.ConversionWarning@1b6aa42e
+Fri 2010/05/07 13:43:47.829|   |main|StringDefaultValue|The string 'Quercus' is too small, padding (on the right? true)
+Fri 2010/05/07 13:43:47.831|   |main|AbstractDefaultValue|The string '' is too small, padding (on the right? true)
+Fri 2010/05/07 13:43:47.841|   |main|StringDefaultValue|The string '7c5813db-93e8-4567-aa23-af332f2db8b5' is too big, max length is '6' characters.
+Fri 2010/05/07 13:43:47.842|   |main|AbstractMetadataFieldSet|Warning from defaults: org.tridas.io.warnings.ConversionWarning@133c3b45
+Fri 2010/05/07 13:43:47.843|   |main|StringDefaultValue|The string 'Unnamed object' is too small, padding (on the right? true)
+Fri 2010/05/07 13:43:47.844|   |main|StringDefaultValue|The string 'Plantae' is too small, padding (on the right? true)
+Fri 2010/05/07 13:43:47.845|   |main|StringDefaultValue|The string 'Unknown' is too small, padding (on the right? true)
+Fri 2010/05/07 13:43:47.847|   |main|StringDefaultValue|The string '' is too small, padding (on the right? true)
+Fri 2010/05/07 13:43:47.848|   |main|StringDefaultValue|The string 'Unknown' is too small, padding (on the right? true)
+Fri 2010/05/07 16:10:28.717|   |main|StringDefaultValue|The string 'Hello' is too small, padding (on the right? true)
+Fri 2010/05/07 16:10:28.739|   |main|AbstractDefaultValue|The string '3' is too small, padding (on the right? true)
+Fri 2010/05/07 16:10:28.741|   |main|AbstractDefaultValue|The string '3' is too small, padding (on the right? true)
+Fri 2010/05/07 16:10:28.742|   |main|IntegerDefaultValue|The value 10 is too big, maximum is 5.  Use maximum value instead? false
+Fri 2010/05/07 16:10:28.742|   |main|IntegerDefaultValue|Parent is null, cannot add warning.
+Fri 2010/05/07 16:10:28.743|   |main|IntegerDefaultValue|The value -1 is too small, minimum is 0.  Use minimum value instead? false
+Fri 2010/05/07 16:10:28.744|   |main|IntegerDefaultValue|Parent is null, cannot add warning.
+Fri 2010/05/07 16:10:28.744|   |main|IntegerDefaultValue|The value 10 is too big, maximum is 5.  Use maximum value instead? true
+Fri 2010/05/07 16:10:28.745|   |main|IntegerDefaultValue|Parent is null, cannot add warning.
+Fri 2010/05/07 16:10:28.745|   |main|IntegerDefaultValue|The value -1 is too small, minimum is 0.  Use minimum value instead? true
+Fri 2010/05/07 16:10:28.746|   |main|IntegerDefaultValue|Parent is null, cannot add warning.
+Fri 2010/05/07 16:10:28.747|   |main|StringDefaultValue|The string 'Hello' is too small, padding (on the right? true)
+Fri 2010/05/07 16:10:28.748|   |main|StringDefaultValue|The string 'Goodbye' is too small, padding (on the right? true)
+Fri 2010/05/07 16:10:28.783|   |main|AbstractDendroFileReader|loading file from: Tridas2.xml
+Fri 2010/05/07 16:10:29.627|   |main|StringDefaultValue|The string '06041381-a330-4a34-ae17-79c561c7e6e2' is too big, max length is '6' characters.
+Fri 2010/05/07 16:10:29.629|   |main|AbstractMetadataFieldSet|Warning from defaults: org.tridas.io.warnings.ConversionWarning@968e429
+Fri 2010/05/07 16:10:29.630|   |main|StringDefaultValue|The string 'Unnamed object' is too small, padding (on the right? true)
+Fri 2010/05/07 16:10:29.630|   |main|StringDefaultValue|The string 'Plantae' is too small, padding (on the right? true)
+Fri 2010/05/07 16:10:29.631|   |main|StringDefaultValue|The string 'Unknown' is too small, padding (on the right? true)
+Fri 2010/05/07 16:10:29.632|   |main|StringDefaultValue|The string '' is too small, padding (on the right? true)
+Fri 2010/05/07 16:10:29.632|   |main|StringDefaultValue|The string 'Unknown' is too small, padding (on the right? true)
+Fri 2010/05/07 16:10:29.634|   |main|StringDefaultValue|The string 'Peter I Kuniholm' is too small, padding (on the right? true)
+Fri 2010/05/07 16:10:29.634|   |main|StringDefaultValue|The string '28acb483-f337-412f-a063-59d911c37594' is too big, max length is '6' characters.
+Fri 2010/05/07 16:10:29.635|   |main|AbstractMetadataFieldSet|Warning from defaults: org.tridas.io.warnings.ConversionWarning@3a2cd728
+Fri 2010/05/07 16:10:29.636|   |main|StringDefaultValue|The string 'White Tower, Thessaloniki' is too small, padding (on the right? true)
+Fri 2010/05/07 16:10:29.655|   |main|StringDefaultValue|The string '1997-02-01T14:13:51.0Z' is too big, max length is '8' characters.
+Fri 2010/05/07 16:10:29.656|   |main|AbstractMetadataFieldSet|Warning from defaults: org.tridas.io.warnings.ConversionWarning@6a1e5cf0
+Fri 2010/05/07 16:10:29.657|   |main|StringDefaultValue|The string 'Quercus' is too small, padding (on the right? true)
+Fri 2010/05/07 16:10:29.669|   |main|AbstractDefaultValue|The string '' is too small, padding (on the right? true)
+Fri 2010/05/07 16:10:29.674|   |main|StringDefaultValue|The string 'e41e4be5-62c7-430b-8694-5cb854ce57c5' is too big, max length is '6' characters.
+Fri 2010/05/07 16:10:29.675|   |main|AbstractMetadataFieldSet|Warning from defaults: org.tridas.io.warnings.ConversionWarning@47b94ea2
+Fri 2010/05/07 16:10:29.675|   |main|StringDefaultValue|The string 'Unnamed object' is too small, padding (on the right? true)
+Fri 2010/05/07 16:10:29.676|   |main|StringDefaultValue|The string 'Plantae' is too small, padding (on the right? true)
+Fri 2010/05/07 16:10:29.677|   |main|StringDefaultValue|The string 'Unknown' is too small, padding (on the right? true)
+Fri 2010/05/07 16:10:29.677|   |main|StringDefaultValue|The string '' is too small, padding (on the right? true)
+Fri 2010/05/07 16:10:29.678|   |main|StringDefaultValue|The string 'Unknown' is too small, padding (on the right? true)
+vr 2010/05/07 16:35:04.517|   |main|AbstractDendroFileReader|loading file from: H_V.!oj
+Fri 2010/05/07 16:35:21.924|   |main|AbstractDendroFileReader|loading file from: Tridas1.xml
+Fri 2010/05/07 16:35:22.737|   |main|StringDefaultValue|The string '4e696ec6-7482-483c-b9dc-1bebfb81d79f' is too big, max length is '6' characters.
+Fri 2010/05/07 16:35:22.739|   |main|AbstractMetadataFieldSet|Warning from defaults: org.tridas.io.warnings.ConversionWarning@37e55794
+Fri 2010/05/07 16:35:22.740|   |main|StringDefaultValue|The string 'Unnamed object' is too small, padding (on the right? true)
+Fri 2010/05/07 16:35:22.744|   |main|StringDefaultValue|The string 'Plantae' is too small, padding (on the right? true)
+Fri 2010/05/07 16:35:22.745|   |main|StringDefaultValue|The string 'Unknown' is too small, padding (on the right? true)
+Fri 2010/05/07 16:35:22.746|   |main|StringDefaultValue|The string '' is too small, padding (on the right? true)
+Fri 2010/05/07 16:35:22.746|   |main|StringDefaultValue|The string 'Unknown' is too small, padding (on the right? true)
+Fri 2010/05/07 16:35:22.748|   |main|StringDefaultValue|The string 'Peter I Kuniholm' is too small, padding (on the right? true)
+Fri 2010/05/07 16:35:22.749|   |main|StringDefaultValue|The string '28acb483-f337-412f-a063-59d911c37594' is too big, max length is '6' characters.
+Fri 2010/05/07 16:35:22.749|   |main|AbstractMetadataFieldSet|Warning from defaults: org.tridas.io.warnings.ConversionWarning@6545d2
+Fri 2010/05/07 16:35:22.750|   |main|StringDefaultValue|The string 'White Tower, Thessaloniki' is too small, padding (on the right? true)
+Fri 2010/05/07 16:35:22.752|   |main|StringDefaultValue|The string '1997-02-01T14:13:51.0Z' is too big, max length is '8' characters.
+Fri 2010/05/07 16:35:22.753|   |main|AbstractMetadataFieldSet|Warning from defaults: org.tridas.io.warnings.ConversionWarning@418bbf55
+Fri 2010/05/07 16:35:22.754|   |main|StringDefaultValue|The string 'Quercus' is too small, padding (on the right? true)
+Fri 2010/05/07 16:35:22.756|   |main|AbstractDefaultValue|The string '' is too small, padding (on the right? true)
+Fri 2010/05/07 16:35:22.759|   |main|AbstractDendroFileReader|loading file from: Tucson1.rwl
+Fri 2010/05/07 16:35:22.760|   |main|FileHelper|The file 'Tucson1.rwl' is missing or inaccessible, make sure the URL is valid or that the file is in the samedirectory as the jar and is readable.
+Fri 2010/05/07 16:35:22.760|   |main|CatrasReader|loading file from: OBL10002.CAT
+Fri 2010/05/07 16:35:22.776|   |main|CatrasReader|starting catras file parsing
+Fri 2010/05/07 16:35:22.777|   |main|CatrasReader|Whole meta = [AVERAGE 2                       OBL10002CAT `         ˘ 	   n                 A TW  Uµ~C4ÅB€° ?t J>` _                     å v f q µ é ˆ « π ◊ Õ † ∞ Ô ˛ “ ˙ tHÁ Ã ä ﬁ › ô Ÿ Á t≤ Á éE(;rˇ SË jb'¿ Õ ,– "~Dr˚ › Á PÙ È ⁄ e ˜ 
+3Ô € 	"B˙ 	G” Ï Í Á ± ú € Áï ‹   § ª Õ Ê – ø   ¶ ∂ ∆ Áæ Î “ ’ ¢ Á€ ñ ¶ Ø › ù ∞ ø ®                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                               ]
+Fri 2010/05/07 16:35:22.778|   |main|CatrasReader|Header text = [AVERAGE 2                       ]
+Fri 2010/05/07 16:35:22.779|   |main|CatrasReader|Speices Code = [96]
+Fri 2010/05/07 16:35:22.779|   |main|CatrasReader|Series Code = [OBL10002]
+Fri 2010/05/07 16:35:22.780|   |main|CatrasReader|Length = 96
+Fri 2010/05/07 16:35:22.781|   |main|CatrasReader|Sapwood? = [ ]
+Fri 2010/05/07 16:35:22.781|   |main|CatrasReader|Dated = [       ]
+Fri 2010/05/07 16:35:22.782|   |main|CatrasReader|Start year = [249AD]
+Fri 2010/05/07 16:35:22.782|   |main|CatrasReader|Userid = [TW]
+Fri 2010/05/07 16:35:22.783|   |main|CatrasReader|value = 140
+Fri 2010/05/07 16:35:22.784|   |main|CatrasReader|value = 118
+Fri 2010/05/07 16:35:22.784|   |main|CatrasReader|value = 102
+Fri 2010/05/07 16:35:22.785|   |main|CatrasReader|value = 113
+Fri 2010/05/07 16:35:22.786|   |main|CatrasReader|value = 181
+Fri 2010/05/07 16:35:22.786|   |main|CatrasReader|value = 142
+Fri 2010/05/07 16:35:22.787|   |main|CatrasReader|value = 246
+Fri 2010/05/07 16:35:22.787|   |main|CatrasReader|value = 199
+Fri 2010/05/07 16:35:22.788|   |main|CatrasReader|value = 185
+Fri 2010/05/07 16:35:22.788|   |main|CatrasReader|value = 215
+Fri 2010/05/07 16:35:22.789|   |main|CatrasReader|value = 205
+Fri 2010/05/07 16:35:22.790|   |main|CatrasReader|value = 160
+Fri 2010/05/07 16:35:22.790|   |main|CatrasReader|value = 176
+Fri 2010/05/07 16:35:22.791|   |main|CatrasReader|value = 239
+Fri 2010/05/07 16:35:22.791|   |main|CatrasReader|value = 254
+Fri 2010/05/07 16:35:22.792|   |main|CatrasReader|value = 210
+Fri 2010/05/07 16:35:22.793|   |main|CatrasReader|value = 250
+Fri 2010/05/07 16:35:22.793|   |main|CatrasReader|value = 372
+Fri 2010/05/07 16:35:22.794|   |main|CatrasReader|value = 328
+Fri 2010/05/07 16:35:22.794|   |main|CatrasReader|value = 231
+Fri 2010/05/07 16:35:22.795|   |main|CatrasReader|value = 204
+Fri 2010/05/07 16:35:22.796|   |main|CatrasReader|value = 138
+Fri 2010/05/07 16:35:22.796|   |main|CatrasReader|value = 222
+Fri 2010/05/07 16:35:22.797|   |main|CatrasReader|value = 221
+Fri 2010/05/07 16:35:22.797|   |main|CatrasReader|value = 153
+Fri 2010/05/07 16:35:22.798|   |main|CatrasReader|value = 278
+Fri 2010/05/07 16:35:22.798|   |main|CatrasReader|value = 280
+Fri 2010/05/07 16:35:22.799|   |main|CatrasReader|value = 217
+Fri 2010/05/07 16:35:22.799|   |main|CatrasReader|value = 231
+Fri 2010/05/07 16:35:22.800|   |main|CatrasReader|value = 372
+Fri 2010/05/07 16:35:22.800|   |main|CatrasReader|value = 178
+Fri 2010/05/07 16:35:22.801|   |main|CatrasReader|value = 231
+Fri 2010/05/07 16:35:22.801|   |main|CatrasReader|value = 398
+Fri 2010/05/07 16:35:22.802|   |main|CatrasReader|value = 325
+Fri 2010/05/07 16:35:22.802|   |main|CatrasReader|value = 296
+Fri 2010/05/07 16:35:22.803|   |main|CatrasReader|value = 315
+Fri 2010/05/07 16:35:22.804|   |main|CatrasReader|value = 370
+Fri 2010/05/07 16:35:22.804|   |main|CatrasReader|value = 255
+Fri 2010/05/07 16:35:22.805|   |main|CatrasReader|value = 339
+Fri 2010/05/07 16:35:22.805|   |main|CatrasReader|value = 232
+Fri 2010/05/07 16:35:22.806|   |main|CatrasReader|value = 362
+Fri 2010/05/07 16:35:22.806|   |main|CatrasReader|value = 354
+Fri 2010/05/07 16:35:22.807|   |main|CatrasReader|value = 295
+Fri 2010/05/07 16:35:22.807|   |main|CatrasReader|value = 192
+Fri 2010/05/07 16:35:22.808|   |main|CatrasReader|value = 205
+Fri 2010/05/07 16:35:22.809|   |main|CatrasReader|value = 300
+Fri 2010/05/07 16:35:22.809|   |main|CatrasReader|value = 208
+Fri 2010/05/07 16:35:22.810|   |main|CatrasReader|value = 269
+Fri 2010/05/07 16:35:22.810|   |main|CatrasReader|value = 264
+Fri 2010/05/07 16:35:22.811|   |main|CatrasReader|value = 290
+Fri 2010/05/07 16:35:22.811|   |main|CatrasReader|value = 283
+Fri 2010/05/07 16:35:22.812|   |main|CatrasReader|value = 383
+Fri 2010/05/07 16:35:22.812|   |main|CatrasReader|value = 382
+Fri 2010/05/07 16:35:22.813|   |main|CatrasReader|value = 324
+Fri 2010/05/07 16:35:22.813|   |main|CatrasReader|value = 370
+Fri 2010/05/07 16:35:22.814|   |main|CatrasReader|value = 251
+Fri 2010/05/07 16:35:22.814|   |main|CatrasReader|value = 221
+Fri 2010/05/07 16:35:22.815|   |main|CatrasReader|value = 231
+Fri 2010/05/07 16:35:22.816|   |main|CatrasReader|value = 336
+Fri 2010/05/07 16:35:22.816|   |main|CatrasReader|value = 244
+Fri 2010/05/07 16:35:22.817|   |main|CatrasReader|value = 233
+Fri 2010/05/07 16:35:22.817|   |main|CatrasReader|value = 218
+Fri 2010/05/07 16:35:22.818|   |main|CatrasReader|value = 286
+Fri 2010/05/07 16:35:22.818|   |main|CatrasReader|value = 357
+Fri 2010/05/07 16:35:22.819|   |main|CatrasReader|value = 284
+Fri 2010/05/07 16:35:22.819|   |main|CatrasReader|value = 256
+Fri 2010/05/07 16:35:22.820|   |main|CatrasReader|value = 247
+Fri 2010/05/07 16:35:22.820|   |main|CatrasReader|value = 266
+Fri 2010/05/07 16:35:22.821|   |main|CatrasReader|value = 307
+Fri 2010/05/07 16:35:22.821|   |main|CatrasReader|value = 282
+Fri 2010/05/07 16:35:22.822|   |main|CatrasReader|value = 260
+Fri 2010/05/07 16:35:22.822|   |main|CatrasReader|value = 278
+Fri 2010/05/07 16:35:22.823|   |main|CatrasReader|value = 239
+Fri 2010/05/07 16:35:22.824|   |main|CatrasReader|value = 276
+Fri 2010/05/07 16:35:22.824|   |main|CatrasReader|value = 219
+Fri 2010/05/07 16:35:22.825|   |main|CatrasReader|value = 273
+Fri 2010/05/07 16:35:22.825|   |main|CatrasReader|value = 274
+Fri 2010/05/07 16:35:22.826|   |main|CatrasReader|value = 265
+Fri 2010/05/07 16:35:22.826|   |main|CatrasReader|value = 269
+Fri 2010/05/07 16:35:22.827|   |main|CatrasReader|value = 290
+Fri 2010/05/07 16:35:22.827|   |main|CatrasReader|value = 322
+Fri 2010/05/07 16:35:22.828|   |main|CatrasReader|value = 250
+Fri 2010/05/07 16:35:22.828|   |main|CatrasReader|value = 279
+Fri 2010/05/07 16:35:22.829|   |main|CatrasReader|value = 265
+Fri 2010/05/07 16:35:22.829|   |main|CatrasReader|value = 285
+Fri 2010/05/07 16:35:22.829|   |main|CatrasReader|value = 261
+Fri 2010/05/07 16:35:22.830|   |main|CatrasReader|value = 327
+Fri 2010/05/07 16:35:22.830|   |main|CatrasReader|value = 257
+Fri 2010/05/07 16:35:22.831|   |main|CatrasReader|value = 211
+Fri 2010/05/07 16:35:22.832|   |main|CatrasReader|value = 236
+Fri 2010/05/07 16:35:22.832|   |main|CatrasReader|value = 278
+Fri 2010/05/07 16:35:22.833|   |main|CatrasReader|value = 234
+Fri 2010/05/07 16:35:22.833|   |main|CatrasReader|value = 231
+Fri 2010/05/07 16:35:22.834|   |main|CatrasReader|value = 177
+Fri 2010/05/07 16:35:22.834|   |main|CatrasReader|value = 156
+Fri 2010/05/07 16:35:22.835|   |main|CatrasReader|value = 219
+Fri 2010/05/07 16:35:22.836|   |main|CatrasReader|sample depth as int = 2
+Fri 2010/05/07 16:35:22.836|   |main|CatrasReader|sample depth as int = 2
+Fri 2010/05/07 16:35:22.837|   |main|CatrasReader|sample depth as int = 2
+Fri 2010/05/07 16:35:22.837|   |main|CatrasReader|sample depth as int = 2
+Fri 2010/05/07 16:35:22.838|   |main|CatrasReader|sample depth as int = 2
+Fri 2010/05/07 16:35:22.838|   |main|CatrasReader|sample depth as int = 3
+Fri 2010/05/07 16:35:22.839|   |main|CatrasReader|sample depth as int = 3
+Fri 2010/05/07 16:35:22.839|   |main|CatrasReader|sample depth as int = 3
+Fri 2010/05/07 16:35:22.840|   |main|CatrasReader|sample depth as int = 3
+Fri 2010/05/07 16:35:22.840|   |main|CatrasReader|sample depth as int = 3
+Fri 2010/05/07 16:35:22.841|   |main|CatrasReader|sample depth as int = 3
+Fri 2010/05/07 16:35:22.841|   |main|CatrasReader|sample depth as int = 3
+Fri 2010/05/07 16:35:22.842|   |main|CatrasReader|sample depth as int = 3
+Fri 2010/05/07 16:35:22.842|   |main|CatrasReader|sample depth as int = 3
+Fri 2010/05/07 16:35:22.843|   |main|CatrasReader|sample depth as int = 3
+Fri 2010/05/07 16:35:22.844|   |main|CatrasReader|sample depth as int = 3
+Fri 2010/05/07 16:35:22.845|   |main|CatrasReader|sample depth as int = 3
+Fri 2010/05/07 16:35:22.845|   |main|CatrasReader|sample depth as int = 3
+Fri 2010/05/07 16:35:22.846|   |main|CatrasReader|sample depth as int = 3
+Fri 2010/05/07 16:35:22.847|   |main|CatrasReader|sample depth as int = 3
+Fri 2010/05/07 16:35:22.847|   |main|CatrasReader|sample depth as int = 3
+Fri 2010/05/07 16:35:22.848|   |main|CatrasReader|sample depth as int = 3
+Fri 2010/05/07 16:35:22.848|   |main|CatrasReader|sample depth as int = 3
+Fri 2010/05/07 16:35:22.849|   |main|CatrasReader|sample depth as int = 3
+Fri 2010/05/07 16:35:22.850|   |main|CatrasReader|sample depth as int = 3
+Fri 2010/05/07 16:35:22.850|   |main|CatrasReader|sample depth as int = 3
+Fri 2010/05/07 16:35:22.851|   |main|CatrasReader|sample depth as int = 3
+Fri 2010/05/07 16:35:22.851|   |main|CatrasReader|sample depth as int = 3
+Fri 2010/05/07 16:35:22.852|   |main|CatrasReader|sample depth as int = 3
+Fri 2010/05/07 16:35:22.852|   |main|CatrasReader|sample depth as int = 3
+Fri 2010/05/07 16:35:22.853|   |main|CatrasReader|sample depth as int = 3
+Fri 2010/05/07 16:35:22.854|   |main|CatrasReader|sample depth as int = 3
+Fri 2010/05/07 16:35:22.854|   |main|CatrasReader|sample depth as int = 3
+Fri 2010/05/07 16:35:22.855|   |main|CatrasReader|sample depth as int = 3
+Fri 2010/05/07 16:35:22.855|   |main|CatrasReader|sample depth as int = 3
+Fri 2010/05/07 16:35:22.856|   |main|CatrasReader|sample depth as int = 3
+Fri 2010/05/07 16:35:22.856|   |main|CatrasReader|sample depth as int = 3
+Fri 2010/05/07 16:35:22.857|   |main|CatrasReader|sample depth as int = 3
+Fri 2010/05/07 16:35:22.857|   |main|CatrasReader|sample depth as int = 3
+Fri 2010/05/07 16:35:22.858|   |main|CatrasReader|sample depth as int = 3
+Fri 2010/05/07 16:35:22.858|   |main|CatrasReader|sample depth as int = 3
+Fri 2010/05/07 16:35:22.859|   |main|CatrasReader|sample depth as int = 3
+Fri 2010/05/07 16:35:22.859|   |main|CatrasReader|sample depth as int = 3
+Fri 2010/05/07 16:35:22.860|   |main|CatrasReader|sample depth as int = 3
+Fri 2010/05/07 16:35:22.860|   |main|CatrasReader|sample depth as int = 3
+Fri 2010/05/07 16:35:22.861|   |main|CatrasReader|sample depth as int = 3
+Fri 2010/05/07 16:35:22.861|   |main|CatrasReader|sample depth as int = 3
+Fri 2010/05/07 16:35:22.862|   |main|CatrasReader|sample depth as int = 3
+Fri 2010/05/07 16:35:22.862|   |main|CatrasReader|sample depth as int = 3
+Fri 2010/05/07 16:35:22.863|   |main|CatrasReader|sample depth as int = 3
+Fri 2010/05/07 16:35:22.863|   |main|CatrasReader|sample depth as int = 3
+Fri 2010/05/07 16:35:22.864|   |main|CatrasReader|sample depth as int = 3
+Fri 2010/05/07 16:35:22.864|   |main|CatrasReader|sample depth as int = 3
+Fri 2010/05/07 16:35:22.865|   |main|CatrasReader|sample depth as int = 3
+Fri 2010/05/07 16:35:22.865|   |main|CatrasReader|sample depth as int = 3
+Fri 2010/05/07 16:35:22.866|   |main|CatrasReader|sample depth as int = 3
+Fri 2010/05/07 16:35:22.866|   |main|CatrasReader|sample depth as int = 3
+Fri 2010/05/07 16:35:22.867|   |main|CatrasReader|sample depth as int = 3
+Fri 2010/05/07 16:35:22.867|   |main|CatrasReader|sample depth as int = 3
+Fri 2010/05/07 16:35:22.868|   |main|CatrasReader|sample depth as int = 3
+Fri 2010/05/07 16:35:22.868|   |main|CatrasReader|sample depth as int = 3
+Fri 2010/05/07 16:35:22.869|   |main|CatrasReader|sample depth as int = 3
+Fri 2010/05/07 16:35:22.869|   |main|CatrasReader|sample depth as int = 3
+Fri 2010/05/07 16:35:22.870|   |main|CatrasReader|sample depth as int = 3
+Fri 2010/05/07 16:35:22.870|   |main|CatrasReader|sample depth as int = 3
+Fri 2010/05/07 16:35:22.871|   |main|CatrasReader|sample depth as int = 3
+Fri 2010/05/07 16:35:22.871|   |main|CatrasReader|sample depth as int = 3
+Fri 2010/05/07 16:35:22.872|   |main|CatrasReader|sample depth as int = 3
+Fri 2010/05/07 16:35:22.872|   |main|CatrasReader|sample depth as int = 3
+Fri 2010/05/07 16:35:22.873|   |main|CatrasReader|sample depth as int = 3
+Fri 2010/05/07 16:35:22.873|   |main|CatrasReader|sample depth as int = 3
+Fri 2010/05/07 16:35:22.874|   |main|CatrasReader|sample depth as int = 3
+Fri 2010/05/07 16:35:22.874|   |main|CatrasReader|sample depth as int = 3
+Fri 2010/05/07 16:35:22.875|   |main|CatrasReader|sample depth as int = 3
+Fri 2010/05/07 16:35:22.875|   |main|CatrasReader|sample depth as int = 3
+Fri 2010/05/07 16:35:22.876|   |main|CatrasReader|sample depth as int = 3
+Fri 2010/05/07 16:35:22.876|   |main|CatrasReader|sample depth as int = 2
+Fri 2010/05/07 16:35:22.877|   |main|CatrasReader|sample depth as int = 2
+Fri 2010/05/07 16:35:22.877|   |main|CatrasReader|sample depth as int = 2
+Fri 2010/05/07 16:35:22.878|   |main|CatrasReader|sample depth as int = 2
+Fri 2010/05/07 16:35:22.878|   |main|CatrasReader|sample depth as int = 2
+Fri 2010/05/07 16:35:22.879|   |main|CatrasReader|sample depth as int = 2
+Fri 2010/05/07 16:35:22.879|   |main|CatrasReader|sample depth as int = 2
+Fri 2010/05/07 16:35:22.880|   |main|CatrasReader|sample depth as int = 2
+Fri 2010/05/07 16:35:22.880|   |main|CatrasReader|reached end of count values
+Fri 2010/05/07 16:35:23.180|   |main|AbstractDendroFileReader|loading file from: bababa.fh
+Fri 2010/05/07 16:35:23.194|   |main|HeidelbergReader|Parsing: [Ljava.lang.String;@7b751a9e
+Fri 2010/05/07 16:35:23.194|   |main|HeidelbergReader|Checking file to see if it looks like a Heidelberg file
+Fri 2010/05/07 16:35:23.196|   |main|HeidelbergReader|Value: 50
+Fri 2010/05/07 16:35:23.197|   |main|HeidelbergReader|Value: 50
+Fri 2010/05/07 16:35:23.198|   |main|HeidelbergReader|Value: 50
+Fri 2010/05/07 16:35:23.198|   |main|HeidelbergReader|Value: 50
+Fri 2010/05/07 16:35:23.199|   |main|HeidelbergReader|Value: 50
+Fri 2010/05/07 16:35:23.199|   |main|HeidelbergReader|Value: 50
+Fri 2010/05/07 16:35:23.199|   |main|HeidelbergReader|Value: 50
+Fri 2010/05/07 16:35:23.200|   |main|HeidelbergReader|Value: 50
+Fri 2010/05/07 16:35:23.201|   |main|HeidelbergReader|Value: 50
+Fri 2010/05/07 16:35:23.201|   |main|HeidelbergReader|Value: 50
+Fri 2010/05/07 16:35:23.202|   |main|HeidelbergReader|Value: 50
+Fri 2010/05/07 16:35:23.202|   |main|HeidelbergReader|Value: 50
+Fri 2010/05/07 16:35:23.203|   |main|HeidelbergReader|Value: 50
+Fri 2010/05/07 16:35:23.203|   |main|HeidelbergReader|Value: 50
+Fri 2010/05/07 16:35:23.204|   |main|HeidelbergReader|Value: 50
+Fri 2010/05/07 16:35:23.204|   |main|HeidelbergReader|Value: 50
+Fri 2010/05/07 16:35:23.205|   |main|HeidelbergReader|Value: 50
+Fri 2010/05/07 16:35:23.205|   |main|HeidelbergReader|Value: 50
+Fri 2010/05/07 16:35:23.205|   |main|HeidelbergReader|Value: 50
+Fri 2010/05/07 16:35:23.206|   |main|HeidelbergReader|Value: 50
+Fri 2010/05/07 16:35:23.206|   |main|HeidelbergReader|Value: 5
+Fri 2010/05/07 16:35:23.207|   |main|HeidelbergReader|Value: 50
+Fri 2010/05/07 16:35:23.207|   |main|HeidelbergReader|Value: 0
+Fri 2010/05/07 16:35:23.208|   |main|HeidelbergReader|Value: 0
+Fri 2010/05/07 16:35:23.208|   |main|HeidelbergReader|Value: 0
+Fri 2010/05/07 16:35:23.209|   |main|HeidelbergReader|Value: 0
+Fri 2010/05/07 16:35:23.209|   |main|HeidelbergReader|Value: 0
+Fri 2010/05/07 16:35:23.210|   |main|HeidelbergReader|Value: 0
+Fri 2010/05/07 16:35:23.211|   |main|HeidelbergReader|Value: 0
+Fri 2010/05/07 16:35:23.211|   |main|HeidelbergReader|Value: 0
+Fri 2010/05/07 16:35:23.449|   |main|AbstractDendroFileReader|loading file from: GRC04B.txt
+Fri 2010/05/07 16:35:23.450|   |main|TrimsReader|value =  169 
+Fri 2010/05/07 16:35:23.451|   |main|TrimsReader|value =  96 
+Fri 2010/05/07 16:35:23.451|   |main|TrimsReader|value =  165 
+Fri 2010/05/07 16:35:23.452|   |main|TrimsReader|value =  85 
+Fri 2010/05/07 16:35:23.452|   |main|TrimsReader|value =  139 
+Fri 2010/05/07 16:35:23.453|   |main|TrimsReader|value =  87 
+Fri 2010/05/07 16:35:23.453|   |main|TrimsReader|value =  112 
+Fri 2010/05/07 16:35:23.454|   |main|TrimsReader|value =  102 
+Fri 2010/05/07 16:35:23.454|   |main|TrimsReader|value =  60 
+Fri 2010/05/07 16:35:23.455|   |main|TrimsReader|value =  43 
+Fri 2010/05/07 16:35:23.455|   |main|TrimsReader|value =  164 
+Fri 2010/05/07 16:35:23.456|   |main|TrimsReader|value =  172 
+Fri 2010/05/07 16:35:23.456|   |main|TrimsReader|value =  142 
+Fri 2010/05/07 16:35:23.457|   |main|TrimsReader|value =  193 
+Fri 2010/05/07 16:35:23.457|   |main|TrimsReader|value =  143 
+Fri 2010/05/07 16:35:23.458|   |main|TrimsReader|value =  172 
+Fri 2010/05/07 16:35:23.458|   |main|TrimsReader|value =  229 
+Fri 2010/05/07 16:35:23.459|   |main|TrimsReader|value =  198 
+Fri 2010/05/07 16:35:23.459|   |main|TrimsReader|value =  158 
+Fri 2010/05/07 16:35:23.460|   |main|TrimsReader|value =  112 
+Fri 2010/05/07 16:35:23.460|   |main|TrimsReader|value =  128 
+Fri 2010/05/07 16:35:23.461|   |main|TrimsReader|value =  181 
+Fri 2010/05/07 16:35:23.461|   |main|TrimsReader|value =  171 
+Fri 2010/05/07 16:35:23.462|   |main|TrimsReader|value =  206 
+Fri 2010/05/07 16:35:23.462|   |main|TrimsReader|value =  137 
+Fri 2010/05/07 16:35:23.463|   |main|TrimsReader|value =  73 
+Fri 2010/05/07 16:35:23.463|   |main|TrimsReader|value =  103 
+Fri 2010/05/07 16:35:23.464|   |main|TrimsReader|value =  131 
+Fri 2010/05/07 16:35:23.464|   |main|TrimsReader|value =  177 
+Fri 2010/05/07 16:35:23.465|   |main|TrimsReader|value =  179 
+Fri 2010/05/07 16:35:23.465|   |main|TrimsReader|value =  244 
+Fri 2010/05/07 16:35:23.466|   |main|TrimsReader|value =  173 
+Fri 2010/05/07 16:35:23.466|   |main|TrimsReader|value =  161 
+Fri 2010/05/07 16:35:23.467|   |main|TrimsReader|value =  202 
+Fri 2010/05/07 16:35:23.467|   |main|TrimsReader|value =  341 
+Fri 2010/05/07 16:35:23.468|   |main|TrimsReader|value =  149 
+Fri 2010/05/07 16:35:23.468|   |main|TrimsReader|value =  263 
+Fri 2010/05/07 16:35:23.469|   |main|TrimsReader|value =  197 
+Fri 2010/05/07 16:35:23.469|   |main|TrimsReader|value =  375 
+Fri 2010/05/07 16:35:23.470|   |main|TrimsReader|value =  266 
+Fri 2010/05/07 16:35:23.470|   |main|TrimsReader|value =  369 
+Fri 2010/05/07 16:35:23.471|   |main|TrimsReader|value =  120 
+Fri 2010/05/07 16:35:23.471|   |main|TrimsReader|value =  212 
+Fri 2010/05/07 16:35:23.471|   |main|TrimsReader|value =  217 
+Fri 2010/05/07 16:35:23.472|   |main|TrimsReader|value =  191 
+Fri 2010/05/07 16:35:23.472|   |main|TrimsReader|value =  238 
+Fri 2010/05/07 16:35:23.473|   |main|TrimsReader|value =  254 
+Fri 2010/05/07 16:35:23.473|   |main|TrimsReader|value =  147 
+Fri 2010/05/07 16:35:23.474|   |main|TrimsReader|value =  225 
+Fri 2010/05/07 16:35:23.474|   |main|TrimsReader|value =  103 
+Fri 2010/05/07 16:35:23.475|   |main|TrimsReader|value =  207 
+Fri 2010/05/07 16:35:23.475|   |main|TrimsReader|value =  207 
+Fri 2010/05/07 16:35:23.476|   |main|TrimsReader|value =  140 
+Fri 2010/05/07 16:35:23.476|   |main|TrimsReader|value =  182 
+Fri 2010/05/07 16:35:23.476|   |main|TrimsReader|value =  148 
+Fri 2010/05/07 16:35:23.477|   |main|TrimsReader|value =  110 
+Fri 2010/05/07 16:35:23.477|   |main|TrimsReader|value =  181 
+Fri 2010/05/07 16:35:23.478|   |main|TrimsReader|value =  120 
+Fri 2010/05/07 16:35:23.478|   |main|TrimsReader|value =  263 
+Fri 2010/05/07 16:35:23.479|   |main|TrimsReader|value =  256 
+Fri 2010/05/07 16:35:23.479|   |main|TrimsReader|value =  999 
+Fri 2010/05/07 16:35:23.708|   |main|AbstractDendroFileReader|loading file from: yhg50683.d
+Fri 2010/05/07 16:35:23.717|   |main|SheffieldReader|value = 454
+Fri 2010/05/07 16:35:23.720|   |main|SheffieldReader|value = 309
+Fri 2010/05/07 16:35:23.720|   |main|SheffieldReader|value = 314
+Fri 2010/05/07 16:35:23.720|   |main|SheffieldReader|value = 270
+Fri 2010/05/07 16:35:23.721|   |main|SheffieldReader|value = 273
+Fri 2010/05/07 16:35:23.722|   |main|SheffieldReader|value = 229
+Fri 2010/05/07 16:35:23.722|   |main|SheffieldReader|value = 319
+Fri 2010/05/07 16:35:23.723|   |main|SheffieldReader|value = 267
+Fri 2010/05/07 16:35:23.723|   |main|SheffieldReader|value = 276
+Fri 2010/05/07 16:35:23.724|   |main|SheffieldReader|value = 128
+Fri 2010/05/07 16:35:23.724|   |main|SheffieldReader|value = 163
+Fri 2010/05/07 16:35:23.725|   |main|SheffieldReader|value = 221
+Fri 2010/05/07 16:35:23.725|   |main|SheffieldReader|value = 269
+Fri 2010/05/07 16:35:23.726|   |main|SheffieldReader|value = 214
+Fri 2010/05/07 16:35:23.727|   |main|SheffieldReader|value = 201
+Fri 2010/05/07 16:35:23.727|   |main|SheffieldReader|value = 218
+Fri 2010/05/07 16:35:23.728|   |main|SheffieldReader|value = 199
+Fri 2010/05/07 16:35:23.728|   |main|SheffieldReader|value = 198
+Fri 2010/05/07 16:35:23.730|   |main|SheffieldReader|value = 209
+Fri 2010/05/07 16:35:23.730|   |main|SheffieldReader|value = 156
+Fri 2010/05/07 16:35:23.731|   |main|SheffieldReader|value = 177
+Fri 2010/05/07 16:35:23.731|   |main|SheffieldReader|value = 182
+Fri 2010/05/07 16:35:23.734|   |main|SheffieldReader|value = 193
+Fri 2010/05/07 16:35:23.735|   |main|SheffieldReader|value = 198
+Fri 2010/05/07 16:35:23.735|   |main|SheffieldReader|value = 153
+Fri 2010/05/07 16:35:23.736|   |main|SheffieldReader|value = 160
+Fri 2010/05/07 16:35:23.737|   |main|SheffieldReader|value = 213
+Fri 2010/05/07 16:35:23.737|   |main|SheffieldReader|value = 146
+Fri 2010/05/07 16:35:23.738|   |main|SheffieldReader|value = 160
+Fri 2010/05/07 16:35:23.738|   |main|SheffieldReader|value = 152
+Fri 2010/05/07 16:35:23.739|   |main|SheffieldReader|value = 124
+Fri 2010/05/07 16:35:23.739|   |main|SheffieldReader|value = 144
+Fri 2010/05/07 16:35:23.740|   |main|SheffieldReader|value = 137
+Fri 2010/05/07 16:35:23.740|   |main|SheffieldReader|value = 159
+Fri 2010/05/07 16:35:23.741|   |main|SheffieldReader|value = 107
+Fri 2010/05/07 16:35:23.742|   |main|SheffieldReader|value = 162
+Fri 2010/05/07 16:35:23.742|   |main|SheffieldReader|value = 184
+Fri 2010/05/07 16:35:23.743|   |main|SheffieldReader|value = 193
+Fri 2010/05/07 16:35:23.744|   |main|SheffieldReader|value = 186
+Fri 2010/05/07 16:35:23.744|   |main|SheffieldReader|value = 175
+Fri 2010/05/07 16:35:23.745|   |main|SheffieldReader|value = 166
+Fri 2010/05/07 16:35:23.747|   |main|SheffieldReader|value = 222
+Fri 2010/05/07 16:35:23.747|   |main|SheffieldReader|value = 206
+Fri 2010/05/07 16:35:23.748|   |main|SheffieldReader|value = 168
+Fri 2010/05/07 16:35:23.748|   |main|SheffieldReader|value = 130
+Fri 2010/05/07 16:35:23.749|   |main|SheffieldReader|value = 144
+Fri 2010/05/07 16:35:23.749|   |main|SheffieldReader|value = 148
+Fri 2010/05/07 16:35:23.750|   |main|SheffieldReader|value = 113
+Fri 2010/05/07 16:35:23.750|   |main|SheffieldReader|value = 122
+Fri 2010/05/07 16:35:23.751|   |main|SheffieldReader|value = 145
+Fri 2010/05/07 16:35:23.752|   |main|SheffieldReader|value = 128
+Fri 2010/05/07 16:35:23.753|   |main|SheffieldReader|value = 151
+Fri 2010/05/07 16:35:23.753|   |main|SheffieldReader|value = 193
+Fri 2010/05/07 16:35:23.754|   |main|SheffieldReader|value = 122
+Fri 2010/05/07 16:35:23.754|   |main|SheffieldReader|value = 165
+Fri 2010/05/07 16:35:23.755|   |main|SheffieldReader|value = 142
+Fri 2010/05/07 16:35:23.755|   |main|SheffieldReader|value = 168
+Fri 2010/05/07 16:35:23.756|   |main|SheffieldReader|value = 146
+Fri 2010/05/07 16:35:23.756|   |main|SheffieldReader|value = 143
+Fri 2010/05/07 16:35:23.756|   |main|SheffieldReader|value = 186
+Fri 2010/05/07 16:35:23.757|   |main|SheffieldReader|value = 199
+Fri 2010/05/07 16:35:23.758|   |main|SheffieldReader|value = 156
+Fri 2010/05/07 16:35:23.759|   |main|SheffieldReader|value = 163
+Fri 2010/05/07 16:35:23.759|   |main|SheffieldReader|value = 125
+Fri 2010/05/07 16:35:23.760|   |main|SheffieldReader|value = 168
+Fri 2010/05/07 16:35:23.760|   |main|SheffieldReader|value = 130
+Fri 2010/05/07 16:35:23.761|   |main|SheffieldReader|value = 108
+Fri 2010/05/07 16:35:23.762|   |main|SheffieldReader|value = 148
+Fri 2010/05/07 16:35:23.762|   |main|SheffieldReader|value = 165
+Fri 2010/05/07 16:35:23.763|   |main|SheffieldReader|value = 153
+Fri 2010/05/07 16:35:23.763|   |main|SheffieldReader|value = 161
+Fri 2010/05/07 16:35:23.764|   |main|SheffieldReader|value = 158
+Fri 2010/05/07 16:35:23.764|   |main|SheffieldReader|value = 165
+Fri 2010/05/07 16:35:23.765|   |main|SheffieldReader|value = 152
+Fri 2010/05/07 16:35:23.765|   |main|SheffieldReader|value = 146
+Fri 2010/05/07 16:35:23.765|   |main|SheffieldReader|value = 187
+Fri 2010/05/07 16:35:23.766|   |main|SheffieldReader|value = 186
+Fri 2010/05/07 16:35:23.766|   |main|SheffieldReader|value = 186
+Fri 2010/05/07 16:35:23.767|   |main|SheffieldReader|value = 178
+Fri 2010/05/07 16:35:23.767|   |main|SheffieldReader|value = 168
+Fri 2010/05/07 16:35:23.768|   |main|SheffieldReader|value = 153
+Fri 2010/05/07 16:35:23.769|   |main|SheffieldReader|value = 219
+Fri 2010/05/07 16:35:23.769|   |main|SheffieldReader|value = 217
+Fri 2010/05/07 16:35:23.770|   |main|SheffieldReader|value = 203
+Fri 2010/05/07 16:35:23.770|   |main|SheffieldReader|value = 167
+Fri 2010/05/07 16:35:23.771|   |main|SheffieldReader|value = 170
+Fri 2010/05/07 16:35:23.771|   |main|SheffieldReader|value = 148
+Fri 2010/05/07 16:35:23.772|   |main|SheffieldReader|value = 151
+Fri 2010/05/07 16:35:23.772|   |main|SheffieldReader|value = 154
+Fri 2010/05/07 16:35:23.773|   |main|SheffieldReader|value = 92
+Fri 2010/05/07 16:35:23.773|   |main|SheffieldReader|value = 130
+Fri 2010/05/07 16:35:23.773|   |main|SheffieldReader|value = 165
+Fri 2010/05/07 16:35:23.774|   |main|SheffieldReader|value = 150
+Fri 2010/05/07 16:35:23.774|   |main|SheffieldReader|value = 158
+Fri 2010/05/07 16:35:23.775|   |main|SheffieldReader|value = 166
+Fri 2010/05/07 16:35:23.776|   |main|SheffieldReader|value = 187
+Fri 2010/05/07 16:35:23.776|   |main|SheffieldReader|value = 196
+Fri 2010/05/07 16:35:23.777|   |main|SheffieldReader|value = 140
+Fri 2010/05/07 16:35:23.777|   |main|SheffieldReader|value = 168
+Fri 2010/05/07 16:35:23.777|   |main|SheffieldReader|value = 144
+Fri 2010/05/07 16:35:23.778|   |main|SheffieldReader|value = 142
+Fri 2010/05/07 16:35:23.778|   |main|SheffieldReader|value = 125
+Fri 2010/05/07 16:35:23.779|   |main|SheffieldReader|value = 133
+Fri 2010/05/07 16:35:23.779|   |main|SheffieldReader|value = 122
+Fri 2010/05/07 16:35:23.780|   |main|SheffieldReader|value = 134
+Fri 2010/05/07 16:35:23.780|   |main|SheffieldReader|value = 154
+Fri 2010/05/07 16:35:23.781|   |main|SheffieldReader|value = 159
+Fri 2010/05/07 16:35:23.781|   |main|SheffieldReader|value = 162
+Fri 2010/05/07 16:35:23.782|   |main|SheffieldReader|value = 138
+Fri 2010/05/07 16:35:23.782|   |main|SheffieldReader|value = 133
+Fri 2010/05/07 16:35:23.783|   |main|SheffieldReader|value = 132
+Fri 2010/05/07 16:35:23.783|   |main|SheffieldReader|value = 117
+Fri 2010/05/07 16:35:23.784|   |main|SheffieldReader|value = 83
+Fri 2010/05/07 16:35:23.784|   |main|SheffieldReader|value = 90
+Fri 2010/05/07 16:35:23.785|   |main|SheffieldReader|value = 82
+Fri 2010/05/07 16:35:23.785|   |main|SheffieldReader|value = 129
+Fri 2010/05/07 16:35:23.786|   |main|SheffieldReader|value = 107
+Fri 2010/05/07 16:35:23.786|   |main|SheffieldReader|value = 98
+Fri 2010/05/07 16:35:23.787|   |main|SheffieldReader|value = 113
+Fri 2010/05/07 16:35:23.787|   |main|SheffieldReader|value = 129
+Fri 2010/05/07 16:35:23.788|   |main|SheffieldReader|value = 103
+Fri 2010/05/07 16:35:23.788|   |main|SheffieldReader|value = 95
+Fri 2010/05/07 16:35:23.789|   |main|SheffieldReader|value = 88
+Fri 2010/05/07 16:35:23.789|   |main|SheffieldReader|value = 90
+Fri 2010/05/07 16:35:23.790|   |main|SheffieldReader|value = 97
+Fri 2010/05/07 16:35:23.790|   |main|SheffieldReader|value = 84
+Fri 2010/05/07 16:35:23.791|   |main|SheffieldReader|value = 102
+Fri 2010/05/07 16:35:23.791|   |main|SheffieldReader|value = 106
+Fri 2010/05/07 16:35:24.002|   |main|AbstractDendroFileReader|loading file from: A1805.txt
+Fri 2010/05/07 16:35:24.013|   |main|BelfastAppleReader|value = 106
+Fri 2010/05/07 16:35:24.014|   |main|BelfastAppleReader|value = 188
+Fri 2010/05/07 16:35:24.015|   |main|BelfastAppleReader|value = 165
+Fri 2010/05/07 16:35:24.016|   |main|BelfastAppleReader|value = 184
+Fri 2010/05/07 16:35:24.016|   |main|BelfastAppleReader|value = 112
+Fri 2010/05/07 16:35:24.017|   |main|BelfastAppleReader|value = 103
+Fri 2010/05/07 16:35:24.017|   |main|BelfastAppleReader|value = 111
+Fri 2010/05/07 16:35:24.018|   |main|BelfastAppleReader|value = 239
+Fri 2010/05/07 16:35:24.019|   |main|BelfastAppleReader|value = 226
+Fri 2010/05/07 16:35:24.019|   |main|BelfastAppleReader|value = 132
+Fri 2010/05/07 16:35:24.020|   |main|BelfastAppleReader|value = 143
+Fri 2010/05/07 16:35:24.020|   |main|BelfastAppleReader|value = 146
+Fri 2010/05/07 16:35:24.021|   |main|BelfastAppleReader|value = 140
+Fri 2010/05/07 16:35:24.021|   |main|BelfastAppleReader|value = 100
+Fri 2010/05/07 16:35:24.022|   |main|BelfastAppleReader|value = 176
+Fri 2010/05/07 16:35:24.022|   |main|BelfastAppleReader|value = 139
+Fri 2010/05/07 16:35:24.023|   |main|BelfastAppleReader|value = 124
+Fri 2010/05/07 16:35:24.023|   |main|BelfastAppleReader|value = 115
+Fri 2010/05/07 16:35:24.024|   |main|BelfastAppleReader|value = 78
+Fri 2010/05/07 16:35:24.025|   |main|BelfastAppleReader|value = 80
+Fri 2010/05/07 16:35:24.025|   |main|BelfastAppleReader|value = 156
+Fri 2010/05/07 16:35:24.026|   |main|BelfastAppleReader|value = 75
+Fri 2010/05/07 16:35:24.026|   |main|BelfastAppleReader|value = 110
+Fri 2010/05/07 16:35:24.027|   |main|BelfastAppleReader|value = 80
+Fri 2010/05/07 16:35:24.028|   |main|BelfastAppleReader|value = 130
+Fri 2010/05/07 16:35:24.028|   |main|BelfastAppleReader|value = 83
+Fri 2010/05/07 16:35:24.029|   |main|BelfastAppleReader|value = 157
+Fri 2010/05/07 16:35:24.029|   |main|BelfastAppleReader|value = 99
+Fri 2010/05/07 16:35:24.030|   |main|BelfastAppleReader|value = 115
+Fri 2010/05/07 16:35:24.030|   |main|BelfastAppleReader|value = 102
+Fri 2010/05/07 16:35:24.031|   |main|BelfastAppleReader|value = 110
+Fri 2010/05/07 16:35:24.031|   |main|BelfastAppleReader|value = 108
+Fri 2010/05/07 16:35:24.032|   |main|BelfastAppleReader|value = 87
+Fri 2010/05/07 16:35:24.032|   |main|BelfastAppleReader|value = 135
+Fri 2010/05/07 16:35:24.033|   |main|BelfastAppleReader|value = 107
+Fri 2010/05/07 16:35:24.034|   |main|BelfastAppleReader|value = 96
+Fri 2010/05/07 16:35:24.034|   |main|BelfastAppleReader|value = 70
+Fri 2010/05/07 16:35:24.035|   |main|BelfastAppleReader|value = 128
+Fri 2010/05/07 16:35:24.035|   |main|BelfastAppleReader|value = 119
+Fri 2010/05/07 16:35:24.036|   |main|BelfastAppleReader|value = 86
+Fri 2010/05/07 16:35:24.036|   |main|BelfastAppleReader|value = 101
+Fri 2010/05/07 16:35:24.037|   |main|BelfastAppleReader|value = 106
+Fri 2010/05/07 16:35:24.038|   |main|BelfastAppleReader|value = 129
+Fri 2010/05/07 16:35:24.038|   |main|BelfastAppleReader|value = 88
+Fri 2010/05/07 16:35:24.039|   |main|BelfastAppleReader|value = 101
+Fri 2010/05/07 16:35:24.039|   |main|BelfastAppleReader|value = 151
+Fri 2010/05/07 16:35:24.040|   |main|BelfastAppleReader|value = 106
+Fri 2010/05/07 16:35:24.040|   |main|BelfastAppleReader|value = 97
+Fri 2010/05/07 16:35:24.041|   |main|BelfastAppleReader|value = 110
+Fri 2010/05/07 16:35:24.041|   |main|BelfastAppleReader|value = 97
+Fri 2010/05/07 16:35:24.041|   |main|BelfastAppleReader|value = 91
+Fri 2010/05/07 16:35:24.042|   |main|BelfastAppleReader|value = 93
+Fri 2010/05/07 16:35:24.043|   |main|BelfastAppleReader|value = 100
+Fri 2010/05/07 16:35:24.043|   |main|BelfastAppleReader|value = 124
+Fri 2010/05/07 16:35:24.044|   |main|BelfastAppleReader|value = 99
+Fri 2010/05/07 16:35:24.044|   |main|BelfastAppleReader|value = 134
+Fri 2010/05/07 16:35:24.045|   |main|BelfastAppleReader|value = 125
+Fri 2010/05/07 16:35:24.045|   |main|BelfastAppleReader|value = 105
+Fri 2010/05/07 16:35:24.046|   |main|BelfastAppleReader|value = 96
+Fri 2010/05/07 16:35:24.046|   |main|BelfastAppleReader|value = 107
+Fri 2010/05/07 16:35:24.047|   |main|BelfastAppleReader|value = 142
+Fri 2010/05/07 16:35:24.047|   |main|BelfastAppleReader|value = 100
+Fri 2010/05/07 16:35:24.048|   |main|BelfastAppleReader|value = 208
+Fri 2010/05/07 16:35:24.048|   |main|BelfastAppleReader|value = 233
+Fri 2010/05/07 16:35:24.049|   |main|BelfastAppleReader|value = 149
+Fri 2010/05/07 16:35:24.049|   |main|BelfastAppleReader|value = 81
+Fri 2010/05/07 16:35:24.050|   |main|BelfastAppleReader|value = 221
+Fri 2010/05/07 16:35:24.050|   |main|BelfastAppleReader|value = 178
+Fri 2010/05/07 16:35:24.051|   |main|BelfastAppleReader|value = 140
+Fri 2010/05/07 16:35:24.051|   |main|BelfastAppleReader|value = 179
+Fri 2010/05/07 16:35:24.052|   |main|BelfastAppleReader|value = 84
+Fri 2010/05/07 16:35:24.052|   |main|BelfastAppleReader|value = 121
+Fri 2010/05/07 16:35:24.053|   |main|BelfastAppleReader|value = 169
+Fri 2010/05/07 16:35:24.053|   |main|BelfastAppleReader|value = 137
+Fri 2010/05/07 16:35:24.054|   |main|BelfastAppleReader|value = 190
+Fri 2010/05/07 16:35:24.054|   |main|BelfastAppleReader|value = 128
+Fri 2010/05/07 16:35:24.055|   |main|BelfastAppleReader|value = 150
+Fri 2010/05/07 16:35:24.055|   |main|BelfastAppleReader|value = 113
+Fri 2010/05/07 16:35:24.056|   |main|BelfastAppleReader|value = 150
+Fri 2010/05/07 16:35:24.056|   |main|BelfastAppleReader|value = 99
+Fri 2010/05/07 16:35:24.057|   |main|BelfastAppleReader|value = 238
+Fri 2010/05/07 16:35:24.057|   |main|BelfastAppleReader|value = 128
+Fri 2010/05/07 16:35:24.058|   |main|BelfastAppleReader|value = 170
+Fri 2010/05/07 16:35:24.058|   |main|BelfastAppleReader|value = 101
+Fri 2010/05/07 16:35:24.059|   |main|BelfastAppleReader|value = 110
+Fri 2010/05/07 16:35:24.060|   |main|BelfastAppleReader|value = 124
+Fri 2010/05/07 16:35:24.060|   |main|BelfastAppleReader|value = 143
+Fri 2010/05/07 16:35:24.061|   |main|BelfastAppleReader|value = 184
+Fri 2010/05/07 16:35:24.061|   |main|BelfastAppleReader|value = 142
+Fri 2010/05/07 16:35:24.062|   |main|BelfastAppleReader|value = 221
+Fri 2010/05/07 16:35:24.062|   |main|BelfastAppleReader|value = 99
+Fri 2010/05/07 16:35:24.063|   |main|BelfastAppleReader|value = 125
+Fri 2010/05/07 16:35:24.063|   |main|BelfastAppleReader|value = 121
+Fri 2010/05/07 16:35:24.064|   |main|BelfastAppleReader|value = 162
+Fri 2010/05/07 16:35:24.064|   |main|BelfastAppleReader|value = 132
+Fri 2010/05/07 16:35:24.065|   |main|BelfastAppleReader|value = 100
+Fri 2010/05/07 16:35:24.065|   |main|BelfastAppleReader|value = 152
+Fri 2010/05/07 16:35:24.066|   |main|BelfastAppleReader|value = 184
+Fri 2010/05/07 16:35:24.066|   |main|BelfastAppleReader|value = 178
+Fri 2010/05/07 16:35:24.067|   |main|BelfastAppleReader|value = 195
+Fri 2010/05/07 16:35:24.067|   |main|BelfastAppleReader|value = 106
+Fri 2010/05/07 16:35:24.068|   |main|BelfastAppleReader|value = 90
+Fri 2010/05/07 16:35:24.068|   |main|BelfastAppleReader|value = 91
+Fri 2010/05/07 16:35:24.069|   |main|BelfastAppleReader|value = 84
+Fri 2010/05/07 16:35:24.069|   |main|BelfastAppleReader|value = 95
+Fri 2010/05/07 16:35:24.070|   |main|BelfastAppleReader|value = 115
+Fri 2010/05/07 16:35:24.070|   |main|BelfastAppleReader|value = 122
+Fri 2010/05/07 16:35:24.341|   |main|AbstractDendroFileReader|loading file from: bellframe1.arx
+Fri 2010/05/07 16:35:24.367|   |main|BelfastArchiveReader|value = 176
+Fri 2010/05/07 16:35:24.368|   |main|BelfastArchiveReader|value = 342
+Fri 2010/05/07 16:35:24.368|   |main|BelfastArchiveReader|value = 338
+Fri 2010/05/07 16:35:24.368|   |main|BelfastArchiveReader|value = 334
+Fri 2010/05/07 16:35:24.369|   |main|BelfastArchiveReader|value = 409
+Fri 2010/05/07 16:35:24.369|   |main|BelfastArchiveReader|value = 362
+Fri 2010/05/07 16:35:24.370|   |main|BelfastArchiveReader|value = 308
+Fri 2010/05/07 16:35:24.371|   |main|BelfastArchiveReader|value = 360
+Fri 2010/05/07 16:35:24.371|   |main|BelfastArchiveReader|value = 264
+Fri 2010/05/07 16:35:24.371|   |main|BelfastArchiveReader|value = 325
+Fri 2010/05/07 16:35:24.372|   |main|BelfastArchiveReader|value = 318
+Fri 2010/05/07 16:35:24.373|   |main|BelfastArchiveReader|value = 51
+Fri 2010/05/07 16:35:24.373|   |main|BelfastArchiveReader|value = 48
+Fri 2010/05/07 16:35:24.374|   |main|BelfastArchiveReader|value = 47
+Fri 2010/05/07 16:35:24.374|   |main|BelfastArchiveReader|value = 60
+Fri 2010/05/07 16:35:24.375|   |main|BelfastArchiveReader|value = 49
+Fri 2010/05/07 16:35:24.375|   |main|BelfastArchiveReader|value = 48
+Fri 2010/05/07 16:35:24.587|   |main|AbstractDendroFileReader|loading file from: H_V.!oj
+Fri 2010/05/07 16:37:37.326|   |main|AbstractDendroFileReader|loading file from: H_V.!oj
