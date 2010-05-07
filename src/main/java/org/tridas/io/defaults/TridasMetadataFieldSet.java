@@ -141,7 +141,7 @@ public class TridasMetadataFieldSet extends AbstractTridasMetadataFieldSet {
 		o.setType(type);
 		
 		// Object title
-		o.setTitle(getDefaultValue(TridasMandatoryField.PROJECT_TITLE).getStringValue());
+		o.setTitle(getDefaultValue(TridasMandatoryField.OBJECT_TITLE).getStringValue());
 		
 		return o;
 	}

@@ -431,7 +431,7 @@ public class ConvertTests extends TestCase {
 		// Parse the legacy data file
 		try {
 			//TridasEntitiesFromDefaults def = new TridasEntitiesFromDefaults();
-			reader.loadFile("TestData/VFormat", "DE_V.!oj");
+			reader.loadFile("TestData/VFormat", "H_V.!oj");
 		} catch (IOException e) {
 			// Standard IO Exception
 			System.out.println(e.getLocalizedMessage());

@@ -1,6 +1,7 @@
 package org.tridas.io.formats.vformat;
 
 import java.util.ArrayList;
+import java.util.List;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
@@ -13,7 +14,9 @@ import org.tridas.io.defaults.TridasMetadataFieldSet;
 import org.tridas.io.defaults.TridasMetadataFieldSet.TridasMandatoryField;
 import org.tridas.io.util.DateUtils;
 import org.tridas.io.util.SafeIntYear;
+import org.tridas.io.warnings.ConversionWarning;
 import org.tridas.io.warnings.InvalidDendroFileException;
+import org.tridas.io.warnings.ConversionWarning.WarningType;
 import org.tridas.schema.DatingSuffix;
 import org.tridas.schema.NormalTridasUnit;
 import org.tridas.schema.NormalTridasVariable;
@@ -22,6 +25,7 @@ import org.tridas.schema.TridasElement;
 import org.tridas.schema.TridasGenericField;
 import org.tridas.schema.TridasIdentifier;
 import org.tridas.schema.TridasInterpretation;
+import org.tridas.schema.TridasLocation;
 import org.tridas.schema.TridasMeasurementSeries;
 import org.tridas.schema.TridasObject;
 import org.tridas.schema.TridasProject;
@@ -54,6 +58,16 @@ public class VFormatReader extends AbstractDendroFileReader {
 		ParamMeasured(String code) {
 	        this.code = code;
 	    }
+		
+		/*public String toString()
+		{
+			switch(this)
+			{
+			case MEAN_DENSITY:
+				return I18n.getText("general.meanDensity");
+			}
+			return null;
+		}*/
 
 		
 	}
@@ -61,12 +75,14 @@ public class VFormatReader extends AbstractDendroFileReader {
 	enum VFormatLineType{
 		HEADER_1,
 		HEADER_2,
+		HEADER_3,
 		DATA,
 		INVALID;
 	}
 	
 	public VFormatReader() {
 		super(VFormatToTridasDefaults.class);
+		project = defaults.getProjectWithDefaults();
 	}
 	
 	@Override
@@ -103,6 +119,8 @@ public class VFormatReader extends AbstractDendroFileReader {
 		int linenumber=0;
 		TridasUnit units = new TridasUnit();
 		TridasVariable var = new TridasVariable();
+		TridasLocation location = new TridasLocation();
+		
 		for(String line : argFileString)
 		{	
 			linenumber++;
@@ -114,19 +132,27 @@ public class VFormatReader extends AbstractDendroFileReader {
 			
 				// If thisseries is not null then we should add it to our list
 				// as we're just about to start another
-				if(thisseries!=null) seriesList.add(thisseries);			
+				if(thisseries!=null) 
+				{
+					
+					seriesList.add(thisseries);			
+				}
 								
 				// Check whether this is a supported version format
 				// TODO 
 				// Versions >=10 have additional lines for which I don't have the specs
-				// or examples
 				try{
 					Integer fileVersionNumber = Integer.valueOf(line.substring(68,70));
 					if(fileVersionNumber.compareTo(10)>=0)
 					{
-						throw new InvalidDendroFileException(I18n.getText("vformat.unsupportedFormat", 
+						this.addWarningToList(new ConversionWarning(
+								WarningType.NOT_STRICT, 
+								I18n.getText("vformat.unsupportedFormat",
+										String.valueOf(fileVersionNumber))));
+						
+						/*throw new InvalidDendroFileException(I18n.getText("vformat.unsupportedFormat", 
 								String.valueOf(fileVersionNumber)), 
-								linenumber);
+								linenumber);*/
 					}
 				} catch (NumberFormatException e){}
 				
@@ -140,6 +166,11 @@ public class VFormatReader extends AbstractDendroFileReader {
 				String typeCode = line.substring(9, 10);
 				if(typeCode.equals("!"))
 				{
+					String objectid = line.substring(0,4);
+					String elementid = line.substring(4,6);
+					String sampleid = line.substring(6,7);
+					String seriesid = line.substring(0,12);
+					
 					thisseries = defaults.getMeasurementSeriesWithDefaults();
 					
 					// Set Analyst
@@ -297,6 +328,38 @@ public class VFormatReader extends AbstractDendroFileReader {
 				lastLineType=VFormatLineType.HEADER_2;
 				break;
 				
+			case HEADER_3:
+				// Last line should have been header2 otherwise something has gone wrong
+				if (!lastLineType.equals(VFormatLineType.HEADER_2)) throw new InvalidDendroFileException(I18n.getText("vformat.invalidLine"), linenumber);
+				
+				try{
+					Double lon = Double.valueOf(line.substring(0,10));
+					Double lat = Double.valueOf(line.substring(10,20));
+					
+					// Check values are sane
+					if((lon.compareTo(new Double(-180f))<0) || (lon.compareTo(new Double(180f))>0))
+					{
+						this.addWarningToList(new ConversionWarning(
+								WarningType.NOT_STRICT, 
+								I18n.getText("fileio.longOutOfBounds",
+										String.valueOf(lon))));
+					}
+					if((lat.compareTo(new Double(-90f))<0) || (lat.compareTo(new Double(90f))>0))
+					{
+						this.addWarningToList(new ConversionWarning(
+								WarningType.NOT_STRICT, 
+								I18n.getText("fileio.latOutOfBounds",
+										String.valueOf(lat))));						
+					}
+
+					
+					
+					
+				} catch (NumberFormatException e){}	
+				
+				
+				break;
+				
 			case DATA:
 				// Last line should have been header2 or data otherwise something has gone wrong
 				if (lastLineType.equals(VFormatLineType.HEADER_1)) throw new InvalidDendroFileException(I18n.getText("vformat.invalidLine"), linenumber);
@@ -367,12 +430,19 @@ public class VFormatReader extends AbstractDendroFileReader {
 		if(m1.find()) return VFormatLineType.DATA;
 		
 		// Header line 1
-		regex = "^[\\S\\s]{8}.[!%#][FIMOPQRSTWXZ][DFGJKPS][\\S\\s]{12}[\\d\\s]{6}[\\S\\s]{20}[\\d\\s]{8}[\\S\\s]{10}[\\d}]{2}[\\d\\s.]{10}";
+		regex = "^[\\S\\s]{8}.[!%#][FIMOPQRSTWXZ][DFGJKPS][\\S\\s]{12}[\\d\\s]{6}[\\S\\s]{20}[\\d\\s/.]{8}[\\S\\s]{10}[\\d}]{2}[\\d\\s.]{10}";
 	    p1 = Pattern.compile(regex,Pattern.CASE_INSENSITIVE | Pattern.DOTALL);
 	    m1 = p1.matcher(line);
 		if(m1.find()) return VFormatLineType.HEADER_1;
 		
-		else return VFormatLineType.HEADER_2;
+		// Header line 3
+		regex = "^[\\d.]{20}";
+	    p1 = Pattern.compile(regex,Pattern.CASE_INSENSITIVE | Pattern.DOTALL);
+	    m1 = p1.matcher(line);
+		if(m1.find()) return VFormatLineType.HEADER_3;
+		
+		// Default to header 2 as this is free text we have no way of identifying
+		return VFormatLineType.HEADER_2;
 	}
 
 	@Override
@@ -436,4 +506,129 @@ public class VFormatReader extends AbstractDendroFileReader {
 		return project;
 	}
 
+	private TridasObject getObject(String objectid)
+	{
+		ArrayList<TridasObject> olist;
+		
+		try{ olist = (ArrayList<TridasObject>) project.getObjects();
+			 for(TridasObject o : olist)
+			 {
+				 if(o.getIdentifier().getValue().equals(objectid)) return o;
+			 } 
+		} catch (NullPointerException e){}
+		
+		return null;
+	}
+	
+	private TridasObject getOrCreateObject(String objectid)
+	{
+		TridasObject o = getObject(objectid);
+		
+		if(o==null)
+		{
+			// No object found so create
+			ArrayList<TridasObject> olist = new ArrayList<TridasObject>();
+			o = defaults.getObjectWithDefaults(objectid);
+			o.setTitle(objectid);
+			olist.add(o);
+			project.setObjects(olist);
+		}
+
+		return getObject(objectid);
+
+	}
+	
+	private TridasElement getElement(String objectid, String elementid)
+	{
+		TridasObject o = getOrCreateObject(objectid);
+		
+		ArrayList<TridasElement> elist;
+		try{ elist = (ArrayList<TridasElement>) o.getElements();
+			 for(TridasElement e : elist)
+			 {
+				 if(e.getIdentifier().getValue().equals(elementid)) return e;
+			 } 
+		} catch (NullPointerException e){}
+		
+		return null;
+		
+		
+	}
+	
+	private TridasElement getOrCreateElement(String objectid, String elementid)
+	{
+		TridasElement e = getElement(objectid, elementid);
+		
+		if (e==null)
+		{
+			ArrayList<TridasElement> elist = new ArrayList<TridasElement>();
+			e = defaults.getElementWithDefaults(elementid);
+			e.setTitle(elementid);
+			elist.add(e);
+			getOrCreateObject(objectid).setElements(elist);
+		}
+
+		return getElement(objectid, elementid);
+
+	}
+	
+	private TridasSample getSample(String objectid, String elementid, String sampleid)
+	{
+		TridasElement e = getOrCreateElement(objectid, elementid);
+		
+		ArrayList<TridasSample> slist;
+		try{ slist = (ArrayList<TridasSample>) e.getSamples();
+			 for(TridasSample s : slist)
+			 {
+				 if(s.getIdentifier().getValue().equals(sampleid)) return s;
+			 } 
+		} catch (NullPointerException e2){}
+		
+		return null;
+	}
+	
+	private TridasSample getOrCreateSample(String objectid, String elementid, String sampleid)
+	{
+		TridasSample s = getSample(objectid, elementid, sampleid);
+		
+		if (s==null)
+		{		
+			TridasRadius r = defaults.getRadiusWithDefaults(false);
+			ArrayList<TridasRadius> rlist = new ArrayList<TridasRadius>();
+			rlist.add(r);
+			s = defaults.getSampleWithDefaults(sampleid);
+			s.setTitle(sampleid);
+			s.setRadiuses(rlist);
+			ArrayList<TridasSample> slist = new ArrayList<TridasSample>();
+			slist.add(s);
+			getOrCreateElement(objectid, elementid).setSamples(slist);
+		}
+
+		return getSample(objectid, elementid, sampleid);
+	}
+		
+	private TridasMeasurementSeries createMeasurementSeries(String objectid, String elementid, String sampleid, String seriesid)
+	{
+		TridasSample samp = getOrCreateSample(objectid, elementid, sampleid);
+		TridasRadius r = samp.getRadiuses().get(0);
+		
+		ArrayList<TridasMeasurementSeries> seriesList; 
+		try{
+			seriesList = (ArrayList<TridasMeasurementSeries>) 
+			getOrCreateSample(objectid, elementid, sampleid).getRadiuses().get(0).getMeasurementSeries();		
+		} catch (NullPointerException e)
+		{
+			seriesList = new ArrayList<TridasMeasurementSeries>();
+		}
+		
+		TridasMeasurementSeries series = defaults.getMeasurementSeriesWithDefaults();	
+		seriesList.add(series);
+		r.setMeasurementSeries(seriesList);
+		
+		return series;
+	
+	}
+	
+
+	
 }
