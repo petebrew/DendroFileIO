@@ -77,10 +77,6 @@ public class TridasWriter extends AbstractDendroCollectionWriter {
 		this.addToFileList(file);
 	}
 
-	@Override
-	public String getFileExtension() {
-		return "xml";
-	}
 
 	/**
 	 * @see org.tridas.io.IDendroCollectionWriter#getNamingConvention()
@@ -98,14 +94,6 @@ public class TridasWriter extends AbstractDendroCollectionWriter {
 		naming = argConvension;
 	}
 	
-	/**
-	 * @see org.tridas.io.IDendroCollectionWriter#getName()
-	 */
-	@Override
-	public String getName() {
-		return "Tridas";
-	}
-
 	/**
 	 * @see org.tridas.io.IDendroCollectionWriter#getDefaults()
 	 */

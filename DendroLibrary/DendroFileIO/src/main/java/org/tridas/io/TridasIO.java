@@ -4,6 +4,7 @@
 package org.tridas.io;
 
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.HashMap;
 
 import org.grlea.log.DebugLevel;
@@ -80,7 +81,7 @@ public class TridasIO {
 		String name = reader.getShortName();
 		
 		if(filetypes == null){
-			log.error("I18n.getText(fileio.fileExtensionNull");
+			log.error(I18n.getText("fileio.fileExtensionNull"));
 			return;
 		}
 		
@@ -135,7 +136,7 @@ public class TridasIO {
 		}
 		
 		String filetype = writer.getFileExtension();
-		String name = writer.getName();
+		String name = writer.getShortName();
 		
 		TridasIOEntry entry = converterMap.get(name);
 		if(entry == null){
@@ -210,6 +211,7 @@ public class TridasIO {
 				list.add(extension);
 			}
 		}
+		Collections.sort(list);
 		return list.toArray(new String[0]);
 	}
 	
@@ -221,6 +223,7 @@ public class TridasIO {
 				list.add(extension);
 			}
 		}
+		Collections.sort(list);
 		return list.toArray(new String[0]);
 	}
 	

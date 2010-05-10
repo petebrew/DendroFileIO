@@ -34,14 +34,6 @@ public class HeidelbergWriter extends AbstractDendroCollectionWriter {
 		// TODO Auto-generated method stub
 		return null;
 	}
-	
-	/**
-	 * @see org.tridas.io.IDendroCollectionWriter#getName()
-	 */
-	@Override
-	public String getName() {
-		return "Heidelberg";
-	}
 
 	/**
 	 * @see org.tridas.io.IDendroCollectionWriter#setNamingConvention(org.tridas.io.naming.INamingConvention)

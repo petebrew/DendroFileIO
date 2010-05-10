@@ -69,11 +69,10 @@ public interface IDendroCollectionWriter {
 	 */
 	public void saveAllToDisk(String argFolderName);
 	
-	/**
-	 * Return the name of the format.
-	 * @return
-	 */
-	public String getName();
+	public String getShortName();
+	public String getFullName();
+	public String getDescription();
+	public String getPreferredFileExtension();
 	
 	public IMetadataFieldSet getDefaults();
 	

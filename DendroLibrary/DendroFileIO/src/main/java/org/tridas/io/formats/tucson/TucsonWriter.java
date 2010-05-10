@@ -254,11 +254,6 @@ public class TucsonWriter extends AbstractDendroCollectionWriter {
 		}		
 	}
 
-	@Override
-	public String getFileExtension() {
-		return "crn";
-	}
-
 	/**
 	 * @see org.tridas.io.IDendroCollectionWriter#getNamingConvention()
 	 */
@@ -273,14 +268,6 @@ public class TucsonWriter extends AbstractDendroCollectionWriter {
 	@Override
 	public void setNamingConvention(INamingConvention argConvension) {
 		naming = argConvension;
-	}
-	
-	/**
-	 * @see org.tridas.io.IDendroCollectionWriter#getName()
-	 */
-	@Override
-	public String getName() {
-		return "Tucson";
 	}
 	
 	/**

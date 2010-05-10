@@ -4656,3 +4656,970 @@ Fri 2010/05/07 16:35:24.375|   |main|BelfastArchiveReader|value = 49
 Fri 2010/05/07 16:35:24.375|   |main|BelfastArchiveReader|value = 48
 Fri 2010/05/07 16:35:24.587|   |main|AbstractDendroFileReader|loading file from: H_V.!oj
 Fri 2010/05/07 16:37:37.326|   |main|AbstractDendroFileReader|loading file from: H_V.!oj
+Mon 2010/05/10 11:38:00.111|   |main|AbstractDendroFileReader|loading file from: Tridas1.xml
+Mon 2010/05/10 11:38:02.406|   |main|StringDefaultValue|The string '31039a59-3799-4938-b281-b874783be06c' is too big, max length is '6' characters.
+Mon 2010/05/10 11:38:02.409|   |main|AbstractMetadataFieldSet|Warning from defaults: org.tridas.io.warnings.ConversionWarning@3a0b53e
+Mon 2010/05/10 11:38:02.411|   |main|StringDefaultValue|The string 'Unnamed object' is too small, padding (on the right? true)
+Mon 2010/05/10 11:38:02.447|   |main|StringDefaultValue|The string 'Plantae' is too small, padding (on the right? true)
+Mon 2010/05/10 11:38:02.448|   |main|StringDefaultValue|The string 'Unknown' is too small, padding (on the right? true)
+Mon 2010/05/10 11:38:02.449|   |main|StringDefaultValue|The string '' is too small, padding (on the right? true)
+Mon 2010/05/10 11:38:02.449|   |main|StringDefaultValue|The string 'Unknown' is too small, padding (on the right? true)
+Mon 2010/05/10 11:38:02.451|   |main|StringDefaultValue|The string 'Peter I Kuniholm' is too small, padding (on the right? true)
+Mon 2010/05/10 11:38:02.451|   |main|StringDefaultValue|The string '28acb483-f337-412f-a063-59d911c37594' is too big, max length is '6' characters.
+Mon 2010/05/10 11:38:02.452|   |main|AbstractMetadataFieldSet|Warning from defaults: org.tridas.io.warnings.ConversionWarning@26c1186f
+Mon 2010/05/10 11:38:02.453|   |main|StringDefaultValue|The string 'White Tower, Thessaloniki' is too small, padding (on the right? true)
+Mon 2010/05/10 11:38:02.478|   |main|StringDefaultValue|The string '1997-02-01T14:13:51.0Z' is too big, max length is '8' characters.
+Mon 2010/05/10 11:38:02.479|   |main|AbstractMetadataFieldSet|Warning from defaults: org.tridas.io.warnings.ConversionWarning@67148603
+Mon 2010/05/10 11:38:02.480|   |main|StringDefaultValue|The string 'Quercus' is too small, padding (on the right? true)
+Mon 2010/05/10 11:38:02.484|   |main|AbstractDefaultValue|The string '' is too small, padding (on the right? true)
+Mon 2010/05/10 11:38:02.517|   |main|AbstractDendroFileReader|loading file from: Tucson1.rwl
+Mon 2010/05/10 11:38:02.518|   |main|FileHelper|The file 'Tucson1.rwl' is missing or inaccessible, make sure the URL is valid or that the file is in the samedirectory as the jar and is readable.
+Mon 2010/05/10 11:38:02.520|   |main|CatrasReader|loading file from: OBL10002.CAT
+Mon 2010/05/10 11:38:02.528|   |main|CatrasReader|starting catras file parsing
+Mon 2010/05/10 11:38:02.529|   |main|CatrasReader|Whole meta = [AVERAGE 2                       OBL10002CAT `         ˘ 	   n                 A TW  Uµ~C4ÅB€° ?t J>` _                     å v f q µ é ˆ « π ◊ Õ † ∞ Ô ˛ “ ˙ tHÁ Ã ä ﬁ › ô Ÿ Á t≤ Á éE(;rˇ SË jb'¿ Õ ,– "~Dr˚ › Á PÙ È ⁄ e ˜ 
+3Ô € 	"B˙ 	G” Ï Í Á ± ú € Áï ‹   § ª Õ Ê – ø   ¶ ∂ ∆ Áæ Î “ ’ ¢ Á€ ñ ¶ Ø › ù ∞ ø ®                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                               ]
+Mon 2010/05/10 11:38:02.530|   |main|CatrasReader|Header text = [AVERAGE 2                       ]
+Mon 2010/05/10 11:38:02.531|   |main|CatrasReader|Speices Code = [96]
+Mon 2010/05/10 11:38:02.532|   |main|CatrasReader|Series Code = [OBL10002]
+Mon 2010/05/10 11:38:02.532|   |main|CatrasReader|Length = 96
+Mon 2010/05/10 11:38:02.533|   |main|CatrasReader|Sapwood? = [ ]
+Mon 2010/05/10 11:38:02.533|   |main|CatrasReader|Dated = [       ]
+Mon 2010/05/10 11:38:02.534|   |main|CatrasReader|Start year = [249AD]
+Mon 2010/05/10 11:38:02.534|   |main|CatrasReader|Userid = [TW]
+Mon 2010/05/10 11:38:02.535|   |main|CatrasReader|value = 140
+Mon 2010/05/10 11:38:02.535|   |main|CatrasReader|value = 118
+Mon 2010/05/10 11:38:02.536|   |main|CatrasReader|value = 102
+Mon 2010/05/10 11:38:02.536|   |main|CatrasReader|value = 113
+Mon 2010/05/10 11:38:02.537|   |main|CatrasReader|value = 181
+Mon 2010/05/10 11:38:02.538|   |main|CatrasReader|value = 142
+Mon 2010/05/10 11:38:02.538|   |main|CatrasReader|value = 246
+Mon 2010/05/10 11:38:02.539|   |main|CatrasReader|value = 199
+Mon 2010/05/10 11:38:02.539|   |main|CatrasReader|value = 185
+Mon 2010/05/10 11:38:02.540|   |main|CatrasReader|value = 215
+Mon 2010/05/10 11:38:02.540|   |main|CatrasReader|value = 205
+Mon 2010/05/10 11:38:02.541|   |main|CatrasReader|value = 160
+Mon 2010/05/10 11:38:02.541|   |main|CatrasReader|value = 176
+Mon 2010/05/10 11:38:02.542|   |main|CatrasReader|value = 239
+Mon 2010/05/10 11:38:02.543|   |main|CatrasReader|value = 254
+Mon 2010/05/10 11:38:02.543|   |main|CatrasReader|value = 210
+Mon 2010/05/10 11:38:02.544|   |main|CatrasReader|value = 250
+Mon 2010/05/10 11:38:02.544|   |main|CatrasReader|value = 372
+Mon 2010/05/10 11:38:02.545|   |main|CatrasReader|value = 328
+Mon 2010/05/10 11:38:02.545|   |main|CatrasReader|value = 231
+Mon 2010/05/10 11:38:02.546|   |main|CatrasReader|value = 204
+Mon 2010/05/10 11:38:02.546|   |main|CatrasReader|value = 138
+Mon 2010/05/10 11:38:02.547|   |main|CatrasReader|value = 222
+Mon 2010/05/10 11:38:02.548|   |main|CatrasReader|value = 221
+Mon 2010/05/10 11:38:02.548|   |main|CatrasReader|value = 153
+Mon 2010/05/10 11:38:02.549|   |main|CatrasReader|value = 278
+Mon 2010/05/10 11:38:02.549|   |main|CatrasReader|value = 280
+Mon 2010/05/10 11:38:02.550|   |main|CatrasReader|value = 217
+Mon 2010/05/10 11:38:02.550|   |main|CatrasReader|value = 231
+Mon 2010/05/10 11:38:02.550|   |main|CatrasReader|value = 372
+Mon 2010/05/10 11:38:02.551|   |main|CatrasReader|value = 178
+Mon 2010/05/10 11:38:02.551|   |main|CatrasReader|value = 231
+Mon 2010/05/10 11:38:02.552|   |main|CatrasReader|value = 398
+Mon 2010/05/10 11:38:02.552|   |main|CatrasReader|value = 325
+Mon 2010/05/10 11:38:02.553|   |main|CatrasReader|value = 296
+Mon 2010/05/10 11:38:02.553|   |main|CatrasReader|value = 315
+Mon 2010/05/10 11:38:02.554|   |main|CatrasReader|value = 370
+Mon 2010/05/10 11:38:02.554|   |main|CatrasReader|value = 255
+Mon 2010/05/10 11:38:02.555|   |main|CatrasReader|value = 339
+Mon 2010/05/10 11:38:02.555|   |main|CatrasReader|value = 232
+Mon 2010/05/10 11:38:02.556|   |main|CatrasReader|value = 362
+Mon 2010/05/10 11:38:02.556|   |main|CatrasReader|value = 354
+Mon 2010/05/10 11:38:02.557|   |main|CatrasReader|value = 295
+Mon 2010/05/10 11:38:02.557|   |main|CatrasReader|value = 192
+Mon 2010/05/10 11:38:02.558|   |main|CatrasReader|value = 205
+Mon 2010/05/10 11:38:02.559|   |main|CatrasReader|value = 300
+Mon 2010/05/10 11:38:02.559|   |main|CatrasReader|value = 208
+Mon 2010/05/10 11:38:02.560|   |main|CatrasReader|value = 269
+Mon 2010/05/10 11:38:02.560|   |main|CatrasReader|value = 264
+Mon 2010/05/10 11:38:02.561|   |main|CatrasReader|value = 290
+Mon 2010/05/10 11:38:02.561|   |main|CatrasReader|value = 283
+Mon 2010/05/10 11:38:02.562|   |main|CatrasReader|value = 383
+Mon 2010/05/10 11:38:02.562|   |main|CatrasReader|value = 382
+Mon 2010/05/10 11:38:02.563|   |main|CatrasReader|value = 324
+Mon 2010/05/10 11:38:02.563|   |main|CatrasReader|value = 370
+Mon 2010/05/10 11:38:02.564|   |main|CatrasReader|value = 251
+Mon 2010/05/10 11:38:02.564|   |main|CatrasReader|value = 221
+Mon 2010/05/10 11:38:02.565|   |main|CatrasReader|value = 231
+Mon 2010/05/10 11:38:02.566|   |main|CatrasReader|value = 336
+Mon 2010/05/10 11:38:02.566|   |main|CatrasReader|value = 244
+Mon 2010/05/10 11:38:02.567|   |main|CatrasReader|value = 233
+Mon 2010/05/10 11:38:02.567|   |main|CatrasReader|value = 218
+Mon 2010/05/10 11:38:02.568|   |main|CatrasReader|value = 286
+Mon 2010/05/10 11:38:02.568|   |main|CatrasReader|value = 357
+Mon 2010/05/10 11:38:02.569|   |main|CatrasReader|value = 284
+Mon 2010/05/10 11:38:02.569|   |main|CatrasReader|value = 256
+Mon 2010/05/10 11:38:02.570|   |main|CatrasReader|value = 247
+Mon 2010/05/10 11:38:02.570|   |main|CatrasReader|value = 266
+Mon 2010/05/10 11:38:02.571|   |main|CatrasReader|value = 307
+Mon 2010/05/10 11:38:02.572|   |main|CatrasReader|value = 282
+Mon 2010/05/10 11:38:02.572|   |main|CatrasReader|value = 260
+Mon 2010/05/10 11:38:02.573|   |main|CatrasReader|value = 278
+Mon 2010/05/10 11:38:02.574|   |main|CatrasReader|value = 239
+Mon 2010/05/10 11:38:02.574|   |main|CatrasReader|value = 276
+Mon 2010/05/10 11:38:02.575|   |main|CatrasReader|value = 219
+Mon 2010/05/10 11:38:02.575|   |main|CatrasReader|value = 273
+Mon 2010/05/10 11:38:02.576|   |main|CatrasReader|value = 274
+Mon 2010/05/10 11:38:02.576|   |main|CatrasReader|value = 265
+Mon 2010/05/10 11:38:02.577|   |main|CatrasReader|value = 269
+Mon 2010/05/10 11:38:02.577|   |main|CatrasReader|value = 290
+Mon 2010/05/10 11:38:02.578|   |main|CatrasReader|value = 322
+Mon 2010/05/10 11:38:02.578|   |main|CatrasReader|value = 250
+Mon 2010/05/10 11:38:02.579|   |main|CatrasReader|value = 279
+Mon 2010/05/10 11:38:02.579|   |main|CatrasReader|value = 265
+Mon 2010/05/10 11:38:02.580|   |main|CatrasReader|value = 285
+Mon 2010/05/10 11:38:02.581|   |main|CatrasReader|value = 261
+Mon 2010/05/10 11:38:02.581|   |main|CatrasReader|value = 327
+Mon 2010/05/10 11:38:02.582|   |main|CatrasReader|value = 257
+Mon 2010/05/10 11:38:02.582|   |main|CatrasReader|value = 211
+Mon 2010/05/10 11:38:02.583|   |main|CatrasReader|value = 236
+Mon 2010/05/10 11:38:02.583|   |main|CatrasReader|value = 278
+Mon 2010/05/10 11:38:02.584|   |main|CatrasReader|value = 234
+Mon 2010/05/10 11:38:02.585|   |main|CatrasReader|value = 231
+Mon 2010/05/10 11:38:02.585|   |main|CatrasReader|value = 177
+Mon 2010/05/10 11:38:02.586|   |main|CatrasReader|value = 156
+Mon 2010/05/10 11:38:02.586|   |main|CatrasReader|value = 219
+Mon 2010/05/10 11:38:02.587|   |main|CatrasReader|sample depth as int = 2
+Mon 2010/05/10 11:38:02.587|   |main|CatrasReader|sample depth as int = 2
+Mon 2010/05/10 11:38:02.588|   |main|CatrasReader|sample depth as int = 2
+Mon 2010/05/10 11:38:02.589|   |main|CatrasReader|sample depth as int = 2
+Mon 2010/05/10 11:38:02.589|   |main|CatrasReader|sample depth as int = 2
+Mon 2010/05/10 11:38:02.590|   |main|CatrasReader|sample depth as int = 3
+Mon 2010/05/10 11:38:02.590|   |main|CatrasReader|sample depth as int = 3
+Mon 2010/05/10 11:38:02.591|   |main|CatrasReader|sample depth as int = 3
+Mon 2010/05/10 11:38:02.591|   |main|CatrasReader|sample depth as int = 3
+Mon 2010/05/10 11:38:02.592|   |main|CatrasReader|sample depth as int = 3
+Mon 2010/05/10 11:38:02.593|   |main|CatrasReader|sample depth as int = 3
+Mon 2010/05/10 11:38:02.593|   |main|CatrasReader|sample depth as int = 3
+Mon 2010/05/10 11:38:02.594|   |main|CatrasReader|sample depth as int = 3
+Mon 2010/05/10 11:38:02.594|   |main|CatrasReader|sample depth as int = 3
+Mon 2010/05/10 11:38:02.595|   |main|CatrasReader|sample depth as int = 3
+Mon 2010/05/10 11:38:02.595|   |main|CatrasReader|sample depth as int = 3
+Mon 2010/05/10 11:38:02.596|   |main|CatrasReader|sample depth as int = 3
+Mon 2010/05/10 11:38:02.596|   |main|CatrasReader|sample depth as int = 3
+Mon 2010/05/10 11:38:02.597|   |main|CatrasReader|sample depth as int = 3
+Mon 2010/05/10 11:38:02.597|   |main|CatrasReader|sample depth as int = 3
+Mon 2010/05/10 11:38:02.598|   |main|CatrasReader|sample depth as int = 3
+Mon 2010/05/10 11:38:02.599|   |main|CatrasReader|sample depth as int = 3
+Mon 2010/05/10 11:38:02.599|   |main|CatrasReader|sample depth as int = 3
+Mon 2010/05/10 11:38:02.600|   |main|CatrasReader|sample depth as int = 3
+Mon 2010/05/10 11:38:02.600|   |main|CatrasReader|sample depth as int = 3
+Mon 2010/05/10 11:38:02.601|   |main|CatrasReader|sample depth as int = 3
+Mon 2010/05/10 11:38:02.602|   |main|CatrasReader|sample depth as int = 3
+Mon 2010/05/10 11:38:02.602|   |main|CatrasReader|sample depth as int = 3
+Mon 2010/05/10 11:38:02.603|   |main|CatrasReader|sample depth as int = 3
+Mon 2010/05/10 11:38:02.603|   |main|CatrasReader|sample depth as int = 3
+Mon 2010/05/10 11:38:02.604|   |main|CatrasReader|sample depth as int = 3
+Mon 2010/05/10 11:38:02.604|   |main|CatrasReader|sample depth as int = 3
+Mon 2010/05/10 11:38:02.605|   |main|CatrasReader|sample depth as int = 3
+Mon 2010/05/10 11:38:02.605|   |main|CatrasReader|sample depth as int = 3
+Mon 2010/05/10 11:38:02.606|   |main|CatrasReader|sample depth as int = 3
+Mon 2010/05/10 11:38:02.606|   |main|CatrasReader|sample depth as int = 3
+Mon 2010/05/10 11:38:02.607|   |main|CatrasReader|sample depth as int = 3
+Mon 2010/05/10 11:38:02.607|   |main|CatrasReader|sample depth as int = 3
+Mon 2010/05/10 11:38:02.608|   |main|CatrasReader|sample depth as int = 3
+Mon 2010/05/10 11:38:02.609|   |main|CatrasReader|sample depth as int = 3
+Mon 2010/05/10 11:38:02.609|   |main|CatrasReader|sample depth as int = 3
+Mon 2010/05/10 11:38:02.610|   |main|CatrasReader|sample depth as int = 3
+Mon 2010/05/10 11:38:02.610|   |main|CatrasReader|sample depth as int = 3
+Mon 2010/05/10 11:38:02.611|   |main|CatrasReader|sample depth as int = 3
+Mon 2010/05/10 11:38:02.611|   |main|CatrasReader|sample depth as int = 3
+Mon 2010/05/10 11:38:02.612|   |main|CatrasReader|sample depth as int = 3
+Mon 2010/05/10 11:38:02.612|   |main|CatrasReader|sample depth as int = 3
+Mon 2010/05/10 11:38:02.613|   |main|CatrasReader|sample depth as int = 3
+Mon 2010/05/10 11:38:02.613|   |main|CatrasReader|sample depth as int = 3
+Mon 2010/05/10 11:38:02.614|   |main|CatrasReader|sample depth as int = 3
+Mon 2010/05/10 11:38:02.614|   |main|CatrasReader|sample depth as int = 3
+Mon 2010/05/10 11:38:02.615|   |main|CatrasReader|sample depth as int = 3
+Mon 2010/05/10 11:38:02.616|   |main|CatrasReader|sample depth as int = 3
+Mon 2010/05/10 11:38:02.616|   |main|CatrasReader|sample depth as int = 3
+Mon 2010/05/10 11:38:02.617|   |main|CatrasReader|sample depth as int = 3
+Mon 2010/05/10 11:38:02.617|   |main|CatrasReader|sample depth as int = 3
+Mon 2010/05/10 11:38:02.618|   |main|CatrasReader|sample depth as int = 3
+Mon 2010/05/10 11:38:02.618|   |main|CatrasReader|sample depth as int = 3
+Mon 2010/05/10 11:38:02.619|   |main|CatrasReader|sample depth as int = 3
+Mon 2010/05/10 11:38:02.620|   |main|CatrasReader|sample depth as int = 3
+Mon 2010/05/10 11:38:02.620|   |main|CatrasReader|sample depth as int = 3
+Mon 2010/05/10 11:38:02.621|   |main|CatrasReader|sample depth as int = 3
+Mon 2010/05/10 11:38:02.621|   |main|CatrasReader|sample depth as int = 3
+Mon 2010/05/10 11:38:02.622|   |main|CatrasReader|sample depth as int = 3
+Mon 2010/05/10 11:38:02.622|   |main|CatrasReader|sample depth as int = 3
+Mon 2010/05/10 11:38:02.623|   |main|CatrasReader|sample depth as int = 3
+Mon 2010/05/10 11:38:02.623|   |main|CatrasReader|sample depth as int = 3
+Mon 2010/05/10 11:38:02.624|   |main|CatrasReader|sample depth as int = 3
+Mon 2010/05/10 11:38:02.624|   |main|CatrasReader|sample depth as int = 3
+Mon 2010/05/10 11:38:02.625|   |main|CatrasReader|sample depth as int = 3
+Mon 2010/05/10 11:38:02.625|   |main|CatrasReader|sample depth as int = 3
+Mon 2010/05/10 11:38:02.626|   |main|CatrasReader|sample depth as int = 3
+Mon 2010/05/10 11:38:02.626|   |main|CatrasReader|sample depth as int = 3
+Mon 2010/05/10 11:38:02.626|   |main|CatrasReader|sample depth as int = 3
+Mon 2010/05/10 11:38:02.627|   |main|CatrasReader|sample depth as int = 3
+Mon 2010/05/10 11:38:02.627|   |main|CatrasReader|sample depth as int = 3
+Mon 2010/05/10 11:38:02.628|   |main|CatrasReader|sample depth as int = 2
+Mon 2010/05/10 11:38:02.628|   |main|CatrasReader|sample depth as int = 2
+Mon 2010/05/10 11:38:02.629|   |main|CatrasReader|sample depth as int = 2
+Mon 2010/05/10 11:38:02.629|   |main|CatrasReader|sample depth as int = 2
+Mon 2010/05/10 11:38:02.630|   |main|CatrasReader|sample depth as int = 2
+Mon 2010/05/10 11:38:02.630|   |main|CatrasReader|sample depth as int = 2
+Mon 2010/05/10 11:38:02.631|   |main|CatrasReader|sample depth as int = 2
+Mon 2010/05/10 11:38:02.631|   |main|CatrasReader|sample depth as int = 2
+Mon 2010/05/10 11:38:02.632|   |main|CatrasReader|reached end of count values
+Mon 2010/05/10 11:38:03.035|   |main|AbstractDendroFileReader|loading file from: bababa.fh
+Mon 2010/05/10 11:38:03.046|   |main|HeidelbergReader|Parsing: [Ljava.lang.String;@115af049
+Mon 2010/05/10 11:38:03.047|   |main|HeidelbergReader|Checking file to see if it looks like a Heidelberg file
+Mon 2010/05/10 11:38:03.049|   |main|HeidelbergReader|Value: 50
+Mon 2010/05/10 11:38:03.138|   |main|HeidelbergReader|Value: 50
+Mon 2010/05/10 11:38:03.139|   |main|HeidelbergReader|Value: 50
+Mon 2010/05/10 11:38:03.140|   |main|HeidelbergReader|Value: 50
+Mon 2010/05/10 11:38:03.140|   |main|HeidelbergReader|Value: 50
+Mon 2010/05/10 11:38:03.141|   |main|HeidelbergReader|Value: 50
+Mon 2010/05/10 11:38:03.141|   |main|HeidelbergReader|Value: 50
+Mon 2010/05/10 11:38:03.142|   |main|HeidelbergReader|Value: 50
+Mon 2010/05/10 11:38:03.142|   |main|HeidelbergReader|Value: 50
+Mon 2010/05/10 11:38:03.143|   |main|HeidelbergReader|Value: 50
+Mon 2010/05/10 11:38:03.143|   |main|HeidelbergReader|Value: 50
+Mon 2010/05/10 11:38:03.144|   |main|HeidelbergReader|Value: 50
+Mon 2010/05/10 11:38:03.144|   |main|HeidelbergReader|Value: 50
+Mon 2010/05/10 11:38:03.145|   |main|HeidelbergReader|Value: 50
+Mon 2010/05/10 11:38:03.145|   |main|HeidelbergReader|Value: 50
+Mon 2010/05/10 11:38:03.146|   |main|HeidelbergReader|Value: 50
+Mon 2010/05/10 11:38:03.146|   |main|HeidelbergReader|Value: 50
+Mon 2010/05/10 11:38:03.147|   |main|HeidelbergReader|Value: 50
+Mon 2010/05/10 11:38:03.147|   |main|HeidelbergReader|Value: 50
+Mon 2010/05/10 11:38:03.148|   |main|HeidelbergReader|Value: 50
+Mon 2010/05/10 11:38:03.148|   |main|HeidelbergReader|Value: 5
+Mon 2010/05/10 11:38:03.149|   |main|HeidelbergReader|Value: 50
+Mon 2010/05/10 11:38:03.149|   |main|HeidelbergReader|Value: 0
+Mon 2010/05/10 11:38:03.150|   |main|HeidelbergReader|Value: 0
+Mon 2010/05/10 11:38:03.150|   |main|HeidelbergReader|Value: 0
+Mon 2010/05/10 11:38:03.151|   |main|HeidelbergReader|Value: 0
+Mon 2010/05/10 11:38:03.151|   |main|HeidelbergReader|Value: 0
+Mon 2010/05/10 11:38:03.152|   |main|HeidelbergReader|Value: 0
+Mon 2010/05/10 11:38:03.152|   |main|HeidelbergReader|Value: 0
+Mon 2010/05/10 11:38:03.153|   |main|HeidelbergReader|Value: 0
+Mon 2010/05/10 11:38:03.389|   |main|AbstractDendroFileReader|loading file from: GRC04B.txt
+Mon 2010/05/10 11:38:03.404|   |main|TrimsReader|value =  169 
+Mon 2010/05/10 11:38:03.404|   |main|TrimsReader|value =  96 
+Mon 2010/05/10 11:38:03.405|   |main|TrimsReader|value =  165 
+Mon 2010/05/10 11:38:03.405|   |main|TrimsReader|value =  85 
+Mon 2010/05/10 11:38:03.406|   |main|TrimsReader|value =  139 
+Mon 2010/05/10 11:38:03.406|   |main|TrimsReader|value =  87 
+Mon 2010/05/10 11:38:03.407|   |main|TrimsReader|value =  112 
+Mon 2010/05/10 11:38:03.407|   |main|TrimsReader|value =  102 
+Mon 2010/05/10 11:38:03.407|   |main|TrimsReader|value =  60 
+Mon 2010/05/10 11:38:03.408|   |main|TrimsReader|value =  43 
+Mon 2010/05/10 11:38:03.408|   |main|TrimsReader|value =  164 
+Mon 2010/05/10 11:38:03.409|   |main|TrimsReader|value =  172 
+Mon 2010/05/10 11:38:03.409|   |main|TrimsReader|value =  142 
+Mon 2010/05/10 11:38:03.410|   |main|TrimsReader|value =  193 
+Mon 2010/05/10 11:38:03.410|   |main|TrimsReader|value =  143 
+Mon 2010/05/10 11:38:03.411|   |main|TrimsReader|value =  172 
+Mon 2010/05/10 11:38:03.411|   |main|TrimsReader|value =  229 
+Mon 2010/05/10 11:38:03.412|   |main|TrimsReader|value =  198 
+Mon 2010/05/10 11:38:03.412|   |main|TrimsReader|value =  158 
+Mon 2010/05/10 11:38:03.413|   |main|TrimsReader|value =  112 
+Mon 2010/05/10 11:38:03.413|   |main|TrimsReader|value =  128 
+Mon 2010/05/10 11:38:03.414|   |main|TrimsReader|value =  181 
+Mon 2010/05/10 11:38:03.414|   |main|TrimsReader|value =  171 
+Mon 2010/05/10 11:38:03.415|   |main|TrimsReader|value =  206 
+Mon 2010/05/10 11:38:03.415|   |main|TrimsReader|value =  137 
+Mon 2010/05/10 11:38:03.416|   |main|TrimsReader|value =  73 
+Mon 2010/05/10 11:38:03.417|   |main|TrimsReader|value =  103 
+Mon 2010/05/10 11:38:03.417|   |main|TrimsReader|value =  131 
+Mon 2010/05/10 11:38:03.418|   |main|TrimsReader|value =  177 
+Mon 2010/05/10 11:38:03.418|   |main|TrimsReader|value =  179 
+Mon 2010/05/10 11:38:03.419|   |main|TrimsReader|value =  244 
+Mon 2010/05/10 11:38:03.419|   |main|TrimsReader|value =  173 
+Mon 2010/05/10 11:38:03.420|   |main|TrimsReader|value =  161 
+Mon 2010/05/10 11:38:03.420|   |main|TrimsReader|value =  202 
+Mon 2010/05/10 11:38:03.421|   |main|TrimsReader|value =  341 
+Mon 2010/05/10 11:38:03.422|   |main|TrimsReader|value =  149 
+Mon 2010/05/10 11:38:03.422|   |main|TrimsReader|value =  263 
+Mon 2010/05/10 11:38:03.423|   |main|TrimsReader|value =  197 
+Mon 2010/05/10 11:38:03.423|   |main|TrimsReader|value =  375 
+Mon 2010/05/10 11:38:03.424|   |main|TrimsReader|value =  266 
+Mon 2010/05/10 11:38:03.424|   |main|TrimsReader|value =  369 
+Mon 2010/05/10 11:38:03.424|   |main|TrimsReader|value =  120 
+Mon 2010/05/10 11:38:03.425|   |main|TrimsReader|value =  212 
+Mon 2010/05/10 11:38:03.425|   |main|TrimsReader|value =  217 
+Mon 2010/05/10 11:38:03.426|   |main|TrimsReader|value =  191 
+Mon 2010/05/10 11:38:03.426|   |main|TrimsReader|value =  238 
+Mon 2010/05/10 11:38:03.427|   |main|TrimsReader|value =  254 
+Mon 2010/05/10 11:38:03.427|   |main|TrimsReader|value =  147 
+Mon 2010/05/10 11:38:03.428|   |main|TrimsReader|value =  225 
+Mon 2010/05/10 11:38:03.428|   |main|TrimsReader|value =  103 
+Mon 2010/05/10 11:38:03.429|   |main|TrimsReader|value =  207 
+Mon 2010/05/10 11:38:03.429|   |main|TrimsReader|value =  207 
+Mon 2010/05/10 11:38:03.429|   |main|TrimsReader|value =  140 
+Mon 2010/05/10 11:38:03.430|   |main|TrimsReader|value =  182 
+Mon 2010/05/10 11:38:03.430|   |main|TrimsReader|value =  148 
+Mon 2010/05/10 11:38:03.431|   |main|TrimsReader|value =  110 
+Mon 2010/05/10 11:38:03.431|   |main|TrimsReader|value =  181 
+Mon 2010/05/10 11:38:03.432|   |main|TrimsReader|value =  120 
+Mon 2010/05/10 11:38:03.432|   |main|TrimsReader|value =  263 
+Mon 2010/05/10 11:38:03.433|   |main|TrimsReader|value =  256 
+Mon 2010/05/10 11:38:03.433|   |main|TrimsReader|value =  999 
+Mon 2010/05/10 11:38:03.659|   |main|AbstractDendroFileReader|loading file from: yhg50683.d
+Mon 2010/05/10 11:38:03.679|   |main|SheffieldReader|value = 454
+Mon 2010/05/10 11:38:03.680|   |main|SheffieldReader|value = 309
+Mon 2010/05/10 11:38:03.680|   |main|SheffieldReader|value = 314
+Mon 2010/05/10 11:38:03.681|   |main|SheffieldReader|value = 270
+Mon 2010/05/10 11:38:03.681|   |main|SheffieldReader|value = 273
+Mon 2010/05/10 11:38:03.682|   |main|SheffieldReader|value = 229
+Mon 2010/05/10 11:38:03.682|   |main|SheffieldReader|value = 319
+Mon 2010/05/10 11:38:03.683|   |main|SheffieldReader|value = 267
+Mon 2010/05/10 11:38:03.683|   |main|SheffieldReader|value = 276
+Mon 2010/05/10 11:38:03.684|   |main|SheffieldReader|value = 128
+Mon 2010/05/10 11:38:03.684|   |main|SheffieldReader|value = 163
+Mon 2010/05/10 11:38:03.685|   |main|SheffieldReader|value = 221
+Mon 2010/05/10 11:38:03.685|   |main|SheffieldReader|value = 269
+Mon 2010/05/10 11:38:03.686|   |main|SheffieldReader|value = 214
+Mon 2010/05/10 11:38:03.686|   |main|SheffieldReader|value = 201
+Mon 2010/05/10 11:38:03.686|   |main|SheffieldReader|value = 218
+Mon 2010/05/10 11:38:03.687|   |main|SheffieldReader|value = 199
+Mon 2010/05/10 11:38:03.687|   |main|SheffieldReader|value = 198
+Mon 2010/05/10 11:38:03.688|   |main|SheffieldReader|value = 209
+Mon 2010/05/10 11:38:03.688|   |main|SheffieldReader|value = 156
+Mon 2010/05/10 11:38:03.689|   |main|SheffieldReader|value = 177
+Mon 2010/05/10 11:38:03.689|   |main|SheffieldReader|value = 182
+Mon 2010/05/10 11:38:03.690|   |main|SheffieldReader|value = 193
+Mon 2010/05/10 11:38:03.690|   |main|SheffieldReader|value = 198
+Mon 2010/05/10 11:38:03.691|   |main|SheffieldReader|value = 153
+Mon 2010/05/10 11:38:03.691|   |main|SheffieldReader|value = 160
+Mon 2010/05/10 11:38:03.692|   |main|SheffieldReader|value = 213
+Mon 2010/05/10 11:38:03.692|   |main|SheffieldReader|value = 146
+Mon 2010/05/10 11:38:03.693|   |main|SheffieldReader|value = 160
+Mon 2010/05/10 11:38:03.693|   |main|SheffieldReader|value = 152
+Mon 2010/05/10 11:38:03.694|   |main|SheffieldReader|value = 124
+Mon 2010/05/10 11:38:03.694|   |main|SheffieldReader|value = 144
+Mon 2010/05/10 11:38:03.694|   |main|SheffieldReader|value = 137
+Mon 2010/05/10 11:38:03.695|   |main|SheffieldReader|value = 159
+Mon 2010/05/10 11:38:03.695|   |main|SheffieldReader|value = 107
+Mon 2010/05/10 11:38:03.696|   |main|SheffieldReader|value = 162
+Mon 2010/05/10 11:38:03.696|   |main|SheffieldReader|value = 184
+Mon 2010/05/10 11:38:03.697|   |main|SheffieldReader|value = 193
+Mon 2010/05/10 11:38:03.697|   |main|SheffieldReader|value = 186
+Mon 2010/05/10 11:38:03.697|   |main|SheffieldReader|value = 175
+Mon 2010/05/10 11:38:03.698|   |main|SheffieldReader|value = 166
+Mon 2010/05/10 11:38:03.698|   |main|SheffieldReader|value = 222
+Mon 2010/05/10 11:38:03.699|   |main|SheffieldReader|value = 206
+Mon 2010/05/10 11:38:03.700|   |main|SheffieldReader|value = 168
+Mon 2010/05/10 11:38:03.700|   |main|SheffieldReader|value = 130
+Mon 2010/05/10 11:38:03.701|   |main|SheffieldReader|value = 144
+Mon 2010/05/10 11:38:03.701|   |main|SheffieldReader|value = 148
+Mon 2010/05/10 11:38:03.702|   |main|SheffieldReader|value = 113
+Mon 2010/05/10 11:38:03.702|   |main|SheffieldReader|value = 122
+Mon 2010/05/10 11:38:03.703|   |main|SheffieldReader|value = 145
+Mon 2010/05/10 11:38:03.704|   |main|SheffieldReader|value = 128
+Mon 2010/05/10 11:38:03.704|   |main|SheffieldReader|value = 151
+Mon 2010/05/10 11:38:03.704|   |main|SheffieldReader|value = 193
+Mon 2010/05/10 11:38:03.705|   |main|SheffieldReader|value = 122
+Mon 2010/05/10 11:38:03.705|   |main|SheffieldReader|value = 165
+Mon 2010/05/10 11:38:03.706|   |main|SheffieldReader|value = 142
+Mon 2010/05/10 11:38:03.706|   |main|SheffieldReader|value = 168
+Mon 2010/05/10 11:38:03.707|   |main|SheffieldReader|value = 146
+Mon 2010/05/10 11:38:03.707|   |main|SheffieldReader|value = 143
+Mon 2010/05/10 11:38:03.707|   |main|SheffieldReader|value = 186
+Mon 2010/05/10 11:38:03.708|   |main|SheffieldReader|value = 199
+Mon 2010/05/10 11:38:03.708|   |main|SheffieldReader|value = 156
+Mon 2010/05/10 11:38:03.709|   |main|SheffieldReader|value = 163
+Mon 2010/05/10 11:38:03.709|   |main|SheffieldReader|value = 125
+Mon 2010/05/10 11:38:03.709|   |main|SheffieldReader|value = 168
+Mon 2010/05/10 11:38:03.710|   |main|SheffieldReader|value = 130
+Mon 2010/05/10 11:38:03.710|   |main|SheffieldReader|value = 108
+Mon 2010/05/10 11:38:03.711|   |main|SheffieldReader|value = 148
+Mon 2010/05/10 11:38:03.711|   |main|SheffieldReader|value = 165
+Mon 2010/05/10 11:38:03.711|   |main|SheffieldReader|value = 153
+Mon 2010/05/10 11:38:03.712|   |main|SheffieldReader|value = 161
+Mon 2010/05/10 11:38:03.713|   |main|SheffieldReader|value = 158
+Mon 2010/05/10 11:38:03.713|   |main|SheffieldReader|value = 165
+Mon 2010/05/10 11:38:03.714|   |main|SheffieldReader|value = 152
+Mon 2010/05/10 11:38:03.714|   |main|SheffieldReader|value = 146
+Mon 2010/05/10 11:38:03.714|   |main|SheffieldReader|value = 187
+Mon 2010/05/10 11:38:03.715|   |main|SheffieldReader|value = 186
+Mon 2010/05/10 11:38:03.715|   |main|SheffieldReader|value = 186
+Mon 2010/05/10 11:38:03.716|   |main|SheffieldReader|value = 178
+Mon 2010/05/10 11:38:03.716|   |main|SheffieldReader|value = 168
+Mon 2010/05/10 11:38:03.717|   |main|SheffieldReader|value = 153
+Mon 2010/05/10 11:38:03.717|   |main|SheffieldReader|value = 219
+Mon 2010/05/10 11:38:03.717|   |main|SheffieldReader|value = 217
+Mon 2010/05/10 11:38:03.718|   |main|SheffieldReader|value = 203
+Mon 2010/05/10 11:38:03.718|   |main|SheffieldReader|value = 167
+Mon 2010/05/10 11:38:03.719|   |main|SheffieldReader|value = 170
+Mon 2010/05/10 11:38:03.719|   |main|SheffieldReader|value = 148
+Mon 2010/05/10 11:38:03.720|   |main|SheffieldReader|value = 151
+Mon 2010/05/10 11:38:03.720|   |main|SheffieldReader|value = 154
+Mon 2010/05/10 11:38:03.721|   |main|SheffieldReader|value = 92
+Mon 2010/05/10 11:38:03.721|   |main|SheffieldReader|value = 130
+Mon 2010/05/10 11:38:03.722|   |main|SheffieldReader|value = 165
+Mon 2010/05/10 11:38:03.722|   |main|SheffieldReader|value = 150
+Mon 2010/05/10 11:38:03.723|   |main|SheffieldReader|value = 158
+Mon 2010/05/10 11:38:03.723|   |main|SheffieldReader|value = 166
+Mon 2010/05/10 11:38:03.724|   |main|SheffieldReader|value = 187
+Mon 2010/05/10 11:38:03.724|   |main|SheffieldReader|value = 196
+Mon 2010/05/10 11:38:03.725|   |main|SheffieldReader|value = 140
+Mon 2010/05/10 11:38:03.725|   |main|SheffieldReader|value = 168
+Mon 2010/05/10 11:38:03.725|   |main|SheffieldReader|value = 144
+Mon 2010/05/10 11:38:03.726|   |main|SheffieldReader|value = 142
+Mon 2010/05/10 11:38:03.726|   |main|SheffieldReader|value = 125
+Mon 2010/05/10 11:38:03.727|   |main|SheffieldReader|value = 133
+Mon 2010/05/10 11:38:03.727|   |main|SheffieldReader|value = 122
+Mon 2010/05/10 11:38:03.728|   |main|SheffieldReader|value = 134
+Mon 2010/05/10 11:38:03.728|   |main|SheffieldReader|value = 154
+Mon 2010/05/10 11:38:03.729|   |main|SheffieldReader|value = 159
+Mon 2010/05/10 11:38:03.729|   |main|SheffieldReader|value = 162
+Mon 2010/05/10 11:38:03.730|   |main|SheffieldReader|value = 138
+Mon 2010/05/10 11:38:03.730|   |main|SheffieldReader|value = 133
+Mon 2010/05/10 11:38:03.731|   |main|SheffieldReader|value = 132
+Mon 2010/05/10 11:38:03.731|   |main|SheffieldReader|value = 117
+Mon 2010/05/10 11:38:03.731|   |main|SheffieldReader|value = 83
+Mon 2010/05/10 11:38:03.732|   |main|SheffieldReader|value = 90
+Mon 2010/05/10 11:38:03.732|   |main|SheffieldReader|value = 82
+Mon 2010/05/10 11:38:03.733|   |main|SheffieldReader|value = 129
+Mon 2010/05/10 11:38:03.733|   |main|SheffieldReader|value = 107
+Mon 2010/05/10 11:38:03.734|   |main|SheffieldReader|value = 98
+Mon 2010/05/10 11:38:03.734|   |main|SheffieldReader|value = 113
+Mon 2010/05/10 11:38:03.735|   |main|SheffieldReader|value = 129
+Mon 2010/05/10 11:38:03.735|   |main|SheffieldReader|value = 103
+Mon 2010/05/10 11:38:03.736|   |main|SheffieldReader|value = 95
+Mon 2010/05/10 11:38:03.736|   |main|SheffieldReader|value = 88
+Mon 2010/05/10 11:38:03.736|   |main|SheffieldReader|value = 90
+Mon 2010/05/10 11:38:03.737|   |main|SheffieldReader|value = 97
+Mon 2010/05/10 11:38:03.737|   |main|SheffieldReader|value = 84
+Mon 2010/05/10 11:38:03.738|   |main|SheffieldReader|value = 102
+Mon 2010/05/10 11:38:03.738|   |main|SheffieldReader|value = 106
+Mon 2010/05/10 11:38:03.950|   |main|AbstractDendroFileReader|loading file from: A1805.txt
+Mon 2010/05/10 11:38:03.957|   |main|BelfastAppleReader|value = 106
+Mon 2010/05/10 11:38:03.958|   |main|BelfastAppleReader|value = 188
+Mon 2010/05/10 11:38:03.961|   |main|BelfastAppleReader|value = 165
+Mon 2010/05/10 11:38:03.962|   |main|BelfastAppleReader|value = 184
+Mon 2010/05/10 11:38:03.963|   |main|BelfastAppleReader|value = 112
+Mon 2010/05/10 11:38:03.963|   |main|BelfastAppleReader|value = 103
+Mon 2010/05/10 11:38:03.963|   |main|BelfastAppleReader|value = 111
+Mon 2010/05/10 11:38:03.964|   |main|BelfastAppleReader|value = 239
+Mon 2010/05/10 11:38:03.964|   |main|BelfastAppleReader|value = 226
+Mon 2010/05/10 11:38:03.965|   |main|BelfastAppleReader|value = 132
+Mon 2010/05/10 11:38:03.965|   |main|BelfastAppleReader|value = 143
+Mon 2010/05/10 11:38:03.966|   |main|BelfastAppleReader|value = 146
+Mon 2010/05/10 11:38:03.966|   |main|BelfastAppleReader|value = 140
+Mon 2010/05/10 11:38:03.967|   |main|BelfastAppleReader|value = 100
+Mon 2010/05/10 11:38:03.967|   |main|BelfastAppleReader|value = 176
+Mon 2010/05/10 11:38:03.968|   |main|BelfastAppleReader|value = 139
+Mon 2010/05/10 11:38:03.968|   |main|BelfastAppleReader|value = 124
+Mon 2010/05/10 11:38:03.969|   |main|BelfastAppleReader|value = 115
+Mon 2010/05/10 11:38:03.969|   |main|BelfastAppleReader|value = 78
+Mon 2010/05/10 11:38:03.970|   |main|BelfastAppleReader|value = 80
+Mon 2010/05/10 11:38:03.970|   |main|BelfastAppleReader|value = 156
+Mon 2010/05/10 11:38:03.971|   |main|BelfastAppleReader|value = 75
+Mon 2010/05/10 11:38:03.971|   |main|BelfastAppleReader|value = 110
+Mon 2010/05/10 11:38:03.972|   |main|BelfastAppleReader|value = 80
+Mon 2010/05/10 11:38:03.973|   |main|BelfastAppleReader|value = 130
+Mon 2010/05/10 11:38:03.973|   |main|BelfastAppleReader|value = 83
+Mon 2010/05/10 11:38:03.974|   |main|BelfastAppleReader|value = 157
+Mon 2010/05/10 11:38:03.974|   |main|BelfastAppleReader|value = 99
+Mon 2010/05/10 11:38:03.975|   |main|BelfastAppleReader|value = 115
+Mon 2010/05/10 11:38:03.975|   |main|BelfastAppleReader|value = 102
+Mon 2010/05/10 11:38:03.976|   |main|BelfastAppleReader|value = 110
+Mon 2010/05/10 11:38:03.976|   |main|BelfastAppleReader|value = 108
+Mon 2010/05/10 11:38:03.977|   |main|BelfastAppleReader|value = 87
+Mon 2010/05/10 11:38:03.977|   |main|BelfastAppleReader|value = 135
+Mon 2010/05/10 11:38:03.978|   |main|BelfastAppleReader|value = 107
+Mon 2010/05/10 11:38:03.979|   |main|BelfastAppleReader|value = 96
+Mon 2010/05/10 11:38:03.979|   |main|BelfastAppleReader|value = 70
+Mon 2010/05/10 11:38:03.980|   |main|BelfastAppleReader|value = 128
+Mon 2010/05/10 11:38:03.980|   |main|BelfastAppleReader|value = 119
+Mon 2010/05/10 11:38:03.981|   |main|BelfastAppleReader|value = 86
+Mon 2010/05/10 11:38:03.981|   |main|BelfastAppleReader|value = 101
+Mon 2010/05/10 11:38:03.982|   |main|BelfastAppleReader|value = 106
+Mon 2010/05/10 11:38:03.982|   |main|BelfastAppleReader|value = 129
+Mon 2010/05/10 11:38:03.983|   |main|BelfastAppleReader|value = 88
+Mon 2010/05/10 11:38:03.984|   |main|BelfastAppleReader|value = 101
+Mon 2010/05/10 11:38:03.984|   |main|BelfastAppleReader|value = 151
+Mon 2010/05/10 11:38:03.985|   |main|BelfastAppleReader|value = 106
+Mon 2010/05/10 11:38:03.985|   |main|BelfastAppleReader|value = 97
+Mon 2010/05/10 11:38:03.986|   |main|BelfastAppleReader|value = 110
+Mon 2010/05/10 11:38:03.986|   |main|BelfastAppleReader|value = 97
+Mon 2010/05/10 11:38:03.987|   |main|BelfastAppleReader|value = 91
+Mon 2010/05/10 11:38:03.987|   |main|BelfastAppleReader|value = 93
+Mon 2010/05/10 11:38:03.988|   |main|BelfastAppleReader|value = 100
+Mon 2010/05/10 11:38:03.988|   |main|BelfastAppleReader|value = 124
+Mon 2010/05/10 11:38:03.989|   |main|BelfastAppleReader|value = 99
+Mon 2010/05/10 11:38:03.989|   |main|BelfastAppleReader|value = 134
+Mon 2010/05/10 11:38:03.990|   |main|BelfastAppleReader|value = 125
+Mon 2010/05/10 11:38:03.990|   |main|BelfastAppleReader|value = 105
+Mon 2010/05/10 11:38:03.991|   |main|BelfastAppleReader|value = 96
+Mon 2010/05/10 11:38:03.991|   |main|BelfastAppleReader|value = 107
+Mon 2010/05/10 11:38:03.991|   |main|BelfastAppleReader|value = 142
+Mon 2010/05/10 11:38:03.992|   |main|BelfastAppleReader|value = 100
+Mon 2010/05/10 11:38:03.992|   |main|BelfastAppleReader|value = 208
+Mon 2010/05/10 11:38:03.993|   |main|BelfastAppleReader|value = 233
+Mon 2010/05/10 11:38:03.993|   |main|BelfastAppleReader|value = 149
+Mon 2010/05/10 11:38:03.994|   |main|BelfastAppleReader|value = 81
+Mon 2010/05/10 11:38:03.994|   |main|BelfastAppleReader|value = 221
+Mon 2010/05/10 11:38:03.995|   |main|BelfastAppleReader|value = 178
+Mon 2010/05/10 11:38:03.995|   |main|BelfastAppleReader|value = 140
+Mon 2010/05/10 11:38:03.996|   |main|BelfastAppleReader|value = 179
+Mon 2010/05/10 11:38:03.996|   |main|BelfastAppleReader|value = 84
+Mon 2010/05/10 11:38:03.997|   |main|BelfastAppleReader|value = 121
+Mon 2010/05/10 11:38:03.997|   |main|BelfastAppleReader|value = 169
+Mon 2010/05/10 11:38:03.998|   |main|BelfastAppleReader|value = 137
+Mon 2010/05/10 11:38:03.998|   |main|BelfastAppleReader|value = 190
+Mon 2010/05/10 11:38:03.999|   |main|BelfastAppleReader|value = 128
+Mon 2010/05/10 11:38:03.999|   |main|BelfastAppleReader|value = 150
+Mon 2010/05/10 11:38:04.000|   |main|BelfastAppleReader|value = 113
+Mon 2010/05/10 11:38:04.000|   |main|BelfastAppleReader|value = 150
+Mon 2010/05/10 11:38:04.001|   |main|BelfastAppleReader|value = 99
+Mon 2010/05/10 11:38:04.001|   |main|BelfastAppleReader|value = 238
+Mon 2010/05/10 11:38:04.002|   |main|BelfastAppleReader|value = 128
+Mon 2010/05/10 11:38:04.002|   |main|BelfastAppleReader|value = 170
+Mon 2010/05/10 11:38:04.003|   |main|BelfastAppleReader|value = 101
+Mon 2010/05/10 11:38:04.003|   |main|BelfastAppleReader|value = 110
+Mon 2010/05/10 11:38:04.004|   |main|BelfastAppleReader|value = 124
+Mon 2010/05/10 11:38:04.004|   |main|BelfastAppleReader|value = 143
+Mon 2010/05/10 11:38:04.005|   |main|BelfastAppleReader|value = 184
+Mon 2010/05/10 11:38:04.005|   |main|BelfastAppleReader|value = 142
+Mon 2010/05/10 11:38:04.006|   |main|BelfastAppleReader|value = 221
+Mon 2010/05/10 11:38:04.006|   |main|BelfastAppleReader|value = 99
+Mon 2010/05/10 11:38:04.007|   |main|BelfastAppleReader|value = 125
+Mon 2010/05/10 11:38:04.007|   |main|BelfastAppleReader|value = 121
+Mon 2010/05/10 11:38:04.008|   |main|BelfastAppleReader|value = 162
+Mon 2010/05/10 11:38:04.008|   |main|BelfastAppleReader|value = 132
+Mon 2010/05/10 11:38:04.009|   |main|BelfastAppleReader|value = 100
+Mon 2010/05/10 11:38:04.009|   |main|BelfastAppleReader|value = 152
+Mon 2010/05/10 11:38:04.010|   |main|BelfastAppleReader|value = 184
+Mon 2010/05/10 11:38:04.010|   |main|BelfastAppleReader|value = 178
+Mon 2010/05/10 11:38:04.011|   |main|BelfastAppleReader|value = 195
+Mon 2010/05/10 11:38:04.011|   |main|BelfastAppleReader|value = 106
+Mon 2010/05/10 11:38:04.011|   |main|BelfastAppleReader|value = 90
+Mon 2010/05/10 11:38:04.012|   |main|BelfastAppleReader|value = 91
+Mon 2010/05/10 11:38:04.012|   |main|BelfastAppleReader|value = 84
+Mon 2010/05/10 11:38:04.013|   |main|BelfastAppleReader|value = 95
+Mon 2010/05/10 11:38:04.013|   |main|BelfastAppleReader|value = 115
+Mon 2010/05/10 11:38:04.014|   |main|BelfastAppleReader|value = 122
+Mon 2010/05/10 11:38:04.253|   |main|AbstractDendroFileReader|loading file from: bellframe1.arx
+Mon 2010/05/10 11:38:04.261|   |main|BelfastArchiveReader|value = 176
+Mon 2010/05/10 11:38:04.261|   |main|BelfastArchiveReader|value = 342
+Mon 2010/05/10 11:38:04.262|   |main|BelfastArchiveReader|value = 338
+Mon 2010/05/10 11:38:04.263|   |main|BelfastArchiveReader|value = 334
+Mon 2010/05/10 11:38:04.263|   |main|BelfastArchiveReader|value = 409
+Mon 2010/05/10 11:38:04.264|   |main|BelfastArchiveReader|value = 362
+Mon 2010/05/10 11:38:04.264|   |main|BelfastArchiveReader|value = 308
+Mon 2010/05/10 11:38:04.265|   |main|BelfastArchiveReader|value = 360
+Mon 2010/05/10 11:38:04.265|   |main|BelfastArchiveReader|value = 264
+Mon 2010/05/10 11:38:04.266|   |main|BelfastArchiveReader|value = 325
+Mon 2010/05/10 11:38:04.266|   |main|BelfastArchiveReader|value = 318
+Mon 2010/05/10 11:38:04.266|   |main|BelfastArchiveReader|value = 51
+Mon 2010/05/10 11:38:04.267|   |main|BelfastArchiveReader|value = 48
+Mon 2010/05/10 11:38:04.267|   |main|BelfastArchiveReader|value = 47
+Mon 2010/05/10 11:38:04.268|   |main|BelfastArchiveReader|value = 60
+Mon 2010/05/10 11:38:04.268|   |main|BelfastArchiveReader|value = 49
+Mon 2010/05/10 11:38:04.269|   |main|BelfastArchiveReader|value = 48
+Mon 2010/05/10 11:38:04.484|   |main|AbstractDendroFileReader|loading file from: H_V.!oj
+Mon 2010/05/10 11:41:15.909|   |main|StringDefaultValue|The string 'Hello' is too small, padding (on the right? true)
+Mon 2010/05/10 11:41:15.916|   |main|AbstractDefaultValue|The string '3' is too small, padding (on the right? true)
+Mon 2010/05/10 11:41:15.917|   |main|AbstractDefaultValue|The string '3' is too small, padding (on the right? true)
+Mon 2010/05/10 11:41:15.918|   |main|IntegerDefaultValue|The value 10 is too big, maximum is 5.  Use maximum value instead? false
+Mon 2010/05/10 11:41:15.919|   |main|IntegerDefaultValue|Parent is null, cannot add warning.
+Mon 2010/05/10 11:41:15.919|   |main|IntegerDefaultValue|The value -1 is too small, minimum is 0.  Use minimum value instead? false
+Mon 2010/05/10 11:41:15.920|   |main|IntegerDefaultValue|Parent is null, cannot add warning.
+Mon 2010/05/10 11:41:15.921|   |main|IntegerDefaultValue|The value 10 is too big, maximum is 5.  Use maximum value instead? true
+Mon 2010/05/10 11:41:15.922|   |main|IntegerDefaultValue|Parent is null, cannot add warning.
+Mon 2010/05/10 11:41:15.922|   |main|IntegerDefaultValue|The value -1 is too small, minimum is 0.  Use minimum value instead? true
+Mon 2010/05/10 11:41:15.923|   |main|IntegerDefaultValue|Parent is null, cannot add warning.
+Mon 2010/05/10 11:41:15.924|   |main|StringDefaultValue|The string 'Hello' is too small, padding (on the right? true)
+Mon 2010/05/10 11:41:15.925|   |main|StringDefaultValue|The string 'Goodbye' is too small, padding (on the right? true)
+Mon 2010/05/10 11:41:15.937|   |main|AbstractDendroFileReader|loading file from: Tridas2.xml
+Mon 2010/05/10 11:41:16.473|   |main|StringDefaultValue|The string '52071a5d-7a9b-483e-9870-c9c36e0a9d40' is too big, max length is '6' characters.
+Mon 2010/05/10 11:41:16.475|   |main|AbstractMetadataFieldSet|Warning from defaults: org.tridas.io.warnings.ConversionWarning@968e429
+Mon 2010/05/10 11:41:16.477|   |main|StringDefaultValue|The string 'Unnamed object' is too small, padding (on the right? true)
+Mon 2010/05/10 11:41:16.478|   |main|StringDefaultValue|The string 'Plantae' is too small, padding (on the right? true)
+Mon 2010/05/10 11:41:16.478|   |main|StringDefaultValue|The string 'Unknown' is too small, padding (on the right? true)
+Mon 2010/05/10 11:41:16.479|   |main|StringDefaultValue|The string '' is too small, padding (on the right? true)
+Mon 2010/05/10 11:41:16.480|   |main|StringDefaultValue|The string 'Unknown' is too small, padding (on the right? true)
+Mon 2010/05/10 11:41:16.481|   |main|StringDefaultValue|The string 'Peter I Kuniholm' is too small, padding (on the right? true)
+Mon 2010/05/10 11:41:16.482|   |main|StringDefaultValue|The string '28acb483-f337-412f-a063-59d911c37594' is too big, max length is '6' characters.
+Mon 2010/05/10 11:41:16.486|   |main|AbstractMetadataFieldSet|Warning from defaults: org.tridas.io.warnings.ConversionWarning@55e1a0ee
+Mon 2010/05/10 11:41:16.487|   |main|StringDefaultValue|The string 'White Tower, Thessaloniki' is too small, padding (on the right? true)
+Mon 2010/05/10 11:41:16.489|   |main|StringDefaultValue|The string '1997-02-01T14:13:51.0Z' is too big, max length is '8' characters.
+Mon 2010/05/10 11:41:16.490|   |main|AbstractMetadataFieldSet|Warning from defaults: org.tridas.io.warnings.ConversionWarning@6f67c6fd
+Mon 2010/05/10 11:41:16.491|   |main|StringDefaultValue|The string 'Quercus' is too small, padding (on the right? true)
+Mon 2010/05/10 11:41:16.493|   |main|AbstractDefaultValue|The string '' is too small, padding (on the right? true)
+Mon 2010/05/10 11:41:16.503|   |main|StringDefaultValue|The string '18ba82a6-04f6-458a-b233-c7d66186ed3e' is too big, max length is '6' characters.
+Mon 2010/05/10 11:41:16.503|   |main|AbstractMetadataFieldSet|Warning from defaults: org.tridas.io.warnings.ConversionWarning@56d99277
+Mon 2010/05/10 11:41:16.504|   |main|StringDefaultValue|The string 'Unnamed object' is too small, padding (on the right? true)
+Mon 2010/05/10 11:41:16.505|   |main|StringDefaultValue|The string 'Plantae' is too small, padding (on the right? true)
+Mon 2010/05/10 11:41:16.506|   |main|StringDefaultValue|The string 'Unknown' is too small, padding (on the right? true)
+Mon 2010/05/10 11:41:16.507|   |main|StringDefaultValue|The string '' is too small, padding (on the right? true)
+Mon 2010/05/10 11:41:16.507|   |main|StringDefaultValue|The string 'Unknown' is too small, padding (on the right? true)
+Mon 2010/05/10 14:48:39.087|   |main|StringDefaultValue|The string 'Hello' is too small, padding (on the right? true)
+Mon 2010/05/10 14:48:39.096|   |main|AbstractDefaultValue|The string '3' is too small, padding (on the right? true)
+Mon 2010/05/10 14:48:39.098|   |main|AbstractDefaultValue|The string '3' is too small, padding (on the right? true)
+Mon 2010/05/10 14:48:39.098|   |main|IntegerDefaultValue|The value 10 is too big, maximum is 5.  Use maximum value instead? false
+Mon 2010/05/10 14:48:39.099|   |main|IntegerDefaultValue|Parent is null, cannot add warning.
+Mon 2010/05/10 14:48:39.100|   |main|IntegerDefaultValue|The value -1 is too small, minimum is 0.  Use minimum value instead? false
+Mon 2010/05/10 14:48:39.101|   |main|IntegerDefaultValue|Parent is null, cannot add warning.
+Mon 2010/05/10 14:48:39.102|   |main|IntegerDefaultValue|The value 10 is too big, maximum is 5.  Use maximum value instead? true
+Mon 2010/05/10 14:48:39.102|   |main|IntegerDefaultValue|Parent is null, cannot add warning.
+Mon 2010/05/10 14:48:39.103|   |main|IntegerDefaultValue|The value -1 is too small, minimum is 0.  Use minimum value instead? true
+Mon 2010/05/10 14:48:39.104|   |main|IntegerDefaultValue|Parent is null, cannot add warning.
+Mon 2010/05/10 14:48:39.105|   |main|StringDefaultValue|The string 'Hello' is too small, padding (on the right? true)
+Mon 2010/05/10 14:48:39.106|   |main|StringDefaultValue|The string 'Goodbye' is too small, padding (on the right? true)
+Mon 2010/05/10 14:48:39.119|   |main|AbstractDendroFileReader|loading file from: Tridas2.xml
+Mon 2010/05/10 14:48:39.132|   |main|TridasIO|Extension xml already mapped to The Tree Ring Data Standard (TRiDaS) is a format agreed through a collaborative effort of over 80 dendrochronologists..  Replacing with Tridas
+Mon 2010/05/10 14:48:39.614|   |main|StringDefaultValue|The string '28defd9f-12d1-46e5-a820-bb9c253409fa' is too big, max length is '6' characters.
+Mon 2010/05/10 14:48:39.619|   |main|AbstractMetadataFieldSet|Warning from defaults: org.tridas.io.warnings.ConversionWarning@b6e1782
+Mon 2010/05/10 14:48:39.620|   |main|StringDefaultValue|The string 'Unnamed object' is too small, padding (on the right? true)
+Mon 2010/05/10 14:48:39.621|   |main|StringDefaultValue|The string 'Plantae' is too small, padding (on the right? true)
+Mon 2010/05/10 14:48:39.623|   |main|StringDefaultValue|The string 'Unknown' is too small, padding (on the right? true)
+Mon 2010/05/10 14:48:39.624|   |main|StringDefaultValue|The string '' is too small, padding (on the right? true)
+Mon 2010/05/10 14:48:39.625|   |main|StringDefaultValue|The string 'Unknown' is too small, padding (on the right? true)
+Mon 2010/05/10 14:48:39.627|   |main|StringDefaultValue|The string 'Peter I Kuniholm' is too small, padding (on the right? true)
+Mon 2010/05/10 14:48:39.627|   |main|StringDefaultValue|The string '28acb483-f337-412f-a063-59d911c37594' is too big, max length is '6' characters.
+Mon 2010/05/10 14:48:39.628|   |main|AbstractMetadataFieldSet|Warning from defaults: org.tridas.io.warnings.ConversionWarning@30721965
+Mon 2010/05/10 14:48:39.629|   |main|StringDefaultValue|The string 'White Tower, Thessaloniki' is too small, padding (on the right? true)
+Mon 2010/05/10 14:48:39.631|   |main|StringDefaultValue|The string '1997-02-01T14:13:51.0Z' is too big, max length is '8' characters.
+Mon 2010/05/10 14:48:39.632|   |main|AbstractMetadataFieldSet|Warning from defaults: org.tridas.io.warnings.ConversionWarning@388a2006
+Mon 2010/05/10 14:48:39.632|   |main|StringDefaultValue|The string 'Quercus' is too small, padding (on the right? true)
+Mon 2010/05/10 14:48:39.636|   |main|AbstractDefaultValue|The string '' is too small, padding (on the right? true)
+Mon 2010/05/10 14:48:39.643|   |main|StringDefaultValue|The string '56026e86-15d0-4828-9111-d42fe559f467' is too big, max length is '6' characters.
+Mon 2010/05/10 14:48:39.644|   |main|AbstractMetadataFieldSet|Warning from defaults: org.tridas.io.warnings.ConversionWarning@3fb35ece
+Mon 2010/05/10 14:48:39.644|   |main|StringDefaultValue|The string 'Unnamed object' is too small, padding (on the right? true)
+Mon 2010/05/10 14:48:39.645|   |main|StringDefaultValue|The string 'Plantae' is too small, padding (on the right? true)
+Mon 2010/05/10 14:48:39.645|   |main|StringDefaultValue|The string 'Unknown' is too small, padding (on the right? true)
+Mon 2010/05/10 14:48:39.646|   |main|StringDefaultValue|The string '' is too small, padding (on the right? true)
+Mon 2010/05/10 14:48:39.647|   |main|StringDefaultValue|The string 'Unknown' is too small, padding (on the right? true)
+Mon 2010/05/10 14:50:25.603|   |main|StringDefaultValue|The string 'Hello' is too small, padding (on the right? true)
+Mon 2010/05/10 14:50:25.614|   |main|AbstractDefaultValue|The string '3' is too small, padding (on the right? true)
+Mon 2010/05/10 14:50:25.616|   |main|AbstractDefaultValue|The string '3' is too small, padding (on the right? true)
+Mon 2010/05/10 14:50:25.617|   |main|IntegerDefaultValue|The value 10 is too big, maximum is 5.  Use maximum value instead? false
+Mon 2010/05/10 14:50:25.617|   |main|IntegerDefaultValue|Parent is null, cannot add warning.
+Mon 2010/05/10 14:50:25.618|   |main|IntegerDefaultValue|The value -1 is too small, minimum is 0.  Use minimum value instead? false
+Mon 2010/05/10 14:50:25.618|   |main|IntegerDefaultValue|Parent is null, cannot add warning.
+Mon 2010/05/10 14:50:25.619|   |main|IntegerDefaultValue|The value 10 is too big, maximum is 5.  Use maximum value instead? true
+Mon 2010/05/10 14:50:25.620|   |main|IntegerDefaultValue|Parent is null, cannot add warning.
+Mon 2010/05/10 14:50:25.620|   |main|IntegerDefaultValue|The value -1 is too small, minimum is 0.  Use minimum value instead? true
+Mon 2010/05/10 14:50:25.621|   |main|IntegerDefaultValue|Parent is null, cannot add warning.
+Mon 2010/05/10 14:50:25.622|   |main|StringDefaultValue|The string 'Hello' is too small, padding (on the right? true)
+Mon 2010/05/10 14:50:25.623|   |main|StringDefaultValue|The string 'Goodbye' is too small, padding (on the right? true)
+Mon 2010/05/10 14:50:25.636|   |main|AbstractDendroFileReader|loading file from: Tridas2.xml
+Mon 2010/05/10 14:50:26.154|   |main|StringDefaultValue|The string 'caef3553-cd0c-488f-b723-47205a717415' is too big, max length is '6' characters.
+Mon 2010/05/10 14:50:26.156|   |main|AbstractMetadataFieldSet|Warning from defaults: org.tridas.io.warnings.ConversionWarning@1627c16
+Mon 2010/05/10 14:50:26.157|   |main|StringDefaultValue|The string 'Unnamed object' is too small, padding (on the right? true)
+Mon 2010/05/10 14:50:26.157|   |main|StringDefaultValue|The string 'Plantae' is too small, padding (on the right? true)
+Mon 2010/05/10 14:50:26.158|   |main|StringDefaultValue|The string 'Unknown' is too small, padding (on the right? true)
+Mon 2010/05/10 14:50:26.158|   |main|StringDefaultValue|The string '' is too small, padding (on the right? true)
+Mon 2010/05/10 14:50:26.159|   |main|StringDefaultValue|The string 'Unknown' is too small, padding (on the right? true)
+Mon 2010/05/10 14:50:26.160|   |main|StringDefaultValue|The string 'Peter I Kuniholm' is too small, padding (on the right? true)
+Mon 2010/05/10 14:50:26.161|   |main|StringDefaultValue|The string '28acb483-f337-412f-a063-59d911c37594' is too big, max length is '6' characters.
+Mon 2010/05/10 14:50:26.162|   |main|AbstractMetadataFieldSet|Warning from defaults: org.tridas.io.warnings.ConversionWarning@2df30035
+Mon 2010/05/10 14:50:26.162|   |main|StringDefaultValue|The string 'White Tower, Thessaloniki' is too small, padding (on the right? true)
+Mon 2010/05/10 14:50:26.164|   |main|StringDefaultValue|The string '1997-02-01T14:13:51.0Z' is too big, max length is '8' characters.
+Mon 2010/05/10 14:50:26.165|   |main|AbstractMetadataFieldSet|Warning from defaults: org.tridas.io.warnings.ConversionWarning@5fb9f88b
+Mon 2010/05/10 14:50:26.166|   |main|StringDefaultValue|The string 'Quercus' is too small, padding (on the right? true)
+Mon 2010/05/10 14:50:26.169|   |main|AbstractDefaultValue|The string '' is too small, padding (on the right? true)
+Mon 2010/05/10 14:50:26.175|   |main|StringDefaultValue|The string 'b96ec78e-78e3-40b0-a112-b99eba0d1377' is too big, max length is '6' characters.
+Mon 2010/05/10 14:50:26.176|   |main|AbstractMetadataFieldSet|Warning from defaults: org.tridas.io.warnings.ConversionWarning@4b94ba17
+Mon 2010/05/10 14:50:26.177|   |main|StringDefaultValue|The string 'Unnamed object' is too small, padding (on the right? true)
+Mon 2010/05/10 14:50:26.177|   |main|StringDefaultValue|The string 'Plantae' is too small, padding (on the right? true)
+Mon 2010/05/10 14:50:26.178|   |main|StringDefaultValue|The string 'Unknown' is too small, padding (on the right? true)
+Mon 2010/05/10 14:50:26.179|   |main|StringDefaultValue|The string '' is too small, padding (on the right? true)
+Mon 2010/05/10 14:50:26.180|   |main|StringDefaultValue|The string 'Unknown' is too small, padding (on the right? true)
+Mon 2010/05/10 14:51:40.082|   |main|StringDefaultValue|The string 'Hello' is too small, padding (on the right? true)
+Mon 2010/05/10 14:51:40.091|   |main|AbstractDefaultValue|The string '3' is too small, padding (on the right? true)
+Mon 2010/05/10 14:51:40.092|   |main|AbstractDefaultValue|The string '3' is too small, padding (on the right? true)
+Mon 2010/05/10 14:51:40.093|   |main|IntegerDefaultValue|The value 10 is too big, maximum is 5.  Use maximum value instead? false
+Mon 2010/05/10 14:51:40.093|   |main|IntegerDefaultValue|Parent is null, cannot add warning.
+Mon 2010/05/10 14:51:40.094|   |main|IntegerDefaultValue|The value -1 is too small, minimum is 0.  Use minimum value instead? false
+Mon 2010/05/10 14:51:40.094|   |main|IntegerDefaultValue|Parent is null, cannot add warning.
+Mon 2010/05/10 14:51:40.095|   |main|IntegerDefaultValue|The value 10 is too big, maximum is 5.  Use maximum value instead? true
+Mon 2010/05/10 14:51:40.096|   |main|IntegerDefaultValue|Parent is null, cannot add warning.
+Mon 2010/05/10 14:51:40.096|   |main|IntegerDefaultValue|The value -1 is too small, minimum is 0.  Use minimum value instead? true
+Mon 2010/05/10 14:51:40.097|   |main|IntegerDefaultValue|Parent is null, cannot add warning.
+Mon 2010/05/10 14:51:40.098|   |main|StringDefaultValue|The string 'Hello' is too small, padding (on the right? true)
+Mon 2010/05/10 14:51:40.098|   |main|StringDefaultValue|The string 'Goodbye' is too small, padding (on the right? true)
+Mon 2010/05/10 14:51:40.111|   |main|AbstractDendroFileReader|loading file from: Tridas2.xml
+Mon 2010/05/10 14:51:40.123|   |main|TridasIO|Extension xml already mapped to TRiDaS.  Replacing with Tridas
+Mon 2010/05/10 14:51:40.616|   |main|StringDefaultValue|The string '8ee8bfc8-f60c-45d3-a9ef-84404ff66b01' is too big, max length is '6' characters.
+Mon 2010/05/10 14:51:40.619|   |main|AbstractMetadataFieldSet|Warning from defaults: org.tridas.io.warnings.ConversionWarning@6302ae84
+Mon 2010/05/10 14:51:40.620|   |main|StringDefaultValue|The string 'Unnamed object' is too small, padding (on the right? true)
+Mon 2010/05/10 14:51:40.621|   |main|StringDefaultValue|The string 'Plantae' is too small, padding (on the right? true)
+Mon 2010/05/10 14:51:40.622|   |main|StringDefaultValue|The string 'Unknown' is too small, padding (on the right? true)
+Mon 2010/05/10 14:51:40.623|   |main|StringDefaultValue|The string '' is too small, padding (on the right? true)
+Mon 2010/05/10 14:51:40.623|   |main|StringDefaultValue|The string 'Unknown' is too small, padding (on the right? true)
+Mon 2010/05/10 14:51:40.626|   |main|StringDefaultValue|The string 'Peter I Kuniholm' is too small, padding (on the right? true)
+Mon 2010/05/10 14:51:40.627|   |main|StringDefaultValue|The string '28acb483-f337-412f-a063-59d911c37594' is too big, max length is '6' characters.
+Mon 2010/05/10 14:51:40.628|   |main|AbstractMetadataFieldSet|Warning from defaults: org.tridas.io.warnings.ConversionWarning@4a867fad
+Mon 2010/05/10 14:51:40.629|   |main|StringDefaultValue|The string 'White Tower, Thessaloniki' is too small, padding (on the right? true)
+Mon 2010/05/10 14:51:40.631|   |main|StringDefaultValue|The string '1997-02-01T14:13:51.0Z' is too big, max length is '8' characters.
+Mon 2010/05/10 14:51:40.632|   |main|AbstractMetadataFieldSet|Warning from defaults: org.tridas.io.warnings.ConversionWarning@66c54654
+Mon 2010/05/10 14:51:40.633|   |main|StringDefaultValue|The string 'Quercus' is too small, padding (on the right? true)
+Mon 2010/05/10 14:51:40.636|   |main|AbstractDefaultValue|The string '' is too small, padding (on the right? true)
+Mon 2010/05/10 14:51:40.643|   |main|StringDefaultValue|The string 'ffc62980-bd59-43d6-b363-1cf22734f478' is too big, max length is '6' characters.
+Mon 2010/05/10 14:51:40.643|   |main|AbstractMetadataFieldSet|Warning from defaults: org.tridas.io.warnings.ConversionWarning@7fefa490
+Mon 2010/05/10 14:51:40.644|   |main|StringDefaultValue|The string 'Unnamed object' is too small, padding (on the right? true)
+Mon 2010/05/10 14:51:40.645|   |main|StringDefaultValue|The string 'Plantae' is too small, padding (on the right? true)
+Mon 2010/05/10 14:51:40.645|   |main|StringDefaultValue|The string 'Unknown' is too small, padding (on the right? true)
+Mon 2010/05/10 14:51:40.646|   |main|StringDefaultValue|The string '' is too small, padding (on the right? true)
+Mon 2010/05/10 14:51:40.647|   |main|StringDefaultValue|The string 'Unknown' is too small, padding (on the right? true)
+Mon 2010/05/10 14:58:01.018|   |main|StringDefaultValue|The string 'Hello' is too small, padding (on the right? true)
+Mon 2010/05/10 14:58:01.026|   |main|AbstractDefaultValue|The string '3' is too small, padding (on the right? true)
+Mon 2010/05/10 14:58:01.028|   |main|AbstractDefaultValue|The string '3' is too small, padding (on the right? true)
+Mon 2010/05/10 14:58:01.029|   |main|IntegerDefaultValue|The value 10 is too big, maximum is 5.  Use maximum value instead? false
+Mon 2010/05/10 14:58:01.030|   |main|IntegerDefaultValue|Parent is null, cannot add warning.
+Mon 2010/05/10 14:58:01.031|   |main|IntegerDefaultValue|The value -1 is too small, minimum is 0.  Use minimum value instead? false
+Mon 2010/05/10 14:58:01.031|   |main|IntegerDefaultValue|Parent is null, cannot add warning.
+Mon 2010/05/10 14:58:01.032|   |main|IntegerDefaultValue|The value 10 is too big, maximum is 5.  Use maximum value instead? true
+Mon 2010/05/10 14:58:01.032|   |main|IntegerDefaultValue|Parent is null, cannot add warning.
+Mon 2010/05/10 14:58:01.033|   |main|IntegerDefaultValue|The value -1 is too small, minimum is 0.  Use minimum value instead? true
+Mon 2010/05/10 14:58:01.033|   |main|IntegerDefaultValue|Parent is null, cannot add warning.
+Mon 2010/05/10 14:58:01.035|   |main|StringDefaultValue|The string 'Hello' is too small, padding (on the right? true)
+Mon 2010/05/10 14:58:01.035|   |main|StringDefaultValue|The string 'Goodbye' is too small, padding (on the right? true)
+Mon 2010/05/10 14:58:01.048|   |main|AbstractDendroFileReader|loading file from: Tridas2.xml
+Mon 2010/05/10 14:58:01.062|   |main|TridasIO|Extension xml already mapped to TRiDaS.  Replacing with Tridas
+Mon 2010/05/10 14:58:01.862|   |main|StringDefaultValue|The string '573299ee-0b7e-45d3-b674-a87d53a68ece' is too big, max length is '6' characters.
+Mon 2010/05/10 14:58:01.864|   |main|AbstractMetadataFieldSet|Warning from defaults: org.tridas.io.warnings.ConversionWarning@7c92eb86
+Mon 2010/05/10 14:58:01.864|   |main|StringDefaultValue|The string 'Unnamed object' is too small, padding (on the right? true)
+Mon 2010/05/10 14:58:01.865|   |main|StringDefaultValue|The string 'Plantae' is too small, padding (on the right? true)
+Mon 2010/05/10 14:58:01.866|   |main|StringDefaultValue|The string 'Unknown' is too small, padding (on the right? true)
+Mon 2010/05/10 14:58:01.866|   |main|StringDefaultValue|The string '' is too small, padding (on the right? true)
+Mon 2010/05/10 14:58:01.867|   |main|StringDefaultValue|The string 'Unknown' is too small, padding (on the right? true)
+Mon 2010/05/10 14:58:01.868|   |main|StringDefaultValue|The string 'Peter I Kuniholm' is too small, padding (on the right? true)
+Mon 2010/05/10 14:58:01.869|   |main|StringDefaultValue|The string '28acb483-f337-412f-a063-59d911c37594' is too big, max length is '6' characters.
+Mon 2010/05/10 14:58:01.869|   |main|AbstractMetadataFieldSet|Warning from defaults: org.tridas.io.warnings.ConversionWarning@642726b2
+Mon 2010/05/10 14:58:01.870|   |main|StringDefaultValue|The string 'White Tower, Thessaloniki' is too small, padding (on the right? true)
+Mon 2010/05/10 14:58:01.871|   |main|StringDefaultValue|The string '1997-02-01T14:13:51.0Z' is too big, max length is '8' characters.
+Mon 2010/05/10 14:58:01.872|   |main|AbstractMetadataFieldSet|Warning from defaults: org.tridas.io.warnings.ConversionWarning@681a791f
+Mon 2010/05/10 14:58:01.872|   |main|StringDefaultValue|The string 'Quercus' is too small, padding (on the right? true)
+Mon 2010/05/10 14:58:01.875|   |main|AbstractDefaultValue|The string '' is too small, padding (on the right? true)
+Mon 2010/05/10 14:58:01.880|   |main|StringDefaultValue|The string '327889cb-a125-4df6-8a61-5100568ea317' is too big, max length is '6' characters.
+Mon 2010/05/10 14:58:01.881|   |main|AbstractMetadataFieldSet|Warning from defaults: org.tridas.io.warnings.ConversionWarning@315863e4
+Mon 2010/05/10 14:58:01.881|   |main|StringDefaultValue|The string 'Unnamed object' is too small, padding (on the right? true)
+Mon 2010/05/10 14:58:01.882|   |main|StringDefaultValue|The string 'Plantae' is too small, padding (on the right? true)
+Mon 2010/05/10 14:58:01.883|   |main|StringDefaultValue|The string 'Unknown' is too small, padding (on the right? true)
+Mon 2010/05/10 14:58:01.883|   |main|StringDefaultValue|The string '' is too small, padding (on the right? true)
+Mon 2010/05/10 14:58:01.884|   |main|StringDefaultValue|The string 'Unknown' is too small, padding (on the right? true)
+Mon 2010/05/10 15:05:31.290|   |main|StringDefaultValue|The string 'Hello' is too small, padding (on the right? true)
+Mon 2010/05/10 15:05:31.298|   |main|AbstractDefaultValue|The string '3' is too small, padding (on the right? true)
+Mon 2010/05/10 15:05:31.300|   |main|AbstractDefaultValue|The string '3' is too small, padding (on the right? true)
+Mon 2010/05/10 15:05:31.301|   |main|IntegerDefaultValue|The value 10 is too big, maximum is 5.  Use maximum value instead? false
+Mon 2010/05/10 15:05:31.301|   |main|IntegerDefaultValue|Parent is null, cannot add warning.
+Mon 2010/05/10 15:05:31.302|   |main|IntegerDefaultValue|The value -1 is too small, minimum is 0.  Use minimum value instead? false
+Mon 2010/05/10 15:05:31.302|   |main|IntegerDefaultValue|Parent is null, cannot add warning.
+Mon 2010/05/10 15:05:31.304|   |main|IntegerDefaultValue|The value 10 is too big, maximum is 5.  Use maximum value instead? true
+Mon 2010/05/10 15:05:31.304|   |main|IntegerDefaultValue|Parent is null, cannot add warning.
+Mon 2010/05/10 15:05:31.305|   |main|IntegerDefaultValue|The value -1 is too small, minimum is 0.  Use minimum value instead? true
+Mon 2010/05/10 15:05:31.305|   |main|IntegerDefaultValue|Parent is null, cannot add warning.
+Mon 2010/05/10 15:05:31.307|   |main|StringDefaultValue|The string 'Hello' is too small, padding (on the right? true)
+Mon 2010/05/10 15:05:31.307|   |main|StringDefaultValue|The string 'Goodbye' is too small, padding (on the right? true)
+Mon 2010/05/10 15:05:31.323|   |main|AbstractDendroFileReader|loading file from: Tridas2.xml
+Mon 2010/05/10 15:05:31.334|   |main|TridasIO|Extension xml already mapped to TRiDaS.  Replacing with Tridas
+Mon 2010/05/10 15:05:32.116|   |main|StringDefaultValue|The string '193ce64d-b00a-49a5-82b4-6bfe832c4536' is too big, max length is '6' characters.
+Mon 2010/05/10 15:05:32.117|   |main|AbstractMetadataFieldSet|Warning from defaults: org.tridas.io.warnings.ConversionWarning@26945b95
+Mon 2010/05/10 15:05:32.118|   |main|StringDefaultValue|The string 'Unnamed object' is too small, padding (on the right? true)
+Mon 2010/05/10 15:05:32.118|   |main|StringDefaultValue|The string 'Plantae' is too small, padding (on the right? true)
+Mon 2010/05/10 15:05:32.119|   |main|StringDefaultValue|The string 'Unknown' is too small, padding (on the right? true)
+Mon 2010/05/10 15:05:32.120|   |main|StringDefaultValue|The string '' is too small, padding (on the right? true)
+Mon 2010/05/10 15:05:32.121|   |main|StringDefaultValue|The string 'Unknown' is too small, padding (on the right? true)
+Mon 2010/05/10 15:05:32.122|   |main|StringDefaultValue|The string 'Peter I Kuniholm' is too small, padding (on the right? true)
+Mon 2010/05/10 15:05:32.122|   |main|StringDefaultValue|The string '28acb483-f337-412f-a063-59d911c37594' is too big, max length is '6' characters.
+Mon 2010/05/10 15:05:32.123|   |main|AbstractMetadataFieldSet|Warning from defaults: org.tridas.io.warnings.ConversionWarning@7e913c56
+Mon 2010/05/10 15:05:32.124|   |main|StringDefaultValue|The string 'White Tower, Thessaloniki' is too small, padding (on the right? true)
+Mon 2010/05/10 15:05:32.126|   |main|StringDefaultValue|The string '1997-02-01T14:13:51.0Z' is too big, max length is '8' characters.
+Mon 2010/05/10 15:05:32.126|   |main|AbstractMetadataFieldSet|Warning from defaults: org.tridas.io.warnings.ConversionWarning@1ec278b5
+Mon 2010/05/10 15:05:32.127|   |main|StringDefaultValue|The string 'Quercus' is too small, padding (on the right? true)
+Mon 2010/05/10 15:05:32.129|   |main|AbstractDefaultValue|The string '' is too small, padding (on the right? true)
+Mon 2010/05/10 15:05:32.135|   |main|StringDefaultValue|The string 'fbc9871a-dfd9-4d27-8a40-40718d3b58ba' is too big, max length is '6' characters.
+Mon 2010/05/10 15:05:32.136|   |main|AbstractMetadataFieldSet|Warning from defaults: org.tridas.io.warnings.ConversionWarning@49b29f80
+Mon 2010/05/10 15:05:32.136|   |main|StringDefaultValue|The string 'Unnamed object' is too small, padding (on the right? true)
+Mon 2010/05/10 15:05:32.137|   |main|StringDefaultValue|The string 'Plantae' is too small, padding (on the right? true)
+Mon 2010/05/10 15:05:32.138|   |main|StringDefaultValue|The string 'Unknown' is too small, padding (on the right? true)
+Mon 2010/05/10 15:05:32.138|   |main|StringDefaultValue|The string '' is too small, padding (on the right? true)
+Mon 2010/05/10 15:05:32.139|   |main|StringDefaultValue|The string 'Unknown' is too small, padding (on the right? true)
+Mon 2010/05/10 15:06:54.794|   |main|StringDefaultValue|The string 'Hello' is too small, padding (on the right? true)
+Mon 2010/05/10 15:06:54.805|   |main|AbstractDefaultValue|The string '3' is too small, padding (on the right? true)
+Mon 2010/05/10 15:06:54.807|   |main|AbstractDefaultValue|The string '3' is too small, padding (on the right? true)
+Mon 2010/05/10 15:06:54.808|   |main|IntegerDefaultValue|The value 10 is too big, maximum is 5.  Use maximum value instead? false
+Mon 2010/05/10 15:06:54.808|   |main|IntegerDefaultValue|Parent is null, cannot add warning.
+Mon 2010/05/10 15:06:54.809|   |main|IntegerDefaultValue|The value -1 is too small, minimum is 0.  Use minimum value instead? false
+Mon 2010/05/10 15:06:54.809|   |main|IntegerDefaultValue|Parent is null, cannot add warning.
+Mon 2010/05/10 15:06:54.810|   |main|IntegerDefaultValue|The value 10 is too big, maximum is 5.  Use maximum value instead? true
+Mon 2010/05/10 15:06:54.811|   |main|IntegerDefaultValue|Parent is null, cannot add warning.
+Mon 2010/05/10 15:06:54.811|   |main|IntegerDefaultValue|The value -1 is too small, minimum is 0.  Use minimum value instead? true
+Mon 2010/05/10 15:06:54.812|   |main|IntegerDefaultValue|Parent is null, cannot add warning.
+Mon 2010/05/10 15:06:54.813|   |main|StringDefaultValue|The string 'Hello' is too small, padding (on the right? true)
+Mon 2010/05/10 15:06:54.814|   |main|StringDefaultValue|The string 'Goodbye' is too small, padding (on the right? true)
+Mon 2010/05/10 15:06:54.826|   |main|AbstractDendroFileReader|loading file from: Tridas2.xml
+Mon 2010/05/10 15:06:54.839|   |main|TridasIO|Extension xml already mapped to TRiDaS.  Replacing with Tridas
+Mon 2010/05/10 15:06:55.646|   |main|StringDefaultValue|The string 'eb170a45-91ae-4c3e-b7d6-6e01bade0291' is too big, max length is '6' characters.
+Mon 2010/05/10 15:06:55.647|   |main|AbstractMetadataFieldSet|Warning from defaults: org.tridas.io.warnings.ConversionWarning@32487ae0
+Mon 2010/05/10 15:06:55.648|   |main|StringDefaultValue|The string 'Unnamed object' is too small, padding (on the right? true)
+Mon 2010/05/10 15:06:55.649|   |main|StringDefaultValue|The string 'Plantae' is too small, padding (on the right? true)
+Mon 2010/05/10 15:06:55.649|   |main|StringDefaultValue|The string 'Unknown' is too small, padding (on the right? true)
+Mon 2010/05/10 15:06:55.650|   |main|StringDefaultValue|The string '' is too small, padding (on the right? true)
+Mon 2010/05/10 15:06:55.651|   |main|StringDefaultValue|The string 'Unknown' is too small, padding (on the right? true)
+Mon 2010/05/10 15:06:55.652|   |main|StringDefaultValue|The string 'Peter I Kuniholm' is too small, padding (on the right? true)
+Mon 2010/05/10 15:06:55.653|   |main|StringDefaultValue|The string '28acb483-f337-412f-a063-59d911c37594' is too big, max length is '6' characters.
+Mon 2010/05/10 15:06:55.654|   |main|AbstractMetadataFieldSet|Warning from defaults: org.tridas.io.warnings.ConversionWarning@4838462a
+Mon 2010/05/10 15:06:55.655|   |main|StringDefaultValue|The string 'White Tower, Thessaloniki' is too small, padding (on the right? true)
+Mon 2010/05/10 15:06:55.656|   |main|StringDefaultValue|The string '1997-02-01T14:13:51.0Z' is too big, max length is '8' characters.
+Mon 2010/05/10 15:06:55.657|   |main|AbstractMetadataFieldSet|Warning from defaults: org.tridas.io.warnings.ConversionWarning@256f8834
+Mon 2010/05/10 15:06:55.658|   |main|StringDefaultValue|The string 'Quercus' is too small, padding (on the right? true)
+Mon 2010/05/10 15:06:55.661|   |main|AbstractDefaultValue|The string '' is too small, padding (on the right? true)
+Mon 2010/05/10 15:06:55.666|   |main|StringDefaultValue|The string 'ebdf9d2a-ddb9-4ed7-b242-3efab8bb6eb0' is too big, max length is '6' characters.
+Mon 2010/05/10 15:06:55.667|   |main|AbstractMetadataFieldSet|Warning from defaults: org.tridas.io.warnings.ConversionWarning@566e9e64
+Mon 2010/05/10 15:06:55.668|   |main|StringDefaultValue|The string 'Unnamed object' is too small, padding (on the right? true)
+Mon 2010/05/10 15:06:55.668|   |main|StringDefaultValue|The string 'Plantae' is too small, padding (on the right? true)
+Mon 2010/05/10 15:06:55.669|   |main|StringDefaultValue|The string 'Unknown' is too small, padding (on the right? true)
+Mon 2010/05/10 15:06:55.669|   |main|StringDefaultValue|The string '' is too small, padding (on the right? true)
+Mon 2010/05/10 15:06:55.670|   |main|StringDefaultValue|The string 'Unknown' is too small, padding (on the right? true)
+Mon 2010/05/10 15:08:16.474|   |main|StringDefaultValue|The string 'Hello' is too small, padding (on the right? true)
+Mon 2010/05/10 15:08:16.482|   |main|AbstractDefaultValue|The string '3' is too small, padding (on the right? true)
+Mon 2010/05/10 15:08:16.484|   |main|AbstractDefaultValue|The string '3' is too small, padding (on the right? true)
+Mon 2010/05/10 15:08:16.485|   |main|IntegerDefaultValue|The value 10 is too big, maximum is 5.  Use maximum value instead? false
+Mon 2010/05/10 15:08:16.485|   |main|IntegerDefaultValue|Parent is null, cannot add warning.
+Mon 2010/05/10 15:08:16.486|   |main|IntegerDefaultValue|The value -1 is too small, minimum is 0.  Use minimum value instead? false
+Mon 2010/05/10 15:08:16.486|   |main|IntegerDefaultValue|Parent is null, cannot add warning.
+Mon 2010/05/10 15:08:16.487|   |main|IntegerDefaultValue|The value 10 is too big, maximum is 5.  Use maximum value instead? true
+Mon 2010/05/10 15:08:16.487|   |main|IntegerDefaultValue|Parent is null, cannot add warning.
+Mon 2010/05/10 15:08:16.488|   |main|IntegerDefaultValue|The value -1 is too small, minimum is 0.  Use minimum value instead? true
+Mon 2010/05/10 15:08:16.488|   |main|IntegerDefaultValue|Parent is null, cannot add warning.
+Mon 2010/05/10 15:08:16.489|   |main|StringDefaultValue|The string 'Hello' is too small, padding (on the right? true)
+Mon 2010/05/10 15:08:16.490|   |main|StringDefaultValue|The string 'Goodbye' is too small, padding (on the right? true)
+Mon 2010/05/10 15:08:16.503|   |main|AbstractDendroFileReader|loading file from: Tridas2.xml
+Mon 2010/05/10 15:08:16.517|   |main|TridasIO|Extension xml already mapped to TRiDaS.  Replacing with Tridas
+Mon 2010/05/10 15:08:17.035|   |main|StringDefaultValue|The string 'adc4b0cf-55ea-47c6-a30a-72711bfca614' is too big, max length is '6' characters.
+Mon 2010/05/10 15:08:17.038|   |main|AbstractMetadataFieldSet|Warning from defaults: org.tridas.io.warnings.ConversionWarning@1f5726ec
+Mon 2010/05/10 15:08:17.039|   |main|StringDefaultValue|The string 'Unnamed object' is too small, padding (on the right? true)
+Mon 2010/05/10 15:08:17.040|   |main|StringDefaultValue|The string 'Plantae' is too small, padding (on the right? true)
+Mon 2010/05/10 15:08:17.041|   |main|StringDefaultValue|The string 'Unknown' is too small, padding (on the right? true)
+Mon 2010/05/10 15:08:17.042|   |main|StringDefaultValue|The string '' is too small, padding (on the right? true)
+Mon 2010/05/10 15:08:17.042|   |main|StringDefaultValue|The string 'Unknown' is too small, padding (on the right? true)
+Mon 2010/05/10 15:08:17.044|   |main|StringDefaultValue|The string 'Peter I Kuniholm' is too small, padding (on the right? true)
+Mon 2010/05/10 15:08:17.045|   |main|StringDefaultValue|The string '28acb483-f337-412f-a063-59d911c37594' is too big, max length is '6' characters.
+Mon 2010/05/10 15:08:17.045|   |main|AbstractMetadataFieldSet|Warning from defaults: org.tridas.io.warnings.ConversionWarning@a4d93e3
+Mon 2010/05/10 15:08:17.046|   |main|StringDefaultValue|The string 'White Tower, Thessaloniki' is too small, padding (on the right? true)
+Mon 2010/05/10 15:08:17.050|   |main|StringDefaultValue|The string '1997-02-01T14:13:51.0Z' is too big, max length is '8' characters.
+Mon 2010/05/10 15:08:17.051|   |main|AbstractMetadataFieldSet|Warning from defaults: org.tridas.io.warnings.ConversionWarning@3a2cd728
+Mon 2010/05/10 15:08:17.052|   |main|StringDefaultValue|The string 'Quercus' is too small, padding (on the right? true)
+Mon 2010/05/10 15:08:17.055|   |main|AbstractDefaultValue|The string '' is too small, padding (on the right? true)
+Mon 2010/05/10 15:08:17.063|   |main|StringDefaultValue|The string 'f34089e7-61ba-426e-9629-2ac90706dd44' is too big, max length is '6' characters.
+Mon 2010/05/10 15:08:17.064|   |main|AbstractMetadataFieldSet|Warning from defaults: org.tridas.io.warnings.ConversionWarning@5a541b02
+Mon 2010/05/10 15:08:17.065|   |main|StringDefaultValue|The string 'Unnamed object' is too small, padding (on the right? true)
+Mon 2010/05/10 15:08:17.066|   |main|StringDefaultValue|The string 'Plantae' is too small, padding (on the right? true)
+Mon 2010/05/10 15:08:17.067|   |main|StringDefaultValue|The string 'Unknown' is too small, padding (on the right? true)
+Mon 2010/05/10 15:08:17.068|   |main|StringDefaultValue|The string '' is too small, padding (on the right? true)
+Mon 2010/05/10 15:08:17.069|   |main|StringDefaultValue|The string 'Unknown' is too small, padding (on the right? true)
+Mon 2010/05/10 15:09:40.664|   |main|StringDefaultValue|The string 'Hello' is too small, padding (on the right? true)
+Mon 2010/05/10 15:09:40.678|   |main|AbstractDefaultValue|The string '3' is too small, padding (on the right? true)
+Mon 2010/05/10 15:09:40.679|   |main|AbstractDefaultValue|The string '3' is too small, padding (on the right? true)
+Mon 2010/05/10 15:09:40.680|   |main|IntegerDefaultValue|The value 10 is too big, maximum is 5.  Use maximum value instead? false
+Mon 2010/05/10 15:09:40.681|   |main|IntegerDefaultValue|Parent is null, cannot add warning.
+Mon 2010/05/10 15:09:40.681|   |main|IntegerDefaultValue|The value -1 is too small, minimum is 0.  Use minimum value instead? false
+Mon 2010/05/10 15:09:40.682|   |main|IntegerDefaultValue|Parent is null, cannot add warning.
+Mon 2010/05/10 15:09:40.682|   |main|IntegerDefaultValue|The value 10 is too big, maximum is 5.  Use maximum value instead? true
+Mon 2010/05/10 15:09:40.683|   |main|IntegerDefaultValue|Parent is null, cannot add warning.
+Mon 2010/05/10 15:09:40.683|   |main|IntegerDefaultValue|The value -1 is too small, minimum is 0.  Use minimum value instead? true
+Mon 2010/05/10 15:09:40.684|   |main|IntegerDefaultValue|Parent is null, cannot add warning.
+Mon 2010/05/10 15:09:40.685|   |main|StringDefaultValue|The string 'Hello' is too small, padding (on the right? true)
+Mon 2010/05/10 15:09:40.686|   |main|StringDefaultValue|The string 'Goodbye' is too small, padding (on the right? true)
+Mon 2010/05/10 15:09:40.700|   |main|AbstractDendroFileReader|loading file from: Tridas2.xml
+Mon 2010/05/10 15:09:40.713|   |main|TridasIO|Extension xml already mapped to TRiDaS.  Replacing with Tridas
+Mon 2010/05/10 15:09:41.495|   |main|StringDefaultValue|The string '98c47b13-1f7a-4f85-9b6a-7397ebedae28' is too big, max length is '6' characters.
+Mon 2010/05/10 15:09:41.496|   |main|AbstractMetadataFieldSet|Warning from defaults: org.tridas.io.warnings.ConversionWarning@500c954e
+Mon 2010/05/10 15:09:41.497|   |main|StringDefaultValue|The string 'Unnamed object' is too small, padding (on the right? true)
+Mon 2010/05/10 15:09:41.498|   |main|StringDefaultValue|The string 'Plantae' is too small, padding (on the right? true)
+Mon 2010/05/10 15:09:41.498|   |main|StringDefaultValue|The string 'Unknown' is too small, padding (on the right? true)
+Mon 2010/05/10 15:09:41.499|   |main|StringDefaultValue|The string '' is too small, padding (on the right? true)
+Mon 2010/05/10 15:09:41.500|   |main|StringDefaultValue|The string 'Unknown' is too small, padding (on the right? true)
+Mon 2010/05/10 15:09:41.501|   |main|StringDefaultValue|The string 'Peter I Kuniholm' is too small, padding (on the right? true)
+Mon 2010/05/10 15:09:41.502|   |main|StringDefaultValue|The string '28acb483-f337-412f-a063-59d911c37594' is too big, max length is '6' characters.
+Mon 2010/05/10 15:09:41.502|   |main|AbstractMetadataFieldSet|Warning from defaults: org.tridas.io.warnings.ConversionWarning@78e86614
+Mon 2010/05/10 15:09:41.503|   |main|StringDefaultValue|The string 'White Tower, Thessaloniki' is too small, padding (on the right? true)
+Mon 2010/05/10 15:09:41.504|   |main|StringDefaultValue|The string '1997-02-01T14:13:51.0Z' is too big, max length is '8' characters.
+Mon 2010/05/10 15:09:41.505|   |main|AbstractMetadataFieldSet|Warning from defaults: org.tridas.io.warnings.ConversionWarning@753bc30a
+Mon 2010/05/10 15:09:41.506|   |main|StringDefaultValue|The string 'Quercus' is too small, padding (on the right? true)
+Mon 2010/05/10 15:09:41.508|   |main|AbstractDefaultValue|The string '' is too small, padding (on the right? true)
+Mon 2010/05/10 15:09:41.514|   |main|StringDefaultValue|The string '0a686dce-29c3-4d81-9854-9a6f9b63de9e' is too big, max length is '6' characters.
+Mon 2010/05/10 15:09:41.514|   |main|AbstractMetadataFieldSet|Warning from defaults: org.tridas.io.warnings.ConversionWarning@3eae3da8
+Mon 2010/05/10 15:09:41.515|   |main|StringDefaultValue|The string 'Unnamed object' is too small, padding (on the right? true)
+Mon 2010/05/10 15:09:41.515|   |main|StringDefaultValue|The string 'Plantae' is too small, padding (on the right? true)
+Mon 2010/05/10 15:09:41.516|   |main|StringDefaultValue|The string 'Unknown' is too small, padding (on the right? true)
+Mon 2010/05/10 15:09:41.516|   |main|StringDefaultValue|The string '' is too small, padding (on the right? true)
+Mon 2010/05/10 15:09:41.517|   |main|StringDefaultValue|The string 'Unknown' is too small, padding (on the right? true)
+Mon 2010/05/10 15:15:16.762|   |main|StringDefaultValue|The string 'Hello' is too small, padding (on the right? true)
+Mon 2010/05/10 15:15:16.773|   |main|AbstractDefaultValue|The string '3' is too small, padding (on the right? true)
+Mon 2010/05/10 15:15:16.775|   |main|AbstractDefaultValue|The string '3' is too small, padding (on the right? true)
+Mon 2010/05/10 15:15:16.776|   |main|IntegerDefaultValue|The value 10 is too big, maximum is 5.  Use maximum value instead? false
+Mon 2010/05/10 15:15:16.777|   |main|IntegerDefaultValue|Parent is null, cannot add warning.
+Mon 2010/05/10 15:15:16.778|   |main|IntegerDefaultValue|The value -1 is too small, minimum is 0.  Use minimum value instead? false
+Mon 2010/05/10 15:15:16.778|   |main|IntegerDefaultValue|Parent is null, cannot add warning.
+Mon 2010/05/10 15:15:16.779|   |main|IntegerDefaultValue|The value 10 is too big, maximum is 5.  Use maximum value instead? true
+Mon 2010/05/10 15:15:16.779|   |main|IntegerDefaultValue|Parent is null, cannot add warning.
+Mon 2010/05/10 15:15:16.780|   |main|IntegerDefaultValue|The value -1 is too small, minimum is 0.  Use minimum value instead? true
+Mon 2010/05/10 15:15:16.780|   |main|IntegerDefaultValue|Parent is null, cannot add warning.
+Mon 2010/05/10 15:15:16.782|   |main|StringDefaultValue|The string 'Hello' is too small, padding (on the right? true)
+Mon 2010/05/10 15:15:16.782|   |main|StringDefaultValue|The string 'Goodbye' is too small, padding (on the right? true)
+Mon 2010/05/10 15:15:16.797|   |main|AbstractDendroFileReader|loading file from: Tridas2.xml
+Mon 2010/05/10 15:15:16.810|   |main|TridasIO|Extension xml already mapped to TRiDaS.  Replacing with Tridas
+Mon 2010/05/10 15:15:17.645|   |main|StringDefaultValue|The string '99d2ce72-4ec7-41dd-85ee-40691694573b' is too big, max length is '6' characters.
+Mon 2010/05/10 15:15:17.647|   |main|AbstractMetadataFieldSet|Warning from defaults: org.tridas.io.warnings.ConversionWarning@19ed13da
+Mon 2010/05/10 15:15:17.647|   |main|StringDefaultValue|The string 'Unnamed object' is too small, padding (on the right? true)
+Mon 2010/05/10 15:15:17.648|   |main|StringDefaultValue|The string 'Plantae' is too small, padding (on the right? true)
+Mon 2010/05/10 15:15:17.649|   |main|StringDefaultValue|The string 'Unknown' is too small, padding (on the right? true)
+Mon 2010/05/10 15:15:17.650|   |main|StringDefaultValue|The string '' is too small, padding (on the right? true)
+Mon 2010/05/10 15:15:17.651|   |main|StringDefaultValue|The string 'Unknown' is too small, padding (on the right? true)
+Mon 2010/05/10 15:15:17.652|   |main|StringDefaultValue|The string 'Peter I Kuniholm' is too small, padding (on the right? true)
+Mon 2010/05/10 15:15:17.653|   |main|StringDefaultValue|The string '28acb483-f337-412f-a063-59d911c37594' is too big, max length is '6' characters.
+Mon 2010/05/10 15:15:17.653|   |main|AbstractMetadataFieldSet|Warning from defaults: org.tridas.io.warnings.ConversionWarning@268201a7
+Mon 2010/05/10 15:15:17.654|   |main|StringDefaultValue|The string 'White Tower, Thessaloniki' is too small, padding (on the right? true)
+Mon 2010/05/10 15:15:17.655|   |main|StringDefaultValue|The string '1997-02-01T14:13:51.0Z' is too big, max length is '8' characters.
+Mon 2010/05/10 15:15:17.656|   |main|AbstractMetadataFieldSet|Warning from defaults: org.tridas.io.warnings.ConversionWarning@68c95daa
+Mon 2010/05/10 15:15:17.657|   |main|StringDefaultValue|The string 'Quercus' is too small, padding (on the right? true)
+Mon 2010/05/10 15:15:17.661|   |main|AbstractDefaultValue|The string '' is too small, padding (on the right? true)
+Mon 2010/05/10 15:15:17.668|   |main|StringDefaultValue|The string 'f6310ee1-5ce9-4883-afa3-54c650db9768' is too big, max length is '6' characters.
+Mon 2010/05/10 15:15:17.669|   |main|AbstractMetadataFieldSet|Warning from defaults: org.tridas.io.warnings.ConversionWarning@380199d8
+Mon 2010/05/10 15:15:17.673|   |main|StringDefaultValue|The string 'Unnamed object' is too small, padding (on the right? true)
+Mon 2010/05/10 15:15:17.674|   |main|StringDefaultValue|The string 'Plantae' is too small, padding (on the right? true)
+Mon 2010/05/10 15:15:17.677|   |main|StringDefaultValue|The string 'Unknown' is too small, padding (on the right? true)
+Mon 2010/05/10 15:15:17.678|   |main|StringDefaultValue|The string '' is too small, padding (on the right? true)
+Mon 2010/05/10 15:15:17.679|   |main|StringDefaultValue|The string 'Unknown' is too small, padding (on the right? true)
+Mon 2010/05/10 15:17:29.357|   |main|StringDefaultValue|The string 'Hello' is too small, padding (on the right? true)
+Mon 2010/05/10 15:17:29.365|   |main|AbstractDefaultValue|The string '3' is too small, padding (on the right? true)
+Mon 2010/05/10 15:17:29.367|   |main|AbstractDefaultValue|The string '3' is too small, padding (on the right? true)
+Mon 2010/05/10 15:17:29.368|   |main|IntegerDefaultValue|The value 10 is too big, maximum is 5.  Use maximum value instead? false
+Mon 2010/05/10 15:17:29.368|   |main|IntegerDefaultValue|Parent is null, cannot add warning.
+Mon 2010/05/10 15:17:29.369|   |main|IntegerDefaultValue|The value -1 is too small, minimum is 0.  Use minimum value instead? false
+Mon 2010/05/10 15:17:29.369|   |main|IntegerDefaultValue|Parent is null, cannot add warning.
+Mon 2010/05/10 15:17:29.370|   |main|IntegerDefaultValue|The value 10 is too big, maximum is 5.  Use maximum value instead? true
+Mon 2010/05/10 15:17:29.371|   |main|IntegerDefaultValue|Parent is null, cannot add warning.
+Mon 2010/05/10 15:17:29.371|   |main|IntegerDefaultValue|The value -1 is too small, minimum is 0.  Use minimum value instead? true
+Mon 2010/05/10 15:17:29.372|   |main|IntegerDefaultValue|Parent is null, cannot add warning.
+Mon 2010/05/10 15:17:29.373|   |main|StringDefaultValue|The string 'Hello' is too small, padding (on the right? true)
+Mon 2010/05/10 15:17:29.374|   |main|StringDefaultValue|The string 'Goodbye' is too small, padding (on the right? true)
+Mon 2010/05/10 15:17:29.389|   |main|AbstractDendroFileReader|loading file from: Tridas2.xml
+Mon 2010/05/10 15:17:29.403|   |main|TridasIO|Extension xml already mapped to TRiDaS.  Replacing with Tridas
+Mon 2010/05/10 15:17:29.941|   |main|StringDefaultValue|The string '2fc389f7-9776-490c-8ed4-e74def6e9998' is too big, max length is '6' characters.
+Mon 2010/05/10 15:17:29.944|   |main|AbstractMetadataFieldSet|Warning from defaults: org.tridas.io.warnings.ConversionWarning@51a422f6
+Mon 2010/05/10 15:17:29.946|   |main|StringDefaultValue|The string 'Unnamed object' is too small, padding (on the right? true)
+Mon 2010/05/10 15:17:29.946|   |main|StringDefaultValue|The string 'Plantae' is too small, padding (on the right? true)
+Mon 2010/05/10 15:17:29.947|   |main|StringDefaultValue|The string 'Unknown' is too small, padding (on the right? true)
+Mon 2010/05/10 15:17:29.948|   |main|StringDefaultValue|The string '' is too small, padding (on the right? true)
+Mon 2010/05/10 15:17:29.949|   |main|StringDefaultValue|The string 'Unknown' is too small, padding (on the right? true)
+Mon 2010/05/10 15:17:29.950|   |main|StringDefaultValue|The string 'Peter I Kuniholm' is too small, padding (on the right? true)
+Mon 2010/05/10 15:17:29.952|   |main|StringDefaultValue|The string '28acb483-f337-412f-a063-59d911c37594' is too big, max length is '6' characters.
+Mon 2010/05/10 15:17:29.952|   |main|AbstractMetadataFieldSet|Warning from defaults: org.tridas.io.warnings.ConversionWarning@2ad1918a
+Mon 2010/05/10 15:17:29.953|   |main|StringDefaultValue|The string 'White Tower, Thessaloniki' is too small, padding (on the right? true)
+Mon 2010/05/10 15:17:29.955|   |main|StringDefaultValue|The string '1997-02-01T14:13:51.0Z' is too big, max length is '8' characters.
+Mon 2010/05/10 15:17:29.955|   |main|AbstractMetadataFieldSet|Warning from defaults: org.tridas.io.warnings.ConversionWarning@36db492
+Mon 2010/05/10 15:17:29.956|   |main|StringDefaultValue|The string 'Quercus' is too small, padding (on the right? true)
+Mon 2010/05/10 15:17:29.959|   |main|AbstractDefaultValue|The string '' is too small, padding (on the right? true)
+Mon 2010/05/10 15:17:29.966|   |main|StringDefaultValue|The string '2567269d-ed52-48ad-ab25-f14721e81db2' is too big, max length is '6' characters.
+Mon 2010/05/10 15:17:29.967|   |main|AbstractMetadataFieldSet|Warning from defaults: org.tridas.io.warnings.ConversionWarning@572022b7
+Mon 2010/05/10 15:17:29.967|   |main|StringDefaultValue|The string 'Unnamed object' is too small, padding (on the right? true)
+Mon 2010/05/10 15:17:29.968|   |main|StringDefaultValue|The string 'Plantae' is too small, padding (on the right? true)
+Mon 2010/05/10 15:17:29.969|   |main|StringDefaultValue|The string 'Unknown' is too small, padding (on the right? true)
+Mon 2010/05/10 15:17:29.969|   |main|StringDefaultValue|The string '' is too small, padding (on the right? true)
+Mon 2010/05/10 15:17:29.971|   |main|StringDefaultValue|The string 'Unknown' is too small, padding (on the right? true)
