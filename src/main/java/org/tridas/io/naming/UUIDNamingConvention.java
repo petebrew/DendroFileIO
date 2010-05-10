@@ -12,7 +12,7 @@ import org.tridas.schema.TridasRadius;
 import org.tridas.schema.TridasSample;
 
 /**
- * Produces a universally unique file name 
+ * Produces a universally unique file names 
  * 
  * @author peterbrewer
  *

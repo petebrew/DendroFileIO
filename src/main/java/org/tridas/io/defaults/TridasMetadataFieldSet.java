@@ -89,7 +89,7 @@ public class TridasMetadataFieldSet extends AbstractTridasMetadataFieldSet {
 		setDefaultValue(TridasMandatoryField.ELEMENT_TITLE, new StringDefaultValue(I18n.getText("unnamed.element")));
 		
 		ControlledVoc elementTaxon = new ControlledVoc();
-		elementTaxon.setValue("Plantae"); // TODO locale?
+		elementTaxon.setValue("Plantae"); 
 		setDefaultValue(TridasMandatoryField.ELEMENT_TAXON, new GenericDefaultValue<ControlledVoc>(elementTaxon));
 		setDefaultValue(TridasMandatoryField.SAMPLE_TITLE, new StringDefaultValue(I18n.getText("unnamed.sample")));
 		

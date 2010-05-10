@@ -30,8 +30,12 @@ public class TridasWriter extends AbstractDendroCollectionWriter {
 	
 	private INamingConvention naming = new HierarchicalNamingConvention();
 
+	/**
+	 * Constructor for the writer that creates TRiDaS XML files from
+	 * TRiDaS java classes. 
+	 */
 	public TridasWriter(){
-		super(TridasMetadataFieldSet.class);
+		super("tridas", TridasMetadataFieldSet.class);
 	}
 	
 	@Override

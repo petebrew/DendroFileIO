@@ -54,7 +54,7 @@ public class TrimsReader extends AbstractDendroFileReader {
 	private ArrayList<TridasMeasurementSeries> mseriesList = new ArrayList<TridasMeasurementSeries>();
 	
 	public TrimsReader() {
-		super(TrimsToTridasDefaults.class);
+		super("trims", TrimsToTridasDefaults.class);
 	}
 
 	@Override
@@ -159,14 +159,6 @@ public class TrimsReader extends AbstractDendroFileReader {
 			
 			
 			return project;
-	}
-	
-	/**
-	 * @see org.tridas.io.IDendroFileReader#getName()
-	 */
-	@Override
-	public String getName() {
-		return "Trims";
 	}
 	
 	/**

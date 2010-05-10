@@ -76,7 +76,7 @@ public class TucsonReader extends AbstractDendroFileReader {
 	private int currentLineNumber = 0;
 	
 	public TucsonReader() {
-		super(TucsonToTridasDefaults.class);
+		super("tucson", TucsonToTridasDefaults.class);
 	}
 		
 	
@@ -955,14 +955,6 @@ public class TucsonReader extends AbstractDendroFileReader {
 		
 		
 		return project;
-	}
-	
-	/**
-	 * @see org.tridas.io.IDendroFileReader#getName()
-	 */
-	@Override
-	public String getName() {
-		return "Tucson";
 	}
 	
 	/**

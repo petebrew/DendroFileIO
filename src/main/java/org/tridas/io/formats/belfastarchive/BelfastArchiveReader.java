@@ -45,7 +45,7 @@ public class BelfastArchiveReader extends AbstractDendroFileReader {
 	String samplename;
 	
 	public BelfastArchiveReader() {
-		super(BelfastArchiveToTridasDefaults.class);
+		super("belfastarchive", BelfastArchiveToTridasDefaults.class);
 	}
 	@Override
 	protected void parseFile(String[] argFileString,
@@ -174,14 +174,6 @@ public class BelfastArchiveReader extends AbstractDendroFileReader {
 			
 			
 			return project;
-	}
-	
-	/**
-	 * @see org.tridas.io.IDendroFileReader#getName()
-	 */
-	@Override
-	public String getName() {
-		return "BelfastArchive";
 	}
 	
 	/**

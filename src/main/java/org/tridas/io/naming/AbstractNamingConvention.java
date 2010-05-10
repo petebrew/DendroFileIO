@@ -8,6 +8,7 @@ import java.util.HashMap;
 
 import org.grlea.log.SimpleLogger;
 import org.tridas.io.DendroFile;
+import org.tridas.io.I18n;
 import org.tridas.io.util.StringUtils;
 import org.tridas.schema.TridasElement;
 import org.tridas.schema.TridasMeasurementSeries;
@@ -38,7 +39,7 @@ public abstract class AbstractNamingConvention implements INamingConvention{
 		
 		String filename = getDendroFilename(argFile, argProject, argObject, argElement, argSample, argRadius, argSeries);
 		if(filename == null){
-			log.error("Filename returned is null, using default of '"+DEFAULT_FILENAME+"'."); // TODO locale
+			log.error(I18n.getText("fileio.usingDefaultFilename", DEFAULT_FILENAME)); 
 			filename = DEFAULT_FILENAME;
 		}
 		
@@ -70,7 +71,7 @@ public abstract class AbstractNamingConvention implements INamingConvention{
 		String baseFilename = fileMap.get(argFile);
 		ArrayList<DendroFile> files = nameMap.get(baseFilename);
 		if(files == null || files.size() == 0){
-			log.error("File was not registered beforehand, cannot get filename."); // TODO locale
+			log.error(I18n.getText("fileio.fileNotRegistered")); 
 		}
 		
 		if(files.size() == 1){
@@ -86,7 +87,7 @@ public abstract class AbstractNamingConvention implements INamingConvention{
 			}
 		}
 		if(i == files.size()){
-			log.error("Could not find Dendro file in list of files with filename '"+baseFilename+"'"); // TODO locale
+			log.error(I18n.getText("fileio.fileNotFound", baseFilename)); 
 		}
 		i++; // so we start at 1
 		return baseFilename+StringUtils.addLefthandZeros(i, numDigits);

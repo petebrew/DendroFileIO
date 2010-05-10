@@ -47,11 +47,9 @@ public class ConvertTests extends TestCase {
 		try {
 			reader.loadFile("TestData/TRiDaS", "Tridas1.xml");
 		} catch (IOException e) {
-			// TODO Auto-generated catch block
 			System.out.println(e.getLocalizedMessage());
 			return;
 		} catch (InvalidDendroFileException e) {
-			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
 		
@@ -63,17 +61,15 @@ public class ConvertTests extends TestCase {
 		try {
 			tucsonwriter.loadProject(project);
 		} catch (IncompleteTridasDataException e) {
-			// TODO Auto-generated catch block
 			e.printStackTrace();
 		} catch (ConversionWarningException e) {
-			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
 
 
 		// Actually save file(s) to disk
 		tucsonwriter.saveAllToDisk("TestData/Output");
-
+		
 		
 		// Display any conversion warnings
 		if(tucsonwriter.getWarnings().size() > 0)
@@ -432,15 +428,15 @@ public class ConvertTests extends TestCase {
 		try {
 			//TridasEntitiesFromDefaults def = new TridasEntitiesFromDefaults();
 			reader.loadFile("TestData/VFormat", "H_V.!oj");
-		} catch (IOException e) {
-			// Standard IO Exception
-			System.out.println(e.getLocalizedMessage());
-			return;
-		} catch (InvalidDendroFileException e) {
-			// Fatal error interpreting file
-			System.out.println(e.getLocalizedMessage());
-			return;
-		}
+			} catch (IOException e) {
+				// Standard IO Exception
+				System.out.println(e.getLocalizedMessage());
+				return;
+			} catch (InvalidDendroFileException e) {
+				// Fatal error interpreting file
+				System.out.println(e.getLocalizedMessage());
+				return;
+			}
 		
 		// Get the metadata lines that were interpreted
 		if (reader.getRawMetadata().size()>0) 
@@ -475,6 +471,7 @@ public class ConvertTests extends TestCase {
 			fail();
 		}
 		writer.saveAllToDisk("TestData/Output");
+	
 		
 		for(DendroFile file : writer.getFiles())
 		{

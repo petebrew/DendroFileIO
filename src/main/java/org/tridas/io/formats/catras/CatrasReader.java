@@ -69,7 +69,7 @@ public class CatrasReader extends AbstractDendroFileReader {
 	int speciesCode;
 	
 	public CatrasReader() {
-		super(CatrasToTridasDefaults.class);
+		super("catras", CatrasToTridasDefaults.class);
 	}
 
 	/**
@@ -511,14 +511,6 @@ public class CatrasReader extends AbstractDendroFileReader {
 	@Override
 	public void loadFile(String[] argFileStrings) throws InvalidDendroFileException{
 		throw new UnsupportedOperationException("Binary file type, cannot load from strings");
-	}
-	
-	/**
-	 * @see org.tridas.io.IDendroFileReader#getName()
-	 */
-	@Override
-	public String getName() {
-		return "Catras";
 	}
 	
 	/**

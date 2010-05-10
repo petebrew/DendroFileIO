@@ -23,8 +23,6 @@ public class DateUtils {
 			blah.setValue(now);
 			return blah;
 		} catch (DatatypeConfigurationException e) {
-			// TODO Auto-generated catch block
-			
 		}
 		return new DateTime();
 	}
@@ -37,9 +35,7 @@ public class DateUtils {
 			DateTime returnval = new DateTime();
 			returnval.setValue(requestedDate);
 			return returnval;
-		} catch (DatatypeConfigurationException e) {
-			// TODO Auto-generated catch block
-			
+		} catch (DatatypeConfigurationException e) {			
 		}
 		return null;
 	}

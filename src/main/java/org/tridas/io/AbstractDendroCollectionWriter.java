@@ -20,22 +20,25 @@ public abstract class AbstractDendroCollectionWriter implements IDendroCollectio
 	private SimpleLogger log = new SimpleLogger(AbstractDendroCollectionWriter.class);
 	private ArrayList<ConversionWarning> warnings =  new ArrayList<ConversionWarning>();
 	private Class<? extends IMetadataFieldSet> defaultFieldsClass;
-
-	public AbstractDendroCollectionWriter(Class<? extends IMetadataFieldSet> argDefaultFieldsClass){
+	private DendroFormatInfo formatInformation;
+	
+	public AbstractDendroCollectionWriter(String baseTag, Class<? extends IMetadataFieldSet> argDefaultFieldsClass){
+		formatInformation = new DendroFormatInfo(baseTag);
+		
 		if(argDefaultFieldsClass == null){
 			throw new RuntimeException(I18n.getText("fileio.defaultsnull")); 
 		}
 		
 		try {
 			if(argDefaultFieldsClass.getConstructor(new Class<?>[]{}) == null){
-				log.error("Defaults class '"+argDefaultFieldsClass.getName()+"' does not have empty constructor.");
-				throw new RuntimeException("Defaults class must have empty constructor."); // TODO locale
+				log.error(I18n.getText("runtimeExceptions.emptyConstructor"));
+				throw new RuntimeException(); 
 			}
 		} catch (SecurityException e) {
-			throw new RuntimeException("Defaults class must have empty constructor."); // TODO locale
+			throw new RuntimeException(I18n.getText("runtimeExceptions.emptyConstructor")); 
 		} catch (NoSuchMethodException e) {
-			log.error("Defaults class '"+argDefaultFieldsClass.getName()+"' does not have empty constructor.");
-			throw new RuntimeException("Defaults class must have empty constructor."); // TODO locale
+			log.error(I18n.getText("runtimeExceptions.emptyConstructor"));
+			throw new RuntimeException(I18n.getText("runtimeExceptions.emptyConstructor")); 
 		}
 		
 		defaultFieldsClass = argDefaultFieldsClass;
@@ -50,7 +53,7 @@ public abstract class AbstractDendroCollectionWriter implements IDendroCollectio
 		try {
 			return defaultFieldsClass.newInstance();
 		} catch (InstantiationException e) {
-			log.error("Defaults class '"+defaultFieldsClass.getName()+"' does not have empty constructor.");
+			log.error(I18n.getText("runtimeExceptions.emptyConstructor"));
 			return null;
 		} catch (IllegalAccessException e) {
 			log.error("Defaults class cannot be created");
@@ -67,6 +70,43 @@ public abstract class AbstractDendroCollectionWriter implements IDendroCollectio
 	}
 	
 	protected abstract void parseTridasProject(TridasProject argProject, IMetadataFieldSet argDefaults) throws IncompleteTridasDataException, ConversionWarningException;
+	
+	/**
+	 * @see org.tridas.io.DendroFormatInfo#getShortName()
+	 */
+	public String getShortName()
+	{
+		return formatInformation.getShortName();
+	}
+	
+	/**
+	 * @see org.tridas.io.DendroFormatInfo#getFullName()
+	 */
+	public String getFullName()
+	{
+		return formatInformation.getFullName();
+	}
+	
+	/**
+	 * @see org.tridas.io.DendroFormatInfo#getDescription()
+	 */
+	public String getDescription()
+	{
+		return formatInformation.getDescription();
+	}
+	
+	/**
+	 * @see org.tridas.io.DendroFormatInfo#getPreferredFileExtension()
+	 */
+	public String getPreferredFileExtension()
+	{
+		return formatInformation.getPreferredFileExtension();
+	}
+	
+	public String getFileExtension()
+	{
+		return getPreferredFileExtension();
+	}
 	
 	/**
 	 * Get a count of how many DendroFiles are associated with this

@@ -41,7 +41,7 @@ public class TucsonWriter extends AbstractDendroCollectionWriter {
 	 * Standard constructor
 	 */
 	public TucsonWriter(){
-		super(TridasToTucsonDefaults.class);
+		super("tucson", TridasToTucsonDefaults.class);
 	}
 	
 	@SuppressWarnings("null")

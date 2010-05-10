@@ -7,7 +7,10 @@ import org.tridas.io.warnings.ConversionWarningException;
 public class HeidelbergFile extends DendroFile {
 
 	TridasToHeidelbergDefaults defaults = new TridasToHeidelbergDefaults();
-	
+
+	public HeidelbergFile() {
+		super("heidelberg");
+	}
 	
 	@Override
 	public void addSeries(ITridasSeries series)

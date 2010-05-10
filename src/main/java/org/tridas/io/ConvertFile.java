@@ -117,10 +117,8 @@ public class ConvertFile {
 			reader.loadFile(inputfilename);
 			project = reader.getProject();
 		} catch (IOException e1) {
-			// TODO Auto-generated catch block
 			e1.printStackTrace();
 		} catch (InvalidDendroFileException e) {
-			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
 		
@@ -137,13 +135,10 @@ public class ConvertFile {
 			writer.saveAllToDisk(outputFolder);
 			
 		} catch (IncompleteTridasDataException e) {
-			// TODO Auto-generated catch block
 			e.printStackTrace();
 		} catch (ConversionWarningException e) {
-			// TODO Auto-generated catch block
 			e.printStackTrace();
 		} catch (IncorrectDefaultFieldsException e) {
-			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
 		
@@ -182,7 +177,7 @@ public class ConvertFile {
 		System.out.println("Usage: [-debug] [-inputFormatName] inputFilename outputFormatName outputFolder");
 		System.out.println("Supported reading formats: ");
 		for( String format : TridasIO.getSupportedReadingFormats()){
-			System.out.println("  "+format);
+			System.out.println("   "+format);
 		}
 		System.out.println("Supported writing formats: ");
 		for( String format : TridasIO.getSupportedWritingFormats()){
