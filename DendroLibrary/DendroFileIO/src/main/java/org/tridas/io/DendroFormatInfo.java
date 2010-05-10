@@ -76,7 +76,7 @@ public class DendroFormatInfo {
 	{
 		String val = null;
 		try{
-		val = I18n.getText(baseTag+".about.preferredExtension");
+		val = I18n.getText(baseTag+".about.preferredFileExtension");
 		}
 		catch (Exception e){}
 		

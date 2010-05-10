@@ -12,7 +12,6 @@ import org.tridas.io.formats.sheffield.SheffieldReader;
 import org.tridas.io.formats.tridas.TridasReader;
 import org.tridas.io.formats.tridas.TridasWriter;
 import org.tridas.io.formats.trims.TrimsReader;
-import org.tridas.io.formats.tucson.TucsonFile;
 import org.tridas.io.formats.tucson.TucsonReader;
 import org.tridas.io.formats.tucson.TucsonToTridasDefaults;
 import org.tridas.io.formats.tucson.TucsonWriter;
@@ -69,26 +68,8 @@ public class ConvertTests extends TestCase {
 
 		// Actually save file(s) to disk
 		tucsonwriter.saveAllToDisk("TestData/Output");
-		
-		
-		// Display any conversion warnings
-		if(tucsonwriter.getWarnings().size() > 0)
-		{
-			System.out.println("*** Warnings were thrown while converting your data ***".toUpperCase());
-		
-			for(ConversionWarning cw : tucsonwriter.getWarnings())
-				System.out.println("  - [" + cw.getWarningType().toString()+ "]: " + cw.getMessage());
-		}
-	
-		
-		// Grab a list of dendro files that will be written
-		DendroFile[] files = tucsonwriter.getFiles();
-		
-		for(DendroFile f : files)
-		{
-			TucsonFile f2 = (TucsonFile) f;
-			System.out.println("File output: " + tucsonwriter.getNamingConvention().getFilename(f2));
-		}
+				
+
 	}
 	
 	

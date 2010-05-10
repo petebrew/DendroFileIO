@@ -7,6 +7,7 @@ import java.util.Set;
 
 import org.tridas.interfaces.ITridasSeries;
 import org.tridas.io.AbstractDendroCollectionWriter;
+import org.tridas.io.I18n;
 import org.tridas.io.TridasIO;
 import org.tridas.io.defaults.IMetadataFieldSet;
 import org.tridas.io.naming.HierarchicalNamingConvention;
@@ -19,6 +20,7 @@ import org.tridas.schema.SeriesLink;
 import org.tridas.schema.TridasDerivedSeries;
 import org.tridas.schema.TridasElement;
 import org.tridas.schema.TridasMeasurementSeries;
+import org.tridas.schema.TridasMeasurementSeriesPlaceholder;
 import org.tridas.schema.TridasObject;
 import org.tridas.schema.TridasProject;
 import org.tridas.schema.TridasRadius;
@@ -75,7 +77,7 @@ public class TucsonWriter extends AbstractDendroCollectionWriter {
 				// List of refs in the linkSeries tag of our derivedSeries
 				Set<String> refsInDSeries = new HashSet<String>();  
 				
-				List<ITridasSeries> lstRefedSeries = null;
+				List<TridasMeasurementSeriesPlaceholder> lstRefedSeries = null;
 				
 				// Get all the SeriesLinks for this DerivedSeries
 				try{List<SeriesLink> linkedToSeries = ds.getLinkSeries().getSeries();
@@ -88,15 +90,13 @@ public class TucsonWriter extends AbstractDendroCollectionWriter {
 							} 
 							catch (NullPointerException e3){}
 							*/
-							ITridasSeries refedSeries = (ITridasSeries) sl.getIdRef().getRef();
+							TridasMeasurementSeriesPlaceholder refedSeries = (TridasMeasurementSeriesPlaceholder) sl.getIdRef().getRef();
 							lstRefedSeries.add(refedSeries);
 							
 						}
 					}
 					catch(NullPointerException e){
-						throw new IncompleteTridasDataException("No series matching the linkedSeries references within the " +
-								"derivedSeries could be found in this project.  Without these series we are unable to get " +
-								"the assocaited metadata");
+						throw new IncompleteTridasDataException(I18n.getText("tucson.linkSeriesMissing"));
 					}
 					
 				// Get all the top level objects associated with the project
@@ -136,7 +136,7 @@ public class TucsonWriter extends AbstractDendroCollectionWriter {
 		
 		// Get all the top level objects
 		try	{objList = p.getObjects(); } 
-			catch(NullPointerException e){ throw new IncompleteTridasDataException("TridasObject(s) missing");}
+			catch(NullPointerException e){ throw new IncompleteTridasDataException(I18n.getText("fileio.objectMissing"));}
 				
 		// Loop through them parsing each one
 		for(TridasObject o : objList)
@@ -210,7 +210,7 @@ public class TucsonWriter extends AbstractDendroCollectionWriter {
 		}
 			
 		// Traverse through TRiDaS hierarchy adding all series we find to file
-		if (TridasHierarchyHelper.getElementList(o).size()==0) throw new IncompleteTridasDataException("TridasElement missing");	
+		if (TridasHierarchyHelper.getElementList(o).size()==0) throw new IncompleteTridasDataException(I18n.getText("fileio.elementMissing"));	
 		for(TridasElement e : TridasHierarchyHelper.getElementList(o))
 		{
 			// Species Code and Name
@@ -226,14 +226,14 @@ public class TucsonWriter extends AbstractDendroCollectionWriter {
 			try{
 				e.getSamples();
 			}
-			catch(NullPointerException e1){throw new IncompleteTridasDataException("TridasSample missing");};
+			catch(NullPointerException e1){throw new IncompleteTridasDataException(I18n.getText("fileio.sampleMissing"));};
 			
 			for(TridasSample s : e.getSamples())
 			{
 				try{
 					s.getRadiuses();
 				}
-				catch(NullPointerException e1){throw new IncompleteTridasDataException("TridasRadius missing");};	
+				catch(NullPointerException e1){throw new IncompleteTridasDataException(I18n.getText("fileio.radiusMissing"));};	
 				for(TridasRadius r : s.getRadiuses())
 				{
 					for(TridasMeasurementSeries ser : r.getMeasurementSeries())
