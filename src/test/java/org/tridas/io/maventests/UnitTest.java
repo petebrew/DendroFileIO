@@ -72,11 +72,8 @@ public class UnitTest extends TestCase {
 		// Write project classes out to a temp file
 		try {
 			writer.loadProject(project, new TridasMetadataFieldSet());
-			writer.saveAllToDisk();
-			for(DendroFile file : writer.getFiles())
-			{
-				System.out.println("Saved: " + writer.getNamingConvention().getFilename(file));
-			}
+			writer.saveAllToDisk("TestData/Output");
+
 			
 		} catch (IncompleteTridasDataException e) {
 			e.printStackTrace();
@@ -137,64 +134,7 @@ public class UnitTest extends TestCase {
 
 		// Actually save file(s) to disk
 		tucsonwriter.saveAllToDisk();
-		
-		// Parse TridasProject 
-		/*try {
-			tucsonwriter.parseProject(p);
-			tucsonwriter.saveAllToDisk();
-			} catch (IncompleteTridasDataException e2) { e2.printStackTrace();	}
-*/
-		
-		if(tucsonwriter.getWarnings()!=null)
-			System.out.println("*** Warnings were thrown while converting your data ***".toUpperCase());
-		
-		for(ConversionWarning cw : tucsonwriter.getWarnings())
-			System.out.println(cw.getWarningType().toString()+ ": " + cw.getMessage());
-
-		
-
-		
-		// If we want to explicitly override any fields
-		// or supply a specific filename then we do...
-		/*for (DendroFile f : files)
-		{
-			// Cast to a specific TucsonFile type
-			TucsonFile f2 = (TucsonFile) f;
-			try 
-			{
-				// Now we can tamper with the file for instance
-				// this overrides the Site ID code
-				f2.setSiteCode("ABCDEF");
-			} 
-			catch (ConversionWarningException e1) 
-			{
-				// Show user what went wrong if you want
-			}
-		}*/
-		
-		
-		// Any warnings can be shown to user if applicable
-		// e.g. if a field was truncated 
-		// tc.getWarnings();
-		
-
-		
-		// Grab a list of dendro files that will be written
-		DendroFile[] files = tucsonwriter.getFiles();
-		
-		for(DendroFile f : files)
-		{
-			TucsonFile f2 = (TucsonFile) f;
-			System.out.println("File output: " + tucsonwriter.getNamingConvention().getFilename(f2));
-		}
-		
-		// Alternatively we could print a string representation of each file
-		/*for (DendroFile f : files)
-		{
-			TucsonFile thisFile = (TucsonFile) f;
-			System.out.println(thisFile.saveToString());
-		}*/
-		
+					
 		
 	}
 

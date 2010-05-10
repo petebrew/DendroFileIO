@@ -160,9 +160,9 @@ public abstract class AbstractDendroCollectionWriter implements IDendroCollectio
 		for (DendroFile dof: fileList){
 			String filename = getNamingConvention().getFilename(dof);
 			if(absolute){
-				helper.saveStrings(filename+"."+dof.getExtension(), dof.saveToString());
+				helper.saveStrings(filename+"."+dof.getPreferredFileExtension(), dof.saveToString());
 			}else{
-				helper.saveStrings(argOutputFolder+filename+"."+dof.getExtension(), dof.saveToString());
+				helper.saveStrings(argOutputFolder+filename+"."+dof.getPreferredFileExtension(), dof.saveToString());
 			}
 		}
 	}
