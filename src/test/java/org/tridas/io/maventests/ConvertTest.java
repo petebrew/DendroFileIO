@@ -26,7 +26,7 @@ import org.tridas.schema.TridasProject;
 
 import junit.framework.TestCase;
 
-public class ConvertTests extends TestCase {
+public class ConvertTest extends TestCase {
 
 	public void testTridasToTucson() 
 	{

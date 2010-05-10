@@ -34,17 +34,24 @@ public class ConvertFile {
 		IDendroFileReader reader;
 		TridasProject project = null;
 		
+		int index = 0;
+		if(args[index].equalsIgnoreCase("-version")){
+			showVersion(true);
+			return;
+		}
+		
 		// Check we have the right number of args
 		if(args.length > 5 || args.length < 3){
 			showHelp(true);
 			return;
 		}
 		
-		int index = 0;
+
 		if(args[index].equalsIgnoreCase("-debug")){
 			debug = true;
 			index++;
 		}
+
 		if(args[index].startsWith("-")){
 			inputFormat = args[index].substring(1);
 			index++;
@@ -139,8 +146,8 @@ public class ConvertFile {
 			System.out.print(ConvertFile.asciilogo);
 		}
 		System.out.println("");
-		System.out.println("Dendro File Converter:");
-		System.out.println("Usage: [-debug] [-inputFormatName] inputFilename outputFormatName outputFolder");
+		System.out.println("Dendro File Converter:" );
+		System.out.println("Usage: [-debug] [-version] [-inputFormatName] inputFilename outputFormatName outputFolder");
 		System.out.println("Supported reading formats: ");
 		for( String format : TridasIO.getSupportedReadingFormats()){
 			System.out.println("  "+format);
@@ -149,6 +156,15 @@ public class ConvertFile {
 		for( String format : TridasIO.getSupportedWritingFormats()){
 			System.out.println("  "+format);
 		}
+	}
+	
+	private static void showVersion(boolean argLogo){
+		if(argLogo){
+			System.out.print(ConvertFile.asciilogo);
+		}
+		System.out.println("");
+		System.out.println("Dendro File Converter:" );
+		System.out.println("Version: "+ConvertFile.class.getPackage().getImplementationVersion());
 	}
 
 }

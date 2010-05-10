@@ -80,13 +80,18 @@
 		          <archive>
 		            <manifest>
 		              <mainClass>org.tridas.io.ConvertFile</mainClass>
-		              
+		              <addDefaultImplementationEntries>
+		              true
+                      </addDefaultImplementationEntries>
 		            </manifest>
 		          </archive>
 		        </configuration>
 		
 		     </plugin>
-		        <!-- <plugin>
+		     
+		     
+		     <!--  Uncomment this plugin to include *all* dependencies into this jar -->
+		     <plugin>
 			    <groupId>org.apache.maven.plugins</groupId>
 			    <artifactId>maven-dependency-plugin</artifactId>
 			    <executions>
@@ -98,7 +103,7 @@
 			      </goals>
 			     </execution>
 			    </executions>
-			   </plugin>-->
+			   </plugin>
 			
 		</plugins>
 		
