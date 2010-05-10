@@ -13,23 +13,17 @@ public class HeidelbergWriter extends AbstractDendroCollectionWriter {
 
 	
 	public HeidelbergWriter(){
-		super(TridasToHeidelbergDefaults.class);
+		super("heidelberg", TridasToHeidelbergDefaults.class);
 	}
 	
 	public HeidelbergWriter(Class<? extends IMetadataFieldSet> argDefaultFieldsClass) {
-		super(argDefaultFieldsClass);
+		super("heidelberg", argDefaultFieldsClass);
 		// TODO Auto-generated constructor stub
 	}
 
 	@Override
 	protected void parseTridasProject(TridasProject argProject, IMetadataFieldSet argDefaults)
 			throws IncompleteTridasDataException, ConversionWarningException {
-	}
-
-	@Override
-	public String getFileExtension() {
-		// TODO Auto-generated method stub
-		return null;
 	}
 
 	/**
@@ -46,8 +40,7 @@ public class HeidelbergWriter extends AbstractDendroCollectionWriter {
 	 */
 	@Override
 	public String getName() {
-		// TODO Auto-generated method stub
-		return null;
+		return "Heidelberg";
 	}
 
 	/**

@@ -19,8 +19,12 @@ public abstract class AbstractDendroFileReader implements IDendroFileReader {
 	private FileHelper fileHelper;
 	private ArrayList<String> rawMetadata = new ArrayList<String>();
 	private final Class<? extends IMetadataFieldSet> defaultFieldsClass;
+	private DendroFormatInfo formatInformation;
 	
-	public AbstractDendroFileReader(Class<? extends IMetadataFieldSet> argDefaultFieldsClass){
+	public AbstractDendroFileReader(String baseTagName, Class<? extends IMetadataFieldSet> argDefaultFieldsClass){
+		
+		formatInformation = new DendroFormatInfo(baseTagName);
+		
 		if(argDefaultFieldsClass == null){
 			throw new RuntimeException(I18n.getText("fileio.defaultsnull")); 
 		}
@@ -28,13 +32,13 @@ public abstract class AbstractDendroFileReader implements IDendroFileReader {
 		try {
 			if(argDefaultFieldsClass.getConstructor(new Class<?>[]{}) == null){
 				log.error("Defaults class '"+argDefaultFieldsClass.getName()+"' does not have empty constructor.");
-				throw new RuntimeException("Defaults class must have empty constructor."); // TODO locale
+				throw new RuntimeException(I18n.getText("runtimeExceptions.emptyConstructor")); 
 			}
 		} catch (SecurityException e) {
-			throw new RuntimeException("Defaults class must have empty constructor."); // TODO locale
+			throw new RuntimeException(I18n.getText("runtimeExceptions.emptyConstructor")); 
 		} catch (NoSuchMethodException e) {
-			log.error("Defaults class '"+argDefaultFieldsClass.getName()+"' does not have empty constructor.");
-			throw new RuntimeException("Defaults class must have empty constructor."); // TODO locale
+			log.error(I18n.getText("runtimeExceptions.emptyConstructor"));
+			throw new RuntimeException(I18n.getText("runtimeExceptions.emptyConstructor")); 
 		}
 		
 		defaultFieldsClass = argDefaultFieldsClass;
@@ -53,6 +57,38 @@ public abstract class AbstractDendroFileReader implements IDendroFileReader {
 	public List<ConversionWarning> getWarnings()
 	{
 		return warnings;
+	}
+	
+	/**
+	 * @see org.tridas.io.DendroFormatInfo#getShortName()
+	 */
+	public String getShortName()
+	{
+		return formatInformation.getShortName();
+	}
+	
+	/**
+	 * @see org.tridas.io.DendroFormatInfo#getFullName()
+	 */
+	public String getFullName()
+	{
+		return formatInformation.getFullName();
+	}
+	
+	/**
+	 * @see org.tridas.io.DendroFormatInfo#getDescription()
+	 */
+	public String getDescription()
+	{
+		return formatInformation.getDescription();
+	}
+	
+	/**
+	 * @see org.tridas.io.DendroFormatInfo#getPreferredFileExtension()
+	 */
+	public String getPreferredFileExtension()
+	{
+		return formatInformation.getPreferredFileExtension();
 	}
 	
 	/**
@@ -78,10 +114,10 @@ public abstract class AbstractDendroFileReader implements IDendroFileReader {
 		try {
 			return defaultFieldsClass.newInstance();
 		} catch (InstantiationException e) {
-			log.error("Defaults class '"+defaultFieldsClass.getName()+"' does not have empty constructor.");
+			log.error(I18n.getText("runtimeExceptions.emptyConstructor"));
 			return null;
 		} catch (IllegalAccessException e) {
-			log.error("Defaults class cannot be created");
+			log.error(I18n.getText("fileio.defaults.cantConstruct"));
 			return null;
 		}
 	}

@@ -6,6 +6,10 @@ import org.tridas.io.warnings.ConversionWarningException;
 
 public class SheffieldFile extends DendroFile {
 
+	public SheffieldFile() {
+		super("sheffield");
+	}
+
 	@Override
 	public void addSeries(ITridasSeries series)
 			throws ConversionWarningException {

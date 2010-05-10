@@ -16,7 +16,7 @@ public class BesanconReader extends AbstractDendroFileReader {
 	private BesanconToTridasDefaults defaults = new BesanconToTridasDefaults();
 	
 	public BesanconReader() {
-		super(BesanconToTridasDefaults.class);
+		super("besancon", BesanconToTridasDefaults.class);
 	}
 	
 	@Override
@@ -46,13 +46,6 @@ public class BesanconReader extends AbstractDendroFileReader {
 		return new String[] {"txt"};
 	}
 
-	/**
-	 * @see org.tridas.io.IDendroFileReader#getName()
-	 */
-	@Override
-	public String getName() {
-		return "Besancon";
-	}
 
 	@Override
 	public TridasProject getProject() {

@@ -37,14 +37,13 @@ public class TridasFile extends DendroFile {
 	
 	
 	public TridasFile() {
-		this.setExtension("xml");
+		super("tridas");
 	}
 	
 	public void setProject(TridasProject p){
 		project = p;
 	}
 	
-	@SuppressWarnings("restriction")
 	@Override
 	public String[] saveToString(){
 		if(project == null){

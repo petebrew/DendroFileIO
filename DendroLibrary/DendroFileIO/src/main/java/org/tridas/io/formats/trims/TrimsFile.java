@@ -6,6 +6,10 @@ import org.tridas.io.warnings.ConversionWarningException;
 
 public class TrimsFile extends DendroFile {
 
+	public TrimsFile() {
+		super("trims");
+	}
+
 	@Override
 	public void addSeries(ITridasSeries series)
 			throws ConversionWarningException {

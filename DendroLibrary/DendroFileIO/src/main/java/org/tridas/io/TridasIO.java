@@ -66,7 +66,6 @@ public class TridasIO {
 		try {
 			reader = argReader.newInstance();
 		} catch (InstantiationException e) {
-			// TODO locale
 			log.error(I18n.getText("fileio.missingEmptyConstructor",argReader.getName()));
 			log.dbe(DebugLevel.L2_ERROR, e);
 			return;
@@ -78,10 +77,10 @@ public class TridasIO {
 		
 		// it worked, so get filetypes
 		String[] filetypes = reader.getFileExtensions();
-		String name = reader.getName();
+		String name = reader.getShortName();
 		
 		if(filetypes == null){
-			log.error("File extension was null");
+			log.error("I18n.getText(fileio.fileExtensionNull");
 			return;
 		}
 		
@@ -95,7 +94,6 @@ public class TridasIO {
 			if(entry.fileReader == null){
 				entry.fileReader = argReader;
 			}else{
-				// TODO locale
 				log.warn(I18n.getText("fileio.replaceReader",name));
 				//throw new RuntimeException("Cannot register another reader for "
 				// don't throw an exception, just use new reader
@@ -127,7 +125,6 @@ public class TridasIO {
 		try {
 			writer = argWriter.newInstance();
 		} catch (InstantiationException e) {
-			// TODO locale
 			log.error(I18n.getText("fileio.missingEmptyConstructor",argWriter.getName()));
 			log.dbe(DebugLevel.L2_ERROR, e);
 			return;
@@ -150,7 +147,6 @@ public class TridasIO {
 			if(entry.fileWriter == null){
 				entry.fileWriter = argWriter;
 			}else{
-				// TODO locale
 				log.warn(I18n.getText("fileio.replaceWriter",name));
 				//throw new RuntimeException("Cannot register another reader for "
 				// don't throw an exception, just use new reader

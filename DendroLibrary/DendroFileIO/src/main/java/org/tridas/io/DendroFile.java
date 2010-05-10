@@ -15,9 +15,16 @@ public abstract class DendroFile {
 	
 	private String extension;
 	private ArrayList<ITridasSeries> seriesList = new ArrayList<ITridasSeries>();
+	private DendroFormatInfo formatInformation;
 	
-	public DendroFile(){
-		
+	/**
+	 * Constructor for a DendroFile.  This takes a string containing the I18n tag
+	 * name of the format this file is in.  
+	 * 
+	 * @param baseTag
+	 */
+	public DendroFile(String baseTag){
+		formatInformation = new DendroFormatInfo(baseTag);
 	}
 	
 	public abstract String[] saveToString();
@@ -45,6 +52,39 @@ public abstract class DendroFile {
 	protected ArrayList<ITridasSeries> getSeriesList(){
 		return seriesList;
 	}
+	
+	/**
+	 * @see org.tridas.io.DendroFormatInfo#getShortName()
+	 */
+	public String getShortName()
+	{
+		return formatInformation.getShortName();
+	}
+	
+	/**
+	 * @see org.tridas.io.DendroFormatInfo#getFullName()
+	 */
+	public String getFullName()
+	{
+		return formatInformation.getFullName();
+	}
+	
+	/**
+	 * @see org.tridas.io.DendroFormatInfo#getDescription()
+	 */
+	public String getDescription()
+	{
+		return formatInformation.getDescription();
+	}
+	
+	/**
+	 * @see org.tridas.io.DendroFormatInfo#getPreferredFileExtension()
+	 */
+	public String getPreferredFileExtension()
+	{
+		return formatInformation.getPreferredFileExtension();
+	}
+	
 	
 	/**
 	 * Remove all series from file

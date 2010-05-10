@@ -7,12 +7,15 @@ import java.util.UUID;
 
 import org.grlea.log.SimpleLogger;
 import org.tridas.io.AbstractDendroFileReader;
+import org.tridas.io.I18n;
 import org.tridas.io.defaults.IMetadataFieldSet;
 import org.tridas.io.defaults.TridasMetadataFieldSet.TridasMandatoryField;
 import org.tridas.io.defaults.values.GenericDefaultValue;
 import org.tridas.io.formats.heidelberg.HeidelbergToTridasDefaults.DefaultFields;
 import org.tridas.io.util.StringUtils;
+import org.tridas.io.warnings.ConversionWarning;
 import org.tridas.io.warnings.InvalidDendroFileException;
+import org.tridas.io.warnings.ConversionWarning.WarningType;
 import org.tridas.schema.ControlledVoc;
 import org.tridas.schema.NormalTridasUnit;
 import org.tridas.schema.SeriesLink;
@@ -45,7 +48,7 @@ public class HeidelbergReader extends AbstractDendroFileReader {
 	private int headerNumLines = 0;
 	
 	public HeidelbergReader() {
-		super(HeidelbergToTridasDefaults.class);
+		super("heidelberg", HeidelbergToTridasDefaults.class);
 	}
 
 	@Override
@@ -97,7 +100,7 @@ public class HeidelbergReader extends AbstractDendroFileReader {
 		
 		if(!argStrings[0].startsWith("HEADER") && !argStrings[0].startsWith("DATA")){
 			log.error("First line is 'HEADER' or 'DATA'");
-			throw new InvalidDendroFileException("First line is 'HEADER' or 'DATA'", 1);
+			throw new InvalidDendroFileException(I18n.getText("heidelberg.firstLineWrong"), 1);
 		}
 		
 		boolean pastHeader = false;
@@ -106,8 +109,8 @@ public class HeidelbergReader extends AbstractDendroFileReader {
 			String s = argStrings[i];
 			if(s.startsWith("HEADER")){
 				if(pastHeader){
-					log.error("Can't have a header after the data starts.  It's a header silly.");
-					throw new InvalidDendroFileException("Can't have a header after the data starts.  It's a header silly.", 1);
+					log.error(I18n.getText("heidelberg.headerAfterData"));
+					throw new InvalidDendroFileException(I18n.getText("heidelberg.headerAfterData"), 1);
 				}
 				continue;
 			}else if(s.startsWith("DATA")){
@@ -125,8 +128,8 @@ public class HeidelbergReader extends AbstractDendroFileReader {
 			if(!pastHeader){
 				// in header!
 				if(s.split("=").length != 2){
-					log.error("Header must be 'key=value' combinations");
-					throw new InvalidDendroFileException("Header must be 'key=value' combinations", i+1);
+					log.error(I18n.getText("heidelberg.headerNotKeyValuePair"));
+					throw new InvalidDendroFileException(I18n.getText("heidelberg.headerNotKeyValuePair"), i+1);
 				}
 			}else{
 				// in data!
@@ -136,14 +139,14 @@ public class HeidelbergReader extends AbstractDendroFileReader {
 						Integer.parseInt(num.trim());
 					}
 				}catch(NumberFormatException e){
-					log.error("Could not parse numbers in data.");
-					throw new InvalidDendroFileException("Could not parse numbers in data.", i+1);
+					log.error(I18n.getText("fileio.invalidDataValue"));
+					throw new InvalidDendroFileException(I18n.getText("fileio.invalidDataValue"), i+1);
 				}
 			}
 		}
 		if(!pastHeader){
-			log.error("Could not detect any data in file.");
-			throw new InvalidDendroFileException("Could not detect any data in file.", currentLineNum);
+			log.error(I18n.getText("fileio.noData"));
+			throw new InvalidDendroFileException(I18n.getText("fileio.noData"), currentLineNum);
 		}
 	}
 
@@ -203,7 +206,9 @@ public class HeidelbergReader extends AbstractDendroFileReader {
 			}else if(units.equals("1/1000 mm")){
 				value.setNormalTridas(NormalTridasUnit.MICROMETRES);
 			}else{
-				value = null; //TODO add warning
+				value = null; 
+				this.addWarningToList(new ConversionWarning(WarningType.NULL_VALUE, 
+						I18n.getText("fileio.noUnitsDetected")));		
 			}
 			unit.setValue(value);
 		}else{
@@ -298,13 +303,6 @@ public class HeidelbergReader extends AbstractDendroFileReader {
 		return createProject();
 	}
 	
-	/**
-	 * @see org.tridas.io.IDendroFileReader#getName()
-	 */
-	@Override
-	public String getName() {
-		return "Heidelberg";
-	}
 	
 	/**
 	 * @see org.tridas.io.IDendroFileReader#getDefaults()
@@ -318,4 +316,6 @@ public class HeidelbergReader extends AbstractDendroFileReader {
 	public int getCurrentLineNumber() {
 		return currentLineNum + 1; // plus one because line numbers start at 1, not 0
 	}
+
+
 }

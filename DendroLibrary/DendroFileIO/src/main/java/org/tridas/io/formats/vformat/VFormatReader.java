@@ -81,7 +81,7 @@ public class VFormatReader extends AbstractDendroFileReader {
 	}
 	
 	public VFormatReader() {
-		super(VFormatToTridasDefaults.class);
+		super("vformat", VFormatToTridasDefaults.class);
 		project = defaults.getProjectWithDefaults();
 	}
 	
@@ -453,12 +453,6 @@ public class VFormatReader extends AbstractDendroFileReader {
 
 	@Override
 	public String[] getFileExtensions() {
-		// TODO Auto-generated method stub
-		return null;
-	}
-
-	@Override
-	public String getName() {
 		// TODO Auto-generated method stub
 		return null;
 	}

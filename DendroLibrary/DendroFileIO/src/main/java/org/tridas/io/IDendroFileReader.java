@@ -79,11 +79,11 @@ public interface IDendroFileReader {
 	 */
 	public String[] getFileExtensions();
 	
-	/**
-	 * Return the name of the format.
-	 * @return
-	 */
-	public String getName();
+	public String getShortName();
+	public String getFullName();
+	public String getPreferredFileExtension();
+	public String getDescription();
+	
 	
 	public IMetadataFieldSet getDefaults();
 	

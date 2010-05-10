@@ -129,11 +129,12 @@ public class TucsonFile extends DendroFile{
 	 * Standard constructor.  Uses default defaultFields!
 	 */
 	public TucsonFile(){
-		this(new TridasToTucsonDefaults());
+		super("tucson");
+		this.defaults = new TridasToTucsonDefaults();
 	}
 	
 	public TucsonFile(IMetadataFieldSet argDefaults){
-		this.setExtension("rwl");
+		super("tucson");
 		this.defaults = (TridasToTucsonDefaults) argDefaults;
 	}
 	

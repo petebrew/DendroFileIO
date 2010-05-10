@@ -65,7 +65,6 @@ public class UnitTest extends TestCase {
 			System.out.println(e.getLocalizedMessage());
 			fail();
 		} catch (InvalidDendroFileException e) {
-			// TODO Auto-generated catch block
 			fail();
 		} 
 			
@@ -80,15 +79,12 @@ public class UnitTest extends TestCase {
 			}
 			
 		} catch (IncompleteTridasDataException e) {
-			// TODO Auto-generated catch block
 			e.printStackTrace();
 			fail();
 		} catch (ConversionWarningException e) {
-			// TODO Auto-generated catch block
 			e.printStackTrace();
 			fail();
 		} catch (IncorrectDefaultFieldsException e) {
-			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
 		
@@ -117,7 +113,6 @@ public class UnitTest extends TestCase {
 		    project = (TridasProject) u.unmarshal(xmlFile);
 		   
 		} catch (JAXBException e2) {
-			// TODO Auto-generated catch block
 			e2.printStackTrace();
 		}
 	    
@@ -133,13 +128,10 @@ public class UnitTest extends TestCase {
 		try {
 			tucsonwriter.loadProject(project, new TridasToTucsonDefaults());
 		} catch (IncompleteTridasDataException e) {
-			// TODO Auto-generated catch block
 			e.printStackTrace();
 		} catch (ConversionWarningException e) {
-			// TODO Auto-generated catch block
 			e.printStackTrace();
 		} catch (IncorrectDefaultFieldsException e) {
-			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
 
