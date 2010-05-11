@@ -151,17 +151,11 @@ public class HeidelbergReader extends AbstractDendroFileReader {
 	}
 
 	private void extractHeader(String[] argHeader){
-		HashMap<String,String> data = new HashMap<String, String>();
 		for(int i=0; i<argHeader.length; i++){
 			String s = argHeader[i];
 			currentLineNum = i+1; // +1 because of the HEADER line
 			String[] split = s.split("=");
-			data.put(split[0], split[1]);
-		}
-		
-		//load all data
-		for(String key :data.keySet()){
-			fileMetadata.put(key, data.get(key));
+			fileMetadata.put(split[0], split[1]);
 		}
 	}
 	
