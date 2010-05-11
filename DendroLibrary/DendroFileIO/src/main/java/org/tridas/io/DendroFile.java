@@ -77,14 +77,6 @@ public abstract class DendroFile {
 		return formatInformation.getDescription();
 	}
 	
-	/**
-	 * @see org.tridas.io.DendroFormatInfo#getPreferredFileExtension()
-	 */
-	public String getPreferredFileExtension()
-	{
-		return formatInformation.getPreferredFileExtension();
-	}
-	
 	
 	/**
 	 * Remove all series from file

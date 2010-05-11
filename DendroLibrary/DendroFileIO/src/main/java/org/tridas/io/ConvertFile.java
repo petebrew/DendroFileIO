@@ -6,6 +6,7 @@ import org.grlea.log.SimpleLog;
 import org.tridas.io.naming.AbstractNamingConvention;
 import org.tridas.io.naming.HierarchicalNamingConvention;
 import org.tridas.io.naming.INamingConvention;
+import org.tridas.io.naming.NumericalNamingConvention;
 import org.tridas.io.naming.UUIDNamingConvention;
 import org.tridas.io.util.StringUtils;
 import org.tridas.io.warnings.ConversionWarning;
@@ -15,6 +16,11 @@ import org.tridas.io.warnings.IncorrectDefaultFieldsException;
 import org.tridas.io.warnings.InvalidDendroFileException;
 import org.tridas.schema.TridasProject;
 
+/**
+ * Command line class to convert dendro files.
+ * 
+ * @author petebrew
+ */
 public class ConvertFile {
 	
 	static String asciilogo = "______               _          ______ _ _      _____ _____ \n"+
@@ -111,7 +117,7 @@ public class ConvertFile {
 		// Set up writer
 		writer = TridasIO.getFileWriter(outputFormat);
 		if(writer == null){
-			showHelp(true, "Writer format invalid");
+			showHelp(false, "Writer format invalid");
 			return;
 		}
 
@@ -120,20 +126,25 @@ public class ConvertFile {
 			reader.loadFile(inputfilename);
 			project = reader.getProject();
 		} catch (IOException e1) {
-			e1.printStackTrace();
+			showHelp(false, "IOException: "+e1.getMessage());
+			return;
 		} catch (InvalidDendroFileException e) {
-			e.printStackTrace();
+			showHelp(false, "Invalid dendro file: "+e.getMessage());
+			return;
 		}
 
 		// Set up naming convention
 		INamingConvention namingConvention; 
-		if(convention.equalsIgnoreCase("hierarchy"))
-		{
+		if(convention.equalsIgnoreCase("hierarchy")){
 			namingConvention = new HierarchicalNamingConvention();
 		}
-		else
-		{
+		else if(convention.equalsIgnoreCase("numerical")){
+			namingConvention = new NumericalNamingConvention();
+		}else if(convention.equalsIgnoreCase("uuid")){
 			namingConvention = new UUIDNamingConvention();
+		}else{
+			namingConvention = new UUIDNamingConvention();
+			System.out.println("invalid naming convention: "+convention);
 		}
 		
 	    // Write out project
@@ -143,10 +154,9 @@ public class ConvertFile {
 			writer.saveAllToDisk(outputFolder);
 			
 		} catch (IncompleteTridasDataException e) {
-			e.printStackTrace();
+			showHelp(false, "IncompleteTridasDataExcpetion: "+ e.getMessage());
+			return;
 		} catch (ConversionWarningException e) {
-			e.printStackTrace();
-		} catch (IncorrectDefaultFieldsException e) {
 			e.printStackTrace();
 		}
 		
@@ -214,7 +224,7 @@ public class ConvertFile {
 		System.out.println("  -help              - show this help information");
 		System.out.println("  -verbose           - include verbose warnings");
 		System.out.println("  -version           - show version information and quit");
-		System.out.println("  -naming=convention - either uuid or hierarchy (default is uuid)");
+		System.out.println("  -naming=convention - uuid, hierarchy, or numerical (default is uuid)");
 		System.out.println("  -inputFormat=name  - specify input format name (optional)");
 		System.out.println("  -outputFormat=name - specify output format name (required)");
 		System.out.println("");

@@ -780,9 +780,6 @@ public class TucsonReader extends AbstractDendroFileReader {
 				log.debug("Investigator='"+tucsonFields.getStringDefaultValue(TucsonField.INVESTIGATOR).getStringValue()+"'");
 				log.debug("Comp date='"+tucsonFields.getStringDefaultValue(TucsonField.COMP_DATE).getStringValue()+"'");
 			}
-
-			// Store these metadata in the raw metadata list
-			addRawMetadataLine(line1); addRawMetadataLine(line2); addRawMetadataLine(line3);
 			
 			// Reset last year marker
 			this.lastYearMarker = null;

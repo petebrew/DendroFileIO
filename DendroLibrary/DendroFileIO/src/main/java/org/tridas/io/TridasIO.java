@@ -19,10 +19,12 @@ import org.tridas.io.formats.tridas.TridasWriter;
 import org.tridas.io.formats.trims.TrimsReader;
 import org.tridas.io.formats.tucson.TucsonReader;
 import org.tridas.io.formats.tucson.TucsonWriter;
+import org.tridas.io.formats.vformat.VFormatReader;
 
 /**
- * For getting a file converter based on extension, later can do things with storing default
- * fields
+ * Used to get readers/writers from name or extension.  In order to include your writer/reader in the list,
+ * register it with {@link #registerFileReader(Class)} and {@link #registerFileWriter(Class)}.  Also, this class
+ * stores global properties for the library, such as charset detection when loading files.  
  * @author daniel
  *
  */
@@ -44,21 +46,31 @@ public class TridasIO {
 		registerFileReader(TridasReader.class);
 		registerFileReader(TrimsReader.class);
 		registerFileReader(TucsonReader.class);
+		registerFileReader(VFormatReader.class);
 		
 		registerFileWriter(TridasWriter.class);
 		registerFileWriter(TucsonWriter.class);
 	}
 	
+	/**
+	 * Sets if charset detection is used when loading files.  Usually this doesn't
+	 * matter.  Default of false.
+	 * @param argCharsetDetection
+	 */
 	public static void setCharsetDetection(boolean argCharsetDetection) {
 		charsetDetection = argCharsetDetection;
 	}
 
+	/**
+	 * If the library detects the charset when loading files.
+	 * @return
+	 */
 	public static boolean isCharsetDetection() {
 		return charsetDetection;
 	}
 
 	/**
-	 * Register a reader
+	 * Register a reader.
 	 * @param argReader
 	 */
 	public synchronized static void registerFileReader(Class<? extends IDendroFileReader> argReader){
@@ -167,6 +179,12 @@ public class TridasIO {
 		}
 	}
 	
+	/**
+	 * Get a file writer from the format name.
+	 * @param argFormatName
+	 * @see #getSupportedWritingFormats()
+	 * @return
+	 */
 	public synchronized static IDendroCollectionWriter getFileWriter(String argFormatName){
 		TridasIOEntry e = converterMap.get(argFormatName);
 		if(e == null || e.fileWriter == null){
@@ -181,6 +199,12 @@ public class TridasIO {
 		}
 	}
 	
+	/**
+	 * Get a file reader from the format name.
+	 * @param argFormatName
+	 * @see #getSupportedReadingFormats()
+	 * @return
+	 */
 	public synchronized static IDendroFileReader getFileReader(String argFormatName){
 		TridasIOEntry e = converterMap.get(argFormatName);
 		if(e == null || e.fileReader == null){
@@ -195,14 +219,28 @@ public class TridasIO {
 		}
 	}
 	
+	/**
+	 * Gets the reader from the given extension.
+	 * @param argExtension
+	 * @return
+	 */
 	public synchronized static IDendroFileReader getFileReaderFromExtension(String argExtension){
 		return getFileReader(extensionMap.get(argExtension));
 	}
 	
+	/**
+	 * Gets the writer from the given extension.
+	 * @param argExtension
+	 * @return
+	 */
 	public synchronized static IDendroCollectionWriter getFileWriterFromExtension(String argExtension){
 		return getFileWriter(extensionMap.get(argExtension));
 	}
 	
+	/**
+	 * Get all supported reading formats.
+	 * @return
+	 */
 	public synchronized static String[] getSupportedReadingFormats(){
 		ArrayList<String> list = new ArrayList<String>();
 		for(String extension : converterMap.keySet()){
@@ -215,6 +253,10 @@ public class TridasIO {
 		return list.toArray(new String[0]);
 	}
 	
+	/**
+	 * Get all supported writing formats
+	 * @return
+	 */
 	public synchronized static String[] getSupportedWritingFormats(){
 		ArrayList<String> list = new ArrayList<String>();
 		for(String extension : converterMap.keySet()){
