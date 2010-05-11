@@ -2,6 +2,7 @@ package org.tridas.io.formats.tridas;
 
 import java.io.File;
 import java.io.StringWriter;
+import java.net.URL;
 
 import javax.xml.XMLConstants;
 import javax.xml.bind.JAXBContext;
@@ -17,6 +18,7 @@ import org.tridas.interfaces.ITridasSeries;
 import org.tridas.io.DendroFile;
 import org.tridas.io.I18n;
 import org.tridas.io.TridasNamespacePrefixMapper;
+import org.tridas.io.util.IOUtils;
 import org.tridas.io.warnings.ConversionWarningException;
 import org.tridas.io.warnings.InvalidDendroFileException;
 import org.tridas.schema.TridasProject;
@@ -58,10 +60,10 @@ public class TridasFile extends DendroFile {
 		}
 		
 		SchemaFactory factory = SchemaFactory.newInstance(XMLConstants.W3C_XML_SCHEMA_NS_URI);
-		File schemaLocation = new File("/Users/peterbrewer/dev/sourceforge/tridas/XMLSchema/1.2.1/tridas-1.2.1.xsd");
+		URL file = IOUtils.getFileInJarURL("schemas/tridas-1.2.1.xsd");
 		Schema schema = null;
 		try {
-			schema = factory.newSchema(schemaLocation);
+			schema = factory.newSchema(file);
 		} catch (SAXException e) {
 			log.error("Error getting TRiDaS schema for validation");
 		}
