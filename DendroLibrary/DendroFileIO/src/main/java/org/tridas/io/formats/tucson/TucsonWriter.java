@@ -77,7 +77,7 @@ public class TucsonWriter extends AbstractDendroCollectionWriter {
 				// List of refs in the linkSeries tag of our derivedSeries
 				Set<String> refsInDSeries = new HashSet<String>();  
 				
-				List<TridasMeasurementSeriesPlaceholder> lstRefedSeries = null;
+				List<Object> lstRefedSeries = null;
 				
 				// Get all the SeriesLinks for this DerivedSeries
 				try{List<SeriesLink> linkedToSeries = ds.getLinkSeries().getSeries();
@@ -90,8 +90,7 @@ public class TucsonWriter extends AbstractDendroCollectionWriter {
 							} 
 							catch (NullPointerException e3){}
 							*/
-							TridasMeasurementSeriesPlaceholder refedSeries = (TridasMeasurementSeriesPlaceholder) sl.getIdRef().getRef();
-							lstRefedSeries.add(refedSeries);
+							lstRefedSeries.add(sl.getIdRef().getRef());
 							
 						}
 					}

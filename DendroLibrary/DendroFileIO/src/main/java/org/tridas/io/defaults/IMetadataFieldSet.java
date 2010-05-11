@@ -8,6 +8,7 @@ import java.util.ArrayList;
 import org.tridas.io.warnings.ConversionWarning;
 
 /**
+ * TODO
  * so the library works while i work on this upgrade
  * @author Daniel
  *

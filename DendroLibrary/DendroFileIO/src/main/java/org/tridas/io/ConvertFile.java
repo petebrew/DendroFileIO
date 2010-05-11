@@ -3,6 +3,9 @@ package org.tridas.io;
 import java.io.IOException;
 
 import org.grlea.log.SimpleLog;
+import org.tridas.io.naming.AbstractNamingConvention;
+import org.tridas.io.naming.HierarchicalNamingConvention;
+import org.tridas.io.naming.INamingConvention;
 import org.tridas.io.naming.UUIDNamingConvention;
 import org.tridas.io.util.StringUtils;
 import org.tridas.io.warnings.ConversionWarning;
@@ -21,8 +24,6 @@ public class ConvertFile {
 							  "| |/ /  __/ | | | (_| | | | (_) | |   | | |  __/_| |_\\ \\_/ /\n"+
 							  "|___/ \\___|_| |_|\\__,_|_|  \\___/\\_|   |_|_|\\___|\\___/ \\___/ \n"; 
 
-	
-	
 	/**
 	 * Basic command line interface to the library
 	 * 
@@ -34,7 +35,8 @@ public class ConvertFile {
 		String outputFormat = null;
 		boolean debug = false;
 		String inputFormat = null;
-		
+		boolean verbose = false;
+		String convention = "uuid";
 		IDendroCollectionWriter writer;
 		IDendroFileReader reader;
 		TridasProject project = null;
@@ -61,31 +63,41 @@ public class ConvertFile {
 			return;
 		}
 		
-
-		if(args[index].equalsIgnoreCase("-debug")){
-			debug = true;
-			index++;
+		// Loop through all args setting options
+		for (String arg : args)
+		{
+			if (arg.equalsIgnoreCase("-debug"))
+			{
+				debug = true;
+			}
+			else if (arg.equalsIgnoreCase("-verbose"))
+			{
+				verbose = true;
+			}
+			else if (arg.equalsIgnoreCase("-inputFormat="))
+			{
+				inputFormat = args[index].substring(13).trim();
+			}
+			else if (arg.equalsIgnoreCase("-outputFormat="))
+			{
+				outputFormat = args[index].substring(14).trim();
+			}	
+			else if (arg.equalsIgnoreCase("-naming="))
+			{
+				convention = args[index].substring(8).trim();
+			}	
 		}
 
-		if(args[index].startsWith("-inputFormat=")){
-			inputFormat = args[index].substring(13).trim();
-			index++;
-		}
-		
-
-		if(args[index].startsWith("-outputFormat=")){
-			outputFormat = args[index].substring(14).trim();
-			index++;
-		}
-		
 		// Set up filenames
-		inputfilename = args[index];
-		outputFolder = args[index+1];
+		inputfilename = args[args.length-1];
+		outputFolder = args[args.length];
 		
+		// Set debug level to requested
 		if(debug){
 			// TODO ! figure this out, how do I change log stuff
 		}
 		
+		// Set up reader
 		if(inputFormat != null){
 			reader = TridasIO.getFileReader(inputFormat);
 		}else{
@@ -96,6 +108,7 @@ public class ConvertFile {
 			return;
 		}
 		
+		// Set up writer
 		writer = TridasIO.getFileWriter(outputFormat);
 		if(writer == null){
 			showHelp(true, "Writer format invalid");
@@ -111,21 +124,21 @@ public class ConvertFile {
 		} catch (InvalidDendroFileException e) {
 			e.printStackTrace();
 		}
-		
-		
-		if(reader.getDefaults() != null){
-			if (reader.getDefaults().getConversionWarnings()!=null)
-			{
-				for(ConversionWarning cw : reader.getDefaults().getConversionWarnings()){
-					System.out.println("  - ["+ cw.getWarningType().toString()+ "]: " + cw.getMessage());
-				}
-			}
+
+		// Set up naming convention
+		INamingConvention namingConvention; 
+		if(convention.equalsIgnoreCase("hierarchy"))
+		{
+			namingConvention = new HierarchicalNamingConvention();
 		}
-		
+		else
+		{
+			namingConvention = new UUIDNamingConvention();
+		}
 		
 	    // Write out project
 		try {
-			writer.setNamingConvention(new UUIDNamingConvention());
+			writer.setNamingConvention(namingConvention);
 			writer.loadProject(project);
 			writer.saveAllToDisk(outputFolder);
 			
@@ -137,22 +150,34 @@ public class ConvertFile {
 			e.printStackTrace();
 		}
 		
-		if(writer.getDefaults().getConversionWarnings() != null){
-			if (writer.getDefaults().getConversionWarnings()!=null)
-			{
-				for(ConversionWarning cw : writer.getDefaults().getConversionWarnings()){
-					System.out.println("  - ["+ cw.getWarningType().toString()+ "]: " + cw.getMessage());
+
+		// Show warnings if necessary
+		if(verbose)
+		{
+			if(reader.getDefaults() != null){
+				if (reader.getDefaults().getConversionWarnings()!=null)
+				{
+					for(ConversionWarning cw : reader.getDefaults().getConversionWarnings()){
+						System.out.println("  - ["+ cw.getWarningType().toString()+ "]: " + cw.getMessage());
+					}
 				}
 			}
+			
+			if(writer.getDefaults() != null){
+				if (writer.getDefaults().getConversionWarnings()!=null)
+				{
+					for(ConversionWarning cw : writer.getDefaults().getConversionWarnings()){
+						System.out.println("  - ["+ cw.getWarningType().toString()+ "]: " + cw.getMessage());
+					}
+				}
+			}
+			
+			
+			if(writer.getWarnings().size() > 0)
+				System.out.println("*** Warnings were thrown while converting your data ***".toUpperCase());
+			for(ConversionWarning cw : writer.getWarnings())
+				System.out.println("  - ["+ cw.getWarningType().toString()+ "]: " + cw.getMessage());
 		}
-		
-		
-		
-		// Show warnings if necessary
-		if(writer.getWarnings().size() > 0)
-			System.out.println("*** Warnings were thrown while converting your data ***".toUpperCase());
-		for(ConversionWarning cw : writer.getWarnings())
-			System.out.println("  - ["+ cw.getWarningType().toString()+ "]: " + cw.getMessage());
 		
 		// Grab a list of dendro files that will be written
 		DendroFile[] files = writer.getFiles();
@@ -189,6 +214,7 @@ public class ConvertFile {
 		System.out.println("  -help              - show this help information");
 		System.out.println("  -verbose           - include verbose warnings");
 		System.out.println("  -version           - show version information and quit");
+		System.out.println("  -naming=convention - either uuid or hierarchy (default is uuid)");
 		System.out.println("  -inputFormat=name  - specify input format name (optional)");
 		System.out.println("  -outputFormat=name - specify output format name (required)");
 		System.out.println("");

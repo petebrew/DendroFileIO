@@ -30,6 +30,7 @@ import org.tridas.schema.TridasProject;
 import org.tridas.schema.TridasRadius;
 import org.tridas.schema.TridasSample;
 import org.tridas.schema.TridasUnit;
+import org.tridas.schema.TridasUnitless;
 import org.tridas.schema.TridasValue;
 import org.tridas.schema.TridasValues;
 import org.tridas.schema.TridasVariable;
@@ -43,6 +44,7 @@ public class BelfastArchiveReader extends AbstractDendroFileReader {
 	private ArrayList<TridasMeasurementSeries> mseriesList = new ArrayList<TridasMeasurementSeries>();
 	String objectname;
 	String samplename;
+	SafeIntYear startYear;
 	
 	public BelfastArchiveReader() {
 		super("belfastarchive", BelfastArchiveToTridasDefaults.class);
@@ -51,6 +53,8 @@ public class BelfastArchiveReader extends AbstractDendroFileReader {
 	protected void parseFile(String[] argFileString,
 			IMetadataFieldSet argDefaultFields)
 			throws InvalidDendroFileException {
+		
+		TridasMeasurementSeries series = defaults.getMeasurementSeriesWithDefaults();
 		
 		// Extract 'metadata' ;-)
 		objectname = argFileString[0].trim();
@@ -84,8 +88,7 @@ public class BelfastArchiveReader extends AbstractDendroFileReader {
 		}
 		
 		// Extract metadata from footer
-		for(int i=footerStartInd; i<argFileString.length-1; i++)
-		{
+
 			// TODO - implement
 			/*"[[ARCHIVE]]"       
 			1277            <- Start year
@@ -98,14 +101,44 @@ public class BelfastArchiveReader extends AbstractDendroFileReader {
 			Pith F Sap 32        <- ??
 			""            <- ??
 			"[[ END OF TEXT ]]"*/
-		}
+			
+		// Line 1 - Start year
+		try{
+			startYear = new SafeIntYear(Integer.valueOf(argFileString[footerStartInd+1]));
+		} catch (NumberFormatException e){}
 		
-		// Now build up our measurementSeries
-		TridasMeasurementSeries series = defaults.getMeasurementSeriesWithDefaults();
+		// Line 2 - ?
+		
+		// Line 3 - Resolution
 		TridasUnit units = new TridasUnit();
+		if(argFileString[footerStartInd+3].equals("0.01"))
+		{
+			// Set units to 1/100th mm. 
+			units.setNormalTridas(NormalTridasUnit.HUNDREDTH_MM);
+		}
+		else if (argFileString[footerStartInd+3].equals("0.001"))
+		{
+			// Set units to microns
+			units.setNormalTridas(NormalTridasUnit.MICROMETRES);
+		}
+		else if (argFileString[footerStartInd+3].equals("0.1"))
+		{
+			// Set units to microns
+			units.setNormalTridas(NormalTridasUnit.TENTH_MM);
+		}		
+		else
+		{
+			units = null;
+		}
+			
+		// Lines 4,5,6 - ?
 		
-		// Set units to 1/100th mm.  Is this always the case?
-		units.setNormalTridas(NormalTridasUnit.HUNDREDTH_MM);
+		// Line 7  - Series title
+		series.setTitle(argFileString[footerStartInd+7]);
+		
+		// Lines 8,9 - ?
+		
+		
 		
 		// Build identifier for series
 		TridasIdentifier seriesId = new ObjectFactory().createTridasIdentifier();
@@ -115,7 +148,14 @@ public class BelfastArchiveReader extends AbstractDendroFileReader {
 		// Add values to nested value(s) tags
 		TridasValues valuesGroup = new TridasValues();
 		valuesGroup.setValues(ringWidthValues);
-		valuesGroup.setUnit(units);
+		if(units!=null)
+		{
+			valuesGroup.setUnit(units);
+		}
+		else
+		{
+			valuesGroup.setUnitless(new TridasUnitless());
+		}
 		GenericDefaultValue<TridasVariable> variable = (GenericDefaultValue<TridasVariable>) defaults.getDefaultValue(TridasMandatoryField.MEASUREMENTSERIES_VARIABLE);
 		valuesGroup.setVariable(variable.getValue());
 		ArrayList<TridasValues> valuesGroupList = new ArrayList<TridasValues>();

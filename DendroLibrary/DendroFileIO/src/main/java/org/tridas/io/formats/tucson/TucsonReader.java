@@ -491,8 +491,14 @@ public class TucsonReader extends AbstractDendroFileReader {
 				TridasValues valuesGroup = new TridasValues();
 				valuesGroup.setValues(thisDecadesValues);
 				valuesGroup.setUnitless(new TridasUnitless());
-				GenericDefaultValue<TridasVariable> variable = (GenericDefaultValue<TridasVariable>) defaults.getDefaultValue(TridasMandatoryField.MEASUREMENTSERIES_VARIABLE).getValue();
-				valuesGroup.setVariable(variable.getValue());
+				
+				// TODO PWB - COMMENTED OUT and replaced with older code until it can be fixed 
+				//GenericDefaultValue<TridasVariable> variable = (GenericDefaultValue<TridasVariable>) defaults.getDefaultValue(TridasMandatoryField.MEASUREMENTSERIES_VARIABLE).getValue();
+				//valuesGroup.setVariable(variable.getValue());
+				TridasVariable variable = new TridasVariable();
+				variable.setValue(defaults.getDefaultValue(TridasMandatoryField.MEASUREMENTSERIES_VARIABLE).getStringValue());
+				valuesGroup.setVariable(variable);
+				
 				ArrayList<TridasValues> valuesGroupList = new ArrayList<TridasValues>();
 				valuesGroupList.add(valuesGroup);	
 				
