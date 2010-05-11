@@ -16,6 +16,7 @@ import java.io.OutputStream;
 import java.io.OutputStreamWriter;
 import java.io.PrintWriter;
 import java.io.UnsupportedEncodingException;
+import java.net.URL;
 import java.nio.charset.Charset;
 import java.util.zip.GZIPInputStream;
 import java.util.zip.GZIPOutputStream;
@@ -223,6 +224,10 @@ public class IOUtils {
 	 * ############## FILE INPUT ###############
 	 * #########################################
 	 */
+	
+	public static URL getFileInJarURL(String argFile){
+		return IOUtils.class.getClassLoader().getResource(argFile);
+	}
 	
 	public static InputStream createInput(File file) {
 		if (file == null) {
@@ -441,6 +446,9 @@ public class IOUtils {
 	}
 	
 	public static void saveStrings(OutputStream output, String strings[], String argEncoding) throws UnsupportedEncodingException{
+		if(strings == null){
+			throw new NullPointerException("Strings to save cannot be null");
+		}
 		OutputStreamWriter osw = new OutputStreamWriter(output, argEncoding);
 		PrintWriter writer = new PrintWriter(osw);
 		for (int i = 0; i < strings.length; i++) {

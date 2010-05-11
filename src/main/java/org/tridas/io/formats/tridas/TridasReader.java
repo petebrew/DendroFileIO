@@ -3,6 +3,7 @@ package org.tridas.io.formats.tridas;
 import java.io.File;
 import java.io.IOException;
 import java.io.StringReader;
+import java.net.URL;
 
 import javax.xml.XMLConstants;
 import javax.xml.bind.JAXBContext;
@@ -19,6 +20,8 @@ import org.tridas.io.I18n;
 import org.tridas.io.TridasIO;
 import org.tridas.io.defaults.IMetadataFieldSet;
 import org.tridas.io.defaults.TridasMetadataFieldSet;
+import org.tridas.io.util.FileHelper;
+import org.tridas.io.util.IOUtils;
 import org.tridas.io.warnings.ConversionWarning;
 import org.tridas.io.warnings.InvalidDendroFileException;
 import org.tridas.io.warnings.ConversionWarning.WarningType;
@@ -51,13 +54,12 @@ public class TridasReader extends AbstractDendroFileReader {
 			fileString.append(s+"\n");
 		}
 		StringReader reader = new StringReader(fileString.toString());
-		
 		// Validate the file against the TRiDaS schema
 		SchemaFactory factory = SchemaFactory.newInstance(XMLConstants.W3C_XML_SCHEMA_NS_URI);
-		File schemaLocation = new File("/Users/peterbrewer/dev/sourceforge/tridas/XMLSchema/1.2.1/tridas-1.2.1.xsd");
+		URL file = IOUtils.getFileInJarURL("schemas/tridas-1.2.1.xsd");
 		Schema schema = null;
 		try {
-			schema = factory.newSchema(schemaLocation);
+			schema = factory.newSchema(file);
 		} catch (SAXException e) {
 			throw new InvalidDendroFileException(
 					I18n.getText("tridas.schemaMissing", 
@@ -74,7 +76,6 @@ public class TridasReader extends AbstractDendroFileReader {
 							ex.getLocalizedMessage()), 1);
 
 		} catch (IOException e) {
-			// TODO Auto-generated catch block
 			throw new InvalidDendroFileException(
 					I18n.getText("tridas.schemaException", 
 							e.getLocalizedMessage()), 1);
