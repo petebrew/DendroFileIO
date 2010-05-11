@@ -1,5 +1,8 @@
 <?xml version="1.0" encoding="UTF-8"?>
-    <project xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://www.tridas.org/1.2.1 ../dev/sourceforge/tridas/XMLSchema/1.2.1/tridas-1.2.1.xsd" xmlns="http://www.tridas.org/1.2.1" xmlns:xlink="http://www.w3.org/1999/xlink">>
+    <project xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+ xsi:schemaLocation="http://www.tridas.org/1.2.1 ../../../../sourceforge/tridas/XMLSchema/1.2.1/tridas-1.2.1.xsd"
+ xmlns="http://www.tridas.org/1.2.1"
+ xmlns:xlink="http://www.w3.org/1999/xlink">
         <title>Aegean Dendrochronology Project</title>
         <identifier domain="dendro.cornell.edu">C</identifier>
         <createdTimestamp certainty="exact">1997-02-01T14:13:51.0Z</createdTimestamp>

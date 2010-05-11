@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 	<project xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
- xsi:schemaLocation="http://www.tridas.org/1.2.1 ../dev/sourceforge/tridas/XMLSchema/1.2.1/tridas-1.2.1.xsd"
+ xsi:schemaLocation="http://www.tridas.org/1.2.1 ../../../../sourceforge/tridas/XMLSchema/1.2.1/tridas-1.2.1.xsd"
  xmlns="http://www.tridas.org/1.2.1"
  xmlns:xlink="http://www.w3.org/1999/xlink">
 		<title>Western Australian Museum</title>
@@ -96,9 +96,9 @@
 								<values>
 									<variable>total ring width</variable>
 									<unit normalTridas="micrometres"/>
-									<value index="nr001" value="98"/>
-									<value index="nr002" value="98"/>
-									<value index="nr003" value="91"/>
+									<value value="98"/>
+									<value value="98"/>
+									<value value="91"/>
 								</values>
 							</measurementSeries>
 						</radius>
@@ -157,9 +157,9 @@
 							<values>
 								<variable>total ring width</variable>
 								<unit normalTridas="micrometres"/>
-								<value index="nr001" value="98"/>
-								<value index="nr002" value="98"/>
-								<value index="nr003" value="91"/>
+								<value value="98"/>
+								<value value="98"/>
+								<value value="91"/>
 							</values>
 						</measurementSeries>
 					</radius>

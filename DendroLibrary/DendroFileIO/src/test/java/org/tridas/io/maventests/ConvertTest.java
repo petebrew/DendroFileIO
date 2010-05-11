@@ -39,7 +39,7 @@ public class ConvertTest extends TestCase {
 		
 		for (String filename : files)
 		{	
-			if (!filename.equals("test.xml")) continue;
+			if (!filename.equals("Tridas2.xml")) continue;
 			
 			System.out.println("Test conversion of: "+filename);
 			

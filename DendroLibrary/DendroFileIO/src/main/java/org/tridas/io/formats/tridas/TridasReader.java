@@ -83,6 +83,7 @@ public class TridasReader extends AbstractDendroFileReader {
 		
 		// All is ok so now unmarshall to Java classes
 		JAXBContext jc;
+		reader = new StringReader(fileString.toString());
 		try {
 			jc = JAXBContext.newInstance( "org.tridas.schema" );
 			Unmarshaller u = jc.createUnmarshaller();
