@@ -4,6 +4,7 @@ import java.io.IOException;
 
 import org.grlea.log.SimpleLog;
 import org.tridas.io.naming.UUIDNamingConvention;
+import org.tridas.io.util.StringUtils;
 import org.tridas.io.warnings.ConversionWarning;
 import org.tridas.io.warnings.ConversionWarningException;
 import org.tridas.io.warnings.IncompleteTridasDataException;
@@ -13,9 +14,13 @@ import org.tridas.schema.TridasProject;
 
 public class ConvertFile {
 	
-	static String asciilogo = " ___   ____  _      ___   ___   ___       _   ___  \n"+
-							  "| | \\ | |_  | |\\ | | | \\ | |_) / / \\     | | / / \\ \n"+
-							  "|_|_/ |_|__ |_| \\| |_|_/ |_| \\ \\_\\_/     |_| \\_\\_/ \n";
+	static String asciilogo = "______               _          ______ _ _      _____ _____ \n"+
+							  "|  _  \\             | |         |  ___(_) |    |_   _|  _  |\n"+
+							  "| | | |___ _ __   __| |_ __ ___ | |_   _| | ___  | | | | | |\n"+
+							  "| | | / _ \\ '_ \\ / _` | '__/ _ \\|  _| | | |/ _ \\ | | | | | |\n"+
+							  "| |/ /  __/ | | | (_| | | | (_) | |   | | |  __/_| |_\\ \\_/ /\n"+
+							  "|___/ \\___|_| |_|\\__,_|_|  \\___/\\_|   |_|_|\\___|\\___/ \\___/ \n"; 
+
 	
 	
 	/**
@@ -34,14 +39,24 @@ public class ConvertFile {
 		IDendroFileReader reader;
 		TridasProject project = null;
 		
+		// Check number of args
 		int index = 0;
-		if(args[index].equalsIgnoreCase("-version")){
-			showVersion(true);
-			return;
+		if(args.length == 1){		
+			if(args[index].equalsIgnoreCase("-version")){
+				showVersion(true);
+				return;
+			}
+			if(args[index].equalsIgnoreCase("-formats")){
+				showFormats();
+				return;
+			}
+			else
+			{
+				showHelp(true);
+				return;
+			}	
 		}
-		
-		// Check we have the right number of args
-		if(args.length > 5 || args.length < 3){
+		else if(args.length > 5 || args.length < 3){
 			showHelp(true);
 			return;
 		}
@@ -52,15 +67,20 @@ public class ConvertFile {
 			index++;
 		}
 
-		if(args[index].startsWith("-")){
-			inputFormat = args[index].substring(1);
+		if(args[index].startsWith("-inputFormat=")){
+			inputFormat = args[index].substring(13).trim();
+			index++;
+		}
+		
+
+		if(args[index].startsWith("-outputFormat=")){
+			outputFormat = args[index].substring(14).trim();
 			index++;
 		}
 		
 		// Set up filenames
 		inputfilename = args[index];
-		outputFormat = args[index+1];
-		outputFolder = args[index+2];
+		outputFolder = args[index+1];
 		
 		if(debug){
 			// TODO ! figure this out, how do I change log stuff
@@ -72,15 +92,13 @@ public class ConvertFile {
 			reader = TridasIO.getFileReaderFromExtension(inputfilename.substring(inputfilename.lastIndexOf(".")+1));
 		}
 		if(reader == null){
-			System.out.println("Could not find reader");
-			showHelp(false);
+			showHelp(true, "Reader format invalid");
 			return;
 		}
 		
 		writer = TridasIO.getFileWriter(outputFormat);
 		if(writer == null){
-			System.out.println("Could not find writer");
-			showHelp(false);
+			showHelp(true, "Writer format invalid");
 			return;
 		}
 
@@ -94,9 +112,13 @@ public class ConvertFile {
 			e.printStackTrace();
 		}
 		
+		
 		if(reader.getDefaults() != null){
-			for(ConversionWarning cw : reader.getDefaults().getConversionWarnings()){
-				System.out.println("  - ["+ cw.getWarningType().toString()+ "]: " + cw.getMessage());
+			if (reader.getDefaults().getConversionWarnings()!=null)
+			{
+				for(ConversionWarning cw : reader.getDefaults().getConversionWarnings()){
+					System.out.println("  - ["+ cw.getWarningType().toString()+ "]: " + cw.getMessage());
+				}
 			}
 		}
 		
@@ -115,9 +137,12 @@ public class ConvertFile {
 			e.printStackTrace();
 		}
 		
-		if(writer.getDefaults() != null){
-			for(ConversionWarning cw : reader.getDefaults().getConversionWarnings()){
-				System.out.println("  - ["+ cw.getWarningType().toString()+ "]: " + cw.getMessage());
+		if(writer.getDefaults().getConversionWarnings() != null){
+			if (writer.getDefaults().getConversionWarnings()!=null)
+			{
+				for(ConversionWarning cw : writer.getDefaults().getConversionWarnings()){
+					System.out.println("  - ["+ cw.getWarningType().toString()+ "]: " + cw.getMessage());
+				}
 			}
 		}
 		
@@ -140,31 +165,54 @@ public class ConvertFile {
 				
 		
 	}
-	
-	private static void showHelp(boolean argLogo){
+		
+	private static void showTitle(boolean argLogo){
 		if(argLogo){
 			System.out.print(ConvertFile.asciilogo);
 		}
+		System.out.println(StringUtils.leftPad("ver. "+ConvertFile.class.getPackage().getImplementationVersion(), 59));
 		System.out.println("");
-		System.out.println("Dendro File Converter:" );
-		System.out.println("Usage: [-debug] [-version] [-inputFormatName] inputFilename outputFormatName outputFolder");
-		System.out.println("Supported reading formats: ");
-		for( String format : TridasIO.getSupportedReadingFormats()){
-			System.out.println("  "+format);
-		}
-		System.out.println("Supported writing formats: ");
-		for( String format : TridasIO.getSupportedWritingFormats()){
-			System.out.println("  "+format);
-		}
 	}
 	
-	private static void showVersion(boolean argLogo){
-		if(argLogo){
-			System.out.print(ConvertFile.asciilogo);
+	private static void showHelp(boolean argLogo, String error){
+		showTitle(argLogo);
+		
+		if(error!=null)
+		{
+			System.out.println("Error: "+error);
+			System.out.println("");
 		}
+		
+		System.out.println("Usage: [options] inputFilename outputFolder");
+		System.out.println("  -debug             - include debug information in output");
+		System.out.println("  -formats           - show the list of supported formats and quit");
+		System.out.println("  -help              - show this help information");
+		System.out.println("  -verbose           - include verbose warnings");
+		System.out.println("  -version           - show version information and quit");
+		System.out.println("  -inputFormat=name  - specify input format name (optional)");
+		System.out.println("  -outputFormat=name - specify output format name (required)");
 		System.out.println("");
-		System.out.println("Dendro File Converter:" );
+	}
+	
+	private static void showHelp(boolean argLogo){
+
+		showHelp(argLogo, null);
+	}
+	
+	
+	private static void showVersion(boolean argLogo){
 		System.out.println("Version: "+ConvertFile.class.getPackage().getImplementationVersion());
 	}
 
+	private static void showFormats(){
+		showTitle(true);
+		System.out.println("Supported reading formats: ");
+		for( String format : TridasIO.getSupportedReadingFormats()){
+			System.out.println("  -"+format);
+		}
+		System.out.println("Supported writing formats: ");
+		for( String format : TridasIO.getSupportedWritingFormats()){
+			System.out.println("  -"+format);
+		}
+	}
 }
