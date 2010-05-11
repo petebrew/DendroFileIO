@@ -207,28 +207,6 @@ public abstract class AbstractDendroFileReader implements IDendroFileReader {
 	
 	
 	protected abstract void parseFile( String[] argFileString, IMetadataFieldSet argDefaultFields) throws InvalidDendroFileException;
-
-	/**
-	 * Get the raw metadata for this file
-	 * 
-	 * @return
-	 */
-	public ArrayList<String> getRawMetadata(){
-		return rawMetadata;
-	}
-	
-	/**
-	 * Add a line to the list of metadata lines
-	 * 
-	 * @param line
-	 */
-	protected void addRawMetadataLine(String argLine){
-		if(argLine == null){
-			return;
-		}
-		
-		rawMetadata.add(argLine);
-	}
 	
 	/**
 	 * Get the current line number that is being processed.  Typically

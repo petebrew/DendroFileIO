@@ -2,7 +2,7 @@ package org.tridas.io;
 
 public class DendroFormatInfo {
 
-	String baseTag;
+	private final String baseTag;
 	
 	/**
 	 * Constructor for the Dendro Format Info class.   All the info is stored 
@@ -12,11 +12,17 @@ public class DendroFormatInfo {
 	 *  
 	 * @param i18nBaseTag
 	 */
-	public DendroFormatInfo(String i18nBaseTag)
-	{
+	public DendroFormatInfo(String i18nBaseTag){
 		baseTag = i18nBaseTag;
 	}
 	
+	/**
+	 * @return the baseTag used for the locale file
+	 */
+	public String getBaseTag() {
+		return baseTag;
+	}
+
 	/**
 	 * Return the name of the format. This is typically a single word
 	 * used to refer to this format.

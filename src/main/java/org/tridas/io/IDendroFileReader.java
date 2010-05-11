@@ -79,12 +79,37 @@ public interface IDendroFileReader {
 	 */
 	public String[] getFileExtensions();
 	
+	/**
+	 * Get the short name of the format
+	 * @return
+	 */
 	public String getShortName();
+	
+	/**
+	 * Get the full name of the format
+	 * @return
+	 */
 	public String getFullName();
-	public String getPreferredFileExtension();
+	
+	/**
+	 * Get the description of the format
+	 * @return
+	 */
 	public String getDescription();
 	
+	/**
+	 * Gets the current line number of the reader.  If errors occurred, this could
+	 * help point towards the cause.
+	 * @return
+	 */
+	public int getCurrentLineNumber();
 	
+	/**
+	 * Get the default values for this reader that were given in
+	 * loading the file.  If the loadFile method was never called, then
+	 * this returns null.
+	 * @return
+	 */
 	public IMetadataFieldSet getDefaults();
 	
 	/**

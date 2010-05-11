@@ -22,7 +22,7 @@ import org.tridas.schema.TridasProject;
 public interface IDendroCollectionWriter {
 	
 	
-	public void loadProject(TridasProject argProject) throws IncompleteTridasDataException, ConversionWarningException, IncorrectDefaultFieldsException;
+	public void loadProject(TridasProject argProject) throws IncompleteTridasDataException, ConversionWarningException;
 	
 	/**
 	 * Parse a TridasProject into a legacy format
@@ -53,13 +53,13 @@ public interface IDendroCollectionWriter {
 	public INamingConvention getNamingConvention();
 	
 	/**
-	 * 
+	 * Get then number of dendro files.
 	 * @return
 	 */
 	public int getFileCount();
 	
 	/**
-	 * Get all the file extensions associated with this writer
+	 * Get all the file extension associated with this writer
 	 * @return
 	 */
 	public String getFileExtension();
@@ -69,12 +69,35 @@ public interface IDendroCollectionWriter {
 	 */
 	public void saveAllToDisk(String argFolderName);
 	
+	/**
+	 * Get the short name of the format
+	 * @return
+	 */
 	public String getShortName();
-	public String getFullName();
-	public String getDescription();
-	public String getPreferredFileExtension();
 	
+	/**
+	 * Get the full name of the format
+	 * @return
+	 */
+	public String getFullName();
+	
+	/**
+	 * Get the description of the format
+	 * @return
+	 */
+	public String getDescription();
+	
+	/**
+	 * Get the default values for this writer that were given in
+	 * {@link #loadProject(TridasProject, IMetadataFieldSet)}.  If a project was never
+	 * loaded then this returns null.
+	 * @return
+	 */
 	public IMetadataFieldSet getDefaults();
 	
+	/**
+	 * Get the conversion warnings generated from writing this file.
+	 * @return
+	 */
 	public List<ConversionWarning> getWarnings();
 }
