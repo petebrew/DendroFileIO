@@ -2,6 +2,9 @@ package org.tridas.io.formats.tucson;
 
 import java.io.IOException;
 import java.math.BigInteger;
+import java.text.DateFormat;
+import java.text.SimpleDateFormat;
+import java.util.Date;
 import java.util.List;
 
 import javax.xml.datatype.XMLGregorianCalendar;
@@ -232,7 +235,12 @@ public class TucsonFile extends DendroFile{
 	 */
 	public void setCompDate(XMLGregorianCalendar date) throws ConversionWarningException{
 		if(date!=null){
-			String d = date.toXMLFormat();
+			
+			
+			Date dt = date.toGregorianCalendar().getTime();	
+	        SimpleDateFormat format = new SimpleDateFormat("yyyyMMdd");
+	        String d = format.format(dt);
+	        
 			defaults.getStringDefaultValue(TucsonField.COMP_DATE).setValue(d);
 		}
 	}
@@ -324,7 +332,7 @@ public class TucsonFile extends DendroFile{
 		if (rng!=null) 
 		{			
 			if (range==null) range = rng;
-			else range.intersection(rng);
+			else range.union(rng);
 			
 			// Warn if using +8000 bodge and some years are > 2000AD whilst others are BC
 			if (SafeIntYear.max(rng.getEnd(), new SafeIntYear(2000))==rng.getEnd() 
@@ -480,16 +488,34 @@ public class TucsonFile extends DendroFile{
 			// Extract all values from series
 			List<TridasValue> data = series.getValues().get(0).getValues();
 			
-			// Try and get the unique identifier for the series otherwise use site code
-			try{
-				code = StringUtils.rightPadWithTrim(series.getIdentifier().getValue().toString(), 8);
-			} catch(NullPointerException e){
-				code = StringUtils.rightPadWithTrim(defaults.getStringDefaultValue(TucsonField.SITE_CODE).getStringValue(), 8);
-			}
 			
-			// Grab start and end years
-			SafeIntYear start = range.getStart();
-			SafeIntYear end = range.getEnd();
+			try{
+				// Try and get the unique identifier 
+				code = StringUtils.rightPadWithTrim(series.getIdentifier().getValue().toString(), 8);
+			   } catch(NullPointerException e){
+			   try{
+					// That failed, so try and get title instead
+					code = StringUtils.rightPadWithTrim(series.getTitle().toString(), 8);
+				   } catch (NullPointerException e2){
+					// That also failed so try site code
+					code = StringUtils.rightPadWithTrim(defaults.getStringDefaultValue(TucsonField.SITE_CODE).getStringValue(), 8);
+				   }
+			   }
+		
+			
+			// Calculate start and end years
+			SafeIntYear start;
+			SafeIntYear end;
+			try{
+				start= new SafeIntYear(series.getInterpretation().getFirstYear());
+			} catch (Exception e){
+				start = new SafeIntYear("1001");
+			}
+			try{
+				end = start.add(series.getValues().get(0).getValues().size());
+			} catch (Exception e){
+				end = start.add(0);
+			}
 			
 			// if it's summed, we print spaces instead of [1]'s later
 			boolean isSummed = false; //s.isSummed();

@@ -1,19 +1,26 @@
 package org.tridas.io.formats.tridas;
 
+import java.io.File;
 import java.io.StringWriter;
 
+import javax.xml.XMLConstants;
 import javax.xml.bind.JAXBContext;
 import javax.xml.bind.JAXBException;
 import javax.xml.bind.Marshaller;
 import javax.xml.bind.PropertyException;
+import javax.xml.validation.Schema;
+import javax.xml.validation.SchemaFactory;
 
 import org.grlea.log.DebugLevel;
 import org.grlea.log.SimpleLogger;
 import org.tridas.interfaces.ITridasSeries;
 import org.tridas.io.DendroFile;
+import org.tridas.io.I18n;
 import org.tridas.io.TridasNamespacePrefixMapper;
 import org.tridas.io.warnings.ConversionWarningException;
+import org.tridas.io.warnings.InvalidDendroFileException;
 import org.tridas.schema.TridasProject;
+import org.xml.sax.SAXException;
 
 
 /**
@@ -50,6 +57,16 @@ public class TridasFile extends DendroFile {
 			return null;
 		}
 		
+		SchemaFactory factory = SchemaFactory.newInstance(XMLConstants.W3C_XML_SCHEMA_NS_URI);
+		File schemaLocation = new File("/Users/peterbrewer/dev/sourceforge/tridas/XMLSchema/1.2.1/tridas-1.2.1.xsd");
+		Schema schema = null;
+		try {
+			schema = factory.newSchema(schemaLocation);
+		} catch (SAXException e) {
+			log.error("Error getting TRiDaS schema for validation");
+		}
+		
+		
 		StringWriter writer = new StringWriter();
 		// Marshaller code goes here... 
 	    JAXBContext jc;
@@ -57,6 +74,7 @@ public class TridasFile extends DendroFile {
 			jc = JAXBContext.newInstance("org.tridas.schema");
 			Marshaller m = jc.createMarshaller() ;
 	        m.setProperty("com.sun.xml.bind.namespacePrefixMapper",new TridasNamespacePrefixMapper());
+	        m.setSchema(schema);
 			m.marshal(project, writer);
 			//m.marshal(project,new File("/tmp/test.xml"));
 		} catch (JAXBException e) {

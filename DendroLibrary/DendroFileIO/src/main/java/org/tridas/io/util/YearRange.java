@@ -28,21 +28,9 @@ package org.tridas.io.util;
  * A range of years. Ranges are immutable; all otherwise-destructive operations
  * on a Range return a new Range.
  *
- * <p>
- * Unfortunately, use of this data structure in the class Sample often violates
- * the single-instance storage principle: we hope that the usage of Range and
- * Sample will always keep <code>Sample.data.size() == Range.span()</code>, but
- * there aren't any built-in ways to do this, so it's up to you. (If you add an
- * element to sample.data, increase sample.range by one, for example.) The
- * problem is that the <code>end</code> field is a duplicate of
- * <code>Sample.data.size() + start</code>.
- * </p>
- *
  * @see SafeIntYear
  * @see TreeRingData
- * @author Ken Harris &lt;kbh7 <i style="color: gray">at</i> cornell <i
- *         style="color: gray">dot</i> edu&gt;
- * @version $Id: Range.java 1073 2008-04-27 08:34:27Z lucasm $
+ * @author Ken Harris 
  */
 public class YearRange implements Comparable {
 

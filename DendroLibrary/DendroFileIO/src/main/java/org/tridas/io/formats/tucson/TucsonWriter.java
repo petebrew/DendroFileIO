@@ -1,5 +1,6 @@
 package org.tridas.io.formats.tucson;
 
+import java.util.ArrayList;
 import java.util.HashSet;
 import java.util.Iterator;
 import java.util.List;
@@ -8,7 +9,6 @@ import java.util.Set;
 import org.tridas.interfaces.ITridasSeries;
 import org.tridas.io.AbstractDendroCollectionWriter;
 import org.tridas.io.I18n;
-import org.tridas.io.TridasIO;
 import org.tridas.io.defaults.IMetadataFieldSet;
 import org.tridas.io.naming.HierarchicalNamingConvention;
 import org.tridas.io.naming.INamingConvention;
@@ -20,12 +20,12 @@ import org.tridas.schema.SeriesLink;
 import org.tridas.schema.TridasDerivedSeries;
 import org.tridas.schema.TridasElement;
 import org.tridas.schema.TridasMeasurementSeries;
-import org.tridas.schema.TridasMeasurementSeriesPlaceholder;
 import org.tridas.schema.TridasObject;
 import org.tridas.schema.TridasProject;
 import org.tridas.schema.TridasRadius;
 import org.tridas.schema.TridasSample;
 import org.tridas.schema.SeriesLink.IdRef;
+
 
 /**
  * Writer for the Tucson file format.  
@@ -77,7 +77,7 @@ public class TucsonWriter extends AbstractDendroCollectionWriter {
 				// List of refs in the linkSeries tag of our derivedSeries
 				Set<String> refsInDSeries = new HashSet<String>();  
 				
-				List<Object> lstRefedSeries = null;
+				ArrayList<Object> lstRefedSeries = new ArrayList<Object>();
 				
 				// Get all the SeriesLinks for this DerivedSeries
 				try{List<SeriesLink> linkedToSeries = ds.getLinkSeries().getSeries();
@@ -90,7 +90,8 @@ public class TucsonWriter extends AbstractDendroCollectionWriter {
 							} 
 							catch (NullPointerException e3){}
 							*/
-							lstRefedSeries.add(sl.getIdRef().getRef());
+							Object blah = sl.getIdRef().getRef();
+							lstRefedSeries.add(blah);
 							
 						}
 					}
