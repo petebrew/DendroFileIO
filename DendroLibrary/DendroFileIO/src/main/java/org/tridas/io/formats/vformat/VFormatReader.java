@@ -178,18 +178,23 @@ public class VFormatReader extends AbstractDendroFileReader {
 					
 					// Set missing rings fields
 					TridasWoodCompleteness wc = new TridasWoodCompleteness();
+					Integer missingInnerRings = null;
+					Integer missingOuterRings = null;
 					try{
-						Integer missingInnerRings = Integer.valueOf((line.substring(70,73)));	
+						missingInnerRings = Integer.valueOf((line.substring(70,73)));	
 						wc.setNrOfUnmeasuredInnerRings(missingInnerRings);					
 					} catch (NumberFormatException e){}
 					
 					try{
-						Integer missingOuterRings = Integer.valueOf((line.substring(75,78)));			
+						missingOuterRings = Integer.valueOf((line.substring(75,78)));			
 						wc.setNrOfUnmeasuredOuterRings(missingOuterRings);						
 					} catch (NumberFormatException e){}
 					
 					// Add woodcompleteness to series
-					((TridasMeasurementSeries)thisseries).setWoodCompleteness(wc);
+					if(missingInnerRings!=null || missingOuterRings!=null)
+					{
+						((TridasMeasurementSeries)thisseries).setWoodCompleteness(wc);
+					}
 					
 					try{
 						String stdErrInnerRings = line.substring(73,75);			
@@ -198,7 +203,7 @@ public class VFormatReader extends AbstractDendroFileReader {
 							TridasGenericField gf = new TridasGenericField();
 							gf.setName("vformat.stdErrMissingInnerRings");
 							gf.setValue(stdErrInnerRings);
-							gf.setType("String");
+							gf.setType("xs:string");
 							genericFields.add(gf);
 						}
 					} catch (NumberFormatException e){}
@@ -210,7 +215,7 @@ public class VFormatReader extends AbstractDendroFileReader {
 							TridasGenericField gf = new TridasGenericField();
 							gf.setName("vformat.stdErrMissingOuterRings");
 							gf.setValue(stdErrOuterRings);
-							gf.setType("String");
+							gf.setType("xs:string");
 							genericFields.add(gf);
 						}
 					} catch (NumberFormatException e){}
@@ -320,7 +325,7 @@ public class VFormatReader extends AbstractDendroFileReader {
 					TridasGenericField gf = new TridasGenericField();
 					gf.setName("vformat.freeTextHeaderLine");
 					gf.setValue(line.trim());
-					gf.setType("String");
+					gf.setType("xs:string");
 					gflist.add(gf);
 				} catch (NullPointerException e){}	
 				

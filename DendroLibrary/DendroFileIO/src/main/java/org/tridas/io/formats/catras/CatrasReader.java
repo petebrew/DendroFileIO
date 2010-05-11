@@ -459,7 +459,7 @@ public class CatrasReader extends AbstractDendroFileReader {
 				ArrayList<TridasGenericField> genericFields = new ArrayList<TridasGenericField>();
 				TridasGenericField gf = new TridasGenericField();
 				gf.setName("catras.speciesCode");
-				gf.setType("integer");
+				gf.setType("xs:int");
 				gf.setValue(String.valueOf(speciesCode));
 				genericFields.add(gf);
 				e.setGenericFields(genericFields);
