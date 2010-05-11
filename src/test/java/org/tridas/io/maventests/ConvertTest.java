@@ -30,6 +30,54 @@ import junit.framework.TestCase;
 
 public class ConvertTest extends TestCase {
 
+	public void test() 
+	{
+		String folder = "TestData/TRiDaS";
+		String[] files = getFilesFromFolder(folder);
+		
+		if (files.length==0) fail();
+		
+		for (String filename : files)
+		{	
+			if (!filename.equals("test.xml")) continue;
+			
+			System.out.println("Test conversion of: "+filename);
+			
+			TridasProject project = null;
+		    
+			TridasReader reader = new TridasReader();
+			try {
+				reader.loadFile(folder, filename);
+			} catch (IOException e) {
+				System.out.println(e.getLocalizedMessage());
+				fail();
+			} catch (InvalidDendroFileException e) {
+				e.printStackTrace();
+				fail();
+			}
+			
+			// Extract the TridasProject
+			project = reader.getProject();
+	
+			// Create a new converter based on a TridasProject
+			TucsonWriter tucsonwriter = new TucsonWriter();
+			tucsonwriter.setNamingConvention(new UUIDNamingConvention());
+			try {
+				tucsonwriter.loadProject(project);
+			} catch (IncompleteTridasDataException e) {
+				e.printStackTrace();
+			} catch (ConversionWarningException e) {
+				e.printStackTrace();
+			}
+	
+	
+			// Actually save file(s) to disk
+			tucsonwriter.saveAllToDisk("TestData/Output");
+		}
+
+	}
+	
+	
 	public void testTridasToTucson() 
 	{
 		String folder = "TestData/TRiDaS";
@@ -59,6 +107,7 @@ public class ConvertTest extends TestCase {
 	
 			// Create a new converter based on a TridasProject
 			TucsonWriter tucsonwriter = new TucsonWriter();
+			tucsonwriter.setNamingConvention(new UUIDNamingConvention());
 			try {
 				tucsonwriter.loadProject(project);
 			} catch (IncompleteTridasDataException e) {
