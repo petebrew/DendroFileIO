@@ -79,6 +79,10 @@ public class TrimsReader extends AbstractDendroFileReader {
 			
 			if(argFileString[i].startsWith(" "))
 			{	
+				if (argFileString[i].trim()=="999")
+				{
+					break;
+				}
 				v.setValue(argFileString[i].trim());
 				ringWidthValues.add(v);
 				log.debug("value = "+String.valueOf(argFileString[i]));
