@@ -402,7 +402,15 @@ public class TucsonReader extends AbstractDendroFileReader {
 		line = line.substring(codeLength);
 		
 		// Extract the year value and remove
-		SafeIntYear currentLineYearMarker = new SafeIntYear(line.substring(0,4));
+		SafeIntYear currentLineYearMarker = null;
+		try {
+			currentLineYearMarker = new SafeIntYear(line.substring(0,4));
+			} catch (NumberFormatException e){
+				throw new InvalidDendroFileException(I18n.getText("tucson.invalidDecadeMarker", 
+						line.substring(0,4)), 
+						this.currentLineNumber);
+			}
+		
 		SafeIntYear oldestYear = currentLineYearMarker;
 		Boolean containsYoungestYear = false;
 		Boolean containsOldestYear = false;
@@ -640,7 +648,7 @@ public class TucsonReader extends AbstractDendroFileReader {
 					 (lastSeriesCode.equals(thisCode)))
 			{
 				// Marker is less than the previous marker. 
-				throw new InvalidDendroFileException(I18n.getText("fileio.newSeriesSameCode", 
+				throw new InvalidDendroFileException(I18n.getText("tucson.newSeriesSameCode", 
 						currentLineYearMarker.toString()),
 						this.getCurrentLineNumber());						
 			}
@@ -972,8 +980,20 @@ public class TucsonReader extends AbstractDendroFileReader {
 		return project;
 	}
 	
+	/**
+	 * This checks to see if the file is a valid Tucson file and at the same
+	 * time sets whether its an RWL or CRN style file. 
+	 * 
+	 * @param argFileString
+	 * @return
+	 * @throws InvalidDendroFileException
+	 */
 	public boolean isValidFile(String[] argFileString) throws InvalidDendroFileException
 	{
+		 /** @todo This function is computationally expensive as it does a complete regex
+		 * parse of the file.  We could dramatically speed things up with more thorough
+		 * regular expressions.
+		 * */
 		int index = 0;
 		int crnLines = 0;
 		int rwlLines = 0;

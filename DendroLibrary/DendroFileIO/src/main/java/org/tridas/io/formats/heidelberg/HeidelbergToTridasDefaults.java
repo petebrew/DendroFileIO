@@ -41,15 +41,7 @@ public class HeidelbergToTridasDefaults extends TridasMetadataFieldSet {
 		setDefaultValue(DefaultFields.STANDARDIZATION_METHOD, new StringDefaultValue());
 	}
 	
-	/**
-	 * @see org.tridas.io.defaults.TridasMetadataFieldSet#getDefaultTridasProject()
-	 */
-	@Override
-	protected TridasProject getDefaultTridasProject() {
-		TridasProject p = super.getDefaultTridasProject();
-		p.setComments("Converted from Heidelberg file.");
-		return p;
-	}
+
 	
 	
 	/**
