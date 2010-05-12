@@ -48,7 +48,7 @@ public class HeidelbergReader extends AbstractDendroFileReader {
 	private int headerNumLines = 0;
 	
 	public HeidelbergReader() {
-		super("heidelberg", HeidelbergToTridasDefaults.class);
+		super(HeidelbergToTridasDefaults.class);
 	}
 
 	@Override
@@ -312,5 +312,27 @@ public class HeidelbergReader extends AbstractDendroFileReader {
 		return currentLineNum + 1; // plus one because line numbers start at 1, not 0
 	}
 
+	/**
+	 * @see org.tridas.io.IDendroFileReader#getDescription()
+	 */
+	@Override
+	public String getDescription() {
+		return I18n.getText("heidelberg.about.description");
+	}
 
+	/**
+	 * @see org.tridas.io.IDendroFileReader#getFullName()
+	 */
+	@Override
+	public String getFullName() {
+		return I18n.getText("heidelberg.about.fullName");
+	}
+
+	/**
+	 * @see org.tridas.io.IDendroFileReader#getShortName()
+	 */
+	@Override
+	public String getShortName() {
+		return I18n.getText("heidelberg.about.shortName");
+	}
 }
