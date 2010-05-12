@@ -13,7 +13,7 @@ import org.tridas.io.warnings.ConversionWarning;
  * @author Daniel
  *
  */
-public interface IMetadataFieldSet {
+public interface IMetadataFieldSet extends Cloneable {
 	
 	/**
 	 * Add a warning from validation
@@ -41,4 +41,10 @@ public interface IMetadataFieldSet {
 	 * @return
 	 */
 	public AbstractDefaultValue<? extends Object> getDefaultValue(Enum<?> argValueType);
+	
+	/**
+	 * Clones values to new {@link IMetadataFieldSet}.
+	 * @return
+	 */
+	public Object clone();
 }

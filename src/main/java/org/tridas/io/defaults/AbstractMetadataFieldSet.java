@@ -21,8 +21,8 @@ public abstract class AbstractMetadataFieldSet implements IMetadataFieldSet {
 
 	private final static SimpleLogger log = new SimpleLogger(AbstractMetadataFieldSet.class);
 	
-	private final HashMap<Enum<?>, AbstractDefaultValue<?>> valueMap = new HashMap<Enum<?>, AbstractDefaultValue<?>>();
-	private final ArrayList<ConversionWarning> warnings = new ArrayList<ConversionWarning>();
+	private HashMap<Enum<?>, AbstractDefaultValue<?>> valueMap = new HashMap<Enum<?>, AbstractDefaultValue<?>>();
+	private ArrayList<ConversionWarning> warnings = new ArrayList<ConversionWarning>();
 	
 	public AbstractMetadataFieldSet(){
 		initDefaultValues();
@@ -120,5 +120,24 @@ public abstract class AbstractMetadataFieldSet implements IMetadataFieldSet {
 	@Override
 	public ArrayList<ConversionWarning> getConversionWarnings() {
 		return warnings;
+	}
+	
+	public Object clone(){
+		AbstractMetadataFieldSet o;
+		try {
+			o = (AbstractMetadataFieldSet) super.clone();
+		} catch (CloneNotSupportedException e) {
+			return this; // should not happen
+		}
+		o.valueMap = new HashMap<Enum<?>, AbstractDefaultValue<?>>();
+		o.warnings = new ArrayList<ConversionWarning>();
+		
+		for(Enum<?> e : valueMap.keySet()){
+			o.valueMap.put(e,(AbstractDefaultValue<?>) valueMap.get(e).clone());
+		}
+		for(ConversionWarning cw : warnings){
+			o.warnings.add(cw);
+		}
+		return o;
 	}
 }

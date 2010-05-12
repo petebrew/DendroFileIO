@@ -11,7 +11,7 @@ import org.tridas.io.util.StringUtils;
  * @author Daniel
  *
  */
-public abstract class AbstractDefaultValue<E extends Object> {
+public abstract class AbstractDefaultValue<E extends Object> implements Cloneable {
 	private static final SimpleLogger log = new SimpleLogger(AbstractDefaultValue.class);
 	
 	private boolean overriding = false;
@@ -202,5 +202,14 @@ public abstract class AbstractDefaultValue<E extends Object> {
 	 */
 	public boolean isPadRight() {
 		return padRight;
+	}
+	
+	public Object clone(){
+		try {
+			return super.clone();
+		} catch (CloneNotSupportedException e) {
+			log.error("Could not clone for some reason, bad bad bad");
+			return this; // should now happen
+		}
 	}
 }

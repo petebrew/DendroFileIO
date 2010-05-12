@@ -8,19 +8,19 @@ package org.tridas.io.util;
  */
 public class ITRDBTaxonConverter {
 
-	public ITRDBTaxonConverter()
+	private ITRDBTaxonConverter()
 	{
 		
 	}
 	
-	public static String getCodeFromName(String taxonname)
-	{
-		return "ABCD";
+	public static String getCodeFromName(String argTaxon){
+		// TODO implement
+		return argTaxon;
 	}
 	
-	public static String getNameFromCode(String code)
-	{
-		return "Abies alba L.";
+	public static String getNameFromCode(String argCode){
+		// TODO implement
+		return argCode;
 	}
 	
 }
