@@ -3,15 +3,21 @@ package org.tridas.io.formats.heidelberg;
 import org.tridas.io.AbstractDendroCollectionWriter;
 import org.tridas.io.I18n;
 import org.tridas.io.defaults.IMetadataFieldSet;
+import org.tridas.io.formats.heidelberg.TridasToHeidelbergDefaults.HeidelbergField;
 import org.tridas.io.naming.HierarchicalNamingConvention;
 import org.tridas.io.naming.INamingConvention;
 import org.tridas.io.naming.UUIDNamingConvention;
 import org.tridas.io.util.TridasHierarchyHelper;
 import org.tridas.io.warnings.ConversionWarningException;
 import org.tridas.io.warnings.IncompleteTridasDataException;
+import org.tridas.schema.TridasDerivedSeries;
 import org.tridas.schema.TridasElement;
+import org.tridas.schema.TridasInterpretation;
+import org.tridas.schema.TridasMeasurementSeries;
 import org.tridas.schema.TridasObject;
 import org.tridas.schema.TridasProject;
+import org.tridas.schema.TridasRadius;
+import org.tridas.schema.TridasRadiusPlaceholder;
 import org.tridas.schema.TridasSample;
 
 public class HeidelbergWriter extends AbstractDendroCollectionWriter {
@@ -31,15 +37,31 @@ public class HeidelbergWriter extends AbstractDendroCollectionWriter {
 		for(TridasObject o : TridasHierarchyHelper.getObjectList(argProject)){
 			
 			for(TridasElement e : TridasHierarchyHelper.getElementList(o)){
+				TridasToHeidelbergDefaults elementDefaults = (TridasToHeidelbergDefaults) defaults.clone();
+				elementDefaults.populateFromTridasElement(e);
 				
 				for(TridasSample s : e.getSamples()){
 					
-					//for(TridasRadius r : )
+					for(TridasRadius r : s.getRadiuses()){
+						
+						for(TridasMeasurementSeries ms :r.getMeasurementSeries()){
+							TridasToHeidelbergDefaults msDefaults = (TridasToHeidelbergDefaults) elementDefaults.clone();
+							msDefaults.populateFromMS(ms);
+							
+							HeidelbergFile file = new HeidelbergFile(this, msDefaults);
+							file.setSeries(ms);
+							addToFileList(file);
+						}
+					}
+					
+					if( s.isSetRadiusPlaceholder()){
+						// derived,
+					}
 				}
 			}
 		}
 	}
-
+	
 	/**
 	 * @see org.tridas.io.IDendroCollectionWriter#getNamingConvention()
 	 */
