@@ -1,34 +1,15 @@
 package org.tridas.io.formats.sheffield;
 
 import org.tridas.interfaces.ITridasSeries;
-import org.tridas.io.DendroFile;
+import org.tridas.io.IDendroCollectionWriter;
+import org.tridas.io.IDendroFile;
 import org.tridas.io.warnings.ConversionWarningException;
 
-public class SheffieldFile extends DendroFile {
+public class SheffieldFile implements IDendroFile {
 
 	public SheffieldFile() {
-		super("sheffield");
 	}
 
-	@Override
-	public void addSeries(ITridasSeries series)
-			throws ConversionWarningException {
-		// TODO Auto-generated method stub
-
-	}
-
-	@Override
-	public String[] saveToString() {
-		// TODO Auto-generated method stub
-		return null;
-	}
-
-	@Override
-	public void setSeries(ITridasSeries series)
-			throws ConversionWarningException {
-		// TODO Auto-generated method stub
-
-	}
 	
 	/**
 	 * Sheffield format has a number of special chars that can't be included in 
@@ -60,6 +41,46 @@ public class SheffieldFile extends DendroFile {
 		if(str.contains("(")) return true;
 		if(str.contains(")")) return true;
 		return false;
+	}
+
+
+	/**
+	 * @see org.tridas.io.IDendroFile#getExtension()
+	 */
+	@Override
+	public String getExtension() {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+
+	/**
+	 * @see org.tridas.io.IDendroFile#getSeries()
+	 */
+	@Override
+	public ITridasSeries[] getSeries() {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+
+	/**
+	 * @see org.tridas.io.IDendroFile#getWriter()
+	 */
+	@Override
+	public IDendroCollectionWriter getWriter() {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+
+	/**
+	 * @see org.tridas.io.IDendroFile#saveToString()
+	 */
+	@Override
+	public String[] saveToString() {
+		// TODO Auto-generated method stub
+		return null;
 	}
 
 }

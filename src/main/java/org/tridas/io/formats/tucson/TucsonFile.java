@@ -4,13 +4,15 @@ import java.io.IOException;
 import java.math.BigInteger;
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
+import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 
 import javax.xml.datatype.XMLGregorianCalendar;
 
 import org.tridas.interfaces.ITridasSeries;
-import org.tridas.io.DendroFile;
+import org.tridas.io.IDendroCollectionWriter;
+import org.tridas.io.IDendroFile;
 import org.tridas.io.I18n;
 import org.tridas.io.defaults.IMetadataFieldSet;
 import org.tridas.io.formats.tucson.TridasToTucsonDefaults.TucsonField;
@@ -105,7 +107,7 @@ import org.tridas.schema.TridasValue;
  * >CDendro wiki</a> also contains useful information.
  * </p>
  * */
-public class TucsonFile extends DendroFile{
+public class TucsonFile implements IDendroFile{
 
 	/**
 	 * Tucson doesn't support negative years (e.g. BC) so a standard
@@ -120,25 +122,21 @@ public class TucsonFile extends DendroFile{
 	 * Contains the defaults for the fields
 	 */
 	private TridasToTucsonDefaults defaults;
+	private ArrayList<ITridasSeries> seriesList;
+	
+	private String extension;
 
 	/**
 	 * Total range of years for data in this file
 	 */
 	private YearRange range = null;
 	
+	private final IDendroCollectionWriter writer;
 	
-	
-	/**
-	 * Standard constructor.  Uses default defaultFields!
-	 */
-	public TucsonFile(){
-		super("tucson");
-		this.defaults = new TridasToTucsonDefaults();
-	}
-	
-	public TucsonFile(IMetadataFieldSet argDefaults){
-		super("tucson");
+	public TucsonFile(IMetadataFieldSet argDefaults, IDendroCollectionWriter argWriter){
 		this.defaults = (TridasToTucsonDefaults) argDefaults;
+		seriesList = new ArrayList<ITridasSeries>();
+		writer = argWriter;
 	}
 	
 	/**
@@ -286,17 +284,17 @@ public class TucsonFile extends DendroFile{
 		defaults.getStringDefaultValue(TucsonField.LATLONG).setValue(ddToDDMMString(latitude, LatLong.LATITUDE) + ddToDDMMString(longitude, LatLong.LONGITUDE));
 	}
 	
-	@Override
 	public void addSeries(ITridasSeries series) throws ConversionWarningException {
 		
 		// Add this series to our list
-		getSeriesList().add(series);
+		seriesList.add(series);
 
 		// If list contains derivedseries then its a chronology and should have the
 		// crn file extension
-		if(series instanceof TridasDerivedSeries)
-		{
-			this.setExtension(".crn");
+		if(series instanceof TridasDerivedSeries){
+			extension = "crn";
+		}else{
+			extension = "rwl";
 		}
 				
 		
@@ -379,15 +377,6 @@ public class TucsonFile extends DendroFile{
 			
 		}
 		
-	}
-	
-	
-	@Override
-	public void setSeries(ITridasSeries series) throws ConversionWarningException{
-		clearSeries();
-		
-		addSeries(series);
-			
 	}
 	
 	/**
@@ -484,7 +473,7 @@ public class TucsonFile extends DendroFile{
 		String code = defaults.getStringDefaultValue(TucsonField.SITE_CODE).getStringValue();
 	
 		// Loop through each series in our list
-		for (ITridasSeries series : getSeriesList()){
+		for (ITridasSeries series : seriesList){
 			// Extract all values from series
 			List<TridasValue> data = series.getValues().get(0).getValues();
 			
@@ -641,5 +630,29 @@ public class TucsonFile extends DendroFile{
 		
 		out +=String.valueOf(dd)+String.valueOf(mm);
 		return out;
+	}
+
+	/**
+	 * @see org.tridas.io.IDendroFile#getExtension()
+	 */
+	@Override
+	public String getExtension() {
+		return extension;
+	}
+
+	/**
+	 * @see org.tridas.io.IDendroFile#getSeries()
+	 */
+	@Override
+	public ITridasSeries[] getSeries() {
+		return seriesList.toArray(new ITridasSeries[0]);
+	}
+
+	/**
+	 * @see org.tridas.io.IDendroFile#getWriter()
+	 */
+	@Override
+	public IDendroCollectionWriter getWriter() {
+		return writer;
 	}
 }

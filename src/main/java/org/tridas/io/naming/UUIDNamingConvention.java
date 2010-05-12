@@ -2,7 +2,7 @@ package org.tridas.io.naming;
 
 import java.util.UUID;
 
-import org.tridas.io.DendroFile;
+import org.tridas.io.IDendroFile;
 import org.tridas.io.I18n;
 import org.tridas.schema.TridasElement;
 import org.tridas.schema.TridasMeasurementSeries;
@@ -20,7 +20,7 @@ import org.tridas.schema.TridasSample;
 public class UUIDNamingConvention extends AbstractNamingConvention {
 	
 	@Override
-	protected String getDendroFilename(DendroFile argFile,
+	protected String getDendroFilename(IDendroFile argFile,
 			TridasProject argProject, TridasObject argObject,
 			TridasElement argElement, TridasSample argSample,
 			TridasRadius argRadius, TridasMeasurementSeries argSeries) {

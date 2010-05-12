@@ -19,19 +19,19 @@ public class TridasToHeidelbergDefaults extends AbstractMetadataFieldSet impleme
 		DATEBEGIN,
 		DATEEND,
 		DATED,
-		LOCATION,
 		SPECIES
 	}
 	
 	@Override
 	protected void initDefaultValues() {
-		setDefaultValue(HeidelbergField.KEY_CODE, new StringDefaultValue("1234567"));
+		setDefaultValue(HeidelbergField.KEY_CODE, new StringDefaultValue("Unknown"));
 		setDefaultValue(HeidelbergField.DATA_FORMAT, new StringDefaultValue("Tree"));
 		setDefaultValue(HeidelbergField.SERIES_TYPE, new StringDefaultValue("Single curve"));
-		setDefaultValue(HeidelbergField.LENGTH, new IntegerDefaultValue(null, 0, 99999));
+		setDefaultValue(HeidelbergField.LENGTH, new IntegerDefaultValue());
 		setDefaultValue(HeidelbergField.DATEBEGIN, new IntegerDefaultValue());
 		setDefaultValue(HeidelbergField.DATEEND, new IntegerDefaultValue());
-		// TODO do the rest of these
+		setDefaultValue(HeidelbergField.DATED, new StringDefaultValue("Dated"));
+		setDefaultValue(HeidelbergField.SPECIES, new StringDefaultValue());
 	}
 	
 }

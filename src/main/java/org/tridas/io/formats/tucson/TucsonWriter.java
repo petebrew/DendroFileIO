@@ -175,7 +175,7 @@ public class TucsonWriter extends AbstractDendroCollectionWriter {
 	 */
 	private void parseObject(TridasProject p, TridasObject o, Boolean topLevel) throws IncompleteTridasDataException, ConversionWarningException{
 		
-		TucsonFile file = new TucsonFile(defaults);  // Class representation of the data file that we'll end up with
+		TucsonFile file = new TucsonFile(defaults, this);  // Class representation of the data file that we'll end up with
 		
 		/**
 		 * Set what object metadata the file can handle

@@ -3,7 +3,7 @@
  */
 package org.tridas.io.naming;
 
-import org.tridas.io.DendroFile;
+import org.tridas.io.IDendroFile;
 import org.tridas.schema.TridasElement;
 import org.tridas.schema.TridasMeasurementSeries;
 import org.tridas.schema.TridasObject;
@@ -17,7 +17,7 @@ import org.tridas.schema.TridasSample;
  */
 public interface INamingConvention {
 
-	public void registerFile(DendroFile argFile,
+	public void registerFile(IDendroFile argFile,
 							 TridasProject argProject,
 							 TridasObject argObject,
 							 TridasElement argElement,
@@ -25,7 +25,7 @@ public interface INamingConvention {
 							 TridasRadius argRadius,
 							 TridasMeasurementSeries argSeries);
 	
-	public String getFilename(DendroFile argFile);
+	public String getFilename(IDendroFile argFile);
 	
 	public String getDescription();
 	

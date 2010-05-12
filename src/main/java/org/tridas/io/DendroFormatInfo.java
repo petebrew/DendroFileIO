@@ -72,34 +72,16 @@ public class DendroFormatInfo {
 		return val;
 	}
 	
-	
-	/**
-	 * Get the preferred file name extension for this format
-	 * 
-	 * @return
-	 */
-	public String getPreferredFileExtension()
-	{
-		String val = null;
-		try{
-		val = I18n.getText(baseTag+".about.preferredFileExtension");
-		}
-		catch (Exception e){}
-		
-		return val;
-		
-	}
-	
 	/**
 	 * Get the text that should appear in the save file dialog 
 	 * filter.
 	 * 
 	 * @return
 	 */
-	public String getFileSaveFilterText()
+	public String getFileSaveFilterText(String argExtension)
 	{
 		String name = this.getFullName();
-		String ext = this.getPreferredFileExtension();
+		String ext = argExtension;
 		String val = null;
 		
 		if (name!=null)

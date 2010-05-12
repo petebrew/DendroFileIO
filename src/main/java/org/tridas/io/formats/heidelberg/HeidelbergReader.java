@@ -208,6 +208,7 @@ public class HeidelbergReader extends AbstractDendroFileReader {
 		}else{
 			unit.setValue(null);
 		}
+		defaults.getStringDefaultValue(DefaultFields.STANDARDIZATION_METHOD).setValue( fileMetadata.get("SeriesType"));
 	}
 	
 	private void populateDataInformation(){

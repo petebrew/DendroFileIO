@@ -42,9 +42,9 @@ public class TridasWriter extends AbstractDendroCollectionWriter {
 	public void parseTridasProject(TridasProject p, IMetadataFieldSet argDefaults)
 			throws IncompleteTridasDataException, ConversionWarningException {
 		
-		TridasFile file = new TridasFile();
-		file.setProject(p);
+		TridasFile file = new TridasFile(this);
 		
+		file.setProject(p);
 		TridasProject project = p;
 		TridasObject object = null;
 		TridasElement element = null;
