@@ -45,7 +45,7 @@ public class BelfastAppleReader extends AbstractDendroFileReader {
 	String samplename;
 	
 	public BelfastAppleReader() {
-		super("belfastapple", BelfastAppleToTridasDefaults.class);
+		super(BelfastAppleToTridasDefaults.class);
 	}
 	@Override
 	protected void parseFile(String[] argFileString,
@@ -166,6 +166,31 @@ public class BelfastAppleReader extends AbstractDendroFileReader {
 	public int getCurrentLineNumber() {
 		// TODO keep track of this
 		return 0;
+	}
+	
+	/**
+	 * @see org.tridas.io.IDendroFileReader#getDescription()
+	 */
+	@Override
+	public String getDescription() {
+		return I18n.getText("belfastapple.about.description");
+	}
+	
+	/**
+	 * @see org.tridas.io.IDendroFileReader#getFullName()
+	 */
+	@Override
+	public String getFullName() {
+		return I18n.getText("belfastapple.about.fullName");
+	}
+	
+	/**
+	 * @see org.tridas.io.IDendroFileReader#getShortName()
+	 */
+	@Override
+	public String getShortName() {
+		return I18n.getText("belfastapple.about.shortName");
+
 	}
 
 

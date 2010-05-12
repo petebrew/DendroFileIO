@@ -2,6 +2,7 @@ package org.tridas.io.formats.besancon;
 
 import org.grlea.log.SimpleLogger;
 import org.tridas.io.AbstractDendroFileReader;
+import org.tridas.io.I18n;
 import org.tridas.io.defaults.IMetadataFieldSet;
 import org.tridas.io.formats.catras.CatrasReader;
 import org.tridas.io.formats.catras.CatrasToTridasDefaults;
@@ -16,7 +17,7 @@ public class BesanconReader extends AbstractDendroFileReader {
 	private BesanconToTridasDefaults defaults = new BesanconToTridasDefaults();
 	
 	public BesanconReader() {
-		super("besancon", BesanconToTridasDefaults.class);
+		super(BesanconToTridasDefaults.class);
 	}
 	
 	@Override
@@ -51,6 +52,30 @@ public class BesanconReader extends AbstractDendroFileReader {
 	public TridasProject getProject() {
 		// TODO Auto-generated method stub
 		return null;
+	}
+
+	/**
+	 * @see org.tridas.io.IDendroFileReader#getDescription()
+	 */
+	@Override
+	public String getDescription() {
+		return I18n.getText("besancon.about.description");
+	}
+
+	/**
+	 * @see org.tridas.io.IDendroFileReader#getFullName()
+	 */
+	@Override
+	public String getFullName() {
+		return I18n.getText("besancon.about.fullName");
+	}
+
+	/**
+	 * @see org.tridas.io.IDendroFileReader#getShortName()
+	 */
+	@Override
+	public String getShortName() {
+		return I18n.getText("besancon.about.shortName");
 	}
 
 }

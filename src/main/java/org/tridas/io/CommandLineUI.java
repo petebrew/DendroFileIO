@@ -15,13 +15,6 @@ import org.tridas.io.warnings.IncorrectDefaultFieldsException;
 import org.tridas.io.warnings.InvalidDendroFileException;
 import org.tridas.schema.TridasProject;
 
-/**
- * This is a default main() class which provides a simple command line interface
- * to the library.  
- * 
- * @author peterbrewer
- *
- */
 public class CommandLineUI {
 	
 	static String asciilogo = "______               _          ______ _ _      _____ _____ \n"+

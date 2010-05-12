@@ -12,25 +12,14 @@ import org.tridas.io.warnings.ConversionWarning;
 import org.tridas.io.warnings.IncorrectDefaultFieldsException;
 import org.tridas.io.warnings.InvalidDendroFileException;
 
-/**
- * This abstract class is inherited by all dendro file readers.  
- * 
- * 
- * @author peterbrewer
- *
- */
 public abstract class AbstractDendroFileReader implements IDendroFileReader {
 	private static final SimpleLogger log = new SimpleLogger(AbstractDendroFileReader.class);
 	
 	private ArrayList<ConversionWarning> warnings =  new ArrayList<ConversionWarning>();
 	private FileHelper fileHelper;
 	private final Class<? extends IMetadataFieldSet> defaultFieldsClass;
-	private DendroFormatInfo formatInformation;
 	
-	public AbstractDendroFileReader(String baseTagName, Class<? extends IMetadataFieldSet> argDefaultFieldsClass){
-		
-		formatInformation = new DendroFormatInfo(baseTagName);
-		
+	public AbstractDendroFileReader(Class<? extends IMetadataFieldSet> argDefaultFieldsClass){		
 		if(argDefaultFieldsClass == null){
 			throw new RuntimeException(I18n.getText("fileio.defaultsnull")); 
 		}
@@ -66,44 +55,18 @@ public abstract class AbstractDendroFileReader implements IDendroFileReader {
 	}
 	
 	/**
-	 * @see org.tridas.io.DendroFormatInfo#getShortName()
-	 */
-	public String getShortName()
-	{
-		return formatInformation.getShortName();
-	}
-	
-	/**
-	 * @see org.tridas.io.DendroFormatInfo#getFullName()
-	 */
-	public String getFullName()
-	{
-		return formatInformation.getFullName();
-	}
-	
-	/**
-	 * @see org.tridas.io.DendroFormatInfo#getDescription()
-	 */
-	public String getDescription()
-	{
-		return formatInformation.getDescription();
-	}
-	
-	/**
 	 * Add a warning to our list of ConversionWarnings
 	 * 
 	 * @param warning
 	 */
-	protected void addWarningToList(ConversionWarning warning)
-	{
+	protected void addWarningToList(ConversionWarning warning){
 		warnings.add(warning);
 	}
 	
 	/**
 	 * Clear list of warnings
 	 */
-	protected void clearWarnings()
-	{
+	protected void clearWarnings(){
 		warnings.clear();
 	}
 	

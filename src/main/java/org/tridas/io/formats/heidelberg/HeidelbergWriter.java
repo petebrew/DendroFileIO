@@ -1,6 +1,7 @@
 package org.tridas.io.formats.heidelberg;
 
 import org.tridas.io.AbstractDendroCollectionWriter;
+import org.tridas.io.I18n;
 import org.tridas.io.defaults.IMetadataFieldSet;
 import org.tridas.io.naming.INamingConvention;
 import org.tridas.io.warnings.ConversionWarningException;
@@ -13,12 +14,7 @@ public class HeidelbergWriter extends AbstractDendroCollectionWriter {
 
 	
 	public HeidelbergWriter(){
-		super("heidelberg", TridasToHeidelbergDefaults.class);
-	}
-	
-	public HeidelbergWriter(Class<? extends IMetadataFieldSet> argDefaultFieldsClass) {
-		super("heidelberg", argDefaultFieldsClass);
-		// TODO Auto-generated constructor stub
+		super(TridasToHeidelbergDefaults.class);
 	}
 
 	@Override
@@ -51,6 +47,30 @@ public class HeidelbergWriter extends AbstractDendroCollectionWriter {
 	public IMetadataFieldSet getDefaults() {
 		// TODO Auto-generated method stub
 		return null;
+	}
+
+	/**
+	 * @see org.tridas.io.IDendroCollectionWriter#getDescription()
+	 */
+	@Override
+	public String getDescription() {
+		return I18n.getText("heidelberg.about.description");
+	}
+
+	/**
+	 * @see org.tridas.io.IDendroCollectionWriter#getFullName()
+	 */
+	@Override
+	public String getFullName() {
+		return I18n.getText("heidelberg.about.fullName");
+	}
+
+	/**
+	 * @see org.tridas.io.IDendroCollectionWriter#getShortName()
+	 */
+	@Override
+	public String getShortName() {
+		return I18n.getText("heidelberg.about.shortName");
 	}
 
 }

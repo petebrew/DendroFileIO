@@ -1,7 +1,6 @@
 package org.tridas.io;
 
 import org.tridas.interfaces.ITridasSeries;
-import org.tridas.io.warnings.ConversionWarningException;
 
 /**
  * Interface for all Dendro File Formats.
