@@ -6,7 +6,6 @@ import org.grlea.log.SimpleLog;
 import org.tridas.io.naming.AbstractNamingConvention;
 import org.tridas.io.naming.HierarchicalNamingConvention;
 import org.tridas.io.naming.INamingConvention;
-import org.tridas.io.naming.NumericalNamingConvention;
 import org.tridas.io.naming.UUIDNamingConvention;
 import org.tridas.io.util.StringUtils;
 import org.tridas.io.warnings.ConversionWarning;
@@ -16,12 +15,7 @@ import org.tridas.io.warnings.IncorrectDefaultFieldsException;
 import org.tridas.io.warnings.InvalidDendroFileException;
 import org.tridas.schema.TridasProject;
 
-/**
- * Command line class to convert dendro files.
- * 
- * @author petebrew
- */
-public class ConvertFile {
+public class CommandLineUI {
 	
 	static String asciilogo = "______               _          ______ _ _      _____ _____ \n"+
 							  "|  _  \\             | |         |  ___(_) |    |_   _|  _  |\n"+
@@ -117,7 +111,7 @@ public class ConvertFile {
 		// Set up writer
 		writer = TridasIO.getFileWriter(outputFormat);
 		if(writer == null){
-			showHelp(false, "Writer format invalid");
+			showHelp(true, "Writer format invalid");
 			return;
 		}
 
@@ -126,25 +120,20 @@ public class ConvertFile {
 			reader.loadFile(inputfilename);
 			project = reader.getProject();
 		} catch (IOException e1) {
-			showHelp(false, "IOException: "+e1.getMessage());
-			return;
+			e1.printStackTrace();
 		} catch (InvalidDendroFileException e) {
-			showHelp(false, "Invalid dendro file: "+e.getMessage());
-			return;
+			e.printStackTrace();
 		}
 
 		// Set up naming convention
 		INamingConvention namingConvention; 
-		if(convention.equalsIgnoreCase("hierarchy")){
+		if(convention.equalsIgnoreCase("hierarchy"))
+		{
 			namingConvention = new HierarchicalNamingConvention();
 		}
-		else if(convention.equalsIgnoreCase("numerical")){
-			namingConvention = new NumericalNamingConvention();
-		}else if(convention.equalsIgnoreCase("uuid")){
+		else
+		{
 			namingConvention = new UUIDNamingConvention();
-		}else{
-			namingConvention = new UUIDNamingConvention();
-			System.out.println("invalid naming convention: "+convention);
 		}
 		
 	    // Write out project
@@ -154,8 +143,7 @@ public class ConvertFile {
 			writer.saveAllToDisk(outputFolder);
 			
 		} catch (IncompleteTridasDataException e) {
-			showHelp(false, "IncompleteTridasDataExcpetion: "+ e.getMessage());
-			return;
+			e.printStackTrace();
 		} catch (ConversionWarningException e) {
 			e.printStackTrace();
 		}
@@ -203,9 +191,9 @@ public class ConvertFile {
 		
 	private static void showTitle(boolean argLogo){
 		if(argLogo){
-			System.out.print(ConvertFile.asciilogo);
+			System.out.print(CommandLineUI.asciilogo);
 		}
-		System.out.println(StringUtils.leftPad("ver. "+ConvertFile.class.getPackage().getImplementationVersion(), 59));
+		System.out.println(StringUtils.leftPad("ver. "+CommandLineUI.class.getPackage().getImplementationVersion(), 59));
 		System.out.println("");
 	}
 	
@@ -224,7 +212,7 @@ public class ConvertFile {
 		System.out.println("  -help              - show this help information");
 		System.out.println("  -verbose           - include verbose warnings");
 		System.out.println("  -version           - show version information and quit");
-		System.out.println("  -naming=convention - uuid, hierarchy, or numerical (default is uuid)");
+		System.out.println("  -naming=convention - either uuid or hierarchy (default is uuid)");
 		System.out.println("  -inputFormat=name  - specify input format name (optional)");
 		System.out.println("  -outputFormat=name - specify output format name (required)");
 		System.out.println("");
@@ -237,7 +225,7 @@ public class ConvertFile {
 	
 	
 	private static void showVersion(boolean argLogo){
-		System.out.println("Version: "+ConvertFile.class.getPackage().getImplementationVersion());
+		System.out.println("Version: "+CommandLineUI.class.getPackage().getImplementationVersion());
 	}
 
 	private static void showFormats(){
