@@ -81,7 +81,7 @@ public class VFormatReader extends AbstractDendroFileReader {
 	}
 	
 	public VFormatReader() {
-		super("vformat", VFormatToTridasDefaults.class);
+		super(VFormatToTridasDefaults.class);
 		project = defaults.getProjectWithDefaults();
 	}
 	
@@ -629,5 +629,27 @@ public class VFormatReader extends AbstractDendroFileReader {
 	}
 	
 
-	
+	/**
+	 * @see org.tridas.io.IDendroFileReader#getDescription()
+	 */
+	@Override
+	public String getDescription() {
+		return I18n.getText("vformat.about.description");
+	}
+
+	/**
+	 * @see org.tridas.io.IDendroFileReader#getFullName()
+	 */
+	@Override
+	public String getFullName() {
+		return I18n.getText("vformat.about.fullName");
+	}
+
+	/**
+	 * @see org.tridas.io.IDendroFileReader#getShortName()
+	 */
+	@Override
+	public String getShortName() {
+		return I18n.getText("vformat.about.shortName");
+	}
 }

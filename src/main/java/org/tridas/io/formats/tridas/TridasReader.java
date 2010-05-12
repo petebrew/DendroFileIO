@@ -41,7 +41,7 @@ public class TridasReader extends AbstractDendroFileReader {
 	
 	
 	public TridasReader() {
-		super("tridas", TridasMetadataFieldSet.class);
+		super(TridasMetadataFieldSet.class);
 	}
 	
 	@Override
@@ -120,5 +120,29 @@ public class TridasReader extends AbstractDendroFileReader {
 	public int getCurrentLineNumber() {
 		// TODO Auto-generated method stub
 		return 0;
+	}
+	
+	/**
+	 * @see org.tridas.io.IDendroFileReader#getDescription()
+	 */
+	@Override
+	public String getDescription() {
+		return I18n.getText("tridas.about.description");
+	}
+
+	/**
+	 * @see org.tridas.io.IDendroFileReader#getFullName()
+	 */
+	@Override
+	public String getFullName() {
+		return I18n.getText("tridas.about.fullName");
+	}
+
+	/**
+	 * @see org.tridas.io.IDendroFileReader#getShortName()
+	 */
+	@Override
+	public String getShortName() {
+		return I18n.getText("tridas.about.shortName");
 	}
 }

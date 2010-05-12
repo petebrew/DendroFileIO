@@ -124,8 +124,8 @@ public class I18n {
 		
 		try{value = msg.getString(key);} 
 		catch (MissingResourceException e){
-			//System.out.println("Unable to find the translation for the key: "+key);
-			e.printStackTrace();
+			System.err.println("Unable to find the translation for the key: "+key);
+			return key;
 		};
 		
 		StringBuffer buf = new StringBuffer();

@@ -3,6 +3,7 @@ package org.tridas.io.formats.tridas;
 import java.util.ArrayList;
 
 import org.tridas.io.AbstractDendroCollectionWriter;
+import org.tridas.io.I18n;
 import org.tridas.io.TridasIO;
 import org.tridas.io.defaults.IMetadataFieldSet;
 import org.tridas.io.defaults.TridasMetadataFieldSet;
@@ -35,7 +36,7 @@ public class TridasWriter extends AbstractDendroCollectionWriter {
 	 * TRiDaS java classes. 
 	 */
 	public TridasWriter(){
-		super("tridas", TridasMetadataFieldSet.class);
+		super(TridasMetadataFieldSet.class);
 	}
 	
 	@Override
@@ -57,8 +58,9 @@ public class TridasWriter extends AbstractDendroCollectionWriter {
 		TridasRadius radius = null;
 		TridasMeasurementSeries series = null;
 		
-		if(project.getObjects().size() == 1){
-			object = project.getObjects().get(0);
+		ArrayList<TridasObject> objects = TridasHierarchyHelper.getObjectList(project);
+		if(objects.size() == 1){
+			object = objects.get(0);
 			
 			ArrayList<TridasElement> elements = TridasHierarchyHelper.getElementList(object);
 			if(elements.size() == 1){
@@ -105,5 +107,29 @@ public class TridasWriter extends AbstractDendroCollectionWriter {
 	@Override
 	public IMetadataFieldSet getDefaults() {
 		return null;
+	}
+	
+	/**
+	 * @see org.tridas.io.IDendroFileReader#getDescription()
+	 */
+	@Override
+	public String getDescription() {
+		return I18n.getText("tridas.about.description");
+	}
+
+	/**
+	 * @see org.tridas.io.IDendroFileReader#getFullName()
+	 */
+	@Override
+	public String getFullName() {
+		return I18n.getText("tridas.about.fullName");
+	}
+
+	/**
+	 * @see org.tridas.io.IDendroFileReader#getShortName()
+	 */
+	@Override
+	public String getShortName() {
+		return I18n.getText("tridas.about.shortName");
 	}
 }
