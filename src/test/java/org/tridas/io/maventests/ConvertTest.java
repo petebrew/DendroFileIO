@@ -32,20 +32,20 @@ public class ConvertTest extends TestCase {
 
 	public void test() 
 	{
-		String folder = "TestData/TRiDaS";
+		String folder = "TestData/Tucson";
 		String[] files = getFilesFromFolder(folder);
 		
 		if (files.length==0) fail();
 		
 		for (String filename : files)
 		{	
-			if (!filename.equals("Tridas2.xml")) continue;
+			if (!filename.equals("Tucson7.rwl")) continue;
 			
 			System.out.println("Test conversion of: "+filename);
 			
 			TridasProject project = null;
 		    
-			TridasReader reader = new TridasReader();
+			TucsonReader reader = new TucsonReader();
 			try {
 				reader.loadFile(folder, filename);
 			} catch (IOException e) {
@@ -60,10 +60,10 @@ public class ConvertTest extends TestCase {
 			project = reader.getProject();
 	
 			// Create a new converter based on a TridasProject
-			TucsonWriter tucsonwriter = new TucsonWriter();
-			tucsonwriter.setNamingConvention(new UUIDNamingConvention());
+			TridasWriter writer = new TridasWriter();
+			writer.setNamingConvention(new UUIDNamingConvention());
 			try {
-				tucsonwriter.loadProject(project);
+				writer.loadProject(project);
 			} catch (IncompleteTridasDataException e) {
 				e.printStackTrace();
 			} catch (ConversionWarningException e) {
@@ -72,7 +72,7 @@ public class ConvertTest extends TestCase {
 	
 	
 			// Actually save file(s) to disk
-			tucsonwriter.saveAllToDisk("TestData/Output");
+			writer.saveAllToDisk("TestData/Output");
 		}
 
 	}

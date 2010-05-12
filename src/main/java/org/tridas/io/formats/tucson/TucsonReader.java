@@ -70,9 +70,10 @@ public class TucsonReader extends AbstractDendroFileReader {
 	private ArrayList<TridasDerivedSeries> dseriesList = new ArrayList<TridasDerivedSeries>();
 
 	private String lastSeriesCode = null;
-	private TridasProject project = null;
+	private TridasProject project;
 	private SafeIntYear lastYearMarker = null;
-
+	private Boolean isChronology = null;
+	
 	private int currentLineNumber = 0;
 	
 	public TucsonReader() {
@@ -86,6 +87,12 @@ public class TucsonReader extends AbstractDendroFileReader {
 		defaults = (TucsonToTridasDefaults) argDefaultFields;
 		tucsonFields = new TridasToTucsonDefaults();
 		log.debug("starting tucson file parsing");
+		
+		project = defaults.getProjectWithDefaults(true);
+		
+		boolean isValidFile = isValidFile(argFileString);
+		
+		
 		int index = 0;
 		
 		String headercache1 = argFileString[0];
@@ -93,7 +100,7 @@ public class TucsonReader extends AbstractDendroFileReader {
 		String headercache3 = argFileString[2];
 				
 		// Now continue and read data
-		Boolean isChronology = false;
+		Boolean withinChronologyBlock = false;
 		
 		for( ; index < argFileString.length; index++){
 			String line = argFileString[index];
@@ -102,11 +109,11 @@ public class TucsonReader extends AbstractDendroFileReader {
 			switch (getLineType(line))
 			{
 				case HEADER_LINE1:										
-					if(isChronology) break;
+					if(withinChronologyBlock) break;
 					headercache1 = line; headercache2 = null; headercache3 = null;
 					break;
 				case HEADER_LINE2:
-					if(isChronology) break;
+					if(withinChronologyBlock) break;
 					if (headercache1!=null && headercache2==null)
 					{
 						headercache2 = line; headercache3 = null;
@@ -123,7 +130,7 @@ public class TucsonReader extends AbstractDendroFileReader {
 					}
 					break;
 				case HEADER_LINE3:
-					if(isChronology) break;					
+					if(withinChronologyBlock) break;					
 					if (headercache2!=null && headercache3==null)
 					{
 						headercache3 = line;
@@ -145,27 +152,33 @@ public class TucsonReader extends AbstractDendroFileReader {
 				case CRN_DATA:
 				case CRN_DATA_PARTIAL:
 				case CRN_DATA_COMPLETE:
-					// This is CRN data 
-					isChronology=true;
-
-					// Remove the skeleton radius entity and replace with radiusPlaceHolder 
-					// and measurementSeriesPlaceHolder
-					replaceRadiusWithPlaceholder();
-					
-					// Clear header cache and load data
-					headercache1=null; headercache2=null; headercache3=null;
-					loadCRNData(line);
-					break;					
 				case RWL_DATA:
 				case RWL_DATA_PARTIAL:
 				case RWL_DATA_COMPLETE:
-					// This is RWL data 				
+					
 					// Clear header cache and load data
 					headercache1=null; headercache2=null; headercache3=null;
-					loadRWLData(line);
 					
-					
-					break;
+					if(this.isChronology)
+					{
+						if(withinChronologyBlock==false)
+						{
+							// Remove the skeleton radius entity and replace with radiusPlaceHolder 
+							// and measurementSeriesPlaceHolder
+							replaceRadiusWithPlaceholder();
+						}
+	
+						// This is CRN data 
+						withinChronologyBlock=true;
+						loadCRNData(line);
+						break;	
+					}
+					else
+					{
+						// This is RWL data 				
+						loadRWLData(line);
+						break;
+					}
 				default:
 					if (line!=null){
 						addWarningToList(new ConversionWarning(WarningType.IGNORED, 
@@ -684,12 +697,12 @@ public class TucsonReader extends AbstractDendroFileReader {
 		    m1 = p1.matcher(line);
 			return m1.find();			
 		case CRN_DATA_PARTIAL:
-			// I don't think this shouldn't exist.  NOAA webpage says all CRN data lines should contain 10 values 
-			regex = "^([\\d\\w\\s]{8}|[\\d\\w\\s]{6})[\\d\\s-]{4}([\\s\\d-]{4}\\s((\\s\\d)|(\\d\\d)))";
+			// I don't think this should exist.  NOAA webpage says all CRN data lines should contain 10 values 
+			/*regex = "^([\\d\\w\\s]{8}|[\\d\\w\\s]{6})[\\d\\s-]{4}([\\s\\d-]{4}\\s((\\s\\d)|(\\d\\d)))";
 		    p1 = Pattern.compile(regex,Pattern.CASE_INSENSITIVE | Pattern.DOTALL);
 		    m1 = p1.matcher(line);
 			if (!matchesLineType(TucsonLineType.CRN_DATA_COMPLETE, line)) return m1.find();
-			else return false;
+			else */return false;
 		case CRN_DATA:
 			return matchesLineType(TucsonLineType.CRN_DATA_PARTIAL, line) || matchesLineType(TucsonLineType.CRN_DATA_COMPLETE, line);   
 		case DATA:
@@ -958,6 +971,66 @@ public class TucsonReader extends AbstractDendroFileReader {
 		
 		return project;
 	}
+	
+	public boolean isValidFile(String[] argFileString) throws InvalidDendroFileException
+	{
+		int index = 0;
+		int crnLines = 0;
+		int rwlLines = 0;
+		int headerLines = 0;
+		int otherLines = 0;
+		
+		for( ; index < argFileString.length; index++)
+		{
+			String line = argFileString[index];
+			currentLineNumber = index+1;
+			
+			if(this.matchesLineType(TucsonLineType.CRN_DATA, line))
+			{
+				crnLines++;
+			}
+			
+			if(this.matchesLineType(TucsonLineType.RWL_DATA, line))
+			{
+				rwlLines++;
+			}
+			
+			if(this.matchesLineType(TucsonLineType.HEADER, line))
+			{
+				headerLines++;
+			}
+		
+		}
+		
+		if(crnLines==0 && rwlLines==0)
+		{
+			log.debug("No data lines so file is invalid");
+			return false;
+		}
+		
+		if(crnLines==rwlLines)
+		{
+			log.debug("same number of crn and rwl lines so files is invalid");
+			return false;
+		}
+				
+		if(crnLines>rwlLines)
+		{
+			this.isChronology = true;
+		}
+		else
+		{
+			this.isChronology = false;
+		}
+		
+		
+		return true;
+		
+		
+		
+	}
+	
+	
 	
 	/**
 	 * @see org.tridas.io.IDendroFileReader#getDefaults()

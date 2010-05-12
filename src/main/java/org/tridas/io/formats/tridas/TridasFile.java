@@ -56,10 +56,11 @@ public class TridasFile implements IDendroFile {
 		if(project == null){
 			return null;
 		}
-		
-		SchemaFactory factory = SchemaFactory.newInstance(XMLConstants.W3C_XML_SCHEMA_NS_URI);
-		URL file = IOUtils.getFileInJarURL("schemas/tridas-1.2.1.xsd");
 		Schema schema = null;
+		
+	/*	SchemaFactory factory = SchemaFactory.newInstance(XMLConstants.W3C_XML_SCHEMA_NS_URI);
+		URL file = IOUtils.getFileInJarURL("schemas/tridas-1.2.1.xsd");
+		
 		try {
 			schema = factory.newSchema(file);
 		} catch (SAXException e) {
@@ -67,7 +68,7 @@ public class TridasFile implements IDendroFile {
 			log.dbe(DebugLevel.L2_ERROR, e);
 			writer.getWarnings().add(new ConversionWarning(WarningType.DEFAULT, "Error getting TRiDaS schema for validation, not using."));
 		}
-		
+		*/
 		
 		StringWriter swriter = new StringWriter();
 		// Marshaller code goes here... 
@@ -80,6 +81,7 @@ public class TridasFile implements IDendroFile {
 	        	m.setSchema(schema);
 	        }
 			m.marshal(project, swriter);
+
 			//m.marshal(project,new File("/tmp/test.xml"));
 		} catch (JAXBException e) {
 			log.error("Jaxb error");
