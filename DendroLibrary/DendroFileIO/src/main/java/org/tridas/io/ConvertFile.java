@@ -190,10 +190,10 @@ public class ConvertFile {
 		}
 		
 		// Grab a list of dendro files that will be written
-		DendroFile[] files = writer.getFiles();
+		IDendroFile[] files = writer.getFiles();
 		
 		// Show list of output files
-		for(DendroFile f : files)
+		for(IDendroFile f : files)
 		{
 			System.out.println("File saved to: " + writer.getNamingConvention().getFilename(f));
 		}

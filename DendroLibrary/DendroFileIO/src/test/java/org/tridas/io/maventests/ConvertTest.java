@@ -4,7 +4,7 @@ import java.io.File;
 import java.io.FilenameFilter;
 import java.io.IOException;
 
-import org.tridas.io.DendroFile;
+import org.tridas.io.IDendroFile;
 import org.tridas.io.defaults.TridasMetadataFieldSet;
 import org.tridas.io.formats.belfastapple.BelfastAppleReader;
 import org.tridas.io.formats.belfastarchive.BelfastArchiveReader;

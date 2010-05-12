@@ -121,7 +121,11 @@ public class ConversionWarning {
 		 * Value does not strictly adhere to the specification but has been
 		 * used nonetheless
 		 */
-		NOT_STRICT;
+		NOT_STRICT,
+		/**
+		 * File was not read or writen to.
+		 */
+		FILE_IGNORED;
 
 		/**
 		 * Get the warning type as an internationalised string
@@ -147,6 +151,8 @@ public class ConversionWarning {
 				return I18n.getText("warningType.workAround");
 			case DEFAULT:
 				return I18n.getText("warningType.defaultValue");
+			case FILE_IGNORED:
+				return I18n.getText("warningType.fileIgnored");
 			default:
 				return "";
 			}

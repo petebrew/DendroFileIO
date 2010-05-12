@@ -13,11 +13,10 @@ import org.tridas.io.warnings.IncorrectDefaultFieldsException;
 import org.tridas.io.warnings.InvalidDendroFileException;
 
 public abstract class AbstractDendroFileReader implements IDendroFileReader {
-
 	private static final SimpleLogger log = new SimpleLogger(AbstractDendroFileReader.class);
+	
 	private ArrayList<ConversionWarning> warnings =  new ArrayList<ConversionWarning>();
 	private FileHelper fileHelper;
-	private ArrayList<String> rawMetadata = new ArrayList<String>();
 	private final Class<? extends IMetadataFieldSet> defaultFieldsClass;
 	private DendroFormatInfo formatInformation;
 	
@@ -81,14 +80,6 @@ public abstract class AbstractDendroFileReader implements IDendroFileReader {
 	public String getDescription()
 	{
 		return formatInformation.getDescription();
-	}
-	
-	/**
-	 * @see org.tridas.io.DendroFormatInfo#getPreferredFileExtension()
-	 */
-	public String getPreferredFileExtension()
-	{
-		return formatInformation.getPreferredFileExtension();
 	}
 	
 	/**

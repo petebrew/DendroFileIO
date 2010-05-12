@@ -27,7 +27,8 @@ public class HeidelbergToTridasDefaults extends TridasMetadataFieldSet {
 		DATE_BEGIN,
 		DATE_END,
 		TAXON,
-		UNIT
+		UNIT,
+		STANDARDIZATION_METHOD
 	}
 	
 	public void initDefaultValues(){
@@ -37,6 +38,7 @@ public class HeidelbergToTridasDefaults extends TridasMetadataFieldSet {
 		setDefaultValue(DefaultFields.DATE_END, new IntegerDefaultValue());
 		setDefaultValue(DefaultFields.TAXON, new GenericDefaultValue<ControlledVoc>());
 		setDefaultValue(DefaultFields.UNIT, new GenericDefaultValue<TridasUnit>());
+		setDefaultValue(DefaultFields.STANDARDIZATION_METHOD, new StringDefaultValue());
 	}
 	
 	/**
@@ -69,7 +71,9 @@ public class HeidelbergToTridasDefaults extends TridasMetadataFieldSet {
 		interp.setFirstYear(startYear.toTridasYear(DatingSuffix.AD));					
 		interp.setLastYear(endYear.toTridasYear(DatingSuffix.AD));
 		series.setInterpretation(interp);
-		series.setLastModifiedTimestamp(DateUtils.getTodaysDateTime() );
+		series.setLastModifiedTimestamp(DateUtils.getTodaysDateTime());
+		
+		series.setStandardizingMethod(getDefaultValue(DefaultFields.STANDARDIZATION_METHOD).getStringValue());
 		
 		return series;
 	}

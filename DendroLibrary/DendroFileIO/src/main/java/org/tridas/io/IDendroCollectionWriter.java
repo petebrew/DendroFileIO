@@ -38,7 +38,7 @@ public interface IDendroCollectionWriter {
 	 * Get all the dendro files that were parsed
 	 * @return
 	 */
-	public DendroFile[] getFiles();
+	public IDendroFile[] getFiles();
 	
 	/**
 	 * Set the naming convention
@@ -51,18 +51,6 @@ public interface IDendroCollectionWriter {
 	 * @return
 	 */
 	public INamingConvention getNamingConvention();
-	
-	/**
-	 * Get then number of dendro files.
-	 * @return
-	 */
-	public int getFileCount();
-	
-	/**
-	 * Get all the file extension associated with this writer
-	 * @return
-	 */
-	public String getFileExtension();
 	
 	/**
 	 * Save all associated files to disk

@@ -147,7 +147,6 @@ public class TridasIO {
 			return;
 		}
 		
-		String filetype = writer.getFileExtension();
 		String name = writer.getShortName();
 		
 		TridasIOEntry entry = converterMap.get(name);
@@ -170,12 +169,6 @@ public class TridasIO {
 						name+"'.  Replacing.");
 				entry.formatName = name;
 			}
-		}
-		
-		
-		String old = extensionMap.put(filetype,name);
-		if(old != null && !name.equals(old)){
-			log.warn("Extension "+filetype+" already mapped to "+old+".  Replacing with "+name);
 		}
 	}
 	

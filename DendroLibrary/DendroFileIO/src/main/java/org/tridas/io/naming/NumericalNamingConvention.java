@@ -3,7 +3,7 @@
  */
 package org.tridas.io.naming;
 
-import org.tridas.io.DendroFile;
+import org.tridas.io.IDendroFile;
 import org.tridas.io.I18n;
 import org.tridas.schema.TridasElement;
 import org.tridas.schema.TridasMeasurementSeries;
@@ -46,10 +46,10 @@ public class NumericalNamingConvention extends AbstractNamingConvention {
 	}
 
 	/**
-	 * @see org.tridas.io.naming.AbstractNamingConvention#getDendroFilename(org.tridas.io.DendroFile, org.tridas.schema.TridasProject, org.tridas.schema.TridasObject, org.tridas.schema.TridasElement, org.tridas.schema.TridasSample, org.tridas.schema.TridasRadius, org.tridas.schema.TridasMeasurementSeries)
+	 * @see org.tridas.io.naming.AbstractNamingConvention#getDendroFilename(org.tridas.io.IDendroFile, org.tridas.schema.TridasProject, org.tridas.schema.TridasObject, org.tridas.schema.TridasElement, org.tridas.schema.TridasSample, org.tridas.schema.TridasRadius, org.tridas.schema.TridasMeasurementSeries)
 	 */
 	@Override
-	protected String getDendroFilename(DendroFile argFile, TridasProject argProject,
+	protected String getDendroFilename(IDendroFile argFile, TridasProject argProject,
 			TridasObject argObject, TridasElement argElement,
 			TridasSample argSample, TridasRadius argRadius,
 			TridasMeasurementSeries argSeries) {
