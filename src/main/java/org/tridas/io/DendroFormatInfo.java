@@ -1,5 +1,12 @@
 package org.tridas.io;
 
+/**
+ * This class contains methods for accessing basic information about each dendro file
+ * format, such as name, description etc.
+ * 
+ * @author peterbrewer
+ *
+ */
 public class DendroFormatInfo {
 
 	private final String baseTag;

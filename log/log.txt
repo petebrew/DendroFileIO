@@ -5623,3 +5623,135 @@ Mon 2010/05/10 15:17:29.968|   |main|StringDefaultValue|The string 'Plantae' is 
 Mon 2010/05/10 15:17:29.969|   |main|StringDefaultValue|The string 'Unknown' is too small, padding (on the right? true)
 Mon 2010/05/10 15:17:29.969|   |main|StringDefaultValue|The string '' is too small, padding (on the right? true)
 Mon 2010/05/10 15:17:29.971|   |main|StringDefaultValue|The string 'Unknown' is too small, padding (on the right? true)
+Wed 2010/05/12 14:07:48.061|   |main|IntegerDefaultValue|The value 10 is too big, maximum is 5.  Use maximum value instead? false
+Wed 2010/05/12 14:07:48.090|   |main|IntegerDefaultValue|Parent is null, cannot add warning.
+Wed 2010/05/12 14:07:48.091|   |main|IntegerDefaultValue|The value -1 is too small, minimum is 0.  Use minimum value instead? false
+Wed 2010/05/12 14:07:48.091|   |main|IntegerDefaultValue|Parent is null, cannot add warning.
+Wed 2010/05/12 14:07:48.092|   |main|IntegerDefaultValue|The value 10 is too big, maximum is 5.  Use maximum value instead? true
+Wed 2010/05/12 14:07:48.093|   |main|IntegerDefaultValue|Parent is null, cannot add warning.
+Wed 2010/05/12 14:07:48.093|   |main|IntegerDefaultValue|The value -1 is too small, minimum is 0.  Use minimum value instead? true
+Wed 2010/05/12 14:07:48.094|   |main|IntegerDefaultValue|Parent is null, cannot add warning.
+Wed 2010/05/12 14:07:48.155|   |main|TridasIO|File extension was null
+Wed 2010/05/12 14:07:49.162|   |main|StringDefaultValue|The string '46de0c5e-789c-451b-a2c6-5f39a924b712' is too big, max length is '6' characters.
+Wed 2010/05/12 14:07:49.166|   |main|StringDefaultValue|The string '28acb483-f337-412f-a063-59d911c37594' is too big, max length is '6' characters.
+Wed 2010/05/12 14:07:49.622|   |main|StringDefaultValue|The string 'e1d53557-b78f-4750-8474-7d03d7423cb0' is too big, max length is '6' characters.
+Wed 2010/05/12 14:07:50.053|   |main|StringDefaultValue|The string 'faf6c60e-df0a-43c9-b437-77b94037cac3' is too big, max length is '6' characters.
+Wed 2010/05/12 14:07:50.055|   |main|StringDefaultValue|The string '28acb483-f337-412f-a063-59d911c37594' is too big, max length is '6' characters.
+Wed 2010/05/12 14:07:50.425|   |main|StringDefaultValue|The string '931ffa45-65fd-45af-a8ce-5c4ccbb8d5c4' is too big, max length is '6' characters.
+Wed 2010/05/12 14:07:50.429|   |main|StringDefaultValue|The string '609cf788-e0cc-4101-899f-8971ba19a1bd' is too big, max length is '6' characters.
+Wed 2010/05/12 14:07:50.895|   |main|StringDefaultValue|The string '4542a719-5175-433e-a368-c583faa8dae6' is too big, max length is '6' characters.
+Wed 2010/05/12 14:07:51.208|   |main|StringDefaultValue|The string 'fbdaced2-10de-44b2-ad55-f2acd6e688f6' is too big, max length is '6' characters.
+Wed 2010/05/12 14:07:51.539|   |main|StringDefaultValue|The string '5430d05b-7eeb-483a-8e28-c679b74c1a6e' is too big, max length is '6' characters.
+Wed 2010/05/12 14:07:51.992|   |main|StringDefaultValue|The string 'a66d379f-1d45-4f7a-af6b-d40a1d80431a' is too big, max length is '6' characters.
+Wed 2010/05/12 14:07:59.086|   |main|StringDefaultValue|The string '59de80e1-ec24-4112-9a56-b7b914617196' is too big, max length is '6' characters.
+Wed 2010/05/12 14:07:59.087|   |main|StringDefaultValue|The string '28acb483-f337-412f-a063-59d911c37594' is too big, max length is '6' characters.
+Wed 2010/05/12 14:09:55.579|   |main|IntegerDefaultValue|The value 10 is too big, maximum is 5.  Use maximum value instead? false
+Wed 2010/05/12 14:09:55.582|   |main|IntegerDefaultValue|Parent is null, cannot add warning.
+Wed 2010/05/12 14:09:55.583|   |main|IntegerDefaultValue|The value -1 is too small, minimum is 0.  Use minimum value instead? false
+Wed 2010/05/12 14:09:55.584|   |main|IntegerDefaultValue|Parent is null, cannot add warning.
+Wed 2010/05/12 14:09:55.585|   |main|IntegerDefaultValue|The value 10 is too big, maximum is 5.  Use maximum value instead? true
+Wed 2010/05/12 14:09:55.585|   |main|IntegerDefaultValue|Parent is null, cannot add warning.
+Wed 2010/05/12 14:09:55.586|   |main|IntegerDefaultValue|The value -1 is too small, minimum is 0.  Use minimum value instead? true
+Wed 2010/05/12 14:09:55.586|   |main|IntegerDefaultValue|Parent is null, cannot add warning.
+Wed 2010/05/12 14:09:55.647|   |main|TridasIO|File extension was null
+Wed 2010/05/12 14:09:56.655|   |main|StringDefaultValue|The string 'afd2ebc7-d2fe-4c95-8059-9545b6c0bd46' is too big, max length is '6' characters.
+Wed 2010/05/12 14:09:56.659|   |main|StringDefaultValue|The string '28acb483-f337-412f-a063-59d911c37594' is too big, max length is '6' characters.
+Wed 2010/05/12 14:09:57.108|   |main|StringDefaultValue|The string 'ccb6b443-7e90-4354-a167-81be569bdd2c' is too big, max length is '6' characters.
+Wed 2010/05/12 14:09:57.539|   |main|StringDefaultValue|The string 'ca6513ee-20d2-41c1-b3b6-d89ca05e148b' is too big, max length is '6' characters.
+Wed 2010/05/12 14:09:57.542|   |main|StringDefaultValue|The string '28acb483-f337-412f-a063-59d911c37594' is too big, max length is '6' characters.
+Wed 2010/05/12 14:09:57.909|   |main|StringDefaultValue|The string '8de5490f-c000-4f36-a2d3-01e0095de2c9' is too big, max length is '6' characters.
+Wed 2010/05/12 14:09:57.914|   |main|StringDefaultValue|The string 'ab4e7095-b810-460d-a513-4a2d11315084' is too big, max length is '6' characters.
+Wed 2010/05/12 14:09:58.369|   |main|StringDefaultValue|The string 'a9127477-18b2-4a8e-a804-7fee539fb2d0' is too big, max length is '6' characters.
+Wed 2010/05/12 14:09:58.684|   |main|StringDefaultValue|The string '2ae821e1-d865-4b19-b9a3-b16ff0cc84df' is too big, max length is '6' characters.
+Wed 2010/05/12 14:09:59.003|   |main|StringDefaultValue|The string 'f7a0d0ff-9544-44db-8742-d5869e722227' is too big, max length is '6' characters.
+Wed 2010/05/12 14:09:59.444|   |main|StringDefaultValue|The string 'b48015e9-05b1-4263-979d-30aebdd80f11' is too big, max length is '6' characters.
+Wed 2010/05/12 14:10:06.515|   |main|StringDefaultValue|The string 'b55eed55-02f5-4a63-bc35-58b2eec93c9c' is too big, max length is '6' characters.
+Wed 2010/05/12 14:10:06.517|   |main|StringDefaultValue|The string '28acb483-f337-412f-a063-59d911c37594' is too big, max length is '6' characters.
+Wed 2010/05/12 14:22:19.735|   |main|IntegerDefaultValue|The value 10 is too big, maximum is 5.  Use maximum value instead? false
+Wed 2010/05/12 14:22:19.738|   |main|IntegerDefaultValue|Parent is null, cannot add warning.
+Wed 2010/05/12 14:22:19.739|   |main|IntegerDefaultValue|The value -1 is too small, minimum is 0.  Use minimum value instead? false
+Wed 2010/05/12 14:22:19.740|   |main|IntegerDefaultValue|Parent is null, cannot add warning.
+Wed 2010/05/12 14:22:19.740|   |main|IntegerDefaultValue|The value 10 is too big, maximum is 5.  Use maximum value instead? true
+Wed 2010/05/12 14:22:19.741|   |main|IntegerDefaultValue|Parent is null, cannot add warning.
+Wed 2010/05/12 14:22:19.741|   |main|IntegerDefaultValue|The value -1 is too small, minimum is 0.  Use minimum value instead? true
+Wed 2010/05/12 14:22:19.742|   |main|IntegerDefaultValue|Parent is null, cannot add warning.
+Wed 2010/05/12 14:22:19.804|   |main|TridasIO|File extension was null
+Wed 2010/05/12 14:22:20.768|   |main|StringDefaultValue|The string '043a3865-2f9f-49eb-8e09-92d721b35897' is too big, max length is '6' characters.
+Wed 2010/05/12 14:22:20.773|   |main|StringDefaultValue|The string '28acb483-f337-412f-a063-59d911c37594' is too big, max length is '6' characters.
+Wed 2010/05/12 14:22:21.344|   |main|StringDefaultValue|The string '2a37b6c2-b18e-4389-b4f8-d40573b3476a' is too big, max length is '6' characters.
+Wed 2010/05/12 14:22:21.895|   |main|StringDefaultValue|The string '0395d6fc-55b2-4aae-b35c-276cc4d438a1' is too big, max length is '6' characters.
+Wed 2010/05/12 14:22:21.898|   |main|StringDefaultValue|The string '28acb483-f337-412f-a063-59d911c37594' is too big, max length is '6' characters.
+Wed 2010/05/12 14:22:22.212|   |main|StringDefaultValue|The string 'de12014c-0524-4204-a65a-ee503e573e08' is too big, max length is '6' characters.
+Wed 2010/05/12 14:22:22.216|   |main|StringDefaultValue|The string 'bbeffbfc-cfd8-4c81-b6ba-36837476316a' is too big, max length is '6' characters.
+Wed 2010/05/12 14:22:22.690|   |main|StringDefaultValue|The string 'd4084fd8-3b64-4b7b-beb0-6e401c753a75' is too big, max length is '6' characters.
+Wed 2010/05/12 14:22:22.996|   |main|StringDefaultValue|The string 'b4e7a1e9-d8a6-495c-8c32-9b04b41026f2' is too big, max length is '6' characters.
+Wed 2010/05/12 14:22:23.307|   |main|StringDefaultValue|The string 'e1fbbff1-9ab6-42bd-ac61-795c6a7dc442' is too big, max length is '6' characters.
+Wed 2010/05/12 14:22:23.739|   |main|StringDefaultValue|The string '75dc1202-d1d2-48c7-8bb2-e8799ec05c0a' is too big, max length is '6' characters.
+Wed 2010/05/12 14:22:30.664|   |main|StringDefaultValue|The string 'ed358e63-d829-45ca-ae0e-a1a77280cc08' is too big, max length is '6' characters.
+Wed 2010/05/12 14:22:30.760|   |main|StringDefaultValue|The string '28acb483-f337-412f-a063-59d911c37594' is too big, max length is '6' characters.
+Wed 2010/05/12 14:44:47.214|   |main|IntegerDefaultValue|The value 10 is too big, maximum is 5.  Use maximum value instead? false
+Wed 2010/05/12 14:44:47.217|   |main|IntegerDefaultValue|Parent is null, cannot add warning.
+Wed 2010/05/12 14:44:47.217|   |main|IntegerDefaultValue|The value -1 is too small, minimum is 0.  Use minimum value instead? false
+Wed 2010/05/12 14:44:47.218|   |main|IntegerDefaultValue|Parent is null, cannot add warning.
+Wed 2010/05/12 14:44:47.218|   |main|IntegerDefaultValue|The value 10 is too big, maximum is 5.  Use maximum value instead? true
+Wed 2010/05/12 14:44:47.219|   |main|IntegerDefaultValue|Parent is null, cannot add warning.
+Wed 2010/05/12 14:44:47.220|   |main|IntegerDefaultValue|The value -1 is too small, minimum is 0.  Use minimum value instead? true
+Wed 2010/05/12 14:44:47.220|   |main|IntegerDefaultValue|Parent is null, cannot add warning.
+Wed 2010/05/12 14:44:47.283|   |main|TridasIO|File extension was null
+Wed 2010/05/12 14:44:48.254|   |main|StringDefaultValue|The string 'bd4952c8-e82b-4a69-b58e-db8b1d2adadd' is too big, max length is '6' characters.
+Wed 2010/05/12 14:44:48.257|   |main|StringDefaultValue|The string '28acb483-f337-412f-a063-59d911c37594' is too big, max length is '6' characters.
+Wed 2010/05/12 14:44:48.692|   |main|StringDefaultValue|The string 'db0cb74f-a51b-412d-94ed-d6d9d3d21dce' is too big, max length is '6' characters.
+Wed 2010/05/12 14:44:49.088|   |main|StringDefaultValue|The string '9655ced3-dfeb-47f5-8a52-6c53871aad6a' is too big, max length is '6' characters.
+Wed 2010/05/12 14:44:49.091|   |main|StringDefaultValue|The string '28acb483-f337-412f-a063-59d911c37594' is too big, max length is '6' characters.
+Wed 2010/05/12 14:44:49.441|   |main|StringDefaultValue|The string 'c107774f-92f8-4ef7-9f56-6c823147fcca' is too big, max length is '6' characters.
+Wed 2010/05/12 14:44:49.449|   |main|StringDefaultValue|The string 'c4ddacd3-48cc-4f35-941b-89508701a9b5' is too big, max length is '6' characters.
+Wed 2010/05/12 14:44:49.917|   |main|StringDefaultValue|The string 'ed58d7bc-d8df-4560-b0eb-dbccb34aa4ef' is too big, max length is '6' characters.
+Wed 2010/05/12 14:44:50.219|   |main|StringDefaultValue|The string '38c7ef1a-02ad-422e-bcf1-21480c75b1de' is too big, max length is '6' characters.
+Wed 2010/05/12 14:44:50.511|   |main|StringDefaultValue|The string '8bff926e-2fae-46e9-ab04-09b8220e0948' is too big, max length is '6' characters.
+Wed 2010/05/12 14:44:50.923|   |main|StringDefaultValue|The string 'b9584171-6d3d-4c1c-885f-8bad47fcace2' is too big, max length is '6' characters.
+Wed 2010/05/12 14:44:57.386|   |main|StringDefaultValue|The string '8ed28618-d97c-40d4-9f44-fdb78524a9a1' is too big, max length is '6' characters.
+Wed 2010/05/12 14:44:57.388|   |main|StringDefaultValue|The string '28acb483-f337-412f-a063-59d911c37594' is too big, max length is '6' characters.
+Wed 2010/05/12 14:49:02.657|   |main|IntegerDefaultValue|The value 10 is too big, maximum is 5.  Use maximum value instead? false
+Wed 2010/05/12 14:49:02.661|   |main|IntegerDefaultValue|Parent is null, cannot add warning.
+Wed 2010/05/12 14:49:02.662|   |main|IntegerDefaultValue|The value -1 is too small, minimum is 0.  Use minimum value instead? false
+Wed 2010/05/12 14:49:02.662|   |main|IntegerDefaultValue|Parent is null, cannot add warning.
+Wed 2010/05/12 14:49:02.663|   |main|IntegerDefaultValue|The value 10 is too big, maximum is 5.  Use maximum value instead? true
+Wed 2010/05/12 14:49:02.663|   |main|IntegerDefaultValue|Parent is null, cannot add warning.
+Wed 2010/05/12 14:49:02.664|   |main|IntegerDefaultValue|The value -1 is too small, minimum is 0.  Use minimum value instead? true
+Wed 2010/05/12 14:49:02.664|   |main|IntegerDefaultValue|Parent is null, cannot add warning.
+Wed 2010/05/12 14:49:02.722|   |main|TridasIO|File extension was null
+Wed 2010/05/12 14:49:03.700|   |main|StringDefaultValue|The string 'bf04bd70-7985-4802-935b-4025c7a8bd3e' is too big, max length is '6' characters.
+Wed 2010/05/12 14:49:03.704|   |main|StringDefaultValue|The string '28acb483-f337-412f-a063-59d911c37594' is too big, max length is '6' characters.
+Wed 2010/05/12 14:49:04.136|   |main|StringDefaultValue|The string '0cd81c33-f805-413f-90e2-326e72ebe65b' is too big, max length is '6' characters.
+Wed 2010/05/12 14:49:04.486|   |main|StringDefaultValue|The string '5a5ca1dd-d060-4e74-8980-6b3e339cdc7b' is too big, max length is '6' characters.
+Wed 2010/05/12 14:49:04.489|   |main|StringDefaultValue|The string '28acb483-f337-412f-a063-59d911c37594' is too big, max length is '6' characters.
+Wed 2010/05/12 14:49:04.826|   |main|StringDefaultValue|The string 'da538b25-3fc9-416b-9a93-258ca22e34e3' is too big, max length is '6' characters.
+Wed 2010/05/12 14:49:04.830|   |main|StringDefaultValue|The string '1de1429e-c752-450a-80fc-39bd378ddb35' is too big, max length is '6' characters.
+Wed 2010/05/12 14:49:05.294|   |main|StringDefaultValue|The string 'fc4f5209-6a48-403d-9b49-5113e3b64a73' is too big, max length is '6' characters.
+Wed 2010/05/12 14:49:05.589|   |main|StringDefaultValue|The string '1ed08bed-6401-46c4-acc6-f7a38be82683' is too big, max length is '6' characters.
+Wed 2010/05/12 14:49:05.883|   |main|StringDefaultValue|The string 'c8eb0034-db92-4d0e-9a88-99f32f23ecfd' is too big, max length is '6' characters.
+Wed 2010/05/12 14:49:06.306|   |main|StringDefaultValue|The string 'ce05e6b0-c9ab-47b0-92a7-1fe1f762ae13' is too big, max length is '6' characters.
+Wed 2010/05/12 14:49:12.577|   |main|StringDefaultValue|The string '8712447c-167d-4b4d-bdb5-e25f854ee26c' is too big, max length is '6' characters.
+Wed 2010/05/12 14:49:12.579|   |main|StringDefaultValue|The string '28acb483-f337-412f-a063-59d911c37594' is too big, max length is '6' characters.
+Wed 2010/05/12 14:55:26.485|   |main|IntegerDefaultValue|The value 10 is too big, maximum is 5.  Use maximum value instead? false
+Wed 2010/05/12 14:55:26.488|   |main|IntegerDefaultValue|Parent is null, cannot add warning.
+Wed 2010/05/12 14:55:26.489|   |main|IntegerDefaultValue|The value -1 is too small, minimum is 0.  Use minimum value instead? false
+Wed 2010/05/12 14:55:26.490|   |main|IntegerDefaultValue|Parent is null, cannot add warning.
+Wed 2010/05/12 14:55:26.490|   |main|IntegerDefaultValue|The value 10 is too big, maximum is 5.  Use maximum value instead? true
+Wed 2010/05/12 14:55:26.491|   |main|IntegerDefaultValue|Parent is null, cannot add warning.
+Wed 2010/05/12 14:55:26.491|   |main|IntegerDefaultValue|The value -1 is too small, minimum is 0.  Use minimum value instead? true
+Wed 2010/05/12 14:55:26.492|   |main|IntegerDefaultValue|Parent is null, cannot add warning.
+Wed 2010/05/12 14:55:26.548|   |main|TridasIO|File extension was null
+Wed 2010/05/12 14:55:27.693|   |main|StringDefaultValue|The string '5b1586ba-9b22-4c39-a660-de8d4de84891' is too big, max length is '6' characters.
+Wed 2010/05/12 14:55:27.696|   |main|StringDefaultValue|The string '28acb483-f337-412f-a063-59d911c37594' is too big, max length is '6' characters.
+Wed 2010/05/12 14:55:28.127|   |main|StringDefaultValue|The string '0db72c0e-0571-448a-8b7a-c70029f6b952' is too big, max length is '6' characters.
+Wed 2010/05/12 14:55:28.547|   |main|StringDefaultValue|The string 'd78d0791-68b0-4ad2-8498-332bcfa57ad4' is too big, max length is '6' characters.
+Wed 2010/05/12 14:55:28.552|   |main|StringDefaultValue|The string '28acb483-f337-412f-a063-59d911c37594' is too big, max length is '6' characters.
+Wed 2010/05/12 14:55:28.947|   |main|StringDefaultValue|The string '7e3039d2-e906-4843-b8ad-760459095e18' is too big, max length is '6' characters.
+Wed 2010/05/12 14:55:28.956|   |main|StringDefaultValue|The string '1651a418-e3b9-4e7d-86b6-0e1df887c118' is too big, max length is '6' characters.
+Wed 2010/05/12 14:55:29.438|   |main|StringDefaultValue|The string '53ab17e5-dd73-4be3-8f40-d85b37045d75' is too big, max length is '6' characters.
+Wed 2010/05/12 14:55:29.758|   |main|StringDefaultValue|The string '29b53e98-5990-48b8-8e5a-cd314231c3d4' is too big, max length is '6' characters.
+Wed 2010/05/12 14:55:30.047|   |main|StringDefaultValue|The string '489879f5-533b-45f8-a4d3-81e065c7e783' is too big, max length is '6' characters.
+Wed 2010/05/12 14:55:30.488|   |main|StringDefaultValue|The string 'dc62ed2e-5365-421f-9618-4fda20ef6a1d' is too big, max length is '6' characters.
+Wed 2010/05/12 14:55:37.757|   |main|StringDefaultValue|The string '43460c8c-e346-4211-99f1-bec9dbeaa0bd' is too big, max length is '6' characters.
+Wed 2010/05/12 14:55:37.758|   |main|StringDefaultValue|The string '28acb483-f337-412f-a063-59d911c37594' is too big, max length is '6' characters.

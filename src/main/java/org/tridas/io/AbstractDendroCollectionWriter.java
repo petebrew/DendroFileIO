@@ -14,6 +14,12 @@ import org.tridas.io.warnings.IncompleteTridasDataException;
 import org.tridas.io.warnings.IncorrectDefaultFieldsException;
 import org.tridas.schema.TridasProject;
 
+/**
+ * This abstract class is inherited by all Dendro Collection Writers.
+ * 
+ * @author peterbrewer
+ *
+ */
 public abstract class AbstractDendroCollectionWriter implements IDendroCollectionWriter{
 	
 	public ArrayList<IDendroFile> fileList = new ArrayList<IDendroFile>();

@@ -12,6 +12,13 @@ import org.tridas.io.warnings.ConversionWarning;
 import org.tridas.io.warnings.IncorrectDefaultFieldsException;
 import org.tridas.io.warnings.InvalidDendroFileException;
 
+/**
+ * This abstract class is inherited by all dendro file readers.  
+ * 
+ * 
+ * @author peterbrewer
+ *
+ */
 public abstract class AbstractDendroFileReader implements IDendroFileReader {
 	private static final SimpleLogger log = new SimpleLogger(AbstractDendroFileReader.class);
 	

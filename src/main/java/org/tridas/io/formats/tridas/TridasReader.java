@@ -56,7 +56,7 @@ public class TridasReader extends AbstractDendroFileReader {
 		StringReader reader = new StringReader(fileString.toString());
 		// Validate the file against the TRiDaS schema
 		SchemaFactory factory = SchemaFactory.newInstance(XMLConstants.W3C_XML_SCHEMA_NS_URI);
-		URL file = IOUtils.getFileInJarURL("schemas/tridas-1.2.1.xsd");
+		URL file = IOUtils.getFileInJarURL("tridas.xsd");
 		Schema schema = null;
 		try {
 			schema = factory.newSchema(file);
