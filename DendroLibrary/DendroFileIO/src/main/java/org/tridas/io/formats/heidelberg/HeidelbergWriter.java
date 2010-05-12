@@ -3,15 +3,21 @@ package org.tridas.io.formats.heidelberg;
 import org.tridas.io.AbstractDendroCollectionWriter;
 import org.tridas.io.I18n;
 import org.tridas.io.defaults.IMetadataFieldSet;
+import org.tridas.io.naming.HierarchicalNamingConvention;
 import org.tridas.io.naming.INamingConvention;
+import org.tridas.io.naming.UUIDNamingConvention;
+import org.tridas.io.util.TridasHierarchyHelper;
 import org.tridas.io.warnings.ConversionWarningException;
 import org.tridas.io.warnings.IncompleteTridasDataException;
+import org.tridas.schema.TridasElement;
+import org.tridas.schema.TridasObject;
 import org.tridas.schema.TridasProject;
+import org.tridas.schema.TridasSample;
 
 public class HeidelbergWriter extends AbstractDendroCollectionWriter {
 
-	IMetadataFieldSet defaults;
-
+	private TridasToHeidelbergDefaults defaults;
+	private INamingConvention naming = new HierarchicalNamingConvention();
 	
 	public HeidelbergWriter(){
 		super(TridasToHeidelbergDefaults.class);
@@ -20,6 +26,18 @@ public class HeidelbergWriter extends AbstractDendroCollectionWriter {
 	@Override
 	protected void parseTridasProject(TridasProject argProject, IMetadataFieldSet argDefaults)
 			throws IncompleteTridasDataException, ConversionWarningException {
+		defaults = (TridasToHeidelbergDefaults) argDefaults;
+		
+		for(TridasObject o : TridasHierarchyHelper.getObjectList(argProject)){
+			
+			for(TridasElement e : TridasHierarchyHelper.getElementList(o)){
+				
+				for(TridasSample s : e.getSamples()){
+					
+					//for(TridasRadius r : )
+				}
+			}
+		}
 	}
 
 	/**
@@ -27,8 +45,7 @@ public class HeidelbergWriter extends AbstractDendroCollectionWriter {
 	 */
 	@Override
 	public INamingConvention getNamingConvention() {
-		// TODO Auto-generated method stub
-		return null;
+		return naming;
 	}
 
 	/**
@@ -36,8 +53,7 @@ public class HeidelbergWriter extends AbstractDendroCollectionWriter {
 	 */
 	@Override
 	public void setNamingConvention(INamingConvention argConvension) {
-		// TODO Auto-generated method stub
-		
+		naming = argConvension;
 	}
 
 	/**
@@ -45,8 +61,7 @@ public class HeidelbergWriter extends AbstractDendroCollectionWriter {
 	 */
 	@Override
 	public IMetadataFieldSet getDefaults() {
-		// TODO Auto-generated method stub
-		return null;
+		return defaults;
 	}
 
 	/**

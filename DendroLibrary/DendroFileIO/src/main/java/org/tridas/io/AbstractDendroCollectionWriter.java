@@ -156,6 +156,4 @@ public abstract class AbstractDendroCollectionWriter implements IDendroCollectio
 	protected void clearWarnings(){
 		warnings.clear();
 	}
-	
-	
 }

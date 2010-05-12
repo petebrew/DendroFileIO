@@ -75,7 +75,7 @@ public class SheffieldReader extends AbstractDendroFileReader {
 	
 	
 	public SheffieldReader() {
-		super("sheffield", SheffieldToTridasDefaults.class);
+		super(SheffieldToTridasDefaults.class);
 	}
 	
 	@Override
@@ -268,4 +268,27 @@ public class SheffieldReader extends AbstractDendroFileReader {
 		return 0;
 	}
 
+	/**
+	 * @see org.tridas.io.IDendroFileReader#getDescription()
+	 */
+	@Override
+	public String getDescription() {
+		return I18n.getText("sheffield.about.description");
+	}
+
+	/**
+	 * @see org.tridas.io.IDendroFileReader#getFullName()
+	 */
+	@Override
+	public String getFullName() {
+		return I18n.getText("sheffield.about.fullName");
+	}
+
+	/**
+	 * @see org.tridas.io.IDendroFileReader#getShortName()
+	 */
+	@Override
+	public String getShortName() {
+		return I18n.getText("sheffield.about.shortName");
+	}
 }

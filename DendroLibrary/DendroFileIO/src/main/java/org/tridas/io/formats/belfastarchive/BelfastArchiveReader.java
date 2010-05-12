@@ -47,7 +47,7 @@ public class BelfastArchiveReader extends AbstractDendroFileReader {
 	SafeIntYear startYear;
 	
 	public BelfastArchiveReader() {
-		super("belfastarchive", BelfastArchiveToTridasDefaults.class);
+		super(BelfastArchiveToTridasDefaults.class);
 	}
 	@Override
 	protected void parseFile(String[] argFileString,
@@ -231,6 +231,30 @@ public class BelfastArchiveReader extends AbstractDendroFileReader {
 	public int getCurrentLineNumber() {
 		// TODO track this
 		return 0;
+	}
+	
+	/**
+	 * @see org.tridas.io.IDendroFileReader#getDescription()
+	 */
+	@Override
+	public String getDescription() {
+		return I18n.getText("belfastarchive.about.description");
+	}
+
+	/**
+	 * @see org.tridas.io.IDendroFileReader#getFullName()
+	 */
+	@Override
+	public String getFullName() {
+		return I18n.getText("belfastarchive.about.fullName");
+	}
+
+	/**
+	 * @see org.tridas.io.IDendroFileReader#getShortName()
+	 */
+	@Override
+	public String getShortName() {
+		return I18n.getText("belfastarchive.about.shortName");
 	}
 
 }

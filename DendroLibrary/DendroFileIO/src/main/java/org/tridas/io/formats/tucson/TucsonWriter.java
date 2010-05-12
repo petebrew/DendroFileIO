@@ -43,7 +43,7 @@ public class TucsonWriter extends AbstractDendroCollectionWriter {
 	 * Standard constructor
 	 */
 	public TucsonWriter(){
-		super("tucson", TridasToTucsonDefaults.class);
+		super(TridasToTucsonDefaults.class);
 	}
 	
 	@SuppressWarnings("null")
@@ -276,5 +276,29 @@ public class TucsonWriter extends AbstractDendroCollectionWriter {
 	@Override
 	public IMetadataFieldSet getDefaults() {
 		return defaults;
+	}
+	
+	/**
+	 * @see org.tridas.io.IDendroFileReader#getDescription()
+	 */
+	@Override
+	public String getDescription() {
+		return I18n.getText("tucson.about.description");
+	}
+
+	/**
+	 * @see org.tridas.io.IDendroFileReader#getFullName()
+	 */
+	@Override
+	public String getFullName() {
+		return I18n.getText("tucson.about.fullName");
+	}
+
+	/**
+	 * @see org.tridas.io.IDendroFileReader#getShortName()
+	 */
+	@Override
+	public String getShortName() {
+		return I18n.getText("tucson.about.shortName");
 	}
 }
