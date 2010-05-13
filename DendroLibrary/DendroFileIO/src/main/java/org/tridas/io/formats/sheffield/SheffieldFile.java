@@ -3,7 +3,6 @@ package org.tridas.io.formats.sheffield;
 import org.tridas.interfaces.ITridasSeries;
 import org.tridas.io.IDendroCollectionWriter;
 import org.tridas.io.IDendroFile;
-import org.tridas.io.warnings.ConversionWarningException;
 
 public class SheffieldFile implements IDendroFile {
 

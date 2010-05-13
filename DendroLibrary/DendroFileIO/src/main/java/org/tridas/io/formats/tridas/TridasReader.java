@@ -1,6 +1,5 @@
 package org.tridas.io.formats.tridas;
 
-import java.io.File;
 import java.io.IOException;
 import java.io.StringReader;
 import java.net.URL;
@@ -9,7 +8,6 @@ import javax.xml.XMLConstants;
 import javax.xml.bind.JAXBContext;
 import javax.xml.bind.JAXBException;
 import javax.xml.bind.Unmarshaller;
-import javax.xml.transform.Source;
 import javax.xml.transform.stream.StreamSource;
 import javax.xml.validation.Schema;
 import javax.xml.validation.SchemaFactory;
@@ -17,10 +15,8 @@ import javax.xml.validation.Validator;
 
 import org.tridas.io.AbstractDendroFileReader;
 import org.tridas.io.I18n;
-import org.tridas.io.TridasIO;
 import org.tridas.io.defaults.IMetadataFieldSet;
 import org.tridas.io.defaults.TridasMetadataFieldSet;
-import org.tridas.io.util.FileHelper;
 import org.tridas.io.util.IOUtils;
 import org.tridas.io.warnings.ConversionWarning;
 import org.tridas.io.warnings.InvalidDendroFileException;

@@ -3,23 +3,27 @@ package org.tridas.io.formats.heidelberg;
 import org.tridas.io.AbstractDendroCollectionWriter;
 import org.tridas.io.I18n;
 import org.tridas.io.defaults.IMetadataFieldSet;
-import org.tridas.io.formats.heidelberg.TridasToHeidelbergDefaults.HeidelbergField;
 import org.tridas.io.naming.HierarchicalNamingConvention;
 import org.tridas.io.naming.INamingConvention;
-import org.tridas.io.naming.UUIDNamingConvention;
 import org.tridas.io.util.TridasHierarchyHelper;
 import org.tridas.io.warnings.ConversionWarningException;
 import org.tridas.io.warnings.IncompleteTridasDataException;
 import org.tridas.schema.TridasDerivedSeries;
 import org.tridas.schema.TridasElement;
-import org.tridas.schema.TridasInterpretation;
 import org.tridas.schema.TridasMeasurementSeries;
 import org.tridas.schema.TridasObject;
 import org.tridas.schema.TridasProject;
 import org.tridas.schema.TridasRadius;
-import org.tridas.schema.TridasRadiusPlaceholder;
 import org.tridas.schema.TridasSample;
+import org.tridas.schema.TridasValues;
 
+/**
+ * Writer for heidelberg files.  Can only handle basic tree and chronology data, doesn't 
+ * handle other measurements like earlywood and latewood.
+ * 
+ * @author daniel
+ *
+ */
 public class HeidelbergWriter extends AbstractDendroCollectionWriter {
 
 	private TridasToHeidelbergDefaults defaults;
@@ -48,14 +52,37 @@ public class HeidelbergWriter extends AbstractDendroCollectionWriter {
 							TridasToHeidelbergDefaults msDefaults = (TridasToHeidelbergDefaults) elementDefaults.clone();
 							msDefaults.populateFromMS(ms);
 							
-							HeidelbergFile file = new HeidelbergFile(this, msDefaults);
-							file.setSeries(ms);
-							addToFileList(file);
+							for(int i=0; i< ms.getValues().size(); i++){
+								TridasValues tvs = ms.getValues().get(i);
+								TridasToHeidelbergDefaults tvDefaults = (TridasToHeidelbergDefaults) msDefaults.clone();
+								tvDefaults.populateFromTridasValues(tvs);
+								
+								HeidelbergFile file = new HeidelbergFile(this, tvDefaults);
+								file.setSeries(ms, i);
+								addToFileList(file);
+							}
+							
 						}
 					}
 					
 					if( s.isSetRadiusPlaceholder()){
-						// derived,
+						// we have to search through all derived series to find the one matching our placeholder id
+						for(TridasDerivedSeries ds : argProject.getDerivedSeries()){
+							if(ds.getId().equals(s.getRadiusPlaceholder().getMeasurementSeriesPlaceholder().getId())){
+								TridasToHeidelbergDefaults dsDefaults = (TridasToHeidelbergDefaults) elementDefaults.clone();
+								dsDefaults.populateFromDerivedSeries(ds);
+								
+								for(int i=0; i< ds.getValues().size(); i++){
+									TridasValues tvs = ds.getValues().get(i);
+									TridasToHeidelbergDefaults tvDefaults = (TridasToHeidelbergDefaults) dsDefaults.clone();
+									tvDefaults.populateFromTridasValues(tvs);
+									
+									HeidelbergFile file = new HeidelbergFile(this, tvDefaults);
+									file.setSeries(ds, i);
+									addToFileList(file);
+								}
+							}
+						}
 					}
 				}
 			}

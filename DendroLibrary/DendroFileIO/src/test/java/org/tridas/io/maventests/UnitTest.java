@@ -13,35 +13,22 @@ package org.tridas.io.maventests;
 
 import java.io.File;
 import java.io.IOException;
-import java.io.InputStream;
-import java.io.StringWriter;
-import java.util.ArrayList;
-
 import javax.xml.bind.JAXBContext;
 import javax.xml.bind.JAXBException;
-import javax.xml.bind.Marshaller;
 import javax.xml.bind.Unmarshaller;
 
 import junit.framework.TestCase;
 
-import org.tridas.io.IDendroFile;
 import org.tridas.io.defaults.TridasMetadataFieldSet;
-import org.tridas.io.defaults.values.IntegerDefaultValue;
-import org.tridas.io.defaults.values.StringDefaultValue;
-import org.tridas.io.formats.tridas.TridasFile;
 import org.tridas.io.formats.tridas.TridasReader;
 import org.tridas.io.formats.tridas.TridasWriter;
 import org.tridas.io.formats.tucson.TridasToTucsonDefaults;
-import org.tridas.io.formats.tucson.TucsonFile;
 import org.tridas.io.formats.tucson.TucsonWriter;
-import org.tridas.io.naming.NumericalNamingConvention;
 import org.tridas.io.util.StringUtils;
-import org.tridas.io.warnings.ConversionWarning;
 import org.tridas.io.warnings.ConversionWarningException;
 import org.tridas.io.warnings.IncompleteTridasDataException;
 import org.tridas.io.warnings.IncorrectDefaultFieldsException;
 import org.tridas.io.warnings.InvalidDendroFileException;
-import org.tridas.schema.TridasObject;
 import org.tridas.schema.TridasProject;
 
 public class UnitTest extends TestCase {
@@ -71,7 +58,7 @@ public class UnitTest extends TestCase {
 		// Write project classes out to a temp file
 		try {
 			writer.loadProject(project, new TridasMetadataFieldSet());
-			writer.saveAllToDisk("TestData/Output");
+			writer.saveAllToDisk("target/testOutput");
 
 			
 		} catch (IncompleteTridasDataException e) {
