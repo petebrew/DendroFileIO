@@ -8,6 +8,7 @@ import org.tridas.io.IDendroCollectionWriter;
 import org.tridas.io.IDendroFile;
 import org.tridas.io.defaults.values.StringDefaultValue;
 import org.tridas.io.formats.heidelberg.TridasToHeidelbergDefaults.HeidelbergField;
+import org.tridas.io.util.StringUtils;
 import org.tridas.io.warnings.ConversionWarning;
 import org.tridas.io.warnings.ConversionWarning.WarningType;
 import org.tridas.schema.TridasDerivedSeries;
@@ -20,12 +21,13 @@ public class HeidelbergFile implements IDendroFile {
 	public static final int DATA_CHARS_PER_NUMBER = 6;
 
 	private IDendroCollectionWriter writer;
-	private ArrayList<ITridasSeries> series = new ArrayList<ITridasSeries>();
+	private ITridasSeries series = null;
 	private TridasToHeidelbergDefaults defaults;
 	
 	private boolean chrono;
 	private Integer[] dataInts;
 	private int valuesIndex;
+	private int numTridasValues;
 	
 	public HeidelbergFile(IDendroCollectionWriter argWriter, TridasToHeidelbergDefaults argDefaults){
 		writer = argWriter;
@@ -38,7 +40,7 @@ public class HeidelbergFile implements IDendroFile {
 	}
 	
 	public void setSeries(ITridasSeries argSeries, int argValuesIndex){
-		series.set(0, argSeries);
+		series = argSeries;
 		valuesIndex = argValuesIndex;
 		
 		if(argSeries instanceof TridasDerivedSeries){
@@ -55,7 +57,8 @@ public class HeidelbergFile implements IDendroFile {
 	private void extractData(){
 		ArrayList<Integer> ints = new ArrayList<Integer>();
 		
-		TridasValues vals = series.get(0).getValues().get(valuesIndex);
+		TridasValues vals = series.getValues().get(valuesIndex);
+		numTridasValues = vals.getValues().size();
 		for(TridasValue v : vals.getValues()){
 			ints.add(Integer.parseInt(v.getValue()));
 			if(chrono){
@@ -110,14 +113,17 @@ public class HeidelbergFile implements IDendroFile {
 	private void populateDefaults(){
 		if(chrono){
 			defaults.getStringDefaultValue(HeidelbergField.DATA_FORMAT).setValue("Chrono");
+			String standardizationMethod = ((TridasDerivedSeries)series).getStandardizingMethod();
+			defaults.getStringDefaultValue(HeidelbergField.SERIES_TYPE).setValue(standardizationMethod);
 		}else{
 			defaults.getStringDefaultValue(HeidelbergField.DATA_FORMAT).setValue("Tree");
 		}
+		defaults.getIntegerDefaultValue(HeidelbergField.LENGTH).setValue(numTridasValues);
 	}
 	
 	@Override
 	public ITridasSeries[] getSeries() {
-		return series.toArray(new ITridasSeries[0]);
+		return new ITridasSeries[]{ series };
 	}
 
 	@Override
@@ -127,6 +133,45 @@ public class HeidelbergFile implements IDendroFile {
 
 	@Override
 	public String[] saveToString() {
-		return null;
+		ArrayList<String> file = new ArrayList<String>();
+		file.add("HEADER:");
+		addIfNotNull(HeidelbergField.KEY_CODE, file);
+		addIfNotNull(HeidelbergField.DATA_FORMAT, file);
+		addIfNotNull(HeidelbergField.SERIES_TYPE, file);
+		addIfNotNull(HeidelbergField.LENGTH, file);
+		addIfNotNull(HeidelbergField.DATEBEGIN, file);
+		addIfNotNull(HeidelbergField.DATEEND, file);
+		addIfNotNull(HeidelbergField.DATED, file);
+		addIfNotNull(HeidelbergField.SPECIES, file);
+		addIfNotNull(HeidelbergField.UNIT, file);
+		
+		if(chrono){
+			file.add("DATA:Double");
+		}else{
+			file.add("DATA:Single");
+		}
+		
+		int j=0;
+		int lines = (int) Math.ceil( dataInts.length*1.0/10.0);
+		for(int i=0; i<lines; i++){
+			StringBuilder line = new StringBuilder();
+			for(int k=0; k<10; k++){
+				if(j<dataInts.length){
+					line.append(StringUtils.leftPad(dataInts[j]+"", DATA_CHARS_PER_NUMBER));
+				}else{
+					line.append(StringUtils.leftPad("0", DATA_CHARS_PER_NUMBER));
+				}
+				j++;
+			}
+			file.add(line.toString());
+		}
+		return file.toArray(new String[0]);
+	}
+	
+	private void addIfNotNull(HeidelbergField argEnum, ArrayList<String> argList){
+		if( defaults.getDefaultValue(argEnum).getStringValue().equals("") ){
+			return;
+		}
+		argList.add(defaults.getDefaultValue(argEnum).getStringValue());
 	}
 }
