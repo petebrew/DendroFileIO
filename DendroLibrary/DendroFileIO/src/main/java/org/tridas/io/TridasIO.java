@@ -17,6 +17,7 @@ import org.tridas.io.formats.sheffield.SheffieldReader;
 import org.tridas.io.formats.tridas.TridasReader;
 import org.tridas.io.formats.tridas.TridasWriter;
 import org.tridas.io.formats.trims.TrimsReader;
+import org.tridas.io.formats.trims.TrimsWriter;
 import org.tridas.io.formats.tucson.TucsonReader;
 import org.tridas.io.formats.tucson.TucsonWriter;
 import org.tridas.io.formats.vformat.VFormatReader;
@@ -50,6 +51,7 @@ public class TridasIO {
 		
 		registerFileWriter(TridasWriter.class);
 		registerFileWriter(TucsonWriter.class);
+		registerFileWriter(TrimsWriter.class);
 	}
 	
 	/**
