@@ -59,6 +59,7 @@ public class HeidelbergWriter extends AbstractDendroCollectionWriter {
 								
 								HeidelbergFile file = new HeidelbergFile(this, tvDefaults);
 								file.setSeries(ms, i);
+								naming.registerFile(file, argProject, o, e, s, r, ms);
 								addToFileList(file);
 							}
 							
@@ -79,6 +80,7 @@ public class HeidelbergWriter extends AbstractDendroCollectionWriter {
 									
 									HeidelbergFile file = new HeidelbergFile(this, tvDefaults);
 									file.setSeries(ds, i);
+									naming.registerFile(file, argProject, ds);
 									addToFileList(file);
 								}
 							}

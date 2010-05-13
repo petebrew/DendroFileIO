@@ -248,8 +248,14 @@ public class HeidelbergReader extends AbstractDendroFileReader {
 			series.getLinkSeries().getSeries().add(link);
 			series.getValues().add(valuesGroup);
 			
-			
-			for(int i=0; i<dataInts.length; i+=2){
+			int numDataInts = dataInts.length;
+			String slength = fileMetadata.get("Length");
+			if(slength != null){
+				try{
+					numDataInts = Integer.parseInt(slength)*2; // count, value
+				}catch(Exception e){}
+			}
+			for(int i=0; i<numDataInts; i+=2){
 				int width = dataInts[i];
 				int count = dataInts[i+1];
 				TridasValue val = new TridasValue();
@@ -268,7 +274,15 @@ public class HeidelbergReader extends AbstractDendroFileReader {
 			TridasValues valuesGroup = defaults.getTridasValuesWithDefaults();
 			List<TridasValue> values = valuesGroup.getValues();
 			
-			for(int i=0; i<dataInts.length; i++){
+			
+			int numDataInts = dataInts.length;
+			String slength = fileMetadata.get("Length");
+			if(slength != null){
+				try{
+					numDataInts = Integer.parseInt(slength); // value
+				}catch(Exception e){}
+			}
+			for(int i=0; i<numDataInts; i++){
 				log.debug("Value: "+dataInts[i]);
 				TridasValue val = new TridasValue();
 				val.setValue(dataInts[i]+"");

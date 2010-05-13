@@ -2,7 +2,6 @@ package org.tridas.io.formats.trims;
 
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
-import java.util.Calendar;
 import java.util.List;
 
 import javax.xml.datatype.XMLGregorianCalendar;
@@ -13,17 +12,13 @@ import org.tridas.io.IDendroCollectionWriter;
 import org.tridas.io.IDendroFile;
 import org.tridas.io.defaults.IMetadataFieldSet;
 import org.tridas.io.formats.trims.TridasToTrimsDefaults.TrimsField;
-import org.tridas.io.formats.tucson.TridasToTucsonDefaults;
-import org.tridas.io.formats.tucson.TridasToTucsonDefaults.TucsonField;
 import org.tridas.io.util.SafeIntYear;
 import org.tridas.io.warnings.ConversionWarning;
 import org.tridas.io.warnings.ConversionWarningException;
 import org.tridas.io.warnings.ConversionWarning.WarningType;
-import org.tridas.schema.Date;
 import org.tridas.schema.TridasDerivedSeries;
 import org.tridas.schema.TridasMeasurementSeries;
 import org.tridas.schema.TridasValue;
-import org.tridas.schema.Year;
 
 public class TrimsFile implements IDendroFile {
 	

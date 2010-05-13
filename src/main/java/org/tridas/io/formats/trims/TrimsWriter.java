@@ -2,21 +2,15 @@ package org.tridas.io.formats.trims;
 
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Set;
-
 import org.tridas.interfaces.ITridasSeries;
 import org.tridas.io.AbstractDendroCollectionWriter;
 import org.tridas.io.I18n;
 import org.tridas.io.defaults.IMetadataFieldSet;
-import org.tridas.io.formats.tucson.TridasToTucsonDefaults;
-import org.tridas.io.naming.HierarchicalNamingConvention;
 import org.tridas.io.naming.INamingConvention;
 import org.tridas.io.naming.UUIDNamingConvention;
 import org.tridas.io.util.TridasHierarchyHelper;
-import org.tridas.io.warnings.ConversionWarning;
 import org.tridas.io.warnings.ConversionWarningException;
 import org.tridas.io.warnings.IncompleteTridasDataException;
-import org.tridas.io.warnings.ConversionWarning.WarningType;
 import org.tridas.schema.TridasDerivedSeries;
 import org.tridas.schema.TridasElement;
 import org.tridas.schema.TridasMeasurementSeries;
