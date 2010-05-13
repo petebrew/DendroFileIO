@@ -10,6 +10,7 @@ import org.grlea.log.SimpleLogger;
 import org.tridas.io.IDendroFile;
 import org.tridas.io.I18n;
 import org.tridas.io.util.StringUtils;
+import org.tridas.schema.TridasDerivedSeries;
 import org.tridas.schema.TridasElement;
 import org.tridas.schema.TridasMeasurementSeries;
 import org.tridas.schema.TridasObject;
@@ -28,6 +29,8 @@ public abstract class AbstractNamingConvention implements INamingConvention{
 	
 	private HashMap<String, ArrayList<IDendroFile>> nameMap = new HashMap<String, ArrayList<IDendroFile>>();
 	private HashMap<IDendroFile, String> fileMap = new HashMap<IDendroFile, String>();
+	
+	
 	/**
 	 * @see org.tridas.io.naming.INamingConvention#registerFile(org.tridas.io.IDendroFile, org.tridas.schema.TridasProject, org.tridas.schema.TridasObject, org.tridas.schema.TridasElement, org.tridas.schema.TridasSample, org.tridas.schema.TridasRadius, org.tridas.schema.TridasMeasurementSeries)
 	 */
@@ -52,11 +55,37 @@ public abstract class AbstractNamingConvention implements INamingConvention{
 		fileMap.put(argFile, filename);
 	}
 	
+	/**
+	 * @see org.tridas.io.naming.INamingConvention#registerFile(org.tridas.io.IDendroFile, org.tridas.schema.TridasProject, org.tridas.schema.TridasDerivedSeries)
+	 */
+	@Override
+	public synchronized void registerFile(IDendroFile argFile, TridasProject argProject,
+			TridasDerivedSeries argSeries) {
+		
+		String filename = getDendroFilename(argFile, argProject, argSeries);
+		if(filename == null){
+			log.error(I18n.getText("fileio.usingDefaultFilename", DEFAULT_FILENAME)); 
+			filename = DEFAULT_FILENAME;
+		}
+		
+		if(!nameMap.containsKey(filename)){
+			nameMap.put(filename, new ArrayList<IDendroFile>());
+		}
+		
+		ArrayList<IDendroFile> files = nameMap.get(filename);
+		files.add(argFile);
+		fileMap.put(argFile, filename);
+	}
+	
+	
 	protected abstract String getDendroFilename(IDendroFile argFile, TridasProject argProject,
 			TridasObject argObject, TridasElement argElement,
 			TridasSample argSample, TridasRadius argRadius,
 			TridasMeasurementSeries argSeries);
 
+	protected abstract String getDendroFilename(IDendroFile argFile, TridasProject argProject,
+			TridasDerivedSeries argSeries);
+	
 	
 	public synchronized void clearRegisteredFiles(){
 		nameMap.clear();
@@ -90,7 +119,7 @@ public abstract class AbstractNamingConvention implements INamingConvention{
 			log.error(I18n.getText("fileio.fileNotFound", baseFilename)); 
 		}
 		i++; // so we start at 1
-		return baseFilename+StringUtils.addLefthandZeros(i, numDigits);
+		return baseFilename+"("+StringUtils.addLefthandZeros(i, numDigits)+")";
 	}
 
 	protected static class DendoFileInfo{

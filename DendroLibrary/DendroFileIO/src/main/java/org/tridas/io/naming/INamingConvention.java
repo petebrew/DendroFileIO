@@ -4,6 +4,7 @@
 package org.tridas.io.naming;
 
 import org.tridas.io.IDendroFile;
+import org.tridas.schema.TridasDerivedSeries;
 import org.tridas.schema.TridasElement;
 import org.tridas.schema.TridasMeasurementSeries;
 import org.tridas.schema.TridasObject;
@@ -24,6 +25,10 @@ public interface INamingConvention {
 							 TridasSample argSample,
 							 TridasRadius argRadius,
 							 TridasMeasurementSeries argSeries);
+	
+	public void registerFile(IDendroFile argFile,
+			 TridasProject argProject,
+			 TridasDerivedSeries argSeries);
 	
 	public String getFilename(IDendroFile argFile);
 	
