@@ -5,6 +5,7 @@ package org.tridas.io.naming;
 
 import org.tridas.io.IDendroFile;
 import org.tridas.io.I18n;
+import org.tridas.schema.TridasDerivedSeries;
 import org.tridas.schema.TridasElement;
 import org.tridas.schema.TridasMeasurementSeries;
 import org.tridas.schema.TridasObject;
@@ -68,6 +69,28 @@ public class HierarchicalNamingConvention extends AbstractNamingConvention {
 		return name;
 	}
 
+
+	@Override
+	protected String getDendroFilename(IDendroFile argFile,
+			TridasProject argProject, TridasDerivedSeries argSeries) {
+		String name = "";
+		
+		if(argProject != null){
+			name += argProject.getTitle();
+		}else{
+			return name;
+		}
+				
+		if(argSeries != null){
+			name += "-"+argSeries.getTitle();
+		}else{
+			return name;
+		}
+		
+		return name;
+	}
+	
+	
 	@Override
 	public String getDescription() {
 		return I18n.getText("namingconvention.hierarchical.description");
@@ -77,6 +100,7 @@ public class HierarchicalNamingConvention extends AbstractNamingConvention {
 	public String getName(){
 		return I18n.getText("namingconvention.hierarchical");
 	}
+
 
 	
 }

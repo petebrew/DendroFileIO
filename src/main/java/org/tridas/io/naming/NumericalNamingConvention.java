@@ -5,6 +5,7 @@ package org.tridas.io.naming;
 
 import org.tridas.io.IDendroFile;
 import org.tridas.io.I18n;
+import org.tridas.schema.TridasDerivedSeries;
 import org.tridas.schema.TridasElement;
 import org.tridas.schema.TridasMeasurementSeries;
 import org.tridas.schema.TridasObject;
@@ -58,6 +59,12 @@ public class NumericalNamingConvention extends AbstractNamingConvention {
 		// filename every time
 		return baseFilename;
 	}
+	
+	@Override
+	protected String getDendroFilename(IDendroFile argFile,
+			TridasProject argProject, TridasDerivedSeries argSeries) {
+		return baseFilename;
+	}
 
 	
 	@Override
@@ -69,4 +76,6 @@ public class NumericalNamingConvention extends AbstractNamingConvention {
 	public String getName(){
 		return I18n.getText("namingconvention.numerical");
 	}
+
+
 }
