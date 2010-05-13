@@ -21,7 +21,7 @@ public class NamingConventionsTest extends TestCase {
 		}
 		
 		for(int i=0; i<files.size(); i++){
-			assertEquals((i+1)+"", naming.getFilename(files.get(i)));
+			assertEquals("("+(i+1)+")", naming.getFilename(files.get(i)));
 		}
 		
 		naming.setBaseFilename("file");
@@ -32,7 +32,7 @@ public class NamingConventionsTest extends TestCase {
 		}
 		
 		for(int i=0; i<files.size(); i++){
-			assertEquals("file"+(i+1), naming.getFilename(files.get(i)));
+			assertEquals("file("+(i+1)+")", naming.getFilename(files.get(i)));
 		}
 	}
 }
