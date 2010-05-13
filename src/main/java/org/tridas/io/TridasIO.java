@@ -10,6 +10,7 @@ import java.util.HashMap;
 import org.grlea.log.DebugLevel;
 import org.grlea.log.SimpleLogger;
 import org.tridas.io.formats.belfastapple.BelfastAppleReader;
+import org.tridas.io.formats.belfastapple.BelfastAppleWriter;
 import org.tridas.io.formats.belfastarchive.BelfastArchiveReader;
 import org.tridas.io.formats.catras.CatrasReader;
 import org.tridas.io.formats.heidelberg.HeidelbergReader;
@@ -49,9 +50,11 @@ public class TridasIO {
 		registerFileReader(TucsonReader.class);
 		registerFileReader(VFormatReader.class);
 		
+		registerFileWriter(BelfastAppleWriter.class);
 		registerFileWriter(TridasWriter.class);
 		registerFileWriter(TucsonWriter.class);
 		registerFileWriter(TrimsWriter.class);
+		
 	}
 	
 	/**
