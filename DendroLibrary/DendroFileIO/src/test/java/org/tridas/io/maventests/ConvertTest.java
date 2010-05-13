@@ -14,10 +14,14 @@ import org.tridas.io.formats.sheffield.SheffieldReader;
 import org.tridas.io.formats.tridas.TridasReader;
 import org.tridas.io.formats.tridas.TridasWriter;
 import org.tridas.io.formats.trims.TrimsReader;
+import org.tridas.io.formats.trims.TrimsWriter;
 import org.tridas.io.formats.tucson.TucsonReader;
 import org.tridas.io.formats.tucson.TucsonToTridasDefaults;
 import org.tridas.io.formats.tucson.TucsonWriter;
 import org.tridas.io.formats.vformat.VFormatReader;
+import org.tridas.io.naming.HierarchicalNamingConvention;
+import org.tridas.io.naming.NumericalNamingConvention;
+import org.tridas.io.naming.SeriesNamingConvention;
 import org.tridas.io.naming.UUIDNamingConvention;
 import org.tridas.io.warnings.ConversionWarning;
 import org.tridas.io.warnings.ConversionWarningException;
@@ -30,20 +34,22 @@ import junit.framework.TestCase;
 
 public class ConvertTest extends TestCase {
 
-	/*public void test() 
+	public void test() 
 	{
-		String folder = "TestData/itrdb_v504_usa_crn";
+		String folder = "TestData/TRiDaS";
 		String[] files = getFilesFromFolder(folder);
 		
 		if (files.length==0) fail();
 		
 		for (String filename : files)
 		{			
+			if(!filename.equals("Tridas2.xml")) continue;
+			
 			System.out.println("Test conversion of: "+filename);
 			
 			TridasProject project = null;
 		    
-			TucsonReader reader = new TucsonReader();
+			TridasReader reader = new TridasReader();
 			try {
 				reader.loadFile(folder, filename);
 			} catch (IOException e) {
@@ -60,8 +66,10 @@ public class ConvertTest extends TestCase {
 			project = reader.getProject();
 	
 			// Create a new converter based on a TridasProject
-			TridasWriter writer = new TridasWriter();
-			writer.setNamingConvention(new UUIDNamingConvention());
+			TucsonWriter writer = new TucsonWriter();
+			SeriesNamingConvention nc = new SeriesNamingConvention();
+
+			writer.setNamingConvention(nc);
 			try {
 				writer.loadProject(project);
 			} catch (IncompleteTridasDataException e) {
@@ -74,10 +82,10 @@ public class ConvertTest extends TestCase {
 	
 	
 			// Actually save file(s) to disk
-			writer.saveAllToDisk("TestData/Output");
+			writer.saveAllToDisk("target/TestOutput");
 		}
 
-	}*/
+	}
 	
 	
 	public void testTridasToTucson() 
@@ -120,7 +128,7 @@ public class ConvertTest extends TestCase {
 	
 	
 			// Actually save file(s) to disk
-			tucsonwriter.saveAllToDisk("TestData/Output");
+			tucsonwriter.saveAllToDisk("target/TestOutput");
 		}
 
 	}
@@ -185,7 +193,7 @@ public class ConvertTest extends TestCase {
 			} catch (IncorrectDefaultFieldsException e) {
 				fail();
 			}
-			writer.saveAllToDisk("TestData/Output");
+			writer.saveAllToDisk("target/TestOutput");
 		
 
 		}
@@ -239,7 +247,7 @@ public class ConvertTest extends TestCase {
 				fail();
 			} catch (ConversionWarningException e) {
 			}
-			writer.saveAllToDisk("TestData/Output");
+			writer.saveAllToDisk("target/TestOutput");
 
 		}
 	}
@@ -287,7 +295,7 @@ public class ConvertTest extends TestCase {
 				fail();
 			} catch (ConversionWarningException e) {
 			}
-			writer.saveAllToDisk("TestData/Output/");
+			writer.saveAllToDisk("target/TestOutput/");
 
 		}
 		
@@ -336,7 +344,7 @@ public class ConvertTest extends TestCase {
 				fail();
 			} catch (ConversionWarningException e) {
 			}
-			writer.saveAllToDisk("TestData/Output");
+			writer.saveAllToDisk("target/TestOutput");
 			
 		}
 		
@@ -385,7 +393,7 @@ public class ConvertTest extends TestCase {
 				fail();
 			} catch (ConversionWarningException e) {
 			}
-			writer.saveAllToDisk("TestData/Output");
+			writer.saveAllToDisk("target/TestOutput");
 			
 		}
 		
@@ -434,7 +442,7 @@ public class ConvertTest extends TestCase {
 				fail();
 			} catch (ConversionWarningException e) {
 			}
-			writer.saveAllToDisk("TestData/Output");
+			writer.saveAllToDisk("target/TestOutput");
 			
 		}
 		
@@ -483,7 +491,7 @@ public class ConvertTest extends TestCase {
 				fail();
 			} catch (ConversionWarningException e) {
 			}
-			writer.saveAllToDisk("TestData/Output");
+			writer.saveAllToDisk("target/TestOutput");
 			
 		}
 		
@@ -533,13 +541,63 @@ public class ConvertTest extends TestCase {
 			} catch (IncorrectDefaultFieldsException e) {
 				fail();
 			}
-			writer.saveAllToDisk("TestData/Output");
+			writer.saveAllToDisk("target/TestOutput");
 		
 			
 		}
 		
 		
 		
+	}
+	
+	public void testTucsonToTrims()
+	{
+		String folder = "TestData/Tucson";
+		String[] files = getFilesFromFolder(folder);
+		
+		if (files.length==0) fail();
+		
+		for (String filename : files)
+		{	
+			System.out.println("Test conversion of: "+filename);
+			
+			// Create a new converter
+			TucsonReader reader = new TucsonReader();
+
+			// Parse the legacy data file
+			try {
+				//TridasEntitiesFromDefaults def = new TridasEntitiesFromDefaults();
+				reader.loadFile(folder, filename, new TucsonToTridasDefaults());
+			} catch (IOException e) {
+				// Standard IO Exception
+				System.out.println(e.getLocalizedMessage());
+				fail();
+			} catch (IncorrectDefaultFieldsException e) {
+				// The default fields you gave were wrong
+				e.printStackTrace();
+				fail();
+			} catch (InvalidDendroFileException e) {
+				// Fatal error interpreting file
+				System.out.println(e.getLocalizedMessage());
+				fail();
+			}
+	
+			
+			// Extract the TridasProject
+			TridasProject myproject = reader.getProject();
+			TrimsWriter writer = new TrimsWriter();
+			writer.setNamingConvention(new UUIDNamingConvention());
+			
+			try {
+				writer.loadProject(myproject);
+			} catch (IncompleteTridasDataException e) {
+				fail();
+			} catch (ConversionWarningException e) {
+			}
+			writer.saveAllToDisk("target/TestOutput");
+		
+
+		}
 	}
 	
 	
