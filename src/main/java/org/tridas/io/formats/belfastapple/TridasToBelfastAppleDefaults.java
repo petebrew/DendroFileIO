@@ -3,13 +3,8 @@
  */
 package org.tridas.io.formats.belfastapple;
 
-import java.text.SimpleDateFormat;
-import java.util.Calendar;
-import java.util.UUID;
-
 import org.tridas.io.I18n;
 import org.tridas.io.defaults.AbstractMetadataFieldSet;
-import org.tridas.io.defaults.values.IntegerDefaultValue;
 import org.tridas.io.defaults.values.StringDefaultValue;
 
 /**
