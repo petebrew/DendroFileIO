@@ -2,8 +2,6 @@ package org.tridas.io;
 
 import java.io.IOException;
 
-import org.grlea.log.SimpleLog;
-import org.tridas.io.naming.AbstractNamingConvention;
 import org.tridas.io.naming.HierarchicalNamingConvention;
 import org.tridas.io.naming.INamingConvention;
 import org.tridas.io.naming.UUIDNamingConvention;
@@ -11,7 +9,6 @@ import org.tridas.io.util.StringUtils;
 import org.tridas.io.warnings.ConversionWarning;
 import org.tridas.io.warnings.ConversionWarningException;
 import org.tridas.io.warnings.IncompleteTridasDataException;
-import org.tridas.io.warnings.IncorrectDefaultFieldsException;
 import org.tridas.io.warnings.InvalidDendroFileException;
 import org.tridas.schema.TridasProject;
 

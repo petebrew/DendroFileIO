@@ -1,7 +1,6 @@
 package org.tridas.io.formats.heidelberg;
 
 import org.tridas.io.defaults.TridasMetadataFieldSet;
-import org.tridas.io.defaults.TridasMetadataFieldSet.TridasMandatoryField;
 import org.tridas.io.defaults.values.GenericDefaultValue;
 import org.tridas.io.defaults.values.IntegerDefaultValue;
 import org.tridas.io.defaults.values.StringDefaultValue;
@@ -14,7 +13,6 @@ import org.tridas.schema.TridasElement;
 import org.tridas.schema.TridasIdentifier;
 import org.tridas.schema.TridasInterpretation;
 import org.tridas.schema.TridasMeasurementSeries;
-import org.tridas.schema.TridasProject;
 import org.tridas.schema.TridasUnit;
 import org.tridas.schema.TridasUnitless;
 import org.tridas.schema.TridasValues;

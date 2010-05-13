@@ -1,13 +1,10 @@
 package org.tridas.io.formats.heidelberg;
 
 import org.grlea.log.SimpleLogger;
-import org.tridas.io.defaults.AbstractDefaultValue;
 import org.tridas.io.defaults.AbstractMetadataFieldSet;
 import org.tridas.io.defaults.IMetadataFieldSet;
 import org.tridas.io.defaults.values.IntegerDefaultValue;
 import org.tridas.io.defaults.values.StringDefaultValue;
-import org.tridas.io.formats.heidelberg.HeidelbergToTridasDefaults.DefaultFields;
-import org.tridas.schema.NormalTridasUnit;
 import org.tridas.schema.TridasDerivedSeries;
 import org.tridas.schema.TridasElement;
 import org.tridas.schema.TridasIdentifier;

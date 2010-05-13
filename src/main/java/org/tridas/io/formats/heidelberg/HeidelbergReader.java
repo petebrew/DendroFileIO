@@ -9,7 +9,6 @@ import org.grlea.log.SimpleLogger;
 import org.tridas.io.AbstractDendroFileReader;
 import org.tridas.io.I18n;
 import org.tridas.io.defaults.IMetadataFieldSet;
-import org.tridas.io.defaults.TridasMetadataFieldSet.TridasMandatoryField;
 import org.tridas.io.defaults.values.GenericDefaultValue;
 import org.tridas.io.formats.heidelberg.HeidelbergToTridasDefaults.DefaultFields;
 import org.tridas.io.util.StringUtils;
@@ -29,10 +28,8 @@ import org.tridas.schema.TridasRadius;
 import org.tridas.schema.TridasRadiusPlaceholder;
 import org.tridas.schema.TridasSample;
 import org.tridas.schema.TridasUnit;
-import org.tridas.schema.TridasUnitless;
 import org.tridas.schema.TridasValue;
 import org.tridas.schema.TridasValues;
-import org.tridas.schema.TridasVariable;
 import org.tridas.schema.SeriesLink.IdRef;
 
 public class HeidelbergReader extends AbstractDendroFileReader {
@@ -134,6 +131,9 @@ public class HeidelbergReader extends AbstractDendroFileReader {
 			}else{
 				// in data!
 				String[] nums = StringUtils.chopString(s, DATA_CHARS_PER_NUMBER);
+				if(nums.length != 10){
+					throw new InvalidDendroFileException("Data must have 10 numbers per line", i+1);
+				}
 				try{
 					for(String num : nums){
 						Integer.parseInt(num.trim());

@@ -4,9 +4,6 @@ import org.grlea.log.SimpleLogger;
 import org.tridas.io.AbstractDendroFileReader;
 import org.tridas.io.I18n;
 import org.tridas.io.defaults.IMetadataFieldSet;
-import org.tridas.io.formats.catras.CatrasReader;
-import org.tridas.io.formats.catras.CatrasToTridasDefaults;
-import org.tridas.io.formats.heidelberg.HeidelbergToTridasDefaults;
 import org.tridas.io.warnings.InvalidDendroFileException;
 import org.tridas.schema.TridasProject;
 

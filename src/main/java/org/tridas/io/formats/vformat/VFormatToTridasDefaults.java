@@ -1,7 +1,6 @@
 package org.tridas.io.formats.vformat;
 
 import org.tridas.io.defaults.TridasMetadataFieldSet;
-import org.tridas.io.defaults.TridasMetadataFieldSet.TridasMandatoryField;
 import org.tridas.schema.TridasElement;
 import org.tridas.schema.TridasIdentifier;
 import org.tridas.schema.TridasObject;

@@ -1,24 +1,17 @@
 package org.tridas.io.formats.sheffield;
 
 import java.util.ArrayList;
-import java.util.UUID;
-
 import org.grlea.log.SimpleLogger;
 import org.tridas.io.AbstractDendroFileReader;
 import org.tridas.io.I18n;
-import org.tridas.io.TridasIO;
 import org.tridas.io.defaults.IMetadataFieldSet;
-import org.tridas.io.defaults.TridasMetadataFieldSet;
 import org.tridas.io.defaults.TridasMetadataFieldSet.TridasMandatoryField;
 import org.tridas.io.defaults.values.GenericDefaultValue;
-import org.tridas.io.formats.trims.TrimsReader;
-import org.tridas.io.formats.trims.TrimsToTridasDefaults;
 import org.tridas.io.util.DateUtils;
 import org.tridas.io.util.SafeIntYear;
 import org.tridas.io.warnings.ConversionWarning;
 import org.tridas.io.warnings.InvalidDendroFileException;
 import org.tridas.io.warnings.ConversionWarning.WarningType;
-import org.tridas.schema.DatingSuffix;
 import org.tridas.schema.NormalTridasUnit;
 import org.tridas.schema.ObjectFactory;
 import org.tridas.schema.TridasElement;
