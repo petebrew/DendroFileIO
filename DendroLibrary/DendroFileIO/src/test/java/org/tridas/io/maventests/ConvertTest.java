@@ -7,8 +7,10 @@ import java.io.IOException;
 import org.tridas.io.IDendroFile;
 import org.tridas.io.defaults.TridasMetadataFieldSet;
 import org.tridas.io.formats.belfastapple.BelfastAppleReader;
+import org.tridas.io.formats.belfastapple.BelfastAppleWriter;
 import org.tridas.io.formats.belfastarchive.BelfastArchiveReader;
 import org.tridas.io.formats.catras.CatrasReader;
+import org.tridas.io.formats.csv.CSVWriter;
 import org.tridas.io.formats.heidelberg.HeidelbergReader;
 import org.tridas.io.formats.sheffield.SheffieldReader;
 import org.tridas.io.formats.tridas.TridasReader;
@@ -66,7 +68,7 @@ public class ConvertTest extends TestCase {
 			project = reader.getProject();
 	
 			// Create a new converter based on a TridasProject
-			TucsonWriter writer = new TucsonWriter();
+			CSVWriter writer = new CSVWriter();
 			SeriesNamingConvention nc = new SeriesNamingConvention();
 
 			writer.setNamingConvention(nc);
