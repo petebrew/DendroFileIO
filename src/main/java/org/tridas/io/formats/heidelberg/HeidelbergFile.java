@@ -135,15 +135,15 @@ public class HeidelbergFile implements IDendroFile {
 	public String[] saveToString() {
 		ArrayList<String> file = new ArrayList<String>();
 		file.add("HEADER:");
-		addIfNotNull(HeidelbergField.KEY_CODE, file);
-		addIfNotNull(HeidelbergField.DATA_FORMAT, file);
-		addIfNotNull(HeidelbergField.SERIES_TYPE, file);
-		addIfNotNull(HeidelbergField.LENGTH, file);
-		addIfNotNull(HeidelbergField.DATEBEGIN, file);
-		addIfNotNull(HeidelbergField.DATEEND, file);
-		addIfNotNull(HeidelbergField.DATED, file);
-		addIfNotNull(HeidelbergField.SPECIES, file);
-		addIfNotNull(HeidelbergField.UNIT, file);
+		addIfNotNull("KeyCode",HeidelbergField.KEY_CODE, file);
+		addIfNotNull("DataFormat",HeidelbergField.DATA_FORMAT, file);
+		addIfNotNull("SeriesType",HeidelbergField.SERIES_TYPE, file);
+		addIfNotNull("Length",HeidelbergField.LENGTH, file);
+		addIfNotNull("DateBegin",HeidelbergField.DATEBEGIN, file);
+		addIfNotNull("DateEnd",HeidelbergField.DATEEND, file);
+		addIfNotNull("Dated",HeidelbergField.DATED, file);
+		addIfNotNull("Species",HeidelbergField.SPECIES, file);
+		addIfNotNull("Unit",HeidelbergField.UNIT, file);
 		
 		if(chrono){
 			file.add("DATA:Double");
@@ -168,10 +168,10 @@ public class HeidelbergFile implements IDendroFile {
 		return file.toArray(new String[0]);
 	}
 	
-	private void addIfNotNull(HeidelbergField argEnum, ArrayList<String> argList){
+	private void addIfNotNull(String argKeyString, HeidelbergField argEnum, ArrayList<String> argList){
 		if( defaults.getDefaultValue(argEnum).getStringValue().equals("") ){
 			return;
 		}
-		argList.add(defaults.getDefaultValue(argEnum).getStringValue());
+		argList.add(argKeyString+"="+defaults.getDefaultValue(argEnum).getStringValue());
 	}
 }

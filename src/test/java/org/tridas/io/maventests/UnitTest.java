@@ -119,7 +119,7 @@ public class UnitTest extends TestCase {
 		}
 
 		// Actually save file(s) to disk
-		tucsonwriter.saveAllToDisk();
+		tucsonwriter.saveAllToDisk("target/TestOutput");
 					
 		
 	}
