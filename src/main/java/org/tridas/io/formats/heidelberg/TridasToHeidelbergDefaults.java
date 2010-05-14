@@ -65,7 +65,7 @@ public class TridasToHeidelbergDefaults extends AbstractMetadataFieldSet impleme
 	
 	public void populateFromTridasElement(TridasElement argElement){
 		if(argElement.isSetTaxon()){
-			getStringDefaultValue(HeidelbergField.SPECIES).setValue(argElement.getTaxon().toString());
+			getStringDefaultValue(HeidelbergField.SPECIES).setValue(argElement.getTaxon().getValue());
 		}
 	}
 	

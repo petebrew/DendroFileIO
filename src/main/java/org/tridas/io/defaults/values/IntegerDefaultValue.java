@@ -93,7 +93,7 @@ public class IntegerDefaultValue extends AbstractDefaultValue<Integer> {
 		}
 		if(argValue.intValue() > max){
 			String text = I18n.getText("fileio.defaults.numTooBig",""+argValue,""+max,""+changeToRange);
-			log.error(text);
+			log.warn(text);
 			if(getParent() == null){
 				log.error(I18n.getText("fileio.defaults.nullParent"));
 			}else{
@@ -107,7 +107,7 @@ public class IntegerDefaultValue extends AbstractDefaultValue<Integer> {
 		}
 		if(argValue < min){
 			String text = I18n.getText("fileio.defaults.numTooSmall",""+argValue,""+min,""+changeToRange);
-			log.error(text);
+			log.warn(text);
 			if(getParent() == null){
 				log.error(I18n.getText("fileio.defaults.nullParent"));
 			}else{
