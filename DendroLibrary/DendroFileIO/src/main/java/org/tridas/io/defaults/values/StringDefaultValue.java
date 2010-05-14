@@ -59,7 +59,7 @@ public class StringDefaultValue extends AbstractDefaultValue<String> {
 		}
 		argValue = validValue(argValue);
 		if(argValue != null){
-			log.verbose("value stored: "+argValue);
+			log.verbose("string value stored: "+argValue);
 			value = argValue;
 			return true;
 		}
@@ -72,7 +72,7 @@ public class StringDefaultValue extends AbstractDefaultValue<String> {
 		String value = argValue.toString();
 		if(getMaxLength() != -1){
 			if(value.length() > getMaxLength()){
-				log.error(I18n.getText("fileio.defaults.stringTooBig",value, getMaxLength()+""));
+				log.warn(I18n.getText("fileio.defaults.stringTooBig",value, getMaxLength()+""));
 				if(getParent() == null){
 					log.error(I18n.getText("fileio.defaults.nullParent"));
 				}else{

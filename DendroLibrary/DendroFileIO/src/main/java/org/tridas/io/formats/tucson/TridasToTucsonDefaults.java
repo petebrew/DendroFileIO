@@ -11,6 +11,7 @@ import org.tridas.io.I18n;
 import org.tridas.io.defaults.AbstractMetadataFieldSet;
 import org.tridas.io.defaults.values.IntegerDefaultValue;
 import org.tridas.io.defaults.values.StringDefaultValue;
+import org.tridas.io.util.StringUtils;
 
 /**
  * Place to hold and change default fields for the Tucson filetype
@@ -39,7 +40,7 @@ public class TridasToTucsonDefaults extends AbstractMetadataFieldSet {
 	 */
 	@Override
 	protected void initDefaultValues() {
-		setDefaultValue(TucsonField.SITE_CODE, new StringDefaultValue(UUID.randomUUID()+"", 6, 6));
+		setDefaultValue(TucsonField.SITE_CODE, new StringDefaultValue(UUID.randomUUID().toString().substring(0,6), 6, 6));
 		setDefaultValue(TucsonField.SITE_NAME, new StringDefaultValue(I18n.getText("unnamed.object"), 50, 50));
 		setDefaultValue(TucsonField.SPECIES_CODE, new StringDefaultValue("UNKN", 4, 4));
 		setDefaultValue(TucsonField.SPECIES_NAME, new StringDefaultValue("Plantae", 8, 8));
