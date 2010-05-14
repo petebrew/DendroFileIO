@@ -1,0 +1,964 @@
+HEADER:
+KeyNo=202
+Project=Growth studies
+DateEnd=105
+Length=56
+Location=Oak Ridge
+Species=PISY
+SapWoodRings=23
+WaldKante=---
+State=Tennessy
+PersId=FR
+KeyCode=2021017
+Country=USA
+DateOfSampling=19931106
+TreeNo=202
+CoreNo=1
+Exposition=North-West
+CreationDate=19940526
+SoilType=Sand
+DATA:Tree
+   196   149    89   125   109   154    73    86    79    74
+   167    65   163   119    96   140   118    81   137   152
+   122    78    73   119    90   154   113   109   107   124
+   142   182   137   100   102   158   156   201   157   152
+   121   107   126   136    85    79   150   140   176   155
+   185   158   122   135   163   124     0     0     0     0
+HEADER:
+KeyNo=184
+Project=Growth studies
+DateEnd=121
+Length=102
+Location=Oak Ridge
+Species=PISY
+Pith=1
+SapWoodRings=20
+WaldKante=WK?
+State=Tennessy
+PersId=FR
+KeyCode=1841017
+Country=USA
+DateOfSampling=19931106
+TreeNo=184
+CoreNo=1
+Exposition=North-West
+CreationDate=19940526
+SoilType=Sand
+DATA:Tree
+   275   195   115   169   258   211   309   273   258   294
+   195   271   209   276   219   265   265   293   225   239
+   184   135   148   144   267   253   238   189   181   185
+   207   188   171   190   156   146   162   185   193   172
+   248   206   215   183   166   168   167   131   209   161
+   213   151   193   216   167   197   167   150   165   177
+   183   196   155   149   119   189   171   192   150   175
+   146   147   131   155   145   140   108   136   198   208
+   234   208   143   171   196   211   216   220   211   160
+   158   182   200   183   170   137   116   135   116   139
+   181   165     0     0     0     0     0     0     0     0
+HEADER:
+KeyNo=194
+Project=Growth studies
+DateEnd=143
+Length=106
+Location=Oak Ridge
+Species=PISY
+SapWoodRings=19
+WaldKante=WKS
+State=Tennessy
+PersId=FR
+KeyCode=1941017
+Country=USA
+DateOfSampling=19931106
+TreeNo=194
+CoreNo=1
+Exposition=North-West
+CreationDate=19940526
+SoilType=Sand
+DATA:Tree
+   208   421   242   282   190   156   138   145   127    90
+    85    98    70    69    56    97    63    75    43    54
+    92    88   108    82   103    66    56    53    45    56
+    67    49    53    42    40    43    37    41    39    53
+   105   187   143   163    90    73    86    83    83    95
+    97   111    74    65    61    70    58    52    58    50
+    63    54    65    61    45    44    55    55    48    55
+    64    54    52    47    49    47    39    37    46    45
+    60    48    49    47    48    49    34    64    34    56
+    51    50    34    40    49    42    33    38    40    36
+    42    38    40    32    37    42     0     0     0     0
+HEADER:
+KeyNo=199
+Project=Growth studies
+DateEnd=159
+Length=113
+Location=Oak Ridge
+Species=PISY
+Pith=1
+SapWoodRings=16
+WaldKante=WKX
+State=Tennessy
+PersId=FR
+KeyCode=1991017
+Country=USA
+DateOfSampling=19931106
+TreeNo=199
+CoreNo=1
+Exposition=North-West
+CreationDate=19940526
+SoilType=Sand
+DATA:Tree
+   244   243   255   234   244   188   261   207   226   154
+   166   179   151   278   138   213   136    80   123   100
+    94   136   115   169    91    85   130    77   112    99
+   102   203   254   246   264   143   126   103   128   107
+   138   114   110   100    76    78    80   105    62    74
+    69    86    79   115   116    55    72    67    80    80
+   112    91   102    90    89    67    71    58    58    60
+   110    75    58    49    66    80    67    46    76    46
+    71    56    49    38    40    37    35    29    39    34
+    38    42    37    37    34    37    39    40    38    29
+    37    34    34    22    37    93    45    71    67    77
+    67    47    46     0     0     0     0     0     0     0
+HEADER:
+KeyNo=193
+Project=Growth studies
+DateEnd=160
+Length=125
+Location=Oak Ridge
+Species=PISY
+Pith=1
+SapWoodRings=22
+WaldKante=WKF
+State=Tennessy
+PersId=FR
+KeyCode=1931017
+Country=USA
+DateOfSampling=19931106
+TreeNo=193
+CoreNo=1
+Exposition=North-West
+CreationDate=19940526
+SoilType=Sand
+DATA:Tree
+   169   119   162   325   186   305   246   266   229   218
+   180   152   167   204   138   132   126   198   139   216
+    96   112   147   140   175   109   173   130    77   106
+    65    74   108    84   134    92    80   110    79   111
+    35    93   140   217   257   332   192   178   194   219
+   165   175   180   196   135   114   109   114   117    86
+   101   133   123   113   151   123    47    87    89   116
+   113   164    98   140   125   134    92   115   101    79
+    74   105   121    96   100    90   122    96    99   151
+    94   137    92    94    75    64   138    96    75   107
+    54    94    89    47   107    75    70    67    65    55
+    57    76    58    69    40    53    81    36    88    75
+    75    69    51    58    33     0     0     0     0     0
+HEADER:
+KeyNo=207
+Project=Growth studies
+DateEnd=160
+Length=104
+Location=Oak Ridge
+Species=PISY
+SapWoodRings=23
+WaldKante=WKS
+State=Tennessy
+PersId=FR
+KeyCode=2071017
+Country=USA
+DateOfSampling=19931106
+TreeNo=207
+CoreNo=1
+Exposition=North-West
+CreationDate=19940526
+SoilType=Sand
+DATA:Tree
+   131   304   210   345   160   255   139   181   166   162
+   131   166   143   197   128   141   182   105   150   108
+    89   106   159   175   220   165   144   122   141   143
+   178   170   158   135   116   130   119   127   107   159
+   171   159   119   145   113    75    87   117   123   143
+   183   141   125   139   142    94    99    97    91    96
+   129   147   122   123   130   156   145   118   156   116
+   150   119   105   115    95    97    73    75    92    66
+    95   103   107   110   105    70    84    80    62    60
+    73    78    61    51    55    68    48    60    75    69
+    63    72    51    59     0     0     0     0     0     0
+HEADER:
+KeyNo=196
+Project=Growth studies
+DateEnd=161
+Length=120
+Location=Oak Ridge
+Species=PISY
+Pith=1
+SapWoodRings=25
+WaldKante=---
+State=Tennessy
+PersId=FR
+KeyCode=1961017
+Country=USA
+DateOfSampling=19931106
+TreeNo=196
+CoreNo=1
+Exposition=North-West
+CreationDate=19940526
+SoilType=Sand
+DATA:Tree
+   350   268   155   237   267   198   261   294   240   223
+   200   286   226   229   135   184   272   202   296   181
+   258   206    80   123   153   127   182   131   175   116
+   110   133    88   144    99   137   154   275   266   306
+   207   168   141   174   176   189   166   152   135   115
+   116   118   112    93    86    98    90    81    96    94
+    53    66    91    85    88    92    82    84    80    93
+    61    87    67    83    75   133   100    77    87   112
+   143   116   102   125    95   115   100    79    68    66
+    61    57    49    67    50    70    62    48    88    88
+    68    58    56    57    47    48    59    57    38    62
+    59    59    59    75    70    59    49    51    35    64
+HEADER:
+KeyNo=204
+Project=Growth studies
+DateEnd=161
+Length=111
+Location=Oak Ridge
+Species=PISY
+SapWoodRings=21
+WaldKante=WKF
+State=Tennessy
+PersId=FR
+KeyCode=2041017
+Country=USA
+DateOfSampling=19931106
+TreeNo=204
+CoreNo=1
+Exposition=North-West
+CreationDate=19940526
+SoilType=Sand
+DATA:Tree
+   260   170   397   282   230   170   173   213   186   303
+   197   303   183   115   119    97    89   132   133   163
+    96    82   105    79   103    62    82   145   165   167
+   275   162   146   102   127   131   156   143   143   144
+    98   121   109   102    89    94    91   119   107    98
+   113    70    63    87    95    98   151   140    97   113
+   105    74    83    97    85    82    88    96    80    75
+    97   115   136    78   103    84   112    83    71    66
+    56    51    45    52    66    49    56    60    59    65
+    67    46    60    54    46    46    53    59    45    36
+    49    71    58    70    69    80    59    67    35    43
+    46     0     0     0     0     0     0     0     0     0
+HEADER:
+KeyNo=205
+Project=Growth studies
+DateEnd=161
+Length=109
+Location=Oak Ridge
+Species=PISY
+SapWoodRings=23
+WaldKante=WKX
+State=Tennessy
+PersId=FR
+KeyCode=2051017
+Country=USA
+DateOfSampling=19931106
+TreeNo=205
+CoreNo=1
+Exposition=North-West
+CreationDate=19940526
+SoilType=Sand
+DATA:Tree
+   292   233   197    59   107   233   243   371   227   386
+   231   159   164   197   165   235   229   336   180   181
+   247   147   196   135   166   154   288   300   392   273
+   238   145   191   167   199   212   199   154   175   153
+   124   123    79   112    99   103   106   128   139    84
+    99   126   124   145   145   113   119   119   143   103
+   115    85    84    66    96    78    63    72   101   119
+    97    84    88    69   108   100    84    51    59    76
+    49    46    70    43    61    59    70    79    72    56
+    54    62    56    55    63    64    47    30    55    63
+    49    61    98    48    67    49    43    36    54     0
+HEADER:
+KeyNo=198
+Project=Growth studies
+DateEnd=165
+Length=122
+Location=Oak Ridge
+Species=PISY
+Pith=1
+SapWoodRings=19
+WaldKante=WKS
+State=Tennessy
+PersId=FR
+KeyCode=1981017
+Country=USA
+DateOfSampling=19931106
+TreeNo=198
+CoreNo=1
+Exposition=North-West
+CreationDate=19940526
+SoilType=Sand
+DATA:Tree
+   144   243   281   125   135   155   133   161   149   248
+   156   218    99   112   161   157   170   117   144   120
+   105   105    75    69    96   102   138   100    87    85
+    61    95    77    74   124   303   372   390   226   188
+   158   136   139   165   178   177   132   124   136   141
+   169   111   125   143   161   176   172   152    90    87
+   130   148   134   178   138   137   138   150    95   116
+    86    80    58    85    96    82    78    87   103   109
+    80    86    60    92    95    70    65    67    63    67
+    66    66    47    58    57    64    73    43    44    66
+    59    45    52    38    58    41    54    57    74    55
+    82    93    87    76    75    54    67    79    76    85
+    81    89     0     0     0     0     0     0     0     0
+HEADER:
+KeyNo=209
+Project=Growth studies
+DateEnd=168
+Length=106
+Location=Oak Ridge
+Species=PISY
+Pith=1
+SapWoodRings=22
+WaldKante=WKS
+State=Tennessy
+PersId=FR
+KeyCode=2091017
+Country=USA
+DateOfSampling=19931106
+TreeNo=209
+CoreNo=1
+Exposition=North-West
+CreationDate=19940526
+SoilType=Sand
+DATA:Tree
+   162    74   131   110    99   157   113   172   154   112
+   208   100   134   108    85    90    99    97   178   103
+    93    87   194   156   142   119   130    90   117    94
+   109   101    87    91    88    77   108   165   110    83
+   164   193   214   211   186   167   163   142   193   124
+   169   136    96   106   148    88   114   102   115   117
+   141   114   180   140   143   170   146    94   119   102
+   118   116   108    62    82    86   119    92    77    94
+    80    57    60    58    75    60    56    35    50    67
+    62    69    77    77    66    64    63    95    85    95
+   148    98   100   117    98    97     0     0     0     0
+HEADER:
+KeyNo=206
+Project=Growth studies
+DateEnd=182
+Length=126
+Location=Oak Ridge
+Species=PISY
+Pith=1
+SapWoodRings=24
+WaldKante=WK?
+State=Tennessy
+PersId=FR
+KeyCode=2061017
+Country=USA
+DateOfSampling=19931106
+TreeNo=206
+CoreNo=1
+Exposition=North-West
+CreationDate=19940526
+SoilType=Sand
+DATA:Tree
+   108   227   250   331   163   232    82   104   137   125
+   131   177   181   212   136   119   134   105   179   154
+   163   121   140   197   261   187   147    97    97   162
+   219   160   159   126   127   116   140   143   117    82
+   143   185   168   154   182   110   133   155   183   175
+   229   198   161   189   161   120   131   125   123   136
+   162   139   116   129   136   177   144   113   136   114
+   146   150   113   131   103   112   139    98   127    86
+   116   104   105   127    97    94    97    85    80    72
+    81    71    71    62    66    73    57    71    74    73
+    73    64    52    63    66    66    82    96   101    77
+   101   103   109    88    92    73   128    88   113    82
+   111    96    95    91    76   118     0     0     0     0
+HEADER:
+KeyNo=213
+Project=Growth studies
+DateEnd=182
+Length=101
+Location=Oak Ridge
+Species=PISY
+Pith=1
+SapWoodRings=28
+WaldKante=WKX
+State=Tennessy
+PersId=FR
+KeyCode=2131017
+Country=USA
+DateOfSampling=19931106
+TreeNo=213
+CoreNo=1
+Exposition=North-West
+CreationDate=19940526
+SoilType=Sand
+DATA:Tree
+   167   170   153   195   181   172   177   186   161   121
+   131   172   154   120   135   133   173   134   157   135
+   104   121   114   127   126   214   163   136   156   169
+   124   112   113   119   100   117   121   103   113   116
+   133   132    99   141   124   152   144   125   119   116
+   142   119    97   127   111   102   127   153   141   103
+   206   178   160   167   237   194   211   125   120   159
+   226   142   195   240   191   199   216   132   182   176
+   156   207   234   225   143    92   176   188   174   224
+   192   218   150   218   164   155   192   148   163   167
+   178     0     0     0     0     0     0     0     0     0
+HEADER:
+KeyNo=185
+Project=Growth studies
+DateEnd=184
+Length=164
+Location=Oak Ridge
+Species=PISY
+Pith=1
+SapWoodRings=29
+WaldKante=WKS
+State=Tennessy
+PersId=FR
+KeyCode=1851017
+Country=USA
+DateOfSampling=19931106
+TreeNo=185
+CoreNo=1
+Exposition=North-West
+CreationDate=19940526
+SoilType=Sand
+DATA:Tree
+   107   101    82   147    98   155   134   142   118    98
+   132    83   110    79    45    54    79    81    95    86
+    91    53    50    59    68    61    70    72    65    61
+    43    50    62    53    66    61    81    94   106   162
+   147   168   132   120    95   118    98   112   101   145
+   135    79   138   176   182   127   177   145   129   121
+   137   112   127   170   130   142   103   116   156   131
+   109   105    98   110    97    97   102   114    76    71
+    85    88    95   111   102   125   126   110   103   111
+   102   114    99   103    89    67    98   110   113   120
+    87   111    72    47    86    88    99    91    99    60
+    72    66    96    69    64    73    87   113    70    72
+    97    99    81    81    55    69    67    91    68    62
+    96    86    67    93    84    75    91    84    65   102
+    84    57   102   122   106   106    87    89    85   104
+   138    97   142   122   119   119   125   144   173   166
+   265   157   156   107     0     0     0     0     0     0
+HEADER:
+KeyNo=216
+Project=Growth studies
+DateEnd=185
+Length=86
+Location=Oak Ridge
+Species=PISY
+Pith=1
+SapWoodRings=26
+WaldKante=---
+State=Tennessy
+PersId=FR
+KeyCode=2161017
+Country=USA
+DateOfSampling=19931106
+TreeNo=216
+CoreNo=1
+Exposition=North-West
+CreationDate=19940526
+SoilType=Sand
+DATA:Tree
+   197   159   173   121   200   287   292   412   251   311
+   241   332   355   301   270   286   326   207   251   177
+   192   138   183   163   141   229   148   276   236   293
+   178   160   149   191   181   146   145   154   141    98
+   132   114   142   121    94    96   126    95    67    93
+   127   148   188   144   130   159   146   159   127    90
+   145   107   130    98   148   168   136   106   121   103
+   124   178   101   154   145   110    89    96    72    92
+   126    84   117   102   110   111     0     0     0     0
+HEADER:
+KeyNo=214
+Project=Growth studies
+DateEnd=185
+Length=96
+Location=Oak Ridge
+Species=PISY
+Pith=1
+SapWoodRings=20
+WaldKante=WK?
+State=Tennessy
+PersId=FR
+KeyCode=2141017
+Country=USA
+DateOfSampling=19931106
+TreeNo=214
+CoreNo=1
+Exposition=North-West
+CreationDate=19940526
+SoilType=Sand
+DATA:Tree
+   208   202   199   225   202   183   186   213   236   223
+   232   122   228   256   209   242   216   263   188   122
+   129   156   145   153   143   167   143    88   101    98
+   118   137   169   185   157   249   161   294   263   284
+   223   164   121   169   136   141   139   129   113    72
+    81   117   121   147   118   122   115    92    94    99
+   116   166   214   157   140   148   155   140   115   117
+   138   168   149   122   169   182   167   166   133   175
+   114   209   134   157   140   126   110   110   156   121
+   129    97   159   165   143   139     0     0     0     0
+HEADER:
+KeyNo=200
+Project=Growth studies
+DateEnd=197
+Length=150
+Location=Oak Ridge
+Species=PISY
+Pith=1
+SapWoodRings=21
+WaldKante=WKS
+State=Tennessy
+PersId=FR
+KeyCode=2001017
+Country=USA
+DateOfSampling=19931106
+TreeNo=200
+CoreNo=1
+Exposition=North-West
+CreationDate=19940526
+SoilType=Sand
+DATA:Tree
+   314   352   338   381   224   362   262   252   138   205
+   252   205   271   171   243   124   100   105    95    86
+   105   110   114    76    76   114    67   119    71   100
+   162   276   243   295   157   157   138   138   157   181
+   171   171   143   124   138   133   114   100    76    81
+   105   100    90    90    48    67    71    90   100   124
+    95   100    81   100    48    86    76    67    67   100
+    81    71    67    86   114   129    86   124    86    95
+    90    86    86    57    52    52    48    67    43    57
+    52    48    76    62    38    57    52    48    43    48
+    57    43    29    43    52    57    57    71    52    57
+    62    43    33    48    29    24    57    67    76    71
+   100   100   105   162    76   133   110   110    90   143
+   110    86    57    71   105   110   100   105   100   124
+   105    95    67    52    90    48    62    76    95    81
+HEADER:
+KeyNo=217
+Project=Growth studies
+DateEnd=211
+Length=112
+Location=Oak Ridge
+Species=PISY
+Pith=1
+SapWoodRings=24
+WaldKante=WKS
+State=Tennessy
+PersId=FR
+KeyCode=2171017
+Country=USA
+DateOfSampling=19931106
+TreeNo=217
+CoreNo=1
+Exposition=North-West
+CreationDate=19940526
+SoilType=Sand
+DATA:Tree
+    78   133    85    83   162   222   196   315   267   197
+   170   186   158   161   199   142   211   218   190   145
+   108   102   119    94   107   117   150   157   197   203
+   138   114   161   127   110   151    90   105    82   114
+   155   155    94   117    86    59   132    79    94   117
+    99   142   143   116   103   143   153   119    82   117
+    78   122   127   122   168   146    83   126    75   111
+   252   231   198   221   287   182   132   220   134   267
+   369   164   241   167   194   321   293   124   169   139
+   147   155   216   113   100    86    82   104   183   108
+    92    75   110    95   106    78    68    63    82    93
+    94   130     0     0     0     0     0     0     0     0
+HEADER:
+KeyNo=223
+Project=Growth studies
+DateEnd=212
+Length=43
+Location=Oak Ridge
+Species=PISY
+SapWoodRings=23
+WaldKante=---
+State=Tennessy
+PersId=FR
+KeyCode=2231017
+Country=USA
+DateOfSampling=19931106
+TreeNo=223
+CoreNo=1
+Exposition=North-West
+CreationDate=19940526
+SoilType=Sand
+DATA:Tree
+   231   229   156   114   126   141   140   225   237   316
+   466   350   385   161   248   262   188   238   250   242
+   238   240   258   413   347   284   215   163   136   193
+   251   317   313   207   190   169   228   239   387   245
+   265   339   228     0     0     0     0     0     0     0
+HEADER:
+KeyNo=222
+Project=Growth studies
+DateEnd=218
+Length=56
+Location=Oak Ridge
+Species=PISY
+Pith=1
+SapWoodRings=18
+WaldKante=WK?
+State=Tennessy
+PersId=FR
+KeyCode=2221017
+Country=USA
+DateOfSampling=19931106
+TreeNo=222
+CoreNo=1
+Exposition=North-West
+CreationDate=19940526
+SoilType=Sand
+DATA:Tree
+   650   550   430   320   550   420   280   230   220   310
+   315   230   305   180   300   205   220   219   200   180
+    75   120   105   120   150   130   155   120   135   190
+   170   130   120   125    85   120   125   190   192   220
+   215   199   140   145   135   125   105   120   110   112
+   120   110    95   115   113   105     0     0     0     0
+HEADER:
+KeyNo=211
+Project=Growth studies
+DateEnd=266
+Length=197
+Location=Oak Ridge
+Species=PISY
+Pith=1
+SapWoodRings=23
+WaldKante=WKS
+State=Tennessy
+PersId=FR
+KeyCode=2111017
+Country=USA
+DateOfSampling=19931106
+TreeNo=211
+CoreNo=1
+Exposition=North-West
+CreationDate=19940526
+SoilType=Sand
+DATA:Tree
+    88    43    46    97    52    70    81   101   146   126
+    62    61    48    40    40    47    21    22    43    45
+    57    47    42    79    44    28    34    46    42    41
+    38    35    35    24    24    28    52   136   136   160
+   233   259    86   114   141    96   112   118   143   128
+    89    73   110    86    85    78    77   104   169   236
+   145   143   124   103    93   131    68    91    77    79
+   109   135    84    79    77    63    90    72    66    86
+    77    87   108    93    79    96    87    72    66    79
+    79   107    94    98   105   102    91    87    66   104
+   137   135   138   128   198   146    93   157   108   178
+   207   176   159   157   157   241   201    82   126    90
+   114   127   131    81    98    95    92    78   115    94
+    90    74   107    77   111    89   131   106   135   128
+   218   203   191   207   112   150   101    92    90   101
+   106   162    79    74    80    84    97   127   102    90
+   288   172   203   203   213   156   190   200   185   215
+   157   107    77   118   115   158   141   138   138   128
+   111   137   145    71   137   125   109   108   103   120
+   121   218   176   169   133   141   143     0     0     0
+HEADER:
+KeyNo=225
+Project=Growth studies
+DateEnd=272
+Length=83
+Location=Oak Ridge
+Species=PISY
+Pith=1
+SapWoodRings=17
+WaldKante=---
+State=Tennessy
+PersId=FR
+KeyCode=2251017
+Country=USA
+DateOfSampling=19931106
+TreeNo=225
+CoreNo=1
+Exposition=North-West
+CreationDate=19940526
+SoilType=Sand
+DATA:Tree
+   274   197   206   168   103    68    39    45    90   113
+   194   174   245   232   203   268   290   187   226   119
+    97   152   232   274   258   271   229   132    97    97
+   161   194   161   226   161   245   258   323   194   161
+   181   219   242   303   310   290   226   200   232   226
+   235   226   184   103    84   129   152   223   184   226
+   210   210   258   161   242   174   181   129    97   119
+   148   174   135   171   145   123    97    97    61    58
+    84   129   113     0     0     0     0     0     0     0
+HEADER:
+KeyNo=229
+Project=Growth studies
+DateEnd=317
+Length=86
+Location=Oak Ridge
+Species=PISY
+Pith=1
+SapWoodRings=24
+WaldKante=WK?
+State=Tennessy
+PersId=FR
+KeyCode=2291017
+Country=USA
+DateOfSampling=19931106
+TreeNo=229
+CoreNo=1
+Exposition=North-West
+CreationDate=19940526
+SoilType=Sand
+DATA:Tree
+   209   222   168   182   209   260   282   223   249   248
+   196   128   139   196   227   242   229   189   162   164
+   178   134   178   157   176   205   128   114   167   142
+   125   162    98   125   120   119   126    83   115   139
+   124    90   132   111   155   131   133    94   108   146
+   147   113    95   105    98   107    96   125   144    89
+    98    80    80    85   110   124    92    77    72    76
+    63    80    57    66    89    76    45    61    62    74
+    86   113   118    80   107    80     0     0     0     0
+HEADER:
+KeyNo=227
+Project=Growth studies
+DateEnd=320
+Length=118
+Location=Oak Ridge
+Species=PISY
+Pith=1
+SapWoodRings=20
+WaldKante=WKX
+State=Tennessy
+PersId=FR
+KeyCode=2271017
+Country=USA
+DateOfSampling=19931106
+TreeNo=227
+CoreNo=1
+Exposition=North-West
+CreationDate=19940526
+SoilType=Sand
+DATA:Tree
+   110   132   127   144   141   187   155   153   135   224
+   232   181   132    86    65    66   123   219   147   171
+   138   148   202   134   203    97   123   193   158   202
+   209   135   175   112   116   111   136   130    86    53
+    77    75    85    87    89    77    66    71    85    49
+    50    84    73    98    66    70    69    72    94    62
+    91    50    59    47    64    33    59    51    41    63
+    68    64    69    85    75    87    60    73    78    81
+    88   105   142    75    83   106   106    83    67   106
+    96    99   121   139   130    77    67    74    54    74
+    77    82    76    67    47    61    62    62    51    81
+    60    41    70    61    47    38    45    75     0     0
+HEADER:
+KeyNo=233
+Project=Growth studies
+DateEnd=349
+Length=96
+Location=Oak Ridge
+Species=PISY
+Pith=1
+SapWoodRings=21
+WaldKante=WKS
+State=Tennessy
+PersId=FR
+KeyCode=2331017
+Country=USA
+DateOfSampling=19931106
+TreeNo=233
+CoreNo=1
+Exposition=North-West
+CreationDate=19940526
+SoilType=Sand
+DATA:Tree
+   339   297   226   188   148   172   180   241   196   217
+   171   130   151   167   210   121   139   179   155   168
+   176   197   208   195   203   127   139   172   162   149
+   197   160   148   164   209   162   161   137   141   112
+   115   130   170   123   159   147    92   150   105   129
+   104   127   131   126   111   106   102   150   135   117
+    83    89    69    76    52    51    77    72    59    86
+   119    98   127   120   111   117   116   128   110   138
+   109    88    93   122    82    92    88    94   106    99
+   100   104    84    89    87    88     0     0     0     0
+HEADER:
+KeyNo=226
+Project=Growth studies
+DateEnd=456
+Length=258
+Location=Oak Ridge
+Species=PISY
+Pith=1
+SapWoodRings=19
+WaldKante=WKS
+State=Tennessy
+PersId=FR
+KeyCode=2261017
+Country=USA
+DateOfSampling=19931106
+TreeNo=226
+CoreNo=1
+Exposition=North-West
+CreationDate=19940526
+SoilType=Sand
+DATA:Tree
+   181   206   168   161   194   219   177   161   161   187
+   168   219   219   323   355   281   210   216   194   200
+   168   177   252   248   210   113   135   226   306   168
+   142   113   113   161   258   274   355   242   248   210
+   245   274   123    97    84    74   139   155   226   226
+   245   258   226   387   194   355   177   145   106   194
+   323   242   484   516   710   484   419   645   435   242
+   226   226   232   213   323   274   355   452   355   355
+   468   242   387   242   290   139   194   242   355   355
+   403   258   210   290   194   194   355   323   355   242
+   177    97   145   194   226   290   303   258   168   135
+   155   226   226   258   271   194   161   258   258   161
+   306   290   323   155   339   355   232   290   355   323
+   355   323   297   194   171   161   139   177   277   181
+   161   129   135   116   232   213   161   161   161   145
+   194   290   235   200   194   194   226   194   184   129
+   148   177   194   184   210   210   152   200   148   129
+   194   123   161   135   181   177   184   181   194   226
+   258   226   206   210   203   194   168   168   135   129
+   155   194   213   232   113   245   194   323   242   161
+   194   323   306   194   290   258   226   145   119   226
+   206   142   177   290   323   484   387   355   290   290
+   194   135   113   161   161   226   213   242   355   339
+   194   194   277   210   210   203   194   145   194   194
+   210   161   129    74   210   194   177   323   206   194
+   116   210   306   148   203   210   210   110     0     0
+HEADER:
+KeyNo=234
+Project=Growth studies
+DateEnd=485
+Length=187
+Location=Oak Ridge
+Species=PISY
+Pith=1
+SapWoodRings=23
+WaldKante=WKS
+State=Tennessy
+PersId=FR
+KeyCode=2341017
+Country=USA
+DateOfSampling=19931106
+TreeNo=234
+CoreNo=1
+Exposition=North-West
+CreationDate=19940526
+SoilType=Sand
+DATA:Tree
+   150   127   143    48    78   102    85   118   106   161
+   151   162   188   133   171   181   153   272   259   234
+   387   206   184   136   297   235   104   188   184   226
+   233   202   226   100   147   173   161    97   122    92
+   108   132   177   117   112   118   157   102   206   168
+   171   181   156   170   223   146   117   143   125   109
+   138   127   117   107   129   118    85    96   121   121
+    78   121   112    90   122   105   160    90    93   136
+   120    76   112    57   106    77    89    70    73    85
+   116    98   142   104   104   121   147   130    75   124
+    97   112   140   114   115   116   112   132   121   104
+   107   169   123   163   208   131   122   175   174   160
+   121   140   118   184   127   154   158   104   111    89
+   115   156   210   167   138   152   132   210   152   196
+   173   171   110    95   163   120    77   122    88    84
+    95    97   125   103   108   123   135    95   101   157
+   128   138   164   133   183   124   171   160   152   196
+   204   167   142   195   116   146   178   122   171   134
+   173   174   156   190   137   137   134     0     0     0
+HEADER:
+KeyNo=235
+Project=Growth studies
+DateEnd=485
+Length=181
+Location=Oak Ridge
+Species=PISY
+SapWoodRings=25
+WaldKante=WKS
+State=Tennessy
+PersId=FR
+KeyCode=2351017
+Country=USA
+DateOfSampling=19931106
+TreeNo=235
+CoreNo=1
+Exposition=North-West
+CreationDate=19940526
+SoilType=Sand
+DATA:Tree
+    77   116    37   144   112   120   159   115   337   313
+   171   143   239   251   515   348   146    92   320   328
+   100   177   234   274   247   135   220   242   225   270
+   276   140   215   238   209   223   226   215   241   189
+   232   263   348   297   309   333   284   248   321   235
+   227   192   140   117   132   136   188   168   150   125
+   104   171   188   177   141   101   103    88   139   108
+   128   102   153   134   132    94   143   114   114   102
+   112   105   101    75    95    82    84    79    68    92
+    86    98    73   107    92    87   113   101    94    81
+    97    61    77    79    54    89    80   105   126   114
+   140   105   102   101    72    73    87   113    95    92
+    88    78    96    77   108   126   118   101   116    95
+    93   114    84   112    96    83   102    68   102    97
+    74    87    75    60    65    72    86    78    77    79
+    92    69    94    80    81    83    84    73    99    83
+   109    78    80    67    70    65    67    85    54    51
+    59    63    76    57    62    62    48    58    50    47
+    44     0     0     0     0     0     0     0     0     0
+HEADER:
+KeyNo=236
+Project=Growth studies
+DateEnd=485
+Length=177
+Location=Oak Ridge
+Species=PISY
+SapWoodRings=27
+WaldKante=WKS
+State=Tennessy
+PersId=FR
+KeyCode=2361017
+Country=USA
+DateOfSampling=19931106
+TreeNo=236
+CoreNo=1
+Exposition=North-West
+CreationDate=19940526
+SoilType=Sand
+DATA:Tree
+    90   108   121    97   190   196   162   198   173   204
+   329   299   240   160   189   226    60    76   136   186
+   218   157   198   178   146   143   171   152   159   151
+   124   138   150   122   128   161   173   118   186   178
+   155   159   131   155   181   186   196   175   149   134
+   165   141   190   195   181   143   114   140   219   168
+   123   144   180   177   163   142   192   124   136   187
+   162   100   133    87   138    83   116    92    92    88
+    95    98    86    78    56    84    85    69    89    94
+    98   108   125    93    91   106    89    78    87    66
+    81   118    90   111   141    97    87   124   102   107
+    66    48    82   122    88    83    81    56    71    60
+    97    93   117    96    84    91    75   110    98   146
+   127    84    76    72   115   114   109   118    57    59
+    77    99   140   119   128   154   163   100   144   162
+   142   146   137   131   161   132   173   145   162   161
+   252   202   168   178    92   162   176   126   191   196
+   193   120   161   190   145   173   199     0     0     0
