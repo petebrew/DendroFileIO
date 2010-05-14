@@ -100,7 +100,7 @@ public class TridasIO {
 		String name = reader.getShortName();
 		
 		if(filetypes == null){
-			log.error(I18n.getText("fileio.fileExtensionNull"));
+			log.error(I18n.getText("fileio.fileExtensionNull", argReader.getClass().getName()));
 			return;
 		}
 		

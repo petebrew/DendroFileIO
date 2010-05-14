@@ -40,7 +40,7 @@ public class HeidelbergWriter extends AbstractDendroCollectionWriter {
 		
 		for(TridasObject o : TridasHierarchyHelper.getObjectList(argProject)){
 			
-			for(TridasElement e : TridasHierarchyHelper.getElementList(o)){
+			for(TridasElement e : o.getElements()){
 				TridasToHeidelbergDefaults elementDefaults = (TridasToHeidelbergDefaults) defaults.clone();
 				elementDefaults.populateFromTridasElement(e);
 				

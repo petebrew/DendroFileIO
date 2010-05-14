@@ -15,7 +15,6 @@ public class IntegerDefaultValue extends AbstractDefaultValue<Integer> {
 	private static final SimpleLogger log = new SimpleLogger(IntegerDefaultValue.class);
 	
 	private Integer value = null;
-	private boolean overriding = false;
 	private int max = Integer.MAX_VALUE;
 	private int min = Integer.MIN_VALUE;
 	private boolean changeToRange = false;
@@ -59,14 +58,6 @@ public class IntegerDefaultValue extends AbstractDefaultValue<Integer> {
 	@Override
 	public Integer getValue() {
 		return value;
-	}
-
-	/**
-	 * @see org.tridas.io.defaults.IDefaultValue#isOverriding()
-	 */
-	@Override
-	public boolean isOverriding() {
-		return overriding;
 	}
 
 	/**
