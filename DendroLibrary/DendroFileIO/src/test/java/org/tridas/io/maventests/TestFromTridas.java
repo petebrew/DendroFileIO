@@ -7,9 +7,11 @@ import java.io.IOException;
 import junit.framework.TestCase;
 
 import org.grlea.log.SimpleLogger;
+import org.tridas.io.formats.belfastapple.BelfastAppleWriter;
 import org.tridas.io.formats.csv.CSVWriter;
 import org.tridas.io.formats.heidelberg.HeidelbergWriter;
 import org.tridas.io.formats.tridas.TridasReader;
+import org.tridas.io.formats.trims.TrimsWriter;
 import org.tridas.io.formats.tucson.TucsonWriter;
 import org.tridas.io.naming.HierarchicalNamingConvention;
 import org.tridas.io.warnings.ConversionWarningException;
@@ -160,6 +162,90 @@ public class TestFromTridas extends TestCase{
 	
 			// Create a new converter based on a TridasProject
 			HeidelbergWriter writer = new HeidelbergWriter();
+			writer.setNamingConvention(new HierarchicalNamingConvention());
+			try {
+				writer.loadProject(project);
+			} catch (IncompleteTridasDataException e) {
+				e.printStackTrace();
+			} catch (ConversionWarningException e) {
+				e.printStackTrace();
+			}
+	
+	
+			// Actually save file(s) to disk
+			writer.saveAllToDisk(outputLocation);
+		}
+	}
+	
+	public void testTridasToTrims() {
+		String folder = "TestData/TRiDaS";
+		String[] files = getFilesFromFolder(folder);
+		
+		if (files.length==0) fail();
+		
+		for (String filename : files){	
+			log.info("Test conversion of: "+filename);
+			
+			TridasProject project = null;
+		    
+			TridasReader reader = new TridasReader();
+			try {
+				reader.loadFile(folder, filename);
+			} catch (IOException e) {
+				log.info(e.getLocalizedMessage());
+				fail();
+			} catch (InvalidDendroFileException e) {
+				e.printStackTrace();
+				fail();
+			}
+			
+			// Extract the TridasProject
+			project = reader.getProject();
+	
+			// Create a new converter based on a TridasProject
+			TrimsWriter writer = new TrimsWriter();
+			writer.setNamingConvention(new HierarchicalNamingConvention());
+			try {
+				writer.loadProject(project);
+			} catch (IncompleteTridasDataException e) {
+				e.printStackTrace();
+			} catch (ConversionWarningException e) {
+				e.printStackTrace();
+			}
+	
+	
+			// Actually save file(s) to disk
+			writer.saveAllToDisk(outputLocation);
+		}
+	}
+	
+	public void testTridasToBelfastApple() {
+		String folder = "TestData/TRiDaS";
+		String[] files = getFilesFromFolder(folder);
+		
+		if (files.length==0) fail();
+		
+		for (String filename : files){	
+			log.info("Test conversion of: "+filename);
+			
+			TridasProject project = null;
+		    
+			TridasReader reader = new TridasReader();
+			try {
+				reader.loadFile(folder, filename);
+			} catch (IOException e) {
+				log.info(e.getLocalizedMessage());
+				fail();
+			} catch (InvalidDendroFileException e) {
+				e.printStackTrace();
+				fail();
+			}
+			
+			// Extract the TridasProject
+			project = reader.getProject();
+	
+			// Create a new converter based on a TridasProject
+			BelfastAppleWriter writer = new BelfastAppleWriter();
 			writer.setNamingConvention(new HierarchicalNamingConvention());
 			try {
 				writer.loadProject(project);
