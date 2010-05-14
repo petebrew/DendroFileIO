@@ -166,15 +166,4 @@ public class UnitTest extends TestCase {
 			fail();
 		}
 	}*/
-
-	//
-	// testing StringUtils.java
-	//
-	public void testExtractInts() {
-		int x[] = StringUtils.extractInts("1 2 3");
-		assertEquals(x.length, 3);
-		assertEquals(x[0], 1);
-		assertEquals(x[1], 2);
-		assertEquals(x[2], 3);
-	}
 }

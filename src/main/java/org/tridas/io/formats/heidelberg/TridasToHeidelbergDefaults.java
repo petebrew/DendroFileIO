@@ -44,19 +44,22 @@ public class TridasToHeidelbergDefaults extends AbstractMetadataFieldSet impleme
 	
 	public void populateFromMS(TridasMeasurementSeries argSeries){
 		TridasIdentifier id = argSeries.getIdentifier();
-		if(id.isSetValue()){
+		
+		if(id != null && id.isSetValue()){
 			getStringDefaultValue(HeidelbergField.KEY_CODE).setValue(id.getValue());
 		}
 		
 		TridasInterpretation interp = argSeries.getInterpretation();
-		if(interp.isSetFirstYear()){
-			getIntegerDefaultValue(HeidelbergField.DATEBEGIN).setValue(interp.getFirstYear().getValue().intValue());
-		}
-		if(interp.isSetLastYear()){
-			getIntegerDefaultValue(HeidelbergField.DATEEND).setValue(interp.getLastYear().getValue().intValue());
-		}
-		else if(interp.isSetDeathYear()){
-			getIntegerDefaultValue(HeidelbergField.DATEEND).setValue(interp.getDeathYear().getValue().intValue());
+		if(interp != null){
+			if(interp.isSetFirstYear()){
+				getIntegerDefaultValue(HeidelbergField.DATEBEGIN).setValue(interp.getFirstYear().getValue().intValue());
+			}
+			if(interp.isSetLastYear()){
+				getIntegerDefaultValue(HeidelbergField.DATEEND).setValue(interp.getLastYear().getValue().intValue());
+			}
+			else if(interp.isSetDeathYear()){
+				getIntegerDefaultValue(HeidelbergField.DATEEND).setValue(interp.getDeathYear().getValue().intValue());
+			}
 		}
 	}
 	
@@ -97,14 +100,16 @@ public class TridasToHeidelbergDefaults extends AbstractMetadataFieldSet impleme
 		}
 		
 		TridasInterpretation interp = argSeries.getInterpretation();
-		if(interp.isSetFirstYear()){
-			getIntegerDefaultValue(HeidelbergField.DATEBEGIN).setValue(interp.getFirstYear().getValue().intValue());
-		}
-		if(interp.isSetLastYear()){
-			getIntegerDefaultValue(HeidelbergField.DATEEND).setValue(interp.getLastYear().getValue().intValue());
-		}
-		else if(interp.isSetDeathYear()){
-			getIntegerDefaultValue(HeidelbergField.DATEEND).setValue(interp.getDeathYear().getValue().intValue());
+		if(interp != null){
+			if(interp.isSetFirstYear()){
+				getIntegerDefaultValue(HeidelbergField.DATEBEGIN).setValue(interp.getFirstYear().getValue().intValue());
+			}
+			if(interp.isSetLastYear()){
+				getIntegerDefaultValue(HeidelbergField.DATEEND).setValue(interp.getLastYear().getValue().intValue());
+			}
+			else if(interp.isSetDeathYear()){
+				getIntegerDefaultValue(HeidelbergField.DATEEND).setValue(interp.getDeathYear().getValue().intValue());
+			}
 		}
 		
 		if(argSeries.isSetStandardizingMethod()){
