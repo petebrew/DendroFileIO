@@ -185,28 +185,25 @@ public class TucsonWriter extends AbstractDendroCollectionWriter {
 			// Set Principle Investigator metadata
 			try{file.setInvestigator(p.getInvestigator().toString());}
 			catch(NullPointerException e){}
-			catch(ConversionWarningException w){ this.addWarningToList(w.getWarning());};
+
 			
 			// Site Code
 			try{file.setSiteCode(o.getIdentifier().getValue().toString());}
 			catch(NullPointerException e){}
-			//catch(ConversionWarningException w){ this.addWarningToList(w.getWarning());};
+
 			
 			// Site Name
 			try{file.setSiteName(o.getTitle());}
 			catch(NullPointerException e){}
-			catch(ConversionWarningException w){ this.addWarningToList(w.getWarning());};
 	
 			// LatLong
 			try{List<Double> coords = o.getLocation().getLocationGeometry().getPoint().getPos().getValues();
 			    if (coords.size()==2) file.setLatLong(coords.get(0), coords.get(1)); }
 			catch(NullPointerException e){}
-			catch(ConversionWarningException w){ this.addWarningToList(w.getWarning());};
 			
 			// Comp date
 			try{file.setCompDate(o.getLastModifiedTimestamp().getValue());}
 			catch(NullPointerException e){}
-			catch(ConversionWarningException w){ this.addWarningToList(w.getWarning());};
 		}
 			
 		// Traverse through TRiDaS hierarchy adding all series we find to file
@@ -219,9 +216,6 @@ public class TucsonWriter extends AbstractDendroCollectionWriter {
 			    file.setSpeciesCode(ITRDBTaxonConverter.getCodeFromName(e.getTaxon().getNormal().toString()));
 			}
 			catch(NullPointerException e2){}
-			catch(ConversionWarningException w){
-				this.addWarningToList(w.getWarning());
-			}
 			
 			try{
 				e.getSamples();

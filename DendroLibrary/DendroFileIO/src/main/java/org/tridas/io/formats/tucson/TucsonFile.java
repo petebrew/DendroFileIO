@@ -144,7 +144,6 @@ public class TucsonFile implements IDendroFile{
 	 * will be truncated.  Warnings issued if greater than 6 chars.
 	 * 
 	 * @param sc
-	 * @throws ConversionWarningException
 	 */
 	public void setSiteCode(String sc){
 		if (sc==null){
@@ -159,9 +158,8 @@ public class TucsonFile implements IDendroFile{
 	 * will be truncated.
 	 * 
 	 * @param name
-	 * @throws ConversionWarningException
 	 */
-	public void setSiteName(String name) throws ConversionWarningException{
+	public void setSiteName(String name){
 		if(name == null){
 			return;
 		}
@@ -174,9 +172,8 @@ public class TucsonFile implements IDendroFile{
 	 * TODO Implement ITRDBTaxonConverter class
 	 * 
 	 * @param code
-	 * @throws ConversionWarningException
 	 */
-	public void setSpeciesCode(String code) throws ConversionWarningException{
+	public void setSpeciesCode(String code) {
 		defaults.getStringDefaultValue(TucsonField.SPECIES_CODE).setValue(code);
 	}
 	
@@ -185,9 +182,8 @@ public class TucsonFile implements IDendroFile{
 	 * more than 8 chars long, otherwise it will be truncated.
 	 * 
 	 * @param name
-	 * @throws ConversionWarningException
 	 */
-	public void setSpeciesName(String name) throws ConversionWarningException{
+	public void setSpeciesName(String name){
 		defaults.getStringDefaultValue(TucsonField.SPECIES_NAME).setValue(name);
 	}
 	
@@ -206,9 +202,8 @@ public class TucsonFile implements IDendroFile{
 	 * no more than 61 chars long.  If it is longer, it will be truncated.
 	 * 
 	 * @param name
-	 * @throws ConversionWarningException
 	 */
-	public void setInvestigator(String name) throws ConversionWarningException{
+	public void setInvestigator(String name){
 		defaults.getStringDefaultValue(TucsonField.INVESTIGATOR).setValue(name);
 	}
 	
@@ -217,9 +212,8 @@ public class TucsonFile implements IDendroFile{
 	 * no more than 13 chars long.  If it is longer, it will be truncated.
 	 * 
 	 * @param name
-	 * @throws ConversionWarningException
 	 */
-	public void setStateCountry(String name) throws ConversionWarningException{
+	public void setStateCountry(String name) {
 		defaults.getStringDefaultValue(TucsonField.STATE_COUNTRY).setValue(name);  
 	}
 	
@@ -230,7 +224,7 @@ public class TucsonFile implements IDendroFile{
 	 * @param name
 	 * @throws ConversionWarningException
 	 */
-	public void setCompDate(XMLGregorianCalendar date) throws ConversionWarningException{
+	public void setCompDate(XMLGregorianCalendar date) {
 		if(date!=null){
 			
 			
@@ -250,12 +244,12 @@ public class TucsonFile implements IDendroFile{
 	 * @param longitude
 	 * @throws ConversionWarningException
 	 */
-	public void setLatLong(Double latitude, Double longitude) throws ConversionWarningException{
+	public void setLatLong(Double latitude, Double longitude) {
 		
 		if(latitude==null || longitude==null)
 		{
 			defaults.getStringDefaultValue(TucsonField.LATLONG).setValue("");
-			throw new ConversionWarningException(new ConversionWarning(
+			writer.getWarnings().add(new ConversionWarning(
 					WarningType.NULL_VALUE,
 					I18n.getText("tucson.latlong.notnull"),
 					I18n.getText("tucson")+"."+I18n.getText("tucson.latlong"))
@@ -264,7 +258,7 @@ public class TucsonFile implements IDendroFile{
 		if(latitude.compareTo(Double.valueOf("90"))>0 || latitude.compareTo(Double.valueOf("-90"))<0)
 		{
 			defaults.getStringDefaultValue(TucsonField.LATLONG).setValue("");
-			throw new ConversionWarningException(new ConversionWarning(
+			writer.getWarnings().add(new ConversionWarning(
 					WarningType.INVALID,
 					I18n.getText("tucson.latitude.invalid", String.valueOf(latitude)),
 					I18n.getText("tucson")+"."+I18n.getText("tucson.latlong"))
@@ -273,7 +267,7 @@ public class TucsonFile implements IDendroFile{
 		if(longitude.compareTo(Double.valueOf("180"))>0 || longitude.compareTo(Double.valueOf("-180"))<0)
 		{
 			defaults.getStringDefaultValue(TucsonField.LATLONG).setValue("");
-			throw new ConversionWarningException(new ConversionWarning(
+			writer.getWarnings().add(new ConversionWarning(
 					WarningType.INVALID,
 					I18n.getText("tucson.longitude.invalid", String.valueOf(longitude)),
 					I18n.getText("tucson")+"."+I18n.getText("tucson.latlong"))
@@ -283,7 +277,7 @@ public class TucsonFile implements IDendroFile{
 		defaults.getStringDefaultValue(TucsonField.LATLONG).setValue(ddToDDMMString(latitude, LatLong.LATITUDE) + ddToDDMMString(longitude, LatLong.LONGITUDE));
 	}
 	
-	public void addSeries(ITridasSeries series) throws ConversionWarningException {
+	public void addSeries(ITridasSeries series) {
 		
 		// Add this series to our list
 		seriesList.add(series);
@@ -336,7 +330,7 @@ public class TucsonFile implements IDendroFile{
 					&& SafeIntYear.min(rng.getStart(), new SafeIntYear(1))==rng.getStart()
 					&& this.useEightThousandYearOffsetBodge)
 			{
-				throw new ConversionWarningException(new ConversionWarning(
+				writer.getWarnings().add(new ConversionWarning(
 						WarningType.UNREPRESENTABLE,
 						I18n.getText("tucson.range.8000BCand2000AD"),
 						I18n.getText("tucson")+"."+I18n.getText("tucson.range"))
@@ -346,7 +340,7 @@ public class TucsonFile implements IDendroFile{
 			// Warn sternly if years are before 8000BC
 			if (SafeIntYear.min(rng.getStart(), new SafeIntYear(-8001))==rng.getStart())
 			{
-				throw new ConversionWarningException(new ConversionWarning(
+				writer.getWarnings().add(new ConversionWarning(
 						WarningType.UNREPRESENTABLE,
 						I18n.getText("tucson.range.8000BC"),
 						I18n.getText("tucson")+"."+I18n.getText("tucson.range"))
@@ -357,7 +351,7 @@ public class TucsonFile implements IDendroFile{
 			if (SafeIntYear.min(rng.getStart(), new SafeIntYear(1))==rng.getStart() 
 					&& this.useEightThousandYearOffsetBodge)
 			{
-				throw new ConversionWarningException(new ConversionWarning(
+				writer.getWarnings().add(new ConversionWarning(
 						WarningType.WORK_AROUND,
 						I18n.getText("tucson.range.usingBodge"),
 						I18n.getText("tucson")+"."+I18n.getText("tucson.range"))
@@ -368,7 +362,7 @@ public class TucsonFile implements IDendroFile{
 			if (SafeIntYear.min(rng.getStart(), new SafeIntYear(1))==rng.getStart() 
 					&& !this.useEightThousandYearOffsetBodge)
 			{
-				throw new ConversionWarningException(new ConversionWarning(WarningType.UNREPRESENTABLE,
+				writer.getWarnings().add(new ConversionWarning(WarningType.UNREPRESENTABLE,
 						I18n.getText("tucson.range.noBodge"),
 						I18n.getText("tucson")+"."+I18n.getText("tucson.range"))
 						);
