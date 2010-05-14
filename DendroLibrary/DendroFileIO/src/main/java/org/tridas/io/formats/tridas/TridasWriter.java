@@ -60,9 +60,8 @@ public class TridasWriter extends AbstractDendroCollectionWriter {
 		if(objects.size() == 1){
 			object = objects.get(0);
 			
-			ArrayList<TridasElement> elements = TridasHierarchyHelper.getElementList(object);
-			if(elements.size() == 1){
-				element = elements.get(0);
+			if(object.getElements().size() == 1){
+				element = object.getElements().get(0);
 				
 				if(element.getSamples().size() == 1){
 					sample = element.getSamples().get(0);
