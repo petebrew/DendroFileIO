@@ -45,11 +45,6 @@ public class InvalidDendroFileException extends Exception {
 	 * @param linenumber
 	 */
 	public InvalidDendroFileException(String reason, int linenumber){
-
-		super(I18n.getText("fileio.fatalError")+": "+
-				  reason + " "+
-				  I18n.getText("fileio.errorAt", String.valueOf(linenumber), PointerType.LINE.toString().toLowerCase())); 
-		
 		this.pointerNumber = linenumber;
 		this.reason = reason;
 	}
@@ -65,10 +60,6 @@ public class InvalidDendroFileException extends Exception {
 	 */
 	public InvalidDendroFileException(String reason, int pointernumber, PointerType type)
 	{
-		super(I18n.getText("fileio.fatalError")+": "+
-				  reason + " "+
-				  I18n.getText("fileio.errorAt", String.valueOf(pointernumber), type.toString().toLowerCase())); 
-		
 		pointerType = type;	
 		this.pointerNumber = pointernumber;
 		this.reason = reason;
@@ -92,5 +83,17 @@ public class InvalidDendroFileException extends Exception {
 		return reason;
 	}
 
-	
+	/**
+	 * @return the pointerType
+	 */
+	public PointerType getPointerType() {
+		return pointerType;
+	}
+
+	@Override
+	public String getLocalizedMessage() {
+		return I18n.getText("fileio.fatalError")+": "+
+		  			reason + ".  "+
+		  			I18n.getText("fileio.errorAt", pointerNumber+"", pointerType.toString().toLowerCase());
+	}
 }

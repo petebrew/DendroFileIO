@@ -59,7 +59,7 @@ public class GenericDefaultValue<E> extends AbstractDefaultValue<E> {
 			}
 			
 			((Copyable) value).copyTo(val);
-			log.debug("Copied value from '"+value+"' to '"+val+"'");// TODO locale
+			//log.debug("Copied value from '"+value+"' to '"+val+"'");// TODO locale
 			o.setValue(val);
 			return o;
 		}else{

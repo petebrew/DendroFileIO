@@ -56,10 +56,14 @@ public class HeidelbergToTridasDefaults extends TridasMetadataFieldSet {
 		
 		// FIXME detect ad/bc
 		TridasInterpretation interp = new TridasInterpretation();
-		SafeIntYear startYear = new SafeIntYear( getIntegerDefaultValue(DefaultFields.DATE_BEGIN).getValue());
-		SafeIntYear endYear = new SafeIntYear( getIntegerDefaultValue(DefaultFields.DATE_END).getValue());
-		interp.setFirstYear(startYear.toTridasYear(DatingSuffix.AD));					
-		interp.setLastYear(endYear.toTridasYear(DatingSuffix.AD));
+		if(getIntegerDefaultValue(DefaultFields.DATE_BEGIN).getValue() != null){
+			SafeIntYear startYear = new SafeIntYear( getIntegerDefaultValue(DefaultFields.DATE_BEGIN).getValue());
+			interp.setFirstYear(startYear.toTridasYear(DatingSuffix.AD));					
+		}
+		if(getIntegerDefaultValue(DefaultFields.DATE_END).getValue() != null){
+			SafeIntYear endYear = new SafeIntYear( getIntegerDefaultValue(DefaultFields.DATE_END).getValue());
+			interp.setLastYear(endYear.toTridasYear(DatingSuffix.AD));
+		}
 		series.setInterpretation(interp);
 		series.setLastModifiedTimestamp(DateUtils.getTodaysDateTime());
 		
@@ -82,10 +86,14 @@ public class HeidelbergToTridasDefaults extends TridasMetadataFieldSet {
 		
 		// FIXME detect ad/bc
 		TridasInterpretation interp = new TridasInterpretation();
-		SafeIntYear startYear = new SafeIntYear( getIntegerDefaultValue(DefaultFields.DATE_BEGIN).getValue());
-		SafeIntYear endYear = new SafeIntYear( getIntegerDefaultValue(DefaultFields.DATE_END).getValue());
-		interp.setFirstYear(startYear.toTridasYear(DatingSuffix.AD));					
-		interp.setLastYear(endYear.toTridasYear(DatingSuffix.AD));
+		if(getIntegerDefaultValue(DefaultFields.DATE_BEGIN).getValue() != null){
+			SafeIntYear startYear = new SafeIntYear( getIntegerDefaultValue(DefaultFields.DATE_BEGIN).getValue());
+			interp.setFirstYear(startYear.toTridasYear(DatingSuffix.AD));					
+		}
+		if(getIntegerDefaultValue(DefaultFields.DATE_END).getValue() != null){
+			SafeIntYear endYear = new SafeIntYear( getIntegerDefaultValue(DefaultFields.DATE_END).getValue());
+			interp.setLastYear(endYear.toTridasYear(DatingSuffix.AD));
+		}
 		series.setInterpretation(interp);
 		series.setLastModifiedTimestamp(DateUtils.getTodaysDateTime() );
 		
