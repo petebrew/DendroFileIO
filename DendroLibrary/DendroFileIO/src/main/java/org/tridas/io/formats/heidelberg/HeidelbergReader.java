@@ -242,7 +242,7 @@ public class HeidelbergReader extends AbstractDendroFileReader {
 	}
 	
 	private void extractData(String[] argData, HeidelbergMeasurementSeries argSeries){
-		log.dbo(DebugLevel.L5_DEBUG, "Data", argData);
+		log.dbo(DebugLevel.L6_VERBOSE, "Data strings", argData);
 		ArrayList<Integer> ints = new ArrayList<Integer>();
 		switch(argSeries.dataType){
 		case Chrono:
