@@ -1,6 +1,7 @@
 package org.tridas.io.formats.heidelberg;
 
 import org.grlea.log.SimpleLogger;
+import org.tridas.interfaces.ITridasSeries;
 import org.tridas.io.defaults.AbstractMetadataFieldSet;
 import org.tridas.io.defaults.IMetadataFieldSet;
 import org.tridas.io.defaults.values.IntegerDefaultValue;
@@ -10,6 +11,7 @@ import org.tridas.schema.TridasElement;
 import org.tridas.schema.TridasIdentifier;
 import org.tridas.schema.TridasInterpretation;
 import org.tridas.schema.TridasMeasurementSeries;
+import org.tridas.schema.TridasProject;
 import org.tridas.schema.TridasUnit;
 import org.tridas.schema.TridasValues;
 
@@ -26,7 +28,8 @@ public class TridasToHeidelbergDefaults extends AbstractMetadataFieldSet impleme
 		DATEEND,
 		DATED,
 		SPECIES,
-		UNIT
+		UNIT,
+		PROJECT
 	}
 	
 	@Override
@@ -40,27 +43,11 @@ public class TridasToHeidelbergDefaults extends AbstractMetadataFieldSet impleme
 		setDefaultValue(HeidelbergField.DATED, new StringDefaultValue());
 		setDefaultValue(HeidelbergField.SPECIES, new StringDefaultValue());
 		setDefaultValue(HeidelbergField.UNIT, new StringDefaultValue());
+		setDefaultValue(HeidelbergField.PROJECT, new StringDefaultValue());
 	}
 	
-	public void populateFromMS(TridasMeasurementSeries argSeries){
-		TridasIdentifier id = argSeries.getIdentifier();
-		
-		if(id != null && id.isSetValue()){
-			getStringDefaultValue(HeidelbergField.KEY_CODE).setValue(id.getValue());
-		}
-		
-		TridasInterpretation interp = argSeries.getInterpretation();
-		if(interp != null){
-			if(interp.isSetFirstYear()){
-				getIntegerDefaultValue(HeidelbergField.DATEBEGIN).setValue(interp.getFirstYear().getValue().intValue());
-			}
-			if(interp.isSetLastYear()){
-				getIntegerDefaultValue(HeidelbergField.DATEEND).setValue(interp.getLastYear().getValue().intValue());
-			}
-			else if(interp.isSetDeathYear()){
-				getIntegerDefaultValue(HeidelbergField.DATEEND).setValue(interp.getDeathYear().getValue().intValue());
-			}
-		}
+	public void populateFromTridasProject(TridasProject argProject){
+		getStringDefaultValue(HeidelbergField.PROJECT).setValue(argProject.getTitle());
 	}
 	
 	public void populateFromTridasElement(TridasElement argElement){
@@ -93,7 +80,21 @@ public class TridasToHeidelbergDefaults extends AbstractMetadataFieldSet impleme
 		}
 	}
 	
+	
+	public void populateFromMS(TridasMeasurementSeries argSeries){
+		populateFromSeries(argSeries);
+	}
+	
+	
 	public void populateFromDerivedSeries(TridasDerivedSeries argSeries){
+		populateFromSeries(argSeries);
+		
+		if(argSeries.isSetStandardizingMethod()){
+			getStringDefaultValue(HeidelbergField.SERIES_TYPE).setValue(argSeries.getStandardizingMethod());
+		}
+	}
+	
+	private void populateFromSeries(ITridasSeries argSeries){
 		TridasIdentifier id = argSeries.getIdentifier();
 		if(id.isSetValue()){
 			getStringDefaultValue(HeidelbergField.KEY_CODE).setValue(id.getValue());
@@ -110,10 +111,6 @@ public class TridasToHeidelbergDefaults extends AbstractMetadataFieldSet impleme
 			else if(interp.isSetDeathYear()){
 				getIntegerDefaultValue(HeidelbergField.DATEEND).setValue(interp.getDeathYear().getValue().intValue());
 			}
-		}
-		
-		if(argSeries.isSetStandardizingMethod()){
-			getStringDefaultValue(HeidelbergField.SERIES_TYPE).setValue(argSeries.getStandardizingMethod());
 		}
 	}
 }

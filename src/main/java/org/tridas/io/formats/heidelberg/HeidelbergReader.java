@@ -12,6 +12,7 @@ import org.tridas.io.I18n;
 import org.tridas.io.defaults.IMetadataFieldSet;
 import org.tridas.io.defaults.values.GenericDefaultValue;
 import org.tridas.io.formats.heidelberg.HeidelbergToTridasDefaults.DefaultFields;
+import org.tridas.io.util.ITRDBTaxonConverter;
 import org.tridas.io.util.StringUtils;
 import org.tridas.io.warnings.ConversionWarning;
 import org.tridas.io.warnings.InvalidDendroFileException;
@@ -21,6 +22,7 @@ import org.tridas.schema.NormalTridasUnit;
 import org.tridas.schema.SeriesLink;
 import org.tridas.schema.TridasDerivedSeries;
 import org.tridas.schema.TridasElement;
+import org.tridas.schema.TridasGenericField;
 import org.tridas.schema.TridasMeasurementSeries;
 import org.tridas.schema.TridasMeasurementSeriesPlaceholder;
 import org.tridas.schema.TridasObject;
@@ -307,7 +309,7 @@ public class HeidelbergReader extends AbstractDendroFileReader {
 			s.defaults.getStringDefaultValue(DefaultFields.SERIES_ID).setValue( fileMetadata.get("KeyCode"));
 			GenericDefaultValue<ControlledVoc> val = (GenericDefaultValue<ControlledVoc>) s.defaults.getDefaultValue(DefaultFields.TAXON);
 			ControlledVoc v = new ControlledVoc();
-			v.setValue(fileMetadata.get("Species"));
+			v.setValue(ITRDBTaxonConverter.getNameFromCode(fileMetadata.get("Species")));
 			val.setValue(v);
 			try{
 				s.defaults.getIntegerDefaultValue(DefaultFields.DATE_BEGIN).setValue( Integer.parseInt(fileMetadata.get("DateBegin")));
@@ -439,6 +441,14 @@ public class HeidelbergReader extends AbstractDendroFileReader {
 			}
 			
 			element.getSamples().add(sample);
+			ArrayList<TridasGenericField> metaData = new ArrayList<TridasGenericField>();
+			for(String key : s.fileMetadata.keySet()){
+				TridasGenericField generic = new TridasGenericField();
+				generic.setName(key);
+				generic.setValue(s.fileMetadata.get(key));
+				metaData.add(generic);
+			}
+			element.setGenericFields(metaData);
 			elements.add(element);
 		}
 		

@@ -26,7 +26,8 @@ public class HeidelbergToTridasDefaults extends TridasMetadataFieldSet {
 		DATE_END,
 		TAXON,
 		UNIT,
-		STANDARDIZATION_METHOD
+		STANDARDIZATION_METHOD,
+		PROJECT_NAME
 	}
 	
 	public void initDefaultValues(){
@@ -38,9 +39,6 @@ public class HeidelbergToTridasDefaults extends TridasMetadataFieldSet {
 		setDefaultValue(DefaultFields.UNIT, new GenericDefaultValue<TridasUnit>());
 		setDefaultValue(DefaultFields.STANDARDIZATION_METHOD, new StringDefaultValue());
 	}
-	
-
-	
 	
 	/**
 	 * @see org.tridas.io.defaults.TridasMetadataFieldSet#getDefaultTridasDerivedSeries()
