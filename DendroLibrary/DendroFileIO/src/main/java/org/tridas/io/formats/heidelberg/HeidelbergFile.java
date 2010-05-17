@@ -135,6 +135,7 @@ public class HeidelbergFile implements IDendroFile {
 	public String[] saveToString() {
 		ArrayList<String> file = new ArrayList<String>();
 		file.add("HEADER:");
+		addIfNotNull("Project", HeidelbergField.PROJECT, file);
 		addIfNotNull("KeyCode",HeidelbergField.KEY_CODE, file);
 		addIfNotNull("DataFormat",HeidelbergField.DATA_FORMAT, file);
 		addIfNotNull("SeriesType",HeidelbergField.SERIES_TYPE, file);

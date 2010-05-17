@@ -37,6 +37,7 @@ public class HeidelbergWriter extends AbstractDendroCollectionWriter {
 	protected void parseTridasProject(TridasProject argProject, IMetadataFieldSet argDefaults)
 			throws IncompleteTridasDataException, ConversionWarningException {
 		defaults = (TridasToHeidelbergDefaults) argDefaults;
+		defaults.populateFromTridasProject(argProject);
 		
 		for(TridasObject o : TridasHierarchyHelper.getObjectList(argProject)){
 			
