@@ -18,6 +18,19 @@ public class TridasHierarchyHelper {
 		
 	}
 	
+	@SuppressWarnings("unchecked")
+	public static ArrayList<TridasMeasurementSeries> getMeasurementSeriesFromTridasProject(TridasProject p)
+	{
+		ArrayList<TridasMeasurementSeries> serlist = new ArrayList<TridasMeasurementSeries>();
+		
+		for(TridasObject o : p.getObjects())
+		{
+			serlist.addAll(TridasHierarchyHelper.getMeasurementSeriesFromTridasObject(o));
+		}
+		
+		return serlist;
+	}
+	
 	public static Set<TridasMeasurementSeries> getMeasurementSeriesFromTridasObject(TridasObject o)
 	{
 		Set<TridasMeasurementSeries> seriesSet = new HashSet<TridasMeasurementSeries>();
