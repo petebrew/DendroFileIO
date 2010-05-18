@@ -958,6 +958,8 @@ public class TucsonReader extends AbstractDendroFileReader {
 		TridasElement e = o.getElements().get(0);
 		TridasSample s = e.getSamples().get(0);
 		
+		
+	
 		if(mseriesList.size()>0)
 		{
 			TridasRadius r = s.getRadiuses().get(0);
