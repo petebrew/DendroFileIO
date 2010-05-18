@@ -4,6 +4,7 @@ import java.util.ArrayList;
 
 import org.grlea.log.SimpleLogger;
 import org.tridas.interfaces.ITridasSeries;
+import org.tridas.io.I18n;
 import org.tridas.io.IDendroCollectionWriter;
 import org.tridas.io.IDendroFile;
 import org.tridas.io.defaults.values.StringDefaultValue;
@@ -77,9 +78,11 @@ public class HeidelbergFile implements IDendroFile {
 			}
 		}
 		if(maximumLength > DATA_CHARS_PER_NUMBER){
-			log.warn("Data integers are too big for storing in heidelberg file, only 6 characters are allowed.  Increasing units.");
+			log.warn(I18n.getText("heidelberg.numbersTooLarge", DATA_CHARS_PER_NUMBER+""));
 			writer.getWarnings().add( new ConversionWarning(
-					WarningType.WORK_AROUND,"Data numbers were too long for the allowed space of 6 characters.  Increasing units and reducing numbers"));
+					WarningType.WORK_AROUND,
+					I18n.getText("heidelberg.numbersTooLarge", String.valueOf(DATA_CHARS_PER_NUMBER))
+					));
 			reduceUnits();
 			for(int i=0; i< dataInts.length; i++){
 				for(int j=0; j< maximumLength - DATA_CHARS_PER_NUMBER; j++){
@@ -90,16 +93,16 @@ public class HeidelbergFile implements IDendroFile {
 	}
 	
 	private void reduceUnits(){
-		log.debug("reducing units");
+		log.debug(I18n.getText("heidelberg.reducingUnits"));
 		StringDefaultValue sdv = defaults.getStringDefaultValue(HeidelbergField.UNIT);
 		
 		if(sdv.getStringValue() == "" ){
-			log.error("No units, could not reduce.");
+			log.error(I18n.getText("heidelberg.couldNotReduceUnits"));
 			return;
 		}
 		if(sdv.getStringValue().equals("mm")){
-			log.error("Could not reduce units");
-			writer.getWarnings().add(new ConversionWarning(WarningType.IGNORED, "Could not reduce units, removing the units field."));
+			log.error(I18n.getText("heidelberg.couldNotReduceUnits"));
+			writer.getWarnings().add(new ConversionWarning(WarningType.IGNORED, I18n.getText("heidelberg.couldNotReduceUnits")));
 			sdv.setValue(null);
 		}else if(sdv.getStringValue().equals("1/10 mm")){
 			sdv.setValue("mm");

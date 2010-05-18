@@ -129,7 +129,7 @@ public class HeidelbergReader extends AbstractDendroFileReader {
 		log.debug("Checking file to see if it looks like a Heidelberg file");
 		
 		if(!argStrings[0].startsWith("HEADER") && !argStrings[0].startsWith("DATA")){
-			log.error("First line is 'HEADER' or 'DATA'");
+			log.error(I18n.getText("heidelberg.firstLineWrong"));
 			throw new InvalidDendroFileException(I18n.getText("heidelberg.firstLineWrong"), 1);
 		}
 		
@@ -147,8 +147,10 @@ public class HeidelbergReader extends AbstractDendroFileReader {
 				try{
 					dataType = DATA_TYPE.valueOf(dataTypeString);
 				}catch(Exception e){
-					log.error("Could not interpret '"+dataTypeString+"' as a data type");
-					throw new InvalidDendroFileException("Could not interpret '"+dataTypeString+"' as a data type", i+1);
+					log.error(I18n.getText("heidelberg.failedToInterpretDataTypeString", dataTypeString));
+					throw new InvalidDendroFileException(
+							I18n.getText("heidelberg.failedToInterpretDataTypeString", 
+									dataTypeString), i+1);
 				}
 				continue;
 			}
@@ -174,7 +176,10 @@ public class HeidelbergReader extends AbstractDendroFileReader {
 					// 4 nums per measurement
 					nums = StringUtils.chopString(s, DATA_CHARS_PER_NUMBER_QUAD);
 					if(nums.length != DATA_NUMS_PER_LINE_QUAD){
-						throw new InvalidDendroFileException("Quad Data must have 16 numbers per line", i+1);
+						throw new InvalidDendroFileException(
+								I18n.getText("heidelberg.wrongNumValsPerLine", 
+										"Quad", DATA_CHARS_PER_NUMBER_QUAD+""), 
+										i+1);
 					}
 					try{
 						for(String num : nums){
@@ -191,7 +196,10 @@ public class HeidelbergReader extends AbstractDendroFileReader {
 					// 2 nums per measurement
 					nums = StringUtils.chopString(s, DATA_CHARS_PER_NUMBER_REG);
 					if(nums.length != DATA_NUMS_PER_LINE_REG){
-						throw new InvalidDendroFileException("Double data must have "+DATA_NUMS_PER_LINE_REG+" numbers per line", i+1);
+						throw new InvalidDendroFileException(
+								I18n.getText("heidelberg.wrongNumValsPerLine", 
+										"Double", DATA_NUMS_PER_LINE_REG+""), 
+										i+1);
 					}
 					try{
 						for(String num : nums){
@@ -308,9 +316,6 @@ public class HeidelbergReader extends AbstractDendroFileReader {
 			
 			s.defaults.getStringDefaultValue(DefaultFields.SERIES_ID).setValue( fileMetadata.get("KeyCode"));
 			GenericDefaultValue<ControlledVoc> val = (GenericDefaultValue<ControlledVoc>) s.defaults.getDefaultValue(DefaultFields.TAXON);
-			/*ControlledVoc v = new ControlledVoc();
-			v.setValue(ITRDBTaxonConverter.getNameFromCode(fileMetadata.get("Species")));
-			val.setValue(v);*/
 			val.setValue(ITRDBTaxonConverter.getControlledVocFromCode(fileMetadata.get("Species")));
 			try{
 				s.defaults.getIntegerDefaultValue(DefaultFields.DATE_BEGIN).setValue( Integer.parseInt(fileMetadata.get("DateBegin")));
@@ -442,6 +447,10 @@ public class HeidelbergReader extends AbstractDendroFileReader {
 			}
 			
 			element.getSamples().add(sample);
+			
+			/* TODO We can't add all the tags as genericFields to the Tridas 
+			 * element as many should be associated with other TRiDaS entities.
+			 * 			 
 			ArrayList<TridasGenericField> metaData = new ArrayList<TridasGenericField>();
 			for(String key : s.fileMetadata.keySet()){
 				TridasGenericField generic = new TridasGenericField();
@@ -449,7 +458,7 @@ public class HeidelbergReader extends AbstractDendroFileReader {
 				generic.setValue(s.fileMetadata.get(key));
 				metaData.add(generic);
 			}
-			element.setGenericFields(metaData);
+			element.setGenericFields(metaData);*/
 			elements.add(element);
 		}
 		
