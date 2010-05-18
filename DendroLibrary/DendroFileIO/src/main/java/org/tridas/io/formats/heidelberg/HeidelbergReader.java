@@ -308,9 +308,10 @@ public class HeidelbergReader extends AbstractDendroFileReader {
 			
 			s.defaults.getStringDefaultValue(DefaultFields.SERIES_ID).setValue( fileMetadata.get("KeyCode"));
 			GenericDefaultValue<ControlledVoc> val = (GenericDefaultValue<ControlledVoc>) s.defaults.getDefaultValue(DefaultFields.TAXON);
-			ControlledVoc v = new ControlledVoc();
+			/*ControlledVoc v = new ControlledVoc();
 			v.setValue(ITRDBTaxonConverter.getNameFromCode(fileMetadata.get("Species")));
-			val.setValue(v);
+			val.setValue(v);*/
+			val.setValue(ITRDBTaxonConverter.getControlledVocFromCode(fileMetadata.get("Species")));
 			try{
 				s.defaults.getIntegerDefaultValue(DefaultFields.DATE_BEGIN).setValue( Integer.parseInt(fileMetadata.get("DateBegin")));
 			}catch(Exception e){}
