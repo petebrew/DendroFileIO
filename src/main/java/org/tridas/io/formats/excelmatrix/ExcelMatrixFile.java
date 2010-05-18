@@ -9,8 +9,11 @@ import java.util.Date;
 import java.util.List;
 import java.util.Locale;
 
+import jxl.CellView;
 import jxl.Workbook;
 import jxl.WorkbookSettings;
+import jxl.format.Colour;
+import jxl.format.Orientation;
 import jxl.write.Alignment;
 import jxl.write.DateFormats;
 import jxl.write.DateTime;
@@ -39,10 +42,9 @@ import org.tridas.schema.Year;
 
 public class ExcelMatrixFile implements IDendroFile {
 
-	ArrayList<ITridasSeries> seriesList = new ArrayList<ITridasSeries>();
-	YearRange yrRange;
-	
-	DatingSuffix calendar = DatingSuffix.AD;
+	private ArrayList<ITridasSeries> seriesList = new ArrayList<ITridasSeries>();
+	private YearRange yrRange;
+	private DatingSuffix calendar = DatingSuffix.AD;
 	private final IDendroCollectionWriter writer;
 	
 	
@@ -58,10 +60,12 @@ public class ExcelMatrixFile implements IDendroFile {
 		for(ITridasSeries ser: lst)
 		{
 			if(calendar==DatingSuffix.BP) {break;}		
-			if(ser.getInterpretation().getFirstYear().getSuffix()==DatingSuffix.BP)
-			{
-				calendar= DatingSuffix.BP;
-			}
+			try{
+				if(ser.getInterpretation().getFirstYear().getSuffix()==DatingSuffix.BP)
+				{
+					calendar= DatingSuffix.BP;
+				}
+			} catch (NullPointerException e){}
 		}
 		
 		// Calculate the range for these series
@@ -124,10 +128,10 @@ public class ExcelMatrixFile implements IDendroFile {
 	      WritableWorkbook workbook = Workbook.createWorkbook(os);
 	      
 	      
-	      WritableSheet dataSheet = workbook.createSheet("Data", 0);
-	      WritableSheet metadataSheet = workbook.createSheet("Metadata", 1);
-	      //writeDataSheet(data);
+	      WritableSheet dataSheet = workbook.createSheet(I18n.getText("general.data"), 0);
+	      //WritableSheet metadataSheet = workbook.createSheet(I18n.getText("general.metadata"), 1);
 	      writeYearCol(dataSheet);
+	  
 	      
 	      int col = 1;
 	      for(ITridasSeries series : this.seriesList)
@@ -136,6 +140,13 @@ public class ExcelMatrixFile implements IDendroFile {
 	    	  col++;
 	      }
 
+	      CellView cv = new CellView();
+	      cv.setAutosize(true);
+	      dataSheet.setColumnView(0, cv);
+	      dataSheet.setColumnView(1, cv);
+	      dataSheet.setColumnView(2, cv);
+	      
+	      
 	      workbook.write();
 	      workbook.close();      
 		
@@ -154,6 +165,7 @@ public class ExcelMatrixFile implements IDendroFile {
 	    WritableCellFormat headerFormat = new WritableCellFormat(headerFont);
 	    try {
 			headerFormat.setWrap(false);
+			headerFormat.setBackground(Colour.PALE_BLUE);
 		} catch (WriteException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();

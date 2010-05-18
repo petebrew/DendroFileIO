@@ -451,14 +451,12 @@ public class VFormatReader extends AbstractDendroFileReader {
 
 	@Override
 	public IMetadataFieldSet getDefaults() {
-		// TODO Auto-generated method stub
-		return null;
+		return defaults;
 	}
 
 	@Override
 	public String[] getFileExtensions() {
-		// TODO Auto-generated method stub
-		return null;
+		return new String[]{"!oj"};
 	}
 
 	@Override
