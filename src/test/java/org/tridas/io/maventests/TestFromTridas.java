@@ -9,6 +9,7 @@ import junit.framework.TestCase;
 import org.grlea.log.SimpleLogger;
 import org.tridas.io.formats.belfastapple.BelfastAppleWriter;
 import org.tridas.io.formats.csv.CSVWriter;
+import org.tridas.io.formats.excelmatrix.ExcelMatrixWriter;
 import org.tridas.io.formats.heidelberg.HeidelbergWriter;
 import org.tridas.io.formats.tridas.TridasReader;
 import org.tridas.io.formats.trims.TrimsWriter;
@@ -260,4 +261,50 @@ public class TestFromTridas extends TestCase{
 			writer.saveAllToDisk(outputLocation);
 		}
 	}
+	
+	public void testTridasToExcelMatrix() {
+		String folder = "TestData/TRiDaS";
+		String[] files = getFilesFromFolder(folder);
+		
+		if (files.length==0) fail();
+		
+		for (String filename : files){	
+			
+			if(!filename.equals("Tridas4.xml")) continue;
+			log.info("Test conversion of: "+filename);
+			
+			
+			TridasProject project = null;
+		    
+			TridasReader reader = new TridasReader();
+			try {
+				reader.loadFile(folder, filename);
+			} catch (IOException e) {
+				log.info(e.getLocalizedMessage());
+				fail();
+			} catch (InvalidDendroFileException e) {
+				e.printStackTrace();
+				fail();
+			}
+			
+			// Extract the TridasProject
+			project = reader.getProject();
+	
+			// Create a new converter based on a TridasProject
+			ExcelMatrixWriter writer = new ExcelMatrixWriter();
+			try {
+				writer.loadProject(project);
+			} catch (IncompleteTridasDataException e) {
+				e.printStackTrace();
+			} catch (ConversionWarningException e) {
+				e.printStackTrace();
+			}
+	
+	
+			// Actually save file(s) to disk
+			writer.saveAllToDisk(outputLocation);
+		}
+	}
+	
+	
 }

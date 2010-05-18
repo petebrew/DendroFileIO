@@ -23,6 +23,7 @@ import org.tridas.io.formats.tucson.TucsonReader;
 import org.tridas.io.formats.tucson.TucsonWriter;
 import org.tridas.io.formats.vformat.VFormatReader;
 import org.tridas.io.formats.csv.CSVWriter;
+import org.tridas.io.formats.excelmatrix.ExcelMatrixWriter;
 
 /**
  * Used to get readers/writers from name or extension.  In order to include your writer/reader in the list,
@@ -56,6 +57,7 @@ public class TridasIO {
 		registerFileWriter(TucsonWriter.class);
 		registerFileWriter(TrimsWriter.class);
 		registerFileWriter(CSVWriter.class);
+		registerFileWriter(ExcelMatrixWriter.class);
 		
 	}
 	
