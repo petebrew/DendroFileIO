@@ -1,7 +1,10 @@
 package org.tridas.io.formats.heidelberg;
 
+import java.util.UUID;
+
 import org.grlea.log.SimpleLogger;
 import org.tridas.interfaces.ITridasSeries;
+import org.tridas.io.I18n;
 import org.tridas.io.defaults.AbstractMetadataFieldSet;
 import org.tridas.io.defaults.IMetadataFieldSet;
 import org.tridas.io.defaults.values.IntegerDefaultValue;
@@ -34,14 +37,14 @@ public class TridasToHeidelbergDefaults extends AbstractMetadataFieldSet impleme
 	
 	@Override
 	protected void initDefaultValues() {
-		setDefaultValue(HeidelbergField.KEY_CODE, new StringDefaultValue("Unknown"));
+		setDefaultValue(HeidelbergField.KEY_CODE, new StringDefaultValue(UUID.randomUUID().toString()));
 		setDefaultValue(HeidelbergField.DATA_FORMAT, new StringDefaultValue("Tree"));
 		setDefaultValue(HeidelbergField.SERIES_TYPE, new StringDefaultValue());
 		setDefaultValue(HeidelbergField.LENGTH, new IntegerDefaultValue());
-		setDefaultValue(HeidelbergField.DATEBEGIN, new IntegerDefaultValue());
+		setDefaultValue(HeidelbergField.DATEBEGIN, new IntegerDefaultValue(1001));
 		setDefaultValue(HeidelbergField.DATEEND, new IntegerDefaultValue());
 		setDefaultValue(HeidelbergField.DATED, new StringDefaultValue());
-		setDefaultValue(HeidelbergField.SPECIES, new StringDefaultValue());
+		setDefaultValue(HeidelbergField.SPECIES, new StringDefaultValue("UNKN"));
 		setDefaultValue(HeidelbergField.UNIT, new StringDefaultValue());
 		setDefaultValue(HeidelbergField.PROJECT, new StringDefaultValue());
 	}
@@ -76,7 +79,7 @@ public class TridasToHeidelbergDefaults extends AbstractMetadataFieldSet impleme
 			val.setValue("1/10 mm");
 			break;
 		default:
-			addIgnoredWarning(HeidelbergField.UNIT, "Units not in range of Heidelberg unit range.");
+			addIgnoredWarning(HeidelbergField.UNIT, I18n.getText("fileio.invalidUnits"));
 		}
 	}
 	
@@ -117,7 +120,7 @@ public class TridasToHeidelbergDefaults extends AbstractMetadataFieldSet impleme
 			if(interp.isSetLastYear()){
 				getIntegerDefaultValue(HeidelbergField.DATEEND).setValue(interp.getLastYear().getValue().intValue());
 			}
-			else if(interp.isSetDeathYear()){
+			if(interp.isSetDeathYear()){
 				getIntegerDefaultValue(HeidelbergField.DATEEND).setValue(interp.getDeathYear().getValue().intValue());
 			}
 		}
