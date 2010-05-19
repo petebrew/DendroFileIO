@@ -143,6 +143,11 @@ public class TestFromTridas extends TestCase{
 		if (files.length==0) fail();
 		
 		for (String filename : files){	
+			
+			
+			
+			if(!filename.equals("Tridas4.xml")) continue;
+			
 			log.info("Test conversion of: "+filename);
 			
 			TridasProject project = null;
