@@ -92,12 +92,36 @@ public abstract class AbstractDendroCollectionWriter implements IDendroCollectio
 	 * Save all associated files to disk
 	 */
 	public void saveAllToDisk(String argOutputFolder){
+		if(argOutputFolder.contains("\\")){
+			argOutputFolder.replaceAll("\\", "/");
+		}
+		
+		if(!argOutputFolder.endsWith("/") && !argOutputFolder.equals("")){
+			argOutputFolder += File.separator;
+		}
+		
+		for (IDendroFile dof: fileList){
+			String filename = getNamingConvention().getFilename(dof);
+			saveFileToDisk(argOutputFolder, filename, dof);
+		}
+	}
+	
+	/**
+	 * Override to use implement own file saving.
+	 * @param argOutputFolder output folder can be absolute, and always ends with "/"
+	 * @param argFilename
+	 * @param argFile
+	 */
+	protected void saveFileToDisk(String argOutputFolder, String argFilename, IDendroFile argFile){
 		FileHelper helper;
 		
 		boolean absolute = argOutputFolder.startsWith("/") || argOutputFolder.startsWith("\\");
 		// add ending file separator
 		if(!argOutputFolder.endsWith("\\") && !argOutputFolder.endsWith("/") && argOutputFolder.length() != 0){
 			argOutputFolder += File.separatorChar;
+		}
+		if(argOutputFolder.endsWith("\\")){
+			argOutputFolder = argOutputFolder.substring(0,argOutputFolder.length()-1) + File.separatorChar;
 		}
 		
 		if(absolute){
@@ -106,18 +130,16 @@ public abstract class AbstractDendroCollectionWriter implements IDendroCollectio
 			helper = new FileHelper();
 		}
 		
-		for (IDendroFile dof: fileList){
-			String filename = getNamingConvention().getFilename(dof);
-			String[] file = dof.saveToString();
-			if(file == null){
-				log.error("File strings for file "+dof.toString()+", with the filename "+filename+" was null");
-				continue;
-			}
-			if(absolute){
-				helper.saveStrings(filename+"."+dof.getExtension(), file);
-			}else{
-				helper.saveStrings(argOutputFolder+filename+"."+dof.getExtension(), file);
-			}
+		String[] file = argFile.saveToString();
+		if(file == null){
+			log.error("File strings for file "+argFile.toString()+", with the filename "+argFile+" was null");
+			return;
+		}
+		
+		if(absolute){
+			helper.saveStrings(argFilename+"."+argFile.getExtension(), file);
+		}else{
+			helper.saveStrings(argOutputFolder+argFilename+"."+argFile.getExtension(), file);
 		}
 	}
 	
