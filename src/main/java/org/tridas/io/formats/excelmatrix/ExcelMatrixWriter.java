@@ -1,12 +1,12 @@
 package org.tridas.io.formats.excelmatrix;
 
-import java.io.File;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 
 import jxl.write.WriteException;
 
+import org.grlea.log.DebugLevel;
 import org.grlea.log.SimpleLogger;
 import org.tridas.interfaces.ITridasSeries;
 import org.tridas.io.AbstractDendroCollectionWriter;
@@ -105,49 +105,27 @@ public class ExcelMatrixWriter extends AbstractDendroCollectionWriter {
 	public void setNamingConvention(INamingConvention argConvention) {
 		naming = argConvention;
 	}
-
-	/**
-	 * Save all associated files to disk
-	 */
-	@Override
-	public void saveAllToDisk(String argOutputFolder){
 	
+	@Override
+	protected void saveFileToDisk(String argOutputFolder, String argFilename, IDendroFile argFile) {
+		
 		FileHelper helper;
 		
-		boolean absolute = argOutputFolder.startsWith("/") || argOutputFolder.startsWith("\\");
-		// add ending file separator
-		if(!argOutputFolder.endsWith("\\") && !argOutputFolder.endsWith("/") && argOutputFolder.length() != 0){
-			argOutputFolder += File.separatorChar;
-		}
-		
+		boolean absolute = argOutputFolder.startsWith("/");
+
 		if(absolute){
 			helper = new FileHelper(argOutputFolder);
 		}else{
 			helper = new FileHelper();
+			argFilename = argOutputFolder+argFilename;
 		}
 		
-		for (IDendroFile dof: fileList){
-			
-			String filename = null;
-			if(absolute){
-				filename = getNamingConvention().getFilename(dof)+"."+dof.getExtension();
-			}else{
-				filename = argOutputFolder+getNamingConvention().getFilename(dof)+"."+dof.getExtension();
-			}
-			
-			try {
-				((ExcelMatrixFile)dof).saveToDisk(helper.createOutput(filename));
-			} catch (WriteException e) {
-				// TODO Auto-generated catch block
-				e.printStackTrace();
-			} catch (IOException e) {
-				// TODO Auto-generated catch block
-				e.printStackTrace();
-			}
-			
-
+		try {
+			((ExcelMatrixFile)argFile).saveToDisk(helper.createOutput(argFilename));
+		} catch (WriteException e) {
+			log.dbe(DebugLevel.L2_ERROR, e);
+		} catch (IOException e) {
+			log.dbe(DebugLevel.L2_ERROR, e);
 		}
-		
 	}
-	
 }
