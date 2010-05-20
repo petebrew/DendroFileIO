@@ -17,6 +17,7 @@ public abstract class AbstractDendroFileReader implements IDendroFileReader {
 	private ArrayList<ConversionWarning> warnings =  new ArrayList<ConversionWarning>();
 	private FileHelper fileHelper;
 	private final Class<? extends IMetadataFieldSet> defaultFieldsClass;
+	private String origFilename;
 	
 	public AbstractDendroFileReader(Class<? extends IMetadataFieldSet> argDefaultFieldsClass){		
 		if(argDefaultFieldsClass == null){
@@ -91,6 +92,7 @@ public abstract class AbstractDendroFileReader implements IDendroFileReader {
 	public void loadFile(String argFilename, IMetadataFieldSet argDefaultFields) throws IOException, IncorrectDefaultFieldsException, InvalidDendroFileException{
 		fileHelper = new FileHelper();
 		log.debug("loading file from: "+argFilename);
+		origFilename = argFilename;
 		String[] strings;
 		if(TridasIO.isCharsetDetection()){
 			strings = fileHelper.loadStringsFromDetectedCharset(argFilename);
@@ -107,6 +109,7 @@ public abstract class AbstractDendroFileReader implements IDendroFileReader {
 	public void loadFile(String argFilename) throws IOException, InvalidDendroFileException{
 		fileHelper = new FileHelper();
 		log.debug("loading file from: "+argFilename);
+		origFilename = argFilename;
 		String[] strings;
 		if(TridasIO.isCharsetDetection()){
 			strings = fileHelper.loadStringsFromDetectedCharset(argFilename);
@@ -124,6 +127,7 @@ public abstract class AbstractDendroFileReader implements IDendroFileReader {
 			IMetadataFieldSet argDefaultFields) throws IOException, IncorrectDefaultFieldsException, InvalidDendroFileException{
 		fileHelper = new FileHelper(argPath);
 		log.debug("loading file from: "+argFilename);
+		origFilename = argFilename;
 		String[] strings;
 		if(TridasIO.isCharsetDetection()){
 			strings = fileHelper.loadStringsFromDetectedCharset(argFilename);
@@ -140,6 +144,7 @@ public abstract class AbstractDendroFileReader implements IDendroFileReader {
 	public void loadFile(String argPath, String argFilename) throws IOException, InvalidDendroFileException{
 		fileHelper = new FileHelper(argPath);
 		log.debug("loading file from: "+argFilename);
+		origFilename = argFilename;
 		String[] strings;
 		if(TridasIO.isCharsetDetection()){
 			strings = fileHelper.loadStringsFromDetectedCharset(argFilename);
@@ -175,4 +180,18 @@ public abstract class AbstractDendroFileReader implements IDendroFileReader {
 	 * @return
 	 */
 	public abstract int getCurrentLineNumber();
+	
+	/**
+	 * @param origFilename the origFilename to set
+	 */
+	protected void setOriginalFilename(String origFilename) {
+		this.origFilename = origFilename;
+	}
+
+	/**
+	 * @return the original filename
+	 */
+	public String getOriginalFilename() {
+		return origFilename;
+	}
 }

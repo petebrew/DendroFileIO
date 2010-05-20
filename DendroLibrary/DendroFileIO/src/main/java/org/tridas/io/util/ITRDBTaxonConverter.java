@@ -20,7 +20,7 @@ public class ITRDBTaxonConverter {
 		
 	private static void initializeMap(){
 		FileHelper fh = new FileHelper();
-		String[] file = fh.loadStrings("org/tridas/io/util/spmap.csv");
+		String[] file = fh.loadStrings("spmap.csv");
 		HashMap<String, String> map = new HashMap<String, String>();
 		HashMap<String, String> map2 = new HashMap<String, String>();
 		for( String s: file){

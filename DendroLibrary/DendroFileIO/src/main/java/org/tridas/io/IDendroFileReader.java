@@ -1,8 +1,10 @@
 package org.tridas.io;
 
 import java.io.IOException;
+import java.util.List;
 
 import org.tridas.io.defaults.IMetadataFieldSet;
+import org.tridas.io.warnings.ConversionWarning;
 import org.tridas.io.warnings.IncorrectDefaultFieldsException;
 import org.tridas.io.warnings.InvalidDendroFileException;
 import org.tridas.schema.TridasProject;
@@ -116,4 +118,16 @@ public interface IDendroFileReader {
 	 * Gets the parsed project after it's loaded.
 	 */
 	public TridasProject getProject();
+	
+	/**
+	 * Gets the conversion warnings
+	 * @return
+	 */
+	public List<ConversionWarning> getWarnings();
+	
+	/**
+	 * Gets the original filename, or null if it was never specified
+	 * @return
+	 */
+	public String getOriginalFilename();
 }
