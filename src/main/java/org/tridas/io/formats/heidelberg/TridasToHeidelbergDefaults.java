@@ -99,14 +99,9 @@ public class TridasToHeidelbergDefaults extends AbstractMetadataFieldSet impleme
 	
 	private void populateFromSeries(ITridasSeries argSeries){
 		
-		TridasIdentifier id = null;
+		TridasIdentifier id = argSeries.getIdentifier();
 		
-		try{
-			id = argSeries.getIdentifier();
-		}catch (NullPointerException e){}
-		
-		if(id!=null)
-		{
+		if(id != null){
 			if(id.isSetValue()){
 				getStringDefaultValue(HeidelbergField.KEY_CODE).setValue(id.getValue());
 			}
