@@ -14,6 +14,7 @@ import org.tridas.io.formats.belfastapple.BelfastAppleWriter;
 import org.tridas.io.formats.belfastarchive.BelfastArchiveReader;
 import org.tridas.io.formats.catras.CatrasReader;
 import org.tridas.io.formats.heidelberg.HeidelbergReader;
+import org.tridas.io.formats.heidelberg.HeidelbergWriter;
 import org.tridas.io.formats.sheffield.SheffieldReader;
 import org.tridas.io.formats.tridas.TridasReader;
 import org.tridas.io.formats.tridas.TridasWriter;
@@ -39,8 +40,9 @@ public class TridasIO {
 	private static final HashMap<String, String> extensionMap = new HashMap<String, String>();
 	
 	private static boolean charsetDetection = false;
+	private static boolean loaded = false;
 	
-	static {
+	private static void load(){
 		// register file readers/writers
 		registerFileReader(BelfastAppleReader.class);
 		registerFileReader(BelfastArchiveReader.class);
@@ -52,13 +54,14 @@ public class TridasIO {
 		registerFileReader(TucsonReader.class);
 		registerFileReader(VFormatReader.class);
 		
+		registerFileWriter(HeidelbergWriter.class);
 		registerFileWriter(BelfastAppleWriter.class);
 		registerFileWriter(TridasWriter.class);
 		registerFileWriter(TucsonWriter.class);
 		registerFileWriter(TrimsWriter.class);
 		registerFileWriter(CSVWriter.class);
 		registerFileWriter(ExcelMatrixWriter.class);
-		
+		loaded = true;
 	}
 	
 	/**
@@ -99,7 +102,7 @@ public class TridasIO {
 		
 		// it worked, so get filetypes
 		String[] filetypes = reader.getFileExtensions();
-		String name = reader.getShortName();
+		String name = reader.getShortName().toLowerCase();
 		
 		if(filetypes == null){
 			log.error(I18n.getText("fileio.fileExtensionNull", argReader.getName()));
@@ -107,6 +110,7 @@ public class TridasIO {
 		}
 		
 		TridasIOEntry entry = converterMap.get(name);
+		
 		if(entry == null){
 			entry = new TridasIOEntry();
 			entry.fileReader = argReader;
@@ -130,7 +134,7 @@ public class TridasIO {
 		
 		
 		for(String filetype : filetypes){
-			String old = extensionMap.put(filetype,name);
+			String old = extensionMap.put(filetype.toLowerCase(),name);
 			if(old != null && !name.equals(old)){
 				log.warn("Extension "+filetype+" already mapped to "+old+".  Replacing with "+name);
 			}
@@ -156,7 +160,7 @@ public class TridasIO {
 			return;
 		}
 		
-		String name = writer.getShortName();
+		String name = writer.getShortName().toLowerCase();
 		
 		TridasIOEntry entry = converterMap.get(name);
 		if(entry == null){
@@ -188,7 +192,10 @@ public class TridasIO {
 	 * @return
 	 */
 	public synchronized static IDendroCollectionWriter getFileWriter(String argFormatName){
-		TridasIOEntry e = converterMap.get(argFormatName);
+		if(!loaded){
+			load();
+		}
+		TridasIOEntry e = converterMap.get(argFormatName.toLowerCase());
 		if(e == null || e.fileWriter == null){
 			return null;
 		}
@@ -208,7 +215,10 @@ public class TridasIO {
 	 * @return
 	 */
 	public synchronized static IDendroFileReader getFileReader(String argFormatName){
-		TridasIOEntry e = converterMap.get(argFormatName);
+		if(!loaded){
+			load();
+		}
+		TridasIOEntry e = converterMap.get(argFormatName.toLowerCase());
 		if(e == null || e.fileReader == null){
 			return null;
 		}
@@ -227,7 +237,10 @@ public class TridasIO {
 	 * @return
 	 */
 	public synchronized static IDendroFileReader getFileReaderFromExtension(String argExtension){
-		return getFileReader(extensionMap.get(argExtension));
+		if(!loaded){
+			load();
+		}
+		return getFileReader(extensionMap.get(argExtension.toLowerCase()).toLowerCase());
 	}
 	
 	/**
@@ -236,7 +249,10 @@ public class TridasIO {
 	 * @return
 	 */
 	public synchronized static IDendroCollectionWriter getFileWriterFromExtension(String argExtension){
-		return getFileWriter(extensionMap.get(argExtension));
+		if(!loaded){
+			load();
+		}
+		return getFileWriter(extensionMap.get(argExtension.toLowerCase()).toLowerCase());
 	}
 	
 	/**
@@ -244,6 +260,9 @@ public class TridasIO {
 	 * @return
 	 */
 	public synchronized static String[] getSupportedReadingFormats(){
+		if(!loaded){
+			load();
+		}
 		ArrayList<String> list = new ArrayList<String>();
 		for(String extension : converterMap.keySet()){
 			TridasIOEntry entry = converterMap.get(extension);
@@ -260,6 +279,9 @@ public class TridasIO {
 	 * @return
 	 */
 	public synchronized static String[] getSupportedWritingFormats(){
+		if(!loaded){
+			load();
+		}
 		ArrayList<String> list = new ArrayList<String>();
 		for(String extension : converterMap.keySet()){
 			TridasIOEntry entry = converterMap.get(extension);
