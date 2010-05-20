@@ -15,7 +15,7 @@ import org.tridas.schema.TridasProject;
 
 public abstract class AbstractDendroCollectionWriter implements IDendroCollectionWriter{
 	
-	public ArrayList<IDendroFile> fileList = new ArrayList<IDendroFile>();
+	private ArrayList<IDendroFile> fileList = new ArrayList<IDendroFile>();
 	private SimpleLogger log = new SimpleLogger(AbstractDendroCollectionWriter.class);
 	private ArrayList<ConversionWarning> warnings =  new ArrayList<ConversionWarning>();
 	private Class<? extends IMetadataFieldSet> defaultFieldsClass;
@@ -148,8 +148,15 @@ public abstract class AbstractDendroCollectionWriter implements IDendroCollectio
 	 * 
 	 * @param df
 	 */
-	public void addToFileList(IDendroFile df){
+	protected void addToFileList(IDendroFile df){
 		fileList.add(df);
+	}
+	
+	/**
+	 * Clears the file list
+	 */
+	public void clearFileList(){
+		fileList.clear();
 	}
 
 	/**

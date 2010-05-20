@@ -52,6 +52,8 @@ public class OverridingTest extends TestCase {
 		assertTrue(keyCodeFound);
 		assertTrue(dateBeginFound);
 		
+		writer.clearFileList();
+		
 		defaults.getIntegerDefaultValue(HeidelbergField.DATEBEGIN).setOverriding(false);
 		writer.loadProject(project, defaults);
 		
@@ -71,7 +73,7 @@ public class OverridingTest extends TestCase {
 			}
 		}
 		assertTrue(keyCodeFound);
-		//assertFalse(dateChanged);
+		assertFalse(dateChanged);
 	}
 	
 	public void testTucsanOverriding() throws IOException, InvalidDendroFileException, IncorrectDefaultFieldsException{
