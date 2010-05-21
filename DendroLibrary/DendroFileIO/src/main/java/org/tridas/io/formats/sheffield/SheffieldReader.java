@@ -1,35 +1,30 @@
 package org.tridas.io.formats.sheffield;
 
 import java.util.ArrayList;
+
+import net.opengis.gml.schema.Pos;
+
 import org.grlea.log.SimpleLogger;
 import org.tridas.io.AbstractDendroFileReader;
 import org.tridas.io.I18n;
-import org.tridas.io.defaults.AbstractDefaultValue;
 import org.tridas.io.defaults.IMetadataFieldSet;
-import org.tridas.io.defaults.TridasMetadataFieldSet.TridasMandatoryField;
 import org.tridas.io.defaults.values.GenericDefaultValue;
-
 import org.tridas.io.formats.sheffield.SheffieldToTridasDefaults.DefaultFields;
 import org.tridas.io.formats.sheffield.TridasToSheffieldDefaults.SheffieldDateType;
-import org.tridas.io.util.DateUtils;
+import org.tridas.io.util.CoordinatesUtils;
 import org.tridas.io.util.SafeIntYear;
 import org.tridas.io.warnings.ConversionWarning;
+import org.tridas.io.warnings.ConversionWarningException;
 import org.tridas.io.warnings.InvalidDendroFileException;
 import org.tridas.io.warnings.ConversionWarning.WarningType;
-import org.tridas.schema.NormalTridasUnit;
-import org.tridas.schema.ObjectFactory;
 import org.tridas.schema.TridasElement;
-import org.tridas.schema.TridasIdentifier;
-import org.tridas.schema.TridasInterpretation;
 import org.tridas.schema.TridasMeasurementSeries;
 import org.tridas.schema.TridasObject;
 import org.tridas.schema.TridasProject;
 import org.tridas.schema.TridasRadius;
 import org.tridas.schema.TridasSample;
-import org.tridas.schema.TridasUnit;
 import org.tridas.schema.TridasValue;
 import org.tridas.schema.TridasValues;
-import org.tridas.schema.TridasVariable;
 
 /**
  * Reader for the file format produced by Ian Tyers' 
@@ -100,7 +95,7 @@ public class SheffieldReader extends AbstractDendroFileReader {
 			
 			// Line 3 - Date type 
 			// TODO How are we handling relative series?
-			if(i==3)
+			if(i==2)
 			{		
 				if (!lineString.equalsIgnoreCase("A") && (!lineString.equalsIgnoreCase("R")))
 				{
@@ -113,7 +108,7 @@ public class SheffieldReader extends AbstractDendroFileReader {
 			}
 			
 			// Line 4 - Start date
-			if(i==4)
+			if(i==3)
 			{
 				try{
 					int yearNum = Integer.valueOf(lineString.trim());
@@ -140,6 +135,93 @@ public class SheffieldReader extends AbstractDendroFileReader {
 							I18n.getText("fileio.invalidStartYear")));	
 				}
 			}
+			
+			// Line 5 - Data type
+			if(i==4)
+			{
+				
+			}
+			
+			// Line 6 - sapwood number or number of timbers
+			if(i==5)
+			{
+				
+			}
+			
+			
+			// Line 7 - edge code or chronology type
+			if(i==6)
+			{
+				
+			}
+			
+			// Line 8 - comment
+			if(i==7)
+			{
+				if (lineString.length()>64)
+				{
+					addWarningToList(new ConversionWarning(WarningType.NOT_STRICT, 
+							I18n.getText("sheffield.lineNTooBig", String.valueOf(lineString.length()))));
+				}
+				defaults.getStringDefaultValue(DefaultFields.SERIES_COMMENT).setValue(lineString);
+			}
+			
+			// Line 9 - UK Grid coords
+			if(i==8)
+			{
+				// TODO We could add PROJ4 lib to convert these but not sure its worth it
+			}
+			
+			// Line 10 - Lat/Long coords
+			if(i==9)
+			{
+				Double northing;
+				Double easting;
+				String[] coords = lineString.split(" ");
+				if(coords.length!=2)
+				{
+					addWarningToList(new ConversionWarning(WarningType.NOT_STRICT, 
+							I18n.getText("sheffield.errorParsingCoords")));
+					continue;
+				}
+				
+				if(lineString.contains("^"))
+				{
+					// Convert old style coordinates
+					try {
+						northing = convertCoordsToDD(coords[0], NorthingEasting.NORTH_SOUTH);
+						easting = convertCoordsToDD(coords[1], NorthingEasting.EAST_WEST);
+					} catch (ConversionWarningException e) {
+						addWarningToList(e.getWarning());
+						continue;
+					}
+				}
+				else
+				{
+					try{
+						northing = Double.valueOf(coords[0]);
+						easting = Double.valueOf(coords[1]);
+					} catch (NumberFormatException e)
+					{
+						addWarningToList(new ConversionWarning(WarningType.NOT_STRICT, 
+								I18n.getText("sheffield.errorParsingCoords")));
+						continue;
+					}
+				}
+				
+				if(northing!=null && easting!=null)
+				{
+					ArrayList<Double> latlongs = new ArrayList<Double>();
+					latlongs.add(northing);
+					latlongs.add(easting);
+					Pos pos = new Pos();
+					pos.setValues(latlongs);
+					GenericDefaultValue<Pos> posField = (GenericDefaultValue<Pos>) defaults.getDefaultValue(DefaultFields.LAT_LONG); 
+					posField.setValue(pos);
+				}
+				
+			}
+			
 			
 			// Line 18 - Short title 
 			if (i==17)
@@ -299,6 +381,70 @@ public class SheffieldReader extends AbstractDendroFileReader {
 		
 	}
 	
-
+	private enum NorthingEasting{
+		NORTH_SOUTH,
+		EAST_WEST;
+	}
 	
+	private Double convertCoordsToDD (String coordString, NorthingEasting ne) throws ConversionWarningException
+	{
+		// Convert from old skool coordinate style
+		if (ne == NorthingEasting.NORTH_SOUTH)
+		{
+		
+			if(!coordString.toUpperCase().startsWith("N") && !coordString.toUpperCase().startsWith("S"))
+			{
+				throw new ConversionWarningException(new ConversionWarning(WarningType.NOT_STRICT, 
+						I18n.getText("sheffield.errorParsingCoords")));
+			}
+		}
+		else 
+		{
+			if(!coordString.toUpperCase().startsWith("E") && !coordString.toUpperCase().startsWith("W"))
+			{
+				throw new ConversionWarningException(new ConversionWarning(WarningType.NOT_STRICT, 
+						I18n.getText("sheffield.errorParsingCoords")));
+			}	
+			
+		}
+			
+		String sign = coordString.substring(0, 1);
+			
+		
+		Integer degrees = null;
+		Integer minutes = null;
+		
+		String[] coordArray = coordString.split("\\^");
+		if(coordArray.length>2)
+		{
+			throw new ConversionWarningException(new ConversionWarning(WarningType.NOT_STRICT, 
+					I18n.getText("sheffield.errorParsingCoords")));
+		}
+		
+		if (coordArray.length==2)
+		{
+			try{
+				minutes = Integer.valueOf(coordArray[1]);
+			} catch (NumberFormatException e)
+			{
+				throw new ConversionWarningException(new ConversionWarning(WarningType.NOT_STRICT, 
+						I18n.getText("sheffield.errorParsingCoords")));
+			}
+		}
+		
+		if (coordArray.length>=1)
+		{
+			try{
+				degrees = Integer.valueOf(coordArray[0].substring(1));
+			} catch (NumberFormatException e)
+			{
+				throw new ConversionWarningException(new ConversionWarning(WarningType.NOT_STRICT, 
+						I18n.getText("sheffield.errorParsingCoords")));
+			}
+		}
+			
+		return CoordinatesUtils.getDecimalCoords(sign, degrees, minutes, null);
+	}
+		
+		
 }
