@@ -64,7 +64,6 @@ public class OverridingTest extends TestCase {
 		assertNotNull(file);
 		
 		for(String s : file){
-			log.info(s);
 			if(s.equals("KeyCode=TestOverriding")){
 				keyCodeFound = true;
 			}
@@ -119,7 +118,6 @@ public class OverridingTest extends TestCase {
 		
 		
 		for(String s : file){
-			log.info(s);
 			if(s.contains("TestOverriding")){
 				siteNameFound = true;
 			}
