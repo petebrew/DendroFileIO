@@ -10,16 +10,20 @@ import org.tridas.io.I18n;
 import org.tridas.io.defaults.IMetadataFieldSet;
 import org.tridas.io.defaults.values.GenericDefaultValue;
 import org.tridas.io.formats.sheffield.SheffieldToTridasDefaults.DefaultFields;
+import org.tridas.io.formats.sheffield.TridasToSheffieldDefaults.SheffieldDataType;
 import org.tridas.io.formats.sheffield.TridasToSheffieldDefaults.SheffieldDateType;
+import org.tridas.io.formats.sheffield.TridasToSheffieldDefaults.SheffieldPithCode;
 import org.tridas.io.util.CoordinatesUtils;
 import org.tridas.io.util.SafeIntYear;
 import org.tridas.io.warnings.ConversionWarning;
 import org.tridas.io.warnings.ConversionWarningException;
 import org.tridas.io.warnings.InvalidDendroFileException;
 import org.tridas.io.warnings.ConversionWarning.WarningType;
+import org.tridas.schema.ComplexPresenceAbsence;
 import org.tridas.schema.TridasElement;
 import org.tridas.schema.TridasMeasurementSeries;
 import org.tridas.schema.TridasObject;
+import org.tridas.schema.TridasPith;
 import org.tridas.schema.TridasProject;
 import org.tridas.schema.TridasRadius;
 import org.tridas.schema.TridasSample;
@@ -40,7 +44,6 @@ public class SheffieldReader extends AbstractDendroFileReader {
 	private ArrayList<TridasMeasurementSeries> mseriesList = new ArrayList<TridasMeasurementSeries>();
 	
 	SheffieldDateType dateType =  SheffieldDateType.RELATIVE;
-	
 	
 	public SheffieldReader() {
 		super(SheffieldToTridasDefaults.class);
@@ -139,23 +142,44 @@ public class SheffieldReader extends AbstractDendroFileReader {
 			// Line 5 - Data type
 			if(i==4)
 			{
-				
+				GenericDefaultValue<SheffieldDataType> dataTypeField = (GenericDefaultValue<SheffieldDataType>) defaults.getDefaultValue(DefaultFields.SHEFFIELD_DATA_TYPE); 
+				dataTypeField.setValue(SheffieldDataType.fromCode(lineString));
 			}
 			
-			// Line 6 - sapwood number or number of timbers
+			// Line 6 - sapwood number or number of timbers 
+			// TODO needs completing
 			if(i==5)
 			{
+				Integer val = 0;
+				try{
+					val = Integer.parseInt(lineString);
+				} catch (NumberFormatException e)
+				{
+					addWarningToList(new ConversionWarning(WarningType.INVALID, 
+							I18n.getText("fileio.invalidDataValue"), "Sapwood count"));	
+					continue;
+				}
 				
+				GenericDefaultValue<SheffieldDataType> dataTypeField = (GenericDefaultValue<SheffieldDataType>) defaults.getDefaultValue(DefaultFields.SHEFFIELD_DATA_TYPE); 
+				if (dataTypeField.getValue().equals(SheffieldDataType.ANNUAL_RAW_RING_WIDTH))
+				{
+					defaults.getIntegerDefaultValue(DefaultFields.SAPWOOD_COUNT).setValue(val);
+				}
+				else
+				{
+					// Field contains number of timbers/chronologies.  This is not required
+					// as it can be taken from the 'count' of the value tags
+				}
 			}
 			
 			
-			// Line 7 - edge code or chronology type
+			// Line 7 - edge code or chronology type TODO
 			if(i==6)
 			{
 				
 			}
 			
-			// Line 8 - comment
+			// Line 8 - comment TODO
 			if(i==7)
 			{
 				if (lineString.length()>64)
@@ -222,6 +246,42 @@ public class SheffieldReader extends AbstractDendroFileReader {
 				
 			}
 			
+			// Line 11 - Pith
+			if(i==10)
+			{
+				GenericDefaultValue<ComplexPresenceAbsence> pithField = (GenericDefaultValue<ComplexPresenceAbsence>) defaults.getDefaultValue(DefaultFields.PITH); 
+
+				if(lineString.equalsIgnoreCase("C"))
+				{
+					pithField.setValue(ComplexPresenceAbsence.COMPLETE);
+				}
+				else if (lineString.equalsIgnoreCase("?"))
+				{
+					pithField.setValue(ComplexPresenceAbsence.UNKNOWN);
+				}
+				else
+				{
+					pithField.setValue(ComplexPresenceAbsence.ABSENT);
+					// Sheffield format includes some extra info about pith that does not map
+					// to TRiDaS so this info will be stored as a generic field
+					defaults.getStringDefaultValue(DefaultFields.PITH_DESCRIPTION).setValue(
+							SheffieldPithCode.fromCode(lineString).toString());
+
+				}
+			}
+			
+			
+			// Line 12 - Major dimension
+			if(i==11)
+			{
+				
+			}
+			
+			// Line 12 - Minor dimension
+			if(i==11)
+			{
+				
+			}
 			
 			// Line 18 - Short title 
 			if (i==17)

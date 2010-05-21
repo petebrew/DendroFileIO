@@ -1,5 +1,12 @@
 package org.tridas.io.util;
 
+import net.opengis.gml.schema.PointType;
+import net.opengis.gml.schema.Pos;
+
+import org.tridas.io.defaults.values.GenericDefaultValue;
+import org.tridas.io.formats.sheffield.SheffieldToTridasDefaults.DefaultFields;
+import org.tridas.schema.TridasLocationGeometry;
+
 public class CoordinatesUtils {
 
 	
@@ -37,4 +44,13 @@ public class CoordinatesUtils {
 		return coords;
 	}
 	
+	public static TridasLocationGeometry getLocationGeometry(Pos pos)
+	{
+		TridasLocationGeometry geometry = new TridasLocationGeometry();
+		PointType point = new PointType();
+		point.setPos(pos);
+		geometry.setPoint(point);
+		return geometry;
+
+	}
 }

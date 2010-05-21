@@ -1,5 +1,7 @@
 package org.tridas.io.formats.sheffield;
 
+import java.util.ArrayList;
+
 import net.opengis.gml.schema.PointType;
 import net.opengis.gml.schema.Pos;
 
@@ -12,20 +14,26 @@ import org.tridas.io.defaults.values.IntegerDefaultValue;
 import org.tridas.io.defaults.values.StringDefaultValue;
 import org.tridas.io.formats.heidelberg.HeidelbergToTridasDefaults.DefaultFields;
 import org.tridas.io.formats.sheffield.TridasToSheffieldDefaults.SheffieldDataType;
+import org.tridas.io.util.CoordinatesUtils;
 import org.tridas.io.util.SafeIntYear;
+import org.tridas.schema.ComplexPresenceAbsence;
 import org.tridas.schema.ControlledVoc;
 import org.tridas.schema.DatingSuffix;
 import org.tridas.schema.NormalTridasUnit;
+import org.tridas.schema.ObjectFactory;
 import org.tridas.schema.TridasDerivedSeries;
 import org.tridas.schema.TridasElement;
+import org.tridas.schema.TridasGenericField;
 import org.tridas.schema.TridasLocation;
 import org.tridas.schema.TridasLocationGeometry;
 import org.tridas.schema.TridasMeasurementSeries;
 import org.tridas.schema.TridasObject;
+import org.tridas.schema.TridasPith;
 import org.tridas.schema.TridasUnit;
 import org.tridas.schema.TridasUnitless;
 import org.tridas.schema.TridasValues;
 import org.tridas.schema.TridasVariable;
+import org.tridas.schema.TridasWoodCompleteness;
 import org.tridas.schema.Year;
 
 public class SheffieldToTridasDefaults extends TridasMetadataFieldSet implements
@@ -37,7 +45,12 @@ public class SheffieldToTridasDefaults extends TridasMetadataFieldSet implements
 		START_YEAR,
 		SERIES_TITLE,
 		SERIES_COMMENT,
-		LAT_LONG;
+		LAT_LONG,
+		PITH,
+		PITH_DESCRIPTION,     // GENERICFIELD
+		SHEFFIELD_DATA_TYPE,  // GENERICFIELD
+		SAPWOOD_COUNT;
+		
 	}
 	
 	public void initDefaultValues(){
@@ -48,14 +61,17 @@ public class SheffieldToTridasDefaults extends TridasMetadataFieldSet implements
 		setDefaultValue(DefaultFields.SERIES_TITLE, new StringDefaultValue(I18n.getText("unnamed.series")));
 		setDefaultValue(DefaultFields.SERIES_COMMENT, new StringDefaultValue());
 		setDefaultValue(DefaultFields.LAT_LONG, new GenericDefaultValue<Pos>());
-
-
+		setDefaultValue(DefaultFields.PITH, new GenericDefaultValue<ComplexPresenceAbsence>());
+		setDefaultValue(DefaultFields.PITH_DESCRIPTION, new StringDefaultValue());
+		setDefaultValue(DefaultFields.SHEFFIELD_DATA_TYPE, new GenericDefaultValue<SheffieldDataType>());
+		setDefaultValue(DefaultFields.SAPWOOD_COUNT, new IntegerDefaultValue());
 
 	}
 
 	/**
 	 * @see org.tridas.io.defaults.TridasMetadataFieldSet#getDefaultTridasObject()
 	 */
+	@SuppressWarnings("unchecked")
 	@Override
 	protected TridasObject getDefaultTridasObject() {
 		TridasObject o = super.getDefaultTridasObject();
@@ -63,15 +79,12 @@ public class SheffieldToTridasDefaults extends TridasMetadataFieldSet implements
 		o.setTitle(getStringDefaultValue(DefaultFields.OBJECT_NAME).getStringValue());
 		
 		// If Lat Long is available use it
-		if(getDefaultValue(DefaultFields.LAT_LONG)!=null)
+		if(getDefaultValue(DefaultFields.LAT_LONG).getValue()!=null)
 		{
-			TridasLocation location = new TridasLocation();
-			TridasLocationGeometry geometry = new TridasLocationGeometry();
-			PointType point = new PointType();
 			GenericDefaultValue<Pos> posField = (GenericDefaultValue<Pos>) getDefaultValue(DefaultFields.LAT_LONG); 
-			Pos pos = posField.getValue();
-			point.setPos(pos);
-			geometry.setPoint(point);
+			Pos pos = posField.getValue();	
+			TridasLocationGeometry geometry = CoordinatesUtils.getLocationGeometry(pos);
+			TridasLocation location = new TridasLocation();
 			location.setLocationGeometry(geometry);
 			o.setLocation(location);
 		}
@@ -106,6 +119,20 @@ public class SheffieldToTridasDefaults extends TridasMetadataFieldSet implements
 			ms.getInterpretation().setFirstYear(startYearField.getValue().toTridasYear(DatingSuffix.AD));
 		} catch (NullPointerException e){}
 		
+		
+		if(getDefaultValue(DefaultFields.PITH).getValue()!=null)
+		{
+			TridasWoodCompleteness wc = super.getDefaultWoodCompleteness();
+			wc.getPith().setPresence(((ComplexPresenceAbsence)getDefaultValue(DefaultFields.PITH).getValue()));
+			Integer sapwoodRings = ((Integer)getDefaultValue(DefaultFields.SAPWOOD_COUNT).getValue());
+			wc.getSapwood().setNrOfSapwoodRings(sapwoodRings);
+			ms.setWoodCompleteness(wc);
+		}
+
+		if(getMeasurementSeriesGenericFields().size()>0)
+		{
+			ms.setGenericFields(getMeasurementSeriesGenericFields());
+		}
 		return ms;
 	}
 	
@@ -141,5 +168,32 @@ public class SheffieldToTridasDefaults extends TridasMetadataFieldSet implements
 		
 		
 		return valuesGroup;
+	}
+	
+	private ArrayList<TridasGenericField> getMeasurementSeriesGenericFields(){
+		
+		ArrayList<TridasGenericField>genFields = new ArrayList<TridasGenericField>(); 
+		
+		if(getDefaultValue(DefaultFields.PITH_DESCRIPTION).getValue()!=null)
+		{
+			TridasGenericField gf = new ObjectFactory().createTridasGenericField();
+			gf.setName("sheffield.pithCode");
+			gf.setType("xs:string");
+			gf.setValue(getDefaultValue(DefaultFields.PITH_DESCRIPTION).getValue().toString());
+			genFields.add(gf);
+		}
+		
+		if(getDefaultValue(DefaultFields.SHEFFIELD_DATA_TYPE).getValue()!=null)
+		{
+			TridasGenericField gf = new ObjectFactory().createTridasGenericField();
+			gf.setName("sheffield.dataType");
+			gf.setType("xs:string");
+			gf.setValue(getDefaultValue(DefaultFields.SHEFFIELD_DATA_TYPE).getValue().toString());
+			genFields.add(gf);
+		}
+		
+		
+		return genFields;
+		
 	}
 }

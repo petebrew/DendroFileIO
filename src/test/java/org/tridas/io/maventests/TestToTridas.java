@@ -20,6 +20,7 @@ import org.tridas.io.formats.tucson.TucsonReader;
 import org.tridas.io.formats.tucson.TucsonToTridasDefaults;
 import org.tridas.io.formats.tucson.TucsonWriter;
 import org.tridas.io.formats.vformat.VFormatReader;
+import org.tridas.io.naming.NumericalNamingConvention;
 import org.tridas.io.naming.SeriesNamingConvention;
 import org.tridas.io.naming.UUIDNamingConvention;
 import org.tridas.io.warnings.ConversionWarningException;
@@ -288,6 +289,7 @@ public class TestToTridas extends TestCase {
 			writer.setNamingConvention(new UUIDNamingConvention());
 			
 			try {
+				writer.setNamingConvention(new NumericalNamingConvention("test"));
 				writer.loadProject(myproject);
 			} catch (IncompleteTridasDataException e) {
 				fail();
