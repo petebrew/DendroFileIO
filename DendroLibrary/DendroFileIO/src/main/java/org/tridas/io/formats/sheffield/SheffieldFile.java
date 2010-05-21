@@ -8,24 +8,6 @@ public class SheffieldFile implements IDendroFile {
 
 	public SheffieldFile() {
 	}
-
-	
-	/**
-	 * Sheffield format has a number of special chars that can't be included in 
-	 * certain lines.  This function replaces these characters with some similar
-	 * ones.
-	 * 
-	 * @param str
-	 * @return
-	 */
-	public static String stripSpecialChars(String str)
-	{
-		str.replace(",", ";");
-		str.replace("\"", "'");
-		str.replace("(", "[");
-		str.replace(")", "]");
-		return str;
-	}
 	
 	/**
 	 * Does this line contain any special chars?

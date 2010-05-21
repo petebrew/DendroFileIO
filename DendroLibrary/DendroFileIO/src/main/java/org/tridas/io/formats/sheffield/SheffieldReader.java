@@ -4,9 +4,13 @@ import java.util.ArrayList;
 import org.grlea.log.SimpleLogger;
 import org.tridas.io.AbstractDendroFileReader;
 import org.tridas.io.I18n;
+import org.tridas.io.defaults.AbstractDefaultValue;
 import org.tridas.io.defaults.IMetadataFieldSet;
 import org.tridas.io.defaults.TridasMetadataFieldSet.TridasMandatoryField;
 import org.tridas.io.defaults.values.GenericDefaultValue;
+
+import org.tridas.io.formats.sheffield.SheffieldToTridasDefaults.DefaultFields;
+import org.tridas.io.formats.sheffield.TridasToSheffieldDefaults.SheffieldDateType;
 import org.tridas.io.util.DateUtils;
 import org.tridas.io.util.SafeIntYear;
 import org.tridas.io.warnings.ConversionWarning;
@@ -39,94 +43,98 @@ public class SheffieldReader extends AbstractDendroFileReader {
 	private TridasProject project = null;
 	private SheffieldToTridasDefaults defaults = new SheffieldToTridasDefaults();
 	private ArrayList<TridasMeasurementSeries> mseriesList = new ArrayList<TridasMeasurementSeries>();
-
-	String sitename;
-	int ringCount;
-	String dateType;
-	SafeIntYear startDate;
-	String dataType;
-	int sapwoodCount;
-	int timberCount;
-	String edgeCode;
-	String chronologyType;
-	String comment;
-	String ukCoords;
-	String latLong;
-	String pithCode;
-	String shapeCode;
-	String majorDim;
-	String minorDim;
-	String innerRingCode;
-	String outerRingCode;
-	String phase;
-	String shortTitle;
-	String period;
-	String taxon;
-	String interpretationComment;
-	String variableType;
 	
+	SheffieldDateType dateType =  SheffieldDateType.RELATIVE;
 	
 	
 	public SheffieldReader() {
 		super(SheffieldToTridasDefaults.class);
 	}
 	
+	@SuppressWarnings("unchecked")
 	@Override
 	protected void parseFile(String[] argFileString,
 			IMetadataFieldSet argDefaultFields)
 			throws InvalidDendroFileException {
 
+		// Check the file is valid
+		checkFile(argFileString);
+		
+		
 		ArrayList<TridasValue> ringWidthValues = new ArrayList<TridasValue>();
 		
-		// Check none of the header lines are empty
+
 		for (int i=0; i<24; i++)
-		{
-			if(argFileString[i]=="" || argFileString[i]==null)
-			{
-				throw new InvalidDendroFileException(I18n.getText("sheffield.blankLine"), i+1);
-			}
-			
+		{	
+			String lineString = argFileString[i];	
 			
 			// Line 1 - Site name/sample number
 			if(i==0)
-			{
-				this.sitename = argFileString[i];
-				if (sitename.length()>64)
+			{	
+				if (lineString.length()>64)
 				{
 					addWarningToList(new ConversionWarning(WarningType.NOT_STRICT, 
 							I18n.getText("sheffield.lineOneTooBig")));
 				}
-				if (SheffieldFile.containsSpecialChars(sitename))
+				if (SheffieldFile.containsSpecialChars(lineString))
 				{
-					sitename = SheffieldFile.stripSpecialChars(sitename);
 					addWarningToList(new ConversionWarning(WarningType.NOT_STRICT, 
 							I18n.getText("sheffield.specialCharWarning")));
 				}		
+				defaults.getStringDefaultValue(DefaultFields.OBJECT_NAME).setValue(lineString);
 			}
 			
 			// Line 2 - Number of rings
 			if(i==1)
 			{
-				this.ringCount = Integer.valueOf(argFileString[i]);		
+				try{
+					int ringCount = Integer.valueOf(lineString);
+					defaults.getIntegerDefaultValue(DefaultFields.RING_COUNT).setValue(ringCount);
+				} catch (NumberFormatException e)
+				{
+					addWarningToList(new ConversionWarning(WarningType.INVALID, 
+							I18n.getText("fileio.invalidDataValue")));
+				}
+	
 			}		
 			
 			// Line 3 - Date type 
+			// TODO How are we handling relative series?
 			if(i==3)
-			{
-				this.dateType = argFileString[i].toUpperCase();
-				if (!dateType.equals("A") && (!dateType.equals("R")))
+			{		
+				if (!lineString.equalsIgnoreCase("A") && (!lineString.equalsIgnoreCase("R")))
 				{
-					dateType = "R";
 					addWarningToList(new ConversionWarning(WarningType.INVALID, 
 							I18n.getText("sheffield.invalidDateType")));
-				}
+					continue;
+				}	
+				
+				dateType = SheffieldDateType.fromCode(lineString);
 			}
 			
 			// Line 4 - Start date
 			if(i==4)
 			{
 				try{
-					startDate = new SafeIntYear(argFileString[i].trim());
+					int yearNum = Integer.valueOf(lineString.trim());
+					SafeIntYear startYear;
+					
+					// Handle offset for absolute dates
+					if(dateType==SheffieldDateType.ABSOLUTE)
+					{
+						if(yearNum>=10001)
+						{
+							yearNum = yearNum-10000;
+						}
+						else
+						{
+							yearNum = yearNum-10001;
+						}
+					}	
+					
+					GenericDefaultValue<SafeIntYear> startYearField = (GenericDefaultValue<SafeIntYear>) defaults.getDefaultValue(DefaultFields.START_YEAR); 
+					startYearField.setValue(new SafeIntYear(yearNum));
+					
 				} catch (NumberFormatException e) { 
 					addWarningToList(new ConversionWarning(WarningType.INVALID, 
 							I18n.getText("fileio.invalidStartYear")));	
@@ -136,13 +144,19 @@ public class SheffieldReader extends AbstractDendroFileReader {
 			// Line 18 - Short title 
 			if (i==17)
 			{
-				this.shortTitle = argFileString[i];
+				if (lineString.length()>=8)
+				{
+					addWarningToList(new ConversionWarning(WarningType.NOT_STRICT, 
+							I18n.getText("sheffield.line18TooBig")));
+				}
+				
+				defaults.getStringDefaultValue(DefaultFields.SERIES_TITLE).setValue(lineString);
 			}
 
 			
 		}
 		
-		// Check none of the header lines are empty
+		// Extract actual values
 		for (int i=23; i<argFileString.length; i++)
 		{
 
@@ -162,48 +176,28 @@ public class SheffieldReader extends AbstractDendroFileReader {
 		}
 		
 		// Check ring count matches number of values in file
-		if(ringCount!=ringWidthValues.size())
+		if(defaults.getIntegerDefaultValue(DefaultFields.RING_COUNT).getValue()!=ringWidthValues.size())
 		{
 			this.addWarningToList(new ConversionWarning(
 					WarningType.INVALID, 
 					I18n.getText("fileio.valueCountMismatch")));
-			ringCount = ringWidthValues.size();	
+						
+			defaults.getIntegerDefaultValue(DefaultFields.RING_COUNT).setValue(ringWidthValues.size());
 		}
 		
-		// Now build up our measurementSeries
 		
+		
+		// Now build up our measurementSeries	
 		TridasMeasurementSeries series = defaults.getMeasurementSeriesWithDefaults();
-		TridasUnit units = new TridasUnit();
 		
-		// Set units to 1/100th mm.  Is this always the case?
-		units.setNormalTridas(NormalTridasUnit.HUNDREDTH_MM);
-		
-		// Build identifier for series
-		TridasIdentifier seriesId = new ObjectFactory().createTridasIdentifier();
-		seriesId.setValue(shortTitle);
-		seriesId.setDomain(defaults.getDefaultValue(TridasMandatoryField.IDENTIFIER_DOMAN).getStringValue());
-		
-		// Build interpretation group for series
-		TridasInterpretation interp = new TridasInterpretation();
-		//interp.setFirstYear(startYear.toTridasYear(DatingSuffix.AD));
-		//interp.setLastYear(startYear.add(ringWidthValues.size()).toTridasYear(DatingSuffix.AD));
-
 		// Add values to nested value(s) tags
-		TridasValues valuesGroup = new TridasValues();
+		TridasValues valuesGroup = defaults.getTridasValuesWithDefaults();
 		valuesGroup.setValues(ringWidthValues);
-		valuesGroup.setUnit(units);
-		GenericDefaultValue<TridasVariable> variable = (GenericDefaultValue<TridasVariable>) defaults.getDefaultValue(TridasMandatoryField.MEASUREMENTSERIES_VARIABLE);
-		valuesGroup.setVariable(variable.getValue());
 		ArrayList<TridasValues> valuesGroupList = new ArrayList<TridasValues>();
 		valuesGroupList.add(valuesGroup);	
 		
 		// Add all the data to the series
 		series.setValues(valuesGroupList);
-		//series.setInterpretation(interp);
-		series.setTitle(shortTitle);
-		series.setIdentifier(seriesId);
-		series.setLastModifiedTimestamp(DateUtils.getTodaysDateTime() );
-		//series.setDendrochronologist(userid);
 
 		// Add series to our list
 		mseriesList.add(series);
@@ -284,4 +278,27 @@ public class SheffieldReader extends AbstractDendroFileReader {
 	public String getShortName() {
 		return I18n.getText("sheffield.about.shortName");
 	}
+	
+	/**
+	 * Check that this is a valid Sheffield DFormat file
+	 * 
+	 * @param argStrings
+	 * @throws InvalidDendroFileException
+	 */
+	private void checkFile(String[] argStrings) throws InvalidDendroFileException{
+		log.debug("Checking file to see if it looks like a D Format file");
+	
+		// Check none of the header lines are empty
+		for (int i=0; i<24; i++)
+		{
+			if(argStrings[i]=="" || argStrings[i]==null)
+			{
+				throw new InvalidDendroFileException(I18n.getText("sheffield.blankLine"), i+1);
+			}
+		}
+		
+	}
+	
+
+	
 }
