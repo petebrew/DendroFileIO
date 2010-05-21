@@ -6,22 +6,29 @@ import java.util.List;
 import org.tridas.io.I18n;
 import org.tridas.io.defaults.values.GenericDefaultValue;
 import org.tridas.io.defaults.values.StringDefaultValue;
+import org.tridas.schema.ComplexPresenceAbsence;
 import org.tridas.schema.ControlledVoc;
 import org.tridas.schema.NormalTridasMeasuringMethod;
 import org.tridas.schema.ObjectFactory;
+import org.tridas.schema.PresenceAbsence;
 import org.tridas.schema.SeriesLinks;
 import org.tridas.schema.TridasAddress;
+import org.tridas.schema.TridasBark;
 import org.tridas.schema.TridasCategory;
 import org.tridas.schema.TridasDerivedSeries;
 import org.tridas.schema.TridasElement;
+import org.tridas.schema.TridasHeartwood;
 import org.tridas.schema.TridasLaboratory;
 import org.tridas.schema.TridasMeasurementSeries;
 import org.tridas.schema.TridasMeasuringMethod;
 import org.tridas.schema.TridasObject;
+import org.tridas.schema.TridasPith;
 import org.tridas.schema.TridasProject;
 import org.tridas.schema.TridasRadius;
 import org.tridas.schema.TridasSample;
+import org.tridas.schema.TridasSapwood;
 import org.tridas.schema.TridasVariable;
+import org.tridas.schema.TridasWoodCompleteness;
 import org.tridas.schema.TridasLaboratory.Name;
 
 
@@ -199,5 +206,26 @@ public class TridasMetadataFieldSet extends AbstractTridasMetadataFieldSet {
 		ds.setLinkSeries(new SeriesLinks());
 		
 		return ds;
+	}
+	
+	protected TridasWoodCompleteness getDefaultWoodCompleteness(){
+		
+		TridasWoodCompleteness wc = new ObjectFactory().createTridasWoodCompleteness();
+		
+		TridasPith pith = new ObjectFactory().createTridasPith();
+		TridasHeartwood heartwd = new ObjectFactory().createTridasHeartwood();
+		TridasSapwood sapwd = new ObjectFactory().createTridasSapwood();
+		TridasBark bark = new ObjectFactory().createTridasBark();
+		
+		pith.setPresence(ComplexPresenceAbsence.UNKNOWN);
+		heartwd.setPresence(ComplexPresenceAbsence.UNKNOWN);
+		sapwd.setPresence(ComplexPresenceAbsence.UNKNOWN);
+		bark.setPresence(PresenceAbsence.ABSENT);
+		
+		wc.setPith(pith);
+		wc.setHeartwood(heartwd);
+		wc.setSapwood(sapwd);
+		wc.setBark(bark);
+		return wc;
 	}
 }
