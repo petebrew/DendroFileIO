@@ -1,5 +1,8 @@
 package org.tridas.io.formats.sheffield;
 
+import net.opengis.gml.schema.PointType;
+import net.opengis.gml.schema.Pos;
+
 import org.tridas.io.I18n;
 import org.tridas.io.defaults.IMetadataFieldSet;
 import org.tridas.io.defaults.TridasMetadataFieldSet;
@@ -15,6 +18,8 @@ import org.tridas.schema.DatingSuffix;
 import org.tridas.schema.NormalTridasUnit;
 import org.tridas.schema.TridasDerivedSeries;
 import org.tridas.schema.TridasElement;
+import org.tridas.schema.TridasLocation;
+import org.tridas.schema.TridasLocationGeometry;
 import org.tridas.schema.TridasMeasurementSeries;
 import org.tridas.schema.TridasObject;
 import org.tridas.schema.TridasUnit;
@@ -30,7 +35,9 @@ public class SheffieldToTridasDefaults extends TridasMetadataFieldSet implements
 		OBJECT_NAME,
 		RING_COUNT,
 		START_YEAR,
-		SERIES_TITLE;
+		SERIES_TITLE,
+		SERIES_COMMENT,
+		LAT_LONG;
 	}
 	
 	public void initDefaultValues(){
@@ -39,6 +46,10 @@ public class SheffieldToTridasDefaults extends TridasMetadataFieldSet implements
 		setDefaultValue(DefaultFields.RING_COUNT, new IntegerDefaultValue());
 		setDefaultValue(DefaultFields.START_YEAR, new GenericDefaultValue<SafeIntYear>());
 		setDefaultValue(DefaultFields.SERIES_TITLE, new StringDefaultValue(I18n.getText("unnamed.series")));
+		setDefaultValue(DefaultFields.SERIES_COMMENT, new StringDefaultValue());
+		setDefaultValue(DefaultFields.LAT_LONG, new GenericDefaultValue<Pos>());
+
+
 
 	}
 
@@ -51,6 +62,19 @@ public class SheffieldToTridasDefaults extends TridasMetadataFieldSet implements
 		
 		o.setTitle(getStringDefaultValue(DefaultFields.OBJECT_NAME).getStringValue());
 		
+		// If Lat Long is available use it
+		if(getDefaultValue(DefaultFields.LAT_LONG)!=null)
+		{
+			TridasLocation location = new TridasLocation();
+			TridasLocationGeometry geometry = new TridasLocationGeometry();
+			PointType point = new PointType();
+			GenericDefaultValue<Pos> posField = (GenericDefaultValue<Pos>) getDefaultValue(DefaultFields.LAT_LONG); 
+			Pos pos = posField.getValue();
+			point.setPos(pos);
+			geometry.setPoint(point);
+			location.setLocationGeometry(geometry);
+			o.setLocation(location);
+		}
 		
 		return o;
 	}
@@ -75,6 +99,7 @@ public class SheffieldToTridasDefaults extends TridasMetadataFieldSet implements
 	protected TridasMeasurementSeries getDefaultTridasMeasurementSeries() {
 		TridasMeasurementSeries ms = super.getDefaultTridasMeasurementSeries();
 		ms.setTitle(getStringDefaultValue(DefaultFields.SERIES_TITLE).getStringValue());
+		ms.setComments(getStringDefaultValue(DefaultFields.SERIES_COMMENT).getStringValue());
 		
 		try{
 			GenericDefaultValue<SafeIntYear> startYearField = (GenericDefaultValue<SafeIntYear>) getDefaultValue(DefaultFields.START_YEAR); 		
