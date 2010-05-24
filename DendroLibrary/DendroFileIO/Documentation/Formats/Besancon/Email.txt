@@ -1,0 +1,69 @@
+Emails from Cath Lavier
+***********************
+
+Dear Esther and Peter
+sorry but I am absent from several weeks in many different places in  
+France and Italy, with a broken labtop, in the heart of the  
+countryside with no (often) access to internet (I finally found a  
+cybercafé lost in nowhere… I hope it works) and Rémi was at hospital  
+to extract a bad thing from his body. We were afraid because it was  
+twice on the operating table but it seems to be ok now for him.
+I have just read your messages, we thought the software we sent to  
+Peter was useful.
+So I asked help from Pousset/locatelli (LEB2d:  
+http://www.dendro.fr/index.html) I work with: we use the same  
+softwares/data format etc, they sent me an example (attached file in  
+.TXT format) with all the parameters and here are the explanations:
+
+. Mensor_measurement  : name of the serie (about 24 characters  
+authorized, with no blank)
+LON : number of tree ring measured
+ESP : species (espèce) text free of 5 char, here QUERCUS but we also  
+use the ITRDB format
+MOE : when pith is observed (moelle), if not, no MOE
+AUB : sapwood (aubier), and the number of the ring it begins
+CAM : when last ring under bark is present ("cambium") and the season  
+if we can determine it : HIV = winter (hiver), ETE = summer (été) and  
+PRI = spring (printemps)
+ECO : when bark is present (écorce)
+ORI : date of the first dated ring (origine), if prehistoric date : "-2934"
+TER : date of the last dated ring (terme)
+POS : position in a mean, 1 by default
+VALeur NAT : to introduce the data in 1/100 mm
+"," is a ring whe observed but we are not able to measure
+";" to announce the serie is finished.
+":" to announce the end of the file
+
+I have to leave and I ‘d be at home on Sunday, Monday is a bankholiday  
+(I help my son for his exams), Tuesday I will be at Paris again.
+I hope it will help,
+Warm regards and good continuation
+Cath (and for Rémi)
+
+***********************
+
+Hi Peter
+all our series are built after a program named SYLPHE and have the  
+same format I sent you
+but other old programs (we never use them more), wrote at Besançon  
+many years ago, produced various kinds of files
+see
+http://chrono-eco.univ-fcomte.fr/Public/DataBases/DendroTmp/DData/
+where, at that time, we put various data in various forms.
+In my lab and other labs using SYLPHE, we no more use these one  
+because too various formats, all was put in the format we sent you.
+
+for what you sent, yes the best is that programs have to read the  
+first 3 letters of the code, to count the blank char. and to read the  
+data (number, date, ...), it is what we did several years ago to  
+integrate data in  SYLPHE.
+
+sorry for not answer exactly what you need and I am not sure to be so  
+clear with my English
+I can send you more but only on next Wednesday morning at lab.
+I hope it will work
+nice WE
+cath
+
+
+
