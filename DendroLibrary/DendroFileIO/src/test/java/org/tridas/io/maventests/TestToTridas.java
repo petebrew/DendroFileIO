@@ -260,7 +260,7 @@ public class TestToTridas extends TestCase {
 		
 		for (String filename : files)
 		{	
-			if(!filename.equals("HunBoat.d")) continue;
+			//if(!filename.equals("yhg50683.d")) continue;
 			log.info("Test conversion of: "+filename);
 		
 			// Create a new converter
@@ -286,11 +286,9 @@ public class TestToTridas extends TestCase {
 			TridasProject myproject = reader.getProject();
 			
 				
-			TridasWriter writer = new TridasWriter();
-			writer.setNamingConvention(new UUIDNamingConvention());
-			
+			TridasWriter writer = new TridasWriter();			
 			try {
-				writer.setNamingConvention(new NumericalNamingConvention("test"));
+				writer.setNamingConvention(new NumericalNamingConvention(filename.substring(0, filename.lastIndexOf("."))));
 				writer.loadProject(myproject);
 			} catch (IncompleteTridasDataException e) {
 				fail();

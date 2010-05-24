@@ -12,6 +12,7 @@ import org.tridas.io.defaults.values.GenericDefaultValue;
 import org.tridas.io.formats.sheffield.SheffieldToTridasDefaults.DefaultFields;
 import org.tridas.io.formats.sheffield.TridasToSheffieldDefaults.SheffieldDataType;
 import org.tridas.io.formats.sheffield.TridasToSheffieldDefaults.SheffieldDateType;
+import org.tridas.io.formats.sheffield.TridasToSheffieldDefaults.SheffieldEdgeCode;
 import org.tridas.io.formats.sheffield.TridasToSheffieldDefaults.SheffieldPeriodCode;
 import org.tridas.io.formats.sheffield.TridasToSheffieldDefaults.SheffieldPithCode;
 import org.tridas.io.formats.sheffield.TridasToSheffieldDefaults.SheffieldShapeCode;
@@ -69,7 +70,7 @@ public class SheffieldReader extends AbstractDendroFileReader {
 		{	
 			String lineString = argFileString[lineNum-1];	
 			
-			// Line 1 - Site name/sample number
+			// Line 1 - Series title
 			if(lineNum==1)
 			{	
 				if (lineString.length()>64)
@@ -82,7 +83,7 @@ public class SheffieldReader extends AbstractDendroFileReader {
 					addWarningToList(new ConversionWarning(WarningType.NOT_STRICT, 
 							I18n.getText("sheffield.specialCharWarning")));
 				}		
-				defaults.getStringDefaultValue(DefaultFields.OBJECT_NAME).setValue(lineString);
+				defaults.getStringDefaultValue(DefaultFields.SERIES_TITLE).setValue(lineString);
 			}
 			
 			// Line 2 - Number of rings
@@ -150,7 +151,6 @@ public class SheffieldReader extends AbstractDendroFileReader {
 			}
 			
 			// Line 6 - sapwood number or number of timbers 
-			// TODO needs completing
 			else if(lineNum==6)
 			{
 				Integer val = 0;
@@ -176,10 +176,21 @@ public class SheffieldReader extends AbstractDendroFileReader {
 			}
 			
 			
-			// Line 7 - edge code or chronology type TODO
+			// Line 7 - edge code or chronology type 
 			else if(lineNum==7)
 			{
-				
+				GenericDefaultValue<SheffieldEdgeCode> edgeCodeField = (GenericDefaultValue<SheffieldEdgeCode>) defaults.getDefaultValue(DefaultFields.SHEFFIELD_EDGE_CODE); 
+
+				if(SheffieldEdgeCode.fromCode(lineString.trim())!=null)
+				{
+					edgeCodeField.setValue(SheffieldEdgeCode.fromCode(lineString.trim()));
+				}
+				else
+				{
+					addWarningToList(new ConversionWarning(WarningType.INVALID, 
+							I18n.getText("sheffield.invalidEdgeCode")));	
+					continue;
+				}
 			}
 			
 			// Line 8 - comment
@@ -364,7 +375,7 @@ public class SheffieldReader extends AbstractDendroFileReader {
 							I18n.getText("sheffield.line18TooBig")));
 				}
 				
-				defaults.getStringDefaultValue(DefaultFields.SERIES_TITLE).setValue(lineString);
+				defaults.getStringDefaultValue(DefaultFields.OBJECT_NAME).setValue(lineString);
 			}
 
 			
@@ -581,7 +592,16 @@ public class SheffieldReader extends AbstractDendroFileReader {
 			
 			ArrayList<TridasElement> elements = new ArrayList<TridasElement>();
 			elements.add(e);
-			o.setElements(elements);
+			
+			// Handle subobjects
+			if(o.getObjects()!=null)
+			{
+				o.getObjects().get(0).setElements(elements);
+			}
+			else
+			{
+				o.setElements(elements);
+			}
 			
 			ArrayList<TridasObject> objList = new ArrayList<TridasObject>();
 			objList.add(o);

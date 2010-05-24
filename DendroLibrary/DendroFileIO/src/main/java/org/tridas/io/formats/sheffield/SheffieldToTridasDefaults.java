@@ -17,6 +17,7 @@ import org.tridas.io.defaults.values.IntegerDefaultValue;
 import org.tridas.io.defaults.values.StringDefaultValue;
 import org.tridas.io.formats.heidelberg.HeidelbergToTridasDefaults.DefaultFields;
 import org.tridas.io.formats.sheffield.TridasToSheffieldDefaults.SheffieldDataType;
+import org.tridas.io.formats.sheffield.TridasToSheffieldDefaults.SheffieldEdgeCode;
 import org.tridas.io.formats.sheffield.TridasToSheffieldDefaults.SheffieldPeriodCode;
 import org.tridas.io.formats.sheffield.TridasToSheffieldDefaults.SheffieldShapeCode;
 import org.tridas.io.formats.sheffield.TridasToSheffieldDefaults.SheffieldVariableCode;
@@ -30,11 +31,14 @@ import org.tridas.schema.NormalTridasShape;
 import org.tridas.schema.NormalTridasUnit;
 import org.tridas.schema.NormalTridasVariable;
 import org.tridas.schema.ObjectFactory;
+import org.tridas.schema.PresenceAbsence;
+import org.tridas.schema.TridasBark;
 import org.tridas.schema.TridasCoverage;
 import org.tridas.schema.TridasDerivedSeries;
 import org.tridas.schema.TridasDimensions;
 import org.tridas.schema.TridasElement;
 import org.tridas.schema.TridasGenericField;
+import org.tridas.schema.TridasLastRingUnderBark;
 import org.tridas.schema.TridasLocation;
 import org.tridas.schema.TridasLocationGeometry;
 import org.tridas.schema.TridasMeasurementSeries;
@@ -75,7 +79,8 @@ public class SheffieldToTridasDefaults extends TridasMetadataFieldSet implements
 		SHEFFIELD_PERIOD_CODE,
 		TAXON_CODE,
 		INTERPRETATION_NOTES,
-		SHEFFIELD_VARIABLE_TYPE;
+		SHEFFIELD_VARIABLE_TYPE,
+		SHEFFIELD_EDGE_CODE;
 		
 	}
 	
@@ -103,6 +108,7 @@ public class SheffieldToTridasDefaults extends TridasMetadataFieldSet implements
 		setDefaultValue(DefaultFields.TAXON_CODE, new StringDefaultValue());
 		setDefaultValue(DefaultFields.INTERPRETATION_NOTES, new StringDefaultValue());
 		setDefaultValue(DefaultFields.SHEFFIELD_VARIABLE_TYPE, new GenericDefaultValue<SheffieldVariableCode>());
+		setDefaultValue(DefaultFields.SHEFFIELD_EDGE_CODE, new GenericDefaultValue<SheffieldEdgeCode>());
 
 
 	}
@@ -145,6 +151,9 @@ public class SheffieldToTridasDefaults extends TridasMetadataFieldSet implements
 		{
 			TridasObject subobj = super.getDefaultTridasObject();
 			subobj.setTitle(getStringDefaultValue(DefaultFields.GROUP_PHASE).getValue());
+			ControlledVoc type = new ControlledVoc();
+			type.setValue(I18n.getText("sheffield.groupOrPhase"));
+			subobj.setType(type);
 			ArrayList<TridasObject> objects = new ArrayList<TridasObject>();
 			objects.add(subobj);
 			o.setObjects(objects);
@@ -179,63 +188,66 @@ public class SheffieldToTridasDefaults extends TridasMetadataFieldSet implements
 		try{
 			GenericDefaultValue<SheffieldShapeCode> shapeField = (GenericDefaultValue<SheffieldShapeCode>) getDefaultValue(DefaultFields.SHEFFIELD_SHAPE_CODE); 		
 			sheffieldShape = shapeField.getValue();
+
+			switch(sheffieldShape)
+			{
+			case WHOLE_ROUND_UNTRIMMED:
+				tridasShape.setNormalTridas(NormalTridasShape.WHOLE___SECTION);
+				break;
+			case WHOLE_ROUND_TRIMMED:
+				tridasShape.setNormalTridas(NormalTridasShape.SQUARED___BEAM___FROM___WHOLE___SECTION);
+				break;
+			case WHOLE_ROUND_IRREGULARLY_TRIMMED:
+				tridasShape.setNormalTridas(NormalTridasShape.BEAM___STRAIGHTENED___ON___ONE___SIDE);
+				break;
+			case HALF_ROUND_UNTRIMMED:
+				tridasShape.setNormalTridas(NormalTridasShape.HALF___SECTION);
+				break;
+			case HALF_ROUND_TRIMMED:
+				tridasShape.setNormalTridas(NormalTridasShape.SQUARED___BEAM___FROM___HALF___SECTION);
+				break;
+			case HALF_ROUND_IRREGULARLY_TRIMMED:
+				tridasShape.setNormalTridas(NormalTridasShape.SQUARED___BEAM___FROM___HALF___SECTION);
+				break;
+			case QUARTERED_UNTRIMMED:
+				tridasShape.setNormalTridas(NormalTridasShape.QUARTER___SECTION);
+				break;
+			case QUARTERED_TRIMMED:
+				tridasShape.setNormalTridas(NormalTridasShape.SQUARED___BEAM___FROM___QUARTER___SECTION);
+				break;
+			case QUARTERED_IRREGULARLY_TRIMMED:
+				tridasShape.setNormalTridas(NormalTridasShape.SMALL___PART___OF___SECTION);
+				break;
+			case RADIAL_PLANK_UNTRIMMED:
+				tridasShape.setNormalTridas(NormalTridasShape.PLANK___CUT___ON___ONE___SIDE);
+				break;
+			case RADIAL_PLANK_TRIMMED:
+				tridasShape.setNormalTridas(NormalTridasShape.RADIAL___PLANK___THROUGH___PITH);
+				break;
+			case RADIAL_PLANK_IRREGULARLY_TRIMMED:
+				tridasShape.setNormalTridas(NormalTridasShape.RADIAL___PLANK___UP___TO___PITH);
+				break;
+			case TANGENTIAL_PLANK_UNTRIMMED:
+				tridasShape.setNormalTridas(NormalTridasShape.TANGENTIAL___PLANK___NOT___INCLUDING___PITH___WITH___BREADTH___LARGER___THAN___A___QUARTER___SECTION);
+				break;
+			case TANGENTIAL_PLANK_TRIMMED:
+				tridasShape.setNormalTridas(NormalTridasShape.PLANK___NOT___INCLUDING___PITH___WITH___BREADTH___SMALLER___THAN___A___QUARTER___SECTION);
+				break;
+			case TANGENTIAL_PLANK_IRREGULARLY_TRIMMED:
+				tridasShape.setNormalTridas(NormalTridasShape.PLANK___NOT___INCLUDING___PITH___WITH___BREADTH___SMALLER___THAN___A___QUARTER___SECTION);
+				break;
+			case UNKNOWN:
+				tridasShape.setNormalTridas(NormalTridasShape.UNKNOWN);
+				break;
+			case CORE_UNCLASSIFIABLE:
+				tridasShape.setNormalTridas(NormalTridasShape.UNKNOWN);
+				break;
+			default:
+				break;
+			}
+			e.setShape(tridasShape);
+			
 		} catch (NullPointerException e1){}		
-		switch(sheffieldShape)
-		{
-		case WHOLE_ROUND_UNTRIMMED:
-			tridasShape.setNormalTridas(NormalTridasShape.WHOLE___SECTION);
-			break;
-		case WHOLE_ROUND_TRIMMED:
-			tridasShape.setNormalTridas(NormalTridasShape.SQUARED___BEAM___FROM___WHOLE___SECTION);
-			break;
-		case WHOLE_ROUND_IRREGULARLY_TRIMMED:
-			tridasShape.setNormalTridas(NormalTridasShape.BEAM___STRAIGHTENED___ON___ONE___SIDE);
-			break;
-		case HALF_ROUND_UNTRIMMED:
-			tridasShape.setNormalTridas(NormalTridasShape.HALF___SECTION);
-			break;
-		case HALF_ROUND_TRIMMED:
-			tridasShape.setNormalTridas(NormalTridasShape.SQUARED___BEAM___FROM___HALF___SECTION);
-			break;
-		case HALF_ROUND_IRREGULARLY_TRIMMED:
-			tridasShape.setNormalTridas(NormalTridasShape.SQUARED___BEAM___FROM___HALF___SECTION);
-			break;
-		case QUARTERED_UNTRIMMED:
-			tridasShape.setNormalTridas(NormalTridasShape.QUARTER___SECTION);
-			break;
-		case QUARTERED_TRIMMED:
-			tridasShape.setNormalTridas(NormalTridasShape.SQUARED___BEAM___FROM___QUARTER___SECTION);
-			break;
-		case QUARTERED_IRREGULARLY_TRIMMED:
-			tridasShape.setNormalTridas(NormalTridasShape.SMALL___PART___OF___SECTION);
-			break;
-		case RADIAL_PLANK_UNTRIMMED:
-			tridasShape.setNormalTridas(NormalTridasShape.PLANK___CUT___ON___ONE___SIDE);
-			break;
-		case RADIAL_PLANK_TRIMMED:
-			tridasShape.setNormalTridas(NormalTridasShape.RADIAL___PLANK___THROUGH___PITH);
-			break;
-		case RADIAL_PLANK_IRREGULARLY_TRIMMED:
-			tridasShape.setNormalTridas(NormalTridasShape.RADIAL___PLANK___UP___TO___PITH);
-			break;
-		case TANGENTIAL_PLANK_UNTRIMMED:
-			tridasShape.setNormalTridas(NormalTridasShape.TANGENTIAL___PLANK___NOT___INCLUDING___PITH___WITH___BREADTH___LARGER___THAN___A___QUARTER___SECTION);
-			break;
-		case TANGENTIAL_PLANK_TRIMMED:
-			tridasShape.setNormalTridas(NormalTridasShape.PLANK___NOT___INCLUDING___PITH___WITH___BREADTH___SMALLER___THAN___A___QUARTER___SECTION);
-			break;
-		case TANGENTIAL_PLANK_IRREGULARLY_TRIMMED:
-			tridasShape.setNormalTridas(NormalTridasShape.PLANK___NOT___INCLUDING___PITH___WITH___BREADTH___SMALLER___THAN___A___QUARTER___SECTION);
-			break;
-		case UNKNOWN:
-			tridasShape.setNormalTridas(NormalTridasShape.UNKNOWN);
-			break;
-		case CORE_UNCLASSIFIABLE:
-			tridasShape.setNormalTridas(NormalTridasShape.UNKNOWN);
-			break;
-		default:
-			break;
-		}
 		
 		// Set element dimensions
 		if(  getDoubleDefaultValue(DefaultFields.MAJOR_DIM).getValue()!=null &&
@@ -321,6 +333,50 @@ public class SheffieldToTridasDefaults extends TridasMetadataFieldSet implements
 			wc.setNrOfUnmeasuredOuterRings(getIntegerDefaultValue(DefaultFields.UNMEAS_OUTER_RINGS).getValue());
 		}
 		
+		try{
+			GenericDefaultValue<SheffieldEdgeCode> edgeCodeField = (GenericDefaultValue<SheffieldEdgeCode>) getDefaultValue(DefaultFields.SHEFFIELD_EDGE_CODE); 		
+			TridasLastRingUnderBark lrub;
+			switch(edgeCodeField.getValue())
+			{
+			case BARK:
+				TridasBark bark = new TridasBark();
+				bark.setPresence(PresenceAbsence.PRESENT);
+				wc.setBark(bark);
+				break;
+			case WINTER:
+				wc.getSapwood().setPresence(ComplexPresenceAbsence.COMPLETE);
+				lrub = new TridasLastRingUnderBark();
+				lrub.setPresence(PresenceAbsence.PRESENT);
+				lrub.setContent(I18n.getText("seasons.winter"));
+				wc.getSapwood().setLastRingUnderBark(lrub);
+				break;
+			case SUMMER:
+				wc.getSapwood().setPresence(ComplexPresenceAbsence.COMPLETE);
+				lrub = new TridasLastRingUnderBark();
+				lrub.setPresence(PresenceAbsence.PRESENT);
+				lrub.setContent(I18n.getText("seasons.summer"));
+				wc.getSapwood().setLastRingUnderBark(lrub);
+				break;
+			case HS_BOUNDARY:
+				wc.getSapwood().setPresence(ComplexPresenceAbsence.INCOMPLETE);
+				lrub = new TridasLastRingUnderBark();
+				lrub.setPresence(PresenceAbsence.ABSENT);
+				lrub.setContent(I18n.getText(" "));
+				wc.getSapwood().setLastRingUnderBark(lrub);
+				break;
+			case POSS_HS_BOUNDARY:
+			case NO_SPECFIC_EDGE:
+			case SAP_BARK_UNKNOWN:
+			case CHARRED:
+			case POSSIBLY_CHARRED:
+			case POSS_BARK:
+				// All unhandled as there are no corresponding fields in TRiDaS
+				// Data is put in generic field 
+			}
+			
+			
+			
+		} catch (NullPointerException e){}
 			
 		ms.setWoodCompleteness(wc);
 		return ms;
@@ -435,6 +491,15 @@ public class SheffieldToTridasDefaults extends TridasMetadataFieldSet implements
 			gf.setType("xs:string");
 			gf.setValue(getDefaultValue(DefaultFields.INTERPRETATION_NOTES).getValue().toString());
 			genFields.add(gf);
+		}
+		
+		if(getDefaultValue(DefaultFields.SHEFFIELD_EDGE_CODE).getValue()!=null)
+		{
+			TridasGenericField gf = new ObjectFactory().createTridasGenericField();
+			gf.setName("sheffield.edgeCode");
+			gf.setType("xs:string");
+			gf.setValue(getDefaultValue(DefaultFields.SHEFFIELD_EDGE_CODE).getValue().toString());
+			genFields.add(gf);	
 		}
 		
 		return genFields;
