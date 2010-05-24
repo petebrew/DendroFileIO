@@ -9,6 +9,7 @@ import java.util.Properties;
 import org.tridas.io.formats.tridas.TridasWriter;
 import org.tridas.io.naming.HierarchicalNamingConvention;
 import org.tridas.io.naming.INamingConvention;
+import org.tridas.io.naming.NumericalNamingConvention;
 import org.tridas.io.naming.UUIDNamingConvention;
 import org.tridas.io.util.FileHelper;
 import org.tridas.io.util.IOUtils;
@@ -181,9 +182,13 @@ public class CommandLineUI {
 			if(convention.equalsIgnoreCase("hierarchy")){
 				namingConvention = new HierarchicalNamingConvention();
 			}
-			else{
+			else if (convention.equalsIgnoreCase("uuid")){
 				namingConvention = new UUIDNamingConvention();
 			}
+			else {
+				namingConvention = new NumericalNamingConvention(s.origFilename.substring(0, s.origFilename.lastIndexOf(".")));
+			}
+	
 			
 		    // Write out project
 			try {
@@ -281,7 +286,7 @@ public class CommandLineUI {
 		System.out.println("  -help              - show this help information");
 		System.out.println("  -verbose           - include verbose warnings");
 		System.out.println("  -version           - show version information and quit");
-		System.out.println("  -naming=convention - either uuid or hierarchy (default is uuid)");
+		System.out.println("  -naming=convention - either basic, uuid or hierarchy (default is basic)");
 		System.out.println("  -inputFormat=name  - specify input format name");
 		System.out.println("  -outputFormat=name - specify output format name (default is Tridas)");
 		System.out.println("  -batch             - loads all files in a folder");
