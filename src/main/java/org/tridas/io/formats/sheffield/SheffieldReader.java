@@ -12,7 +12,10 @@ import org.tridas.io.defaults.values.GenericDefaultValue;
 import org.tridas.io.formats.sheffield.SheffieldToTridasDefaults.DefaultFields;
 import org.tridas.io.formats.sheffield.TridasToSheffieldDefaults.SheffieldDataType;
 import org.tridas.io.formats.sheffield.TridasToSheffieldDefaults.SheffieldDateType;
+import org.tridas.io.formats.sheffield.TridasToSheffieldDefaults.SheffieldPeriodCode;
 import org.tridas.io.formats.sheffield.TridasToSheffieldDefaults.SheffieldPithCode;
+import org.tridas.io.formats.sheffield.TridasToSheffieldDefaults.SheffieldShapeCode;
+import org.tridas.io.formats.sheffield.TridasToSheffieldDefaults.SheffieldVariableCode;
 import org.tridas.io.util.CoordinatesUtils;
 import org.tridas.io.util.SafeIntYear;
 import org.tridas.io.warnings.ConversionWarning;
@@ -62,12 +65,12 @@ public class SheffieldReader extends AbstractDendroFileReader {
 		ArrayList<TridasValue> ringWidthValues = new ArrayList<TridasValue>();
 		
 
-		for (int i=0; i<24; i++)
+		for (int lineNum=1; lineNum<=22; lineNum++)
 		{	
-			String lineString = argFileString[i];	
+			String lineString = argFileString[lineNum-1];	
 			
 			// Line 1 - Site name/sample number
-			if(i==0)
+			if(lineNum==1)
 			{	
 				if (lineString.length()>64)
 				{
@@ -83,7 +86,7 @@ public class SheffieldReader extends AbstractDendroFileReader {
 			}
 			
 			// Line 2 - Number of rings
-			if(i==1)
+			else if(lineNum==2)
 			{
 				try{
 					int ringCount = Integer.valueOf(lineString);
@@ -98,7 +101,7 @@ public class SheffieldReader extends AbstractDendroFileReader {
 			
 			// Line 3 - Date type 
 			// TODO How are we handling relative series?
-			if(i==2)
+			else if(lineNum==3)
 			{		
 				if (!lineString.equalsIgnoreCase("A") && (!lineString.equalsIgnoreCase("R")))
 				{
@@ -111,7 +114,7 @@ public class SheffieldReader extends AbstractDendroFileReader {
 			}
 			
 			// Line 4 - Start date
-			if(i==3)
+			else if(lineNum==4)
 			{
 				try{
 					int yearNum = Integer.valueOf(lineString.trim());
@@ -140,7 +143,7 @@ public class SheffieldReader extends AbstractDendroFileReader {
 			}
 			
 			// Line 5 - Data type
-			if(i==4)
+			else if(lineNum==5)
 			{
 				GenericDefaultValue<SheffieldDataType> dataTypeField = (GenericDefaultValue<SheffieldDataType>) defaults.getDefaultValue(DefaultFields.SHEFFIELD_DATA_TYPE); 
 				dataTypeField.setValue(SheffieldDataType.fromCode(lineString));
@@ -148,7 +151,7 @@ public class SheffieldReader extends AbstractDendroFileReader {
 			
 			// Line 6 - sapwood number or number of timbers 
 			// TODO needs completing
-			if(i==5)
+			else if(lineNum==6)
 			{
 				Integer val = 0;
 				try{
@@ -174,13 +177,13 @@ public class SheffieldReader extends AbstractDendroFileReader {
 			
 			
 			// Line 7 - edge code or chronology type TODO
-			if(i==6)
+			else if(lineNum==7)
 			{
 				
 			}
 			
-			// Line 8 - comment TODO
-			if(i==7)
+			// Line 8 - comment
+			else if(lineNum==8)
 			{
 				if (lineString.length()>64)
 				{
@@ -191,13 +194,18 @@ public class SheffieldReader extends AbstractDendroFileReader {
 			}
 			
 			// Line 9 - UK Grid coords
-			if(i==8)
+			else if(lineNum==9)
 			{
-				// TODO We could add PROJ4 lib to convert these but not sure its worth it
+				// We could add PROJ4 lib to convert these but not sure its worth it
+				// For now just add as genericField
+				if(!lineString.equals("?"))
+				{
+					defaults.getStringDefaultValue(DefaultFields.UK_COORDS).setValue(lineString);
+				}
 			}
 			
 			// Line 10 - Lat/Long coords
-			if(i==9)
+			else if(lineNum==10)
 			{
 				Double northing;
 				Double easting;
@@ -235,19 +243,15 @@ public class SheffieldReader extends AbstractDendroFileReader {
 				
 				if(northing!=null && easting!=null)
 				{
-					ArrayList<Double> latlongs = new ArrayList<Double>();
-					latlongs.add(northing);
-					latlongs.add(easting);
-					Pos pos = new Pos();
-					pos.setValues(latlongs);
-					GenericDefaultValue<Pos> posField = (GenericDefaultValue<Pos>) defaults.getDefaultValue(DefaultFields.LAT_LONG); 
-					posField.setValue(pos);
+					
+					defaults.getDoubleDefaultValue(DefaultFields.LATITUDE).setValue(northing);
+					defaults.getDoubleDefaultValue(DefaultFields.LONGITUDE).setValue(easting);
 				}
 				
 			}
 			
 			// Line 11 - Pith
-			if(i==10)
+			else if(lineNum==11)
 			{
 				GenericDefaultValue<ComplexPresenceAbsence> pithField = (GenericDefaultValue<ComplexPresenceAbsence>) defaults.getDefaultValue(DefaultFields.PITH); 
 
@@ -270,21 +274,89 @@ public class SheffieldReader extends AbstractDendroFileReader {
 				}
 			}
 			
-			
-			// Line 12 - Major dimension
-			if(i==11)
+			// Line 12 - Cross-section code
+			else if(lineNum==12)
 			{
+				GenericDefaultValue<SheffieldShapeCode> shapeField = (GenericDefaultValue<SheffieldShapeCode>) defaults.getDefaultValue(DefaultFields.SHEFFIELD_SHAPE_CODE);
 				
+				if(SheffieldShapeCode.fromCode(lineString)!=null)
+				{
+					shapeField.setValue(SheffieldShapeCode.fromCode(lineString));
+				}
+				else
+				{
+					addWarningToList(new ConversionWarning(WarningType.INVALID, 
+							I18n.getText("fileio.invalidDataValue"), "Cross-section code"));	
+					continue;	
+				}
 			}
 			
-			// Line 12 - Minor dimension
-			if(i==11)
+			// Line 13 - Major dimension
+			else if(lineNum==13)
 			{
-				
+				Double dim;
+				try{dim = Double.parseDouble(lineString);
+					defaults.getDoubleDefaultValue(DefaultFields.MAJOR_DIM).setValue(dim);
+				} catch (NumberFormatException e){
+					addWarningToList(new ConversionWarning(WarningType.INVALID, 
+							I18n.getText("fileio.invalidDataValue"), "Major dimension"));	
+					continue;
+				}
+			}
+			
+			// Line 14 - Minor dimension
+			else if(lineNum==14)
+			{
+				Double dim;
+				try{dim = Double.parseDouble(lineString);
+					defaults.getDoubleDefaultValue(DefaultFields.MINOR_DIM).setValue(dim);
+				} catch (NumberFormatException e){
+					addWarningToList(new ConversionWarning(WarningType.INVALID, 
+							I18n.getText("fileio.invalidDataValue"), "Minor dimension"));	
+					continue;
+				}
+			}
+			
+			// Line 15 - Unmeasured inner rings
+			else if(lineNum==15)
+			{
+				try{Integer ringCount = Integer.parseInt(lineString.substring(1));
+					defaults.getIntegerDefaultValue(DefaultFields.UNMEAS_INNER_RINGS).setValue(ringCount);
+				} catch (NumberFormatException e){
+					addWarningToList(new ConversionWarning(WarningType.INVALID, 
+							I18n.getText("fileio.invalidDataValue"), "Unmeasured inner rings"));	
+					continue;
+				}
+			}
+
+			// Line 16 - Unmeasured outer rings
+			else if(lineNum==16)
+			{
+				try{Integer ringCount = Integer.parseInt(lineString.substring(1));
+				defaults.getIntegerDefaultValue(DefaultFields.UNMEAS_OUTER_RINGS).setValue(ringCount);
+				} catch (NumberFormatException e){
+				addWarningToList(new ConversionWarning(WarningType.INVALID, 
+						I18n.getText("fileio.invalidDataValue"), "Unmeasured outer rings"));	
+				continue;
+				}
+			}
+			
+			// Line 17 - Group/phase 
+			else if (lineNum==17)
+			{
+				if (lineString.length()>=14)
+				{
+					addWarningToList(new ConversionWarning(WarningType.NOT_STRICT, 
+							I18n.getText("sheffield.line17TooBig")));
+				}
+				else if (!lineString.equals("?"))
+				{
+					defaults.getStringDefaultValue(DefaultFields.GROUP_PHASE).setValue(lineString);
+				}
 			}
 			
 			// Line 18 - Short title 
-			if (i==17)
+			else if (lineNum==18)
 			{
 				if (lineString.length()>=8)
 				{
@@ -296,8 +368,96 @@ public class SheffieldReader extends AbstractDendroFileReader {
 			}
 
 			
+			// Line 19 - Period 
+			else if (lineNum==19)
+			{
+				GenericDefaultValue<SheffieldPeriodCode> periodField = (GenericDefaultValue<SheffieldPeriodCode>) defaults.getDefaultValue(DefaultFields.SHEFFIELD_PERIOD_CODE);
+				
+				if(SheffieldPeriodCode.fromCode(lineString)!=null)
+				{
+					periodField.setValue(SheffieldPeriodCode.fromCode(lineString));
+				}
+				else
+				{
+					addWarningToList(new ConversionWarning(WarningType.INVALID, 
+							I18n.getText("fileio.invalidDataValue"), "Period code"));	
+					continue;	
+				}
+			}
+			
+			// Line 20 - Species code 
+			else if (lineNum==20)
+			{
+				if(!lineString.equals("?"))
+				{
+					defaults.getStringDefaultValue(DefaultFields.TAXON_CODE).setValue(lineString);
+				}
+			}
+			
+			// Line 21 - Interpretation and anatomical notes 
+			// TODO - Parse value.remarks from these notes
+			else if (lineNum==21)
+			{
+				if(!lineString.equals("?"))
+				{
+					String[] notesArray = lineString.split("~");
+					
+					if(notesArray.length % 3 != 0)
+					{
+						// Notes array does not split into threes
+						addWarningToList(new ConversionWarning(WarningType.INVALID, 
+								I18n.getText("sheffield.interpInvalid")));
+						continue;
+					}
+					
+					for (int i=0; i<notesArray.length; i=i+3)
+					{
+						if(!notesArray[i].equalsIgnoreCase("I") || !notesArray[i].equalsIgnoreCase("A"))
+						{
+							// Each note must begin with an I (interpretation) or an A (anatomy)
+							addWarningToList(new ConversionWarning(WarningType.INVALID, 
+									I18n.getText("sheffield.interpNotIorA")));
+							continue;
+						}
+					}
+					
+					for (int i=1; i<notesArray.length; i=i+3)
+					{
+						try{Integer val = Integer.parseInt(notesArray[i]);
+						} catch (NumberFormatException e)
+						{
+							// The second field of each note must be a year or ring number
+							addWarningToList(new ConversionWarning(WarningType.INVALID, 
+									I18n.getText("sheffield.interpNoNumber")));
+							continue;
+						}
+					}
+					
+					defaults.getStringDefaultValue(DefaultFields.INTERPRETATION_NOTES).setValue(lineString);
+				}
+			}
+			
+			// Line 22 - Variable type
+			else if (lineNum==22)
+			{
+				GenericDefaultValue<SheffieldVariableCode> variableField = (GenericDefaultValue<SheffieldVariableCode>) defaults.getDefaultValue(DefaultFields.SHEFFIELD_VARIABLE_TYPE);
+				
+				if(SheffieldVariableCode.fromCode(lineString)!=null)
+				{
+					variableField.setValue(SheffieldVariableCode.fromCode(lineString));
+				}
+				else
+				{
+					addWarningToList(new ConversionWarning(WarningType.INVALID, 
+							I18n.getText("fileio.invalidDataValue"), "Data variable code"));	
+					continue;	
+				}
+			}
+			
+			
 		}
 		
+		int lineNum = 23;
 		// Extract actual values
 		for (int i=23; i<argFileString.length; i++)
 		{
@@ -313,7 +473,45 @@ public class SheffieldReader extends AbstractDendroFileReader {
 			ringWidthValues.add(v);
 			log.debug("value = "+String.valueOf(argFileString[i]));
 			}
+			else
+			{
+				lineNum = i+1;
+				break;
+			}
+		}
+		
+		
+		// See if we can get counts
+		if(argFileString[lineNum-1].trim().equals("H"))
+		{
+			for (int i=lineNum; i<argFileString.length; i++)
+			{
+				TridasValue v = null;
+				try{
+					v = ringWidthValues.get(i-lineNum);
+				} catch (Exception e){break;}
 				
+				if(!argFileString[i].trim().equals("H") && 
+				   !argFileString[i].trim().equals("R") &&
+				   !argFileString[i].trim().equals("F"))
+				{
+				
+				Integer count;
+					
+				try{ count = Integer.parseInt(argFileString[i]);
+				} catch (NumberFormatException e){
+					break;
+				}
+					
+				v.setCount(count);
+				log.debug("count = "+String.valueOf(count));
+				}
+				else
+				{
+					lineNum = i;
+					break;
+				}
+			}
 			
 		}
 		
@@ -362,17 +560,33 @@ public class SheffieldReader extends AbstractDendroFileReader {
 		TridasProject project = null;
 		
 		try{
-			project = defaults.getProjectWithDefaults(true);
-			TridasObject o = project.getObjects().get(0);
-			TridasElement e = o.getElements().get(0);
-			TridasSample s = e.getSamples().get(0);
+			project = defaults.getProjectWithDefaults(false);
+			TridasObject o = defaults.getDefaultTridasObject();
+			TridasElement e = defaults.getDefaultTridasElement();
+			TridasSample s = defaults.getDefaultTridasSample();
+			TridasRadius r = defaults.getDefaultTridasRadius();
 			
 			if(mseriesList.size()>0)
 			{
-				TridasRadius r = s.getRadiuses().get(0);
 				r.setMeasurementSeries(mseriesList);
 			}
-
+			
+			ArrayList<TridasRadius> radii = new ArrayList<TridasRadius>();
+			radii.add(r);
+			s.setRadiuses(radii);
+			
+			ArrayList<TridasSample> samples = new ArrayList<TridasSample>();
+			samples.add(s);
+			e.setSamples(samples);
+			
+			ArrayList<TridasElement> elements = new ArrayList<TridasElement>();
+			elements.add(e);
+			o.setElements(elements);
+			
+			ArrayList<TridasObject> objList = new ArrayList<TridasObject>();
+			objList.add(o);
+			project.setObjects(objList);
+	
 			} catch (NullPointerException e){
 				
 			} catch (IndexOutOfBoundsException e2){

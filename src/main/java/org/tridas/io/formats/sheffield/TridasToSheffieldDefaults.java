@@ -256,12 +256,14 @@ public class TridasToSheffieldDefaults extends TridasMetadataFieldSet implements
 			code = c;
 		}
 		
-		public final String toString(){ return this.code;}
+		public final String toCode(){ return this.code; }
+		
+		public final String toString(){ return this.name(); }
 	
 		public static SheffieldPeriodCode fromCode(String code)
 		{ 
 			for (SheffieldPeriodCode val : SheffieldPeriodCode.values()){
-				if (val.toString().equalsIgnoreCase(code)) return val;
+				if (val.toCode().equalsIgnoreCase(code)) return val;
 			}
 			return null;	
 		}
@@ -274,8 +276,7 @@ public class TridasToSheffieldDefaults extends TridasMetadataFieldSet implements
 		EARLY_AND_LATE_WOOD_WIDTHS_REVERSED("R"),
 		MINIMUM_DENSITY("I"),
 		MAXIMUM_DENSITY("A"),
-		EARLY_SEQUENTIALLY("S"), //????
-		LATE_SEPARATELY("D"),    //????
+		EARLY_AND_LATE_SEQUENTIALLY("S"), //????
 		MIXED("M");
 
 		private String code;

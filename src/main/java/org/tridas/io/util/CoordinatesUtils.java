@@ -1,5 +1,7 @@
 package org.tridas.io.util;
 
+import java.util.ArrayList;
+
 import net.opengis.gml.schema.PointType;
 import net.opengis.gml.schema.Pos;
 
@@ -42,6 +44,20 @@ public class CoordinatesUtils {
 		}
 		
 		return coords;
+	}
+	
+	public static TridasLocationGeometry getLocationGeometry(Double latitude, Double longitude)
+	{
+		if (latitude==null || longitude==null) return null;
+		
+		Pos pos = new Pos();
+		ArrayList<Double> values = new ArrayList<Double>();
+		
+		values.add(latitude);
+		values.add(longitude);
+		pos.setValues(values);
+		return getLocationGeometry(pos);
+		
 	}
 	
 	public static TridasLocationGeometry getLocationGeometry(Pos pos)
