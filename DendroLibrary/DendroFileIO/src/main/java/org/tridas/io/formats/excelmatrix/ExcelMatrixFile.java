@@ -129,14 +129,17 @@ public class ExcelMatrixFile implements IDendroFile {
 	      
 	      
 	      WritableSheet dataSheet = workbook.createSheet(I18n.getText("general.data"), 0);
+	      writeYearHeaderCol(dataSheet);
 	      //WritableSheet metadataSheet = workbook.createSheet(I18n.getText("general.metadata"), 1);
-	      writeYearCol(dataSheet);
+	      //writeMetadataHeaderCol(metadataSheet);
+	      
 	  
 	      
 	      int col = 1;
 	      for(ITridasSeries series : this.seriesList)
 	      {
 	    	  writeRingWidthColumn(dataSheet,col,series);
+	    	  //writeMetadataColumn(metadataSheet, col, series);
 	    	  col++;
 	      }
 
@@ -145,7 +148,9 @@ public class ExcelMatrixFile implements IDendroFile {
 	      dataSheet.setColumnView(0, cv);
 	      dataSheet.setColumnView(1, cv);
 	      dataSheet.setColumnView(2, cv);
-	      
+	     /* metadataSheet.setColumnView(0, cv);
+	      metadataSheet.setColumnView(1, cv);
+	      metadataSheet.setColumnView(2, cv);*/
 	      
 	      workbook.write();
 	      workbook.close();      
@@ -194,13 +199,33 @@ public class ExcelMatrixFile implements IDendroFile {
 		return dataFormat;
 	}
 	
+	private void writeMetadataHeaderCol(WritableSheet s) throws WriteException
+	{
+		
+	    Label l = new Label(0,0,"Metadata Field",getHeaderFormat());
+	    s.addCell(l);
+		
+		ArrayList<String> metadataKeys = new ArrayList<String>();
+		metadataKeys.add("object.title");
+		metadataKeys.add("element.title");
+		
+		int i =1;
+		for(String field : metadataKeys)
+		{
+		    l = new Label(0,i,field,getDataFormat());
+		    s.addCell(l);
+		    i++;
+		}
+		
+	}
+	
 	/**
 	 * Write the range of years in the first column of the worksheet
 	 * 
 	 * @param s
 	 * @throws WriteException
 	 */
-	private void writeYearCol(WritableSheet s) throws WriteException
+	private void writeYearHeaderCol(WritableSheet s) throws WriteException
 	{
 		if (yrRange==null)
 		{
@@ -245,6 +270,16 @@ public class ExcelMatrixFile implements IDendroFile {
 	    	rowNumber++;
 	    } 
 		
+	}
+	
+	
+	private void writeMetadataColumn(WritableSheet s, Integer col, ITridasSeries series) throws RowsExceededException, WriteException
+	{
+	    // Creates year label
+	    Label l = new Label(col,0,series.getTitle(),getHeaderFormat());
+	    s.addCell(l);
+	    
+	    
 	}
 	
 	/**
