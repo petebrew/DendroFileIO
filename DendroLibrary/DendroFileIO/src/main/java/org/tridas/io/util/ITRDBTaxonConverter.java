@@ -85,7 +85,7 @@ public class ITRDBTaxonConverter {
 		
 		ControlledVoc taxon = new ControlledVoc();
 		
-		if(code==null)
+		if(code==null)	
 		{
 			code = "UNKN";
 		}
