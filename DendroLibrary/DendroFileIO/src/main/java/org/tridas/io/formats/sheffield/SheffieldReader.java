@@ -664,6 +664,13 @@ public class SheffieldReader extends AbstractDendroFileReader {
 	private void checkFile(String[] argStrings) throws InvalidDendroFileException{
 		log.debug("Checking file to see if it looks like a D Format file");
 	
+		// File too short to be valid
+		if(argStrings.length<25)
+		{
+			throw new InvalidDendroFileException(I18n.getText("sheffield.incompleteHeader"), argStrings.length);
+		}
+		
+		
 		// Check none of the header lines are empty
 		for (int i=0; i<24; i++)
 		{

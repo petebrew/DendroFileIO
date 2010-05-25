@@ -37,16 +37,15 @@ import org.tridas.schema.TridasVariable;
 /**
  * Reader for the CATRAS file format.  This is a binary format for software written 
  * by R. Aniol released in 1983.  There are no specifications published for the 
- * format.  This code is based on Matlab and Fortran code of Ronald Visser and Henri 
- * Grissino-Mayer.
+ * format.  This code is based on Matlab, Fortran and C code of Ronald Visser, Henri 
+ * Grissino-Mayer and Ian Tyers.
  * 
  * The following bytes are unaccounted for and are therefore likely to contain data
  * that we are ignoring:
- * 41-43
- * 54
- * 56-66
- * 68
- * 76-84
+ * 
+ * 57-58
+ * 69-82
+ * 105-128
  * 
  * @author peterbrewer
  *
@@ -156,14 +155,34 @@ public class CatrasReader extends AbstractDendroFileReader {
 		}
 				
 		// Extract basic metadata
-		String headertext = new String(getSubByteArray(argFileBytes, 0, 31));    //1-32
-		String seriesCode = new String(getSubByteArray(argFileBytes, 32, 39));   //33-40
-		speciesCode = getIntFromBytePairByPos(argFileBytes, 44);			 	 //44
-		int length = getIntFromBytePair(getSubByteArray(argFileBytes, 44, 45));  //45-46
-		String sapwood = new String(getSubByteArray(argFileBytes, 66, 67));		 //67
-		String dated = new String(getSubByteArray(argFileBytes, 68, 74));    	 //69-75
-		SafeIntYear startyear = new SafeIntYear(getIntFromBytePairByPos(argFileBytes, 54)); //55
-		String userid = new String(getSubByteArray(argFileBytes, 84, 85));       //85-86
+		String headertext = new String(getSubByteArray(argFileBytes, 0, 31));      //1-32
+		String seriesCode = new String(getSubByteArray(argFileBytes, 32, 39));     //33-40
+		String fileExt = new String(getSubByteArray(argFileBytes, 40, 43));        //41-44
+		int length = getIntFromBytePair(getSubByteArray(argFileBytes, 44, 45));    //45-46
+		int saplength = getIntFromBytePair(getSubByteArray(argFileBytes, 46, 47)); //47-48
+		// 49-50   valid start
+		// 51-52   valid end
+		// 53      1=pith 2=waldkante 3=pith to waldkante
+		// 54      1 = ew only last ring
+		SafeIntYear startyear = new SafeIntYear(getIntFromBytePairByPos(argFileBytes, 54)); //55-56
+		// 57-58   Unknown
+		//speciesCode = getIntFromBytePairByPos(argFileBytes, 44);			 	 //44
+		// 59-60   species also needs a catras.wnm file
+		// 61-63   creation date
+		// 64-66   amended date
+		//String sapwood = new String(getSubByteArray(argFileBytes, 66, 67));		   //67
+		// 67-68   1=valid stats
+		// 69-83   Unknown
+		// 84      0=raw 1=treecurve 2=chronology
+		//String dated = new String(getSubByteArray(argFileBytes, 68, 74));    	 //69-75
+		String userid = new String(getSubByteArray(argFileBytes, 84, 87));       //85-86
+		// 89-92   Float av width
+		// 93-95   Float std dev
+		// 96-100  Foat autocorr
+		// 101-104 Float sens
+		// 105-128 Unknown
+		
+		
 		
 		// Log the metadata
 		log.debug("Whole meta = ["+new String(argFileBytes)+"]");
@@ -171,8 +190,8 @@ public class CatrasReader extends AbstractDendroFileReader {
 		log.debug("Speices Code = ["+speciesCode+"]");
 		log.debug("Series Code = ["+seriesCode+"]");
 		log.debug("Length = "+String.valueOf(length));
-		log.debug("Sapwood? = ["+sapwood+"]");
-		log.debug("Dated = ["+dated+"]");
+		//log.debug("Sapwood? = ["+sapwood+"]");
+		//log.debug("Dated = ["+dated+"]");
 		log.debug("Start year = ["+startyear.toTridasYear(DatingSuffix.AD).getValue()+startyear.toTridasYear(DatingSuffix.AD).getSuffix()+"]");
 		log.debug("Userid = ["+userid+"]");
 		
