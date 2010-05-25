@@ -15,6 +15,7 @@ import org.tridas.io.formats.tridas.TridasReader;
 import org.tridas.io.formats.trims.TrimsWriter;
 import org.tridas.io.formats.tucson.TucsonWriter;
 import org.tridas.io.naming.HierarchicalNamingConvention;
+import org.tridas.io.naming.NumericalNamingConvention;
 import org.tridas.io.warnings.ConversionWarningException;
 import org.tridas.io.warnings.IncompleteTridasDataException;
 import org.tridas.io.warnings.InvalidDendroFileException;
@@ -296,7 +297,10 @@ public class TestFromTridas extends TestCase{
 	
 			// Create a new converter based on a TridasProject
 			ExcelMatrixWriter writer = new ExcelMatrixWriter();
+			//TucsonWriter writer = new TucsonWriter();
+
 			try {
+				writer.setNamingConvention(new NumericalNamingConvention(filename.substring(0, filename.lastIndexOf("."))));
 				writer.loadProject(project);
 			} catch (IncompleteTridasDataException e) {
 				e.printStackTrace();
