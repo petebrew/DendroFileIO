@@ -1,15 +1,18 @@
 package org.tridas.io.formats.sheffield;
 
 import java.util.ArrayList;
+import java.util.UUID;
 
 import net.opengis.gml.schema.Pos;
 
 import org.grlea.log.SimpleLogger;
+import org.tridas.interfaces.ITridasSeries;
 import org.tridas.io.AbstractDendroFileReader;
 import org.tridas.io.I18n;
 import org.tridas.io.defaults.IMetadataFieldSet;
 import org.tridas.io.defaults.values.GenericDefaultValue;
 import org.tridas.io.formats.sheffield.SheffieldToTridasDefaults.DefaultFields;
+import org.tridas.io.formats.sheffield.TridasToSheffieldDefaults.SheffieldChronologyType;
 import org.tridas.io.formats.sheffield.TridasToSheffieldDefaults.SheffieldDataType;
 import org.tridas.io.formats.sheffield.TridasToSheffieldDefaults.SheffieldDateType;
 import org.tridas.io.formats.sheffield.TridasToSheffieldDefaults.SheffieldEdgeCode;
@@ -24,15 +27,22 @@ import org.tridas.io.warnings.ConversionWarningException;
 import org.tridas.io.warnings.InvalidDendroFileException;
 import org.tridas.io.warnings.ConversionWarning.WarningType;
 import org.tridas.schema.ComplexPresenceAbsence;
+import org.tridas.schema.ObjectFactory;
+import org.tridas.schema.SeriesLink;
+import org.tridas.schema.SeriesLinks;
+import org.tridas.schema.TridasDerivedSeries;
 import org.tridas.schema.TridasElement;
 import org.tridas.schema.TridasMeasurementSeries;
+import org.tridas.schema.TridasMeasurementSeriesPlaceholder;
 import org.tridas.schema.TridasObject;
 import org.tridas.schema.TridasPith;
 import org.tridas.schema.TridasProject;
 import org.tridas.schema.TridasRadius;
+import org.tridas.schema.TridasRadiusPlaceholder;
 import org.tridas.schema.TridasSample;
 import org.tridas.schema.TridasValue;
 import org.tridas.schema.TridasValues;
+import org.tridas.schema.SeriesLink.IdRef;
 
 /**
  * Reader for the file format produced by Ian Tyers' 
@@ -45,7 +55,7 @@ public class SheffieldReader extends AbstractDendroFileReader {
 	private static final SimpleLogger log = new SimpleLogger(SheffieldReader.class);
 	private TridasProject project = null;
 	private SheffieldToTridasDefaults defaults = new SheffieldToTridasDefaults();
-	private ArrayList<TridasMeasurementSeries> mseriesList = new ArrayList<TridasMeasurementSeries>();
+	private ITridasSeries series;
 	
 	SheffieldDateType dateType =  SheffieldDateType.RELATIVE;
 	
@@ -179,17 +189,39 @@ public class SheffieldReader extends AbstractDendroFileReader {
 			// Line 7 - edge code or chronology type 
 			else if(lineNum==7)
 			{
-				GenericDefaultValue<SheffieldEdgeCode> edgeCodeField = (GenericDefaultValue<SheffieldEdgeCode>) defaults.getDefaultValue(DefaultFields.SHEFFIELD_EDGE_CODE); 
-
-				if(SheffieldEdgeCode.fromCode(lineString.trim())!=null)
+				GenericDefaultValue<SheffieldDataType> dataTypeField = (GenericDefaultValue<SheffieldDataType>) defaults.getDefaultValue(DefaultFields.SHEFFIELD_DATA_TYPE); 
+				
+				if (dataTypeField.getValue().equals(SheffieldDataType.ANNUAL_RAW_RING_WIDTH))
 				{
-					edgeCodeField.setValue(SheffieldEdgeCode.fromCode(lineString.trim()));
+					// Raw data so this field is for edge code
+					GenericDefaultValue<SheffieldEdgeCode> edgeCodeField = (GenericDefaultValue<SheffieldEdgeCode>) defaults.getDefaultValue(DefaultFields.SHEFFIELD_EDGE_CODE); 
+	
+					if(SheffieldEdgeCode.fromCode(lineString.trim())!=null)
+					{
+						edgeCodeField.setValue(SheffieldEdgeCode.fromCode(lineString.trim()));
+					}
+					else
+					{
+						addWarningToList(new ConversionWarning(WarningType.INVALID, 
+								I18n.getText("sheffield.invalidEdgeCode")));	
+						continue;
+					}
 				}
 				else
 				{
-					addWarningToList(new ConversionWarning(WarningType.INVALID, 
-							I18n.getText("sheffield.invalidEdgeCode")));	
-					continue;
+					// This field is for chronology type
+					GenericDefaultValue<SheffieldChronologyType> chronologyTypeField = (GenericDefaultValue<SheffieldChronologyType>) defaults.getDefaultValue(DefaultFields.SHEFFIELD_CHRONOLOGY_TYPE); 
+					
+					if(SheffieldChronologyType.fromCode(lineString.trim())!=null)
+					{
+						chronologyTypeField.setValue(SheffieldChronologyType.fromCode(lineString.trim()));
+					}
+					else
+					{
+						addWarningToList(new ConversionWarning(WarningType.INVALID, 
+								I18n.getText("sheffield.invalidChronologyType")));	
+						continue;
+					}
 				}
 			}
 			
@@ -537,22 +569,41 @@ public class SheffieldReader extends AbstractDendroFileReader {
 		}
 		
 		
+		GenericDefaultValue<SheffieldDataType> dataTypeField = (GenericDefaultValue<SheffieldDataType>) defaults.getDefaultValue(DefaultFields.SHEFFIELD_DATA_TYPE); 
 		
-		// Now build up our measurementSeries	
-		TridasMeasurementSeries series = defaults.getMeasurementSeriesWithDefaults();
+		if (dataTypeField.getValue().equals(SheffieldDataType.ANNUAL_RAW_RING_WIDTH))
+		{
+			// Now build up our measurementSeries	
+			TridasMeasurementSeries series = defaults.getMeasurementSeriesWithDefaults();
+			
+			// Add values to nested value(s) tags
+			TridasValues valuesGroup = defaults.getTridasValuesWithDefaults();
+			valuesGroup.setValues(ringWidthValues);
+			ArrayList<TridasValues> valuesGroupList = new ArrayList<TridasValues>();
+			valuesGroupList.add(valuesGroup);	
+			
+			// Add all the data to the series
+			series.setValues(valuesGroupList);
+	
+			this.series = series;
+		}
+		else
+		{
+			// Now build up our measurementSeries	
+			TridasDerivedSeries series = defaults.getDerivedSeriesWithDefaults();
+			
+			// Add values to nested value(s) tags
+			TridasValues valuesGroup = defaults.getTridasValuesWithDefaults();
+			valuesGroup.setValues(ringWidthValues);
+			ArrayList<TridasValues> valuesGroupList = new ArrayList<TridasValues>();
+			valuesGroupList.add(valuesGroup);	
+			
+			// Add all the data to the series
+			series.setValues(valuesGroupList);
+	
+			this.series = series;
+		}
 		
-		// Add values to nested value(s) tags
-		TridasValues valuesGroup = defaults.getTridasValuesWithDefaults();
-		valuesGroup.setValues(ringWidthValues);
-		ArrayList<TridasValues> valuesGroupList = new ArrayList<TridasValues>();
-		valuesGroupList.add(valuesGroup);	
-		
-		// Add all the data to the series
-		series.setValues(valuesGroupList);
-
-		// Add series to our list
-		mseriesList.add(series);
-
 
 	}
 
@@ -569,18 +620,29 @@ public class SheffieldReader extends AbstractDendroFileReader {
 	@Override
 	public TridasProject getProject() {
 		TridasProject project = null;
+		TridasObject o = null;
+		TridasElement e = null;
+		TridasSample s = null;
+		TridasRadius r = null;
 		
 		try{
 			project = defaults.getProjectWithDefaults(false);
-			TridasObject o = defaults.getDefaultTridasObject();
-			TridasElement e = defaults.getDefaultTridasElement();
-			TridasSample s = defaults.getDefaultTridasSample();
-			TridasRadius r = defaults.getDefaultTridasRadius();
-			
-			if(mseriesList.size()>0)
-			{
-				r.setMeasurementSeries(mseriesList);
-			}
+			o = defaults.getDefaultTridasObject();
+			e = defaults.getDefaultTridasElement();
+			s = defaults.getDefaultTridasSample();
+			r = defaults.getDefaultTridasRadius();
+		} catch (NullPointerException e3){} 
+		  catch (IndexOutOfBoundsException e2){}
+		
+		if(series==null)
+		{
+			project = defaults.getProjectWithDefaults(true);
+		}
+		else if(series instanceof TridasMeasurementSeries)
+		{
+			ArrayList<TridasMeasurementSeries> mseriesList = new ArrayList<TridasMeasurementSeries>();
+			mseriesList.add((TridasMeasurementSeries) series);
+			r.setMeasurementSeries(mseriesList);
 			
 			ArrayList<TridasRadius> radii = new ArrayList<TridasRadius>();
 			radii.add(r);
@@ -606,15 +668,55 @@ public class SheffieldReader extends AbstractDendroFileReader {
 			ArrayList<TridasObject> objList = new ArrayList<TridasObject>();
 			objList.add(o);
 			project.setObjects(objList);
-	
-			} catch (NullPointerException e){
-				
-			} catch (IndexOutOfBoundsException e2){
-				
+		}	
+		else if (series instanceof TridasDerivedSeries)
+		{			
+			TridasMeasurementSeriesPlaceholder msph = new TridasMeasurementSeriesPlaceholder();
+			msph.setId("XREF-"+UUID.randomUUID().toString() );
+			TridasRadiusPlaceholder rph = new TridasRadiusPlaceholder();
+			
+			rph.setMeasurementSeriesPlaceholder(msph);
+			s.setRadiusPlaceholder(rph);
+			
+			ArrayList<TridasSample> samples = new ArrayList<TridasSample>();
+			samples.add(s);
+			e.setSamples(samples);
+			
+			ArrayList<TridasElement> elements = new ArrayList<TridasElement>();
+			elements.add(e);
+			
+			// Handle subobjects
+			if(o.getObjects()!=null)
+			{
+				o.getObjects().get(0).setElements(elements);
+			}
+			else
+			{
+				o.setElements(elements);
 			}
 			
+			ArrayList<TridasObject> objList = new ArrayList<TridasObject>();
+			objList.add(o);
+			project.setObjects(objList);
 			
-			return project;
+			// Do Link to measurementSeriesPlaceholder
+			SeriesLink link = new ObjectFactory().createSeriesLink();
+			IdRef ref = new ObjectFactory().createSeriesLinkIdRef();
+			ArrayList<SeriesLink> linkList = new ArrayList<SeriesLink>();
+			ref.setRef(msph);
+			link.setIdRef(ref);
+			linkList.add(link);	
+			SeriesLinks linkseries = new SeriesLinks();
+			linkseries.setSeries(linkList);		
+			((TridasDerivedSeries)series).setLinkSeries(linkseries);
+		
+			
+			ArrayList<TridasDerivedSeries> dseriesList = new ArrayList<TridasDerivedSeries>();
+			dseriesList.add((TridasDerivedSeries) series);
+			project.setDerivedSeries(dseriesList);
+			
+		}
+		return project;
 	}
 	
 	/**
