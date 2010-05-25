@@ -16,6 +16,7 @@ import org.tridas.io.defaults.values.GenericDefaultValue;
 import org.tridas.io.defaults.values.IntegerDefaultValue;
 import org.tridas.io.defaults.values.StringDefaultValue;
 import org.tridas.io.formats.heidelberg.HeidelbergToTridasDefaults.DefaultFields;
+import org.tridas.io.formats.sheffield.TridasToSheffieldDefaults.SheffieldChronologyType;
 import org.tridas.io.formats.sheffield.TridasToSheffieldDefaults.SheffieldDataType;
 import org.tridas.io.formats.sheffield.TridasToSheffieldDefaults.SheffieldEdgeCode;
 import org.tridas.io.formats.sheffield.TridasToSheffieldDefaults.SheffieldPeriodCode;
@@ -80,7 +81,8 @@ public class SheffieldToTridasDefaults extends TridasMetadataFieldSet implements
 		TAXON_CODE,
 		INTERPRETATION_NOTES,
 		SHEFFIELD_VARIABLE_TYPE,
-		SHEFFIELD_EDGE_CODE;
+		SHEFFIELD_EDGE_CODE,
+		SHEFFIELD_CHRONOLOGY_TYPE;
 		
 	}
 	
@@ -109,8 +111,7 @@ public class SheffieldToTridasDefaults extends TridasMetadataFieldSet implements
 		setDefaultValue(DefaultFields.INTERPRETATION_NOTES, new StringDefaultValue());
 		setDefaultValue(DefaultFields.SHEFFIELD_VARIABLE_TYPE, new GenericDefaultValue<SheffieldVariableCode>());
 		setDefaultValue(DefaultFields.SHEFFIELD_EDGE_CODE, new GenericDefaultValue<SheffieldEdgeCode>());
-
-
+		setDefaultValue(DefaultFields.SHEFFIELD_CHRONOLOGY_TYPE, new GenericDefaultValue<SheffieldChronologyType>());
 	}
 
 	/**
@@ -286,7 +287,7 @@ public class SheffieldToTridasDefaults extends TridasMetadataFieldSet implements
 		TridasRadius r = super.getDefaultTridasRadius();
 		return r;
 	}
-	
+		
 	/**
 	 * @see org.tridas.io.defaults.TridasMetadataFieldSet#getDefaultTridasMeasurementSeries()
 	 */
@@ -390,11 +391,35 @@ public class SheffieldToTridasDefaults extends TridasMetadataFieldSet implements
 	@Override
 	protected TridasDerivedSeries getDefaultTridasDerivedSeries() {
 		TridasDerivedSeries ds = super.getDefaultTridasDerivedSeries();
-		
+
 		ds.setTitle(getStringDefaultValue(DefaultFields.SERIES_TITLE).getStringValue());
+		ds.setComments(getStringDefaultValue(DefaultFields.SERIES_COMMENT).getStringValue());
 		
-		return ds;
+		// Start year info
+		try{
+			GenericDefaultValue<SafeIntYear> startYearField = (GenericDefaultValue<SafeIntYear>) getDefaultValue(DefaultFields.START_YEAR); 		
+			ds.getInterpretation().setFirstYear(startYearField.getValue().toTridasYear(DatingSuffix.AD));
+		} catch (NullPointerException e){}
 		
+		// Get any generic fields 
+		if(getDerivedSeriesGenericFields().size()>0)
+		{
+			ds.setGenericFields(getDerivedSeriesGenericFields());
+		}
+		
+		try{
+			GenericDefaultValue<SheffieldChronologyType> chronologyTypeField = (GenericDefaultValue<SheffieldChronologyType>) getDefaultValue(DefaultFields.SHEFFIELD_CHRONOLOGY_TYPE); 		
+			if(chronologyTypeField.getValue()!=null)
+			{			
+				ControlledVoc chronType = new ControlledVoc();
+				chronType.setNormalStd("Sheffield D-Format");
+				chronType.setNormalId(chronologyTypeField.getValue().toCode());
+				chronType.setNormal(chronologyTypeField.getValue().toString());
+				ds.setType(chronType);
+			}			
+		} catch (NullPointerException e){}
+		
+		return ds;	
 	}
 	
 	@SuppressWarnings("unchecked")
@@ -505,4 +530,33 @@ public class SheffieldToTridasDefaults extends TridasMetadataFieldSet implements
 		return genFields;
 		
 	}
+	
+	
+	private ArrayList<TridasGenericField> getDerivedSeriesGenericFields(){
+		
+		ArrayList<TridasGenericField>genFields = new ArrayList<TridasGenericField>(); 
+		
+		
+		if(getDefaultValue(DefaultFields.SHEFFIELD_DATA_TYPE).getValue()!=null)
+		{
+			TridasGenericField gf = new ObjectFactory().createTridasGenericField();
+			gf.setName("sheffield.dataType");
+			gf.setType("xs:string");
+			gf.setValue(getDefaultValue(DefaultFields.SHEFFIELD_DATA_TYPE).getValue().toString());
+			genFields.add(gf);
+		}
+		
+		if(getDefaultValue(DefaultFields.INTERPRETATION_NOTES).getValue()!=null)
+		{
+			TridasGenericField gf = new ObjectFactory().createTridasGenericField();
+			gf.setName("sheffield.interpretationAndAnatomyNotes");
+			gf.setType("xs:string");
+			gf.setValue(getDefaultValue(DefaultFields.INTERPRETATION_NOTES).getValue().toString());
+			genFields.add(gf);
+		}
+		
+		return genFields;
+		
+	}
+	
 }

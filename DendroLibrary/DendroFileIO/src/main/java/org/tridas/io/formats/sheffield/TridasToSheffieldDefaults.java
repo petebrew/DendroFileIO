@@ -1,5 +1,6 @@
 package org.tridas.io.formats.sheffield;
 
+import org.apache.commons.lang.WordUtils;
 import org.tridas.io.I18n;
 import org.tridas.io.defaults.IMetadataFieldSet;
 import org.tridas.io.defaults.TridasMetadataFieldSet;
@@ -167,12 +168,14 @@ public class TridasToSheffieldDefaults extends TridasMetadataFieldSet implements
 			code = c;
 		}
 		
-		public final String toString(){ return this.code;}
+		public final String toString(){ return WordUtils.capitalize(this.name().toLowerCase());}
+		
+		public final String toCode(){ return this.code;}
 	
 		public static SheffieldChronologyType fromCode(String code)
 		{ 
 			for (SheffieldChronologyType val : SheffieldChronologyType.values()){
-				if (val.toString().equalsIgnoreCase(code)) return val;
+				if (val.toCode().equalsIgnoreCase(code)) return val;
 			}
 			return null;	
 		}
