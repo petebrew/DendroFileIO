@@ -66,4 +66,52 @@ nice WE
 cath
 
 
+***********************
+
+
+Dear Catherine and Pascale,
+ 
+I have understood from a mail from Patrick and other mails that (a) Catherine uses SYLPH-based Besancon format and (b) Pascale and Patrick use the original Besancon. 
+ 
+Thanks to you Peter now has a good idea of the SYLPH-Besancon format. But he (and I) are unclear about the original format. Pascale, could you send Peter ascii (text) files of the formats you use for measurement series and average chronologies? He needs them soon (today or tomorrow), because the programming of reformatting code is nearing its end.
+ 
+About this original format , quoting from a mail from Patrick:
+I don't know if the lab of Catherine Lavier can help us. That's true taht the program they are using now (SYLPHE) is not a programm we have in Liège. We are excactly in the situation of Besançon (we never moved near another format) as Peter explained in his mail:
+- "." beginning of a serie
+- 3 letters to indentify some years: ORI (=1st ring); TER (=last ring); AUB (= aubier = the date of the 1st ring of sapwood); CAM (cambium preserved).
+- a "," = missing ring etc. 
+- ";" end of the serie
+Except these imortant caracters, the rest is completly free text where we note the number of the sample, the ray, the values, etc.
+It is really important that the original Besancon format is included in the I/O Library, because it is used by two of the DCCD project partners (Pascale, Patrick - 5500 series!) and f.ex. the University of Besancon still uses this format as well. So please help us to understand the differences between the two formats!
+ 
+Cheers,
+Esther
+
+
+***********************
+
+Hi Esther and Peter,
+just come back lab.
+Thanks for Rémi, he is also at lab now waiting for recovery and we hope 
+no more "bad things".
+
+I don't really understand what I have to do concerning what Liège uses, 
+except to send more examples I promised to Peter last Friday for today: 
+there are attached.
+
+Probably Sylphe-users can change the name of the format to be sure there 
+is no misunderstanding ? just SYLPHE-format ?
+
+I will be absent this afternoon from 13:00 : second program about 
+Egyptian objects (coffins with Louvre and Vatican)
+but I can read my emails this evening. Tomorrow, I will be at lab near 
+my phone if necessary
+
+A book is about to be published about Roman boats found at Lyon : I will 
+try to send a copy to Yardeny ...
+
+Best regards, and Thanks to both
+Cath and Rémi
+
+
 
