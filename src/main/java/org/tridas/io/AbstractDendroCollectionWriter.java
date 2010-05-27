@@ -155,7 +155,7 @@ public abstract class AbstractDendroCollectionWriter implements IDendroCollectio
 	/**
 	 * Clears the file list
 	 */
-	public void clearFileList(){
+	public void clearFiles(){
 		fileList.clear();
 	}
 

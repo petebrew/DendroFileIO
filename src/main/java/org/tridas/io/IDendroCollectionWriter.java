@@ -40,6 +40,8 @@ public interface IDendroCollectionWriter {
 	 */
 	public IDendroFile[] getFiles();
 	
+	public void clearFiles();
+	
 	/**
 	 * Set the naming convention
 	 * @param argConvension

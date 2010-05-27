@@ -73,6 +73,10 @@ public class ConversionWarning {
 		return field;
 	}
 	
+	public String toString(){
+		return type+" - "+message+(field!=null?" at field "+field:"");
+	}
+	
 	
 	/**
 	 * Warning types that can be raised
