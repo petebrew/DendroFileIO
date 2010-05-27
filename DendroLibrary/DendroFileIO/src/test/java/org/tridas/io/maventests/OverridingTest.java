@@ -52,7 +52,7 @@ public class OverridingTest extends TestCase {
 		assertTrue(keyCodeFound);
 		assertTrue(dateBeginFound);
 		
-		writer.clearFileList();
+		writer.clearFiles();
 		
 		defaults.getIntegerDefaultValue(HeidelbergField.DATEBEGIN).setOverriding(false);
 		writer.loadProject(project, defaults);

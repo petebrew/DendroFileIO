@@ -22,7 +22,7 @@ public class NumericalNamingConvention extends AbstractNamingConvention {
 	private String baseFilename;
 	
 	public NumericalNamingConvention(){
-		setBaseFilename("");
+		setBaseFilename(null);
 	}
 	
 	public NumericalNamingConvention(String argBaseName){
@@ -57,7 +57,11 @@ public class NumericalNamingConvention extends AbstractNamingConvention {
 		// since AbstractNamingConvension handles numerically naming
 		// files with the same filename, we'll just return the same
 		// filename every time
-		return baseFilename;
+		if(baseFilename != null){
+			return baseFilename;			
+		}else{
+			return argFile.getWriter().getShortName();
+		}
 	}
 	
 	@Override

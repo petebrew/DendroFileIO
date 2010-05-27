@@ -240,6 +240,9 @@ public class TridasIO {
 		if(!loaded){
 			load();
 		}
+		if(!extensionMap.containsKey(argExtension.toLowerCase())){
+			return null;
+		}
 		return getFileReader(extensionMap.get(argExtension.toLowerCase()).toLowerCase());
 	}
 	
