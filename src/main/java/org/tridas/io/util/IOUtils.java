@@ -21,6 +21,9 @@ import java.nio.charset.Charset;
 import java.util.zip.GZIPInputStream;
 import java.util.zip.GZIPOutputStream;
 
+import javax.swing.JFileChooser;
+import javax.swing.JFrame;
+
 import org.grlea.log.DebugLevel;
 import org.grlea.log.SimpleLogger;
 
@@ -45,51 +48,89 @@ public class IOUtils {
 	 */
 
 
-	public static File inputFile(Frame argParent) {
+	public static File inputFile(JFrame argParent) {
 		return inputFile("Select a file...", argParent);
 	}
+	
+	public static File[] inputFiles(JFrame argParent){
+		return inputFiles("Select a file...", argParent);
+	}
 
 	/**
 	 * The parentFrame is the Frame that will guide the placement of the prompt
 	 * window. If no Frame is available, just pass in null.
 	 */
 
-	public static File inputFile(String argPrompt, Frame argParentFrame) {
-		if (argParentFrame == null) {
-			argParentFrame = new Frame();
+	public static File inputFile(String argPrompt, JFrame argParentFrame) {
+		if(argParentFrame == null){
+			argParentFrame = new JFrame(argPrompt);
 		}
-		FileDialog fd = new FileDialog(argParentFrame, argPrompt, FileDialog.LOAD);
-		fd.setVisible(true);
-
-		String directory = fd.getDirectory();
-		String filename = fd.getFile();
-		if (filename == null) {
+		JFileChooser fd = new JFileChooser();
+		fd.setFileSelectionMode(JFileChooser.FILES_ONLY);
+		fd.setMultiSelectionEnabled(false);
+		int retValue = fd.showOpenDialog(argParentFrame);
+		if(retValue == JFileChooser.APPROVE_OPTION){
+			return fd.getSelectedFile();
+		}else{
 			return null;
 		}
-		return new File(directory, filename);
+	}
+	
+	public static File[] inputFiles(String argPrompt, JFrame argParentFrame){
+		if(argParentFrame == null){
+			argParentFrame = new JFrame(argPrompt);
+		}
+		JFileChooser fd = new JFileChooser();
+		fd.setFileSelectionMode(JFileChooser.FILES_ONLY);
+		fd.setMultiSelectionEnabled(true);
+		int retValue = fd.showOpenDialog(argParentFrame);
+		if(retValue == JFileChooser.APPROVE_OPTION){
+			return fd.getSelectedFiles();
+		}else{
+			return null;
+		}
 	}
 
-	public static File outputFile(Frame parentFrame) {
+	public static File outputFile(JFrame parentFrame) {
 		return outputFile("Save as...", parentFrame);
 	}
+	
+	public static File[] outputFiles(JFrame argParentFrame){
+		return outputFiles("Save as...", argParentFrame);
+	}
 
 	/**
 	 * The parentFrame is the Frame that will guide the placement of the prompt
 	 * window. If no Frame is available, just pass in null.
 	 */
-	public static File outputFile(String prompt, Frame parentFrame) {
-		if (parentFrame == null) {
-			parentFrame = new Frame();
+	public static File outputFile(String argPrompt, JFrame argParentFrame) {
+		if(argParentFrame == null){
+			argParentFrame = new JFrame(argPrompt);
 		}
-		FileDialog fd = new FileDialog(parentFrame, prompt, FileDialog.SAVE);
-		fd.setVisible(true);
-
-		String directory = fd.getDirectory();
-		String filename = fd.getFile();
-		if (filename == null) {
+		JFileChooser fd = new JFileChooser();
+		fd.setFileSelectionMode(JFileChooser.FILES_ONLY);
+		fd.setMultiSelectionEnabled(false);
+		int retValue = fd.showSaveDialog(argParentFrame);
+		if(retValue == JFileChooser.APPROVE_OPTION){
+			return fd.getSelectedFile();
+		}else{
 			return null;
 		}
-		return new File(directory, filename);
+	}
+	
+	public static File[] outputFiles(String argPrompt, JFrame argParentFrame){
+		if(argParentFrame == null){
+			argParentFrame = new JFrame(argPrompt);
+		}
+		JFileChooser fd = new JFileChooser();
+		fd.setFileSelectionMode(JFileChooser.FILES_ONLY);
+		fd.setMultiSelectionEnabled(true);
+		int retValue = fd.showSaveDialog(argParentFrame);
+		if(retValue == JFileChooser.APPROVE_OPTION){
+			return fd.getSelectedFiles();
+		}else{
+			return null;
+		}
 	}
 
 	/*
