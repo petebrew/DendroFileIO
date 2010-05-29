@@ -70,6 +70,9 @@ public class HeidelbergWriter extends AbstractDendroCollectionWriter {
 					if( s.isSetRadiusPlaceholder()){
 						// we have to search through all derived series to find the one matching our placeholder id
 						for(TridasDerivedSeries ds : argProject.getDerivedSeries()){
+							if(ds.getId() == null){
+								throw new IncompleteTridasDataException("Id in derived series was null");
+							}
 							if(ds.getId().equals(s.getRadiusPlaceholder().getMeasurementSeriesPlaceholder().getId())){
 								TridasToHeidelbergDefaults dsDefaults = (TridasToHeidelbergDefaults) elementDefaults.clone();
 								dsDefaults.populateFromDerivedSeries(ds);
