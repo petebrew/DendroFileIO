@@ -55,6 +55,10 @@ public class IOUtils {
 	public static File[] inputFiles(JFrame argParent){
 		return inputFiles("Select a file...", argParent);
 	}
+	
+	public static File outputFolder(JFrame argParent){
+		return outputFolder("Select a folder...", argParent);
+	}
 
 	/**
 	 * The parentFrame is the Frame that will guide the placement of the prompt
@@ -109,6 +113,21 @@ public class IOUtils {
 		}
 		JFileChooser fd = new JFileChooser();
 		fd.setFileSelectionMode(JFileChooser.FILES_ONLY);
+		fd.setMultiSelectionEnabled(false);
+		int retValue = fd.showSaveDialog(argParentFrame);
+		if(retValue == JFileChooser.APPROVE_OPTION){
+			return fd.getSelectedFile();
+		}else{
+			return null;
+		}
+	}
+	
+	public static File outputFolder(String argPrompt, JFrame argParentFrame) {
+		if(argParentFrame == null){
+			argParentFrame = new JFrame(argPrompt);
+		}
+		JFileChooser fd = new JFileChooser();
+		fd.setFileSelectionMode(JFileChooser.DIRECTORIES_ONLY);
 		fd.setMultiSelectionEnabled(false);
 		int retValue = fd.showSaveDialog(argParentFrame);
 		if(retValue == JFileChooser.APPROVE_OPTION){
