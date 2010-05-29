@@ -174,14 +174,14 @@ public abstract class AbstractDendroCollectionWriter implements IDendroCollectio
 	 * 
 	 * @param warning
 	 */
-	protected void addWarningToList(ConversionWarning warning){
+	public void addWarning(ConversionWarning warning){
 		warnings.add(warning);
 	}
 	
 	/**
 	 * Clear list of warnings
 	 */
-	protected void clearWarnings(){
+	public void clearWarnings(){
 		warnings.clear();
 	}
 }
