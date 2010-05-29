@@ -49,7 +49,7 @@ public class CSVWriter extends AbstractDendroCollectionWriter {
 			for (TridasDerivedSeries ds : lst)
 			{
 				// Create a TrimsFile for each and add to file list
-				CSVFile file = new CSVFile(defaults, this);
+				CSVFile file = new CSVFile(defaults);
 				naming.registerFile(file, argProject, ds);
 				file.setSeries(ds);
 				this.addToFileList(file);
@@ -119,7 +119,7 @@ public class CSVWriter extends AbstractDendroCollectionWriter {
 							for (TridasMeasurementSeries ser : serList)
 							{
 								// Create a TrimsFile for each and add to file list
-								CSVFile file = new CSVFile(defaults, this);
+								CSVFile file = new CSVFile(defaults);
 								naming.registerFile(file, argProject, obj, el, s, r, ser);
 								file.setSeries(ser);
 								this.addToFileList(file);	

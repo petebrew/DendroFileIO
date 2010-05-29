@@ -16,6 +16,7 @@ import org.tridas.interfaces.ITridasSeries;
 import org.tridas.io.IDendroCollectionWriter;
 import org.tridas.io.IDendroFile;
 import org.tridas.io.TridasNamespacePrefixMapper;
+import org.tridas.io.defaults.IMetadataFieldSet;
 import org.tridas.io.util.IOUtils;
 import org.tridas.io.warnings.ConversionWarning;
 import org.tridas.io.warnings.ConversionWarning.WarningType;
@@ -41,10 +42,11 @@ public class TridasFile implements IDendroFile {
 	private final static SimpleLogger log = new SimpleLogger(TridasFile.class);
 	
 	TridasProject project;
-	private final IDendroCollectionWriter writer;
+
+	private IMetadataFieldSet defaults;
 	
-	public TridasFile(IDendroCollectionWriter argWriter) {
-		writer = argWriter;
+	public TridasFile(IMetadataFieldSet argDefaults) {
+		defaults = argDefaults;
 	}
 	
 	public void setProject(TridasProject p){
@@ -66,7 +68,7 @@ public class TridasFile implements IDendroFile {
 		} catch (SAXException e) {
 			log.error("Error getting TRiDaS schema for validation, not using.");
 			log.dbe(DebugLevel.L2_ERROR, e);
-			writer.getWarnings().add(new ConversionWarning(WarningType.DEFAULT, "Error getting TRiDaS schema for validation, not using."));
+			defaults.addConversionWarning(new ConversionWarning(WarningType.DEFAULT, "Error getting TRiDaS schema for validation, not using."));
 		}
 		
 		
@@ -86,7 +88,7 @@ public class TridasFile implements IDendroFile {
 		} catch (JAXBException e) {
 			log.error("Jaxb error");
 			log.dbe(DebugLevel.L2_ERROR, e);
-			writer.getWarnings().add(new ConversionWarning(WarningType.FILE_IGNORED, "Jaxb error, check log"));
+			defaults.addConversionWarning(new ConversionWarning(WarningType.FILE_IGNORED, "Jaxb error, check log"));
 			return null;
 		}
 		
@@ -110,10 +112,10 @@ public class TridasFile implements IDendroFile {
 	}
 
 	/**
-	 * @see org.tridas.io.IDendroFile#getWriter()
+	 * @see org.tridas.io.IDendroFile#getDefaults()
 	 */
 	@Override
-	public IDendroCollectionWriter getWriter() {
-		return writer;
+	public IMetadataFieldSet getDefaults() {
+		return defaults;
 	}
 }

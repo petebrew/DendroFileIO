@@ -43,7 +43,7 @@ public class TrimsWriter extends AbstractDendroCollectionWriter {
 			for (TridasDerivedSeries ds : lst)
 			{
 				// Create a TrimsFile for each and add to file list
-				TrimsFile file = new TrimsFile(defaults, this);
+				TrimsFile file = new TrimsFile(defaults);
 				naming.registerFile(file, argProject, ds);
 				file.setSeries(ds);
 				this.addToFileList(file);
@@ -113,7 +113,7 @@ public class TrimsWriter extends AbstractDendroCollectionWriter {
 							for (TridasMeasurementSeries ser : serList)
 							{
 								// Create a TrimsFile for each and add to file list
-								TrimsFile file = new TrimsFile(defaults, this);
+								TrimsFile file = new TrimsFile(defaults);
 								naming.registerFile(file, argProject, obj, el, s, r, ser);
 								file.setSeries(ser);
 								this.addToFileList(file);	

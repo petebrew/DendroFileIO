@@ -7,6 +7,7 @@ import org.tridas.interfaces.ITridasSeries;
 import org.tridas.io.I18n;
 import org.tridas.io.IDendroCollectionWriter;
 import org.tridas.io.IDendroFile;
+import org.tridas.io.defaults.IMetadataFieldSet;
 import org.tridas.io.defaults.values.StringDefaultValue;
 import org.tridas.io.formats.heidelberg.TridasToHeidelbergDefaults.HeidelbergField;
 import org.tridas.io.util.StringUtils;
@@ -21,7 +22,6 @@ public class HeidelbergFile implements IDendroFile {
 	
 	public static final int DATA_CHARS_PER_NUMBER = 6;
 
-	private IDendroCollectionWriter writer;
 	private ITridasSeries series = null;
 	private TridasToHeidelbergDefaults defaults;
 	
@@ -31,7 +31,6 @@ public class HeidelbergFile implements IDendroFile {
 	private int numTridasValues;
 	
 	public HeidelbergFile(IDendroCollectionWriter argWriter, TridasToHeidelbergDefaults argDefaults){
-		writer = argWriter;
 		defaults = argDefaults;
 	}
 	
@@ -79,7 +78,7 @@ public class HeidelbergFile implements IDendroFile {
 		}
 		if(maximumLength > DATA_CHARS_PER_NUMBER){
 			log.warn(I18n.getText("heidelberg.numbersTooLarge", DATA_CHARS_PER_NUMBER+""));
-			writer.getWarnings().add( new ConversionWarning(
+			defaults.addConversionWarning(new ConversionWarning(
 					WarningType.WORK_AROUND,
 					I18n.getText("heidelberg.numbersTooLarge", String.valueOf(DATA_CHARS_PER_NUMBER))
 					));
@@ -102,7 +101,7 @@ public class HeidelbergFile implements IDendroFile {
 		}
 		if(sdv.getStringValue().equals("mm")){
 			log.error(I18n.getText("heidelberg.couldNotReduceUnits"));
-			writer.getWarnings().add(new ConversionWarning(WarningType.IGNORED, I18n.getText("heidelberg.couldNotReduceUnits")));
+			defaults.addConversionWarning(new ConversionWarning(WarningType.IGNORED, I18n.getText("heidelberg.couldNotReduceUnits")));
 			sdv.setValue(null);
 		}else if(sdv.getStringValue().equals("1/10 mm")){
 			sdv.setValue("mm");
@@ -127,11 +126,6 @@ public class HeidelbergFile implements IDendroFile {
 	@Override
 	public ITridasSeries[] getSeries() {
 		return new ITridasSeries[]{ series };
-	}
-
-	@Override
-	public IDendroCollectionWriter getWriter() {
-		return writer;
 	}
 
 	@Override
@@ -177,5 +171,13 @@ public class HeidelbergFile implements IDendroFile {
 			return;
 		}
 		argList.add(argKeyString+"="+defaults.getDefaultValue(argEnum).getStringValue());
+	}
+
+	/**
+	 * @see org.tridas.io.IDendroFile#getDefaults()
+	 */
+	@Override
+	public IMetadataFieldSet getDefaults() {
+		return defaults;
 	}
 }

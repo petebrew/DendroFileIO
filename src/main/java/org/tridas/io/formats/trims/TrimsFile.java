@@ -22,13 +22,11 @@ import org.tridas.schema.TridasValue;
 
 public class TrimsFile implements IDendroFile {
 	
-	private final IDendroCollectionWriter writer;
 	private TridasToTrimsDefaults defaults;
 	private ArrayList<Integer> data = new ArrayList<Integer>();
 	
-	public TrimsFile(IMetadataFieldSet argDefaults, IDendroCollectionWriter argWriter){
+	public TrimsFile(IMetadataFieldSet argDefaults){
 		this.defaults = (TridasToTrimsDefaults) argDefaults;
-		writer = argWriter;
 	}
 	
 	
@@ -166,11 +164,6 @@ public class TrimsFile implements IDendroFile {
 	}
 
 	@Override
-	public IDendroCollectionWriter getWriter() {
-		return writer;
-	}
-
-	@Override
 	public String[] saveToString() {
 
 		StringBuilder string = new StringBuilder();
@@ -187,6 +180,15 @@ public class TrimsFile implements IDendroFile {
 		
 		return string.toString().split("\n");
 		
+	}
+
+
+	/**
+	 * @see org.tridas.io.IDendroFile#getDefaults()
+	 */
+	@Override
+	public IMetadataFieldSet getDefaults() {
+		return defaults;
 	}
 
 }

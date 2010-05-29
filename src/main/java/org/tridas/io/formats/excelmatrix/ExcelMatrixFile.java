@@ -45,13 +45,10 @@ public class ExcelMatrixFile implements IDendroFile {
 	private ArrayList<ITridasSeries> seriesList = new ArrayList<ITridasSeries>();
 	private YearRange yrRange;
 	private DatingSuffix calendar = DatingSuffix.AD;
-	private final IDendroCollectionWriter writer;
+	private IMetadataFieldSet defaults;	
 	
-	
-	public ExcelMatrixFile(IMetadataFieldSet defaults,
-			ExcelMatrixWriter excelMatrixWriter) {
-		writer = excelMatrixWriter;
-		
+	public ExcelMatrixFile(IMetadataFieldSet argDefaults) {
+		defaults = argDefaults;
 	}
 
 	public void setSeriesList(ArrayList<ITridasSeries> lst)
@@ -103,12 +100,7 @@ public class ExcelMatrixFile implements IDendroFile {
 		// TODO Auto-generated method stub
 		return null;
 	}
-
-	@Override
-	public IDendroCollectionWriter getWriter() {
-		return this.writer;
-	}
-
+	
 	@Override
 	public String[] saveToString() {
 		
@@ -324,6 +316,12 @@ public class ExcelMatrixFile implements IDendroFile {
 		    row++;
 		}
 	}
-	
-	
+
+	/**
+	 * @see org.tridas.io.IDendroFile#getDefaults()
+	 */
+	@Override
+	public IMetadataFieldSet getDefaults() {
+		return defaults;
+	}
 }

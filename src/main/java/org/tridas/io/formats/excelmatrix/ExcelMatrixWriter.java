@@ -68,7 +68,7 @@ public class ExcelMatrixWriter extends AbstractDendroCollectionWriter {
 		}
 
 		
-		ExcelMatrixFile file = new ExcelMatrixFile(argDefaults, this);
+		ExcelMatrixFile file = new ExcelMatrixFile(argDefaults);
 		
 		file.setSeriesList(seriesList);
 		this.addToFileList(file);
