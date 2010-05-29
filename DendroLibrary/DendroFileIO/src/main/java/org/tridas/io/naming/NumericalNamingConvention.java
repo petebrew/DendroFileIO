@@ -60,7 +60,7 @@ public class NumericalNamingConvention extends AbstractNamingConvention {
 		if(baseFilename != null){
 			return baseFilename;			
 		}else{
-			return argFile.getWriter().getShortName();
+			return argFile.getClass().getSimpleName();
 		}
 	}
 	

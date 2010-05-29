@@ -46,7 +46,7 @@ public class TridasWriter extends AbstractDendroCollectionWriter {
 			
 		}
 		
-		TridasFile file = new TridasFile(this);
+		TridasFile file = new TridasFile(argDefaults);
 		
 		file.setProject(p);
 		TridasProject project = p;

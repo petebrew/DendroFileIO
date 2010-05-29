@@ -1,6 +1,7 @@
 package org.tridas.io;
 
 import org.tridas.interfaces.ITridasSeries;
+import org.tridas.io.defaults.IMetadataFieldSet;
 
 /**
  * Interface for all Dendro File Formats.
@@ -9,12 +10,6 @@ import org.tridas.interfaces.ITridasSeries;
  *
  */
 public interface IDendroFile {
-	
-	/**
-	 * Get the writer of this file.
-	 * @return
-	 */
-	public IDendroCollectionWriter getWriter();
 	
 	/**
 	 * Saves the file to strings.
@@ -33,4 +28,10 @@ public interface IDendroFile {
 	 * @return
 	 */
 	public String getExtension();
+	
+	/**
+	 * Gets the defaults that this file uses to save the file
+	 * @return
+	 */
+	public IMetadataFieldSet getDefaults();
 }

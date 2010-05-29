@@ -132,6 +132,10 @@ public abstract class AbstractMetadataFieldSet implements IMetadataFieldSet {
 		log.debug("Warning from defaults: "+w);
 		warnings.add(w);
 	}
+	
+	public void addConversionWarning(ConversionWarning argWarning){
+		warnings.add(argWarning);
+	}
 
 	/**
 	 * @see org.tridas.io.defaults.IMetadataFieldSet2#getConversionWarnings()

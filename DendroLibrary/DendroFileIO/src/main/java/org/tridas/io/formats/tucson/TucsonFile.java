@@ -130,12 +130,9 @@ public class TucsonFile implements IDendroFile{
 	 */
 	private YearRange range = null;
 	
-	private final IDendroCollectionWriter writer;
-	
 	public TucsonFile(IMetadataFieldSet argDefaults, IDendroCollectionWriter argWriter){
 		this.defaults = (TridasToTucsonDefaults) argDefaults;
 		seriesList = new ArrayList<ITridasSeries>();
-		writer = argWriter;
 	}
 	
 	/**
@@ -249,7 +246,7 @@ public class TucsonFile implements IDendroFile{
 		if(latitude==null || longitude==null)
 		{
 			defaults.getStringDefaultValue(TucsonField.LATLONG).setValue("");
-			writer.getWarnings().add(new ConversionWarning(
+			defaults.addConversionWarning(new ConversionWarning(
 					WarningType.NULL_VALUE,
 					I18n.getText("tucson.latlong.notnull"),
 					I18n.getText("tucson")+"."+I18n.getText("tucson.latlong"))
@@ -258,7 +255,7 @@ public class TucsonFile implements IDendroFile{
 		if(latitude.compareTo(Double.valueOf("90"))>0 || latitude.compareTo(Double.valueOf("-90"))<0)
 		{
 			defaults.getStringDefaultValue(TucsonField.LATLONG).setValue("");
-			writer.getWarnings().add(new ConversionWarning(
+			defaults.addConversionWarning(new ConversionWarning(
 					WarningType.INVALID,
 					I18n.getText("tucson.latitude.invalid", String.valueOf(latitude)),
 					I18n.getText("tucson")+"."+I18n.getText("tucson.latlong"))
@@ -267,7 +264,7 @@ public class TucsonFile implements IDendroFile{
 		if(longitude.compareTo(Double.valueOf("180"))>0 || longitude.compareTo(Double.valueOf("-180"))<0)
 		{
 			defaults.getStringDefaultValue(TucsonField.LATLONG).setValue("");
-			writer.getWarnings().add(new ConversionWarning(
+			defaults.addConversionWarning(new ConversionWarning(
 					WarningType.INVALID,
 					I18n.getText("tucson.longitude.invalid", String.valueOf(longitude)),
 					I18n.getText("tucson")+"."+I18n.getText("tucson.latlong"))
@@ -330,7 +327,7 @@ public class TucsonFile implements IDendroFile{
 					&& SafeIntYear.min(rng.getStart(), new SafeIntYear(1))==rng.getStart()
 					&& this.useEightThousandYearOffsetBodge)
 			{
-				writer.getWarnings().add(new ConversionWarning(
+				defaults.addConversionWarning(new ConversionWarning(
 						WarningType.UNREPRESENTABLE,
 						I18n.getText("tucson.range.8000BCand2000AD"),
 						I18n.getText("tucson")+"."+I18n.getText("tucson.range"))
@@ -340,7 +337,7 @@ public class TucsonFile implements IDendroFile{
 			// Warn sternly if years are before 8000BC
 			if (SafeIntYear.min(rng.getStart(), new SafeIntYear(-8001))==rng.getStart())
 			{
-				writer.getWarnings().add(new ConversionWarning(
+				defaults.addConversionWarning(new ConversionWarning(
 						WarningType.UNREPRESENTABLE,
 						I18n.getText("tucson.range.8000BC"),
 						I18n.getText("tucson")+"."+I18n.getText("tucson.range"))
@@ -351,7 +348,7 @@ public class TucsonFile implements IDendroFile{
 			if (SafeIntYear.min(rng.getStart(), new SafeIntYear(1))==rng.getStart() 
 					&& this.useEightThousandYearOffsetBodge)
 			{
-				writer.getWarnings().add(new ConversionWarning(
+				defaults.addConversionWarning(new ConversionWarning(
 						WarningType.WORK_AROUND,
 						I18n.getText("tucson.range.usingBodge"),
 						I18n.getText("tucson")+"."+I18n.getText("tucson.range"))
@@ -362,7 +359,7 @@ public class TucsonFile implements IDendroFile{
 			if (SafeIntYear.min(rng.getStart(), new SafeIntYear(1))==rng.getStart() 
 					&& !this.useEightThousandYearOffsetBodge)
 			{
-				writer.getWarnings().add(new ConversionWarning(WarningType.UNREPRESENTABLE,
+				defaults.addConversionWarning(new ConversionWarning(WarningType.UNREPRESENTABLE,
 						I18n.getText("tucson.range.noBodge"),
 						I18n.getText("tucson")+"."+I18n.getText("tucson.range"))
 						);
@@ -642,10 +639,10 @@ public class TucsonFile implements IDendroFile{
 	}
 
 	/**
-	 * @see org.tridas.io.IDendroFile#getWriter()
+	 * @see org.tridas.io.IDendroFile#getDefaults()
 	 */
 	@Override
-	public IDendroCollectionWriter getWriter() {
-		return writer;
+	public IMetadataFieldSet getDefaults() {
+		return defaults;
 	}
 }

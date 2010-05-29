@@ -35,6 +35,8 @@ public interface IMetadataFieldSet extends Cloneable {
 	 */
 	public ArrayList<ConversionWarning> getConversionWarnings();
 	
+	public void addConversionWarning(ConversionWarning argWarning);
+	
 	/**
 	 * Get the default value object for the given Enum
 	 * @param argValueType

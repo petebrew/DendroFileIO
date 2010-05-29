@@ -16,13 +16,11 @@ import org.tridas.schema.TridasValue;
 
 public class BelfastAppleFile implements IDendroFile {
 	
-	private final IDendroCollectionWriter writer;
 	private TridasToBelfastAppleDefaults defaults;
 	private ArrayList<Integer> data = new ArrayList<Integer>();
 	
 	public BelfastAppleFile(IMetadataFieldSet argDefaults, IDendroCollectionWriter argWriter){
 		this.defaults = (TridasToBelfastAppleDefaults) argDefaults;
-		writer = argWriter;
 	}
 	
 	/**
@@ -89,12 +87,7 @@ public class BelfastAppleFile implements IDendroFile {
 		// TODO Auto-generated method stub
 		return null;
 	}
-
-	@Override
-	public IDendroCollectionWriter getWriter() {
-		return writer;
-	}
-
+	
 	@Override
 	public String[] saveToString() {
 
@@ -112,6 +105,14 @@ public class BelfastAppleFile implements IDendroFile {
 		
 		return string.toString().split("\n");
 		
+	}
+
+	/**
+	 * @see org.tridas.io.IDendroFile#getDefaults()
+	 */
+	@Override
+	public IMetadataFieldSet getDefaults() {
+		return defaults;
 	}
 
 }

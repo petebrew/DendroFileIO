@@ -23,15 +23,13 @@ import org.tridas.schema.TridasValue;
  *
  */
 public class CSVFile implements IDendroFile {
-	
-	private final IDendroCollectionWriter writer;
+
 	private TridasToCSVDefaults defaults;
 	private ArrayList<Integer> data = new ArrayList<Integer>();
 	private SafeIntYear startYear = new SafeIntYear(1001);
 	
-	public CSVFile(IMetadataFieldSet argDefaults, IDendroCollectionWriter argWriter){
+	public CSVFile(IMetadataFieldSet argDefaults){
 		this.defaults = (TridasToCSVDefaults) argDefaults;
-		writer = argWriter;
 	}
 	
 	
@@ -79,11 +77,6 @@ public class CSVFile implements IDendroFile {
 	}
 
 	@Override
-	public IDendroCollectionWriter getWriter() {
-		return writer;
-	}
-
-	@Override
 	public String[] saveToString() {
 
 		StringBuilder string = new StringBuilder();
@@ -103,6 +96,15 @@ public class CSVFile implements IDendroFile {
 		
 		return string.toString().split("\n");
 		
+	}
+
+
+	/**
+	 * @see org.tridas.io.IDendroFile#getDefaults()
+	 */
+	@Override
+	public IMetadataFieldSet getDefaults() {
+		return defaults;
 	}
 
 }
