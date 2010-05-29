@@ -90,4 +90,8 @@ public interface IDendroCollectionWriter {
 	 * @return
 	 */
 	public List<ConversionWarning> getWarnings();
+	
+	public void addWarning(ConversionWarning argWarning);
+	
+	public void clearWarnings();
 }

@@ -142,7 +142,7 @@ public class TucsonWriter extends AbstractDendroCollectionWriter {
 		for(TridasObject o : objList)
 		{
 			try { parseObject(p, o);}
-				catch(ConversionWarningException w){ this.addWarningToList(w.getWarning());};			
+				catch(ConversionWarningException w){ this.addWarning(w.getWarning());};			
 		}
 
 	}
