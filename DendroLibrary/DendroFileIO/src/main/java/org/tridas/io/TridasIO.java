@@ -42,7 +42,7 @@ public class TridasIO {
 	private static boolean charsetDetection = false;
 	private static boolean loaded = false;
 	
-	private static void load(){
+	static{
 		// register file readers/writers
 		registerFileReader(BelfastAppleReader.class);
 		registerFileReader(BelfastArchiveReader.class);
@@ -102,20 +102,20 @@ public class TridasIO {
 		
 		// it worked, so get filetypes
 		String[] filetypes = reader.getFileExtensions();
-		String name = reader.getShortName().toLowerCase();
+		String name = reader.getShortName();
 		
 		if(filetypes == null){
 			log.error(I18n.getText("fileio.fileExtensionNull", argReader.getName()));
 			return;
 		}
 		
-		TridasIOEntry entry = converterMap.get(name);
+		TridasIOEntry entry = converterMap.get(name.toLowerCase());
 		
 		if(entry == null){
 			entry = new TridasIOEntry();
 			entry.fileReader = argReader;
 			entry.formatName = name;
-			converterMap.put(name, entry);
+			converterMap.put(name.toLowerCase(), entry);
 		}else{
 			if(entry.fileReader == null){
 				entry.fileReader = argReader;
@@ -160,14 +160,14 @@ public class TridasIO {
 			return;
 		}
 		
-		String name = writer.getShortName().toLowerCase();
+		String name = writer.getShortName();
 		
-		TridasIOEntry entry = converterMap.get(name);
+		TridasIOEntry entry = converterMap.get(name.toLowerCase());
 		if(entry == null){
 			entry = new TridasIOEntry();
 			entry.fileWriter = argWriter;
 			entry.formatName = name;
-			converterMap.put(name, entry);
+			converterMap.put(name.toLowerCase(), entry);
 		}else{
 			if(entry.fileWriter == null){
 				entry.fileWriter = argWriter;
@@ -192,9 +192,6 @@ public class TridasIO {
 	 * @return
 	 */
 	public synchronized static IDendroCollectionWriter getFileWriter(String argFormatName){
-		if(!loaded){
-			load();
-		}
 		TridasIOEntry e = converterMap.get(argFormatName.toLowerCase());
 		if(e == null || e.fileWriter == null){
 			return null;
@@ -215,9 +212,6 @@ public class TridasIO {
 	 * @return
 	 */
 	public synchronized static IDendroFileReader getFileReader(String argFormatName){
-		if(!loaded){
-			load();
-		}
 		TridasIOEntry e = converterMap.get(argFormatName.toLowerCase());
 		if(e == null || e.fileReader == null){
 			return null;
@@ -237,9 +231,6 @@ public class TridasIO {
 	 * @return
 	 */
 	public synchronized static IDendroFileReader getFileReaderFromExtension(String argExtension){
-		if(!loaded){
-			load();
-		}
 		if(!extensionMap.containsKey(argExtension.toLowerCase())){
 			return null;
 		}
@@ -252,8 +243,8 @@ public class TridasIO {
 	 * @return
 	 */
 	public synchronized static IDendroCollectionWriter getFileWriterFromExtension(String argExtension){
-		if(!loaded){
-			load();
+		if(!extensionMap.containsKey(argExtension.toLowerCase())){
+			return null;
 		}
 		return getFileWriter(extensionMap.get(argExtension.toLowerCase()).toLowerCase());
 	}
@@ -263,14 +254,11 @@ public class TridasIO {
 	 * @return
 	 */
 	public synchronized static String[] getSupportedReadingFormats(){
-		if(!loaded){
-			load();
-		}
 		ArrayList<String> list = new ArrayList<String>();
 		for(String extension : converterMap.keySet()){
 			TridasIOEntry entry = converterMap.get(extension);
 			if(entry.fileReader != null){
-				list.add(extension);
+				list.add(entry.formatName);
 			}
 		}
 		Collections.sort(list);
@@ -282,14 +270,11 @@ public class TridasIO {
 	 * @return
 	 */
 	public synchronized static String[] getSupportedWritingFormats(){
-		if(!loaded){
-			load();
-		}
 		ArrayList<String> list = new ArrayList<String>();
 		for(String extension : converterMap.keySet()){
 			TridasIOEntry entry = converterMap.get(extension);
 			if(entry.fileWriter != null){
-				list.add(extension);
+				list.add(entry.formatName);
 			}
 		}
 		Collections.sort(list);

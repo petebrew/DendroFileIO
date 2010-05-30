@@ -13,6 +13,7 @@ import javax.xml.validation.Schema;
 import javax.xml.validation.SchemaFactory;
 import javax.xml.validation.Validator;
 
+import org.grlea.log.SimpleLogger;
 import org.tridas.io.AbstractDendroFileReader;
 import org.tridas.io.I18n;
 import org.tridas.io.defaults.IMetadataFieldSet;
@@ -33,6 +34,8 @@ import org.xml.sax.SAXException;
  */
 public class TridasReader extends AbstractDendroFileReader {
 
+	private static final SimpleLogger log = new SimpleLogger(TridasReader.class);
+	
 	private TridasProject project = null;
 	
 	
@@ -56,10 +59,12 @@ public class TridasReader extends AbstractDendroFileReader {
 		Schema schema = null;
 		try {
 			schema = factory.newSchema(file);
-		} catch (SAXException e) {
-			throw new InvalidDendroFileException(
-					I18n.getText("tridas.schemaMissing", 
-							e.getLocalizedMessage()), 1);
+		} catch (Exception e) {
+			// if we can't find the schema it's ok, doesn't mean it's not an invalid dendro file
+			log.error(I18n.getText("tridas.schemaMissing", 
+					e.getLocalizedMessage()));
+			addWarningToList(new ConversionWarning(WarningType.INVALID, I18n.getText("tridas.schemaMissing", 
+							e.getLocalizedMessage())));
 		}
 		Validator validator = schema.newValidator();
 		StreamSource source = new StreamSource();
