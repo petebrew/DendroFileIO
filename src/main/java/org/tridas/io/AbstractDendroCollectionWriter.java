@@ -93,7 +93,7 @@ public abstract class AbstractDendroCollectionWriter implements IDendroCollectio
 	 */
 	public void saveAllToDisk(String argOutputFolder){
 		if(argOutputFolder.contains("\\")){
-			argOutputFolder.replaceAll("\\", "/");
+			argOutputFolder.replaceAll("\\\\", "/");
 		}
 		
 		if(!argOutputFolder.endsWith("/") && !argOutputFolder.equals("")){
