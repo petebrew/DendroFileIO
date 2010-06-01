@@ -8,8 +8,11 @@ import java.util.HashMap;
 import java.util.Set;
 
 import org.grlea.log.SimpleLogger;
+import org.tridas.io.defaults.values.BooleanDefaultValue;
+import org.tridas.io.defaults.values.DateTimeDefaultValue;
 import org.tridas.io.defaults.values.DoubleDefaultValue;
 import org.tridas.io.defaults.values.IntegerDefaultValue;
+import org.tridas.io.defaults.values.SafeIntYearDefaultValue;
 import org.tridas.io.defaults.values.StringDefaultValue;
 import org.tridas.io.warnings.ConversionWarning;
 import org.tridas.io.warnings.ConversionWarning.WarningType;
@@ -67,6 +70,25 @@ public abstract class AbstractMetadataFieldSet implements IMetadataFieldSet {
 	}
 	
 	/**
+	 * Helper method to return the {@link SafeIntYearDefaultValue} object
+	 * @param argValueType
+	 * @return the {@link SafeIntYearDefaultValue} if mapped, or null if not mapped or 
+	 * the key isn't mapped to an {@link SafeIntYearDefaultValue}.
+	 */
+	public SafeIntYearDefaultValue getSafeIntYearDefaultValue(Enum<?> argValueType){
+		AbstractDefaultValue<?> val = getDefaultValue(argValueType);
+		if(val instanceof SafeIntYearDefaultValue){
+			return (SafeIntYearDefaultValue) val;
+		}else{
+			log.debug("The default value object returned by the field '"+argValueType+"' was not" +
+			" an SafeIntYearDefaultValue");
+			return null;
+		}
+	}
+	
+	
+	
+	/**
 	 * Helper method to return the {@link DoubleDefaultValue} object
 	 * @param argValueType
 	 * @return the {@link DoubleDefaultValue} if mapped, or null if not mapped or 
@@ -83,6 +105,39 @@ public abstract class AbstractMetadataFieldSet implements IMetadataFieldSet {
 		}
 	}
 	
+	/**
+	 * Helper method to return the {@link BooleanDefaultValue} object;
+	 * @param argValueType
+	 * @return the {@link BooleanDefaultValue} if mapped, or null if not mapped or 
+	 * the key isn't mapped to an {@link BooleanDefaultValue}.
+	 */
+	public BooleanDefaultValue getBooleanDefaultValue(Enum<?> argValueType){
+		AbstractDefaultValue<?> val = getDefaultValue(argValueType);
+		if(val instanceof BooleanDefaultValue){
+			return (BooleanDefaultValue) val;
+		}else{
+			log.debug("The default value object returned by the field '"+argValueType+"' was not" +
+					" a BooleanDefaultValue");
+			return null;
+		}
+	}
+	
+	/**
+	 * Helper method to return the {@link DateTimeDefaultValue} object;
+	 * @param argValueType
+	 * @return the {@link DateTimeDefaultValue} if mapped, or null if not mapped or 
+	 * the key isn't mapped to an {@link DateTimeDefaultValue}.
+	 */
+	public DateTimeDefaultValue getDateTimeDefaultValue(Enum<?> argValueType){
+		AbstractDefaultValue<?> val = getDefaultValue(argValueType);
+		if(val instanceof DateTimeDefaultValue){
+			return (DateTimeDefaultValue) val;
+		}else{
+			log.debug("The default value object returned by the field '"+argValueType+"' was not" +
+					" a DateTimeDefaultValue");
+			return null;
+		}
+	}
 	
 	/**
 	 * Helper method to return the {@link StringDefaultValue} object;

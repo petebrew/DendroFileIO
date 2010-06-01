@@ -12,6 +12,7 @@ import org.tridas.io.formats.catras.CatrasReader;
 import org.tridas.io.formats.csv.CSVWriter;
 import org.tridas.io.formats.heidelberg.HeidelbergReader;
 import org.tridas.io.formats.sheffield.SheffieldReader;
+import org.tridas.io.formats.sylphe.SylpheReader;
 import org.tridas.io.formats.tridas.TridasReader;
 import org.tridas.io.formats.tridas.TridasWriter;
 import org.tridas.io.formats.trims.TrimsReader;
@@ -433,6 +434,60 @@ public class TestToTridas extends TestCase {
 				
 			TridasWriter writer = new TridasWriter();
 			writer.setNamingConvention(new UUIDNamingConvention());
+			
+			try {
+				writer.loadProject(myproject, new TridasMetadataFieldSet());
+			} catch (IncompleteTridasDataException e) {
+				fail();
+			} catch (ConversionWarningException e) {
+			} catch (IncorrectDefaultFieldsException e) {
+				fail();
+			}
+			writer.saveAllToDisk(outputLocation);
+		
+			
+		}
+		
+		
+		
+	}
+	
+	public void testSypheToTridas() 
+	{
+		String folder = "TestData/SYLPHE";
+		String[] files = getFilesFromFolder(folder);
+		
+		if (files.length==0) fail();
+		
+		for (String filename : files)
+		{	
+			log.info("Test conversion of: "+filename);	
+		
+			// Create a new converter
+			SylpheReader reader = new SylpheReader();
+	
+			// Parse the legacy data file
+			try {
+				//TridasEntitiesFromDefaults def = new TridasEntitiesFromDefaults();
+				reader.loadFile(folder, filename);
+				} catch (IOException e) {
+					// Standard IO Exception
+					log.info(e.getLocalizedMessage());
+					return;
+				} catch (InvalidDendroFileException e) {
+					// Fatal error interpreting file
+					log.info(e.getLocalizedMessage());
+					return;
+				}
+						
+			
+			// Extract the TridasProject
+			TridasProject myproject = reader.getProject();
+			
+				
+			TridasWriter writer = new TridasWriter();
+			NumericalNamingConvention nc = new NumericalNamingConvention("test");
+			writer.setNamingConvention(nc);
 			
 			try {
 				writer.loadProject(myproject, new TridasMetadataFieldSet());
