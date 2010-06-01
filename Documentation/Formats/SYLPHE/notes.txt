@@ -1,0 +1,4 @@
+Beware!
+
+- No fullstops allowed anywhere in file other than at the beginning of the title line.
+- Hyphens have special meaning in the title line
