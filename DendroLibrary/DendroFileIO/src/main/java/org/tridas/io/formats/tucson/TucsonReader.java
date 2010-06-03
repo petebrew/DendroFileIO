@@ -1,6 +1,8 @@
 package org.tridas.io.formats.tucson;
 
 import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.HashSet;
 import java.util.List;
 import java.util.UUID;
 import java.util.regex.Matcher;
@@ -73,6 +75,10 @@ public class TucsonReader extends AbstractDendroFileReader {
 	private SafeIntYear lastYearMarker = null;
 	private Boolean isChronology = null;
 	
+	private HashSet<String> headerKeycode6 = new HashSet<String>();
+	private HashSet<String> headerKeycode8 = new HashSet<String>();
+
+	
 	private int currentLineNumber = 0;
 	
 	public TucsonReader() {
@@ -92,6 +98,7 @@ public class TucsonReader extends AbstractDendroFileReader {
 		boolean isValidFile = isValidFile(argFileString);
 		
 		
+		
 		int index = 0;
 		
 		String headercache1 = argFileString[0];
@@ -104,6 +111,14 @@ public class TucsonReader extends AbstractDendroFileReader {
 		for( ; index < argFileString.length; index++){
 			String line = argFileString[index];
 			currentLineNumber = index+1;
+						
+			// Skip blank lines
+			if((line==null) || (line.equals("")))
+			{
+				addWarningToList(new ConversionWarning(WarningType.IGNORED, 
+						I18n.getText("tucson.blankLine", String.valueOf(currentLineNumber))));
+				continue;
+			}
 			
 			switch (getLineType(line))
 			{
@@ -154,7 +169,7 @@ public class TucsonReader extends AbstractDendroFileReader {
 				case RWL_DATA:
 				case RWL_DATA_PARTIAL:
 				case RWL_DATA_COMPLETE:
-					
+										
 					// Clear header cache and load data
 					headercache1=null; headercache2=null; headercache3=null;
 					
@@ -233,12 +248,22 @@ public class TucsonReader extends AbstractDendroFileReader {
 		ArrayList<TridasValue> thisDecadesValues = new ArrayList<TridasValue>();
 		
 		// Work out if we're using 6 or 8 digit series codes
+		if(line.substring(6, 8).equals("  "))
+		{
+			
+		}
+		
+		/* Older regex code, not reliable enough
 		String regex = "^[\\d\\w\\s]{8}[\\s\\d-]{4}";
 	    Pattern p1 = Pattern.compile(regex,Pattern.CASE_INSENSITIVE | Pattern.DOTALL);
 	    Matcher m1 = p1.matcher(line);
 	    int codeLength = 6;
 	    if(m1.find()) codeLength=8;
-				
+		*/
+		
+		int codeLength = getKeycodeLength();
+		
+		
 	    // Extract the code and then remove
 		String thisCode = line.substring(0, codeLength);
 		line = line.substring(codeLength);
@@ -390,12 +415,15 @@ public class TucsonReader extends AbstractDendroFileReader {
 		ArrayList<TridasValue> thisDecadesValues = new ArrayList<TridasValue>();
 		
 		// Work out if we're using 6 or 8 digit series codes
-		String regex = "^[\\d\\w\\s]{8}[\\s\\d-]{4}([\\s\\d-]{4}\\s((\\s\\d)|(\\d\\d))){10}";
+		/*String regex = "^[\\d\\w\\s]{8}[\\s\\d-]{4}([\\s\\d-]{4}\\s((\\s\\d)|(\\d\\d))){10}";
 	    Pattern p1 = Pattern.compile(regex,Pattern.CASE_INSENSITIVE | Pattern.DOTALL);
 	    Matcher m1 = p1.matcher(line);
 	    int codeLength = 6;
 	    if(m1.find()) codeLength=8;
-				
+		*/
+		
+	    int codeLength = getKeycodeLength();
+	    
 	    // Extract the code and then remove
 		String thisCode = line.substring(0, codeLength);
 		line = line.substring(codeLength);
@@ -655,8 +683,9 @@ public class TucsonReader extends AbstractDendroFileReader {
 			{
 				// This year marker is not within a decade of the last year marker 
 				throw new InvalidDendroFileException(I18n.getText("fileio.invalidDecadeMarker", 
-						currentLineYearMarker.toString()),
-						Integer.parseInt(lastYearMarker.toString()));
+						currentLineYearMarker.toString(),
+						lastYearMarker.toString()),
+						0);
 			}
 		}
 	}
@@ -686,12 +715,12 @@ public class TucsonReader extends AbstractDendroFileReader {
 		
 		switch(type){
 		case RWL_DATA_COMPLETE:
-			regex = "^[\\d\\w\\s]{8}[\\d-]{4}([\\s\\d-]{6}){10}";
+			regex = "^[\\d\\w\\s]{8}[\\s\\d-]{4}([\\s\\d-]{6}){10}";
 		    p1 = Pattern.compile(regex,Pattern.CASE_INSENSITIVE | Pattern.DOTALL);
 		    m1 = p1.matcher(line);
 			return m1.find();		
 		case RWL_DATA_PARTIAL:
-			regex = "^[\\d\\w\\s]{8}[\\d-]{4}[\\s\\d-]{6}";
+			regex = "^[\\d\\w\\s]{8}[\\s\\d-]{4}[\\s\\d-]{6}";
 		    p1 = Pattern.compile(regex,Pattern.CASE_INSENSITIVE | Pattern.DOTALL);
 		    m1 = p1.matcher(line);
 		    if (!matchesLineType(TucsonLineType.RWL_DATA_COMPLETE, line)) return m1.find();
@@ -803,8 +832,7 @@ public class TucsonReader extends AbstractDendroFileReader {
 			
 			// Reset last year marker
 			this.lastYearMarker = null;
-			
-		
+				
 
 		}
 		else
@@ -818,7 +846,7 @@ public class TucsonReader extends AbstractDendroFileReader {
 	
 			
 		}
-		
+				
 		populateProjectMetadata();
 		
 		
@@ -982,6 +1010,36 @@ public class TucsonReader extends AbstractDendroFileReader {
 	}
 	
 	/**
+	 * Returns the length of the keycode for this file (either 6 or 8).
+	 * Null is returned if the keycode HashSets haven't been set.
+	 * 
+	 * @return
+	 */
+	private Integer getKeycodeLength()
+	{	
+		
+		if (headerKeycode6!=null && headerKeycode8!=null)
+		{
+			if(headerKeycode6.size()<headerKeycode8.size())
+			{
+				// There are less lines where the first 6 characters
+				// are unique than there are lines with the first 8
+				// characters unique.  
+				return 6;
+			}
+			else
+			{
+				// There must be the same number of lines first the first
+				// 8 characters unique as the first 6 characters.  
+				return 8;
+			}
+		}
+
+		log.debug("Error determining keycode length");
+		return null;
+	}
+	
+	/**
 	 * This checks to see if the file is a valid Tucson file and at the same
 	 * time sets whether its an RWL or CRN style file. 
 	 * 
@@ -1000,6 +1058,7 @@ public class TucsonReader extends AbstractDendroFileReader {
 		int rwlLines = 0;
 		int headerLines = 0;
 		int otherLines = 0;
+
 		
 		for( ; index < argFileString.length; index++)
 		{
@@ -1009,11 +1068,19 @@ public class TucsonReader extends AbstractDendroFileReader {
 			if(this.matchesLineType(TucsonLineType.CRN_DATA, line))
 			{
 				crnLines++;
+				// Add first 6 and 8 chars to HashSet for use determining
+				// keycode length
+				if(line.length()>=6) headerKeycode6.add(line.substring(0,6));
+				if(line.length()>=8) headerKeycode8.add(line.substring(0,8));
 			}
 			
 			if(this.matchesLineType(TucsonLineType.RWL_DATA, line))
 			{
 				rwlLines++;
+				// Add first 6 and 8 chars to HashSet for use determining
+				// keycode length
+				if(line.length()>=6) headerKeycode6.add(line.substring(0,6));
+				if(line.length()>=8) headerKeycode8.add(line.substring(0,8));
 			}
 			
 			if(this.matchesLineType(TucsonLineType.HEADER, line))
@@ -1023,6 +1090,42 @@ public class TucsonReader extends AbstractDendroFileReader {
 		
 		}
 		
+		/*Object[] keycodesarr = keycodes.toArray();
+		Integer minlen = null;
+		Integer maxlen = null;
+		Integer sumlen = 0;
+		
+		// Calculate keycode size
+		for (Object codeobj : keycodesarr)
+		{
+			String code = (String) codeobj;
+			if(code==null) continue;
+			
+			if(minlen==null)
+			{
+				minlen = code.length();
+			}
+			else
+			{
+				if(code.length()<minlen) minlen=code.length();
+			}
+			
+			if(maxlen==null)
+			{
+				maxlen = code.length();
+			}
+			else
+			{
+				if(code.length()>maxlen) maxlen=code.length();
+			}
+			
+			sumlen = sumlen+code.length();
+		}
+		
+		Integer avlen = sumlen/keycodesarr.length;
+		*/
+		
+		
 		if(crnLines==0 && rwlLines==0)
 		{
 			log.debug("No data lines so file is invalid");
@@ -1031,8 +1134,8 @@ public class TucsonReader extends AbstractDendroFileReader {
 		
 		if(crnLines==rwlLines)
 		{
-			log.debug("same number of crn and rwl lines so files is invalid");
-			return false;
+			log.debug("same number of crn and rwl lines so arbitrarily deciding this is an rwl file");
+			this.isChronology = false;		
 		}
 				
 		if(crnLines>rwlLines)
