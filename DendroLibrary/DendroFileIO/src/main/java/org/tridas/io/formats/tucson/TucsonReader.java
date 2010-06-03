@@ -269,7 +269,18 @@ public class TucsonReader extends AbstractDendroFileReader {
 		line = line.substring(codeLength);
 		
 		// Extract the year value and remove from line
-		SafeIntYear currentLineYearMarker = new SafeIntYear(line.substring(0,4));
+		SafeIntYear currentLineYearMarker;
+		try{
+			currentLineYearMarker = new SafeIntYear(line.substring(0,4));
+		} catch (NumberFormatException e)
+		{
+			
+			this.addWarningToList(new ConversionWarning(
+					WarningType.INVALID, 
+					I18n.getText("tucson.decadeMarkerNotNumber")));
+			currentLineYearMarker = new SafeIntYear();
+			
+		}
 		line = line.substring(5).trim();
 		
 
@@ -715,12 +726,12 @@ public class TucsonReader extends AbstractDendroFileReader {
 		
 		switch(type){
 		case RWL_DATA_COMPLETE:
-			regex = "^[\\d\\w\\s]{8}[\\s\\d-]{4}([\\s\\d-]{6}){10}";
+			regex = "^[\\w -.]{8}[\\t \\d-]{4}([\\t\\d- ]{6}){10}";
 		    p1 = Pattern.compile(regex,Pattern.CASE_INSENSITIVE | Pattern.DOTALL);
 		    m1 = p1.matcher(line);
 			return m1.find();		
 		case RWL_DATA_PARTIAL:
-			regex = "^[\\d\\w\\s]{8}[\\s\\d-]{4}[\\s\\d-]{6}";
+			regex = "^[\\w -.]{8}[\\t \\d-]{4}[\\t\\d- ]{6}";
 		    p1 = Pattern.compile(regex,Pattern.CASE_INSENSITIVE | Pattern.DOTALL);
 		    m1 = p1.matcher(line);
 		    if (!matchesLineType(TucsonLineType.RWL_DATA_COMPLETE, line)) return m1.find();
@@ -728,7 +739,7 @@ public class TucsonReader extends AbstractDendroFileReader {
 		case RWL_DATA:
 		    return matchesLineType(TucsonLineType.RWL_DATA_PARTIAL, line) || matchesLineType(TucsonLineType.RWL_DATA_COMPLETE, line);
 		case CRN_DATA_COMPLETE:
-			regex = "^([\\d\\w\\s]{8}|[\\d\\w\\s]{6})[\\d\\s-]{4}([\\s\\d-]{4}\\s((\\s\\d)|(\\d\\d))){10}";
+			regex = "^([\\w -.]{8}|[\\d\\w\\t ]{6})[\\d\\t -]{4}([\\t \\d-]{4}\\s((\\t \\d)|(\\d\\d))){10}";
 		    p1 = Pattern.compile(regex,Pattern.CASE_INSENSITIVE | Pattern.DOTALL);
 		    m1 = p1.matcher(line);
 			return m1.find();			
@@ -762,17 +773,17 @@ public class TucsonReader extends AbstractDendroFileReader {
 				return false;
 			}		
 		case HEADER_LINE1:
-			regex = "^[\\d\\w\\s]{9}[^\\n]{52}[A-Z]{4}";
+			regex = "^[.]{9}[^\\n]{52}[A-Z]{4}";
 		    p1 = Pattern.compile(regex,Pattern.CASE_INSENSITIVE | Pattern.DOTALL);
 		    m1 = p1.matcher(line);
 			return m1.find();				
 		case HEADER_LINE2:
-			regex = "^[\\d\\w\\s]{9}[^\\n]{21}[\\s]{10}[0-9mMft]{5}[\\s]{2}[0-9\\s]{10}[\\s]{10}[\\d\\s]{9}";
+			regex = "^[.]{9}[^\\n]{21}[\\t ]{10}[0-9mMft]{5}[\\s]{2}[0-9\\t ]{10}[\\t ]{10}[\\d\\t ]{9}";
 			p1 = Pattern.compile(regex,Pattern.CASE_INSENSITIVE | Pattern.DOTALL);
 		    m1 = p1.matcher(line);
 			return m1.find();		
 		case HEADER_LINE3:
-			regex = "^[\\d\\w\\s]{9}[\\w\\s.,-]{62}[\\d\\s]{8}";
+			regex = "^[.]{9}[\\w\\t\\. ,-]{62}[\\d\\t ]{8}";
 			p1 = Pattern.compile(regex,Pattern.CASE_INSENSITIVE | Pattern.DOTALL);
 		    m1 = p1.matcher(line);
 			return m1.find();	
