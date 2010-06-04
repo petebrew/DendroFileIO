@@ -30,6 +30,11 @@ import org.tridas.schema.TridasSample;
 import org.tridas.schema.TridasSapwood;
 import org.tridas.schema.TridasWoodCompleteness;
 
+/**
+ * @deprecated Use BesanconToTridasDefaults instead.
+ * @author peterbrewer
+ *
+ */
 public class SylpheToTridasDefaults extends TridasMetadataFieldSet implements
 		IMetadataFieldSet {
 

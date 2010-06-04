@@ -30,6 +30,11 @@ import org.tridas.schema.TridasValue;
 import org.tridas.schema.TridasValues;
 import org.tridas.schema.TridasVariable;
 
+/**
+ * @deprecated Use BesanconReader instead.
+ * @author peterbrewer
+ *
+ */
 public class SylpheReader extends AbstractDendroFileReader {
 	private static final SimpleLogger log = new SimpleLogger(SylpheReader.class);
 	private Integer currentLine = 0;
