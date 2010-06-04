@@ -38,6 +38,8 @@ public class HeidelbergToTridasDefaults extends TridasMetadataFieldSet {
 		setDefaultValue(DefaultFields.TAXON, new GenericDefaultValue<ControlledVoc>());
 		setDefaultValue(DefaultFields.UNIT, new GenericDefaultValue<TridasUnit>());
 		setDefaultValue(DefaultFields.STANDARDIZATION_METHOD, new StringDefaultValue());
+		setDefaultValue(DefaultFields.PROJECT_NAME, new StringDefaultValue());
+		
 	}
 	
 	/**

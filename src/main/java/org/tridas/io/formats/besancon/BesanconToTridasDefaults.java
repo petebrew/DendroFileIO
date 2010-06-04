@@ -1,5 +1,6 @@
 package org.tridas.io.formats.besancon;
 
+import org.apache.commons.lang.WordUtils;
 import org.tridas.io.I18n;
 import org.tridas.io.defaults.TridasMetadataFieldSet;
 import org.tridas.io.defaults.values.BooleanDefaultValue;
@@ -8,8 +9,6 @@ import org.tridas.io.defaults.values.GenericDefaultValue;
 import org.tridas.io.defaults.values.IntegerDefaultValue;
 import org.tridas.io.defaults.values.SafeIntYearDefaultValue;
 import org.tridas.io.defaults.values.StringDefaultValue;
-import org.tridas.io.formats.sylphe.SylpheToTridasDefaults.DefaultFields;
-import org.tridas.io.formats.sylphe.TridasToSylpheDefaults.SylpheCambiumType;
 import org.tridas.io.util.ITRDBTaxonConverter;
 import org.tridas.schema.ComplexPresenceAbsence;
 import org.tridas.schema.ControlledVoc;
@@ -53,7 +52,7 @@ public class BesanconToTridasDefaults extends TridasMetadataFieldSet {
 		setDefaultValue(DefaultFields.SPECIES, new StringDefaultValue());
 		setDefaultValue(DefaultFields.PITH, new BooleanDefaultValue(false));
 		setDefaultValue(DefaultFields.SAPWOOD_START, new IntegerDefaultValue());
-		setDefaultValue(DefaultFields.CAMBIUM, new GenericDefaultValue<SylpheCambiumType>());
+		setDefaultValue(DefaultFields.CAMBIUM, new GenericDefaultValue<BesanconCambiumType>());
 		setDefaultValue(DefaultFields.BARK, new BooleanDefaultValue(false));
 		setDefaultValue(DefaultFields.FIRST_YEAR, new SafeIntYearDefaultValue());
 		setDefaultValue(DefaultFields.LAST_YEAR, new SafeIntYearDefaultValue());
@@ -136,22 +135,22 @@ public class BesanconToTridasDefaults extends TridasMetadataFieldSet {
 		sapwood.setPresence(ComplexPresenceAbsence.UNKNOWN);
 		
 		// Set last ring info
-		GenericDefaultValue<SylpheCambiumType> cambium = (GenericDefaultValue<SylpheCambiumType>)getDefaultValue(DefaultFields.CAMBIUM); 	
+		GenericDefaultValue<BesanconCambiumType> cambium = (GenericDefaultValue<BesanconCambiumType>)getDefaultValue(DefaultFields.CAMBIUM); 	
 		if(cambium.getValue()!=null)
 		{
 			TridasLastRingUnderBark lrub = new TridasLastRingUnderBark();
 			lrub.setPresence(PresenceAbsence.PRESENT);
 		
 			// Mark season if possible
-			if(cambium.getValue().equals(SylpheCambiumType.SPRING))
+			if(cambium.getValue().equals(BesanconCambiumType.SPRING))
 			{
 				lrub.setContent(I18n.getText("seasons.spring"));
 			}
-			else if (cambium.getValue().equals(SylpheCambiumType.SUMMER))
+			else if (cambium.getValue().equals(BesanconCambiumType.SUMMER))
 			{
 				lrub.setContent(I18n.getText("seasons.summer"));
 			}
-			else if (cambium.getValue().equals(SylpheCambiumType.WINTER))
+			else if (cambium.getValue().equals(BesanconCambiumType.WINTER))
 			{
 				lrub.setContent(I18n.getText("seasons.winter"));
 			}
@@ -196,5 +195,29 @@ public class BesanconToTridasDefaults extends TridasMetadataFieldSet {
 		return series;
 	}
 	
+	public enum BesanconCambiumType{
+		CAMBIUM_PRESENT_SEASON_UNKOWN(""),
+		WINTER("HIV"),
+		SUMMER("ETE"),
+		SPRING("PRI");
+		
+		private String code;
+		
+		BesanconCambiumType(String c){
+			code = c;
+		}
+		
+		public final String toString(){ return WordUtils.capitalize(this.name().toLowerCase().replace("_", " "));}
+		
+		public final String toCode(){ return this.code;}
+	
+		public static BesanconCambiumType fromCode(String code)
+		{ 		
+			for (BesanconCambiumType val : BesanconCambiumType.values()){
+				if (val.toCode().equalsIgnoreCase(code)) return val;
+			}
+			return null;	
+		}
+	}
 	
 }

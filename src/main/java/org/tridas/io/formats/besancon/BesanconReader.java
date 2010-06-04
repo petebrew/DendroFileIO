@@ -6,6 +6,8 @@ import org.grlea.log.SimpleLogger;
 import org.tridas.io.AbstractDendroFileReader;
 import org.tridas.io.I18n;
 import org.tridas.io.defaults.IMetadataFieldSet;
+import org.tridas.io.defaults.values.GenericDefaultValue;
+import org.tridas.io.formats.besancon.BesanconToTridasDefaults.BesanconCambiumType;
 import org.tridas.io.formats.besancon.BesanconToTridasDefaults.DefaultFields;
 import org.tridas.io.warnings.ConversionWarning;
 import org.tridas.io.warnings.InvalidDendroFileException;
@@ -69,7 +71,7 @@ public class BesanconReader extends AbstractDendroFileReader {
 			lineString = lineString.trim();
 			
 			// Blank line so skip
-			if(lineString.matches("\\s")) continue;
+			if(lineString.matches("\\s")) continue;		
 						
 			// Is this the first line of meta block?
 			if(lineString.trim().startsWith(". "))
@@ -86,7 +88,7 @@ public class BesanconReader extends AbstractDendroFileReader {
 			}
 			
 			// Is this the start of the values block?
-			if(lineString.toLowerCase().startsWith("val"))
+			if(lineString.toUpperCase().startsWith("VAL"))
 			{
 				if(startLineIndex==null || startDataBlockIndex!=null || endLineIndex!=null)
 				{
@@ -207,138 +209,140 @@ public class BesanconReader extends AbstractDendroFileReader {
 			// Loop through metadata lines extracting info
 			for (String lineString : series.metadataBlock)
 			{					
-				// Title
+				// Title - use the string up to the first space.  Any chars after that should be ignored
 				if(lineString.startsWith(". "))
 				{
-					series.defaults.getStringDefaultValue(DefaultFields.SERIES_TITLE).setValue(lineString.substring(2));
+					// Trim off '. '
+					lineString = lineString.substring(2);
+					// Ignore chars after first space
+					if(lineString.contains(" ")) lineString = lineString.substring(0, lineString.indexOf(" "));
+					series.defaults.getStringDefaultValue(DefaultFields.SERIES_TITLE).setValue(lineString);
 					continue;
 				}
-							
+					
 				// Split line using space delimiter
-				String[] parts = lineString.trim().split(":");
-				if(parts.length==0) continue;
+				String[] parts = lineString.trim().split("[\\s]+");
 				
-				// Length of series
-				if(parts[0].equals("longueur"))
+				// Loop through extract any key/values on this line
+				for (int i=0; i<parts.length; i=i+2)
 				{
-					try{
-						series.defaults.getIntegerDefaultValue(DefaultFields.RING_COUNT).
-						setValue(Integer.parseInt(parts[1].trim()));
-					} catch (Exception e)
-					{
-						addWarningToList(new ConversionWarning(WarningType.INVALID, 
-								I18n.getText("besancon.invalidRingCount")));
-					} 
-				}
-				
-				// Length of series
-				/*if(parts[0].equals("date"))
-				{
-					try{
-						series.defaults.getStringDefaultValue(DefaultFields.DATE).
-						setValue(parts[3]);
-					} catch (Exception e)
-					{
-
-					} 
-				}*/
-				
-				// Species name
-				/*else if (parts[0].equals("ESP"))
-				{
-					if (parts.length>=2)
-					{
-						String value = parts[1];
-						series.defaults.getStringDefaultValue(DefaultFields.SPECIES).
-						setValue(value);
-					} 
-				}*/
-				
-				// Pith presence
-				/*else if (parts[0].equals("MOE"))
-				{
-					series.defaults.getBooleanDefaultValue(DefaultFields.PITH).setValue(true); 
-				}*/
-				
-				// Ring where sapwood begins
-				/*else if (parts[0].equals("AUB"))
-				{
-					try{
-						series.defaults.getIntegerDefaultValue(DefaultFields.SAPWOOD_START).
-						setValue(Integer.parseInt(parts[1]));
-					} catch (Exception e)
-					{
-						addWarningToList(new ConversionWarning(WarningType.INVALID, 
-								I18n.getText("besancon.invalidSapwoodStart"), "AUB"));
-					} 
-				}*/
-				
-				// Cambium presence and season if noted
-				/*else if (parts[0].equals("CAM"))
-				{
-					GenericDefaultValue<SylpheCambiumType> cambium = (GenericDefaultValue<SylpheCambiumType>) 
-								series.defaults.getDefaultValue(DefaultFields.CAMBIUM); 
+					// Try and extract key and value
+					String key = "";
+					String value = "";
+					try{ key = parts[i].toUpperCase().trim();
+					} catch (Exception e) {	}
+					try{ value = parts[i+1].trim();
+					} catch (Exception e) {	}
 					
-					if(parts.length<2)
+					// Length of series
+					if(key.startsWith("LON"))
 					{
-						cambium.setValue(SylpheCambiumType.CAMBIUM_PRESENT_SEASON_UNKOWN);
+						try{
+							series.defaults.getIntegerDefaultValue(DefaultFields.RING_COUNT).
+							setValue(Integer.parseInt(value));
+						} catch (Exception e)
+						{
+							addWarningToList(new ConversionWarning(WarningType.INVALID, 
+									I18n.getText("besancon.invalidRingCount")));
+						} 
 					}
-					else
+										
+					// Species name
+					else if (key.startsWith("ESP"))
 					{
-						cambium.setValue(SylpheCambiumType.fromCode(parts[1]));
+						if (parts.length>=2)
+						{
+							series.defaults.getStringDefaultValue(DefaultFields.SPECIES).
+							setValue(value);
+						} 
 					}
 					
-					if (cambium.getValue()==null)
+					// Pith presence
+					else if (key.startsWith("MOE"))
 					{
-						addWarningToList(new ConversionWarning(WarningType.INVALID, 
-								I18n.getText("besancon.invalidCambiumField"), "CAM"));
+						series.defaults.getBooleanDefaultValue(DefaultFields.PITH).setValue(true); 
 					}
-				}*/
-				
-				// Bark presence
-				/*else if (parts[0].equals("ECO"))
-				{
-					series.defaults.getBooleanDefaultValue(DefaultFields.BARK).setValue(true); 
-				}*/
-				
-				// First Year
-				else if(parts[0].equals("origine"))
-				{
-					try{
-						Integer intval = Integer.parseInt(parts[1].trim());
-						series.defaults.getSafeIntYearDefaultValue(DefaultFields.FIRST_YEAR).
-						setValue(intval);
-					} catch (Exception e)
+					
+					// Ring where sapwood begins
+					else if (key.startsWith("AUB"))
 					{
-						addWarningToList(new ConversionWarning(WarningType.INVALID, 
-								I18n.getText("besancon.invalidStartYear"), "origine"));
-					} 
-				}
-				
-				// Last Year
-				else if(parts[0].equals("terme"))
-				{
-					try{
-						series.defaults.getSafeIntYearDefaultValue(DefaultFields.LAST_YEAR).
-						setValue(Integer.parseInt(parts[1].trim()));
-					} catch (Exception e)
+						try{
+							series.defaults.getIntegerDefaultValue(DefaultFields.SAPWOOD_START).
+							setValue(Integer.parseInt(value));
+						} catch (Exception e)
+						{
+							addWarningToList(new ConversionWarning(WarningType.INVALID, 
+									I18n.getText("besancon.invalidSapwoodStart"), "Aubier"));
+						} 
+					}
+					
+					// Cambium presence and season if noted
+					else if (key.startsWith("CAM"))
 					{
-						addWarningToList(new ConversionWarning(WarningType.INVALID, 
-								I18n.getText("besancon.invalidLastYear"), "terme"));
-					} 
-				}
-				
-				// Position in a mean
-				else if(parts[0].equals("position"))
-				{
-					try{
-						series.defaults.getIntegerDefaultValue(DefaultFields.POSITION_IN_MEAN).
-						setValue(Integer.parseInt(parts[1].trim()));
-					} catch (Exception e)
+						GenericDefaultValue<BesanconCambiumType> cambium = (GenericDefaultValue<BesanconCambiumType>) 
+									series.defaults.getDefaultValue(DefaultFields.CAMBIUM); 
+						
+						if(value.equals(""))
+						{
+							cambium.setValue(BesanconCambiumType.CAMBIUM_PRESENT_SEASON_UNKOWN);
+						}
+						else
+						{
+							cambium.setValue(BesanconCambiumType.fromCode(value));
+						}
+						
+						if (cambium.getValue()==null)
+						{
+							addWarningToList(new ConversionWarning(WarningType.INVALID, 
+									I18n.getText("besancon.invalidCambiumField"), "Cambium"));
+						}
+					}
+					
+					// Bark presence
+					else if (key.startsWith("ECO"))
 					{
-						addWarningToList(new ConversionWarning(WarningType.INVALID, 
-								I18n.getText("besancon.invalidPositionInMean"), "position"));
-					} 
+						series.defaults.getBooleanDefaultValue(DefaultFields.BARK).setValue(true); 
+					}
+					
+					// First Year
+					else if(key.startsWith("ORI"))
+					{
+						try{
+							Integer intval = Integer.parseInt(value);
+							series.defaults.getSafeIntYearDefaultValue(DefaultFields.FIRST_YEAR).
+							setValue(intval);
+						} catch (Exception e)
+						{
+							addWarningToList(new ConversionWarning(WarningType.INVALID, 
+									I18n.getText("besancon.invalidStartYear"), "Origine"));
+						} 
+					}
+					
+					// Last Year
+					else if(key.startsWith("TER"))
+					{
+						try{
+							series.defaults.getSafeIntYearDefaultValue(DefaultFields.LAST_YEAR).
+							setValue(Integer.parseInt(value));
+						} catch (Exception e)
+						{
+							addWarningToList(new ConversionWarning(WarningType.INVALID, 
+									I18n.getText("besancon.invalidLastYear"), "Terme"));
+						} 
+					}
+					
+					// Position in a mean
+					else if(key.startsWith("POS"))
+					{
+						try{
+							series.defaults.getIntegerDefaultValue(DefaultFields.POSITION_IN_MEAN).
+							setValue(Integer.parseInt(parts[1].trim()));
+						} catch (Exception e)
+						{
+							addWarningToList(new ConversionWarning(WarningType.INVALID, 
+									I18n.getText("besancon.invalidPositionInMean"), "Position"));
+						} 
+					}
 				}
 				
 			}

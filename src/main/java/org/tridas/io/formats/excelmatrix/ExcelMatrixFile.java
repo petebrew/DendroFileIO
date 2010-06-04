@@ -308,10 +308,10 @@ public class ExcelMatrixFile implements IDendroFile {
 	    }
 	    		    
 	    // Loop through values and write to spreadsheet
-		Number yearval;
+		Label yearval;
 		for (TridasValue value : values)
 		{
-		    yearval = new Number(col,row, Double.parseDouble(value.getValue()), getDataFormat());
+		    yearval = new Label(col,row, value.getValue(), getDataFormat());
 		    s.addCell(yearval);
 		    row++;
 		}

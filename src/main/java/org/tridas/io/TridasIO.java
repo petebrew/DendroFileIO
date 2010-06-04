@@ -41,7 +41,7 @@ public class TridasIO {
 	private static final HashMap<String, TridasIOEntry> converterMap = new HashMap<String, TridasIOEntry>();
 	private static final HashMap<String, String> extensionMap = new HashMap<String, String>();
 	
-	private static boolean charsetDetection = false;
+	private static boolean charsetDetection = true;
 	private static boolean loaded = false;
 	
 	static{
@@ -55,7 +55,7 @@ public class TridasIO {
 		registerFileReader(TrimsReader.class);
 		registerFileReader(TucsonReader.class);
 		registerFileReader(VFormatReader.class);
-		registerFileReader(SylpheReader.class);
+		//registerFileReader(SylpheReader.class);
 		registerFileReader(BesanconReader.class);
 
 		
@@ -71,7 +71,7 @@ public class TridasIO {
 	
 	/**
 	 * Sets if charset detection is used when loading files.  Usually this doesn't
-	 * matter.  Default of false.
+	 * matter.  Default of true.
 	 * @param argCharsetDetection
 	 */
 	public static void setCharsetDetection(boolean argCharsetDetection) {
