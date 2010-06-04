@@ -13,7 +13,7 @@ import org.tridas.io.I18n;
 public class InvalidDendroFileException extends Exception {
 
 	private static final long serialVersionUID = 4354556879332983450L;
-	private int pointerNumber;
+	private Integer pointerNumber;
 	private String reason;
 	private PointerType pointerType = PointerType.LINE;
 	
@@ -35,6 +35,19 @@ public class InvalidDendroFileException extends Exception {
 			return null;
 			
 		}
+	}
+	
+	/**
+	 * Constructor for this exception when there is no specific
+	 * position in the file where the error occurred e.g. no data
+	 * in file.
+	 * 
+	 * @param reason
+	 */
+	public InvalidDendroFileException(String reason)
+	{
+		this.reason = reason;
+		this.pointerNumber = null;
 	}
 	
 	/**
@@ -70,7 +83,7 @@ public class InvalidDendroFileException extends Exception {
 	 * 
 	 * @return the pointernumber
 	 */
-	public int getPointerNumber() {
+	public Integer getPointerNumber() {
 		return pointerNumber;
 	}
 
@@ -92,8 +105,16 @@ public class InvalidDendroFileException extends Exception {
 
 	@Override
 	public String getLocalizedMessage() {
-		return I18n.getText("fileio.fatalError")+": "+
-		  			reason + ".  "+
-		  			I18n.getText("fileio.errorAt", pointerNumber+"", pointerType.toString().toLowerCase());
+		if(pointerNumber!=null)
+		{
+			return I18n.getText("fileio.fatalError")+": "+
+			  			reason + ".  "+
+			  			I18n.getText("fileio.errorAt", pointerNumber+"", pointerType.toString().toLowerCase());
+		}
+		else		
+		{
+			return I18n.getText("fileio.fatalError")+": "+
+  						reason + ".  ";
+		}
 	}
 }

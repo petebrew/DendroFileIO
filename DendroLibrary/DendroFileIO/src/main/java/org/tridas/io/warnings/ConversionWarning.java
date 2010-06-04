@@ -74,7 +74,17 @@ public class ConversionWarning {
 	}
 	
 	public String toString(){
-		return type+" - "+message+(field!=null?" at field "+field:"");
+		return type+" - "+message;
+	}
+	
+	/**
+	 * Get the warning message including the field involved
+	 * if possible 
+	 * 
+	 * @return
+	 */
+	public String toStringWithField(){
+		return type+" - "+(field!=null?" Field: "+field:" ") +message;
 	}
 	
 	

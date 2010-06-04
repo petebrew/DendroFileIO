@@ -7,6 +7,7 @@ import java.io.IOException;
 import junit.framework.TestCase;
 
 import org.grlea.log.SimpleLogger;
+import org.tridas.io.IDendroFile;
 import org.tridas.io.formats.belfastapple.BelfastAppleWriter;
 import org.tridas.io.formats.csv.CSVWriter;
 import org.tridas.io.formats.excelmatrix.ExcelMatrixWriter;
@@ -86,9 +87,8 @@ public class TestFromTridas extends TestCase{
 
 			}
 	
-	
 			// Actually save file(s) to disk
-			writer.saveAllToDisk(outputLocation);
+			writer.saveAllToDisk(outputLocation);	
 		}
 	}
 	

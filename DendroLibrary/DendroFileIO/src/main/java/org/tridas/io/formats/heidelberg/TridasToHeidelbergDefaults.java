@@ -2,6 +2,7 @@ package org.tridas.io.formats.heidelberg;
 
 import java.util.UUID;
 
+import org.apache.commons.lang.WordUtils;
 import org.grlea.log.SimpleLogger;
 import org.tridas.interfaces.ITridasSeries;
 import org.tridas.io.I18n;
@@ -9,6 +10,7 @@ import org.tridas.io.defaults.AbstractMetadataFieldSet;
 import org.tridas.io.defaults.IMetadataFieldSet;
 import org.tridas.io.defaults.values.IntegerDefaultValue;
 import org.tridas.io.defaults.values.StringDefaultValue;
+import org.tridas.io.formats.sylphe.TridasToSylpheDefaults.SylpheCambiumType;
 import org.tridas.schema.TridasDerivedSeries;
 import org.tridas.schema.TridasElement;
 import org.tridas.schema.TridasIdentifier;
@@ -63,6 +65,9 @@ public class TridasToHeidelbergDefaults extends AbstractMetadataFieldSet impleme
 		if(argValues.isSetUnitless() || !argValues.isSetUnit()){
 			return;
 		}
+		
+		if (argValues.getUnit().getNormalTridas()==null) return;
+		
 		TridasUnit units = argValues.getUnit();
 		StringDefaultValue val = getStringDefaultValue(HeidelbergField.UNIT);
 		switch(units.getNormalTridas()){
@@ -120,4 +125,29 @@ public class TridasToHeidelbergDefaults extends AbstractMetadataFieldSet impleme
 			}
 		}
 	}
+	
+	
+	public enum HeidelbergBarkType{
+		BARK("B"),
+		NO_BARK("-");
+		
+		private String code;
+		
+		HeidelbergBarkType(String c){
+			code = c;
+		}
+		
+		public final String toString(){ return WordUtils.capitalize(this.name().toLowerCase().replace("_", " "));}
+		
+		public final String toCode(){ return this.code;}
+	
+		public static HeidelbergBarkType fromCode(String code)
+		{ 
+			for (HeidelbergBarkType val : HeidelbergBarkType.values()){
+				if (val.toCode().equalsIgnoreCase(code)) return val;
+			}
+			return null;	
+		}
+	}
+	
 }

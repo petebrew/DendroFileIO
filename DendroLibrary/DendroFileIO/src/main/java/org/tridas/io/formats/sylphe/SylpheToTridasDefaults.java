@@ -1,5 +1,6 @@
 package org.tridas.io.formats.sylphe;
 
+import org.apache.commons.lang.WordUtils;
 import org.tridas.io.I18n;
 import org.tridas.io.defaults.IMetadataFieldSet;
 import org.tridas.io.defaults.TridasMetadataFieldSet;
@@ -196,5 +197,8 @@ public class SylpheToTridasDefaults extends TridasMetadataFieldSet implements
 		series.setWoodCompleteness(wc);
 		return series;
 	}
+	
+	
+
 	
 }
