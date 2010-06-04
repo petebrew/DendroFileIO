@@ -4,6 +4,11 @@ import org.tridas.interfaces.ITridasSeries;
 import org.tridas.io.IDendroFile;
 import org.tridas.io.defaults.IMetadataFieldSet;
 
+/**
+ * @deprecated Use BesanconFile instead.
+ * @author peterbrewer
+ *
+ */
 public class SylpheFile implements IDendroFile {
 
 	@Override

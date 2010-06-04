@@ -5,6 +5,11 @@ import org.tridas.io.defaults.IMetadataFieldSet;
 import org.tridas.io.defaults.TridasMetadataFieldSet;
 import org.tridas.io.formats.sheffield.TridasToSheffieldDefaults.SheffieldChronologyType;
 
+/**
+ * @deprecated Use TridasToBesancon instead.
+ * @author peterbrewer
+ *
+ */
 public class TridasToSylpheDefaults extends TridasMetadataFieldSet implements
 		IMetadataFieldSet {
 
