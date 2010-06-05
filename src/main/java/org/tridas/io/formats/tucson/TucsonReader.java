@@ -748,7 +748,7 @@ public class TucsonReader extends AbstractDendroFileReader {
 		String regexKeycode8 = "[\\w\\t -.]{8}";
 		String regexYear    = "[\\t\\d- ]{3}[\\d]{1}";
 		String regexRWLVal  = "[ -]{1}[\\t\\d- ]{4}[\\d]{1}";
-		String regexCRNVal  = "[\\d ]{4}\\s((\\d\\d)|( \\d))";
+		String regexCRNVal  = "[\\d ]{4}((\\d\\d\\d)|( \\d\\d)|(  \\d))";
 		
 		switch(type){
 		
