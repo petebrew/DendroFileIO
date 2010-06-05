@@ -384,12 +384,12 @@ public class BesanconReader extends AbstractDendroFileReader {
 		
 		if(containsTitle==false)
 		{
-			throw new InvalidDendroFileException(I18n.getText("besancon.noTitle"), 0);
+			throw new InvalidDendroFileException(I18n.getText("besancon.noTitle"));
 		}
 		
 		if(containsVals==false)
 		{
-			throw new InvalidDendroFileException(I18n.getText("besancon.noVals"), 0);
+			throw new InvalidDendroFileException(I18n.getText("besancon.noVals"));
 		}
 		
 	}

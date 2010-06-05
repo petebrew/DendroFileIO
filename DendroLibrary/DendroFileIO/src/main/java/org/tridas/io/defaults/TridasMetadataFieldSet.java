@@ -2,6 +2,7 @@ package org.tridas.io.defaults;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.UUID;
 
 import org.tridas.io.I18n;
 import org.tridas.io.defaults.values.GenericDefaultValue;
@@ -18,6 +19,7 @@ import org.tridas.schema.TridasCategory;
 import org.tridas.schema.TridasDerivedSeries;
 import org.tridas.schema.TridasElement;
 import org.tridas.schema.TridasHeartwood;
+import org.tridas.schema.TridasIdentifier;
 import org.tridas.schema.TridasLaboratory;
 import org.tridas.schema.TridasMeasurementSeries;
 import org.tridas.schema.TridasMeasuringMethod;
@@ -60,7 +62,8 @@ public class TridasMetadataFieldSet extends AbstractTridasMetadataFieldSet {
 		MEASUREMENTSERIES_VARIABLE,
 		DERIVEDSERIES_TITLE,
 		DERIVEDSERIES_TYPE,
-		IDENTIFIER_DOMAN;
+		DERIVEDSERIES_IDENTIFIER,
+		IDENTIFIER_DOMAIN;
 	}
 	
 	@Override
@@ -118,7 +121,9 @@ public class TridasMetadataFieldSet extends AbstractTridasMetadataFieldSet {
 		ControlledVoc derivedSeriesType = new ControlledVoc();
 		derivedSeriesType.setValue(I18n.getText("unknown"));
 		setDefaultValue(TridasMandatoryField.DERIVEDSERIES_TYPE, new GenericDefaultValue<ControlledVoc>(derivedSeriesType));
-		setDefaultValue(TridasMandatoryField.IDENTIFIER_DOMAN, new StringDefaultValue(I18n.getText("domain.value")));
+		setDefaultValue(TridasMandatoryField.IDENTIFIER_DOMAIN, new StringDefaultValue(I18n.getText("domain.value")));
+		setDefaultValue(TridasMandatoryField.DERIVEDSERIES_IDENTIFIER, new StringDefaultValue(UUID.randomUUID().toString()));
+		
 	}
 	
 	@SuppressWarnings("unchecked")
@@ -200,11 +205,13 @@ public class TridasMetadataFieldSet extends AbstractTridasMetadataFieldSet {
 	protected TridasDerivedSeries getDefaultTridasDerivedSeries() {
 		
 		TridasDerivedSeries ds = new ObjectFactory().createTridasDerivedSeries();
-		
+		TridasIdentifier id = new ObjectFactory().createTridasIdentifier();
+		id.setDomain(getDefaultValue(TridasMandatoryField.IDENTIFIER_DOMAIN).getStringValue());
+		id.setValue(getDefaultValue(TridasMandatoryField.DERIVEDSERIES_IDENTIFIER).getStringValue());
 		ds.setTitle(getDefaultValue(TridasMandatoryField.DERIVEDSERIES_TITLE).getStringValue());
 		ds.setType((ControlledVoc) getDefaultValue(TridasMandatoryField.DERIVEDSERIES_TYPE).getValue());
 		ds.setLinkSeries(new SeriesLinks());
-		
+		ds.setIdentifier(id);
 		return ds;
 	}
 	

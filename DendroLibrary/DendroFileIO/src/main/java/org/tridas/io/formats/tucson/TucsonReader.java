@@ -162,12 +162,15 @@ public class TucsonReader extends AbstractDendroFileReader {
 					loadMetadata(headercache1, headercache2, headercache3);
 					break;
 				case CRN_DATA:
-				case CRN_DATA_PARTIAL:
-				case CRN_DATA_COMPLETE:
+				case CRN_DATA_PARTIAL_6:
+				case CRN_DATA_COMPLETE_6:
+				case CRN_DATA_PARTIAL_8:
+				case CRN_DATA_COMPLETE_8:
 				case RWL_DATA:
-				case RWL_DATA_PARTIAL:
-				case RWL_DATA_COMPLETE:
-										
+				case RWL_DATA_PARTIAL_6:
+				case RWL_DATA_COMPLETE_6:
+				case RWL_DATA_PARTIAL_8:
+				case RWL_DATA_COMPLETE_8:								
 					// Clear header cache and load data
 					headercache1=null; headercache2=null; headercache3=null;
 					
@@ -357,7 +360,7 @@ public class TucsonReader extends AbstractDendroFileReader {
 			// Build identifier for series
 			TridasIdentifier seriesId = new ObjectFactory().createTridasIdentifier();
 			seriesId.setValue(thisCode.trim());
-			seriesId.setDomain(defaults.getDefaultValue(TridasMandatoryField.IDENTIFIER_DOMAN).getStringValue());
+			seriesId.setDomain(defaults.getDefaultValue(TridasMandatoryField.IDENTIFIER_DOMAIN).getStringValue());
 			
 			// Build interpretation group for series
 			TridasInterpretation interp = new TridasInterpretation();
@@ -465,7 +468,20 @@ public class TucsonReader extends AbstractDendroFileReader {
 		// Extract values and counts
 		ArrayList<Integer> vals = new ArrayList<Integer>();
 		ArrayList<Integer> counts = new ArrayList<Integer>();
-		for(int charpos = 0; charpos<=line.length()-7; charpos = charpos+7)
+		
+		// Calculate the limit of where we're going to read to
+		Integer lineLenLimit;
+		if(line.length()-7>63)
+		{
+			// Line is longer than expected so there must be extra chars 
+			// at the end which we want to ignore.
+			lineLenLimit = 63;
+		}
+		else
+		{
+			lineLenLimit = line.length()-7;
+		}
+		for(int charpos = 0; charpos<=lineLenLimit; charpos = charpos+7)
 		{
 			try{
 				Integer value = Integer.valueOf(line.substring(charpos, charpos+4).trim());
@@ -508,6 +524,7 @@ public class TucsonReader extends AbstractDendroFileReader {
 				else
 				{
 					containsYoungestYear = true;
+					continue;
 				}
 				break;
 					
@@ -523,6 +540,7 @@ public class TucsonReader extends AbstractDendroFileReader {
 			}
 
 			// Go ahead and set value
+			oldestYear.add(i+1);
 			v.setValue(vals.get(i).toString());
 			v.setCount(counts.get(i));
 			thisDecadesValues.add(v);
@@ -545,11 +563,10 @@ public class TucsonReader extends AbstractDendroFileReader {
 				// Build interpretation group for series	
 				interp.setFirstYear(currentLineYearMarker.toTridasYear(DatingSuffix.AD));					
 				
-				
 				// Build identifier for series
 				TridasIdentifier seriesId = new ObjectFactory().createTridasIdentifier();
 				seriesId.setValue(thisCode.trim());
-				seriesId.setDomain(defaults.getDefaultValue(TridasMandatoryField.IDENTIFIER_DOMAN).getStringValue());
+				seriesId.setDomain(defaults.getDefaultValue(TridasMandatoryField.IDENTIFIER_DOMAIN).getStringValue());
 				
 				// Add values to nested value(s) tags
 				TridasValues valuesGroup = new TridasValues();
@@ -616,9 +633,9 @@ public class TucsonReader extends AbstractDendroFileReader {
 			if(containsOldestYear)
 			{
 				TridasInterpretation interp = halfdone.getInterpretation();
-				interp.setLastYear(oldestYear.toTridasYear(DatingSuffix.AD));
 				int numberofvalues = previouslygotvalues.size();
 				SafeIntYear firstYear = new SafeIntYear(interp.getFirstYear());
+				interp.setLastYear(firstYear.add(numberofvalues-1).toTridasYear(DatingSuffix.AD));
 				
 			}
 			
@@ -693,7 +710,7 @@ public class TucsonReader extends AbstractDendroFileReader {
 				// Marker is less than the previous marker. 
 				throw new InvalidDendroFileException(I18n.getText("tucson.newSeriesSameCode", 
 						currentLineYearMarker.toString()),
-						this.getCurrentLineNumber());						
+						getCurrentLineNumber());						
 			}
 			else
 			{
@@ -701,7 +718,7 @@ public class TucsonReader extends AbstractDendroFileReader {
 				throw new InvalidDendroFileException(I18n.getText("fileio.invalidDecadeMarker", 
 						currentLineYearMarker.toString(),
 						lastYearMarker.toString()),
-						0);
+						getCurrentLineNumber());
 			}
 		}
 	}
@@ -729,34 +746,98 @@ public class TucsonReader extends AbstractDendroFileReader {
 			else {return false;}
 		}
 		
-		String regexKeycode = "([\\w\\t -.]{8}|[\\w\\t -.]{6})";
+		String regexKeycode6 = "[\\w\\t -.]{6}";
+		String regexKeycode8 = "[\\w\\t -.]{8}";
 		String regexYear    = "[\\t\\d- ]{3}[\\d]{1}";
-		String regexRWLVal  = "[\\t\\d- ]{5}[\\d]{1}";
+		String regexRWLVal  = "[ -]{1}[\\t\\d- ]{4}[\\d]{1}";
 		String regexCRNVal  = "[\\d ]{4}\\s((\\d\\d)|( \\d))";
+		
 		switch(type){
-		case RWL_DATA_COMPLETE:
-			regex = "^"+regexKeycode+regexYear+"("+regexRWLVal+"){10}";
+		
+		// RWL DATA TYPES
+		case RWL_DATA_COMPLETE_6:
+			regex = "^"+regexKeycode6+regexYear+"("+regexRWLVal+"){10}";
 		    p1 = Pattern.compile(regex,Pattern.CASE_INSENSITIVE | Pattern.DOTALL);
 		    m1 = p1.matcher(line);
-			return m1.find();		
-		case RWL_DATA_PARTIAL:
-			regex = "^"+regexKeycode+regexYear+regexRWLVal;
+		    if(m1.find()) {
+		    	keycodeLen6++;
+		    	return true;
+		    } 
+		    return false;
+		case RWL_DATA_PARTIAL_6:
+			regex = "^"+regexKeycode6+regexYear+regexRWLVal;
 		    p1 = Pattern.compile(regex,Pattern.CASE_INSENSITIVE | Pattern.DOTALL);
 		    m1 = p1.matcher(line);
-		    if (!matchesLineType(TucsonLineType.RWL_DATA_COMPLETE, line)) return m1.find();
-		    else return false;
+		    if(m1.find())
+		    {
+			    if (!matchesLineType(TucsonLineType.RWL_DATA_COMPLETE_6, line)) 
+			    {
+			    	keycodeLen6++;
+			    	return true;
+			    }
+		    }
+		    return false;
+		case RWL_DATA_COMPLETE_8:
+			regex = "^"+regexKeycode8+regexYear+"("+regexRWLVal+"){10}";
+		    p1 = Pattern.compile(regex,Pattern.CASE_INSENSITIVE | Pattern.DOTALL);
+		    m1 = p1.matcher(line);
+		    if(m1.find()) {
+		    	keycodeLen8++;
+		    	return true;
+		    } 
+		    return false;
+		case RWL_DATA_PARTIAL_8:
+			regex = "^"+regexKeycode8+regexYear+regexRWLVal;
+		    p1 = Pattern.compile(regex,Pattern.CASE_INSENSITIVE | Pattern.DOTALL);
+		    m1 = p1.matcher(line);
+		    if(m1.find())
+		    {
+			    if (!matchesLineType(TucsonLineType.RWL_DATA_COMPLETE_8, line)) 
+			    {
+			    	keycodeLen8++;
+			    	return true;
+			    }
+		    }
+		case RWL_DATA_6:
+		    return matchesLineType(TucsonLineType.RWL_DATA_PARTIAL_6, line) || matchesLineType(TucsonLineType.RWL_DATA_COMPLETE_6, line);
+		case RWL_DATA_8:
+		    return matchesLineType(TucsonLineType.RWL_DATA_PARTIAL_8, line) || matchesLineType(TucsonLineType.RWL_DATA_COMPLETE_8, line);    
 		case RWL_DATA:
-		    return matchesLineType(TucsonLineType.RWL_DATA_PARTIAL, line) || matchesLineType(TucsonLineType.RWL_DATA_COMPLETE, line);
-		case CRN_DATA_COMPLETE:
-			regex = "^"+regexKeycode+regexYear+"("+regexCRNVal+"){10}";
+		    return matchesLineType(TucsonLineType.RWL_DATA_6, line) || matchesLineType(TucsonLineType.RWL_DATA_8, line);
+		
+		// CRN DATA TYPES
+		case CRN_DATA_COMPLETE_6:
+			regex = "^"+regexKeycode6+regexYear+"("+regexCRNVal+"){10}";
 		    p1 = Pattern.compile(regex,Pattern.CASE_INSENSITIVE | Pattern.DOTALL);
 		    m1 = p1.matcher(line);
-			return m1.find();			
-		case CRN_DATA_PARTIAL:
+		    if(m1.find()) {
+		    	keycodeLen6++;
+		    	return true;
+		    } 
+		    return false;			
+		case CRN_DATA_PARTIAL_6:
 			// I don't think this should exist.  NOAA webpage says all CRN data lines should contain 10 values 
 			return false;
+		case CRN_DATA_COMPLETE_8:
+			regex = "^"+regexKeycode8+regexYear+"("+regexCRNVal+"){10}";
+		    p1 = Pattern.compile(regex,Pattern.CASE_INSENSITIVE | Pattern.DOTALL);
+		    m1 = p1.matcher(line);
+		    if(m1.find()) {
+		    	keycodeLen8++;
+		    	return true;
+		    } 
+		    return false;			
+		case CRN_DATA_PARTIAL_8:
+			// I don't think this should exist.  NOAA webpage says all CRN data lines should contain 10 values 
+			return false;
+		case CRN_DATA_6:
+			return matchesLineType(TucsonLineType.CRN_DATA_PARTIAL_6, line) || matchesLineType(TucsonLineType.CRN_DATA_COMPLETE_6, line);   
+		case CRN_DATA_8:
+			return matchesLineType(TucsonLineType.CRN_DATA_PARTIAL_8, line) || matchesLineType(TucsonLineType.CRN_DATA_COMPLETE_8, line);   
 		case CRN_DATA:
-			return matchesLineType(TucsonLineType.CRN_DATA_PARTIAL, line) || matchesLineType(TucsonLineType.CRN_DATA_COMPLETE, line);   
+			return matchesLineType(TucsonLineType.CRN_DATA_6, line) || matchesLineType(TucsonLineType.CRN_DATA_8, line);   
+		
+		// ANY DATA
 		case DATA:
 			if( (matchesLineType(TucsonLineType.RWL_DATA, line)) ||
 				(matchesLineType(TucsonLineType.CRN_DATA, line)))
@@ -766,7 +847,9 @@ public class TucsonReader extends AbstractDendroFileReader {
 			else
 			{
 				return false;
-			}			
+			}
+			
+		// ANY NON-DATA
 		case NON_DATA:
 			if( (!matchesLineType(TucsonLineType.RWL_DATA, line)) &&
 				(!matchesLineType(TucsonLineType.CRN_DATA, line)))
@@ -777,6 +860,9 @@ public class TucsonReader extends AbstractDendroFileReader {
 			{
 				return false;
 			}		
+			
+			
+		// HEADER TYPES
 		case HEADER_LINE1:
 			regex = "^[.]{9}[^\\n]{52}[A-Z]{4}";
 		    p1 = Pattern.compile(regex,Pattern.CASE_INSENSITIVE | Pattern.DOTALL);
@@ -804,6 +890,8 @@ public class TucsonReader extends AbstractDendroFileReader {
 				{
 					return false;
 				}
+			
+		// ANYTHING ELSE
 		default:
 			return false;
 		}
@@ -888,7 +976,7 @@ public class TucsonReader extends AbstractDendroFileReader {
 		
 		TridasIdentifier objIdentifier = new TridasIdentifier();
 		objIdentifier.setValue(tucsonFields.getDefaultValue(TucsonField.SITE_CODE).getStringValue().trim());
-		objIdentifier.setDomain(defaults.getDefaultValue(TridasMandatoryField.IDENTIFIER_DOMAN).getStringValue());
+		objIdentifier.setDomain(defaults.getDefaultValue(TridasMandatoryField.IDENTIFIER_DOMAIN).getStringValue());
 		o.setIdentifier(objIdentifier);
 		
 		ControlledVoc taxon = new ControlledVoc();
@@ -938,21 +1026,38 @@ public class TucsonReader extends AbstractDendroFileReader {
 	 */
 	protected TucsonLineType getLineType(String line)
 	{
-		if(matchesLineType(TucsonLineType.CRN_DATA_COMPLETE, line))
+		if(matchesLineType(TucsonLineType.CRN_DATA_COMPLETE_8, line))
 		{
-			return TucsonLineType.CRN_DATA_COMPLETE;
+			return TucsonLineType.CRN_DATA_COMPLETE_8;
 		}
-		else if(matchesLineType(TucsonLineType.CRN_DATA_PARTIAL, line))
+		else if(matchesLineType(TucsonLineType.CRN_DATA_COMPLETE_6, line))
 		{
-			return TucsonLineType.CRN_DATA_PARTIAL;
+			return TucsonLineType.CRN_DATA_COMPLETE_6;
+		}		
+		else if(matchesLineType(TucsonLineType.CRN_DATA_PARTIAL_8, line))
+		{
+			return TucsonLineType.CRN_DATA_PARTIAL_8;
 		}
-		else if (matchesLineType(TucsonLineType.RWL_DATA_COMPLETE, line))
+		else if(matchesLineType(TucsonLineType.CRN_DATA_PARTIAL_6, line))
 		{
-			return TucsonLineType.RWL_DATA_COMPLETE;
+			return TucsonLineType.CRN_DATA_PARTIAL_6;
 		}
-		else if (matchesLineType(TucsonLineType.RWL_DATA_PARTIAL, line))
+		
+		else if (matchesLineType(TucsonLineType.RWL_DATA_COMPLETE_8, line))
 		{
-			return TucsonLineType.RWL_DATA_PARTIAL;
+			return TucsonLineType.RWL_DATA_COMPLETE_8;
+		}
+		else if (matchesLineType(TucsonLineType.RWL_DATA_COMPLETE_6, line))
+		{
+			return TucsonLineType.RWL_DATA_COMPLETE_6;
+		}
+		else if (matchesLineType(TucsonLineType.RWL_DATA_PARTIAL_8, line))
+		{
+			return TucsonLineType.RWL_DATA_PARTIAL_8;
+		}
+		else if (matchesLineType(TucsonLineType.RWL_DATA_PARTIAL_6, line))
+		{
+			return TucsonLineType.RWL_DATA_PARTIAL_6;
 		}
 		else if(matchesLineType(TucsonLineType.HEADER_LINE1, line))
 		{
@@ -980,12 +1085,21 @@ public class TucsonReader extends AbstractDendroFileReader {
 		HEADER_LINE3,
 		NON_DATA,			// Any non-data line, likely metdata or comment
 		DATA,				// Contains some sort of ring width measurements
-		RWL_DATA,			// Line with standard measurement series data (not chronology)
-		RWL_DATA_PARTIAL,	// Standard measurement series data but not a full decadal block
-		RWL_DATA_COMPLETE,  // Complete decadal block of measurements
+		RWL_DATA,
+		RWL_DATA_6,			// Line with standard measurement series data (not chronology)
+		RWL_DATA_PARTIAL_6,	// Standard measurement series data but not a full decadal block
+		RWL_DATA_COMPLETE_6,  // Complete decadal block of measurements
+		RWL_DATA_8,
+		RWL_DATA_PARTIAL_8,	// Standard measurement series data but not a full decadal block
+		RWL_DATA_COMPLETE_8,  // Complete decadal block of measurements
 		CRN_DATA,			// Line with some chronology data in it
-		CRN_DATA_PARTIAL,	// Line with chronology data in it but not a full decadal block
-		CRN_DATA_COMPLETE;  // Complete decadal block of chronology values
+		CRN_DATA_6,
+		CRN_DATA_PARTIAL_6,	// Line with chronology data in it but not a full decadal block
+		CRN_DATA_COMPLETE_6,  // Complete decadal block of chronology values
+		CRN_DATA_8,
+		CRN_DATA_PARTIAL_8,
+		CRN_DATA_COMPLETE_8;
+		
 		
 	}
 
@@ -1088,41 +1202,9 @@ public class TucsonReader extends AbstractDendroFileReader {
 			String line = argFileString[index];
 			currentLineNumber = index+1;
 			
-			if(this.matchesLineType(TucsonLineType.CRN_DATA, line))
-			{
-				crnLines++;
-				// Add first 6 and 8 chars to HashSet for use determining
-				// keycode length
-				if(line.length()>=15) 
-				{
-					if(line.substring(15).startsWith(" ")) keycodeLen6++;
-				}
-				if(line.length()>=18) 
-				{
-					if(line.substring(18).startsWith(" ")) keycodeLen8++;
-				}
-			}
-			
-			if(this.matchesLineType(TucsonLineType.RWL_DATA, line))
-			{
-				rwlLines++;
-				// Add first 6 and 8 chars to HashSet for use determining
-				// keycode length
-				if(line.length()>=15) 
-				{
-					if(line.substring(15).startsWith(" ")) keycodeLen6++;
-				}
-				if(line.length()>=18) 
-				{
-					if(line.substring(18).startsWith(" ")) keycodeLen8++;
-				}
-			}
-			
-			if(this.matchesLineType(TucsonLineType.HEADER, line))
-			{
-				headerLines++;
-			}
-		
+			if(this.matchesLineType(TucsonLineType.CRN_DATA, line))	crnLines++;
+			if(this.matchesLineType(TucsonLineType.RWL_DATA, line))	rwlLines++;
+			if(this.matchesLineType(TucsonLineType.HEADER, line)) headerLines++;		
 		}
 
 		if(crnLines==0 && rwlLines==0)

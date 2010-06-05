@@ -15,7 +15,7 @@ public class VFormatToTridasDefaults extends TridasMetadataFieldSet {
 		TridasObject o = getObjectWithDefaults();
 		TridasIdentifier id = new TridasIdentifier();
 		id.setValue(objectid);
-		id.setDomain(this.getDefaultValue(TridasMandatoryField.IDENTIFIER_DOMAN).getStringValue());
+		id.setDomain(this.getDefaultValue(TridasMandatoryField.IDENTIFIER_DOMAIN).getStringValue());
 		o.setIdentifier(id);
 		return o;
 	}
@@ -25,7 +25,7 @@ public class VFormatToTridasDefaults extends TridasMetadataFieldSet {
 		TridasElement e = getElementWithDefaults();
 		TridasIdentifier id = new TridasIdentifier();
 		id.setValue(elementid);
-		id.setDomain(this.getDefaultValue(TridasMandatoryField.IDENTIFIER_DOMAN).getStringValue());
+		id.setDomain(this.getDefaultValue(TridasMandatoryField.IDENTIFIER_DOMAIN).getStringValue());
 		e.setIdentifier(id);
 		return e;
 	}
@@ -35,7 +35,7 @@ public class VFormatToTridasDefaults extends TridasMetadataFieldSet {
 		TridasSample s = getSampleWithDefaults();
 		TridasIdentifier id = new TridasIdentifier();
 		id.setValue(sampleid);
-		id.setDomain(this.getDefaultValue(TridasMandatoryField.IDENTIFIER_DOMAN).getStringValue());
+		id.setDomain(this.getDefaultValue(TridasMandatoryField.IDENTIFIER_DOMAIN).getStringValue());
 		s.setIdentifier(id);
 		return s;
 	}

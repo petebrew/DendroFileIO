@@ -67,7 +67,7 @@ public class HeidelbergWriter extends AbstractDendroCollectionWriter {
 						}
 					}
 					
-					if( s.isSetRadiusPlaceholder()){
+					/*if( s.isSetRadiusPlaceholder()){
 						// we have to search through all derived series to find the one matching our placeholder id
 						for(TridasDerivedSeries ds : argProject.getDerivedSeries()){
 							if(ds.getId() == null){
@@ -89,8 +89,24 @@ public class HeidelbergWriter extends AbstractDendroCollectionWriter {
 								}
 							}
 						}
-					}
+					}*/
 				}
+			}
+		}
+		
+		for(TridasDerivedSeries ds : argProject.getDerivedSeries()){
+			TridasToHeidelbergDefaults dsDefaults = (TridasToHeidelbergDefaults) defaults.clone();
+			dsDefaults.populateFromDerivedSeries(ds);
+			
+			for(int i=0; i< ds.getValues().size(); i++){
+				TridasValues tvs = ds.getValues().get(i);
+				TridasToHeidelbergDefaults tvDefaults = (TridasToHeidelbergDefaults) dsDefaults.clone();
+				tvDefaults.populateFromTridasValues(tvs);
+				
+				HeidelbergFile file = new HeidelbergFile(this, tvDefaults);
+				file.setSeries(ds, i);
+				naming.registerFile(file, argProject, ds);
+				addToFileList(file);
 			}
 		}
 	}
