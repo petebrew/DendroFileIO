@@ -298,7 +298,7 @@ public class CatrasReader extends AbstractDendroFileReader {
 		// Build identifier for series
 		TridasIdentifier seriesId = new ObjectFactory().createTridasIdentifier();
 		seriesId.setValue(seriesCode.trim());
-		seriesId.setDomain(defaults.getDefaultValue(TridasMandatoryField.IDENTIFIER_DOMAN).getStringValue());
+		seriesId.setDomain(defaults.getDefaultValue(TridasMandatoryField.IDENTIFIER_DOMAIN).getStringValue());
 		
 		// Build interpretation group for series
 		TridasInterpretation interp = new TridasInterpretation();

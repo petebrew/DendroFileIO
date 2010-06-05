@@ -231,7 +231,7 @@ public class VFormatReader extends AbstractDendroFileReader {
 				TridasIdentifier id = new TridasIdentifier();
 				id.setValue(line.substring(0, 12));
 				TridasMetadataFieldSet df = new TridasMetadataFieldSet();
-				id.setDomain(defaults.getDefaultValue(TridasMandatoryField.IDENTIFIER_DOMAN).getStringValue());
+				id.setDomain(defaults.getDefaultValue(TridasMandatoryField.IDENTIFIER_DOMAIN).getStringValue());
 				thisseries.setIdentifier(id);
 				thisseries.setTitle(line.substring(0, 12));
 								

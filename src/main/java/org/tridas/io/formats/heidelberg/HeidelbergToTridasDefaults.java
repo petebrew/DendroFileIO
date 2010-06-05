@@ -51,7 +51,7 @@ public class HeidelbergToTridasDefaults extends TridasMetadataFieldSet {
 		
 		TridasIdentifier id = new TridasIdentifier();
 		id.setValue(getStringDefaultValue(DefaultFields.SERIES_ID).getStringValue());
-		id.setDomain(getDefaultValue(TridasMandatoryField.IDENTIFIER_DOMAN).getStringValue());
+		id.setDomain(getDefaultValue(TridasMandatoryField.IDENTIFIER_DOMAIN).getStringValue());
 		series.setIdentifier(id);
 		
 		// FIXME detect ad/bc
@@ -81,7 +81,7 @@ public class HeidelbergToTridasDefaults extends TridasMetadataFieldSet {
 		
 		TridasIdentifier id = new TridasIdentifier();
 		id.setValue(getStringDefaultValue(DefaultFields.SERIES_ID).getStringValue());
-		id.setDomain(getDefaultValue(TridasMandatoryField.IDENTIFIER_DOMAN).getStringValue());
+		id.setDomain(getDefaultValue(TridasMandatoryField.IDENTIFIER_DOMAIN).getStringValue());
 		series.setIdentifier(id);
 		
 		// FIXME detect ad/bc

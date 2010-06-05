@@ -135,7 +135,7 @@ public class BelfastArchiveReader extends AbstractDendroFileReader {
 		// Build identifier for series
 		TridasIdentifier seriesId = new ObjectFactory().createTridasIdentifier();
 		seriesId.setValue(UUID.randomUUID().toString());
-		seriesId.setDomain(defaults.getDefaultValue(TridasMandatoryField.IDENTIFIER_DOMAN).getStringValue());
+		seriesId.setDomain(defaults.getDefaultValue(TridasMandatoryField.IDENTIFIER_DOMAIN).getStringValue());
 		
 		// Add values to nested value(s) tags
 		TridasValues valuesGroup = new TridasValues();
