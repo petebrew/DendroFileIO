@@ -60,6 +60,7 @@ public class HeidelbergFile implements IDendroFile {
 		TridasValues vals = series.getValues().get(valuesIndex);
 		numTridasValues = vals.getValues().size();
 		for(TridasValue v : vals.getValues()){
+			
 			ints.add(Integer.parseInt(v.getValue()));
 			if(chrono){
 				ints.add(v.getCount());

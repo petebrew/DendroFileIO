@@ -1,8 +1,6 @@
 package org.tridas.io.formats.tucson;
 
 import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.HashSet;
 import java.util.List;
 import java.util.UUID;
 import java.util.regex.Matcher;
@@ -273,7 +271,7 @@ public class TucsonReader extends AbstractDendroFileReader {
 		// Extract the year value and remove from line
 		SafeIntYear currentLineYearMarker;
 		try{
-			currentLineYearMarker = new SafeIntYear(line.substring(0,4));
+			currentLineYearMarker = new SafeIntYear(line.substring(0,4).trim());
 		} catch (NumberFormatException e)
 		{
 			
@@ -450,7 +448,7 @@ public class TucsonReader extends AbstractDendroFileReader {
 		// Extract the year value and remove
 		SafeIntYear currentLineYearMarker = null;
 		try {
-			currentLineYearMarker = new SafeIntYear(line.substring(0,4));
+			currentLineYearMarker = new SafeIntYear(line.substring(0,4).trim());
 			} catch (NumberFormatException e){
 				throw new InvalidDendroFileException(I18n.getText("tucson.invalidDecadeMarker", 
 						line.substring(0,4)), 
