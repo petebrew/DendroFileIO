@@ -15,6 +15,7 @@ import org.tridas.schema.TridasObject;
 import org.tridas.schema.TridasProject;
 import org.tridas.schema.TridasRadius;
 import org.tridas.schema.TridasSample;
+import org.tridas.schema.TridasValue;
 import org.tridas.schema.TridasValues;
 
 /**
@@ -55,6 +56,17 @@ public class HeidelbergWriter extends AbstractDendroCollectionWriter {
 							
 							for(int i=0; i< ms.getValues().size(); i++){
 								TridasValues tvs = ms.getValues().get(i);
+								
+								// Check there are no non-number values
+								for (TridasValue v : tvs.getValues())
+								{
+									try{Integer.parseInt(v.getValue());
+									} catch (NumberFormatException e2)
+									{
+										throw new IncompleteTridasDataException("One or more data values are not numbers!  This is technically acceptable in TRiDaS but not supported in this library.");
+									}
+								}
+								
 								TridasToHeidelbergDefaults tvDefaults = (TridasToHeidelbergDefaults) msDefaults.clone();
 								tvDefaults.populateFromTridasValues(tvs);
 								
@@ -100,6 +112,17 @@ public class HeidelbergWriter extends AbstractDendroCollectionWriter {
 			
 			for(int i=0; i< ds.getValues().size(); i++){
 				TridasValues tvs = ds.getValues().get(i);
+
+				// Check there are no non-number values
+				for (TridasValue v : tvs.getValues())
+				{
+					try{Integer.parseInt(v.getValue());
+					} catch (NumberFormatException e)
+					{
+						throw new IncompleteTridasDataException("One or more data values are not numbers!  This is technically acceptable in TRiDaS but not supported in this library.");
+					}
+				}
+				
 				TridasToHeidelbergDefaults tvDefaults = (TridasToHeidelbergDefaults) dsDefaults.clone();
 				tvDefaults.populateFromTridasValues(tvs);
 				
