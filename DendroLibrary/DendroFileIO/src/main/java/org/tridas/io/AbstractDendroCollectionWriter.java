@@ -110,9 +110,9 @@ public abstract class AbstractDendroCollectionWriter implements IDendroCollectio
 	 * Override to use implement own file saving.
 	 * @param argOutputFolder output folder can be absolute, and always ends with "/"
 	 * @param argFilename
-	 * @param argFile
+	 * @param argFile a dendro file of this writer
 	 */
-	protected void saveFileToDisk(String argOutputFolder, String argFilename, IDendroFile argFile){
+	public void saveFileToDisk(String argOutputFolder, String argFilename, IDendroFile argFile){
 		FileHelper helper;
 		
 		boolean absolute = argOutputFolder.startsWith("/") || argOutputFolder.startsWith("\\");

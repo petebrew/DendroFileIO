@@ -107,7 +107,7 @@ public class ExcelMatrixWriter extends AbstractDendroCollectionWriter {
 	}
 	
 	@Override
-	protected void saveFileToDisk(String argOutputFolder, String argFilename, IDendroFile argFile) {
+	public void saveFileToDisk(String argOutputFolder, String argFilename, IDendroFile argFile) {
 		
 		FileHelper helper;
 		

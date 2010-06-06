@@ -60,6 +60,14 @@ public interface IDendroCollectionWriter {
 	public void saveAllToDisk(String argFolderName);
 	
 	/**
+	 * Override to use implement own file saving, called from {@link #saveAllToDisk(String)}.
+	 * @param argOutputFolder output folder can be absolute, and always ends with "/"
+	 * @param argFilename
+	 * @param argFile a dendro file of this writer
+	 */
+	public void saveFileToDisk(String argOutputFolder, String argFilename, IDendroFile argFile);
+	
+	/**
 	 * Get the short name of the format
 	 * @return
 	 */
