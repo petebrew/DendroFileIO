@@ -143,7 +143,7 @@ public class HeidelbergReader extends AbstractDendroFileReader {
 				continue;
 			}else if(s.startsWith("DATA")){
 				inHeader = false;
-				String dataTypeString = s.substring(s.indexOf(":")+1);
+				String dataTypeString = s.substring(s.indexOf(":")+1).trim();
 				try{
 					dataType = DATA_TYPE.valueOf(dataTypeString);
 				}catch(Exception e){

@@ -41,7 +41,7 @@ public class TridasIO {
 	private static final HashMap<String, TridasIOEntry> converterMap = new HashMap<String, TridasIOEntry>();
 	private static final HashMap<String, String> extensionMap = new HashMap<String, String>();
 	
-	private static boolean charsetDetection = true;
+	private static boolean charsetDetection = false;
 	private static boolean loaded = false;
 	
 	static{
