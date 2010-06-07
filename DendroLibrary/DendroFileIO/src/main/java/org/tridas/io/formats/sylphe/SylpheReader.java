@@ -94,7 +94,7 @@ public class SylpheReader extends AbstractDendroFileReader {
 					}
 					catch (Exception e2)
 					{
-						addWarningToList(new ConversionWarning(WarningType.INVALID, 
+						addWarning(new ConversionWarning(WarningType.INVALID, 
 								I18n.getText("sylphe.dateInvalid")));
 					}
 					
@@ -257,7 +257,7 @@ public class SylpheReader extends AbstractDendroFileReader {
 						setValue(Integer.parseInt(parts[1]));
 					} catch (Exception e)
 					{
-						addWarningToList(new ConversionWarning(WarningType.INVALID, 
+						addWarning(new ConversionWarning(WarningType.INVALID, 
 								I18n.getText("sylphe.invalidRingCount")));
 					} 
 				}
@@ -299,7 +299,7 @@ public class SylpheReader extends AbstractDendroFileReader {
 						setValue(Integer.parseInt(parts[1]));
 					} catch (Exception e)
 					{
-						addWarningToList(new ConversionWarning(WarningType.INVALID, 
+						addWarning(new ConversionWarning(WarningType.INVALID, 
 								I18n.getText("sylphe.invalidSapwoodStart"), "AUB"));
 					} 
 				}
@@ -321,7 +321,7 @@ public class SylpheReader extends AbstractDendroFileReader {
 					
 					if (cambium.getValue()==null)
 					{
-						addWarningToList(new ConversionWarning(WarningType.INVALID, 
+						addWarning(new ConversionWarning(WarningType.INVALID, 
 								I18n.getText("sylphe.invalidCambiumField"), "CAM"));
 					}
 				}
@@ -341,7 +341,7 @@ public class SylpheReader extends AbstractDendroFileReader {
 						setValue(intval);
 					} catch (Exception e)
 					{
-						addWarningToList(new ConversionWarning(WarningType.INVALID, 
+						addWarning(new ConversionWarning(WarningType.INVALID, 
 								I18n.getText("sylphe.invalidStartYear"), "ORI"));
 					} 
 				}
@@ -354,7 +354,7 @@ public class SylpheReader extends AbstractDendroFileReader {
 						setValue(Integer.parseInt(parts[1]));
 					} catch (Exception e)
 					{
-						addWarningToList(new ConversionWarning(WarningType.INVALID, 
+						addWarning(new ConversionWarning(WarningType.INVALID, 
 								I18n.getText("sylphe.invalidLastYear"), "TER"));
 					} 
 				}
@@ -367,7 +367,7 @@ public class SylpheReader extends AbstractDendroFileReader {
 						setValue(Integer.parseInt(parts[1]));
 					} catch (Exception e)
 					{
-						addWarningToList(new ConversionWarning(WarningType.INVALID, 
+						addWarning(new ConversionWarning(WarningType.INVALID, 
 								I18n.getText("sylphe.invalidPositionInMean")));
 					} 
 				}
@@ -497,6 +497,19 @@ public class SylpheReader extends AbstractDendroFileReader {
 		public ArrayList<String> dataBlock;
 		public SylpheToTridasDefaults defaults;
 		public ArrayList<TridasValue> dataValues = new ArrayList<TridasValue>();
+	}
+
+
+
+	/**
+	 * @see org.tridas.io.AbstractDendroFileReader#resetReader()
+	 */
+	@Override
+	protected void resetReader() {
+		currentLine = 0;
+		defaults = null;
+		fileLastUpdated = null;
+		seriesList.clear();
 	}
 	
 }

@@ -338,7 +338,7 @@ public class HeidelbergReader extends AbstractDendroFileReader {
 					value.setNormalTridas(NormalTridasUnit.MICROMETRES);
 				}else{
 					value = null; 
-					this.addWarningToList(new ConversionWarning(WarningType.NULL_VALUE, 
+					this.addWarning(new ConversionWarning(WarningType.NULL_VALUE, 
 							I18n.getText("fileio.noUnitsDetected")));		
 				}
 				unit.setValue(value);
@@ -527,5 +527,15 @@ public class HeidelbergReader extends AbstractDendroFileReader {
 		public HeidelbergToTridasDefaults defaults;
 		public final HashMap<String,String> fileMetadata = new HashMap<String, String>();
 		public final ArrayList<Integer> dataInts = new ArrayList<Integer>();
+	}
+
+	/**
+	 * @see org.tridas.io.AbstractDendroFileReader#resetReader()
+	 */
+	@Override
+	protected void resetReader() {
+		currentLineNum = -1;
+		defaults = null;
+		series.clear();
 	}
 }

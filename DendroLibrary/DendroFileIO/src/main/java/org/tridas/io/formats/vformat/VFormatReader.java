@@ -41,7 +41,6 @@ public class VFormatReader extends AbstractDendroFileReader {
 	private static final SimpleLogger log = new SimpleLogger(VFormatReader.class);
 	// defaults given by user
 	private VFormatToTridasDefaults defaults = new VFormatToTridasDefaults();
-	private TridasProject project = null;
 	
 	private ArrayList<ITridasSeries> seriesList = new ArrayList<ITridasSeries>();
 
@@ -81,7 +80,6 @@ public class VFormatReader extends AbstractDendroFileReader {
 	
 	public VFormatReader() {
 		super(VFormatToTridasDefaults.class);
-		project = defaults.getProjectWithDefaults();
 	}
 	
 	@Override
@@ -144,7 +142,7 @@ public class VFormatReader extends AbstractDendroFileReader {
 					Integer fileVersionNumber = Integer.valueOf(line.substring(68,70));
 					if(fileVersionNumber.compareTo(10)>=0)
 					{
-						this.addWarningToList(new ConversionWarning(
+						this.addWarning(new ConversionWarning(
 								WarningType.NOT_STRICT, 
 								I18n.getText("vformat.unsupportedFormat",
 										String.valueOf(fileVersionNumber))));
@@ -343,14 +341,14 @@ public class VFormatReader extends AbstractDendroFileReader {
 					// Check values are sane
 					if((lon.compareTo(new Double(-180f))<0) || (lon.compareTo(new Double(180f))>0))
 					{
-						this.addWarningToList(new ConversionWarning(
+						this.addWarning(new ConversionWarning(
 								WarningType.NOT_STRICT, 
 								I18n.getText("fileio.longOutOfBounds",
 										String.valueOf(lon))));
 					}
 					if((lat.compareTo(new Double(-90f))<0) || (lat.compareTo(new Double(90f))>0))
 					{
-						this.addWarningToList(new ConversionWarning(
+						this.addWarning(new ConversionWarning(
 								WarningType.NOT_STRICT, 
 								I18n.getText("fileio.latOutOfBounds",
 										String.valueOf(lat))));						
@@ -461,7 +459,7 @@ public class VFormatReader extends AbstractDendroFileReader {
 
 	@Override
 	public TridasProject getProject() {
-		
+		TridasProject project = null;
 		try{
 		project = defaults.getProjectWithDefaults(true); 
 		TridasObject o = project.getObjects().get(0);
@@ -502,7 +500,7 @@ public class VFormatReader extends AbstractDendroFileReader {
 		return project;
 	}
 
-	private TridasObject getObject(String objectid)
+	private TridasObject getObject(TridasProject project, String objectid)
 	{
 		ArrayList<TridasObject> olist;
 		
@@ -516,9 +514,9 @@ public class VFormatReader extends AbstractDendroFileReader {
 		return null;
 	}
 	
-	private TridasObject getOrCreateObject(String objectid)
+	private TridasObject getOrCreateObject(TridasProject project, String objectid)
 	{
-		TridasObject o = getObject(objectid);
+		TridasObject o = getObject(project, objectid);
 		
 		if(o==null)
 		{
@@ -530,13 +528,13 @@ public class VFormatReader extends AbstractDendroFileReader {
 			project.setObjects(olist);
 		}
 
-		return getObject(objectid);
+		return getObject(project, objectid);
 
 	}
 	
-	private TridasElement getElement(String objectid, String elementid)
+	private TridasElement getElement(TridasProject project, String objectid, String elementid)
 	{
-		TridasObject o = getOrCreateObject(objectid);
+		TridasObject o = getOrCreateObject(project, objectid);
 		
 		ArrayList<TridasElement> elist;
 		try{ elist = (ArrayList<TridasElement>) o.getElements();
@@ -551,9 +549,9 @@ public class VFormatReader extends AbstractDendroFileReader {
 		
 	}
 	
-	private TridasElement getOrCreateElement(String objectid, String elementid)
+	private TridasElement getOrCreateElement(TridasProject project,String objectid, String elementid)
 	{
-		TridasElement e = getElement(objectid, elementid);
+		TridasElement e = getElement(project, objectid, elementid);
 		
 		if (e==null)
 		{
@@ -561,16 +559,16 @@ public class VFormatReader extends AbstractDendroFileReader {
 			e = defaults.getElementWithDefaults(elementid);
 			e.setTitle(elementid);
 			elist.add(e);
-			getOrCreateObject(objectid).setElements(elist);
+			getOrCreateObject(project, objectid).setElements(elist);
 		}
 
-		return getElement(objectid, elementid);
+		return getElement(project, objectid, elementid);
 
 	}
 	
-	private TridasSample getSample(String objectid, String elementid, String sampleid)
+	private TridasSample getSample(TridasProject project,String objectid, String elementid, String sampleid)
 	{
-		TridasElement e = getOrCreateElement(objectid, elementid);
+		TridasElement e = getOrCreateElement(project, objectid, elementid);
 		
 		ArrayList<TridasSample> slist;
 		try{ slist = (ArrayList<TridasSample>) e.getSamples();
@@ -583,9 +581,9 @@ public class VFormatReader extends AbstractDendroFileReader {
 		return null;
 	}
 	
-	private TridasSample getOrCreateSample(String objectid, String elementid, String sampleid)
+	private TridasSample getOrCreateSample(TridasProject project, String objectid, String elementid, String sampleid)
 	{
-		TridasSample s = getSample(objectid, elementid, sampleid);
+		TridasSample s = getSample(project, objectid, elementid, sampleid);
 		
 		if (s==null)
 		{		
@@ -597,21 +595,21 @@ public class VFormatReader extends AbstractDendroFileReader {
 			s.setRadiuses(rlist);
 			ArrayList<TridasSample> slist = new ArrayList<TridasSample>();
 			slist.add(s);
-			getOrCreateElement(objectid, elementid).setSamples(slist);
+			getOrCreateElement(project, objectid, elementid).setSamples(slist);
 		}
 
-		return getSample(objectid, elementid, sampleid);
+		return getSample(project, objectid, elementid, sampleid);
 	}
 		
-	private TridasMeasurementSeries createMeasurementSeries(String objectid, String elementid, String sampleid, String seriesid)
+	private TridasMeasurementSeries createMeasurementSeries(TridasProject project, String objectid, String elementid, String sampleid, String seriesid)
 	{
-		TridasSample samp = getOrCreateSample(objectid, elementid, sampleid);
+		TridasSample samp = getOrCreateSample(project, objectid, elementid, sampleid);
 		TridasRadius r = samp.getRadiuses().get(0);
 		
 		ArrayList<TridasMeasurementSeries> seriesList; 
 		try{
 			seriesList = (ArrayList<TridasMeasurementSeries>) 
-			getOrCreateSample(objectid, elementid, sampleid).getRadiuses().get(0).getMeasurementSeries();		
+			getOrCreateSample(project, objectid, elementid, sampleid).getRadiuses().get(0).getMeasurementSeries();		
 		} catch (NullPointerException e)
 		{
 			seriesList = new ArrayList<TridasMeasurementSeries>();
@@ -648,5 +646,14 @@ public class VFormatReader extends AbstractDendroFileReader {
 	@Override
 	public String getShortName() {
 		return I18n.getText("vformat.about.shortName");
+	}
+
+	/**
+	 * @see org.tridas.io.AbstractDendroFileReader#resetReader()
+	 */
+	@Override
+	protected void resetReader() {
+		defaults = null;
+		seriesList.clear();
 	}
 }

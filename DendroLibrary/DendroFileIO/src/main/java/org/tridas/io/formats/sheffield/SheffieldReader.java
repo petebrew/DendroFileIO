@@ -1,5 +1,6 @@
 package org.tridas.io.formats.sheffield;
 
+import java.nio.charset.Charset;
 import java.util.ArrayList;
 import java.util.UUID;
 
@@ -53,8 +54,7 @@ import org.tridas.schema.SeriesLink.IdRef;
  */
 public class SheffieldReader extends AbstractDendroFileReader {
 	private static final SimpleLogger log = new SimpleLogger(SheffieldReader.class);
-	private TridasProject project = null;
-	private SheffieldToTridasDefaults defaults = new SheffieldToTridasDefaults();
+	private SheffieldToTridasDefaults defaults = null;
 	private ITridasSeries series;
 	
 	SheffieldDateType dateType =  SheffieldDateType.RELATIVE;
@@ -69,6 +69,7 @@ public class SheffieldReader extends AbstractDendroFileReader {
 			IMetadataFieldSet argDefaultFields)
 			throws InvalidDendroFileException {
 
+		defaults = (SheffieldToTridasDefaults) argDefaultFields;
 		// Check the file is valid
 		checkFile(argFileString);
 		
@@ -85,12 +86,12 @@ public class SheffieldReader extends AbstractDendroFileReader {
 			{	
 				if (lineString.length()>64)
 				{
-					addWarningToList(new ConversionWarning(WarningType.NOT_STRICT, 
+					addWarning(new ConversionWarning(WarningType.NOT_STRICT, 
 							I18n.getText("sheffield.lineOneTooBig")));
 				}
 				if (SheffieldFile.containsSpecialChars(lineString))
 				{
-					addWarningToList(new ConversionWarning(WarningType.NOT_STRICT, 
+					addWarning(new ConversionWarning(WarningType.NOT_STRICT, 
 							I18n.getText("sheffield.specialCharWarning")));
 				}		
 				defaults.getStringDefaultValue(DefaultFields.SERIES_TITLE).setValue(lineString);
@@ -104,7 +105,7 @@ public class SheffieldReader extends AbstractDendroFileReader {
 					defaults.getIntegerDefaultValue(DefaultFields.RING_COUNT).setValue(ringCount);
 				} catch (NumberFormatException e)
 				{
-					addWarningToList(new ConversionWarning(WarningType.INVALID, 
+					addWarning(new ConversionWarning(WarningType.INVALID, 
 							I18n.getText("fileio.invalidDataValue")));
 				}
 	
@@ -116,7 +117,7 @@ public class SheffieldReader extends AbstractDendroFileReader {
 			{		
 				if (!lineString.equalsIgnoreCase("A") && (!lineString.equalsIgnoreCase("R")))
 				{
-					addWarningToList(new ConversionWarning(WarningType.INVALID, 
+					addWarning(new ConversionWarning(WarningType.INVALID, 
 							I18n.getText("sheffield.invalidDateType")));
 					continue;
 				}	
@@ -148,7 +149,7 @@ public class SheffieldReader extends AbstractDendroFileReader {
 					startYearField.setValue(new SafeIntYear(yearNum));
 					
 				} catch (NumberFormatException e) { 
-					addWarningToList(new ConversionWarning(WarningType.INVALID, 
+					addWarning(new ConversionWarning(WarningType.INVALID, 
 							I18n.getText("fileio.invalidStartYear")));	
 				}
 			}
@@ -168,7 +169,7 @@ public class SheffieldReader extends AbstractDendroFileReader {
 					val = Integer.parseInt(lineString);
 				} catch (NumberFormatException e)
 				{
-					addWarningToList(new ConversionWarning(WarningType.INVALID, 
+					addWarning(new ConversionWarning(WarningType.INVALID, 
 							I18n.getText("fileio.invalidDataValue"), "Sapwood count"));	
 					continue;
 				}
@@ -202,7 +203,7 @@ public class SheffieldReader extends AbstractDendroFileReader {
 					}
 					else
 					{
-						addWarningToList(new ConversionWarning(WarningType.INVALID, 
+						addWarning(new ConversionWarning(WarningType.INVALID, 
 								I18n.getText("sheffield.invalidEdgeCode")));	
 						continue;
 					}
@@ -218,7 +219,7 @@ public class SheffieldReader extends AbstractDendroFileReader {
 					}
 					else
 					{
-						addWarningToList(new ConversionWarning(WarningType.INVALID, 
+						addWarning(new ConversionWarning(WarningType.INVALID, 
 								I18n.getText("sheffield.invalidChronologyType")));	
 						continue;
 					}
@@ -230,7 +231,7 @@ public class SheffieldReader extends AbstractDendroFileReader {
 			{
 				if (lineString.length()>64)
 				{
-					addWarningToList(new ConversionWarning(WarningType.NOT_STRICT, 
+					addWarning(new ConversionWarning(WarningType.NOT_STRICT, 
 							I18n.getText("sheffield.lineNTooBig", String.valueOf(lineString.length()))));
 				}
 				defaults.getStringDefaultValue(DefaultFields.SERIES_COMMENT).setValue(lineString);
@@ -255,7 +256,7 @@ public class SheffieldReader extends AbstractDendroFileReader {
 				String[] coords = lineString.split(" ");
 				if(coords.length!=2)
 				{
-					addWarningToList(new ConversionWarning(WarningType.NOT_STRICT, 
+					addWarning(new ConversionWarning(WarningType.NOT_STRICT, 
 							I18n.getText("sheffield.errorParsingCoords")));
 					continue;
 				}
@@ -267,7 +268,7 @@ public class SheffieldReader extends AbstractDendroFileReader {
 						northing = convertCoordsToDD(coords[0], NorthingEasting.NORTH_SOUTH);
 						easting = convertCoordsToDD(coords[1], NorthingEasting.EAST_WEST);
 					} catch (ConversionWarningException e) {
-						addWarningToList(e.getWarning());
+						addWarning(e.getWarning());
 						continue;
 					}
 				}
@@ -278,7 +279,7 @@ public class SheffieldReader extends AbstractDendroFileReader {
 						easting = Double.valueOf(coords[1]);
 					} catch (NumberFormatException e)
 					{
-						addWarningToList(new ConversionWarning(WarningType.NOT_STRICT, 
+						addWarning(new ConversionWarning(WarningType.NOT_STRICT, 
 								I18n.getText("sheffield.errorParsingCoords")));
 						continue;
 					}
@@ -328,7 +329,7 @@ public class SheffieldReader extends AbstractDendroFileReader {
 				}
 				else
 				{
-					addWarningToList(new ConversionWarning(WarningType.INVALID, 
+					addWarning(new ConversionWarning(WarningType.INVALID, 
 							I18n.getText("fileio.invalidDataValue"), "Cross-section code"));	
 					continue;	
 				}
@@ -341,7 +342,7 @@ public class SheffieldReader extends AbstractDendroFileReader {
 				try{dim = Double.parseDouble(lineString);
 					defaults.getDoubleDefaultValue(DefaultFields.MAJOR_DIM).setValue(dim);
 				} catch (NumberFormatException e){
-					addWarningToList(new ConversionWarning(WarningType.INVALID, 
+					addWarning(new ConversionWarning(WarningType.INVALID, 
 							I18n.getText("fileio.invalidDataValue"), "Major dimension"));	
 					continue;
 				}
@@ -354,7 +355,7 @@ public class SheffieldReader extends AbstractDendroFileReader {
 				try{dim = Double.parseDouble(lineString);
 					defaults.getDoubleDefaultValue(DefaultFields.MINOR_DIM).setValue(dim);
 				} catch (NumberFormatException e){
-					addWarningToList(new ConversionWarning(WarningType.INVALID, 
+					addWarning(new ConversionWarning(WarningType.INVALID, 
 							I18n.getText("fileio.invalidDataValue"), "Minor dimension"));	
 					continue;
 				}
@@ -366,7 +367,7 @@ public class SheffieldReader extends AbstractDendroFileReader {
 				try{Integer ringCount = Integer.parseInt(lineString.substring(1));
 					defaults.getIntegerDefaultValue(DefaultFields.UNMEAS_INNER_RINGS).setValue(ringCount);
 				} catch (NumberFormatException e){
-					addWarningToList(new ConversionWarning(WarningType.INVALID, 
+					addWarning(new ConversionWarning(WarningType.INVALID, 
 							I18n.getText("fileio.invalidDataValue"), "Unmeasured inner rings"));	
 					continue;
 				}
@@ -378,7 +379,7 @@ public class SheffieldReader extends AbstractDendroFileReader {
 				try{Integer ringCount = Integer.parseInt(lineString.substring(1));
 				defaults.getIntegerDefaultValue(DefaultFields.UNMEAS_OUTER_RINGS).setValue(ringCount);
 				} catch (NumberFormatException e){
-				addWarningToList(new ConversionWarning(WarningType.INVALID, 
+				addWarning(new ConversionWarning(WarningType.INVALID, 
 						I18n.getText("fileio.invalidDataValue"), "Unmeasured outer rings"));	
 				continue;
 				}
@@ -389,7 +390,7 @@ public class SheffieldReader extends AbstractDendroFileReader {
 			{
 				if (lineString.length()>=14)
 				{
-					addWarningToList(new ConversionWarning(WarningType.NOT_STRICT, 
+					addWarning(new ConversionWarning(WarningType.NOT_STRICT, 
 							I18n.getText("sheffield.line17TooBig")));
 				}
 				else if (!lineString.equals("?"))
@@ -403,7 +404,7 @@ public class SheffieldReader extends AbstractDendroFileReader {
 			{
 				if (lineString.length()>=8)
 				{
-					addWarningToList(new ConversionWarning(WarningType.NOT_STRICT, 
+					addWarning(new ConversionWarning(WarningType.NOT_STRICT, 
 							I18n.getText("sheffield.line18TooBig")));
 				}
 				
@@ -422,7 +423,7 @@ public class SheffieldReader extends AbstractDendroFileReader {
 				}
 				else
 				{
-					addWarningToList(new ConversionWarning(WarningType.INVALID, 
+					addWarning(new ConversionWarning(WarningType.INVALID, 
 							I18n.getText("fileio.invalidDataValue"), "Period code"));	
 					continue;	
 				}
@@ -448,7 +449,7 @@ public class SheffieldReader extends AbstractDendroFileReader {
 					if(notesArray.length % 3 != 0)
 					{
 						// Notes array does not split into threes
-						addWarningToList(new ConversionWarning(WarningType.INVALID, 
+						addWarning(new ConversionWarning(WarningType.INVALID, 
 								I18n.getText("sheffield.interpInvalid")));
 						continue;
 					}
@@ -458,7 +459,7 @@ public class SheffieldReader extends AbstractDendroFileReader {
 						if(!notesArray[i].equalsIgnoreCase("I") || !notesArray[i].equalsIgnoreCase("A"))
 						{
 							// Each note must begin with an I (interpretation) or an A (anatomy)
-							addWarningToList(new ConversionWarning(WarningType.INVALID, 
+							addWarning(new ConversionWarning(WarningType.INVALID, 
 									I18n.getText("sheffield.interpNotIorA")));
 							continue;
 						}
@@ -470,7 +471,7 @@ public class SheffieldReader extends AbstractDendroFileReader {
 						} catch (NumberFormatException e)
 						{
 							// The second field of each note must be a year or ring number
-							addWarningToList(new ConversionWarning(WarningType.INVALID, 
+							addWarning(new ConversionWarning(WarningType.INVALID, 
 									I18n.getText("sheffield.interpNoNumber")));
 							continue;
 						}
@@ -491,7 +492,7 @@ public class SheffieldReader extends AbstractDendroFileReader {
 				}
 				else
 				{
-					addWarningToList(new ConversionWarning(WarningType.INVALID, 
+					addWarning(new ConversionWarning(WarningType.INVALID, 
 							I18n.getText("fileio.invalidDataValue"), "Data variable code"));	
 					continue;	
 				}
@@ -561,7 +562,7 @@ public class SheffieldReader extends AbstractDendroFileReader {
 		// Check ring count matches number of values in file
 		if(defaults.getIntegerDefaultValue(DefaultFields.RING_COUNT).getValue()!=ringWidthValues.size())
 		{
-			this.addWarningToList(new ConversionWarning(
+			this.addWarning(new ConversionWarning(
 					WarningType.INVALID, 
 					I18n.getText("fileio.valueCountMismatch")));
 						
@@ -848,6 +849,14 @@ public class SheffieldReader extends AbstractDendroFileReader {
 			
 		return CoordinatesUtils.getDecimalCoords(sign, degrees, minutes, null);
 	}
-		
-		
+
+	/**
+	 * @see org.tridas.io.AbstractDendroFileReader#resetReader()
+	 */
+	@Override
+	protected void resetReader() {
+		defaults = null;
+		dateType = SheffieldDateType.RELATIVE;
+		series = null;
+	}	
 }

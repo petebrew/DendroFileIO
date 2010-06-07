@@ -242,7 +242,7 @@ public class BesanconReader extends AbstractDendroFileReader {
 							setValue(Integer.parseInt(value));
 						} catch (Exception e)
 						{
-							addWarningToList(new ConversionWarning(WarningType.INVALID, 
+							addWarning(new ConversionWarning(WarningType.INVALID, 
 									I18n.getText("besancon.invalidRingCount")));
 						} 
 					}
@@ -271,7 +271,7 @@ public class BesanconReader extends AbstractDendroFileReader {
 							setValue(Integer.parseInt(value));
 						} catch (Exception e)
 						{
-							addWarningToList(new ConversionWarning(WarningType.INVALID, 
+							addWarning(new ConversionWarning(WarningType.INVALID, 
 									I18n.getText("besancon.invalidSapwoodStart"), "Aubier"));
 						} 
 					}
@@ -293,7 +293,7 @@ public class BesanconReader extends AbstractDendroFileReader {
 						
 						if (cambium.getValue()==null)
 						{
-							addWarningToList(new ConversionWarning(WarningType.INVALID, 
+							addWarning(new ConversionWarning(WarningType.INVALID, 
 									I18n.getText("besancon.invalidCambiumField"), "Cambium"));
 						}
 					}
@@ -313,7 +313,7 @@ public class BesanconReader extends AbstractDendroFileReader {
 							setValue(intval);
 						} catch (Exception e)
 						{
-							addWarningToList(new ConversionWarning(WarningType.INVALID, 
+							addWarning(new ConversionWarning(WarningType.INVALID, 
 									I18n.getText("besancon.invalidStartYear"), "Origine"));
 						} 
 					}
@@ -326,7 +326,7 @@ public class BesanconReader extends AbstractDendroFileReader {
 							setValue(Integer.parseInt(value));
 						} catch (Exception e)
 						{
-							addWarningToList(new ConversionWarning(WarningType.INVALID, 
+							addWarning(new ConversionWarning(WarningType.INVALID, 
 									I18n.getText("besancon.invalidLastYear"), "Terme"));
 						} 
 					}
@@ -339,7 +339,7 @@ public class BesanconReader extends AbstractDendroFileReader {
 							setValue(Integer.parseInt(parts[1].trim()));
 						} catch (Exception e)
 						{
-							addWarningToList(new ConversionWarning(WarningType.INVALID, 
+							addWarning(new ConversionWarning(WarningType.INVALID, 
 									I18n.getText("besancon.invalidPositionInMean"), "Position"));
 						} 
 					}
@@ -472,10 +472,6 @@ public class BesanconReader extends AbstractDendroFileReader {
 		return I18n.getText("besancon.about.shortName");
 	}
 
-	
-
-	
-	
 	/**
 	 * Class to store the measurement series data
 	 * @author peter
@@ -488,6 +484,14 @@ public class BesanconReader extends AbstractDendroFileReader {
 		public ArrayList<TridasValue> dataValues = new ArrayList<TridasValue>();
 	}
 	
-	
-	
+	/**
+	 * @see org.tridas.io.AbstractDendroFileReader#resetReader()
+	 */
+	@Override
+	protected void resetReader() {
+		currentLine = -1;
+		defaults = null;
+		fileLastUpdated = null;
+		seriesList.clear();
+	}
 }

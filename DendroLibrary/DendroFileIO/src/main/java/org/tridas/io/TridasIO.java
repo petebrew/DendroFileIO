@@ -3,6 +3,7 @@
  */
 package org.tridas.io;
 
+import java.nio.charset.Charset;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.HashMap;
@@ -18,7 +19,6 @@ import org.tridas.io.formats.heidelberg.HeidelbergWriter;
 import org.tridas.io.formats.sheffield.SheffieldReader;
 import org.tridas.io.formats.tridas.TridasReader;
 import org.tridas.io.formats.tridas.TridasWriter;
-import org.tridas.io.formats.sylphe.SylpheReader;
 import org.tridas.io.formats.besancon.BesanconReader;
 import org.tridas.io.formats.trims.TrimsReader;
 import org.tridas.io.formats.trims.TrimsWriter;
@@ -41,8 +41,8 @@ public class TridasIO {
 	private static final HashMap<String, TridasIOEntry> converterMap = new HashMap<String, TridasIOEntry>();
 	private static final HashMap<String, String> extensionMap = new HashMap<String, String>();
 	
+	private static String readingCharset = null;
 	private static boolean charsetDetection = false;
-	private static boolean loaded = false;
 	
 	static{
 		// register file readers/writers
@@ -66,7 +66,6 @@ public class TridasIO {
 		registerFileWriter(TrimsWriter.class);
 		registerFileWriter(CSVWriter.class);
 		registerFileWriter(ExcelMatrixWriter.class);
-		loaded = true;
 	}
 	
 	/**
@@ -90,9 +89,9 @@ public class TridasIO {
 	 * Register a reader.
 	 * @param argReader
 	 */
-	public synchronized static void registerFileReader(Class<? extends IDendroFileReader> argReader){
+	public synchronized static void registerFileReader(Class<? extends AbstractDendroFileReader> argReader){
 		// test to see if we can make an instance
-		IDendroFileReader reader;
+		AbstractDendroFileReader reader;
 		try {
 			reader = argReader.newInstance();
 		} catch (InstantiationException e) {
@@ -216,7 +215,7 @@ public class TridasIO {
 	 * @see #getSupportedReadingFormats()
 	 * @return
 	 */
-	public synchronized static IDendroFileReader getFileReader(String argFormatName){
+	public synchronized static AbstractDendroFileReader getFileReader(String argFormatName){
 		TridasIOEntry e = converterMap.get(argFormatName.toLowerCase());
 		if(e == null || e.fileReader == null){
 			return null;
@@ -235,7 +234,7 @@ public class TridasIO {
 	 * @param argExtension
 	 * @return
 	 */
-	public synchronized static IDendroFileReader getFileReaderFromExtension(String argExtension){
+	public synchronized static AbstractDendroFileReader getFileReaderFromExtension(String argExtension){
 		if(!extensionMap.containsKey(argExtension.toLowerCase())){
 			return null;
 		}
@@ -286,8 +285,28 @@ public class TridasIO {
 		return list.toArray(new String[0]);
 	}
 	
+	/**
+	 * @param argCharset the charset to 
+	 * @throws IllegalCharsetNameException - If the given charset name is illegal
+	 * @throws UnsupportedCharsetException - If no support for the named charset is available in this instance of the Java virtual machine
+	 */
+	public static void setReadingCharset(String argCharset) {
+		if(argCharset != null){
+			// check to see if we can get the charset
+			Charset.forName(argCharset);
+		}
+		TridasIO.readingCharset = argCharset;
+	}
+
+	/**
+	 * @return the charset
+	 */
+	public static String getReadingCharset() {
+		return readingCharset;
+	}
+
 	private static class TridasIOEntry{
-		Class<? extends IDendroFileReader> fileReader = null;
+		Class<? extends AbstractDendroFileReader> fileReader = null;
 		Class<? extends IDendroCollectionWriter> fileWriter = null;
 		String formatName = null;
 	}

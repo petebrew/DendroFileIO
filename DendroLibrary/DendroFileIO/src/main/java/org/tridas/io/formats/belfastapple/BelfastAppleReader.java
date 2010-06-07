@@ -28,12 +28,11 @@ import org.tridas.schema.TridasVariable;
 public class BelfastAppleReader extends AbstractDendroFileReader {
 	
 	private static final SimpleLogger log = new SimpleLogger(BelfastAppleReader.class);
-	private TridasProject project = null;
 	// defaults given by user
-	private BelfastAppleToTridasDefaults defaults = new BelfastAppleToTridasDefaults();
+	private BelfastAppleToTridasDefaults defaults = null;
 	private ArrayList<TridasMeasurementSeries> mseriesList = new ArrayList<TridasMeasurementSeries>();
-	String objectname;
-	String samplename;
+	String objectname = null;
+	String samplename = null;
 	
 	public BelfastAppleReader() {
 		super(BelfastAppleToTridasDefaults.class);
@@ -42,7 +41,7 @@ public class BelfastAppleReader extends AbstractDendroFileReader {
 	protected void parseFile(String[] argFileString,
 			IMetadataFieldSet argDefaultFields)
 			throws InvalidDendroFileException {
-		
+		defaults = (BelfastAppleToTridasDefaults) argDefaultFields;
 		// Extract 'metadata' ;-)
 		objectname = argFileString[0].trim();
 		samplename = argFileString[1].trim();
@@ -183,7 +182,14 @@ public class BelfastAppleReader extends AbstractDendroFileReader {
 		return I18n.getText("belfastapple.about.shortName");
 
 	}
-
-
-
+	/**
+	 * @see org.tridas.io.AbstractDendroFileReader#resetReader()
+	 */
+	@Override
+	protected void resetReader() {
+		mseriesList.clear();
+		defaults = null;
+		objectname = null;
+		samplename = null;
+	}
 }
