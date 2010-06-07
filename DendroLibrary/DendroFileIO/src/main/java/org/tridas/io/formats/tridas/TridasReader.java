@@ -37,6 +37,7 @@ public class TridasReader extends AbstractDendroFileReader {
 	private static final SimpleLogger log = new SimpleLogger(TridasReader.class);
 	
 	private TridasProject project = null;
+	private TridasMetadataFieldSet defaults = null;
 	
 	public TridasReader() {
 		super(TridasMetadataFieldSet.class);
@@ -45,7 +46,7 @@ public class TridasReader extends AbstractDendroFileReader {
 	@Override
 	protected void parseFile(String[] argFileString, IMetadataFieldSet argDefaultFields)
 			throws InvalidDendroFileException {
-		
+		defaults = (TridasMetadataFieldSet) argDefaultFields;
 		// Build the string array into a FileReader
 		StringBuilder fileString = new StringBuilder();
 		for (String s : argFileString) {
@@ -108,7 +109,7 @@ public class TridasReader extends AbstractDendroFileReader {
 	 */
 	@Override
 	public IMetadataFieldSet getDefaults() {
-		return null;
+		return defaults;
 	}
 	
 	@Override
@@ -147,5 +148,6 @@ public class TridasReader extends AbstractDendroFileReader {
 	@Override
 	protected void resetReader() {
 		project = null;
+		defaults = null;
 	}
 }
