@@ -487,7 +487,7 @@ public class HeidelbergReader extends AbstractDendroFileReader {
 			if(fileMetadata.containsKey("Pith")){
 				GenericDefaultValue<FHPith> pithField = (GenericDefaultValue<FHPith>) s.defaults
 				.getDefaultValue(DefaultFields.PITH);
-				pithField.setValue(FHPith.valueOf(fileMetadata.get("Pith")));
+				pithField.setValue(FHPith.fromCode(fileMetadata.get("Pith")));
 			}
 			
 			//PROJECT, new StringDefaultValue());
@@ -539,7 +539,7 @@ public class HeidelbergReader extends AbstractDendroFileReader {
 			if(fileMetadata.containsKey("SeriesType")){
 				GenericDefaultValue<FHSeriesType> seriesTypeField = (GenericDefaultValue<FHSeriesType>) s.defaults
 				.getDefaultValue(DefaultFields.SERIES_TYPE);
-				seriesTypeField.setValue(FHSeriesType.valueOf(fileMetadata.get("SeriesType")));
+				seriesTypeField.setValue(FHSeriesType.fromCode(fileMetadata.get("SeriesType")));
 			}
 			
 			//SHAPE_OF_SAMPLE, new StringDefaultValue());
@@ -646,7 +646,7 @@ public class HeidelbergReader extends AbstractDendroFileReader {
 			if(fileMetadata.containsKey("WaldKante")){
 				GenericDefaultValue<FHWaldKante> waldKanteField = (GenericDefaultValue<FHWaldKante>) s.defaults
 				.getDefaultValue(DefaultFields.WALDKANTE);
-				waldKanteField.setValue(FHWaldKante.valueOf(fileMetadata.get("WaldKante")));
+				waldKanteField.setValue(FHWaldKante.fromCode(fileMetadata.get("WaldKante")));
 			}
 		}
 	}
