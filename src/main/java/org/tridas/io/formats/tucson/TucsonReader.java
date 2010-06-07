@@ -130,11 +130,11 @@ public class TucsonReader extends AbstractDendroFileReader {
 					}
 					else
 					{
-						if(headercache1!=null) {addWarningToList(new ConversionWarning(WarningType.IGNORED, 
+						if(headercache1!=null) {addWarning(new ConversionWarning(WarningType.IGNORED, 
 										I18n.getText("tucson.nonstandardHeaderLine")+": "+headercache1));}
-						if(headercache2!=null) {addWarningToList(new ConversionWarning(WarningType.IGNORED, 
+						if(headercache2!=null) {addWarning(new ConversionWarning(WarningType.IGNORED, 
 										I18n.getText("tucson.nonstandardHeaderLine")+": "+headercache2));}
-						if(headercache3!=null) {addWarningToList(new ConversionWarning(WarningType.IGNORED, 
+						if(headercache3!=null) {addWarning(new ConversionWarning(WarningType.IGNORED, 
 										I18n.getText("tucson.nonstandardHeaderLine")+": "+headercache3));}
 						headercache1=null; headercache2=null; headercache3=null;
 					}
@@ -147,11 +147,11 @@ public class TucsonReader extends AbstractDendroFileReader {
 					}
 					else
 					{
-						if(headercache1!=null) {addWarningToList(new ConversionWarning(WarningType.IGNORED, 
+						if(headercache1!=null) {addWarning(new ConversionWarning(WarningType.IGNORED, 
 								I18n.getText("tucson.nonstandardHeaderLine")+": "+headercache1));}
-						if(headercache2!=null) {addWarningToList(new ConversionWarning(WarningType.IGNORED, 
+						if(headercache2!=null) {addWarning(new ConversionWarning(WarningType.IGNORED, 
 								I18n.getText("tucson.nonstandardHeaderLine")+": "+headercache2));}
-						if(headercache3!=null) {addWarningToList(new ConversionWarning(WarningType.IGNORED, 
+						if(headercache3!=null) {addWarning(new ConversionWarning(WarningType.IGNORED, 
 								I18n.getText("tucson.nonstandardHeaderLine")+": "+headercache3));}
 						headercache1=null; headercache2=null; headercache3=null;
 					}	
@@ -194,7 +194,7 @@ public class TucsonReader extends AbstractDendroFileReader {
 					}
 				default:
 					if (line!=null){
-						addWarningToList(new ConversionWarning(WarningType.IGNORED, 
+						addWarning(new ConversionWarning(WarningType.IGNORED, 
 								I18n.getText("tucson.nonstandardHeaderLine")+": "+line));
 					}
 					break;
@@ -275,7 +275,7 @@ public class TucsonReader extends AbstractDendroFileReader {
 		} catch (NumberFormatException e)
 		{
 			
-			this.addWarningToList(new ConversionWarning(
+			this.addWarning(new ConversionWarning(
 					WarningType.INVALID, 
 					I18n.getText("tucson.decadeMarkerNotNumber")));
 			currentLineYearMarker = new SafeIntYear();
@@ -330,7 +330,7 @@ public class TucsonReader extends AbstractDendroFileReader {
 			else if (value.matches("[^\\d]"))
 			{
 				// Must contain letters so invalid
-				this.addWarningToList(new ConversionWarning(
+				this.addWarning(new ConversionWarning(
 						WarningType.INVALID, 
 						"Data values contain non-numeric characters"));
 				return;	
@@ -939,11 +939,11 @@ public class TucsonReader extends AbstractDendroFileReader {
 		}
 		else
 		{		
-			if(line1!=null) {addWarningToList(new ConversionWarning(WarningType.IGNORED, 
+			if(line1!=null) {addWarning(new ConversionWarning(WarningType.IGNORED, 
 					I18n.getText("tucson.nonstandardHeaderLine")+": "+line1));}
-			if(line2!=null) {addWarningToList(new ConversionWarning(WarningType.IGNORED, 
+			if(line2!=null) {addWarning(new ConversionWarning(WarningType.IGNORED, 
 					I18n.getText("tucson.nonstandardHeaderLine")+": "+line2));}
-			if(line3!=null) {addWarningToList(new ConversionWarning(WarningType.IGNORED, 
+			if(line3!=null) {addWarning(new ConversionWarning(WarningType.IGNORED, 
 					I18n.getText("tucson.nonstandardHeaderLine")+": "+line3));}
 	
 			
@@ -1270,5 +1270,20 @@ public class TucsonReader extends AbstractDendroFileReader {
 	@Override
 	public String getShortName() {
 		return I18n.getText("tucson.about.shortName");
+	}
+
+
+
+	/**
+	 * @see org.tridas.io.AbstractDendroFileReader#resetReader()
+	 */
+	@Override
+	protected void resetReader() {
+		currentLineNumber = -1;
+		defaults = null;
+		dseriesList.clear();
+		mseriesList.clear();
+		project = null;
+		tucsonFields = null;
 	}
 }

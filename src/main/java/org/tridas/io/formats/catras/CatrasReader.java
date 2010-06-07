@@ -54,7 +54,7 @@ public class CatrasReader extends AbstractDendroFileReader {
 
 	private static final SimpleLogger log = new SimpleLogger(CatrasReader.class);
 	// defaults given by user
-	private CatrasToTridasDefaults defaults = new CatrasToTridasDefaults();
+	private CatrasToTridasDefaults defaults = null;
 	
 	private ArrayList<TridasMeasurementSeries> mseriesList = new ArrayList<TridasMeasurementSeries>();
 	private ArrayList<TridasDerivedSeries> dseriesList = new ArrayList<TridasDerivedSeries>();;
@@ -80,17 +80,6 @@ public class CatrasReader extends AbstractDendroFileReader {
 		}
 		loadFile(bytes, argDefaultFields);
 	}
-	
-	@Override
-	public void loadFile(String argFilename) throws IOException, InvalidDendroFileException{
-		FileHelper fileHelper = new FileHelper();
-		log.debug("loading file from: "+argFilename);
-		byte[] bytes = fileHelper.loadBytes(argFilename);
-		if(bytes == null){
-			throw new IOException(I18n.getText("fileio.loadfailed")); 
-		}
-		loadFile(bytes);
-	}
 
 	@Override
 	public void loadFile(String argPath, String argFilename,
@@ -104,17 +93,6 @@ public class CatrasReader extends AbstractDendroFileReader {
 		loadFile(bytes, argDefaultFields);
 	}
 	
-	@Override
-	public void loadFile(String argPath, String argFilename) throws IOException, InvalidDendroFileException{
-		FileHelper fileHelper = new FileHelper(argPath);
-		log.debug("loading file from: "+argFilename);
-		byte[] bytes = fileHelper.loadBytes(argFilename);
-		if(bytes == null){
-			throw new IOException(I18n.getText("fileio.loadfailed")); 
-		}
-		loadFile(bytes);
-	}
-	
 
 	public void loadFile(byte[] argFileBytes, IMetadataFieldSet argDefaults) throws IncorrectDefaultFieldsException, InvalidDendroFileException{
 		if(!argDefaults.getClass().equals(getDefaultFieldsClass())){
@@ -125,11 +103,8 @@ public class CatrasReader extends AbstractDendroFileReader {
 		
 	
 	public void loadFile(byte[] argFileBytes) throws InvalidDendroFileException{
-		parseFile(argFileBytes, constructDefaults());
+		parseFile(argFileBytes, constructDefaultMetadata());
 	}
-	
-	
-	
 
 	/**
 	 *  
@@ -198,7 +173,7 @@ public class CatrasReader extends AbstractDendroFileReader {
 		// Species codes are not standardised so we cannot convert
 		if(speciesCode>0)
 		{
-			this.addWarningToList(new ConversionWarning(
+			this.addWarning(new ConversionWarning(
 					WarningType.UNREPRESENTABLE, 
 					I18n.getText("catras.speciesCodeNotConvertable")));
 		}
@@ -246,7 +221,7 @@ public class CatrasReader extends AbstractDendroFileReader {
 		// Check length metadata is valid for the number of ring width values
 		if(ringWidthValues.size()!=length)
 		{
-			this.addWarningToList(new ConversionWarning(
+			this.addWarning(new ConversionWarning(
 					WarningType.INVALID, 
 					I18n.getText("fileio.valueCountMismatch")));
 			length = ringWidthValues.size();
@@ -264,7 +239,7 @@ public class CatrasReader extends AbstractDendroFileReader {
 				/**throw new InvalidDendroFileException(I18n.getText("fileio.countsAndValuesDontMatch",
 						new String [] {String.valueOf(ringWidthValues.size()), String.valueOf(sampleDepthValues.size())}),
 						129, PointerType.BYTE);*/
-				this.addWarningToList(new ConversionWarning(
+				this.addWarning(new ConversionWarning(
 						WarningType.INVALID, 
 						I18n.getText("fileio.countsAndValuesDontMatch",
 							new String [] {String.valueOf(ringWidthValues.size()), 
@@ -565,5 +540,16 @@ public class CatrasReader extends AbstractDendroFileReader {
 	@Override
 	public String getShortName() {
 		return I18n.getText("catras.about.shortName");
+	}
+
+	/**
+	 * @see org.tridas.io.AbstractDendroFileReader#resetReader()
+	 */
+	@Override
+	protected void resetReader() {
+		defaults = null;
+		dseriesList.clear();
+		mseriesList.clear();
+		speciesCode = 0;
 	}
 }

@@ -43,9 +43,8 @@ import org.tridas.schema.TridasVariable;
 public class TrimsReader extends AbstractDendroFileReader {
 
 	private static final SimpleLogger log = new SimpleLogger(TrimsReader.class);
-	private TridasProject project = null;
 	// defaults given by user
-	private TrimsToTridasDefaults defaults = new TrimsToTridasDefaults();
+	private TrimsToTridasDefaults defaults = null;
 	private ArrayList<TridasMeasurementSeries> mseriesList = new ArrayList<TridasMeasurementSeries>();
 	
 	public TrimsReader() {
@@ -56,7 +55,9 @@ public class TrimsReader extends AbstractDendroFileReader {
 	protected void parseFile(String[] argFileString,
 			IMetadataFieldSet argDefaultFields)
 			throws InvalidDendroFileException {
-		
+		defaults = (TrimsToTridasDefaults) argDefaultFields;
+		// TODO run the 'metadata' through the defaults, as 
+		// the user may have specified his own metadata
 		// Extract 'metadata' ;-)
 		String userid = argFileString[0].trim();
 		String createdTimestamp = argFileString[1].trim();
@@ -196,5 +197,14 @@ public class TrimsReader extends AbstractDendroFileReader {
 	@Override
 	public String getShortName() {
 		return I18n.getText("trims.about.shortName");
+	}
+
+	/**
+	 * @see org.tridas.io.AbstractDendroFileReader#resetReader()
+	 */
+	@Override
+	protected void resetReader() {
+		defaults = null;
+		mseriesList.clear();
 	}
 }

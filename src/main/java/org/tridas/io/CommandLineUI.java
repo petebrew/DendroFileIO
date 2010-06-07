@@ -105,7 +105,7 @@ public class CommandLineUI {
 		// set up readers
 		if(!batch){
 			// Read in File
-			IDendroFileReader reader;
+			AbstractDendroFileReader reader;
 			TridasProject project;
 			// Set up reader
 			if(inputFormat != null){
@@ -135,7 +135,7 @@ public class CommandLineUI {
 			String[] files = getFilesFromFolder(inputfilename);
 			for(String file : files){
 				TridasProject project;
-				IDendroFileReader reader;
+				AbstractDendroFileReader reader;
 				
 				if(inputFormat != null){
 					reader = TridasIO.getFileReader(inputFormat);
@@ -213,7 +213,7 @@ public class CommandLineUI {
 		if(verbose)
 		{
 			for(WriterReaderStruct struct : structs){
-				IDendroFileReader reader = struct.reader;
+				AbstractDendroFileReader reader = struct.reader;
 				IDendroCollectionWriter writer = struct.writer;
 				
 				System.out.println();
@@ -365,7 +365,7 @@ public class CommandLineUI {
 	}
 	
 	private static class WriterReaderStruct{
-		IDendroFileReader reader;
+		AbstractDendroFileReader reader;
 		IDendroCollectionWriter writer;
 		String origFilename;
 	}

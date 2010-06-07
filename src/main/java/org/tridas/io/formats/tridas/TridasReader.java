@@ -38,7 +38,6 @@ public class TridasReader extends AbstractDendroFileReader {
 	
 	private TridasProject project = null;
 	
-	
 	public TridasReader() {
 		super(TridasMetadataFieldSet.class);
 	}
@@ -63,7 +62,7 @@ public class TridasReader extends AbstractDendroFileReader {
 			// if we can't find the schema it's ok, doesn't mean it's not an invalid dendro file
 			log.error(I18n.getText("tridas.schemaMissing", 
 					e.getLocalizedMessage()));
-			addWarningToList(new ConversionWarning(WarningType.INVALID, I18n.getText("tridas.schemaMissing", 
+			addWarning(new ConversionWarning(WarningType.INVALID, I18n.getText("tridas.schemaMissing", 
 							e.getLocalizedMessage())));
 		}
 		Validator validator = schema.newValidator();
@@ -92,7 +91,7 @@ public class TridasReader extends AbstractDendroFileReader {
 			// Read the file into the project
 			project = (TridasProject) u.unmarshal(reader);
 		} catch (JAXBException e2) {
-			addWarningToList(new ConversionWarning(WarningType.DEFAULT, I18n.getText("fileio.loadfailed")));
+			addWarning(new ConversionWarning(WarningType.DEFAULT, I18n.getText("fileio.loadfailed")));
 		} 
 	}
 	
@@ -145,5 +144,13 @@ public class TridasReader extends AbstractDendroFileReader {
 	@Override
 	public String getShortName() {
 		return I18n.getText("tridas.about.shortName");
+	}
+
+	/**
+	 * @see org.tridas.io.AbstractDendroFileReader#resetReader()
+	 */
+	@Override
+	protected void resetReader() {
+		project = null;
 	}
 }

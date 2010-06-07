@@ -30,9 +30,8 @@ import org.tridas.schema.TridasVariable;
 public class BelfastArchiveReader extends AbstractDendroFileReader {
 	
 	private static final SimpleLogger log = new SimpleLogger(BelfastArchiveReader.class);
-	private TridasProject project = null;
 	// defaults given by user
-	private BelfastArchiveToTridasDefaults defaults = new BelfastArchiveToTridasDefaults();
+	private BelfastArchiveToTridasDefaults defaults = null;
 	private ArrayList<TridasMeasurementSeries> mseriesList = new ArrayList<TridasMeasurementSeries>();
 	String objectname;
 	String samplename;
@@ -46,6 +45,7 @@ public class BelfastArchiveReader extends AbstractDendroFileReader {
 			IMetadataFieldSet argDefaultFields)
 			throws InvalidDendroFileException {
 		
+		defaults = (BelfastArchiveToTridasDefaults) argDefaultFields;
 		TridasMeasurementSeries series = defaults.getMeasurementSeriesWithDefaults();
 		
 		// Extract 'metadata' ;-)
@@ -248,5 +248,15 @@ public class BelfastArchiveReader extends AbstractDendroFileReader {
 	public String getShortName() {
 		return I18n.getText("belfastarchive.about.shortName");
 	}
-
+	/**
+	 * @see org.tridas.io.AbstractDendroFileReader#resetReader()
+	 */
+	@Override
+	protected void resetReader() {
+		defaults = null;
+		mseriesList.clear();
+		objectname = null;
+		samplename = null;
+		startYear = null;	
+	}
 }

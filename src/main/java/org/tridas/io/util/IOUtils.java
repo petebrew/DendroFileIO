@@ -1,7 +1,5 @@
 package org.tridas.io.util;
 
-import java.awt.FileDialog;
-import java.awt.Frame;
 import java.io.BufferedInputStream;
 import java.io.BufferedOutputStream;
 import java.io.BufferedReader;
@@ -164,7 +162,7 @@ public class IOUtils {
 	 */
 	public static BufferedReader createReader(File file) {
 		try {
-			return createReader(file, "UTF-8");
+			return createReader(file, null);
 		} catch (UnsupportedEncodingException e) {
 		} // not gonna happen
 		return null; // won't happen
@@ -203,11 +201,7 @@ public class IOUtils {
 	 * I want to read lines from a stream.
 	 */
 	public static BufferedReader createReader(InputStream input) {
-		InputStreamReader isr = null;
-		try {
-			isr = new InputStreamReader(input, "UTF-8");
-		} catch (UnsupportedEncodingException e) {
-		} // not gonna happen
+		InputStreamReader isr = new InputStreamReader(input);
 		return new BufferedReader(isr);
 	}
 	
@@ -225,7 +219,7 @@ public class IOUtils {
 	 */
 	public static PrintWriter createWriter(File file) {
 		try {
-			return createWriter(file, "UTF-8");
+			return createWriter(file, null);
 		} catch (UnsupportedEncodingException e) {
 		} // won't happen
 		return null; // won't happen
@@ -264,7 +258,7 @@ public class IOUtils {
 	 */
 	public static PrintWriter createWriter(OutputStream output) {
 		try {
-			return createWriter(output, "UTF-8");
+			return createWriter(output, null);
 		} catch (UnsupportedEncodingException e) {
 		} // won't happen
 		return null;
@@ -347,7 +341,7 @@ public class IOUtils {
 
 	public static String[] loadStrings(InputStream input) {
 		try {
-			return loadStrings(input, "UTF-8");
+			return loadStrings(input, null);
 		} catch (UnsupportedEncodingException e) {
 		}	// not gonna happen
 		return null;
@@ -355,8 +349,15 @@ public class IOUtils {
 	
 	public static String[] loadStrings(InputStream input, String argEncoding) throws UnsupportedEncodingException{
 		try {
-			BufferedReader reader = new BufferedReader(new InputStreamReader(
-					input, argEncoding));
+			
+			BufferedReader reader;
+			
+			if(argEncoding != null){
+				reader = new BufferedReader(new InputStreamReader(input, argEncoding));
+			}else{
+				reader = new BufferedReader(new InputStreamReader(input));
+			}
+					
 
 			String lines[] = new String[100];
 			int lineCount = 0;
@@ -500,7 +501,7 @@ public class IOUtils {
 
 	public static void saveStrings(OutputStream output, String strings[]) {
 		try {
-			saveStrings(output, strings, "UTF-8");
+			saveStrings(output, strings, null);
 		} catch (UnsupportedEncodingException e) {
 		}	// not gonna happen
 	}
@@ -509,7 +510,14 @@ public class IOUtils {
 		if(strings == null){
 			throw new NullPointerException("Strings to save cannot be null");
 		}
-		OutputStreamWriter osw = new OutputStreamWriter(output, argEncoding);
+		OutputStreamWriter osw;
+		
+		if(argEncoding != null){
+			osw = new OutputStreamWriter(output, argEncoding);
+		}else{
+			osw = new OutputStreamWriter(output);
+		}
+		
 		PrintWriter writer = new PrintWriter(osw);
 		for (int i = 0; i < strings.length; i++) {
 			writer.println(strings[i]);
