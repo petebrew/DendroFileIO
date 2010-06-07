@@ -43,14 +43,10 @@ public class SafeIntYearDefaultValue extends AbstractDefaultValue<SafeIntYear> {
 		return true;
 	}
 	
-	protected boolean validateAndSetValue(Integer argValue) {
-		value = new SafeIntYear(argValue);
-		return true;
-	}
-	
 	// Helper to allow setting SafeIntYear using a simple integer. This
 	// assumes the integer is a BC/AD value.
 	public boolean setValue(Integer argValue) {
-		return validateAndSetValue(argValue);
+		//return validateAndSetValue(argValue);
+		return setValue(new SafeIntYear(argValue)); // djm fix: didn't handle overriding
 	}
 }
