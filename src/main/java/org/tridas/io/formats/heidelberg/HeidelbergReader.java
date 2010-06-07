@@ -11,7 +11,17 @@ import org.tridas.io.AbstractDendroFileReader;
 import org.tridas.io.I18n;
 import org.tridas.io.defaults.IMetadataFieldSet;
 import org.tridas.io.defaults.values.GenericDefaultValue;
+import org.tridas.io.defaults.values.IntegerDefaultValue;
+import org.tridas.io.defaults.values.StringDefaultValue;
 import org.tridas.io.formats.heidelberg.HeidelbergToTridasDefaults.DefaultFields;
+import org.tridas.io.formats.heidelberg.HeidelbergToTridasDefaults.FHBarkType;
+import org.tridas.io.formats.heidelberg.HeidelbergToTridasDefaults.FHDataFormat;
+import org.tridas.io.formats.heidelberg.HeidelbergToTridasDefaults.FHDataType;
+import org.tridas.io.formats.heidelberg.HeidelbergToTridasDefaults.FHDated;
+import org.tridas.io.formats.heidelberg.HeidelbergToTridasDefaults.FHPith;
+import org.tridas.io.formats.heidelberg.HeidelbergToTridasDefaults.FHSeriesType;
+import org.tridas.io.formats.heidelberg.HeidelbergToTridasDefaults.FHStartsOrEndsWith;
+import org.tridas.io.formats.heidelberg.HeidelbergToTridasDefaults.FHWaldKante;
 import org.tridas.io.util.ITRDBTaxonConverter;
 import org.tridas.io.util.StringUtils;
 import org.tridas.io.warnings.ConversionWarning;
@@ -50,10 +60,7 @@ public class HeidelbergReader extends AbstractDendroFileReader {
 	
 	private int currentLineNum = 0;
 	
-	private enum DATA_TYPE {
-		Double, Single, Chrono, HalfChrono, Quadro, Tree
-		// formatted this way to match the string
-	}
+
 	
 	public HeidelbergReader() {
 		super(HeidelbergToTridasDefaults.class);
@@ -91,7 +98,7 @@ public class HeidelbergReader extends AbstractDendroFileReader {
 			}
 			else if (line.startsWith("DATA:")) {
 				// see what kind of data is here
-				DATA_TYPE dataType = DATA_TYPE.valueOf(line.substring(line.indexOf(":") + 1));
+				FHDataFormat dataType = FHDataFormat.valueOf(line.substring(line.indexOf(":") + 1));
 				lineNum++;
 				line = argFileString[lineNum];
 				currentLineNum = lineNum; // update line num
@@ -132,7 +139,7 @@ public class HeidelbergReader extends AbstractDendroFileReader {
 			throw new InvalidDendroFileException(I18n.getText("heidelberg.firstLineWrong"), 1);
 		}
 		
-		DATA_TYPE dataType = null;
+		FHDataFormat dataFormat = null;
 		boolean inHeader = true;
 		for (int i = 0; i < argStrings.length; i++) {
 			currentLineNum = i; // update line number
@@ -145,7 +152,7 @@ public class HeidelbergReader extends AbstractDendroFileReader {
 				inHeader = false;
 				String dataTypeString = s.substring(s.indexOf(":") + 1).trim();
 				try {
-					dataType = DATA_TYPE.valueOf(dataTypeString);
+					dataFormat = FHDataFormat.valueOf(dataTypeString);
 				} catch (Exception e) {
 					log.error(I18n.getText("heidelberg.failedToInterpretDataTypeString", dataTypeString));
 					throw new InvalidDendroFileException(I18n.getText("heidelberg.failedToInterpretDataTypeString",
@@ -170,7 +177,7 @@ public class HeidelbergReader extends AbstractDendroFileReader {
 				}
 			}
 			else {
-				switch (dataType) {
+				switch (dataFormat) {
 					case Chrono :
 					case Quadro :
 						// 4 nums per measurement
@@ -314,21 +321,302 @@ public class HeidelbergReader extends AbstractDendroFileReader {
 			s.defaults = (HeidelbergToTridasDefaults) defaults.clone();
 			HashMap<String, String> fileMetadata = s.fileMetadata;
 			
-			s.defaults.getStringDefaultValue(DefaultFields.SERIES_ID).setValue(fileMetadata.get("KeyCode"));
-			GenericDefaultValue<ControlledVoc> val = (GenericDefaultValue<ControlledVoc>) s.defaults
-					.getDefaultValue(DefaultFields.TAXON);
-			val.setValue(ITRDBTaxonConverter.getControlledVocFromCode(fileMetadata.get("Species")));
-			try {
-				s.defaults.getIntegerDefaultValue(DefaultFields.DATE_BEGIN).setValue(
-						Integer.parseInt(fileMetadata.get("DateBegin")));
-			} catch (Exception e) {}
-			try {
-				s.defaults.getIntegerDefaultValue(DefaultFields.DATE_END).setValue(
-						Integer.parseInt(fileMetadata.get("DateEnd")));
-			} catch (Exception e) {}
+			//BARK, new GenericDefaultValue<FHBarkType>());
+			if(fileMetadata.containsKey("Bark")){
+				GenericDefaultValue<FHBarkType> bark = (GenericDefaultValue<FHBarkType>) s.defaults.getDefaultValue(DefaultFields.BARK);
+				bark.setValue(FHBarkType.valueOf(fileMetadata.get("Bark")));
+			}
 			
+			//CORE_NUMBER, new StringDefaultValue());
+			if(fileMetadata.containsKey("CoreNo")){
+				s.defaults.getStringDefaultValue(DefaultFields.CORE_NUMBER).setValue(fileMetadata.get("CoreNo"));
+			}
+			
+			//COUNTRY, new StringDefaultValue());
+			if(fileMetadata.containsKey("Country")){
+				s.defaults.getStringDefaultValue(DefaultFields.COUNTRY).setValue(fileMetadata.get("Country"));
+			}
+			
+			//DATA_FORMAT, new GenericDefaultValue<FHDataFormat>());
+			if(fileMetadata.containsKey("DataFormat")){
+				GenericDefaultValue<FHDataFormat> dataFormatField = (GenericDefaultValue<FHDataFormat>) s.defaults
+				.getDefaultValue(DefaultFields.DATA_FORMAT);
+				dataFormatField.setValue(FHDataFormat.valueOf(fileMetadata.get("DataFormat")));
+			}
+			
+			//DATA_TYPE, new GenericDefaultValue<FHDataType>());
+			if(fileMetadata.containsKey("DataType")){
+				GenericDefaultValue<FHDataType> dataTypeField = (GenericDefaultValue<FHDataType>) s.defaults
+				.getDefaultValue(DefaultFields.DATA_TYPE);
+				dataTypeField.setValue(FHDataType.valueOf(fileMetadata.get("DataType")));
+			}
+			
+			//DATE_BEGIN, new IntegerDefaultValue());
+			try{
+				if(fileMetadata.containsKey("DateBegin")){
+					s.defaults.getIntegerDefaultValue(DefaultFields.DATE_BEGIN).setValue(Integer.parseInt(fileMetadata.get("DateBegin")));
+				}
+			} catch (NumberFormatException e){
+				addWarning(new ConversionWarning(WarningType.INVALID, 
+						I18n.getText("fileio.invalidNumber", fileMetadata.get("DateBegin")),
+						"DateBegin"));		
+			}
+			
+			//DATED, new GenericDefaultValue<FHDated>());
+			if(fileMetadata.containsKey("Dated")){
+				GenericDefaultValue<FHDated> datedField = (GenericDefaultValue<FHDated>) s.defaults
+				.getDefaultValue(DefaultFields.DATED);
+				datedField.setValue(FHDated.valueOf(fileMetadata.get("Dated")));
+			}
+			
+			//DATE_END, new IntegerDefaultValue());
+			try{
+				if(fileMetadata.containsKey("DateEnd")){
+					s.defaults.getIntegerDefaultValue(DefaultFields.DATE_END).setValue(Integer.parseInt(fileMetadata.get("DateEnd")));
+				}
+			} catch (NumberFormatException e){
+				addWarning(new ConversionWarning(WarningType.INVALID, 
+						I18n.getText("fileio.invalidNumber", fileMetadata.get("DateEnd")),
+						"DateEnd"));
+			}
+			
+			//DATE_OF_SAMPLING, new StringDefaultValue());
+			if(fileMetadata.containsKey("DateOfSampling")){
+				s.defaults.getStringDefaultValue(DefaultFields.DATE_OF_SAMPLING).setValue(fileMetadata.get("DateOfSampling"));
+			}
+			
+			//DISTRICT, new StringDefaultValue());
+			if(fileMetadata.containsKey("District")){
+				s.defaults.getStringDefaultValue(DefaultFields.DISTRICT).setValue(fileMetadata.get("District"));
+			}
+			
+			//ELEVATION, new StringDefaultValue());
+			if(fileMetadata.containsKey("Elevation")){
+				s.defaults.getStringDefaultValue(DefaultFields.ELEVATION).setValue(fileMetadata.get("Elevation"));
+			}
+			
+			//ESTIMATED_TIME_PERIOD, new StringDefaultValue());
+			if(fileMetadata.containsKey("EstimatedTimePeriod")){
+				s.defaults.getStringDefaultValue(DefaultFields.ESTIMATED_TIME_PERIOD).setValue(fileMetadata.get("EstimatedTimePeriod"));
+			}
+			
+			//FIRST_MEASUREMENT_DATE, new StringDefaultValue());
+			if(fileMetadata.containsKey("FirstMeasurementDate")){
+				s.defaults.getStringDefaultValue(DefaultFields.FIRST_MEASUREMENT_DATE).setValue(fileMetadata.get("FirstMeasurementDate"));
+			}
+			
+			//HOUSE_NAME, new StringDefaultValue());
+			if(fileMetadata.containsKey("HouseName")){
+				s.defaults.getStringDefaultValue(DefaultFields.HOUSE_NAME).setValue(fileMetadata.get("HouseName"));
+			}
+			
+			//HOUSE_NUMBER, new StringDefaultValue());	
+			if(fileMetadata.containsKey("HouseNumber")){
+				s.defaults.getStringDefaultValue(DefaultFields.HOUSE_NUMBER).setValue(fileMetadata.get("HouseNumber"));
+			}
+			
+			//KEYCODE, new StringDefaultValue());
+			if(fileMetadata.containsKey("KeyCode")){
+				s.defaults.getStringDefaultValue(DefaultFields.KEYCODE).setValue(fileMetadata.get("KeyCode"));
+			}
+			
+			//LAB_CODE, new StringDefaultValue());
+			//TODO the TSAP manual has this field spelled as 'LabotaryCode' in the manual. Check this works
+			if(fileMetadata.containsKey("LaboratoryCode")){
+				s.defaults.getStringDefaultValue(DefaultFields.LAB_CODE).setValue(fileMetadata.get("LaboratoryCode"));
+			}
+			
+			//LAST_REVISION_DATE, new StringDefaultValue());
+			if(fileMetadata.containsKey("LastRevisionDate")){
+				s.defaults.getStringDefaultValue(DefaultFields.LAST_REVISION_DATE).setValue(fileMetadata.get("LastRevisionDate"));
+			}
+			
+			//LAST_REVISION_PERS_ID, new StringDefaultValue());
+			if(fileMetadata.containsKey("LastRevisionPersID")){
+				s.defaults.getStringDefaultValue(DefaultFields.LAST_REVISION_PERS_ID).setValue(fileMetadata.get("LastRevisionPersID"));
+			}
+			
+			//LATITUDE, new StringDefaultValue());
+			if(fileMetadata.containsKey("Latitude")){
+				s.defaults.getStringDefaultValue(DefaultFields.LATITUDE).setValue(fileMetadata.get("Latitude"));
+			}
+			
+			//LENGTH, new StringDefaultValue());
+			if(fileMetadata.containsKey("Length")){
+				s.defaults.getStringDefaultValue(DefaultFields.LENGTH).setValue(fileMetadata.get("Length"));
+			}
+			
+			//LOCATION, new StringDefaultValue());			
+			if(fileMetadata.containsKey("Location")){
+				s.defaults.getStringDefaultValue(DefaultFields.LOCATION).setValue(fileMetadata.get("Location"));
+			}
+			
+			//LOCATION_CHARACTERISTICS, new StringDefaultValue());
+			if(fileMetadata.containsKey("LocationCharacteristics")){
+				s.defaults.getStringDefaultValue(DefaultFields.LOCATION_CHARACTERISTICS).setValue(fileMetadata.get("LocationCharacteristics"));
+			}
+			
+			//LONGITUDE, new StringDefaultValue());
+			if(fileMetadata.containsKey("Longitude")){
+				s.defaults.getStringDefaultValue(DefaultFields.LONGITUDE).setValue(fileMetadata.get("Longitude"));
+			}
+			
+			//MISSING_RINGS_AFTER, new IntegerDefaultValue());
+			try{
+				if(fileMetadata.containsKey("MissingRingsAfter")){
+					s.defaults.getIntegerDefaultValue(DefaultFields.MISSING_RINGS_AFTER).setValue(Integer.parseInt(fileMetadata.get("MissingRingsAfter")));
+				}
+			} catch (NumberFormatException e){
+				addWarning(new ConversionWarning(WarningType.INVALID, 
+						I18n.getText("fileio.invalidNumber", fileMetadata.get("MissingRingsAfter")),
+						"MissingRingsAfter"));
+			}
+			
+			//MISSING_RINGS_BEFORE, new IntegerDefaultValue());
+			try{
+				if(fileMetadata.containsKey("MissingRingsBefore")){
+					s.defaults.getIntegerDefaultValue(DefaultFields.MISSING_RINGS_BEFORE).setValue(Integer.parseInt(fileMetadata.get("MissingRingsBefore")));
+				}
+			} catch (NumberFormatException e){
+				addWarning(new ConversionWarning(WarningType.INVALID, 
+						I18n.getText("fileio.invalidNumber", fileMetadata.get("MissingRingsBefore")),
+						"MissingRingsBefore"));
+			}
+			
+			//PITH, new GenericDefaultValue<FHPith>());
+			if(fileMetadata.containsKey("Pith")){
+				GenericDefaultValue<FHPith> pithField = (GenericDefaultValue<FHPith>) s.defaults
+				.getDefaultValue(DefaultFields.PITH);
+				pithField.setValue(FHPith.valueOf(fileMetadata.get("Pith")));
+			}
+			
+			//PROJECT, new StringDefaultValue());
+			if(fileMetadata.containsKey("Project")){
+				s.defaults.getStringDefaultValue(DefaultFields.PROJECT).setValue(fileMetadata.get("Project"));
+			}
+			
+			//PROVINCE, new StringDefaultValue());
+			if(fileMetadata.containsKey("Province")){
+				s.defaults.getStringDefaultValue(DefaultFields.PROVINCE).setValue(fileMetadata.get("Province"));
+			}
+			
+			//RADIUS_NUMBER, new StringDefaultValue());
+			if(fileMetadata.containsKey("RadiusNumber")){
+				s.defaults.getStringDefaultValue(DefaultFields.RADIUS_NUMBER).setValue(fileMetadata.get("RadiusNumber"));
+			}
+			
+			//SAMPLING_HEIGHT, new StringDefaultValue());
+			if(fileMetadata.containsKey("SamplingHeight")){
+				s.defaults.getStringDefaultValue(DefaultFields.SAMPLING_HEIGHT).setValue(fileMetadata.get("SamplingHeight"));
+			}
+			
+			//SAPWOOD_RINGS, new IntegerDefaultValue());
+			try{
+				if(fileMetadata.containsKey("SapWoodRings")){
+					s.defaults.getIntegerDefaultValue(DefaultFields.SAPWOOD_RINGS).setValue(Integer.parseInt(fileMetadata.get("SapWoodRings")));
+				}
+			} catch (NumberFormatException e){
+				addWarning(new ConversionWarning(WarningType.INVALID, 
+						I18n.getText("fileio.invalidNumber", fileMetadata.get("SapWoodRings")),
+						"SapWoodRings"));
+			}
+			
+			//SERIES_END, new GenericDefaultValue<FHStartsOrEndsWith>());
+			if(fileMetadata.containsKey("SeriesEnd")){
+				GenericDefaultValue<FHStartsOrEndsWith> seriesEndField = (GenericDefaultValue<FHStartsOrEndsWith>) s.defaults
+				.getDefaultValue(DefaultFields.SERIES_END);
+				seriesEndField.setValue(FHStartsOrEndsWith.valueOf(fileMetadata.get("SeriesEnd")));
+			}
+			
+			//SERIES_START, new GenericDefaultValue<FHStartsOrEndsWith>());
+			if(fileMetadata.containsKey("SeriesStart")){
+				GenericDefaultValue<FHStartsOrEndsWith> seriesStartField = (GenericDefaultValue<FHStartsOrEndsWith>) s.defaults
+				.getDefaultValue(DefaultFields.SERIES_START);
+				seriesStartField.setValue(FHStartsOrEndsWith.valueOf(fileMetadata.get("SeriesStart")));
+			}
+			
+			//SERIES_TYPE, new GenericDefaultValue<FHSeriesType>());
+			if(fileMetadata.containsKey("SeriesType")){
+				GenericDefaultValue<FHSeriesType> seriesTypeField = (GenericDefaultValue<FHSeriesType>) s.defaults
+				.getDefaultValue(DefaultFields.SERIES_TYPE);
+				seriesTypeField.setValue(FHSeriesType.valueOf(fileMetadata.get("SeriesType")));
+			}
+			
+			//SHAPE_OF_SAMPLE, new StringDefaultValue());
+			if(fileMetadata.containsKey("ShapeOfSample")){
+				s.defaults.getStringDefaultValue(DefaultFields.SHAPE_OF_SAMPLE).setValue(fileMetadata.get("ShapeOfSample"));
+			}
+			
+			//SITE_CODE, new StringDefaultValue());
+			if(fileMetadata.containsKey("SiteCode")){
+				s.defaults.getStringDefaultValue(DefaultFields.SITE_CODE).setValue(fileMetadata.get("SiteCode"));
+			}
+			
+			//SOIL_TYPE, new StringDefaultValue());
+			if(fileMetadata.containsKey("SoilType")){
+				s.defaults.getStringDefaultValue(DefaultFields.SOIL_TYPE).setValue(fileMetadata.get("SoilType"));
+			}
+			
+			//SPECIES, new GenericDefaultValue<ControlledVoc>());
+			if(fileMetadata.containsKey("Species")){
+				GenericDefaultValue<ControlledVoc> speciesField = (GenericDefaultValue<ControlledVoc>) s.defaults
+				.getDefaultValue(DefaultFields.SPECIES);
+				speciesField.setValue(ITRDBTaxonConverter.getControlledVocFromCode(fileMetadata.get("Species")));
+			}
+							
+			//SPECIES_NAME, new StringDefaultValue());
+			if(fileMetadata.containsKey("SpeciesName")){
+				s.defaults.getStringDefaultValue(DefaultFields.SPECIES_NAME).setValue(fileMetadata.get("SpeciesName"));
+			}
+			
+			//STATE, new StringDefaultValue());
+			if(fileMetadata.containsKey("State")){
+				s.defaults.getStringDefaultValue(DefaultFields.STATE).setValue(fileMetadata.get("State"));
+			}
+			
+			//STEM_DISK_NUMBER, new StringDefaultValue());
+			if(fileMetadata.containsKey("StemDiskNo")){
+				s.defaults.getStringDefaultValue(DefaultFields.STEM_DISK_NUMBER).setValue(fileMetadata.get("StemDiskNo"));
+			}
+			
+			//STREET, new StringDefaultValue());
+			if(fileMetadata.containsKey("Street")){
+				s.defaults.getStringDefaultValue(DefaultFields.STREET).setValue(fileMetadata.get("Street"));
+			}
+			
+			//TIMBER_HEIGHT, new StringDefaultValue());
+			if(fileMetadata.containsKey("TimberHeight")){
+				s.defaults.getStringDefaultValue(DefaultFields.TIMBER_HEIGHT).setValue(fileMetadata.get("TimberHeight"));
+			}
+			
+			//TIMBER_WIDTH, new StringDefaultValue());
+			if(fileMetadata.containsKey("TimberWidth")){
+				s.defaults.getStringDefaultValue(DefaultFields.TIMBER_WIDTH).setValue(fileMetadata.get("TimberWidth"));
+			}
+			
+			//TOWN, new StringDefaultValue());
+			if(fileMetadata.containsKey("Town")){
+				s.defaults.getStringDefaultValue(DefaultFields.TOWN).setValue(fileMetadata.get("Town"));
+			}
+			
+			//TOWN_ZIP_CODE, new StringDefaultValue());
+			if(fileMetadata.containsKey("TownZipCode")){
+				s.defaults.getStringDefaultValue(DefaultFields.TOWN_ZIP_CODE).setValue(fileMetadata.get("TownZipCode"));
+			}
+			
+			//TREE_HEIGHT, new StringDefaultValue());
+			if(fileMetadata.containsKey("TreeHeight")){
+				s.defaults.getStringDefaultValue(DefaultFields.TREE_HEIGHT).setValue(fileMetadata.get("TreeHeight"));
+			}
+			
+			//TREE_NUMBER, new StringDefaultValue());
+			if(fileMetadata.containsKey("TreeNumber")){
+				s.defaults.getStringDefaultValue(DefaultFields.TREE_NUMBER).setValue(fileMetadata.get("TreeNumber"));
+			}
+			
+			//UNIT, new GenericDefaultValue<TridasUnit>());	
 			GenericDefaultValue<TridasUnit> unit = (GenericDefaultValue<TridasUnit>) s.defaults
-					.getDefaultValue(DefaultFields.UNIT);
+			.getDefaultValue(DefaultFields.UNIT);
 			if (fileMetadata.containsKey("Unit")) {
 				String units = fileMetadata.get("Unit");
 				TridasUnit value = new TridasUnit();
@@ -353,8 +641,13 @@ public class HeidelbergReader extends AbstractDendroFileReader {
 			else {
 				unit.setValue(null);
 			}
-			s.defaults.getStringDefaultValue(DefaultFields.STANDARDIZATION_METHOD).setValue(
-					fileMetadata.get("SeriesType"));
+			
+			//WALDKANTE, new GenericDefaultValue<FHWaldKante>());
+			if(fileMetadata.containsKey("WaldKante")){
+				GenericDefaultValue<FHWaldKante> waldKanteField = (GenericDefaultValue<FHWaldKante>) s.defaults
+				.getDefaultValue(DefaultFields.WALDKANTE);
+				waldKanteField.setValue(FHWaldKante.valueOf(fileMetadata.get("WaldKante")));
+			}
 		}
 	}
 	
@@ -373,7 +666,7 @@ public class HeidelbergReader extends AbstractDendroFileReader {
 			TridasElement element = s.defaults.getElementWithDefaults();
 			TridasSample sample = s.defaults.getSampleWithDefaults();
 			
-			DATA_TYPE dataType = s.dataType;
+			FHDataFormat dataType = s.dataType;
 			switch (dataType) {
 				case Chrono :
 				case Double :
@@ -532,7 +825,7 @@ public class HeidelbergReader extends AbstractDendroFileReader {
 	 * @author daniel
 	 */
 	private static class HeidelbergMeasurementSeries {
-		public DATA_TYPE dataType;
+		public FHDataFormat dataType;
 		public HeidelbergToTridasDefaults defaults;
 		public final HashMap<String, String> fileMetadata = new HashMap<String, String>();
 		public final ArrayList<Integer> dataInts = new ArrayList<Integer>();
