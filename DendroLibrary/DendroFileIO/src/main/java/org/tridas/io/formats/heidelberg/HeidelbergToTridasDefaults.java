@@ -1,22 +1,41 @@
 package org.tridas.io.formats.heidelberg;
 
+import java.util.ArrayList;
+
 import org.apache.commons.lang.WordUtils;
+import org.tridas.io.I18n;
 import org.tridas.io.defaults.TridasMetadataFieldSet;
+import org.tridas.io.defaults.TridasMetadataFieldSet.TridasMandatoryField;
+import org.tridas.io.defaults.values.DoubleDefaultValue;
 import org.tridas.io.defaults.values.GenericDefaultValue;
 import org.tridas.io.defaults.values.IntegerDefaultValue;
 import org.tridas.io.defaults.values.StringDefaultValue;
 import org.tridas.io.formats.besancon.BesanconToTridasDefaults.BesanconCambiumType;
 import org.tridas.io.formats.besancon.BesanconToTridasDefaults.DefaultFields;
+import org.tridas.io.util.CoordinatesUtils;
 import org.tridas.io.util.DateUtils;
 import org.tridas.io.util.SafeIntYear;
 import org.tridas.schema.ControlledVoc;
 import org.tridas.schema.DatingSuffix;
+import org.tridas.schema.ObjectFactory;
 import org.tridas.schema.PresenceAbsence;
+import org.tridas.schema.TridasAddress;
+import org.tridas.schema.TridasCoverage;
 import org.tridas.schema.TridasDerivedSeries;
+import org.tridas.schema.TridasDimensions;
 import org.tridas.schema.TridasElement;
 import org.tridas.schema.TridasIdentifier;
 import org.tridas.schema.TridasInterpretation;
+import org.tridas.schema.TridasLaboratory;
+import org.tridas.schema.TridasLocation;
+import org.tridas.schema.TridasLocationGeometry;
 import org.tridas.schema.TridasMeasurementSeries;
+import org.tridas.schema.TridasObject;
+import org.tridas.schema.TridasProject;
+import org.tridas.schema.TridasRadius;
+import org.tridas.schema.TridasSample;
+import org.tridas.schema.TridasShape;
+import org.tridas.schema.TridasSoil;
 import org.tridas.schema.TridasUnit;
 import org.tridas.schema.TridasUnitless;
 import org.tridas.schema.TridasValues;
@@ -183,7 +202,7 @@ public class HeidelbergToTridasDefaults extends TridasMetadataFieldSet {
 		setDefaultValue(DefaultFields.DATE_END, new IntegerDefaultValue());
 		setDefaultValue(DefaultFields.DATE_OF_SAMPLING, new StringDefaultValue());
 		setDefaultValue(DefaultFields.DISTRICT, new StringDefaultValue());
-		setDefaultValue(DefaultFields.ELEVATION, new StringDefaultValue());
+		setDefaultValue(DefaultFields.ELEVATION, new DoubleDefaultValue(null, -418.0, 8850.0)); // Heights of Dead Sea and Everest! ;-)
 		setDefaultValue(DefaultFields.ESTIMATED_TIME_PERIOD, new StringDefaultValue());
 		setDefaultValue(DefaultFields.FIRST_MEASUREMENT_DATE, new StringDefaultValue());
 		setDefaultValue(DefaultFields.HOUSE_NAME, new StringDefaultValue());
@@ -192,11 +211,11 @@ public class HeidelbergToTridasDefaults extends TridasMetadataFieldSet {
 		setDefaultValue(DefaultFields.LAB_CODE, new StringDefaultValue());
 		setDefaultValue(DefaultFields.LAST_REVISION_DATE, new StringDefaultValue());
 		setDefaultValue(DefaultFields.LAST_REVISION_PERS_ID, new StringDefaultValue());
-		setDefaultValue(DefaultFields.LATITUDE, new StringDefaultValue());
+		setDefaultValue(DefaultFields.LATITUDE, new DoubleDefaultValue(null, -90.0, 90.0));
 		setDefaultValue(DefaultFields.LENGTH, new StringDefaultValue());
 		setDefaultValue(DefaultFields.LOCATION, new StringDefaultValue());
 		setDefaultValue(DefaultFields.LOCATION_CHARACTERISTICS, new StringDefaultValue());
-		setDefaultValue(DefaultFields.LONGITUDE, new StringDefaultValue());
+		setDefaultValue(DefaultFields.LONGITUDE, new DoubleDefaultValue(null, -180.0, 180.0));
 		setDefaultValue(DefaultFields.MISSING_RINGS_AFTER, new IntegerDefaultValue());
 		setDefaultValue(DefaultFields.MISSING_RINGS_BEFORE, new IntegerDefaultValue());
 		setDefaultValue(DefaultFields.PITH, new GenericDefaultValue<FHPith>());
@@ -284,16 +303,7 @@ public class HeidelbergToTridasDefaults extends TridasMetadataFieldSet {
 		return series;
 	}
 	
-	/**
-	 * @see org.tridas.io.defaults.TridasMetadataFieldSet#getDefaultTridasElement()
-	 */
-	@Override
-	protected TridasElement getDefaultTridasElement() {
-		TridasElement e = super.getDefaultTridasElement();
-		ControlledVoc v = (ControlledVoc) getDefaultValue(DefaultFields.SPECIES).getValue();
-		e.setTaxon(v);
-		return e;
-	}
+
 	
 	@SuppressWarnings("unchecked")
 	public TridasValues getTridasValuesWithDefaults() {
@@ -312,8 +322,211 @@ public class HeidelbergToTridasDefaults extends TridasMetadataFieldSet {
 	}
 	
 	
+	/**
+	 * @see org.tridas.io.defaults.TridasMetadataFieldSet#getDefaultTridasRadius()
+	 */
+	@Override
+	protected TridasRadius getDefaultTridasRadius() {
+		TridasRadius r = super.getDefaultTridasRadius();
+		
+		// Identifier
+		if(getStringDefaultValue(DefaultFields.RADIUS_NUMBER).getStringValue()!=null)
+		{
+			r.setTitle(getStringDefaultValue(DefaultFields.RADIUS_NUMBER).getStringValue());
+			TridasIdentifier id = new ObjectFactory().createTridasIdentifier();
+			id.setDomain(super.getDefaultValue(TridasMandatoryField.IDENTIFIER_DOMAIN).getStringValue());
+			id.setValue(getStringDefaultValue(DefaultFields.RADIUS_NUMBER).getStringValue());
+			r.setIdentifier(id);
+		}
+		
+		
+
+		return r;
+	}
 	
 	
+	/**
+	 * @see org.tridas.io.defaults.TridasMetadataFieldSet#getDefaultTridasSample()
+	 */
+	@Override
+	protected TridasSample getDefaultTridasSample() {
+		TridasSample s = super.getDefaultTridasSample();
+		
+		// Identifier
+		if(getStringDefaultValue(DefaultFields.CORE_NUMBER).getStringValue()!=null)
+		{
+			s.setTitle(getStringDefaultValue(DefaultFields.CORE_NUMBER).getStringValue());
+			TridasIdentifier id = new ObjectFactory().createTridasIdentifier();
+			id.setDomain(super.getDefaultValue(TridasMandatoryField.IDENTIFIER_DOMAIN).getStringValue());
+			id.setValue(getStringDefaultValue(DefaultFields.CORE_NUMBER).getStringValue());
+			s.setIdentifier(id);
+		}
+		else if(getStringDefaultValue(DefaultFields.STEM_DISK_NUMBER).getStringValue()!=null)
+		{
+			s.setTitle(getStringDefaultValue(DefaultFields.STEM_DISK_NUMBER).getStringValue());
+			TridasIdentifier id = new ObjectFactory().createTridasIdentifier();
+			id.setDomain(super.getDefaultValue(TridasMandatoryField.IDENTIFIER_DOMAIN).getStringValue());
+			id.setValue(getStringDefaultValue(DefaultFields.STEM_DISK_NUMBER).getStringValue());
+			s.setIdentifier(id);
+		}
+		
+		// Sampling height
+		s.setPosition(getStringDefaultValue(DefaultFields.STEM_DISK_NUMBER).getStringValue());	
+		
+		
+
+		return s;
+	}
+	
+	
+	
+	/**
+	 * @see org.tridas.io.defaults.TridasMetadataFieldSet#getDefaultTridasElement()
+	 */
+	@Override
+	protected TridasElement getDefaultTridasElement() {
+		TridasElement e = super.getDefaultTridasElement();
+			
+		// Identifier
+		if(getStringDefaultValue(DefaultFields.TREE_NUMBER).getStringValue()!=null)
+		{
+			e.setTitle(getStringDefaultValue(DefaultFields.TREE_NUMBER).getStringValue());
+			TridasIdentifier id = new ObjectFactory().createTridasIdentifier();
+			id.setDomain(super.getDefaultValue(TridasMandatoryField.IDENTIFIER_DOMAIN).getStringValue());
+			id.setValue(getStringDefaultValue(DefaultFields.TREE_NUMBER).getStringValue());
+			e.setIdentifier(id);
+		}
+		
+		// Hopefully we can set from ITRDB controlled voc
+		ControlledVoc v = (ControlledVoc) getDefaultValue(DefaultFields.SPECIES).getValue();
+		if(v!=null){
+			if(v.isSetNormalId())
+			{
+				// Code was absent or invalid for ITRDB controlled voc so try the plain
+				// species name instead
+				if (getDefaultValue(DefaultFields.SPECIES_NAME).getValue()!=null)
+				{
+					v.setValue(getDefaultValue(DefaultFields.SPECIES_NAME).getValue().toString());
+				}
+			}
+		}
+		e.setTaxon(v);
+		
+		// Location
+		TridasLocation location = null;
+		TridasLocationGeometry geometry;
+		TridasAddress address = null;
+		
+		if(getDefaultValue(DefaultFields.LATITUDE).getValue()!=null &&
+		   getDefaultValue(DefaultFields.LONGITUDE).getValue()!=null)
+		{
+			location = new ObjectFactory().createTridasLocation();
+			
+			// Geometry
+			geometry = CoordinatesUtils.getLocationGeometry(getDoubleDefaultValue(DefaultFields.LATITUDE).getValue(), 
+					getDoubleDefaultValue(DefaultFields.LONGITUDE).getValue());
+		
+			// Address
+			address = new ObjectFactory().createTridasAddress();
+			address.setCountry(getStringDefaultValue(DefaultFields.COUNTRY).getValue());
+			address.setCityOrTown(getStringDefaultValue(DefaultFields.TOWN).getValue());
+			address.setPostalCode(getStringDefaultValue(DefaultFields.TOWN_ZIP_CODE).getValue());
+			if(getStringDefaultValue(DefaultFields.STATE).getValue()!=null)
+			{
+				address.setStateProvinceRegion(getStringDefaultValue(DefaultFields.STATE).getValue());
+			}
+			else if(getStringDefaultValue(DefaultFields.PROVINCE).getValue()!=null)
+			{
+				address.setStateProvinceRegion(getStringDefaultValue(DefaultFields.PROVINCE).getValue());
+			}
+			address.setAddressLine2(getStringDefaultValue(DefaultFields.DISTRICT).getValue());
+			String addressline1 = "";
+			addressline1 += getStringDefaultValue(DefaultFields.HOUSE_NAME).getValue()+" ";
+			addressline1 += getStringDefaultValue(DefaultFields.HOUSE_NUMBER).getValue()+" ";
+			addressline1 += getStringDefaultValue(DefaultFields.STREET).getValue();
+			address.setAddressLine1(addressline1);			
+			
+			
+			
+			location.setAddress(address);
+			location.setLocationGeometry(geometry);
+			location.setLocationComment(getStringDefaultValue(DefaultFields.LOCATION_CHARACTERISTICS).getValue());
+			e.setLocation(location);
+		}
+		
+		// Soil
+		if(getStringDefaultValue(DefaultFields.SOIL_TYPE).getValue()!=null)
+		{
+			TridasSoil soil = new TridasSoil();
+			soil.setDescription(getStringDefaultValue(DefaultFields.SOIL_TYPE).getValue());
+			e.setSoil(soil);
+		}
+		
+		// Shape
+		if(getStringDefaultValue(DefaultFields.SHAPE_OF_SAMPLE).getValue()!=null)
+		{
+			TridasShape shape = new TridasShape();
+			shape.setValue(getStringDefaultValue(DefaultFields.SHAPE_OF_SAMPLE).getValue());
+			e.setShape(shape);
+		}
+		
+		// Dimensions
+		if(getStringDefaultValue(DefaultFields.TIMBER_HEIGHT).getValue()!=null && 
+		   getStringDefaultValue(DefaultFields.TIMBER_WIDTH).getValue()!=null )
+		{
+
+		}
+		
+		// Elevation
+		if(getDoubleDefaultValue(DefaultFields.ELEVATION).getValue()!=null)
+		{
+			e.setAltitude(getDoubleDefaultValue(DefaultFields.ELEVATION).getValue());
+		}
+		
+		return e;
+	}
+	
+	/**
+	 * @see org.tridas.io.defaults.TridasMetadataFieldSet#getDefaultTridasObject()
+	 */
+	@Override
+	protected TridasObject getDefaultTridasObject() {
+		TridasObject o = super.getDefaultTridasObject();
+		
+		if(getStringDefaultValue(DefaultFields.SITE_CODE).getStringValue()!=null)
+		{
+			o.setTitle(getStringDefaultValue(DefaultFields.SITE_CODE).getStringValue());
+			TridasIdentifier id = new ObjectFactory().createTridasIdentifier();
+			id.setDomain(super.getDefaultValue(TridasMandatoryField.IDENTIFIER_DOMAIN).getStringValue());
+			id.setValue(getStringDefaultValue(DefaultFields.SITE_CODE).getStringValue());
+			o.setIdentifier(id);
+		}
+		
+		
+		// Temporal coverage
+		if(getStringDefaultValue(DefaultFields.ESTIMATED_TIME_PERIOD).getStringValue()!=null)
+		{
+			TridasCoverage coverage = new TridasCoverage();
+			coverage.setCoverageTemporal(getStringDefaultValue(DefaultFields.ESTIMATED_TIME_PERIOD).getStringValue());
+			coverage.setCoverageTemporalFoundation(I18n.getText("unknown"));
+			o.setCoverage(coverage);
+		}
+		
+		return o;
+	}
+	
+	
+	/**
+	 * @see org.tridas.io.defaults.TridasMetadataFieldSet#getDefaultTridasProject()
+	 */
+	@Override
+	protected TridasProject getDefaultTridasProject() {
+		TridasProject p = super.getDefaultTridasProject();
+		
+
+		p.setTitle(getStringDefaultValue(DefaultFields.PROJECT).getStringValue());
+		return p;
+	}
 	
 	
 	public enum FHBarkType {

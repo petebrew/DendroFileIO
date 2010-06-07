@@ -392,7 +392,19 @@ public class HeidelbergReader extends AbstractDendroFileReader {
 			
 			//ELEVATION, new StringDefaultValue());
 			if(fileMetadata.containsKey("Elevation")){
-				s.defaults.getStringDefaultValue(DefaultFields.ELEVATION).setValue(fileMetadata.get("Elevation"));
+				try{
+				Boolean success = s.defaults.getDoubleDefaultValue(DefaultFields.ELEVATION).setValue(Double.parseDouble(fileMetadata.get("Elevation")));
+				if(success==false)
+				{
+					addWarning(new ConversionWarning(WarningType.INVALID, 
+							I18n.getText("heidelberg.invalidElevationValue", fileMetadata.get("Elevation")),
+							"Elevation"));
+				}
+				} catch(NumberFormatException e){ 
+					addWarning(new ConversionWarning(WarningType.INVALID, 
+							I18n.getText("fileio.invalidNumber", fileMetadata.get("Elevation")),
+							"Latitude"));
+				}
 			}
 			
 			//ESTIMATED_TIME_PERIOD, new StringDefaultValue());
@@ -436,9 +448,21 @@ public class HeidelbergReader extends AbstractDendroFileReader {
 				s.defaults.getStringDefaultValue(DefaultFields.LAST_REVISION_PERS_ID).setValue(fileMetadata.get("LastRevisionPersID"));
 			}
 			
-			//LATITUDE, new StringDefaultValue());
+			//LATITUDE, new DoubleDefaultValue());
 			if(fileMetadata.containsKey("Latitude")){
-				s.defaults.getStringDefaultValue(DefaultFields.LATITUDE).setValue(fileMetadata.get("Latitude"));
+				try{
+				Boolean success = s.defaults.getDoubleDefaultValue(DefaultFields.LATITUDE).setValue(Double.parseDouble(fileMetadata.get("Latitude")));
+				if(success==false)
+				{
+					addWarning(new ConversionWarning(WarningType.INVALID, 
+							I18n.getText("location.latitude.invalid", fileMetadata.get("Latitude")),
+							"Latitude"));
+				}
+				} catch(NumberFormatException e){ 
+					addWarning(new ConversionWarning(WarningType.INVALID, 
+							I18n.getText("heidelberg.invalidCoordinate"),
+							"Latitude"));
+				}
 			}
 			
 			//LENGTH, new StringDefaultValue());
@@ -458,7 +482,19 @@ public class HeidelbergReader extends AbstractDendroFileReader {
 			
 			//LONGITUDE, new StringDefaultValue());
 			if(fileMetadata.containsKey("Longitude")){
-				s.defaults.getStringDefaultValue(DefaultFields.LONGITUDE).setValue(fileMetadata.get("Longitude"));
+				try{
+				Boolean success = s.defaults.getDoubleDefaultValue(DefaultFields.LONGITUDE).setValue(Double.parseDouble(fileMetadata.get("Longitude")));
+				if(success==false)
+				{
+					addWarning(new ConversionWarning(WarningType.INVALID, 
+							I18n.getText("location.longitude.invalid", fileMetadata.get("Longitude")),
+							"Longitude"));
+				}
+				} catch(NumberFormatException e){ 
+					addWarning(new ConversionWarning(WarningType.INVALID, 
+							I18n.getText("heidelberg.invalidCoordinate"),
+							"Longitude"));
+				}
 			}
 			
 			//MISSING_RINGS_AFTER, new IntegerDefaultValue());
