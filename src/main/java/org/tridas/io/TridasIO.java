@@ -45,8 +45,8 @@ public class TridasIO {
 	private static final HashMap<String, TridasIOEntry> converterMap = new HashMap<String, TridasIOEntry>();
 	private static final HashMap<String, String> extensionMap = new HashMap<String, String>();
 	
-	private static String readingCharset = null;
-	private static String writingCharset = null;
+	private static String readingCharset = Charset.defaultCharset().displayName();
+	private static String writingCharset = Charset.defaultCharset().displayName();
 	private static boolean charsetDetection = false;
 	
 	static {
@@ -80,6 +80,9 @@ public class TridasIO {
 	 */
 	public static void setCharsetDetection(boolean argCharsetDetection) {
 		charsetDetection = argCharsetDetection;
+		if(charsetDetection == true){
+			readingCharset = null;
+		}
 	}
 	
 	/**
@@ -303,8 +306,9 @@ public class TridasIO {
 	}
 	
 	/**
+	 * sets the reading 
 	 * @param argCharset
-	 *            the charset to
+	 *            the charset to read with
 	 * @throws IllegalCharsetNameException
 	 *             - If the given charset name is illegal
 	 * @throws UnsupportedCharsetException
@@ -317,6 +321,9 @@ public class TridasIO {
 			Charset.forName(argCharset);
 		}
 		TridasIO.readingCharset = argCharset;
+		if(readingCharset != null){
+			charsetDetection = false;
+		}
 	}
 	
 	/**
