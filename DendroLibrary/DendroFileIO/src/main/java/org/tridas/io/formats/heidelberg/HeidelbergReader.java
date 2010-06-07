@@ -324,7 +324,7 @@ public class HeidelbergReader extends AbstractDendroFileReader {
 			//BARK, new GenericDefaultValue<FHBarkType>());
 			if(fileMetadata.containsKey("Bark")){
 				GenericDefaultValue<FHBarkType> bark = (GenericDefaultValue<FHBarkType>) s.defaults.getDefaultValue(DefaultFields.BARK);
-				bark.setValue(FHBarkType.valueOf(fileMetadata.get("Bark")));
+				bark.setValue(FHBarkType.fromCode(fileMetadata.get("Bark")));
 			}
 			
 			//CORE_NUMBER, new StringDefaultValue());
@@ -348,7 +348,7 @@ public class HeidelbergReader extends AbstractDendroFileReader {
 			if(fileMetadata.containsKey("DataType")){
 				GenericDefaultValue<FHDataType> dataTypeField = (GenericDefaultValue<FHDataType>) s.defaults
 				.getDefaultValue(DefaultFields.DATA_TYPE);
-				dataTypeField.setValue(FHDataType.valueOf(fileMetadata.get("DataType")));
+				dataTypeField.setValue(FHDataType.fromCode(fileMetadata.get("DataType")));
 			}
 			
 			//DATE_BEGIN, new IntegerDefaultValue());
@@ -525,14 +525,14 @@ public class HeidelbergReader extends AbstractDendroFileReader {
 			if(fileMetadata.containsKey("SeriesEnd")){
 				GenericDefaultValue<FHStartsOrEndsWith> seriesEndField = (GenericDefaultValue<FHStartsOrEndsWith>) s.defaults
 				.getDefaultValue(DefaultFields.SERIES_END);
-				seriesEndField.setValue(FHStartsOrEndsWith.valueOf(fileMetadata.get("SeriesEnd")));
+				seriesEndField.setValue(FHStartsOrEndsWith.fromCode(fileMetadata.get("SeriesEnd")));
 			}
 			
 			//SERIES_START, new GenericDefaultValue<FHStartsOrEndsWith>());
 			if(fileMetadata.containsKey("SeriesStart")){
 				GenericDefaultValue<FHStartsOrEndsWith> seriesStartField = (GenericDefaultValue<FHStartsOrEndsWith>) s.defaults
 				.getDefaultValue(DefaultFields.SERIES_START);
-				seriesStartField.setValue(FHStartsOrEndsWith.valueOf(fileMetadata.get("SeriesStart")));
+				seriesStartField.setValue(FHStartsOrEndsWith.fromCode(fileMetadata.get("SeriesStart")));
 			}
 			
 			//SERIES_TYPE, new GenericDefaultValue<FHSeriesType>());
