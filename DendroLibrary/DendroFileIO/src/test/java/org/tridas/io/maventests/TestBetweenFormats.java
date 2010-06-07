@@ -17,40 +17,38 @@ import org.tridas.io.warnings.IncorrectDefaultFieldsException;
 import org.tridas.io.warnings.InvalidDendroFileException;
 import org.tridas.schema.TridasProject;
 
-public class TestBetweenFormats extends TestCase{
-
+public class TestBetweenFormats extends TestCase {
+	
 	private static final SimpleLogger log = new SimpleLogger(TestBetweenFormats.class);
 	private static final String outputLocation = "target/TestOutput";
 	
-	private String[] getFilesFromFolder(String folder){
+	private String[] getFilesFromFolder(String folder) {
 		File dir = new File(folder);
-		FilenameFilter filter = new FilenameFilter() 
-		{ 
-			public boolean accept(File dir, String name) 
-			{ 
-				return !name.startsWith("."); 
-			} 
-		}; 
-		return dir.list(filter);	
+		FilenameFilter filter = new FilenameFilter() {
+			public boolean accept(File dir, String name) {
+				return !name.startsWith(".");
+			}
+		};
+		return dir.list(filter);
 	}
 	
-	public void testTucsonToTrims()
-	{
+	public void testTucsonToTrims() {
 		String folder = "TestData/Tucson";
 		String[] files = getFilesFromFolder(folder);
 		
-		if (files.length==0) fail();
+		if (files.length == 0) {
+			fail();
+		}
 		
-		for (String filename : files)
-		{	
-			log.info("Test conversion of: "+filename);
+		for (String filename : files) {
+			log.info("Test conversion of: " + filename);
 			
 			// Create a new converter
 			TucsonReader reader = new TucsonReader();
-
+			
 			// Parse the legacy data file
 			try {
-				//TridasEntitiesFromDefaults def = new TridasEntitiesFromDefaults();
+				// TridasEntitiesFromDefaults def = new TridasEntitiesFromDefaults();
 				reader.loadFile(folder, filename, new TucsonToTridasDefaults());
 			} catch (IOException e) {
 				// Standard IO Exception
@@ -65,7 +63,6 @@ public class TestBetweenFormats extends TestCase{
 				log.info(e.getLocalizedMessage());
 				fail();
 			}
-	
 			
 			// Extract the TridasProject
 			TridasProject myproject = reader.getProject();
@@ -76,8 +73,7 @@ public class TestBetweenFormats extends TestCase{
 				writer.loadProject(myproject);
 			} catch (IncompleteTridasDataException e) {
 				fail();
-			} catch (ConversionWarningException e) {
-			}
+			} catch (ConversionWarningException e) {}
 			writer.saveAllToDisk(outputLocation);
 			
 		}

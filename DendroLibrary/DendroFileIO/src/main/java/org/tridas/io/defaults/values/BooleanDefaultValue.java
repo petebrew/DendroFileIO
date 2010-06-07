@@ -4,13 +4,10 @@
 package org.tridas.io.defaults.values;
 
 import org.grlea.log.SimpleLogger;
-import org.tridas.io.I18n;
 import org.tridas.io.defaults.AbstractDefaultValue;
-import org.tridas.io.util.StringUtils;
 
 /**
  * @author Pete
- *
  */
 public class BooleanDefaultValue extends AbstractDefaultValue<Boolean> {
 	
@@ -18,11 +15,11 @@ public class BooleanDefaultValue extends AbstractDefaultValue<Boolean> {
 	
 	private Boolean value = null;
 	
-	public BooleanDefaultValue(){
-		
+	public BooleanDefaultValue() {
+
 	}
 	
-	public BooleanDefaultValue(Boolean argValue){
+	public BooleanDefaultValue(Boolean argValue) {
 		value = argValue;
 	}
 	
@@ -35,22 +32,20 @@ public class BooleanDefaultValue extends AbstractDefaultValue<Boolean> {
 	}
 	
 	@Override
-	public String getStringValue(){
-		if (value==true)
-		{
+	public String getStringValue() {
+		if (value == true) {
 			return "true";
 		}
-		else if (value==false)
-		{
+		else if (value == false) {
 			return "false";
 		}
 		return null;
 	}
-
+	
 	@Override
 	protected boolean validateAndSetValue(Boolean argValue) {
 		value = argValue;
 		return true;
 	}
-
+	
 }

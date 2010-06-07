@@ -10,7 +10,6 @@ import org.tridas.io.util.StringUtils;
 
 /**
  * @author Daniel
- *
  */
 public class StringDefaultValue extends AbstractDefaultValue<String> {
 	
@@ -18,15 +17,15 @@ public class StringDefaultValue extends AbstractDefaultValue<String> {
 	
 	private String value = null;
 	
-	public StringDefaultValue(){
-		
+	public StringDefaultValue() {
+
 	}
 	
-	public StringDefaultValue(String argValue){
+	public StringDefaultValue(String argValue) {
 		value = argValue;
 	}
 	
-	public StringDefaultValue(String argValue, int argMinLength, int argMaxLength){
+	public StringDefaultValue(String argValue, int argMinLength, int argMaxLength) {
 		super(argMaxLength, argMinLength);
 		value = argValue;
 	}
@@ -41,59 +40,62 @@ public class StringDefaultValue extends AbstractDefaultValue<String> {
 	
 	// we already validate the string as we would in AbstractDefaultValue
 	@Override
-	public String getStringValue(){
-		if(value == null){
+	public String getStringValue() {
+		if (value == null) {
 			return "";
 		}
 		return value;
 	}
-
+	
 	/**
 	 * @see org.tridas.io.defaults.AbstractDefaultValue#validateAndSetValue(java.lang.Object)
 	 */
 	@Override
 	protected boolean validateAndSetValue(String argValue) {
-		if(argValue == null){
+		if (argValue == null) {
 			value = null;
 			return true;
 		}
 		argValue = validValue(argValue);
-		if(argValue != null){
-			//log.verbose("string value stored: "+argValue);
+		if (argValue != null) {
+			// log.verbose("string value stored: "+argValue);
 			value = argValue;
 			return true;
 		}
 		return false;
 	}
-
+	
 	// basically recreation of getStringValue from AbstractDefaultValue, as it
 	// works with strings as well
-	private String validValue(String argValue){
+	private String validValue(String argValue) {
 		String value = argValue.toString();
-		if(getMaxLength() != -1){
-			if(value.length() > getMaxLength()){
-				log.warn(I18n.getText("fileio.defaults.stringTooBig",value, getMaxLength()+""));
-				if(getParent() == null){
+		if (getMaxLength() != -1) {
+			if (value.length() > getMaxLength()) {
+				log.warn(I18n.getText("fileio.defaults.stringTooBig", value, getMaxLength() + ""));
+				if (getParent() == null) {
 					log.error(I18n.getText("fileio.defaults.nullParent"));
-				}else{
-					getParent().addTruncatedWarning(getKey(), I18n.getText("fileio.defaults.stringTooBig",value, getMaxLength()+""));
+				}
+				else {
+					getParent().addTruncatedWarning(getKey(),
+							I18n.getText("fileio.defaults.stringTooBig", value, getMaxLength() + ""));
 				}
 				return StringUtils.rightPadWithTrim(value, getMaxLength());
 			}
 		}
-		if(getMinLength() != -1){
-			if(value.length() < getMinLength()){
-				log.debug(I18n.getText("fileio.defaults.stringTooSmall",value, isPadRight()+""));
-				if(isPadRight()){
-					return StringUtils.rightPad(value, getMinLength());					
-				}else{
+		if (getMinLength() != -1) {
+			if (value.length() < getMinLength()) {
+				log.debug(I18n.getText("fileio.defaults.stringTooSmall", value, isPadRight() + ""));
+				if (isPadRight()) {
+					return StringUtils.rightPad(value, getMinLength());
+				}
+				else {
 					return StringUtils.leftPad(value, getMinLength());
 				}
 			}
 		}
 		return value;
 	}
-
+	
 	/**
 	 * @see org.tridas.io.defaults.AbstractDefaultValue#setMaxLength(int)
 	 */
@@ -102,7 +104,7 @@ public class StringDefaultValue extends AbstractDefaultValue<String> {
 		super.setMaxLength(argMaxLength);
 		setValue(getValue());
 	}
-
+	
 	/**
 	 * @see org.tridas.io.defaults.AbstractDefaultValue#setMinLength(int)
 	 */

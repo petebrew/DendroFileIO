@@ -7,32 +7,32 @@ import org.tridas.io.defaults.IMetadataFieldSet;
 /**
  * @deprecated Use BesanconFile instead.
  * @author peterbrewer
- *
  */
+@Deprecated
 public class SylpheFile implements IDendroFile {
-
+	
 	@Override
 	public IMetadataFieldSet getDefaults() {
 		// TODO Auto-generated method stub
 		return null;
 	}
-
+	
 	@Override
 	public String getExtension() {
 		// TODO Auto-generated method stub
 		return null;
 	}
-
+	
 	@Override
 	public ITridasSeries[] getSeries() {
 		// TODO Auto-generated method stub
 		return null;
 	}
-
+	
 	@Override
 	public String[] saveToString() {
 		// TODO Auto-generated method stub
 		return null;
 	}
-
+	
 }

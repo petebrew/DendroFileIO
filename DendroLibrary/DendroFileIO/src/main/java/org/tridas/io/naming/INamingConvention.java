@@ -14,21 +14,13 @@ import org.tridas.schema.TridasSample;
 
 /**
  * @author daniel
- *
  */
 public interface INamingConvention {
-
-	public void registerFile(IDendroFile argFile,
-							 TridasProject argProject,
-							 TridasObject argObject,
-							 TridasElement argElement,
-							 TridasSample argSample,
-							 TridasRadius argRadius,
-							 TridasMeasurementSeries argSeries);
 	
-	public void registerFile(IDendroFile argFile,
-			 TridasProject argProject,
-			 TridasDerivedSeries argSeries);
+	public void registerFile(IDendroFile argFile, TridasProject argProject, TridasObject argObject,
+			TridasElement argElement, TridasSample argSample, TridasRadius argRadius, TridasMeasurementSeries argSeries);
+	
+	public void registerFile(IDendroFile argFile, TridasProject argProject, TridasDerivedSeries argSeries);
 	
 	public String getFilename(IDendroFile argFile);
 	

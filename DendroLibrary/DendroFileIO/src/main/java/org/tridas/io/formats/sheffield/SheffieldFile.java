@@ -1,14 +1,12 @@
 package org.tridas.io.formats.sheffield;
 
 import org.tridas.interfaces.ITridasSeries;
-import org.tridas.io.IDendroCollectionWriter;
 import org.tridas.io.IDendroFile;
 import org.tridas.io.defaults.IMetadataFieldSet;
 
 public class SheffieldFile implements IDendroFile {
-
-	public SheffieldFile() {
-	}
+	
+	public SheffieldFile() {}
 	
 	/**
 	 * Does this line contain any special chars?
@@ -16,16 +14,22 @@ public class SheffieldFile implements IDendroFile {
 	 * @param str
 	 * @return
 	 */
-	public static Boolean containsSpecialChars(String str)
-	{
-		if(str.contains(",")) return true;
-		if(str.contains("\"")) return true;
-		if(str.contains("(")) return true;
-		if(str.contains(")")) return true;
+	public static Boolean containsSpecialChars(String str) {
+		if (str.contains(",")) {
+			return true;
+		}
+		if (str.contains("\"")) {
+			return true;
+		}
+		if (str.contains("(")) {
+			return true;
+		}
+		if (str.contains(")")) {
+			return true;
+		}
 		return false;
 	}
-
-
+	
 	/**
 	 * @see org.tridas.io.IDendroFile#getExtension()
 	 */
@@ -34,8 +38,7 @@ public class SheffieldFile implements IDendroFile {
 		// TODO Auto-generated method stub
 		return null;
 	}
-
-
+	
 	/**
 	 * @see org.tridas.io.IDendroFile#getSeries()
 	 */
@@ -44,8 +47,7 @@ public class SheffieldFile implements IDendroFile {
 		// TODO Auto-generated method stub
 		return null;
 	}
-
-
+	
 	/**
 	 * @see org.tridas.io.IDendroFile#saveToString()
 	 */
@@ -54,7 +56,7 @@ public class SheffieldFile implements IDendroFile {
 		// TODO Auto-generated method stub
 		return null;
 	}
-
+	
 	/**
 	 * @see org.tridas.io.IDendroFile#getDefaults()
 	 */
@@ -63,5 +65,5 @@ public class SheffieldFile implements IDendroFile {
 		// TODO Auto-generated method stub
 		return null;
 	}
-
+	
 }

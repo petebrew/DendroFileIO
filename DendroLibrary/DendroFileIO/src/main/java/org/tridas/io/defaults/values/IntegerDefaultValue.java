@@ -9,7 +9,6 @@ import org.tridas.io.defaults.AbstractDefaultValue;
 
 /**
  * @author Daniel
- *
  */
 public class IntegerDefaultValue extends AbstractDefaultValue<Integer> {
 	private static final SimpleLogger log = new SimpleLogger(IntegerDefaultValue.class);
@@ -19,20 +18,19 @@ public class IntegerDefaultValue extends AbstractDefaultValue<Integer> {
 	private int min = Integer.MIN_VALUE;
 	private boolean changeToRange = false;
 	
-	
-	public IntegerDefaultValue(){
-		
+	public IntegerDefaultValue() {
+
 	}
 	
-	public IntegerDefaultValue(Integer argInteger){
+	public IntegerDefaultValue(Integer argInteger) {
 		this(argInteger, Integer.MIN_VALUE, Integer.MAX_VALUE);
 	}
 	
-	public IntegerDefaultValue(Integer argInteger, int argMin, int argMax){
+	public IntegerDefaultValue(Integer argInteger, int argMin, int argMax) {
 		this(argInteger, argMin, argMax, -1, -1);
 	}
 	
-	public IntegerDefaultValue(int argMin, int argMax){
+	public IntegerDefaultValue(int argMin, int argMax) {
 		this(null, argMin, argMax);
 	}
 	
@@ -45,7 +43,7 @@ public class IntegerDefaultValue extends AbstractDefaultValue<Integer> {
 	 * @param argMinLength
 	 * @param argMaxLength
 	 */
-	public IntegerDefaultValue(Integer argInteger, int argMin, int argMax, int argMinLength, int argMaxLength){
+	public IntegerDefaultValue(Integer argInteger, int argMin, int argMax, int argMinLength, int argMaxLength) {
 		super(argMaxLength, argMinLength);
 		min = argMin;
 		max = argMax;
@@ -59,106 +57,118 @@ public class IntegerDefaultValue extends AbstractDefaultValue<Integer> {
 	public Integer getValue() {
 		return value;
 	}
-
+	
 	/**
 	 * @see org.tridas.io.defaults.IDefaultValue#setValue(java.lang.Object)
 	 */
 	@Override
 	protected boolean validateAndSetValue(Integer argValue) {
-		if(argValue == null){
+		if (argValue == null) {
 			value = null;
 			return true;
 		}
 		argValue = validValue(argValue);
-		if(argValue != null){
+		if (argValue != null) {
 			value = argValue;
 			return true;
 		}
 		return false;
 	}
 	
-	
-	private Integer validValue(Integer argValue){
-		if(argValue == null){
+	private Integer validValue(Integer argValue) {
+		if (argValue == null) {
 			return null;
 		}
-		if(argValue.intValue() > max){
-			String text = I18n.getText("fileio.defaults.numTooBig",""+argValue,""+max,""+changeToRange);
+		if (argValue.intValue() > max) {
+			String text = I18n.getText("fileio.defaults.numTooBig", "" + argValue, "" + max, "" + changeToRange);
 			log.warn(text);
-			if(getParent() == null){
+			if (getParent() == null) {
 				log.error(I18n.getText("fileio.defaults.nullParent"));
-			}else{
+			}
+			else {
 				getParent().addIgnoredWarning(getKey(), text);
 			}
-			if(changeToRange){
+			if (changeToRange) {
 				return max;
-			}else{
+			}
+			else {
 				return null;
 			}
 		}
-		if(argValue < min){
-			String text = I18n.getText("fileio.defaults.numTooSmall",""+argValue,""+min,""+changeToRange);
+		if (argValue < min) {
+			String text = I18n.getText("fileio.defaults.numTooSmall", "" + argValue, "" + min, "" + changeToRange);
 			log.warn(text);
-			if(getParent() == null){
+			if (getParent() == null) {
 				log.error(I18n.getText("fileio.defaults.nullParent"));
-			}else{
+			}
+			else {
 				getParent().addIgnoredWarning(getKey(), text);
 			}
-			if(changeToRange){
+			if (changeToRange) {
 				return min;
-			}else{
+			}
+			else {
 				return null;
 			}
 		}
 		return argValue;
 	}
-
+	
 	/**
 	 * Maximum the integer can be
-	 * @param max the max to set
+	 * 
+	 * @param max
+	 *            the max to set
 	 */
 	public void setMax(int max) {
 		this.max = max;
 		setValue(getValue());
 	}
-
+	
 	/**
 	 * Maximum the integer can be
+	 * 
 	 * @return the max
 	 */
 	public int getMax() {
 		return max;
 	}
-
+	
 	/**
 	 * Minimum the integer can be
-	 * @param min the min to set
+	 * 
+	 * @param min
+	 *            the min to set
 	 */
 	public void setMin(int min) {
 		this.min = min;
 		setValue(getValue());
 	}
-
+	
 	/**
 	 * Minimum the integer can be
+	 * 
 	 * @return the min
 	 */
 	public int getMin() {
 		return min;
 	}
-
+	
 	/**
 	 * if true, it will move the value into the range instead of disregarding
 	 * the modification. default of false
-	 * @param changeToRange the changeToRange to set
+	 * 
+	 * @param changeToRange
+	 *            the changeToRange to set
 	 */
 	public void setFriendlyRangeValidation(boolean changeToRange) {
 		this.changeToRange = changeToRange;
 	}
-
+	
 	/**
 	 * if true, it will move the value into the range instead of disregarding
 	 * the modification. default of false
+	 * 
 	 * @return the changeToRange
 	 */
 	public boolean isFriendlyRangeValidation() {

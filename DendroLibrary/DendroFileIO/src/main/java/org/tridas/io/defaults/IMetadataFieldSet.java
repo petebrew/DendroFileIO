@@ -10,13 +10,14 @@ import org.tridas.io.warnings.ConversionWarning;
 /**
  * TODO
  * so the library works while i work on this upgrade
+ * 
  * @author Daniel
- *
  */
 public interface IMetadataFieldSet extends Cloneable {
 	
 	/**
 	 * Add a warning from validation
+	 * 
 	 * @param argKey
 	 * @param argWarning
 	 */
@@ -24,6 +25,7 @@ public interface IMetadataFieldSet extends Cloneable {
 	
 	/**
 	 * Add a warning from validation
+	 * 
 	 * @param argKey
 	 * @param argText
 	 */
@@ -31,6 +33,7 @@ public interface IMetadataFieldSet extends Cloneable {
 	
 	/**
 	 * Gets the conversion warnings from validations
+	 * 
 	 * @return
 	 */
 	public ArrayList<ConversionWarning> getConversionWarnings();
@@ -39,6 +42,7 @@ public interface IMetadataFieldSet extends Cloneable {
 	
 	/**
 	 * Get the default value object for the given Enum
+	 * 
 	 * @param argValueType
 	 * @return
 	 */
@@ -46,6 +50,7 @@ public interface IMetadataFieldSet extends Cloneable {
 	
 	/**
 	 * Clones values to new {@link IMetadataFieldSet}.
+	 * 
 	 * @return
 	 */
 	public Object clone();

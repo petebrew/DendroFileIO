@@ -20,17 +20,12 @@ import org.tridas.schema.TridasVariable;
 
 public class HeidelbergToTridasDefaults extends TridasMetadataFieldSet {
 	
-	public static enum DefaultFields{
-		SERIES_ID,
-		DATE_BEGIN,
-		DATE_END,
-		TAXON,
-		UNIT,
-		STANDARDIZATION_METHOD,
-		PROJECT_NAME
+	public static enum DefaultFields {
+		SERIES_ID, DATE_BEGIN, DATE_END, TAXON, UNIT, STANDARDIZATION_METHOD, PROJECT_NAME
 	}
 	
-	public void initDefaultValues(){
+	@Override
+	public void initDefaultValues() {
 		super.initDefaultValues();
 		setDefaultValue(DefaultFields.SERIES_ID, new StringDefaultValue());
 		setDefaultValue(DefaultFields.DATE_BEGIN, new IntegerDefaultValue());
@@ -56,12 +51,12 @@ public class HeidelbergToTridasDefaults extends TridasMetadataFieldSet {
 		
 		// FIXME detect ad/bc
 		TridasInterpretation interp = new TridasInterpretation();
-		if(getIntegerDefaultValue(DefaultFields.DATE_BEGIN).getValue() != null){
-			SafeIntYear startYear = new SafeIntYear( getIntegerDefaultValue(DefaultFields.DATE_BEGIN).getValue());
-			interp.setFirstYear(startYear.toTridasYear(DatingSuffix.AD));					
+		if (getIntegerDefaultValue(DefaultFields.DATE_BEGIN).getValue() != null) {
+			SafeIntYear startYear = new SafeIntYear(getIntegerDefaultValue(DefaultFields.DATE_BEGIN).getValue());
+			interp.setFirstYear(startYear.toTridasYear(DatingSuffix.AD));
 		}
-		if(getIntegerDefaultValue(DefaultFields.DATE_END).getValue() != null){
-			SafeIntYear endYear = new SafeIntYear( getIntegerDefaultValue(DefaultFields.DATE_END).getValue());
+		if (getIntegerDefaultValue(DefaultFields.DATE_END).getValue() != null) {
+			SafeIntYear endYear = new SafeIntYear(getIntegerDefaultValue(DefaultFields.DATE_END).getValue());
 			interp.setLastYear(endYear.toTridasYear(DatingSuffix.AD));
 		}
 		series.setInterpretation(interp);
@@ -86,16 +81,16 @@ public class HeidelbergToTridasDefaults extends TridasMetadataFieldSet {
 		
 		// FIXME detect ad/bc
 		TridasInterpretation interp = new TridasInterpretation();
-		if(getIntegerDefaultValue(DefaultFields.DATE_BEGIN).getValue() != null){
-			SafeIntYear startYear = new SafeIntYear( getIntegerDefaultValue(DefaultFields.DATE_BEGIN).getValue());
-			interp.setFirstYear(startYear.toTridasYear(DatingSuffix.AD));					
+		if (getIntegerDefaultValue(DefaultFields.DATE_BEGIN).getValue() != null) {
+			SafeIntYear startYear = new SafeIntYear(getIntegerDefaultValue(DefaultFields.DATE_BEGIN).getValue());
+			interp.setFirstYear(startYear.toTridasYear(DatingSuffix.AD));
 		}
-		if(getIntegerDefaultValue(DefaultFields.DATE_END).getValue() != null){
-			SafeIntYear endYear = new SafeIntYear( getIntegerDefaultValue(DefaultFields.DATE_END).getValue());
+		if (getIntegerDefaultValue(DefaultFields.DATE_END).getValue() != null) {
+			SafeIntYear endYear = new SafeIntYear(getIntegerDefaultValue(DefaultFields.DATE_END).getValue());
 			interp.setLastYear(endYear.toTridasYear(DatingSuffix.AD));
 		}
 		series.setInterpretation(interp);
-		series.setLastModifiedTimestamp(DateUtils.getTodaysDateTime() );
+		series.setLastModifiedTimestamp(DateUtils.getTodaysDateTime());
 		
 		return series;
 	}
@@ -112,13 +107,14 @@ public class HeidelbergToTridasDefaults extends TridasMetadataFieldSet {
 	}
 	
 	@SuppressWarnings("unchecked")
-	public TridasValues getTridasValuesWithDefaults(){
+	public TridasValues getTridasValuesWithDefaults() {
 		TridasValues valuesGroup = new TridasValues();
 		
 		GenericDefaultValue<TridasUnit> units = (GenericDefaultValue<TridasUnit>) getDefaultValue(DefaultFields.UNIT);
-		if(units.getValue() == null){
+		if (units.getValue() == null) {
 			valuesGroup.setUnitless(new TridasUnitless());
-		}else{
+		}
+		else {
 			valuesGroup.setUnit(units.getValue());
 		}
 		GenericDefaultValue<TridasVariable> variable = (GenericDefaultValue<TridasVariable>) getDefaultValue(TridasMandatoryField.MEASUREMENTSERIES_VARIABLE);

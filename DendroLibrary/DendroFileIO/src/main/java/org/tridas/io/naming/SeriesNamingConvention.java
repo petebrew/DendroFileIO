@@ -12,46 +12,42 @@ import org.tridas.schema.TridasRadius;
 import org.tridas.schema.TridasSample;
 
 public class SeriesNamingConvention extends AbstractNamingConvention {
-
+	
 	@Override
-	protected String getDendroFilename(IDendroFile argFile,
-			TridasProject argProject, TridasObject argObject,
-			TridasElement argElement, TridasSample argSample,
-			TridasRadius argRadius, TridasMeasurementSeries argSeries) {
-
-		return getDendroFilename(argSeries);
-	}
-
-	@Override
-	protected String getDendroFilename(IDendroFile argFile,
-			TridasProject argProject, TridasDerivedSeries argSeries) {
+	protected String getDendroFilename(IDendroFile argFile, TridasProject argProject, TridasObject argObject,
+			TridasElement argElement, TridasSample argSample, TridasRadius argRadius, TridasMeasurementSeries argSeries) {
 		
 		return getDendroFilename(argSeries);
-
 	}
 	
-	private String getDendroFilename(ITridasSeries argSeries){
+	@Override
+	protected String getDendroFilename(IDendroFile argFile, TridasProject argProject, TridasDerivedSeries argSeries) {
+		
+		return getDendroFilename(argSeries);
+		
+	}
+	
+	private String getDendroFilename(ITridasSeries argSeries) {
 		String name = "";
 		
-		if(argSeries != null){
+		if (argSeries != null) {
 			name += argSeries.getTitle();
-		}else{
+		}
+		else {
 			return I18n.getText("fileio.defaultFilenameBase");
 		}
 		
 		return name;
 	}
-
+	
 	@Override
 	public String getDescription() {
 		return I18n.getText("namingconvention.series.description");
 	}
 	
 	@Override
-	public String getName(){
+	public String getName() {
 		return I18n.getText("namingconvention.series");
 	}
-
-
-
+	
 }

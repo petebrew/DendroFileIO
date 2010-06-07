@@ -12,11 +12,9 @@ import org.tridas.io.defaults.AbstractMetadataFieldSet;
  * @author peterbrewer
  */
 public class TridasToCSVDefaults extends AbstractMetadataFieldSet {
-
-	public enum CSVField{
-	}
 	
-
+	public enum CSVField {}
+	
 	/**
 	 * @see org.tridas.io.defaults.AbstractMetadataFieldSet#initDefaultValues()
 	 */
@@ -24,7 +22,5 @@ public class TridasToCSVDefaults extends AbstractMetadataFieldSet {
 	protected void initDefaultValues() {
 
 	}
-		
-	
 	
 }

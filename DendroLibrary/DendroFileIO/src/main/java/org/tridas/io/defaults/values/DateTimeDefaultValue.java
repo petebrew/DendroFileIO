@@ -4,15 +4,12 @@
 package org.tridas.io.defaults.values;
 
 import org.grlea.log.SimpleLogger;
-import org.tridas.io.I18n;
 import org.tridas.io.defaults.AbstractDefaultValue;
 import org.tridas.io.util.DateUtils;
-import org.tridas.io.util.StringUtils;
 import org.tridas.schema.DateTime;
 
 /**
  * @author Pete
- *
  */
 public class DateTimeDefaultValue extends AbstractDefaultValue<DateTime> {
 	
@@ -20,11 +17,11 @@ public class DateTimeDefaultValue extends AbstractDefaultValue<DateTime> {
 	
 	private DateTime value = null;
 	
-	public DateTimeDefaultValue(){
-		
+	public DateTimeDefaultValue() {
+
 	}
 	
-	public DateTimeDefaultValue(DateTime argValue){
+	public DateTimeDefaultValue(DateTime argValue) {
 		value = argValue;
 	}
 	
@@ -37,14 +34,13 @@ public class DateTimeDefaultValue extends AbstractDefaultValue<DateTime> {
 	}
 	
 	@Override
-	public String getStringValue(){
-		if (value!=null)
-		{
+	public String getStringValue() {
+		if (value != null) {
 			value.toString();
 		}
 		return null;
 	}
-
+	
 	@Override
 	protected boolean validateAndSetValue(DateTime argValue) {
 		value = argValue;
@@ -54,14 +50,12 @@ public class DateTimeDefaultValue extends AbstractDefaultValue<DateTime> {
 	protected boolean validateAndSetValue(Integer day, Integer month, Integer year) {
 		
 		value = DateUtils.getDateTime(day, month, year);
-		if(value!=null)
-		{
+		if (value != null) {
 			return true;
 		}
-		else 
-		{
+		else {
 			return false;
 		}
 	}
-
+	
 }

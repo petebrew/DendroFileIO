@@ -26,26 +26,25 @@ package org.tridas.io.warnings;
 import java.io.IOException;
 
 /**
- * This exception is thrown when a Tridas entity is not complete.  This 
+ * This exception is thrown when a Tridas entity is not complete. This
  * typically happens when an entity with no child entities is passed e.g.
  * a TridasObject with no TridasElements.
  * 
  * @author peterbrewer
- *
  */
 public class IncompleteTridasDataException extends IOException {
-
+	
 	private static final long serialVersionUID = 1L;
-
+	
 	/**
 	 * Basic non-descriptive missing data exception
 	 */
 	public IncompleteTridasDataException() {
 		super("Missing data from TRiDaS classes");
 	}
-
+	
 	/**
-	 * Constructor for an incomplete data exception with 
+	 * Constructor for an incomplete data exception with
 	 * descriptive message
 	 * 
 	 * @param s

@@ -30,14 +30,14 @@ import com.ibm.icu.text.CharsetMatch;
 
 /**
  * Static IO utility methods
+ * 
  * @author daniel
  */
 public class IOUtils {
-
-	private final static SimpleLogger log = new SimpleLogger(IOUtils.class);
-
 	
-	private IOUtils(){}
+	private final static SimpleLogger log = new SimpleLogger(IOUtils.class);
+	
+	private IOUtils() {}
 	
 	/*
 	 * #########################################
@@ -45,158 +45,157 @@ public class IOUtils {
 	 * #########################################
 	 */
 
-
 	public static File inputFile(JFrame argParent) {
 		return inputFile("Select a file...", argParent);
 	}
 	
-	public static File[] inputFiles(JFrame argParent){
+	public static File[] inputFiles(JFrame argParent) {
 		return inputFiles("Select a file...", argParent);
 	}
 	
-	public static File outputFolder(JFrame argParent){
+	public static File outputFolder(JFrame argParent) {
 		return outputFolder("Select a folder...", argParent);
 	}
-
+	
 	/**
 	 * The parentFrame is the Frame that will guide the placement of the prompt
 	 * window. If no Frame is available, just pass in null.
 	 */
-
+	
 	public static File inputFile(String argPrompt, JFrame argParentFrame) {
-		if(argParentFrame == null){
+		if (argParentFrame == null) {
 			argParentFrame = new JFrame(argPrompt);
 		}
 		JFileChooser fd = new JFileChooser();
 		fd.setFileSelectionMode(JFileChooser.FILES_ONLY);
 		fd.setMultiSelectionEnabled(false);
 		int retValue = fd.showOpenDialog(argParentFrame);
-		if(retValue == JFileChooser.APPROVE_OPTION){
+		if (retValue == JFileChooser.APPROVE_OPTION) {
 			return fd.getSelectedFile();
-		}else{
+		}
+		else {
 			return null;
 		}
 	}
 	
-	public static File[] inputFiles(String argPrompt, JFrame argParentFrame){
-		if(argParentFrame == null){
+	public static File[] inputFiles(String argPrompt, JFrame argParentFrame) {
+		if (argParentFrame == null) {
 			argParentFrame = new JFrame(argPrompt);
 		}
 		JFileChooser fd = new JFileChooser();
 		fd.setFileSelectionMode(JFileChooser.FILES_ONLY);
 		fd.setMultiSelectionEnabled(true);
 		int retValue = fd.showOpenDialog(argParentFrame);
-		if(retValue == JFileChooser.APPROVE_OPTION){
+		if (retValue == JFileChooser.APPROVE_OPTION) {
 			return fd.getSelectedFiles();
-		}else{
+		}
+		else {
 			return null;
 		}
 	}
-
+	
 	public static File outputFile(JFrame parentFrame) {
 		return outputFile("Save as...", parentFrame);
 	}
 	
-	public static File[] outputFiles(JFrame argParentFrame){
+	public static File[] outputFiles(JFrame argParentFrame) {
 		return outputFiles("Save as...", argParentFrame);
 	}
-
+	
 	/**
 	 * The parentFrame is the Frame that will guide the placement of the prompt
 	 * window. If no Frame is available, just pass in null.
 	 */
 	public static File outputFile(String argPrompt, JFrame argParentFrame) {
-		if(argParentFrame == null){
+		if (argParentFrame == null) {
 			argParentFrame = new JFrame(argPrompt);
 		}
 		JFileChooser fd = new JFileChooser();
 		fd.setFileSelectionMode(JFileChooser.FILES_ONLY);
 		fd.setMultiSelectionEnabled(false);
 		int retValue = fd.showSaveDialog(argParentFrame);
-		if(retValue == JFileChooser.APPROVE_OPTION){
+		if (retValue == JFileChooser.APPROVE_OPTION) {
 			return fd.getSelectedFile();
-		}else{
+		}
+		else {
 			return null;
 		}
 	}
 	
 	public static File outputFolder(String argPrompt, JFrame argParentFrame) {
-		if(argParentFrame == null){
+		if (argParentFrame == null) {
 			argParentFrame = new JFrame(argPrompt);
 		}
 		JFileChooser fd = new JFileChooser();
 		fd.setFileSelectionMode(JFileChooser.DIRECTORIES_ONLY);
 		fd.setMultiSelectionEnabled(false);
 		int retValue = fd.showSaveDialog(argParentFrame);
-		if(retValue == JFileChooser.APPROVE_OPTION){
+		if (retValue == JFileChooser.APPROVE_OPTION) {
 			return fd.getSelectedFile();
-		}else{
+		}
+		else {
 			return null;
 		}
 	}
 	
-	public static File[] outputFiles(String argPrompt, JFrame argParentFrame){
-		if(argParentFrame == null){
+	public static File[] outputFiles(String argPrompt, JFrame argParentFrame) {
+		if (argParentFrame == null) {
 			argParentFrame = new JFrame(argPrompt);
 		}
 		JFileChooser fd = new JFileChooser();
 		fd.setFileSelectionMode(JFileChooser.FILES_ONLY);
 		fd.setMultiSelectionEnabled(true);
 		int retValue = fd.showSaveDialog(argParentFrame);
-		if(retValue == JFileChooser.APPROVE_OPTION){
+		if (retValue == JFileChooser.APPROVE_OPTION) {
 			return fd.getSelectedFiles();
-		}else{
+		}
+		else {
 			return null;
 		}
 	}
-
+	
 	/*
 	 * #########################################
 	 * ############ READERS/WRITERS ############
 	 * #########################################
 	 */
 
-	
 	/**
 	 * I want to read lines from a file.
 	 */
 	public static BufferedReader createReader(File file) {
 		try {
 			return createReader(file, null);
-		} catch (UnsupportedEncodingException e) {
-		} // not gonna happen
+		} catch (UnsupportedEncodingException e) {} // not gonna happen
 		return null; // won't happen
 	}
 	
 	/**
 	 * I want to read lines from a file. with an encoding!
-	 * @throws UnsupportedEncodingException 
+	 * 
+	 * @throws UnsupportedEncodingException
 	 */
 	public static BufferedReader createReader(File file, String argEncoding) throws UnsupportedEncodingException {
 		if (file == null) {
-			throw new RuntimeException(
-					"File passed to createReader() was null. "
-							+ "Why are you doing this to me?");
-		} 
+			throw new RuntimeException("File passed to createReader() was null. " + "Why are you doing this to me?");
+		}
 		try {
 			InputStream is = new FileInputStream(file);
 			if (file.getName().toLowerCase().endsWith(".gz")) {
 				is = new GZIPInputStream(is);
 			}
 			return createReader(is, argEncoding);
-
+			
 		} catch (Exception e) {
-			if(e instanceof UnsupportedEncodingException){
-				throw (UnsupportedEncodingException)e;
+			if (e instanceof UnsupportedEncodingException) {
+				throw (UnsupportedEncodingException) e;
 			}
-			log.error("Couldn't create a reader for "
-					+ file.getAbsolutePath());
+			log.error("Couldn't create a reader for " + file.getAbsolutePath());
 			log.dbe(DebugLevel.L2_ERROR, e);
-			throw new RuntimeException("Couldn't create a reader for "
-					+ file.getAbsolutePath());
+			throw new RuntimeException("Couldn't create a reader for " + file.getAbsolutePath());
 		}
 	}
-
+	
 	/**
 	 * I want to read lines from a stream.
 	 */
@@ -207,32 +206,32 @@ public class IOUtils {
 	
 	/**
 	 * I want to read lines from a stream. with an encoding!
-	 * @throws UnsupportedEncodingException 
+	 * 
+	 * @throws UnsupportedEncodingException
 	 */
-	public static BufferedReader createReader(InputStream input, String argEncoding) throws UnsupportedEncodingException {
+	public static BufferedReader createReader(InputStream input, String argEncoding)
+			throws UnsupportedEncodingException {
 		InputStreamReader isr = new InputStreamReader(input, argEncoding);
 		return new BufferedReader(isr);
 	}
-
+	
 	/**
-	 * I want to print lines to a file. 
+	 * I want to print lines to a file.
 	 */
 	public static PrintWriter createWriter(File file) {
 		try {
 			return createWriter(file, null);
-		} catch (UnsupportedEncodingException e) {
-		} // won't happen
+		} catch (UnsupportedEncodingException e) {} // won't happen
 		return null; // won't happen
 	}
 	
 	/**
-	 * I want to print lines to a file. 
+	 * I want to print lines to a file.
 	 */
-	public static PrintWriter createWriter(File file, String argEncoding) throws UnsupportedEncodingException{
+	public static PrintWriter createWriter(File file, String argEncoding) throws UnsupportedEncodingException {
 		if (file == null) {
 			log.error("File passed to createWriter() was null.  Why are you doing this to me?");
-			throw new RuntimeException(
-					"File passed to createWriter() was null.  Why are you doing this to me?");
+			throw new RuntimeException("File passed to createWriter() was null.  Why are you doing this to me?");
 		}
 		try {
 			OutputStream output = new FileOutputStream(file);
@@ -240,54 +239,51 @@ public class IOUtils {
 				output = new GZIPOutputStream(output);
 			}
 			return createWriter(output, argEncoding);
-
+			
 		} catch (Exception e) {
-			if( e instanceof UnsupportedEncodingException){
-				throw (UnsupportedEncodingException)e;
+			if (e instanceof UnsupportedEncodingException) {
+				throw (UnsupportedEncodingException) e;
 			}
-			log.error("Couldn't create a writer for "
-					+ file.getAbsolutePath());
+			log.error("Couldn't create a writer for " + file.getAbsolutePath());
 			log.dbe(DebugLevel.L2_ERROR, e);
-			throw new RuntimeException("Couldn't create a writer for "
-					+ file.getAbsolutePath());
+			throw new RuntimeException("Couldn't create a writer for " + file.getAbsolutePath());
 		}
 	}
-
+	
 	/**
 	 * I want to print lines to a file.
 	 */
 	public static PrintWriter createWriter(OutputStream output) {
 		try {
 			return createWriter(output, null);
-		} catch (UnsupportedEncodingException e) {
-		} // won't happen
+		} catch (UnsupportedEncodingException e) {} // won't happen
 		return null;
 	}
 	
 	/**
 	 * I want to print lines to a file.
-	 * @throws UnsupportedEncodingException 
+	 * 
+	 * @throws UnsupportedEncodingException
 	 */
 	public static PrintWriter createWriter(OutputStream output, String argEncoding) throws UnsupportedEncodingException {
 		OutputStreamWriter osw = new OutputStreamWriter(output, argEncoding);
 		return new PrintWriter(osw);
 	}
-
+	
 	/*
 	 * #########################################
 	 * ############## FILE INPUT ###############
 	 * #########################################
 	 */
-	
-	public static URL getFileInJarURL(String argFile){
+
+	public static URL getFileInJarURL(String argFile) {
 		return IOUtils.class.getClassLoader().getResource(argFile);
 	}
 	
 	public static InputStream createInput(File file) {
 		if (file == null) {
-			throw new RuntimeException(
-					"File passed to createInput() was null.  Stop doing this!");
-
+			throw new RuntimeException("File passed to createInput() was null.  Stop doing this!");
+			
 		}
 		try {
 			InputStream input = new FileInputStream(file);
@@ -295,34 +291,32 @@ public class IOUtils {
 				return new GZIPInputStream(input);
 			}
 			return input;
-
+			
 		} catch (IOException e) {
-			log.error("Couldn't createInput() for "
-					+ file.getAbsolutePath());
+			log.error("Couldn't createInput() for " + file.getAbsolutePath());
 			log.dbe(DebugLevel.L2_ERROR, e);
-			throw new RuntimeException("Couldn't createInput() for "
-					+ file.getAbsolutePath());
+			throw new RuntimeException("Couldn't createInput() for " + file.getAbsolutePath());
 		}
 	}
-
+	
 	public static byte[] loadBytes(InputStream input) {
 		try {
 			BufferedInputStream bis = new BufferedInputStream(input);
 			ByteArrayOutputStream out = new ByteArrayOutputStream();
-
+			
 			int c = bis.read();
 			while (c != -1) {
 				out.write(c);
 				c = bis.read();
 			}
 			return out.toByteArray();
-
+			
 		} catch (IOException e) {
 			log.dbe(DebugLevel.L2_ERROR, e);
 		}
 		return null;
 	}
-
+	
 	public static String[] loadStrings(File file) {
 		InputStream is = createInput(file);
 		if (is != null) {
@@ -338,27 +332,26 @@ public class IOUtils {
 		}
 		return null;
 	}
-
+	
 	public static String[] loadStrings(InputStream input) {
 		try {
 			return loadStrings(input, null);
-		} catch (UnsupportedEncodingException e) {
-		}	// not gonna happen
+		} catch (UnsupportedEncodingException e) {} // not gonna happen
 		return null;
 	}
 	
-	public static String[] loadStrings(InputStream input, String argEncoding) throws UnsupportedEncodingException{
+	public static String[] loadStrings(InputStream input, String argEncoding) throws UnsupportedEncodingException {
 		try {
 			
 			BufferedReader reader;
 			
-			if(argEncoding != null){
+			if (argEncoding != null) {
 				reader = new BufferedReader(new InputStreamReader(input, argEncoding));
-			}else{
+			}
+			else {
 				reader = new BufferedReader(new InputStreamReader(input));
 			}
-					
-
+			
 			String lines[] = new String[100];
 			int lineCount = 0;
 			String line = null;
@@ -371,25 +364,25 @@ public class IOUtils {
 				lines[lineCount++] = line;
 			}
 			reader.close();
-
+			
 			if (lineCount == lines.length) {
 				return lines;
 			}
-
+			
 			// resize array to appropriate amount for these lines
 			String output[] = new String[lineCount];
 			System.arraycopy(lines, 0, output, 0, lineCount);
 			return output;
-
+			
 		} catch (IOException e) {
-			if(e instanceof UnsupportedEncodingException){
+			if (e instanceof UnsupportedEncodingException) {
 				throw (UnsupportedEncodingException) e;
 			}
 			log.dbe(DebugLevel.L2_ERROR, e);
 		}
 		return null;
 	}
-
+	
 	/*
 	 * #########################################
 	 * ############## FILE OUTPUT ##############
@@ -399,39 +392,36 @@ public class IOUtils {
 	public static OutputStream createOutput(File file) {
 		try {
 			return new FileOutputStream(file);
-
+			
 		} catch (IOException e) {
 			log.dbe(DebugLevel.L2_ERROR, e);
 		}
 		return null;
 	}
-
+	
 	public static void saveStream(File targetFile, InputStream sourceStream) {
 		File tempFile = null;
-
+		
 		try {
 			File parentDir = targetFile.getParentFile();
-			tempFile = File.createTempFile(targetFile.getName(), null,
-					parentDir);
-
-			BufferedInputStream bis = new BufferedInputStream(sourceStream,
-					16384);
+			tempFile = File.createTempFile(targetFile.getName(), null, parentDir);
+			
+			BufferedInputStream bis = new BufferedInputStream(sourceStream, 16384);
 			FileOutputStream fos = new FileOutputStream(tempFile);
 			BufferedOutputStream bos = new BufferedOutputStream(fos);
-
+			
 			byte[] buffer = new byte[8192];
 			int bytesRead;
 			while ((bytesRead = bis.read(buffer)) != -1) {
 				bos.write(buffer, 0, bytesRead);
 			}
-
+			
 			bos.flush();
 			bos.close();
 			bos = null;
-
+			
 			if (!tempFile.renameTo(targetFile)) {
-				log.error("Could not rename temporary file "
-						+ tempFile.getAbsolutePath());
+				log.error("Could not rename temporary file " + tempFile.getAbsolutePath());
 			}
 		} catch (IOException e) {
 			if (tempFile != null) {
@@ -440,7 +430,7 @@ public class IOUtils {
 			log.dbe(DebugLevel.L2_ERROR, e);
 		}
 	}
-
+	
 	/**
 	 * Saves bytes to a specific File location specified by the user.
 	 */
@@ -454,13 +444,13 @@ public class IOUtils {
 			}
 			saveBytes(output, buffer);
 			output.close();
-
+			
 		} catch (IOException e) {
 			log.error("error saving bytes to " + file);
 			log.dbe(DebugLevel.L2_ERROR, e);
 		}
 	}
-
+	
 	/**
 	 * Spews a buffer of bytes to an OutputStream.
 	 */
@@ -472,15 +462,14 @@ public class IOUtils {
 			e.printStackTrace();
 		}
 	}
-
+	
 	public static void saveStrings(File file, String strings[]) {
 		try {
 			saveStrings(file, strings, "UTF-8");
-		} catch (UnsupportedEncodingException e) {
-		}	// not gonna happen
+		} catch (UnsupportedEncodingException e) {} // not gonna happen
 	}
 	
-	public static void saveStrings(File file, String strings[], String argEncoding) throws UnsupportedEncodingException{
+	public static void saveStrings(File file, String strings[], String argEncoding) throws UnsupportedEncodingException {
 		try {
 			String location = file.getAbsolutePath();
 			createPath(location);
@@ -490,31 +479,32 @@ public class IOUtils {
 			}
 			saveStrings(output, strings, argEncoding);
 			output.close();
-
+			
 		} catch (IOException e) {
-			if(e instanceof UnsupportedEncodingException){
-				throw (UnsupportedEncodingException)e;
+			if (e instanceof UnsupportedEncodingException) {
+				throw (UnsupportedEncodingException) e;
 			}
 			log.dbe(DebugLevel.L2_ERROR, e);
 		}
 	}
-
+	
 	public static void saveStrings(OutputStream output, String strings[]) {
 		try {
 			saveStrings(output, strings, null);
-		} catch (UnsupportedEncodingException e) {
-		}	// not gonna happen
+		} catch (UnsupportedEncodingException e) {} // not gonna happen
 	}
 	
-	public static void saveStrings(OutputStream output, String strings[], String argEncoding) throws UnsupportedEncodingException{
-		if(strings == null){
+	public static void saveStrings(OutputStream output, String strings[], String argEncoding)
+			throws UnsupportedEncodingException {
+		if (strings == null) {
 			throw new NullPointerException("Strings to save cannot be null");
 		}
 		OutputStreamWriter osw;
 		
-		if(argEncoding != null){
+		if (argEncoding != null) {
 			osw = new OutputStreamWriter(output, argEncoding);
-		}else{
+		}
+		else {
 			osw = new OutputStreamWriter(output);
 		}
 		
@@ -524,7 +514,7 @@ public class IOUtils {
 		}
 		writer.flush();
 	}
-
+	
 	/**
 	 * Takes a path and creates any in-between folders if they don't already
 	 * exist. Useful when trying to save to a subfolder that may not actually
@@ -541,11 +531,12 @@ public class IOUtils {
 		}
 	}
 	
-	public static Charset detectCharset(byte[] argBytes){
+	public static Charset detectCharset(byte[] argBytes) {
 		CharsetDetector detector = new CharsetDetector();
 		detector.setText(argBytes);
 		CharsetMatch match = detector.detect();
-		log.debug("Best charset match is "+match.getName()+" ("+match.getLanguage()+") with a confidence of "+match.getConfidence()+"%");
+		log.debug("Best charset match is " + match.getName() + " (" + match.getLanguage() + ") with a confidence of "
+				+ match.getConfidence() + "%");
 		return Charset.forName(match.getName());
 	}
 }

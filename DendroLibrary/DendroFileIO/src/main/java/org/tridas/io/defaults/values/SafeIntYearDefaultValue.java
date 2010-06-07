@@ -4,14 +4,11 @@
 package org.tridas.io.defaults.values;
 
 import org.grlea.log.SimpleLogger;
-import org.tridas.io.I18n;
 import org.tridas.io.defaults.AbstractDefaultValue;
 import org.tridas.io.util.SafeIntYear;
-import org.tridas.io.util.StringUtils;
 
 /**
  * @author Pete
- *
  */
 public class SafeIntYearDefaultValue extends AbstractDefaultValue<SafeIntYear> {
 	
@@ -19,11 +16,11 @@ public class SafeIntYearDefaultValue extends AbstractDefaultValue<SafeIntYear> {
 	
 	private SafeIntYear value = new SafeIntYear();
 	
-	public SafeIntYearDefaultValue(){
-		
+	public SafeIntYearDefaultValue() {
+
 	}
 	
-	public SafeIntYearDefaultValue(SafeIntYear argValue){
+	public SafeIntYearDefaultValue(SafeIntYear argValue) {
 		value = argValue;
 	}
 	
@@ -36,10 +33,10 @@ public class SafeIntYearDefaultValue extends AbstractDefaultValue<SafeIntYear> {
 	}
 	
 	@Override
-	public String getStringValue(){
+	public String getStringValue() {
 		return value.toString();
 	}
-
+	
 	@Override
 	protected boolean validateAndSetValue(SafeIntYear argValue) {
 		value = argValue;
@@ -50,10 +47,10 @@ public class SafeIntYearDefaultValue extends AbstractDefaultValue<SafeIntYear> {
 		value = new SafeIntYear(argValue);
 		return true;
 	}
-
-	// Helper to allow setting SafeIntYear using a simple integer.  This
+	
+	// Helper to allow setting SafeIntYear using a simple integer. This
 	// assumes the integer is a BC/AD value.
-	public boolean setValue(Integer argValue){
+	public boolean setValue(Integer argValue) {
 		return validateAndSetValue(argValue);
 	}
 }
