@@ -3,19 +3,14 @@ package org.tridas.io.formats.sheffield;
 import java.math.BigDecimal;
 import java.util.ArrayList;
 
-import net.opengis.gml.schema.PointType;
-import net.opengis.gml.schema.Pos;
-
 import org.apache.commons.lang.WordUtils;
 import org.tridas.io.I18n;
 import org.tridas.io.defaults.IMetadataFieldSet;
 import org.tridas.io.defaults.TridasMetadataFieldSet;
-import org.tridas.io.defaults.TridasMetadataFieldSet.TridasMandatoryField;
 import org.tridas.io.defaults.values.DoubleDefaultValue;
 import org.tridas.io.defaults.values.GenericDefaultValue;
 import org.tridas.io.defaults.values.IntegerDefaultValue;
 import org.tridas.io.defaults.values.StringDefaultValue;
-import org.tridas.io.formats.heidelberg.HeidelbergToTridasDefaults.DefaultFields;
 import org.tridas.io.formats.sheffield.TridasToSheffieldDefaults.SheffieldChronologyType;
 import org.tridas.io.formats.sheffield.TridasToSheffieldDefaults.SheffieldDataType;
 import org.tridas.io.formats.sheffield.TridasToSheffieldDefaults.SheffieldEdgeCode;
@@ -44,49 +39,26 @@ import org.tridas.schema.TridasLocation;
 import org.tridas.schema.TridasLocationGeometry;
 import org.tridas.schema.TridasMeasurementSeries;
 import org.tridas.schema.TridasObject;
-import org.tridas.schema.TridasPith;
 import org.tridas.schema.TridasRadius;
 import org.tridas.schema.TridasSample;
 import org.tridas.schema.TridasShape;
 import org.tridas.schema.TridasUnit;
-import org.tridas.schema.TridasUnitless;
 import org.tridas.schema.TridasValues;
 import org.tridas.schema.TridasVariable;
 import org.tridas.schema.TridasWoodCompleteness;
-import org.tridas.schema.Year;
 
-public class SheffieldToTridasDefaults extends TridasMetadataFieldSet implements
-		IMetadataFieldSet {
-
-	public static enum DefaultFields{
-		OBJECT_NAME,
-		RING_COUNT,
-		START_YEAR,
-		SERIES_TITLE,
-		SERIES_COMMENT,
-		UK_COORDS,			  // GENERICFIELD
-		LATITUDE,
-		LONGITUDE,
-		PITH,
-		PITH_DESCRIPTION,     // GENERICFIELD
-		SHEFFIELD_DATA_TYPE,  // GENERICFIELD
-		SAPWOOD_COUNT,
-		SHEFFIELD_SHAPE_CODE,
-		MAJOR_DIM,
-		MINOR_DIM,
-		UNMEAS_INNER_RINGS,
-		UNMEAS_OUTER_RINGS,
-		GROUP_PHASE,
-		SHEFFIELD_PERIOD_CODE,
-		TAXON_CODE,
-		INTERPRETATION_NOTES,
-		SHEFFIELD_VARIABLE_TYPE,
-		SHEFFIELD_EDGE_CODE,
-		SHEFFIELD_CHRONOLOGY_TYPE;
+public class SheffieldToTridasDefaults extends TridasMetadataFieldSet implements IMetadataFieldSet {
+	
+	public static enum DefaultFields {
+		OBJECT_NAME, RING_COUNT, START_YEAR, SERIES_TITLE, SERIES_COMMENT, UK_COORDS, // GENERICFIELD
+		LATITUDE, LONGITUDE, PITH, PITH_DESCRIPTION, // GENERICFIELD
+		SHEFFIELD_DATA_TYPE, // GENERICFIELD
+		SAPWOOD_COUNT, SHEFFIELD_SHAPE_CODE, MAJOR_DIM, MINOR_DIM, UNMEAS_INNER_RINGS, UNMEAS_OUTER_RINGS, GROUP_PHASE, SHEFFIELD_PERIOD_CODE, TAXON_CODE, INTERPRETATION_NOTES, SHEFFIELD_VARIABLE_TYPE, SHEFFIELD_EDGE_CODE, SHEFFIELD_CHRONOLOGY_TYPE;
 		
 	}
 	
-	public void initDefaultValues(){
+	@Override
+	public void initDefaultValues() {
 		super.initDefaultValues();
 		setDefaultValue(DefaultFields.OBJECT_NAME, new StringDefaultValue(I18n.getText("unnamed.object")));
 		setDefaultValue(DefaultFields.RING_COUNT, new IntegerDefaultValue());
@@ -113,7 +85,7 @@ public class SheffieldToTridasDefaults extends TridasMetadataFieldSet implements
 		setDefaultValue(DefaultFields.SHEFFIELD_EDGE_CODE, new GenericDefaultValue<SheffieldEdgeCode>());
 		setDefaultValue(DefaultFields.SHEFFIELD_CHRONOLOGY_TYPE, new GenericDefaultValue<SheffieldChronologyType>());
 	}
-
+	
 	/**
 	 * @see org.tridas.io.defaults.TridasMetadataFieldSet#getDefaultTridasObject()
 	 */
@@ -124,20 +96,17 @@ public class SheffieldToTridasDefaults extends TridasMetadataFieldSet implements
 		o.setTitle(getStringDefaultValue(DefaultFields.OBJECT_NAME).getStringValue());
 		
 		// If Lat Long is available use it
-		if(getDefaultValue(DefaultFields.LATITUDE).getValue()!=null && 
-		   getDefaultValue(DefaultFields.LONGITUDE).getValue()!=null)
-		{
-			TridasLocationGeometry geometry = CoordinatesUtils.getLocationGeometry(
-					getDoubleDefaultValue(DefaultFields.LATITUDE).getValue(),
-					getDoubleDefaultValue(DefaultFields.LONGITUDE).getValue());
+		if (getDefaultValue(DefaultFields.LATITUDE).getValue() != null
+				&& getDefaultValue(DefaultFields.LONGITUDE).getValue() != null) {
+			TridasLocationGeometry geometry = CoordinatesUtils.getLocationGeometry(getDoubleDefaultValue(
+					DefaultFields.LATITUDE).getValue(), getDoubleDefaultValue(DefaultFields.LONGITUDE).getValue());
 			TridasLocation location = new TridasLocation();
 			location.setLocationGeometry(geometry);
 			o.setLocation(location);
 		}
 		
 		// Add UK Coords as a generic field
-		if(getStringDefaultValue(DefaultFields.UK_COORDS).getValue()!=null)
-		{
+		if (getStringDefaultValue(DefaultFields.UK_COORDS).getValue() != null) {
 			TridasGenericField coords = new TridasGenericField();
 			coords.setName("sheffield.UKCoords");
 			coords.setType("xs:string");
@@ -148,8 +117,7 @@ public class SheffieldToTridasDefaults extends TridasMetadataFieldSet implements
 		}
 		
 		// Add group/phase as subobject
-		if(getStringDefaultValue(DefaultFields.GROUP_PHASE).getValue()!=null)
-		{
+		if (getStringDefaultValue(DefaultFields.GROUP_PHASE).getValue() != null) {
 			TridasObject subobj = super.getDefaultTridasObject();
 			subobj.setTitle(getStringDefaultValue(DefaultFields.GROUP_PHASE).getValue());
 			ControlledVoc type = new ControlledVoc();
@@ -161,19 +129,18 @@ public class SheffieldToTridasDefaults extends TridasMetadataFieldSet implements
 		}
 		
 		// Temporal coverage
-		try{
-			GenericDefaultValue<SheffieldPeriodCode> periodField = (GenericDefaultValue<SheffieldPeriodCode>) getDefaultValue(DefaultFields.SHEFFIELD_PERIOD_CODE); 		
+		try {
+			GenericDefaultValue<SheffieldPeriodCode> periodField = (GenericDefaultValue<SheffieldPeriodCode>) getDefaultValue(DefaultFields.SHEFFIELD_PERIOD_CODE);
 			SheffieldPeriodCode value = periodField.getValue();
 			String sheffieldPeriod = value.toString();
 			TridasCoverage coverage = new TridasCoverage();
 			coverage.setCoverageTemporal(WordUtils.capitalize(sheffieldPeriod.toLowerCase()));
 			coverage.setCoverageTemporalFoundation(I18n.getText("unknown"));
 			o.setCoverage(coverage);
-		} catch (NullPointerException e1){}	
-			
+		} catch (NullPointerException e1) {}
+		
 		return o;
 	}
-
 	
 	/**
 	 * @see org.tridas.io.defaults.TridasMetadataFieldSet#getDefaultTridasElement()
@@ -185,77 +152,78 @@ public class SheffieldToTridasDefaults extends TridasMetadataFieldSet implements
 		
 		// Set Element shape
 		SheffieldShapeCode sheffieldShape = null;
-		TridasShape tridasShape = new TridasShape();		
-		try{
-			GenericDefaultValue<SheffieldShapeCode> shapeField = (GenericDefaultValue<SheffieldShapeCode>) getDefaultValue(DefaultFields.SHEFFIELD_SHAPE_CODE); 		
+		TridasShape tridasShape = new TridasShape();
+		try {
+			GenericDefaultValue<SheffieldShapeCode> shapeField = (GenericDefaultValue<SheffieldShapeCode>) getDefaultValue(DefaultFields.SHEFFIELD_SHAPE_CODE);
 			sheffieldShape = shapeField.getValue();
-
-			switch(sheffieldShape)
-			{
-			case WHOLE_ROUND_UNTRIMMED:
-				tridasShape.setNormalTridas(NormalTridasShape.WHOLE___SECTION);
-				break;
-			case WHOLE_ROUND_TRIMMED:
-				tridasShape.setNormalTridas(NormalTridasShape.SQUARED___BEAM___FROM___WHOLE___SECTION);
-				break;
-			case WHOLE_ROUND_IRREGULARLY_TRIMMED:
-				tridasShape.setNormalTridas(NormalTridasShape.BEAM___STRAIGHTENED___ON___ONE___SIDE);
-				break;
-			case HALF_ROUND_UNTRIMMED:
-				tridasShape.setNormalTridas(NormalTridasShape.HALF___SECTION);
-				break;
-			case HALF_ROUND_TRIMMED:
-				tridasShape.setNormalTridas(NormalTridasShape.SQUARED___BEAM___FROM___HALF___SECTION);
-				break;
-			case HALF_ROUND_IRREGULARLY_TRIMMED:
-				tridasShape.setNormalTridas(NormalTridasShape.SQUARED___BEAM___FROM___HALF___SECTION);
-				break;
-			case QUARTERED_UNTRIMMED:
-				tridasShape.setNormalTridas(NormalTridasShape.QUARTER___SECTION);
-				break;
-			case QUARTERED_TRIMMED:
-				tridasShape.setNormalTridas(NormalTridasShape.SQUARED___BEAM___FROM___QUARTER___SECTION);
-				break;
-			case QUARTERED_IRREGULARLY_TRIMMED:
-				tridasShape.setNormalTridas(NormalTridasShape.SMALL___PART___OF___SECTION);
-				break;
-			case RADIAL_PLANK_UNTRIMMED:
-				tridasShape.setNormalTridas(NormalTridasShape.PLANK___CUT___ON___ONE___SIDE);
-				break;
-			case RADIAL_PLANK_TRIMMED:
-				tridasShape.setNormalTridas(NormalTridasShape.RADIAL___PLANK___THROUGH___PITH);
-				break;
-			case RADIAL_PLANK_IRREGULARLY_TRIMMED:
-				tridasShape.setNormalTridas(NormalTridasShape.RADIAL___PLANK___UP___TO___PITH);
-				break;
-			case TANGENTIAL_PLANK_UNTRIMMED:
-				tridasShape.setNormalTridas(NormalTridasShape.TANGENTIAL___PLANK___NOT___INCLUDING___PITH___WITH___BREADTH___LARGER___THAN___A___QUARTER___SECTION);
-				break;
-			case TANGENTIAL_PLANK_TRIMMED:
-				tridasShape.setNormalTridas(NormalTridasShape.PLANK___NOT___INCLUDING___PITH___WITH___BREADTH___SMALLER___THAN___A___QUARTER___SECTION);
-				break;
-			case TANGENTIAL_PLANK_IRREGULARLY_TRIMMED:
-				tridasShape.setNormalTridas(NormalTridasShape.PLANK___NOT___INCLUDING___PITH___WITH___BREADTH___SMALLER___THAN___A___QUARTER___SECTION);
-				break;
-			case UNKNOWN:
-				tridasShape.setNormalTridas(NormalTridasShape.UNKNOWN);
-				break;
-			case CORE_UNCLASSIFIABLE:
-				tridasShape.setNormalTridas(NormalTridasShape.UNKNOWN);
-				break;
-			default:
-				break;
+			
+			switch (sheffieldShape) {
+				case WHOLE_ROUND_UNTRIMMED :
+					tridasShape.setNormalTridas(NormalTridasShape.WHOLE___SECTION);
+					break;
+				case WHOLE_ROUND_TRIMMED :
+					tridasShape.setNormalTridas(NormalTridasShape.SQUARED___BEAM___FROM___WHOLE___SECTION);
+					break;
+				case WHOLE_ROUND_IRREGULARLY_TRIMMED :
+					tridasShape.setNormalTridas(NormalTridasShape.BEAM___STRAIGHTENED___ON___ONE___SIDE);
+					break;
+				case HALF_ROUND_UNTRIMMED :
+					tridasShape.setNormalTridas(NormalTridasShape.HALF___SECTION);
+					break;
+				case HALF_ROUND_TRIMMED :
+					tridasShape.setNormalTridas(NormalTridasShape.SQUARED___BEAM___FROM___HALF___SECTION);
+					break;
+				case HALF_ROUND_IRREGULARLY_TRIMMED :
+					tridasShape.setNormalTridas(NormalTridasShape.SQUARED___BEAM___FROM___HALF___SECTION);
+					break;
+				case QUARTERED_UNTRIMMED :
+					tridasShape.setNormalTridas(NormalTridasShape.QUARTER___SECTION);
+					break;
+				case QUARTERED_TRIMMED :
+					tridasShape.setNormalTridas(NormalTridasShape.SQUARED___BEAM___FROM___QUARTER___SECTION);
+					break;
+				case QUARTERED_IRREGULARLY_TRIMMED :
+					tridasShape.setNormalTridas(NormalTridasShape.SMALL___PART___OF___SECTION);
+					break;
+				case RADIAL_PLANK_UNTRIMMED :
+					tridasShape.setNormalTridas(NormalTridasShape.PLANK___CUT___ON___ONE___SIDE);
+					break;
+				case RADIAL_PLANK_TRIMMED :
+					tridasShape.setNormalTridas(NormalTridasShape.RADIAL___PLANK___THROUGH___PITH);
+					break;
+				case RADIAL_PLANK_IRREGULARLY_TRIMMED :
+					tridasShape.setNormalTridas(NormalTridasShape.RADIAL___PLANK___UP___TO___PITH);
+					break;
+				case TANGENTIAL_PLANK_UNTRIMMED :
+					tridasShape
+							.setNormalTridas(NormalTridasShape.TANGENTIAL___PLANK___NOT___INCLUDING___PITH___WITH___BREADTH___LARGER___THAN___A___QUARTER___SECTION);
+					break;
+				case TANGENTIAL_PLANK_TRIMMED :
+					tridasShape
+							.setNormalTridas(NormalTridasShape.PLANK___NOT___INCLUDING___PITH___WITH___BREADTH___SMALLER___THAN___A___QUARTER___SECTION);
+					break;
+				case TANGENTIAL_PLANK_IRREGULARLY_TRIMMED :
+					tridasShape
+							.setNormalTridas(NormalTridasShape.PLANK___NOT___INCLUDING___PITH___WITH___BREADTH___SMALLER___THAN___A___QUARTER___SECTION);
+					break;
+				case UNKNOWN :
+					tridasShape.setNormalTridas(NormalTridasShape.UNKNOWN);
+					break;
+				case CORE_UNCLASSIFIABLE :
+					tridasShape.setNormalTridas(NormalTridasShape.UNKNOWN);
+					break;
+				default :
+					break;
 			}
 			e.setShape(tridasShape);
 			
-		} catch (NullPointerException e1){}		
+		} catch (NullPointerException e1) {}
 		
 		// Set element dimensions
-		if(  getDoubleDefaultValue(DefaultFields.MAJOR_DIM).getValue()!=null &&
-			!getDoubleDefaultValue(DefaultFields.MAJOR_DIM).getValue().equals(0.0) &&
-			 getDoubleDefaultValue(DefaultFields.MINOR_DIM).getValue()!=null &&
-			!getDoubleDefaultValue(DefaultFields.MINOR_DIM).getValue().equals(0.0))
-		{
+		if (getDoubleDefaultValue(DefaultFields.MAJOR_DIM).getValue() != null
+				&& !getDoubleDefaultValue(DefaultFields.MAJOR_DIM).getValue().equals(0.0)
+				&& getDoubleDefaultValue(DefaultFields.MINOR_DIM).getValue() != null
+				&& !getDoubleDefaultValue(DefaultFields.MINOR_DIM).getValue().equals(0.0)) {
 			TridasDimensions dims = new TridasDimensions();
 			dims.setHeight(BigDecimal.valueOf(getDoubleDefaultValue(DefaultFields.MAJOR_DIM).getValue()));
 			dims.setWidth(BigDecimal.valueOf(getDoubleDefaultValue(DefaultFields.MINOR_DIM).getValue()));
@@ -267,27 +235,27 @@ public class SheffieldToTridasDefaults extends TridasMetadataFieldSet implements
 		}
 		
 		// Taxon
-		if(getStringDefaultValue(DefaultFields.TAXON_CODE).getValue()!=null)
-		{
-			ControlledVoc taxon = ITRDBTaxonConverter.getControlledVocFromCode(getStringDefaultValue(DefaultFields.TAXON_CODE).getValue());
+		if (getStringDefaultValue(DefaultFields.TAXON_CODE).getValue() != null) {
+			ControlledVoc taxon = ITRDBTaxonConverter.getControlledVocFromCode(getStringDefaultValue(
+					DefaultFields.TAXON_CODE).getValue());
 			e.setTaxon(taxon);
 		}
-			
+		
 		return e;
 	}
 	
-	protected TridasSample getDefaultTridasSample()
-	{
+	@Override
+	protected TridasSample getDefaultTridasSample() {
 		TridasSample sample = super.getDefaultTridasSample();
 		return sample;
 	}
 	
-	protected TridasRadius getDefaultTridasRadius()
-	{
+	@Override
+	protected TridasRadius getDefaultTridasRadius() {
 		TridasRadius r = super.getDefaultTridasRadius();
 		return r;
 	}
-		
+	
 	/**
 	 * @see org.tridas.io.defaults.TridasMetadataFieldSet#getDefaultTridasMeasurementSeries()
 	 */
@@ -300,90 +268,79 @@ public class SheffieldToTridasDefaults extends TridasMetadataFieldSet implements
 		ms.setComments(getStringDefaultValue(DefaultFields.SERIES_COMMENT).getStringValue());
 		
 		// Start year info
-		try{
-			GenericDefaultValue<SafeIntYear> startYearField = (GenericDefaultValue<SafeIntYear>) getDefaultValue(DefaultFields.START_YEAR); 		
+		try {
+			GenericDefaultValue<SafeIntYear> startYearField = (GenericDefaultValue<SafeIntYear>) getDefaultValue(DefaultFields.START_YEAR);
 			ms.getInterpretation().setFirstYear(startYearField.getValue().toTridasYear(DatingSuffix.AD));
-		} catch (NullPointerException e){}
-		
+		} catch (NullPointerException e) {}
 		
 		// Set pith info
-		if(getDefaultValue(DefaultFields.PITH).getValue()!=null)
-		{
-			wc.getPith().setPresence(((ComplexPresenceAbsence)getDefaultValue(DefaultFields.PITH).getValue()));
-			Integer sapwoodRings = ((Integer)getDefaultValue(DefaultFields.SAPWOOD_COUNT).getValue());
+		if (getDefaultValue(DefaultFields.PITH).getValue() != null) {
+			wc.getPith().setPresence(((ComplexPresenceAbsence) getDefaultValue(DefaultFields.PITH).getValue()));
+			Integer sapwoodRings = ((Integer) getDefaultValue(DefaultFields.SAPWOOD_COUNT).getValue());
 			wc.getSapwood().setNrOfSapwoodRings(sapwoodRings);
 			
 		}
-
-		// Get any generic fields 
-		if(getMeasurementSeriesGenericFields().size()>0)
-		{
+		
+		// Get any generic fields
+		if (getMeasurementSeriesGenericFields().size() > 0) {
 			ms.setGenericFields(getMeasurementSeriesGenericFields());
 		}
 		
-		
 		// Unmeasured inner rings
-		if(getIntegerDefaultValue(DefaultFields.UNMEAS_INNER_RINGS).getValue()!=null)
-		{
+		if (getIntegerDefaultValue(DefaultFields.UNMEAS_INNER_RINGS).getValue() != null) {
 			wc.setNrOfUnmeasuredInnerRings(getIntegerDefaultValue(DefaultFields.UNMEAS_INNER_RINGS).getValue());
 		}
 		
 		// Unmeasured outer rings
-		if(getIntegerDefaultValue(DefaultFields.UNMEAS_OUTER_RINGS).getValue()!=null)
-		{
+		if (getIntegerDefaultValue(DefaultFields.UNMEAS_OUTER_RINGS).getValue() != null) {
 			wc.setNrOfUnmeasuredOuterRings(getIntegerDefaultValue(DefaultFields.UNMEAS_OUTER_RINGS).getValue());
 		}
 		
-		try{
-			GenericDefaultValue<SheffieldEdgeCode> edgeCodeField = (GenericDefaultValue<SheffieldEdgeCode>) getDefaultValue(DefaultFields.SHEFFIELD_EDGE_CODE); 		
+		try {
+			GenericDefaultValue<SheffieldEdgeCode> edgeCodeField = (GenericDefaultValue<SheffieldEdgeCode>) getDefaultValue(DefaultFields.SHEFFIELD_EDGE_CODE);
 			TridasLastRingUnderBark lrub;
-			switch(edgeCodeField.getValue())
-			{
-			case BARK:
-				TridasBark bark = new TridasBark();
-				bark.setPresence(PresenceAbsence.PRESENT);
-				wc.setBark(bark);
-				break;
-			case WINTER:
-				wc.getSapwood().setPresence(ComplexPresenceAbsence.COMPLETE);
-				lrub = new TridasLastRingUnderBark();
-				lrub.setPresence(PresenceAbsence.PRESENT);
-				lrub.setContent(I18n.getText("seasons.winter"));
-				wc.getSapwood().setLastRingUnderBark(lrub);
-				break;
-			case SUMMER:
-				wc.getSapwood().setPresence(ComplexPresenceAbsence.COMPLETE);
-				lrub = new TridasLastRingUnderBark();
-				lrub.setPresence(PresenceAbsence.PRESENT);
-				lrub.setContent(I18n.getText("seasons.summer"));
-				wc.getSapwood().setLastRingUnderBark(lrub);
-				break;
-			case HS_BOUNDARY:
-				wc.getSapwood().setPresence(ComplexPresenceAbsence.INCOMPLETE);
-				lrub = new TridasLastRingUnderBark();
-				lrub.setPresence(PresenceAbsence.ABSENT);
-				lrub.setContent(I18n.getText(" "));
-				wc.getSapwood().setLastRingUnderBark(lrub);
-				break;
-			case POSS_HS_BOUNDARY:
-			case NO_SPECFIC_EDGE:
-			case SAP_BARK_UNKNOWN:
-			case CHARRED:
-			case POSSIBLY_CHARRED:
-			case POSS_BARK:
-				// All unhandled as there are no corresponding fields in TRiDaS
-				// Data is put in generic field 
+			switch (edgeCodeField.getValue()) {
+				case BARK :
+					TridasBark bark = new TridasBark();
+					bark.setPresence(PresenceAbsence.PRESENT);
+					wc.setBark(bark);
+					break;
+				case WINTER :
+					wc.getSapwood().setPresence(ComplexPresenceAbsence.COMPLETE);
+					lrub = new TridasLastRingUnderBark();
+					lrub.setPresence(PresenceAbsence.PRESENT);
+					lrub.setContent(I18n.getText("seasons.winter"));
+					wc.getSapwood().setLastRingUnderBark(lrub);
+					break;
+				case SUMMER :
+					wc.getSapwood().setPresence(ComplexPresenceAbsence.COMPLETE);
+					lrub = new TridasLastRingUnderBark();
+					lrub.setPresence(PresenceAbsence.PRESENT);
+					lrub.setContent(I18n.getText("seasons.summer"));
+					wc.getSapwood().setLastRingUnderBark(lrub);
+					break;
+				case HS_BOUNDARY :
+					wc.getSapwood().setPresence(ComplexPresenceAbsence.INCOMPLETE);
+					lrub = new TridasLastRingUnderBark();
+					lrub.setPresence(PresenceAbsence.ABSENT);
+					lrub.setContent(I18n.getText(" "));
+					wc.getSapwood().setLastRingUnderBark(lrub);
+					break;
+				case POSS_HS_BOUNDARY :
+				case NO_SPECFIC_EDGE :
+				case SAP_BARK_UNKNOWN :
+				case CHARRED :
+				case POSSIBLY_CHARRED :
+				case POSS_BARK :
+					// All unhandled as there are no corresponding fields in TRiDaS
+					// Data is put in generic field
 			}
 			
-			
-			
-		} catch (NullPointerException e){}
-			
+		} catch (NullPointerException e) {}
+		
 		ms.setWoodCompleteness(wc);
 		return ms;
 	}
-	
-	
 	
 	/**
 	 * @see org.tridas.io.defaults.TridasMetadataFieldSet#getDefaultTridasDerivedSeries()
@@ -391,108 +348,100 @@ public class SheffieldToTridasDefaults extends TridasMetadataFieldSet implements
 	@Override
 	protected TridasDerivedSeries getDefaultTridasDerivedSeries() {
 		TridasDerivedSeries ds = super.getDefaultTridasDerivedSeries();
-
+		
 		ds.setTitle(getStringDefaultValue(DefaultFields.SERIES_TITLE).getStringValue());
 		ds.setComments(getStringDefaultValue(DefaultFields.SERIES_COMMENT).getStringValue());
 		
 		// Start year info
-		try{
-			GenericDefaultValue<SafeIntYear> startYearField = (GenericDefaultValue<SafeIntYear>) getDefaultValue(DefaultFields.START_YEAR); 		
+		try {
+			GenericDefaultValue<SafeIntYear> startYearField = (GenericDefaultValue<SafeIntYear>) getDefaultValue(DefaultFields.START_YEAR);
 			ds.getInterpretation().setFirstYear(startYearField.getValue().toTridasYear(DatingSuffix.AD));
-		} catch (NullPointerException e){}
+		} catch (NullPointerException e) {}
 		
-		// Get any generic fields 
-		if(getDerivedSeriesGenericFields().size()>0)
-		{
+		// Get any generic fields
+		if (getDerivedSeriesGenericFields().size() > 0) {
 			ds.setGenericFields(getDerivedSeriesGenericFields());
 		}
 		
-		try{
-			GenericDefaultValue<SheffieldChronologyType> chronologyTypeField = (GenericDefaultValue<SheffieldChronologyType>) getDefaultValue(DefaultFields.SHEFFIELD_CHRONOLOGY_TYPE); 		
-			if(chronologyTypeField.getValue()!=null)
-			{			
+		try {
+			GenericDefaultValue<SheffieldChronologyType> chronologyTypeField = (GenericDefaultValue<SheffieldChronologyType>) getDefaultValue(DefaultFields.SHEFFIELD_CHRONOLOGY_TYPE);
+			if (chronologyTypeField.getValue() != null) {
 				ControlledVoc chronType = new ControlledVoc();
 				chronType.setNormalStd("Sheffield D-Format");
 				chronType.setNormalId(chronologyTypeField.getValue().toCode());
 				chronType.setNormal(chronologyTypeField.getValue().toString());
 				ds.setType(chronType);
-			}			
-		} catch (NullPointerException e){}
+			}
+		} catch (NullPointerException e) {}
 		
-		return ds;	
+		return ds;
 	}
 	
 	@SuppressWarnings("unchecked")
-	public TridasValues getTridasValuesWithDefaults(){
+	public TridasValues getTridasValuesWithDefaults() {
 		TridasValues valuesGroup = new TridasValues();
-		
 		
 		TridasUnit units = new TridasUnit();
 		
-		// Set units to 1/100th mm.  Is this always the case?
+		// Set units to 1/100th mm. Is this always the case?
 		units.setNormalTridas(NormalTridasUnit.HUNDREDTH_MM);
 		
 		valuesGroup.setUnit(units);
 		
-		if(getDefaultValue(DefaultFields.SHEFFIELD_VARIABLE_TYPE).getValue()!=null)
-		{
+		if (getDefaultValue(DefaultFields.SHEFFIELD_VARIABLE_TYPE).getValue() != null) {
 			TridasVariable variable = new TridasVariable();
-			switch((SheffieldVariableCode)getDefaultValue(DefaultFields.SHEFFIELD_VARIABLE_TYPE).getValue())
-			{
-			case RING_WIDTHS:
-				variable.setNormalTridas(NormalTridasVariable.RING_WIDTH);
-				break;
-			case EARLY_WOOD_WIDTHS:
-				variable.setNormalTridas(NormalTridasVariable.EARLYWOOD_WIDTH);
-				break;
-			case LATE_WOOD_WIDTHS:
-				variable.setNormalTridas(NormalTridasVariable.LATEWOOD_WIDTH);
-				break;
-			case EARLY_AND_LATE_WOOD_WIDTHS_REVERSED:
-				variable.setNormalId("R");
-				variable.setNormalStd("Sheffield D-Format");
-				variable.setNormal("Early and late wood widths reversed");
-				variable.setValue("Early and late wood widths reversed");
-				break;
-			case MINIMUM_DENSITY:
-				variable.setNormalId("I");
-				variable.setNormalStd("Sheffield D-Format");
-				variable.setNormalStd("Minimum density");
-				variable.setValue("Minimum density");
-				break;
-			case MAXIMUM_DENSITY:
-				variable.setNormalTridas(NormalTridasVariable.MAXIMUM_DENSITY);
-				break;
-			case EARLY_AND_LATE_SEQUENTIALLY:
-				// ERROR!!!! shouldn't have t his
-				break;
-			case MIXED:
-				variable.setNormalId("M");
-				variable.setNormalStd("Sheffield D-Format");
-				variable.setNormalStd("Mixed");
-				variable.setValue("Mixed");
-				break;
-			default :
-				variable.setValue(I18n.getText("unknown"));
+			switch ((SheffieldVariableCode) getDefaultValue(DefaultFields.SHEFFIELD_VARIABLE_TYPE).getValue()) {
+				case RING_WIDTHS :
+					variable.setNormalTridas(NormalTridasVariable.RING_WIDTH);
+					break;
+				case EARLY_WOOD_WIDTHS :
+					variable.setNormalTridas(NormalTridasVariable.EARLYWOOD_WIDTH);
+					break;
+				case LATE_WOOD_WIDTHS :
+					variable.setNormalTridas(NormalTridasVariable.LATEWOOD_WIDTH);
+					break;
+				case EARLY_AND_LATE_WOOD_WIDTHS_REVERSED :
+					variable.setNormalId("R");
+					variable.setNormalStd("Sheffield D-Format");
+					variable.setNormal("Early and late wood widths reversed");
+					variable.setValue("Early and late wood widths reversed");
+					break;
+				case MINIMUM_DENSITY :
+					variable.setNormalId("I");
+					variable.setNormalStd("Sheffield D-Format");
+					variable.setNormalStd("Minimum density");
+					variable.setValue("Minimum density");
+					break;
+				case MAXIMUM_DENSITY :
+					variable.setNormalTridas(NormalTridasVariable.MAXIMUM_DENSITY);
+					break;
+				case EARLY_AND_LATE_SEQUENTIALLY :
+					// ERROR!!!! shouldn't have t his
+					break;
+				case MIXED :
+					variable.setNormalId("M");
+					variable.setNormalStd("Sheffield D-Format");
+					variable.setNormalStd("Mixed");
+					variable.setValue("Mixed");
+					break;
+				default :
+					variable.setValue(I18n.getText("unknown"));
 			}
 			valuesGroup.setVariable(variable);
 		}
-		else
-		{
+		else {
 			GenericDefaultValue<TridasVariable> variable = (GenericDefaultValue<TridasVariable>) getDefaultValue(TridasMandatoryField.MEASUREMENTSERIES_VARIABLE);
 			valuesGroup.setVariable(variable.getValue());
 		}
 		
-		
 		return valuesGroup;
 	}
 	
-	private ArrayList<TridasGenericField> getMeasurementSeriesGenericFields(){
+	private ArrayList<TridasGenericField> getMeasurementSeriesGenericFields() {
 		
-		ArrayList<TridasGenericField>genFields = new ArrayList<TridasGenericField>(); 
+		ArrayList<TridasGenericField> genFields = new ArrayList<TridasGenericField>();
 		
-		if(getDefaultValue(DefaultFields.PITH_DESCRIPTION).getValue()!=null)
-		{
+		if (getDefaultValue(DefaultFields.PITH_DESCRIPTION).getValue() != null) {
 			TridasGenericField gf = new ObjectFactory().createTridasGenericField();
 			gf.setName("sheffield.pithCode");
 			gf.setType("xs:string");
@@ -500,8 +449,7 @@ public class SheffieldToTridasDefaults extends TridasMetadataFieldSet implements
 			genFields.add(gf);
 		}
 		
-		if(getDefaultValue(DefaultFields.SHEFFIELD_DATA_TYPE).getValue()!=null)
-		{
+		if (getDefaultValue(DefaultFields.SHEFFIELD_DATA_TYPE).getValue() != null) {
 			TridasGenericField gf = new ObjectFactory().createTridasGenericField();
 			gf.setName("sheffield.dataType");
 			gf.setType("xs:string");
@@ -509,8 +457,7 @@ public class SheffieldToTridasDefaults extends TridasMetadataFieldSet implements
 			genFields.add(gf);
 		}
 		
-		if(getDefaultValue(DefaultFields.INTERPRETATION_NOTES).getValue()!=null)
-		{
+		if (getDefaultValue(DefaultFields.INTERPRETATION_NOTES).getValue() != null) {
 			TridasGenericField gf = new ObjectFactory().createTridasGenericField();
 			gf.setName("sheffield.interpretationAndAnatomyNotes");
 			gf.setType("xs:string");
@@ -518,27 +465,23 @@ public class SheffieldToTridasDefaults extends TridasMetadataFieldSet implements
 			genFields.add(gf);
 		}
 		
-		if(getDefaultValue(DefaultFields.SHEFFIELD_EDGE_CODE).getValue()!=null)
-		{
+		if (getDefaultValue(DefaultFields.SHEFFIELD_EDGE_CODE).getValue() != null) {
 			TridasGenericField gf = new ObjectFactory().createTridasGenericField();
 			gf.setName("sheffield.edgeCode");
 			gf.setType("xs:string");
 			gf.setValue(getDefaultValue(DefaultFields.SHEFFIELD_EDGE_CODE).getValue().toString());
-			genFields.add(gf);	
+			genFields.add(gf);
 		}
 		
 		return genFields;
 		
 	}
 	
-	
-	private ArrayList<TridasGenericField> getDerivedSeriesGenericFields(){
+	private ArrayList<TridasGenericField> getDerivedSeriesGenericFields() {
 		
-		ArrayList<TridasGenericField>genFields = new ArrayList<TridasGenericField>(); 
+		ArrayList<TridasGenericField> genFields = new ArrayList<TridasGenericField>();
 		
-		
-		if(getDefaultValue(DefaultFields.SHEFFIELD_DATA_TYPE).getValue()!=null)
-		{
+		if (getDefaultValue(DefaultFields.SHEFFIELD_DATA_TYPE).getValue() != null) {
 			TridasGenericField gf = new ObjectFactory().createTridasGenericField();
 			gf.setName("sheffield.dataType");
 			gf.setType("xs:string");
@@ -546,8 +489,7 @@ public class SheffieldToTridasDefaults extends TridasMetadataFieldSet implements
 			genFields.add(gf);
 		}
 		
-		if(getDefaultValue(DefaultFields.INTERPRETATION_NOTES).getValue()!=null)
-		{
+		if (getDefaultValue(DefaultFields.INTERPRETATION_NOTES).getValue() != null) {
 			TridasGenericField gf = new ObjectFactory().createTridasGenericField();
 			gf.setName("sheffield.interpretationAndAnatomyNotes");
 			gf.setType("xs:string");

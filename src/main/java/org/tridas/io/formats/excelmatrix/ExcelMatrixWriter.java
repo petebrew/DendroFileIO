@@ -32,75 +32,69 @@ public class ExcelMatrixWriter extends AbstractDendroCollectionWriter {
 	public ExcelMatrixWriter() {
 		super(TridasToExcelMatrixDefaults.class);
 	}
-
+	
 	@Override
-	protected void parseTridasProject(TridasProject argProject,
-			IMetadataFieldSet argDefaults)
+	protected void parseTridasProject(TridasProject argProject, IMetadataFieldSet argDefaults)
 			throws IncompleteTridasDataException, ConversionWarningException {
 		defaults = argDefaults;
 		
 		ArrayList<ITridasSeries> seriesList = new ArrayList<ITridasSeries>();
 		
 		// Grab all derivedSeries from project
-		try{
-			List<TridasDerivedSeries> lst = argProject.getDerivedSeries();	
-			for (TridasDerivedSeries ds : lst)
-			{
+		try {
+			List<TridasDerivedSeries> lst = argProject.getDerivedSeries();
+			for (TridasDerivedSeries ds : lst) {
 				// add to list
 				seriesList.add(ds);
-			}		
-		} catch (NullPointerException e){}
-
-	
-		try{
-			List<TridasMeasurementSeries> lst = (List<TridasMeasurementSeries>) TridasHierarchyHelper.getMeasurementSeriesFromTridasProject(argProject);
-			for (TridasMeasurementSeries ser : lst)
-			{
+			}
+		} catch (NullPointerException e) {}
+		
+		try {
+			List<TridasMeasurementSeries> lst = TridasHierarchyHelper.getMeasurementSeriesFromTridasProject(argProject);
+			for (TridasMeasurementSeries ser : lst) {
 				// add to list
 				seriesList.add(ser);
 			}
-		} catch (NullPointerException e){}
+		} catch (NullPointerException e) {}
 		
 		// No series found
-		if (seriesList.size()==0)
-		{
-			throw new IncompleteTridasDataException(I18n.getText("fileio.noData"));	
+		if (seriesList.size() == 0) {
+			throw new IncompleteTridasDataException(I18n.getText("fileio.noData"));
 		}
-
 		
 		ExcelMatrixFile file = new ExcelMatrixFile(argDefaults);
 		
 		file.setSeriesList(seriesList);
-		this.addToFileList(file);
+		addToFileList(file);
 		naming.registerFile(file, argProject, null);
 		
 	}
-
+	
 	@Override
 	public IMetadataFieldSet getDefaults() {
-		return this.defaults;
+		return defaults;
 	}
-
+	
 	@Override
 	public String getDescription() {
 		return I18n.getText("excelmatrix.about.description");
 	}
-
+	
 	@Override
 	public String getFullName() {
 		return I18n.getText("excelmatrix.about.fullName");
 	}
-
+	
 	@Override
 	public INamingConvention getNamingConvention() {
-		return this.naming;
+		return naming;
 	}
-
+	
 	@Override
 	public String getShortName() {
 		return I18n.getText("excelmatrix.about.shortName");
 	}
-
+	
 	@Override
 	public void setNamingConvention(INamingConvention argConvention) {
 		naming = argConvention;
@@ -112,16 +106,17 @@ public class ExcelMatrixWriter extends AbstractDendroCollectionWriter {
 		FileHelper helper;
 		
 		boolean absolute = argOutputFolder.startsWith("/");
-
-		if(absolute){
+		
+		if (absolute) {
 			helper = new FileHelper(argOutputFolder);
-		}else{
+		}
+		else {
 			helper = new FileHelper();
-			argFilename = argOutputFolder+argFilename;
+			argFilename = argOutputFolder + argFilename;
 		}
 		
 		try {
-			((ExcelMatrixFile)argFile).saveToDisk(helper.createOutput(argFilename+"."+argFile.getExtension()));
+			((ExcelMatrixFile) argFile).saveToDisk(helper.createOutput(argFilename + "." + argFile.getExtension()));
 		} catch (WriteException e) {
 			log.dbe(DebugLevel.L2_ERROR, e);
 		} catch (IOException e) {

@@ -10,7 +10,6 @@ import org.tridas.io.defaults.AbstractMetadataFieldSet;
 import org.tridas.io.defaults.IMetadataFieldSet;
 import org.tridas.io.defaults.values.IntegerDefaultValue;
 import org.tridas.io.defaults.values.StringDefaultValue;
-import org.tridas.io.formats.sylphe.TridasToSylpheDefaults.SylpheCambiumType;
 import org.tridas.schema.TridasDerivedSeries;
 import org.tridas.schema.TridasElement;
 import org.tridas.schema.TridasIdentifier;
@@ -21,20 +20,11 @@ import org.tridas.schema.TridasUnit;
 import org.tridas.schema.TridasValues;
 
 public class TridasToHeidelbergDefaults extends AbstractMetadataFieldSet implements IMetadataFieldSet {
-
+	
 	private static final SimpleLogger log = new SimpleLogger(TridasToHeidelbergDefaults.class);
-
-	public enum HeidelbergField{
-		KEY_CODE,
-		DATA_FORMAT,
-		SERIES_TYPE,
-		LENGTH,
-		DATEBEGIN,
-		DATEEND,
-		DATED,
-		SPECIES,
-		UNIT,
-		PROJECT
+	
+	public enum HeidelbergField {
+		KEY_CODE, DATA_FORMAT, SERIES_TYPE, LENGTH, DATEBEGIN, DATEEND, DATED, SPECIES, UNIT, PROJECT
 	}
 	
 	@Override
@@ -51,102 +41,106 @@ public class TridasToHeidelbergDefaults extends AbstractMetadataFieldSet impleme
 		setDefaultValue(HeidelbergField.PROJECT, new StringDefaultValue());
 	}
 	
-	public void populateFromTridasProject(TridasProject argProject){
+	public void populateFromTridasProject(TridasProject argProject) {
 		getStringDefaultValue(HeidelbergField.PROJECT).setValue(argProject.getTitle());
 	}
 	
-	public void populateFromTridasElement(TridasElement argElement){
-		if(argElement.isSetTaxon()){
+	public void populateFromTridasElement(TridasElement argElement) {
+		if (argElement.isSetTaxon()) {
 			getStringDefaultValue(HeidelbergField.SPECIES).setValue(argElement.getTaxon().getValue());
 		}
 	}
 	
-	public void populateFromTridasValues(TridasValues argValues){
-		if(argValues.isSetUnitless() || !argValues.isSetUnit()){
+	public void populateFromTridasValues(TridasValues argValues) {
+		if (argValues.isSetUnitless() || !argValues.isSetUnit()) {
 			return;
 		}
 		
-		if (argValues.getUnit().getNormalTridas()==null) return;
+		if (argValues.getUnit().getNormalTridas() == null) {
+			return;
+		}
 		
 		TridasUnit units = argValues.getUnit();
 		StringDefaultValue val = getStringDefaultValue(HeidelbergField.UNIT);
-		switch(units.getNormalTridas()){
-		case HUNDREDTH_MM:
-			val.setValue("1/100 mm");
-			break;
-		case MICROMETRES:
-			val.setValue("1/1000 mm");
-			break;
-		case MILLIMETRES:
-			val.setValue("mm");
-			break;
-		case TENTH_MM:
-			val.setValue("1/10 mm");
-			break;
-		default:
-			addIgnoredWarning(HeidelbergField.UNIT, I18n.getText("fileio.invalidUnits"));
+		switch (units.getNormalTridas()) {
+			case HUNDREDTH_MM :
+				val.setValue("1/100 mm");
+				break;
+			case MICROMETRES :
+				val.setValue("1/1000 mm");
+				break;
+			case MILLIMETRES :
+				val.setValue("mm");
+				break;
+			case TENTH_MM :
+				val.setValue("1/10 mm");
+				break;
+			default :
+				addIgnoredWarning(HeidelbergField.UNIT, I18n.getText("fileio.invalidUnits"));
 		}
 	}
 	
-	
-	public void populateFromMS(TridasMeasurementSeries argSeries){
+	public void populateFromMS(TridasMeasurementSeries argSeries) {
 		populateFromSeries(argSeries);
 	}
 	
-	
-	public void populateFromDerivedSeries(TridasDerivedSeries argSeries){
+	public void populateFromDerivedSeries(TridasDerivedSeries argSeries) {
 		populateFromSeries(argSeries);
 		
-		if(argSeries.isSetStandardizingMethod()){
+		if (argSeries.isSetStandardizingMethod()) {
 			getStringDefaultValue(HeidelbergField.SERIES_TYPE).setValue(argSeries.getStandardizingMethod());
 		}
 	}
 	
-	private void populateFromSeries(ITridasSeries argSeries){
+	private void populateFromSeries(ITridasSeries argSeries) {
 		
 		TridasIdentifier id = argSeries.getIdentifier();
 		
-		if(id != null){
-			if(id.isSetValue()){
+		if (id != null) {
+			if (id.isSetValue()) {
 				getStringDefaultValue(HeidelbergField.KEY_CODE).setValue(id.getValue());
 			}
 		}
 		
 		TridasInterpretation interp = argSeries.getInterpretation();
-		if(interp != null){
-			if(interp.isSetFirstYear()){
+		if (interp != null) {
+			if (interp.isSetFirstYear()) {
 				getIntegerDefaultValue(HeidelbergField.DATEBEGIN).setValue(interp.getFirstYear().getValue().intValue());
 			}
-			if(interp.isSetLastYear()){
+			if (interp.isSetLastYear()) {
 				getIntegerDefaultValue(HeidelbergField.DATEEND).setValue(interp.getLastYear().getValue().intValue());
 			}
-			if(interp.isSetDeathYear()){
+			if (interp.isSetDeathYear()) {
 				getIntegerDefaultValue(HeidelbergField.DATEEND).setValue(interp.getDeathYear().getValue().intValue());
 			}
 		}
 	}
 	
-	
-	public enum HeidelbergBarkType{
-		BARK("B"),
-		NO_BARK("-");
+	public enum HeidelbergBarkType {
+		BARK("B"), NO_BARK("-");
 		
 		private String code;
 		
-		HeidelbergBarkType(String c){
+		HeidelbergBarkType(String c) {
 			code = c;
 		}
 		
-		public final String toString(){ return WordUtils.capitalize(this.name().toLowerCase().replace("_", " "));}
+		@Override
+		public final String toString() {
+			return WordUtils.capitalize(name().toLowerCase().replace("_", " "));
+		}
 		
-		public final String toCode(){ return this.code;}
-	
-		public static HeidelbergBarkType fromCode(String code)
-		{ 
-			for (HeidelbergBarkType val : HeidelbergBarkType.values()){
-				if (val.toCode().equalsIgnoreCase(code)) return val;
+		public final String toCode() {
+			return code;
+		}
+		
+		public static HeidelbergBarkType fromCode(String code) {
+			for (HeidelbergBarkType val : HeidelbergBarkType.values()) {
+				if (val.toCode().equalsIgnoreCase(code)) {
+					return val;
+				}
 			}
-			return null;	
+			return null;
 		}
 	}
 	

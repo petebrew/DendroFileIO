@@ -1,27 +1,15 @@
 package org.tridas.io.formats.excelmatrix;
 
-import java.io.File;
 import java.io.IOException;
-import java.io.ObjectOutputStream;
 import java.io.OutputStream;
 import java.util.ArrayList;
-import java.util.Date;
 import java.util.List;
-import java.util.Locale;
 
 import jxl.CellView;
 import jxl.Workbook;
-import jxl.WorkbookSettings;
 import jxl.format.Colour;
-import jxl.format.Orientation;
-import jxl.write.Alignment;
-import jxl.write.DateFormats;
-import jxl.write.DateTime;
-import jxl.write.Formula;
 import jxl.write.Label;
 import jxl.write.Number;
-import jxl.write.NumberFormat;
-import jxl.write.NumberFormats;
 import jxl.write.WritableCellFormat;
 import jxl.write.WritableFont;
 import jxl.write.WritableSheet;
@@ -31,7 +19,6 @@ import jxl.write.biff.RowsExceededException;
 
 import org.tridas.interfaces.ITridasSeries;
 import org.tridas.io.I18n;
-import org.tridas.io.IDendroCollectionWriter;
 import org.tridas.io.IDendroFile;
 import org.tridas.io.defaults.IMetadataFieldSet;
 import org.tridas.io.util.SafeIntYear;
@@ -41,47 +28,48 @@ import org.tridas.schema.TridasValue;
 import org.tridas.schema.Year;
 
 public class ExcelMatrixFile implements IDendroFile {
-
+	
 	private ArrayList<ITridasSeries> seriesList = new ArrayList<ITridasSeries>();
 	private YearRange yrRange;
 	private DatingSuffix calendar = DatingSuffix.AD;
-	private IMetadataFieldSet defaults;	
+	private IMetadataFieldSet defaults;
 	
 	public ExcelMatrixFile(IMetadataFieldSet argDefaults) {
 		defaults = argDefaults;
 	}
-
-	public void setSeriesList(ArrayList<ITridasSeries> lst)
-	{
+	
+	public void setSeriesList(ArrayList<ITridasSeries> lst) {
 		// Switch the BP dating if any series are in BP
-		for(ITridasSeries ser: lst)
-		{
-			if(calendar==DatingSuffix.BP) {break;}		
-			try{
-				if(ser.getInterpretation().getFirstYear().getSuffix()==DatingSuffix.BP)
-				{
-					calendar= DatingSuffix.BP;
+		for (ITridasSeries ser : lst) {
+			if (calendar == DatingSuffix.BP) {
+				break;
+			}
+			try {
+				if (ser.getInterpretation().getFirstYear().getSuffix() == DatingSuffix.BP) {
+					calendar = DatingSuffix.BP;
 				}
-			} catch (NullPointerException e){}
+			} catch (NullPointerException e) {}
 		}
 		
 		// Calculate the range for these series
-		for(ITridasSeries ser : lst)
-		{
+		for (ITridasSeries ser : lst) {
 			Integer ringcount = ser.getValues().get(0).getValues().size();
 			SafeIntYear startYear = null;
-			try{
-			
+			try {
+				
 				// Make sure we're using years with the right calendar
-				Year yearsWithCalendar =  new SafeIntYear(ser.getInterpretation().getFirstYear()).toTridasYear(calendar);
+				Year yearsWithCalendar = new SafeIntYear(ser.getInterpretation().getFirstYear()).toTridasYear(calendar);
 				startYear = new SafeIntYear(yearsWithCalendar);
-			  
-			} catch (NullPointerException e){ startYear = new SafeIntYear("1001");}
+				
+			} catch (NullPointerException e) {
+				startYear = new SafeIntYear("1001");
+			}
 			
-		
 			YearRange thisrange = new YearRange(startYear, ringcount);
 			
-			if(yrRange==null) {yrRange = thisrange;}
+			if (yrRange == null) {
+				yrRange = thisrange;
+			}
 			
 			yrRange = yrRange.union(thisrange);
 		}
@@ -94,7 +82,7 @@ public class ExcelMatrixFile implements IDendroFile {
 	public String getExtension() {
 		return "xls";
 	}
-
+	
 	@Override
 	public ITridasSeries[] getSeries() {
 		// TODO Auto-generated method stub
@@ -109,58 +97,55 @@ public class ExcelMatrixFile implements IDendroFile {
 	}
 	
 	/**
-	 * An alternative to the normal saveToString() as this is a binary format 
+	 * An alternative to the normal saveToString() as this is a binary format
 	 * 
 	 * @param os
 	 * @throws IOException
 	 * @throws WriteException
 	 */
-	public void saveToDisk(OutputStream os) throws IOException, WriteException{
+	public void saveToDisk(OutputStream os) throws IOException, WriteException {
 		
-	      WritableWorkbook workbook = Workbook.createWorkbook(os);
-	      
-	      
-	      WritableSheet dataSheet = workbook.createSheet(I18n.getText("general.data"), 0);
-	      writeYearHeaderCol(dataSheet);
-	      //WritableSheet metadataSheet = workbook.createSheet(I18n.getText("general.metadata"), 1);
-	      //writeMetadataHeaderCol(metadataSheet);
-	      
-	  
-	      
-	      int col = 1;
-	      for(ITridasSeries series : this.seriesList)
-	      {
-	    	  writeRingWidthColumn(dataSheet,col,series);
-	    	  //writeMetadataColumn(metadataSheet, col, series);
-	    	  col++;
-	      }
+		WritableWorkbook workbook = Workbook.createWorkbook(os);
+		
+		WritableSheet dataSheet = workbook.createSheet(I18n.getText("general.data"), 0);
+		writeYearHeaderCol(dataSheet);
+		// WritableSheet metadataSheet =
+		// workbook.createSheet(I18n.getText("general.metadata"), 1);
+		// writeMetadataHeaderCol(metadataSheet);
+		
+		int col = 1;
+		for (ITridasSeries series : seriesList) {
+			writeRingWidthColumn(dataSheet, col, series);
+			// writeMetadataColumn(metadataSheet, col, series);
+			col++;
+		}
+		
+		CellView cv = new CellView();
+		cv.setAutosize(true);
+		dataSheet.setColumnView(0, cv);
+		dataSheet.setColumnView(1, cv);
+		dataSheet.setColumnView(2, cv);
+		/*
+		 * metadataSheet.setColumnView(0, cv);
+		 * metadataSheet.setColumnView(1, cv);
+		 * metadataSheet.setColumnView(2, cv);
+		 */
 
-	      CellView cv = new CellView();
-	      cv.setAutosize(true);
-	      dataSheet.setColumnView(0, cv);
-	      dataSheet.setColumnView(1, cv);
-	      dataSheet.setColumnView(2, cv);
-	     /* metadataSheet.setColumnView(0, cv);
-	      metadataSheet.setColumnView(1, cv);
-	      metadataSheet.setColumnView(2, cv);*/
-	      
-	      workbook.write();
-	      workbook.close();      
+		workbook.write();
+		workbook.close();
 		
 	}
-
+	
 	/**
 	 * Get the format for the standard header
 	 * 
 	 * @return
 	 */
-	private static WritableCellFormat getHeaderFormat()
-	{
-	    // Create the Header Format 
-	    WritableFont headerFont = new WritableFont(WritableFont.ARIAL, 
-	      12, WritableFont.BOLD);
-	    WritableCellFormat headerFormat = new WritableCellFormat(headerFont);
-	    try {
+	private static WritableCellFormat getHeaderFormat() {
+		// Create the Header Format
+		WritableFont headerFont = new WritableFont(WritableFont.ARIAL, 12, WritableFont.BOLD);
+		WritableCellFormat headerFormat = new WritableCellFormat(headerFont);
+		try {
 			headerFormat.setWrap(false);
 			headerFormat.setBackground(Colour.PALE_BLUE);
 		} catch (WriteException e) {
@@ -176,13 +161,11 @@ public class ExcelMatrixFile implements IDendroFile {
 	 * 
 	 * @return
 	 */
-	private static WritableCellFormat getDataFormat()
-	{
-	    // Create the Data Format 
-	    WritableFont dataFont = new WritableFont(WritableFont.ARIAL, 
-	      12, WritableFont.NO_BOLD);
-	    WritableCellFormat dataFormat = new WritableCellFormat(dataFont);
-	    try {
+	private static WritableCellFormat getDataFormat() {
+		// Create the Data Format
+		WritableFont dataFont = new WritableFont(WritableFont.ARIAL, 12, WritableFont.NO_BOLD);
+		WritableCellFormat dataFormat = new WritableCellFormat(dataFont);
+		try {
 			dataFormat.setWrap(false);
 		} catch (WriteException e) {
 			// TODO Auto-generated catch block
@@ -191,22 +174,20 @@ public class ExcelMatrixFile implements IDendroFile {
 		return dataFormat;
 	}
 	
-	private void writeMetadataHeaderCol(WritableSheet s) throws WriteException
-	{
+	private void writeMetadataHeaderCol(WritableSheet s) throws WriteException {
 		
-	    Label l = new Label(0,0,"Metadata Field",getHeaderFormat());
-	    s.addCell(l);
+		Label l = new Label(0, 0, "Metadata Field", getHeaderFormat());
+		s.addCell(l);
 		
 		ArrayList<String> metadataKeys = new ArrayList<String>();
 		metadataKeys.add("object.title");
 		metadataKeys.add("element.title");
 		
-		int i =1;
-		for(String field : metadataKeys)
-		{
-		    l = new Label(0,i,field,getDataFormat());
-		    s.addCell(l);
-		    i++;
+		int i = 1;
+		for (String field : metadataKeys) {
+			l = new Label(0, i, field, getDataFormat());
+			s.addCell(l);
+			i++;
 		}
 		
 	}
@@ -217,66 +198,57 @@ public class ExcelMatrixFile implements IDendroFile {
 	 * @param s
 	 * @throws WriteException
 	 */
-	private void writeYearHeaderCol(WritableSheet s) throws WriteException
-	{
-		if (yrRange==null)
-		{
+	private void writeYearHeaderCol(WritableSheet s) throws WriteException {
+		if (yrRange == null) {
 			return;
 		}
 		
-	    // Create year label
+		// Create year label
 		String yearlabel = I18n.getText("general.years");
-		if(calendar==DatingSuffix.BP)
-		{
-			yearlabel+=" ("+I18n.getText("general.years.bp")+")";
+		if (calendar == DatingSuffix.BP) {
+			yearlabel += " (" + I18n.getText("general.years.bp") + ")";
 		}
-		else if ((yrRange.getStart().compareTo(new SafeIntYear("-1"))<0) && 
-					(yrRange.getEnd().compareTo(new SafeIntYear("1"))>0))
-		{
-			yearlabel+=" ("+I18n.getText("general.years.bc")+"/"+I18n.getText("general.years.ad")+")";
+		else if ((yrRange.getStart().compareTo(new SafeIntYear("-1")) < 0)
+				&& (yrRange.getEnd().compareTo(new SafeIntYear("1")) > 0)) {
+			yearlabel += " (" + I18n.getText("general.years.bc") + "/" + I18n.getText("general.years.ad") + ")";
 		}
-		else if ((yrRange.getStart().compareTo(new SafeIntYear("-1"))<0) && 
-				(yrRange.getEnd().compareTo(new SafeIntYear("1"))<=0))
-		{
-			yearlabel+=" ("+I18n.getText("general.years.bc")+")";
+		else if ((yrRange.getStart().compareTo(new SafeIntYear("-1")) < 0)
+				&& (yrRange.getEnd().compareTo(new SafeIntYear("1")) <= 0)) {
+			yearlabel += " (" + I18n.getText("general.years.bc") + ")";
 		}
-		else if ((yrRange.getStart().compareTo(new SafeIntYear("-1"))>=0) && 
-				(yrRange.getEnd().compareTo(new SafeIntYear("1"))>0))
-		{
-			yearlabel+=" ("+I18n.getText("general.years.ad")+")";
+		else if ((yrRange.getStart().compareTo(new SafeIntYear("-1")) >= 0)
+				&& (yrRange.getEnd().compareTo(new SafeIntYear("1")) > 0)) {
+			yearlabel += " (" + I18n.getText("general.years.ad") + ")";
 		}
 		
-	    Label l = new Label(0,0,yearlabel,getHeaderFormat());
-	    s.addCell(l);
-	    
-	    SafeIntYear yr = yrRange.getStart();    
-	    Integer rowNumber=1;
-	    Number yearval;
-	    while(yr.compareTo(yrRange.getEnd())<=0)
-	    {
-		    yearval = new Number(0,rowNumber, Double.parseDouble(yr.toTridasYear(calendar).getValue().toString()), getDataFormat());
-		    s.addCell(yearval);
-	    	
-	    	// Increment to next year and row number
-	    	yr = yr.add(1);
-	    	rowNumber++;
-	    } 
+		Label l = new Label(0, 0, yearlabel, getHeaderFormat());
+		s.addCell(l);
+		
+		SafeIntYear yr = yrRange.getStart();
+		Integer rowNumber = 1;
+		Number yearval;
+		while (yr.compareTo(yrRange.getEnd()) <= 0) {
+			yearval = new Number(0, rowNumber, Double.parseDouble(yr.toTridasYear(calendar).getValue().toString()),
+					getDataFormat());
+			s.addCell(yearval);
+			
+			// Increment to next year and row number
+			yr = yr.add(1);
+			rowNumber++;
+		}
 		
 	}
 	
-	
-	private void writeMetadataColumn(WritableSheet s, Integer col, ITridasSeries series) throws RowsExceededException, WriteException
-	{
-	    // Creates year label
-	    Label l = new Label(col,0,series.getTitle(),getHeaderFormat());
-	    s.addCell(l);
-	    
-	    
+	private void writeMetadataColumn(WritableSheet s, Integer col, ITridasSeries series) throws RowsExceededException,
+			WriteException {
+		// Creates year label
+		Label l = new Label(col, 0, series.getTitle(), getHeaderFormat());
+		s.addCell(l);
+		
 	}
 	
 	/**
 	 * Write the ring widths for the provided series in the specified column
-	 * 
 	 * 
 	 * @param s
 	 * @param col
@@ -284,39 +256,36 @@ public class ExcelMatrixFile implements IDendroFile {
 	 * @throws RowsExceededException
 	 * @throws WriteException
 	 */
-	private void writeRingWidthColumn(WritableSheet s, Integer col, ITridasSeries series) throws RowsExceededException, WriteException
-	{
+	private void writeRingWidthColumn(WritableSheet s, Integer col, ITridasSeries series) throws RowsExceededException,
+			WriteException {
 		List<TridasValue> values = series.getValues().get(0).getValues();
 		
-	    // Creates year label
-	    Label l = new Label(col,0,series.getTitle(),getHeaderFormat());
-	    s.addCell(l);		
+		// Creates year label
+		Label l = new Label(col, 0, series.getTitle(), getHeaderFormat());
+		s.addCell(l);
 		
-	    // Calculate which row to start on
-	    SafeIntYear thisStartYear = new SafeIntYear(1001);
-	    try{
-	     thisStartYear = new SafeIntYear(series.getInterpretation().getFirstYear());
-	    } catch (NullPointerException e){}
-	    
-	    Integer row = 1; 
-	    
-	    for(SafeIntYear currYear = yrRange.getStart(); 
-	        currYear.compareTo(thisStartYear)<0; 
-	        currYear = currYear.add(1))
-	    {
-	    	row++;
-	    }
-	    		    
-	    // Loop through values and write to spreadsheet
+		// Calculate which row to start on
+		SafeIntYear thisStartYear = new SafeIntYear(1001);
+		try {
+			thisStartYear = new SafeIntYear(series.getInterpretation().getFirstYear());
+		} catch (NullPointerException e) {}
+		
+		Integer row = 1;
+		
+		for (SafeIntYear currYear = yrRange.getStart(); currYear.compareTo(thisStartYear) < 0; currYear = currYear
+				.add(1)) {
+			row++;
+		}
+		
+		// Loop through values and write to spreadsheet
 		Label yearval;
-		for (TridasValue value : values)
-		{
-		    yearval = new Label(col,row, value.getValue(), getDataFormat());
-		    s.addCell(yearval);
-		    row++;
+		for (TridasValue value : values) {
+			yearval = new Label(col, row, value.getValue(), getDataFormat());
+			s.addCell(yearval);
+			row++;
 		}
 	}
-
+	
 	/**
 	 * @see org.tridas.io.IDendroFile#getDefaults()
 	 */

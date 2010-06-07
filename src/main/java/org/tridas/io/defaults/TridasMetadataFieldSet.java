@@ -33,48 +33,28 @@ import org.tridas.schema.TridasVariable;
 import org.tridas.schema.TridasWoodCompleteness;
 import org.tridas.schema.TridasLaboratory.Name;
 
-
 /**
  * Mandatory fields as specified by the Tridas schema along with
  * their default values
  * 
  * @author peterbrewer
- *
  */
 public class TridasMetadataFieldSet extends AbstractTridasMetadataFieldSet {
-
-	public enum TridasMandatoryField{
-		PROJECT_TITLE,
-		PROJECT_TYPES,
-		PROJECT_LABORATORIES,
-		PROJECT_CATEGORY,
-		PROJECT_INVESTIGATOR,
-		PROJECT_PERIOD,
-		OBJECT_TITLE,
-		OBJECT_TYPE,
-		ELEMENT_TITLE,
-		ELEMENT_TAXON,
-		SAMPLE_TITLE,
-		SAMPLE_TYPE,
-		RADIUS_TITLE,
-		MEASUREMENTSERIES_TITLE,
-		MEASUREMENTSERIES_MEASURINGMETHOD,
-		MEASUREMENTSERIES_VARIABLE,
-		DERIVEDSERIES_TITLE,
-		DERIVEDSERIES_TYPE,
-		DERIVEDSERIES_IDENTIFIER,
-		IDENTIFIER_DOMAIN;
+	
+	public enum TridasMandatoryField {
+		PROJECT_TITLE, PROJECT_TYPES, PROJECT_LABORATORIES, PROJECT_CATEGORY, PROJECT_INVESTIGATOR, PROJECT_PERIOD, OBJECT_TITLE, OBJECT_TYPE, ELEMENT_TITLE, ELEMENT_TAXON, SAMPLE_TITLE, SAMPLE_TYPE, RADIUS_TITLE, MEASUREMENTSERIES_TITLE, MEASUREMENTSERIES_MEASURINGMETHOD, MEASUREMENTSERIES_VARIABLE, DERIVEDSERIES_TITLE, DERIVEDSERIES_TYPE, DERIVEDSERIES_IDENTIFIER, IDENTIFIER_DOMAIN;
 	}
 	
 	@Override
-	protected void initDefaultValues(){
+	protected void initDefaultValues() {
 		setDefaultValue(TridasMandatoryField.PROJECT_TITLE, new StringDefaultValue(I18n.getText("unnamed.project")));
 		
 		ArrayList<ControlledVoc> projectTypes = new ArrayList<ControlledVoc>();
 		ControlledVoc projType = new ObjectFactory().createControlledVoc();
 		projType.setValue(I18n.getText("unknown"));
 		projectTypes.add(projType);
-		setDefaultValue(TridasMandatoryField.PROJECT_TYPES, new GenericDefaultValue<ArrayList<ControlledVoc>>(projectTypes));
+		setDefaultValue(TridasMandatoryField.PROJECT_TYPES, new GenericDefaultValue<ArrayList<ControlledVoc>>(
+				projectTypes));
 		
 		ArrayList<TridasLaboratory> projectLaboratories = new ArrayList<TridasLaboratory>();
 		TridasLaboratory lab = new TridasLaboratory();
@@ -83,8 +63,9 @@ public class TridasMetadataFieldSet extends AbstractTridasMetadataFieldSet {
 		lab.setName(labname);
 		lab.setAddress(new TridasAddress());
 		projectLaboratories.add(lab);
-		setDefaultValue(TridasMandatoryField.PROJECT_LABORATORIES, new GenericDefaultValue<ArrayList<TridasLaboratory>>(projectLaboratories));
-
+		setDefaultValue(TridasMandatoryField.PROJECT_LABORATORIES,
+				new GenericDefaultValue<ArrayList<TridasLaboratory>>(projectLaboratories));
+		
 		TridasCategory projectCategory = new ObjectFactory().createTridasCategory();
 		projectCategory.setValue(I18n.getText("unknown"));
 		setDefaultValue(TridasMandatoryField.PROJECT_CATEGORY, new GenericDefaultValue<TridasCategory>(projectCategory));
@@ -99,7 +80,7 @@ public class TridasMetadataFieldSet extends AbstractTridasMetadataFieldSet {
 		setDefaultValue(TridasMandatoryField.ELEMENT_TITLE, new StringDefaultValue(I18n.getText("unnamed.element")));
 		
 		ControlledVoc elementTaxon = new ControlledVoc();
-		elementTaxon.setValue("Plantae"); 
+		elementTaxon.setValue("Plantae");
 		setDefaultValue(TridasMandatoryField.ELEMENT_TAXON, new GenericDefaultValue<ControlledVoc>(elementTaxon));
 		setDefaultValue(TridasMandatoryField.SAMPLE_TITLE, new StringDefaultValue(I18n.getText("unnamed.sample")));
 		
@@ -107,22 +88,28 @@ public class TridasMetadataFieldSet extends AbstractTridasMetadataFieldSet {
 		sampleType.setValue(I18n.getText("unknown"));
 		setDefaultValue(TridasMandatoryField.SAMPLE_TYPE, new GenericDefaultValue<ControlledVoc>(sampleType));
 		setDefaultValue(TridasMandatoryField.RADIUS_TITLE, new StringDefaultValue(I18n.getText("unnamed.radius")));
-		setDefaultValue(TridasMandatoryField.MEASUREMENTSERIES_TITLE, new StringDefaultValue(I18n.getText("unnamed.series")));
+		setDefaultValue(TridasMandatoryField.MEASUREMENTSERIES_TITLE, new StringDefaultValue(I18n
+				.getText("unnamed.series")));
 		
 		TridasMeasuringMethod measurementSeriesMeasuringMethod = new TridasMeasuringMethod();
 		measurementSeriesMeasuringMethod.setNormalTridas(NormalTridasMeasuringMethod.MEASURING___PLATFORM);
-		setDefaultValue(TridasMandatoryField.MEASUREMENTSERIES_MEASURINGMETHOD, new GenericDefaultValue<TridasMeasuringMethod>(measurementSeriesMeasuringMethod));
+		setDefaultValue(TridasMandatoryField.MEASUREMENTSERIES_MEASURINGMETHOD,
+				new GenericDefaultValue<TridasMeasuringMethod>(measurementSeriesMeasuringMethod));
 		
 		TridasVariable measurementSeriesVariable = new TridasVariable();
 		measurementSeriesVariable.setValue(I18n.getText("unknown"));
-		setDefaultValue(TridasMandatoryField.MEASUREMENTSERIES_VARIABLE, new GenericDefaultValue<TridasVariable>(measurementSeriesVariable));
-		setDefaultValue(TridasMandatoryField.DERIVEDSERIES_TITLE, new StringDefaultValue(I18n.getText("unnamed.series")));
+		setDefaultValue(TridasMandatoryField.MEASUREMENTSERIES_VARIABLE, new GenericDefaultValue<TridasVariable>(
+				measurementSeriesVariable));
+		setDefaultValue(TridasMandatoryField.DERIVEDSERIES_TITLE,
+				new StringDefaultValue(I18n.getText("unnamed.series")));
 		
 		ControlledVoc derivedSeriesType = new ControlledVoc();
 		derivedSeriesType.setValue(I18n.getText("unknown"));
-		setDefaultValue(TridasMandatoryField.DERIVEDSERIES_TYPE, new GenericDefaultValue<ControlledVoc>(derivedSeriesType));
+		setDefaultValue(TridasMandatoryField.DERIVEDSERIES_TYPE, new GenericDefaultValue<ControlledVoc>(
+				derivedSeriesType));
 		setDefaultValue(TridasMandatoryField.IDENTIFIER_DOMAIN, new StringDefaultValue(I18n.getText("domain.value")));
-		setDefaultValue(TridasMandatoryField.DERIVEDSERIES_IDENTIFIER, new StringDefaultValue(UUID.randomUUID().toString()));
+		setDefaultValue(TridasMandatoryField.DERIVEDSERIES_IDENTIFIER, new StringDefaultValue(UUID.randomUUID()
+				.toString()));
 		
 	}
 	
@@ -130,23 +117,24 @@ public class TridasMetadataFieldSet extends AbstractTridasMetadataFieldSet {
 	@Override
 	protected TridasProject getDefaultTridasProject() {
 		TridasProject project = new TridasProject();
-
+		
 		project.setTypes((List<ControlledVoc>) getDefaultValue(TridasMandatoryField.PROJECT_TYPES).getValue());
-		project.setLaboratories((List<TridasLaboratory>) getDefaultValue(TridasMandatoryField.PROJECT_LABORATORIES).getValue());
+		project.setLaboratories((List<TridasLaboratory>) getDefaultValue(TridasMandatoryField.PROJECT_LABORATORIES)
+				.getValue());
 		project.setTitle(getDefaultValue(TridasMandatoryField.PROJECT_TITLE).getStringValue());
 		project.setInvestigator(getDefaultValue(TridasMandatoryField.PROJECT_INVESTIGATOR).getStringValue());
 		project.setCategory((TridasCategory) getDefaultValue(TridasMandatoryField.PROJECT_CATEGORY).getValue());
 		project.setPeriod(getDefaultValue(TridasMandatoryField.PROJECT_PERIOD).getStringValue());
 		return project;
 	}
-
+	
 	@Override
 	protected TridasObject getDefaultTridasObject() {
 		TridasObject o = new ObjectFactory().createTridasObject();
-
+		
 		// Object identifier
-		//TridasIdentifier identifier = new ObjectFactory().createTridasIdentifier();
-		//o.setIdentifier(identifier);
+		// TridasIdentifier identifier = new ObjectFactory().createTridasIdentifier();
+		// o.setIdentifier(identifier);
 		
 		// Object type
 		ControlledVoc type = (ControlledVoc) getDefaultValue(TridasMandatoryField.OBJECT_TYPE).getValue();
@@ -157,7 +145,7 @@ public class TridasMetadataFieldSet extends AbstractTridasMetadataFieldSet {
 		
 		return o;
 	}
-
+	
 	@Override
 	protected TridasElement getDefaultTridasElement() {
 		ObjectFactory factory = new ObjectFactory();
@@ -168,7 +156,6 @@ public class TridasMetadataFieldSet extends AbstractTridasMetadataFieldSet {
 		
 		return e;
 	}
-
 	
 	@Override
 	protected TridasSample getDefaultTridasSample() {
@@ -188,19 +175,19 @@ public class TridasMetadataFieldSet extends AbstractTridasMetadataFieldSet {
 		r.setTitle(getDefaultValue(TridasMandatoryField.RADIUS_TITLE).getStringValue());
 		return r;
 	}
-
+	
 	@Override
 	protected TridasMeasurementSeries getDefaultTridasMeasurementSeries() {
 		
 		TridasMeasurementSeries ms = new ObjectFactory().createTridasMeasurementSeries();
 		
 		ms.setTitle(getDefaultValue(TridasMandatoryField.MEASUREMENTSERIES_TITLE).getStringValue());
-		ms.setMeasuringMethod((TridasMeasuringMethod) getDefaultValue(TridasMandatoryField.MEASUREMENTSERIES_MEASURINGMETHOD).getValue());
+		ms.setMeasuringMethod((TridasMeasuringMethod) getDefaultValue(
+				TridasMandatoryField.MEASUREMENTSERIES_MEASURINGMETHOD).getValue());
 		ms.setInterpretation(new ObjectFactory().createTridasInterpretation());
 		return ms;
 	}
-
-
+	
 	@Override
 	protected TridasDerivedSeries getDefaultTridasDerivedSeries() {
 		
@@ -215,7 +202,7 @@ public class TridasMetadataFieldSet extends AbstractTridasMetadataFieldSet {
 		return ds;
 	}
 	
-	protected TridasWoodCompleteness getDefaultWoodCompleteness(){
+	protected TridasWoodCompleteness getDefaultWoodCompleteness() {
 		
 		TridasWoodCompleteness wc = new ObjectFactory().createTridasWoodCompleteness();
 		

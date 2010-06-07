@@ -13,7 +13,6 @@ import javax.xml.validation.SchemaFactory;
 import org.grlea.log.DebugLevel;
 import org.grlea.log.SimpleLogger;
 import org.tridas.interfaces.ITridasSeries;
-import org.tridas.io.IDendroCollectionWriter;
 import org.tridas.io.IDendroFile;
 import org.tridas.io.TridasNamespacePrefixMapper;
 import org.tridas.io.defaults.IMetadataFieldSet;
@@ -23,39 +22,34 @@ import org.tridas.io.warnings.ConversionWarning.WarningType;
 import org.tridas.schema.TridasProject;
 import org.xml.sax.SAXException;
 
-
 /**
- * The TRiDaS file format is our standard format 
- * 
- * <h3>Reference</h3>
- *
+ * The TRiDaS file format is our standard format <h3>Reference</h3>
  * <p>
- * See the <a href="http://www.tridas.org">Tree Ring Data Standard</a> website
- * for futher information.  
+ * See the <a href="http://www.tridas.org">Tree Ring Data Standard</a> website for futher
+ * information.
  * </p>
  * 
  * @author peterbrewer
- *
  */
 public class TridasFile implements IDendroFile {
-
+	
 	private final static SimpleLogger log = new SimpleLogger(TridasFile.class);
 	
 	TridasProject project;
-
+	
 	private IMetadataFieldSet defaults;
 	
 	public TridasFile(IMetadataFieldSet argDefaults) {
 		defaults = argDefaults;
 	}
 	
-	public void setProject(TridasProject p){
+	public void setProject(TridasProject p) {
 		project = p;
 	}
 	
 	@Override
 	public String[] saveToString() {
-		if(project == null){
+		if (project == null) {
 			return null;
 		}
 		Schema schema = null;
@@ -68,23 +62,23 @@ public class TridasFile implements IDendroFile {
 		} catch (SAXException e) {
 			log.error("Error getting TRiDaS schema for validation, not using.");
 			log.dbe(DebugLevel.L2_ERROR, e);
-			defaults.addConversionWarning(new ConversionWarning(WarningType.DEFAULT, "Error getting TRiDaS schema for validation, not using."));
+			defaults.addConversionWarning(new ConversionWarning(WarningType.DEFAULT,
+					"Error getting TRiDaS schema for validation, not using."));
 		}
 		
-		
 		StringWriter swriter = new StringWriter();
-		// Marshaller code goes here... 
-	    JAXBContext jc;
+		// Marshaller code goes here...
+		JAXBContext jc;
 		try {
 			jc = JAXBContext.newInstance("org.tridas.schema");
-			Marshaller m = jc.createMarshaller() ;
-	        m.setProperty("com.sun.xml.bind.namespacePrefixMapper",new TridasNamespacePrefixMapper());
-	        if(schema != null){
-	        	m.setSchema(schema);
-	        }
+			Marshaller m = jc.createMarshaller();
+			m.setProperty("com.sun.xml.bind.namespacePrefixMapper", new TridasNamespacePrefixMapper());
+			if (schema != null) {
+				m.setSchema(schema);
+			}
 			m.marshal(project, swriter);
-
-			//m.marshal(project,new File("/tmp/test.xml"));
+			
+			// m.marshal(project,new File("/tmp/test.xml"));
 		} catch (JAXBException e) {
 			log.error("Jaxb error");
 			log.dbe(DebugLevel.L2_ERROR, e);
@@ -94,7 +88,7 @@ public class TridasFile implements IDendroFile {
 		
 		return swriter.getBuffer().toString().split("\n");
 	}
-
+	
 	/**
 	 * @see org.tridas.io.IDendroFile#getExtension()
 	 */
@@ -102,7 +96,7 @@ public class TridasFile implements IDendroFile {
 	public String getExtension() {
 		return "xml";
 	}
-
+	
 	/**
 	 * @see org.tridas.io.IDendroFile#getSeries()
 	 */
@@ -110,7 +104,7 @@ public class TridasFile implements IDendroFile {
 	public ITridasSeries[] getSeries() {
 		return null;
 	}
-
+	
 	/**
 	 * @see org.tridas.io.IDendroFile#getDefaults()
 	 */

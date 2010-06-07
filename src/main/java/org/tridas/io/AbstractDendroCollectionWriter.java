@@ -1,11 +1,12 @@
 package org.tridas.io;
 
 import java.io.File;
+import java.io.UnsupportedEncodingException;
 import java.util.ArrayList;
-import java.util.List;
 
 import org.grlea.log.SimpleLogger;
 import org.tridas.io.defaults.IMetadataFieldSet;
+import org.tridas.io.naming.INamingConvention;
 import org.tridas.io.util.FileHelper;
 import org.tridas.io.warnings.ConversionWarning;
 import org.tridas.io.warnings.ConversionWarningException;
@@ -13,39 +14,57 @@ import org.tridas.io.warnings.IncompleteTridasDataException;
 import org.tridas.io.warnings.IncorrectDefaultFieldsException;
 import org.tridas.schema.TridasProject;
 
-public abstract class AbstractDendroCollectionWriter implements IDendroCollectionWriter{
+/**
+ * @author Daniel Murphy
+ */
+public abstract class AbstractDendroCollectionWriter {
 	
 	private ArrayList<IDendroFile> fileList = new ArrayList<IDendroFile>();
 	private SimpleLogger log = new SimpleLogger(AbstractDendroCollectionWriter.class);
-	private ArrayList<ConversionWarning> warnings =  new ArrayList<ConversionWarning>();
+	private ArrayList<ConversionWarning> warnings = new ArrayList<ConversionWarning>();
 	private Class<? extends IMetadataFieldSet> defaultFieldsClass;
 	
-	public AbstractDendroCollectionWriter(Class<? extends IMetadataFieldSet> argDefaultFieldsClass){
-		if(argDefaultFieldsClass == null){
-			throw new RuntimeException(I18n.getText("fileio.defaultsnull")); 
+	/**
+	 * @param argDefaultFieldsClass
+	 */
+	public AbstractDendroCollectionWriter(Class<? extends IMetadataFieldSet> argDefaultFieldsClass) {
+		if (argDefaultFieldsClass == null) {
+			throw new RuntimeException(I18n.getText("fileio.defaultsnull"));
 		}
 		
 		try {
-			if(argDefaultFieldsClass.getConstructor(new Class<?>[]{}) == null){
+			if (argDefaultFieldsClass.getConstructor(new Class<?>[]{}) == null) {
 				log.error(I18n.getText("runtimeExceptions.emptyConstructor"));
-				throw new RuntimeException(); 
+				throw new RuntimeException();
 			}
 		} catch (SecurityException e) {
-			throw new RuntimeException(I18n.getText("runtimeExceptions.emptyConstructor")); 
+			throw new RuntimeException(I18n.getText("runtimeExceptions.emptyConstructor"));
 		} catch (NoSuchMethodException e) {
 			log.error(I18n.getText("runtimeExceptions.emptyConstructor"));
-			throw new RuntimeException(I18n.getText("runtimeExceptions.emptyConstructor")); 
+			throw new RuntimeException(I18n.getText("runtimeExceptions.emptyConstructor"));
 		}
 		
 		defaultFieldsClass = argDefaultFieldsClass;
 	}
 	
-	public void loadProject(TridasProject argProject) throws IncompleteTridasDataException, ConversionWarningException{
+	/**
+	 * Loads a project to convert into a legacy format, using the default metadata set
+	 * 
+	 * @param argProject
+	 * @throws IncompleteTridasDataException
+	 * @throws ConversionWarningException
+	 */
+	public void loadProject(TridasProject argProject) throws IncompleteTridasDataException, ConversionWarningException {
 		IMetadataFieldSet defaults = constructDefaults();
 		parseTridasProject(argProject, defaults);
 	}
 	
-	public IMetadataFieldSet constructDefaults(){
+	/**
+	 * Construct the default metadata fields
+	 * 
+	 * @return
+	 */
+	public IMetadataFieldSet constructDefaults() {
 		try {
 			return defaultFieldsClass.newInstance();
 		} catch (InstantiationException e) {
@@ -57,89 +76,163 @@ public abstract class AbstractDendroCollectionWriter implements IDendroCollectio
 		}
 	}
 	
-	@Override
-	public void loadProject(TridasProject argProject, IMetadataFieldSet argDefaults) throws IncompleteTridasDataException, ConversionWarningException, IncorrectDefaultFieldsException{
-		if(!argDefaults.getClass().equals(defaultFieldsClass)){
+	/**
+	 * Loads a project to convert into a legacy format, using the given metadata set
+	 * 
+	 * @param argProject
+	 * @param argDefaults
+	 * @throws IncompleteTridasDataException
+	 * @throws ConversionWarningException
+	 * @throws IncorrectDefaultFieldsException
+	 */
+	public void loadProject(TridasProject argProject, IMetadataFieldSet argDefaults)
+			throws IncompleteTridasDataException, ConversionWarningException, IncorrectDefaultFieldsException {
+		if (!argDefaults.getClass().equals(defaultFieldsClass)) {
 			throw new IncorrectDefaultFieldsException(defaultFieldsClass);
 		}
 		parseTridasProject(argProject, argDefaults);
 	}
 	
-	protected abstract void parseTridasProject(TridasProject argProject, IMetadataFieldSet argDefaults) throws IncompleteTridasDataException, ConversionWarningException;
+	/**
+	 * Parse the project with the given defaults
+	 * 
+	 * @param argProject
+	 * @param argDefaults
+	 * @throws IncompleteTridasDataException
+	 * @throws ConversionWarningException
+	 */
+	protected abstract void parseTridasProject(TridasProject argProject, IMetadataFieldSet argDefaults)
+			throws IncompleteTridasDataException, ConversionWarningException;
 	
 	/**
-	 * Get the list of DendroFiles that are associated 
+	 * Get the list of DendroFiles that are associated
 	 * with this CollectionWriter
 	 * 
 	 * @return
 	 */
-	protected ArrayList<IDendroFile> getFileList(){
+	protected ArrayList<IDendroFile> getFileList() {
 		return fileList;
 	}
 	
-	public IDendroFile[] getFiles(){
+	/**
+	 * Get the {@link IDendroFile}s generated from
+	 * loading this project
+	 * 
+	 * @return
+	 */
+	public IDendroFile[] getFiles() {
 		return fileList.toArray(new IDendroFile[0]);
 	}
 	
 	/**
-	 * Save all associated files to disk
+	 * Save all associated files to the disk
+	 * in the same folder as the jar.
 	 */
-	public void saveAllToDisk(){
+	public void saveAllToDisk() {
 		saveAllToDisk("");
 	}
 	
 	/**
-	 * Save all associated files to disk
+	 * Save all associated files to the disk
+	 * 
+	 * @param argOutputFolder
+	 *            the folder to save the files to
 	 */
-	public void saveAllToDisk(String argOutputFolder){
-		if(argOutputFolder.contains("\\")){
+	public void saveAllToDisk(String argOutputFolder) {
+		if (argOutputFolder.contains("\\")) {
 			argOutputFolder.replaceAll("\\\\", "/");
 		}
 		
-		if(!argOutputFolder.endsWith("/") && !argOutputFolder.equals("")){
+		if (!argOutputFolder.endsWith("/") && !argOutputFolder.equals("")) {
 			argOutputFolder += File.separator;
 		}
 		
-		for (IDendroFile dof: fileList){
+		for (IDendroFile dof : fileList) {
 			String filename = getNamingConvention().getFilename(dof);
 			saveFileToDisk(argOutputFolder, filename, dof);
 		}
 	}
 	
 	/**
-	 * Override to use implement own file saving.
-	 * @param argOutputFolder output folder can be absolute, and always ends with "/"
-	 * @param argFilename
-	 * @param argFile a dendro file of this writer
+	 * Used specify where to save each file individually.
+	 * 
+	 * @param argOutputFolder
+	 * @param argFile
+	 *            must be a file from this writer
+	 * @throws RuntimeException
+	 *             if the file is not in this writer's filelist
 	 */
-	public void saveFileToDisk(String argOutputFolder, String argFilename, IDendroFile argFile){
+	public void saveFileToDisk(String argOutputFolder, IDendroFile argFile) {
+		if (!fileList.contains(argFile)) {
+			throw new RuntimeException("File not found in file list.");
+		}
+		saveFileToDisk(argOutputFolder, getNamingConvention().getFilename(argFile), argFile);
+	}
+	
+	/**
+	 * Override to implement own file saving. Make sure to respect
+	 * {@link TridasIO#getWritingCharset()}.
+	 * 
+	 * @param argOutputFolder
+	 *            output folder can be absolute, and always ends with "/" unless it's an
+	 *            empty string
+	 * @param argFilename
+	 *            filename of the file (without extension)
+	 * @param argFile
+	 *            a dendro file of this writer
+	 */
+	protected void saveFileToDisk(String argOutputFolder, String argFilename, IDendroFile argFile) {
 		FileHelper helper;
 		
 		boolean absolute = argOutputFolder.startsWith("/") || argOutputFolder.startsWith("\\");
 		// add ending file separator
-		if(!argOutputFolder.endsWith("\\") && !argOutputFolder.endsWith("/") && argOutputFolder.length() != 0){
+		if (!argOutputFolder.endsWith("\\") && !argOutputFolder.endsWith("/") && argOutputFolder.length() != 0) {
 			argOutputFolder += File.separatorChar;
 		}
-		if(argOutputFolder.endsWith("\\")){
-			argOutputFolder = argOutputFolder.substring(0,argOutputFolder.length()-1) + File.separatorChar;
+		if (argOutputFolder.endsWith("\\")) {
+			argOutputFolder = argOutputFolder.substring(0, argOutputFolder.length() - 1) + File.separatorChar;
 		}
 		
-		if(absolute){
+		if (absolute) {
 			helper = new FileHelper(argOutputFolder);
-		}else{
+		}
+		else {
 			helper = new FileHelper();
 		}
 		
 		String[] file = argFile.saveToString();
-		if(file == null){
-			log.error("File strings for file "+argFile.toString()+", with the filename "+argFile+" was null");
+		if (file == null) {
+			log.error("File strings for file " + argFile.toString() + ", with the filename " + argFile + " was null");
 			return;
 		}
 		
-		if(absolute){
-			helper.saveStrings(argFilename+"."+argFile.getExtension(), file);
-		}else{
-			helper.saveStrings(argOutputFolder+argFilename+"."+argFile.getExtension(), file);
+		if (absolute) {
+			if (TridasIO.getWritingCharset() != null) {
+				try {
+					helper.saveStrings(argFilename + "." + argFile.getExtension(), file, TridasIO.getWritingCharset());
+					return;
+				} catch (UnsupportedEncodingException e) {
+					// shouldn't happen, but
+					// TODO add warning, log message
+					e.printStackTrace();
+				}
+			}
+			helper.saveStrings(argFilename + "." + argFile.getExtension(), file);
+			
+		}
+		else {
+			if (TridasIO.getWritingCharset() != null) {
+				try {
+					helper.saveStrings(argOutputFolder + argFilename + "." + argFile.getExtension(), file, TridasIO
+							.getWritingCharset());
+					return;
+				} catch (UnsupportedEncodingException e) {
+					// shouldn't happen, but
+					// TODO add warning, log message
+					e.printStackTrace();
+				}
+			}
+			helper.saveStrings(argOutputFolder + argFilename + "." + argFile.getExtension(), file);
 		}
 	}
 	
@@ -148,25 +241,25 @@ public abstract class AbstractDendroCollectionWriter implements IDendroCollectio
 	 * 
 	 * @param df
 	 */
-	protected void addToFileList(IDendroFile df){
+	protected void addToFileList(IDendroFile df) {
 		fileList.add(df);
 	}
 	
 	/**
 	 * Clears the file list
 	 */
-	public void clearFiles(){
+	public void clearFiles() {
 		fileList.clear();
 	}
-
+	
 	/**
-	 * Get a list of conversion warnings for this 
+	 * Get a list of conversion warnings for this
 	 * Collection writer
 	 * 
 	 * @return
 	 */
-	public List<ConversionWarning> getWarnings(){
-		return warnings;
+	public ConversionWarning[] getWarnings() {
+		return warnings.toArray(new ConversionWarning[0]);
 	}
 	
 	/**
@@ -174,14 +267,56 @@ public abstract class AbstractDendroCollectionWriter implements IDendroCollectio
 	 * 
 	 * @param warning
 	 */
-	public void addWarning(ConversionWarning warning){
+	public void addWarning(ConversionWarning warning) {
 		warnings.add(warning);
 	}
 	
 	/**
-	 * Clear list of warnings
+	 * Clear warning list
 	 */
-	public void clearWarnings(){
+	public void clearWarnings() {
 		warnings.clear();
 	}
+	
+	/**
+	 * Set the naming convention
+	 * 
+	 * @param argConvension
+	 */
+	public abstract void setNamingConvention(INamingConvention argConvension);
+	
+	/**
+	 * Get the naming convention
+	 * 
+	 * @return
+	 */
+	public abstract INamingConvention getNamingConvention();
+	
+	/**
+	 * Get the short name of the format
+	 * 
+	 * @return
+	 */
+	public abstract String getShortName();
+	
+	/**
+	 * Get the full name of the format
+	 * 
+	 * @return
+	 */
+	public abstract String getFullName();
+	
+	/**
+	 * Get the description of the format
+	 * 
+	 * @return
+	 */
+	public abstract String getDescription();
+	
+	/**
+	 * Get the default values for this writer.
+	 * 
+	 * @return
+	 */
+	public abstract IMetadataFieldSet getDefaults();
 }

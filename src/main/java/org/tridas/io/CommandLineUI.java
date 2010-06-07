@@ -23,13 +23,13 @@ import org.tridas.schema.TridasProject;
 public class CommandLineUI {
 	
 	static String name = "DendroFileIO";
-	static String asciilogo = "______               _          ______ _ _      _____ _____ \n"+
-							  "|  _  \\             | |         |  ___(_) |    |_   _|  _  |\n"+
-							  "| | | |___ _ __   __| |_ __ ___ | |_   _| | ___  | | | | | |\n"+
-							  "| | | / _ \\ '_ \\ / _` | '__/ _ \\|  _| | | |/ _ \\ | | | | | |\n"+
-							  "| |/ /  __/ | | | (_| | | | (_) | |   | | |  __/_| |_\\ \\_/ /\n"+
-							  "|___/ \\___|_| |_|\\__,_|_|  \\___/\\_|   |_|_|\\___|\\___/ \\___/ \n"; 
-
+	static String asciilogo = "______               _          ______ _ _      _____ _____ \n"
+			+ "|  _  \\             | |         |  ___(_) |    |_   _|  _  |\n"
+			+ "| | | |___ _ __   __| |_ __ ___ | |_   _| | ___  | | | | | |\n"
+			+ "| | | / _ \\ '_ \\ / _` | '__/ _ \\|  _| | | |/ _ \\ | | | | | |\n"
+			+ "| |/ /  __/ | | | (_| | | | (_) | |   | | |  __/_| |_\\ \\_/ /\n"
+			+ "|___/ \\___|_| |_|\\__,_|_|  \\___/\\_|   |_|_|\\___|\\___/ \\___/ \n";
+	
 	/**
 	 * Basic command line interface to the library
 	 * 
@@ -48,72 +48,70 @@ public class CommandLineUI {
 		
 		// Check number of args
 		int index = 0;
-		if(args.length == 1){		
-			if(args[index].equalsIgnoreCase("-version")){
+		if (args.length == 1) {
+			if (args[index].equalsIgnoreCase("-version")) {
 				showVersion(true);
 				return;
 			}
-			if(args[index].equalsIgnoreCase("-formats")){
+			if (args[index].equalsIgnoreCase("-formats")) {
 				showFormats();
 				return;
 			}
 		}
 		
-		if(args.length > 5 || args.length < 2){
+		if (args.length > 5 || args.length < 2) {
 			showHelp(true);
 			return;
 		}
 		
 		// Loop through all args setting options
-		for (String arg : args)
-		{
-			if (arg.equalsIgnoreCase("-log"))
-			{
+		for (String arg : args) {
+			if (arg.equalsIgnoreCase("-log")) {
 				log = true;
 			}
-			else if (arg.equalsIgnoreCase("-verbose"))
-			{
+			else if (arg.equalsIgnoreCase("-verbose")) {
 				verbose = true;
 			}
-			else if (arg.toLowerCase().startsWith("-inputformat="))
-			{
+			else if (arg.toLowerCase().startsWith("-inputformat=")) {
 				inputFormat = arg.substring(13).trim();
 			}
-			else if (arg.toLowerCase().startsWith("-outputformat="))
-			{
+			else if (arg.toLowerCase().startsWith("-outputformat=")) {
 				outputFormat = arg.substring(14).trim();
-			}	
-			else if (arg.toLowerCase().startsWith("-naming="))
-			{
+			}
+			else if (arg.toLowerCase().startsWith("-naming=")) {
 				convention = arg.substring(8).trim();
-			}else if(arg.equalsIgnoreCase("-batch")){
+			}
+			else if (arg.equalsIgnoreCase("-batch")) {
 				batch = true;
-			}else if(arg.startsWith("-")){
-				System.out.println("Unknown arguments: '"+arg+"'");
+			}
+			else if (arg.startsWith("-")) {
+				System.out.println("Unknown arguments: '" + arg + "'");
 			}
 		}
-
+		
 		// Set up filenames
-		inputfilename = args[args.length-2];
-		outputFolder = args[args.length-1];
+		inputfilename = args[args.length - 2];
+		outputFolder = args[args.length - 1];
 		
 		// Set debug level to requested
-		if(log){
+		if (log) {
 			configureLogFile();
 		}
-
+		
 		// set up readers
-		if(!batch){
+		if (!batch) {
 			// Read in File
 			AbstractDendroFileReader reader;
 			TridasProject project;
 			// Set up reader
-			if(inputFormat != null){
+			if (inputFormat != null) {
 				reader = TridasIO.getFileReader(inputFormat);
-			}else{
-				reader = TridasIO.getFileReaderFromExtension(inputfilename.substring(inputfilename.lastIndexOf(".")+1));
 			}
-			if(reader == null){
+			else {
+				reader = TridasIO.getFileReaderFromExtension(inputfilename
+						.substring(inputfilename.lastIndexOf(".") + 1));
+			}
+			if (reader == null) {
 				showHelp(false, "Reader format invalid");
 				return;
 			}
@@ -131,24 +129,26 @@ public class CommandLineUI {
 			struct.reader = reader;
 			struct.origFilename = inputfilename;
 			structs.add(struct);
-		}else{
+		}
+		else {
 			String[] files = getFilesFromFolder(inputfilename);
-			for(String file : files){
+			for (String file : files) {
 				TridasProject project;
 				AbstractDendroFileReader reader;
 				
-				if(inputFormat != null){
+				if (inputFormat != null) {
 					reader = TridasIO.getFileReader(inputFormat);
-				}else{
-					reader = TridasIO.getFileReaderFromExtension(file.substring(file.lastIndexOf(".")+1));
 				}
-				if(reader == null){
+				else {
+					reader = TridasIO.getFileReaderFromExtension(file.substring(file.lastIndexOf(".") + 1));
+				}
+				if (reader == null) {
 					showHelp(false, "Reader format invalid");
 					return;
 				}
 				
 				try {
-					reader.loadFile(inputfilename+File.separator+file);
+					reader.loadFile(inputfilename + File.separator + file);
 					project = reader.getProject();
 				} catch (IOException e1) {
 					System.out.println(e1.toString());
@@ -164,33 +164,34 @@ public class CommandLineUI {
 			}
 		}
 		
-		//set up writers
-		for(WriterReaderStruct s : structs){
-			IDendroCollectionWriter writer;
-			if(outputFormat != null){
+		// set up writers
+		for (WriterReaderStruct s : structs) {
+			AbstractDendroCollectionWriter writer;
+			if (outputFormat != null) {
 				writer = TridasIO.getFileWriter(outputFormat);
-			}else {
+			}
+			else {
 				writer = new TridasWriter();
 			}
-			if(writer == null){
-				showHelp(false, "Writer format invalid: "+outputFormat);
+			if (writer == null) {
+				showHelp(false, "Writer format invalid: " + outputFormat);
 				return;
 			}
 			
 			// Set up naming convention
-			INamingConvention namingConvention; 
-			if(convention.equalsIgnoreCase("hierarchy")){
+			INamingConvention namingConvention;
+			if (convention.equalsIgnoreCase("hierarchy")) {
 				namingConvention = new HierarchicalNamingConvention();
 			}
-			else if (convention.equalsIgnoreCase("uuid")){
+			else if (convention.equalsIgnoreCase("uuid")) {
 				namingConvention = new UUIDNamingConvention();
 			}
 			else {
-				namingConvention = new NumericalNamingConvention(s.origFilename.substring(0, s.origFilename.lastIndexOf(".")));
+				namingConvention = new NumericalNamingConvention(s.origFilename.substring(0, s.origFilename
+						.lastIndexOf(".")));
 			}
-	
 			
-		    // Write out project
+			// Write out project
 			try {
 				writer.setNamingConvention(namingConvention);
 				writer.loadProject(s.reader.getProject());
@@ -205,77 +206,70 @@ public class CommandLineUI {
 			s.writer = writer;
 		}
 		
-
-		
-		
-
 		// Show warnings if necessary
-		if(verbose)
-		{
-			for(WriterReaderStruct struct : structs){
+		if (verbose) {
+			for (WriterReaderStruct struct : structs) {
 				AbstractDendroFileReader reader = struct.reader;
-				IDendroCollectionWriter writer = struct.writer;
+				AbstractDendroCollectionWriter writer = struct.writer;
 				
 				System.out.println();
-				System.out.println("--- File '"+struct.origFilename+"'"+" ---");
+				System.out.println("--- File '" + struct.origFilename + "'" + " ---");
 				System.out.println("Reader warnings thrown:");
-
-				if(reader.getDefaults() != null){
-					if (reader.getDefaults().getConversionWarnings()!=null)
-					{
-						for(ConversionWarning cw : reader.getDefaults().getConversionWarnings()){
-							System.out.println("  - ["+ cw.getWarningType().toString()+ "]: " + cw.getMessage());
+				
+				if (reader.getDefaults() != null) {
+					if (reader.getDefaults().getConversionWarnings() != null) {
+						for (ConversionWarning cw : reader.getDefaults().getConversionWarnings()) {
+							System.out.println("  - [" + cw.getWarningType().toString() + "]: " + cw.getMessage());
 						}
 					}
 				}
 				
-				for(ConversionWarning cw : reader.getWarnings()){
-					System.out.println("  - ["+ cw.getWarningType().toString()+ "]: " + cw.getMessage());
+				for (ConversionWarning cw : reader.getWarnings()) {
+					System.out.println("  - [" + cw.getWarningType().toString() + "]: " + cw.getMessage());
 				}
 				System.out.println("Writer warnings thrown:");
-				if(writer.getDefaults() != null){
-					if (writer.getDefaults().getConversionWarnings()!=null)
-					{
-						for(ConversionWarning cw : writer.getDefaults().getConversionWarnings()){
-							System.out.println("  - ["+ cw.getWarningType().toString()+ "]: " + cw.getMessage());
+				if (writer.getDefaults() != null) {
+					if (writer.getDefaults().getConversionWarnings() != null) {
+						for (ConversionWarning cw : writer.getDefaults().getConversionWarnings()) {
+							System.out.println("  - [" + cw.getWarningType().toString() + "]: " + cw.getMessage());
 						}
 					}
 				}
 				
-				for(ConversionWarning cw : writer.getWarnings()){
-					System.out.println("  - ["+ cw.getWarningType().toString()+ "]: " + cw.getMessage());
+				for (ConversionWarning cw : writer.getWarnings()) {
+					System.out.println("  - [" + cw.getWarningType().toString() + "]: " + cw.getMessage());
 				}
 				System.out.println("--------------------------");
 			}
 		}
 		
-		
 		System.out.println("Files saved:");
-		for(WriterReaderStruct s : structs){
-			IDendroCollectionWriter writer = s.writer;
+		for (WriterReaderStruct s : structs) {
+			AbstractDendroCollectionWriter writer = s.writer;
 			IDendroFile[] files = writer.getFiles();
 			
 			// Show list of output files
-			for(IDendroFile f : files){
-				System.out.println(s.origFilename + " --> '"+writer.getNamingConvention().getFilename(f)+"."+f.getExtension()+"'");
+			for (IDendroFile f : files) {
+				System.out.println(s.origFilename + " --> '" + writer.getNamingConvention().getFilename(f) + "."
+						+ f.getExtension() + "'");
 			}
 		}
 	}
-		
-	private static void showTitle(){
+	
+	private static void showTitle() {
 		System.out.print(CommandLineUI.asciilogo);
-		System.out.println(name + StringUtils.leftPad("ver. "+CommandLineUI.class.getPackage().getImplementationVersion(), 49));
+		System.out.println(name
+				+ StringUtils.leftPad("ver. " + CommandLineUI.class.getPackage().getImplementationVersion(), 49));
 		System.out.println();
 	}
 	
-	private static void showHelp(boolean argTitle, String error){
-		if(argTitle){
+	private static void showHelp(boolean argTitle, String error) {
+		if (argTitle) {
 			showTitle();
 		}
 		
-		if(error!=null)
-		{
-			System.out.println("Error: "+error);
+		if (error != null) {
+			System.out.println("Error: " + error);
 			System.out.println("");
 		}
 		
@@ -293,33 +287,33 @@ public class CommandLineUI {
 		System.out.println("");
 	}
 	
-	private static void showHelp(boolean argTitle){
+	private static void showHelp(boolean argTitle) {
 		showHelp(argTitle, null);
 	}
 	
-	private static void showVersion(boolean argLogo){
-		System.out.println(name+" version: "+CommandLineUI.class.getPackage().getImplementationVersion());
+	private static void showVersion(boolean argLogo) {
+		System.out.println(name + " version: " + CommandLineUI.class.getPackage().getImplementationVersion());
 	}
-
-	private static void showFormats(){
+	
+	private static void showFormats() {
 		System.out.println("Supported reading formats: ");
-		for( String format : TridasIO.getSupportedReadingFormats()){
-			System.out.println("  -"+format);
+		for (String format : TridasIO.getSupportedReadingFormats()) {
+			System.out.println("  -" + format);
 		}
 		System.out.println("Supported writing formats: ");
-		for( String format : TridasIO.getSupportedWritingFormats()){
-			System.out.println("  -"+format);
+		for (String format : TridasIO.getSupportedWritingFormats()) {
+			System.out.println("  -" + format);
 		}
 	}
 	
-	private static void configureLogFile(){
+	private static void configureLogFile() {
 		String simplelog = "simplelog.properties";
 		FileHelper fh = new FileHelper();
 		
 		File propFile = fh.createFile(simplelog);
 		Properties logProperties = new Properties();
 		
-		if(propFile.exists()){
+		if (propFile.exists()) {
 			try {
 				logProperties.load(IOUtils.createInput(propFile));
 			} catch (IOException e) {
@@ -334,39 +328,39 @@ public class CommandLineUI {
 			System.out.println("Error creating properties log properties file.");
 		}
 		
-		if(!logProperties.contains("simplelog.logFile")){
+		if (!logProperties.contains("simplelog.logFile")) {
 			logProperties.put("simplelog.logFile", "DendroIOLog.txt");
 			System.out.println("Saving error log to DendroIOLog.txt");
-		}else{
-			System.out.println("Saving error log to "+logProperties.getProperty("simplelog.logFile"));
+		}
+		else {
+			System.out.println("Saving error log to " + logProperties.getProperty("simplelog.logFile"));
 		}
 		
-		if(!logProperties.contains("simplelog.defaultLevel")){
+		if (!logProperties.contains("simplelog.defaultLevel")) {
 			logProperties.put("simplelog.defaultLevel", "Error");
 		}
 		
 		try {
-			logProperties.store(IOUtils.createOutput(propFile), "For custom log properties, see https://simple-log.dev.java.net/");
+			logProperties.store(IOUtils.createOutput(propFile),
+					"For custom log properties, see https://simple-log.dev.java.net/");
 		} catch (IOException e) {
 			System.out.println("Error storing log properties to file");
 		}
 	}
 	
-	private static String[] getFilesFromFolder(String folder){
+	private static String[] getFilesFromFolder(String folder) {
 		File dir = new File(folder);
-		FilenameFilter filter = new FilenameFilter() 
-		{ 
-			public boolean accept(File dir, String name) 
-			{ 
-				return !name.startsWith("."); 
-			} 
-		}; 
-		return dir.list(filter);	
+		FilenameFilter filter = new FilenameFilter() {
+			public boolean accept(File dir, String name) {
+				return !name.startsWith(".");
+			}
+		};
+		return dir.list(filter);
 	}
 	
-	private static class WriterReaderStruct{
+	private static class WriterReaderStruct {
 		AbstractDendroFileReader reader;
-		IDendroCollectionWriter writer;
+		AbstractDendroCollectionWriter writer;
 		String origFilename;
 	}
 }

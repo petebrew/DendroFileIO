@@ -14,13 +14,11 @@ import org.tridas.io.defaults.values.StringDefaultValue;
  * @author peterbrewer
  */
 public class TridasToBelfastAppleDefaults extends AbstractMetadataFieldSet {
-
-	public enum BelfastAppleField{
-		OBJECT_TITLE,
-		SAMPLE_TITLE;
+	
+	public enum BelfastAppleField {
+		OBJECT_TITLE, SAMPLE_TITLE;
 	}
 	
-
 	/**
 	 * @see org.tridas.io.defaults.AbstractMetadataFieldSet#initDefaultValues()
 	 */
@@ -28,8 +26,7 @@ public class TridasToBelfastAppleDefaults extends AbstractMetadataFieldSet {
 	protected void initDefaultValues() {
 		setDefaultValue(BelfastAppleField.OBJECT_TITLE, new StringDefaultValue(I18n.getText("unnamed.object")));
 		setDefaultValue(BelfastAppleField.SAMPLE_TITLE, new StringDefaultValue(I18n.getText("unnamed.sample")));
-
+		
 	}
-			
 	
 }

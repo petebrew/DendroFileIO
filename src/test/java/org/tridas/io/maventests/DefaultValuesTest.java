@@ -1,13 +1,13 @@
 package org.tridas.io.maventests;
 
+import junit.framework.TestCase;
+
 import org.tridas.io.defaults.values.IntegerDefaultValue;
 import org.tridas.io.defaults.values.StringDefaultValue;
 
-import junit.framework.TestCase;
-
-public class DefaultValuesTest extends TestCase{
-
-	public void testStringResizing(){
+public class DefaultValuesTest extends TestCase {
+	
+	public void testStringResizing() {
 		StringDefaultValue defString = new StringDefaultValue("Hello", -1, -1);
 		assertEquals("Hello", defString.getValue());
 		defString.setMinLength(10);
@@ -21,7 +21,7 @@ public class DefaultValuesTest extends TestCase{
 		assertEquals("3    ", defInt.getStringValue());
 	}
 	
-	public void testIntegerRanging(){
+	public void testIntegerRanging() {
 		IntegerDefaultValue defInt = new IntegerDefaultValue(3);
 		assertEquals(Integer.valueOf(3), defInt.getValue());
 		assertEquals("3", defInt.getStringValue());
@@ -43,7 +43,7 @@ public class DefaultValuesTest extends TestCase{
 		assertEquals(Integer.valueOf(0), defInt.getValue());
 	}
 	
-	public void testOverriding(){
+	public void testOverriding() {
 		StringDefaultValue defString = new StringDefaultValue("Hello", -1, -1);
 		assertEquals("Hello", defString.getValue());
 		defString.setMinLength(10);

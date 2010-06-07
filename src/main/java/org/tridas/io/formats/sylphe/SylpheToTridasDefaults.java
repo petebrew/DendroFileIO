@@ -1,6 +1,5 @@
 package org.tridas.io.formats.sylphe;
 
-import org.apache.commons.lang.WordUtils;
 import org.tridas.io.I18n;
 import org.tridas.io.defaults.IMetadataFieldSet;
 import org.tridas.io.defaults.TridasMetadataFieldSet;
@@ -33,26 +32,24 @@ import org.tridas.schema.TridasWoodCompleteness;
 /**
  * @deprecated Use BesanconToTridasDefaults instead.
  * @author peterbrewer
- *
  */
-public class SylpheToTridasDefaults extends TridasMetadataFieldSet implements
-		IMetadataFieldSet {
-
-	public static enum DefaultFields{
-		SERIES_TITLE,
-		DATE,		
-		RING_COUNT,       // LON
-		SPECIES,          // ESP
-		PITH,             // MOE
-		SAPWOOD_START,    // AUB
-		CAMBIUM,          // CAM
-		BARK,             // ECO
-		FIRST_YEAR,       // ORI
-		LAST_YEAR,        // TER
+@Deprecated
+public class SylpheToTridasDefaults extends TridasMetadataFieldSet implements IMetadataFieldSet {
+	
+	public static enum DefaultFields {
+		SERIES_TITLE, DATE, RING_COUNT, // LON
+		SPECIES, // ESP
+		PITH, // MOE
+		SAPWOOD_START, // AUB
+		CAMBIUM, // CAM
+		BARK, // ECO
+		FIRST_YEAR, // ORI
+		LAST_YEAR, // TER
 		POSITION_IN_MEAN; // POS
 	}
 	
-	public void initDefaultValues(){
+	@Override
+	public void initDefaultValues() {
 		super.initDefaultValues();
 		setDefaultValue(DefaultFields.SERIES_TITLE, new StringDefaultValue(I18n.getText("unnamed.series")));
 		setDefaultValue(DefaultFields.DATE, new DateTimeDefaultValue());
@@ -65,49 +62,48 @@ public class SylpheToTridasDefaults extends TridasMetadataFieldSet implements
 		setDefaultValue(DefaultFields.FIRST_YEAR, new SafeIntYearDefaultValue());
 		setDefaultValue(DefaultFields.LAST_YEAR, new SafeIntYearDefaultValue());
 		setDefaultValue(DefaultFields.POSITION_IN_MEAN, new IntegerDefaultValue(1));
-
+		
 	}
 	
-	public TridasProject getDefaultTridasProject()
-	{
+	@Override
+	public TridasProject getDefaultTridasProject() {
 		TridasProject project = super.getDefaultTridasProject();
 		return project;
 	}
 	
-	public TridasObject getDefaultTridasObject()
-	{
+	@Override
+	public TridasObject getDefaultTridasObject() {
 		TridasObject object = super.getDefaultTridasObject();
 		return object;
 	}
 	
-	public TridasElement getDefaultTridasElement()
-	{
+	@Override
+	public TridasElement getDefaultTridasElement() {
 		TridasElement element = super.getDefaultTridasElement();
-		ControlledVoc taxon = ITRDBTaxonConverter.getControlledVocFromCode(getStringDefaultValue(DefaultFields.SPECIES).getStringValue());
+		ControlledVoc taxon = ITRDBTaxonConverter.getControlledVocFromCode(getStringDefaultValue(DefaultFields.SPECIES)
+				.getStringValue());
 		element.setTaxon(taxon);
 		return element;
 	}
 	
-	public TridasSample getDefaultTridasSample()
-	{
+	@Override
+	public TridasSample getDefaultTridasSample() {
 		TridasSample sample = super.getDefaultTridasSample();
 		return sample;
 	}
 	
-	public TridasRadius getDefaultTridasRadius()
-	{
+	@Override
+	public TridasRadius getDefaultTridasRadius() {
 		TridasRadius radius = super.getDefaultTridasRadius();
 		return radius;
 	}
 	
 	@SuppressWarnings("unchecked")
-	public TridasMeasurementSeries getDefaultMeasurementSeries()
-	{
+	public TridasMeasurementSeries getDefaultMeasurementSeries() {
 		TridasMeasurementSeries series = super.getDefaultTridasMeasurementSeries();
 		
 		// Last modified date
-		if(getDateTimeDefaultValue(DefaultFields.DATE).getValue()!=null)
-		{
+		if (getDateTimeDefaultValue(DefaultFields.DATE).getValue() != null) {
 			series.setLastModifiedTimestamp(getDateTimeDefaultValue(DefaultFields.DATE).getValue());
 		}
 		
@@ -115,24 +111,24 @@ public class SylpheToTridasDefaults extends TridasMetadataFieldSet implements
 		series.setTitle(getStringDefaultValue(DefaultFields.SERIES_TITLE).getStringValue());
 		
 		// Set first and last years
-		series.getInterpretation().setFirstYear(getSafeIntYearDefaultValue(DefaultFields.FIRST_YEAR).getValue().toTridasYear(DatingSuffix.AD));
-		series.getInterpretation().setLastYear(getSafeIntYearDefaultValue(DefaultFields.LAST_YEAR).getValue().toTridasYear(DatingSuffix.AD));
+		series.getInterpretation().setFirstYear(
+				getSafeIntYearDefaultValue(DefaultFields.FIRST_YEAR).getValue().toTridasYear(DatingSuffix.AD));
+		series.getInterpretation().setLastYear(
+				getSafeIntYearDefaultValue(DefaultFields.LAST_YEAR).getValue().toTridasYear(DatingSuffix.AD));
 		
 		// Set ring count
 		TridasWoodCompleteness wc = new ObjectFactory().createTridasWoodCompleteness();
 		wc.setRingCount(getIntegerDefaultValue(DefaultFields.RING_COUNT).getValue());
 		
 		// Set pith info
-		if(getBooleanDefaultValue(DefaultFields.PITH).getValue()!=null)
-		{
+		if (getBooleanDefaultValue(DefaultFields.PITH).getValue() != null) {
 			TridasPith pith = new TridasPith();
 			pith.setPresence(ComplexPresenceAbsence.COMPLETE);
 			wc.setPith(pith);
 		}
 		
 		// Set bark info
-		if(getBooleanDefaultValue(DefaultFields.BARK).getValue()!=null)
-		{
+		if (getBooleanDefaultValue(DefaultFields.BARK).getValue() != null) {
 			TridasBark bark = new TridasBark();
 			bark.setPresence(PresenceAbsence.PRESENT);
 			wc.setBark(bark);
@@ -143,27 +139,22 @@ public class SylpheToTridasDefaults extends TridasMetadataFieldSet implements
 		sapwood.setPresence(ComplexPresenceAbsence.UNKNOWN);
 		
 		// Set last ring info
-		GenericDefaultValue<SylpheCambiumType> cambium = (GenericDefaultValue<SylpheCambiumType>)getDefaultValue(DefaultFields.CAMBIUM); 	
-		if(cambium.getValue()!=null)
-		{
+		GenericDefaultValue<SylpheCambiumType> cambium = (GenericDefaultValue<SylpheCambiumType>) getDefaultValue(DefaultFields.CAMBIUM);
+		if (cambium.getValue() != null) {
 			TridasLastRingUnderBark lrub = new TridasLastRingUnderBark();
 			lrub.setPresence(PresenceAbsence.PRESENT);
-		
+			
 			// Mark season if possible
-			if(cambium.getValue().equals(SylpheCambiumType.SPRING))
-			{
+			if (cambium.getValue().equals(SylpheCambiumType.SPRING)) {
 				lrub.setContent(I18n.getText("seasons.spring"));
 			}
-			else if (cambium.getValue().equals(SylpheCambiumType.SUMMER))
-			{
+			else if (cambium.getValue().equals(SylpheCambiumType.SUMMER)) {
 				lrub.setContent(I18n.getText("seasons.summer"));
 			}
-			else if (cambium.getValue().equals(SylpheCambiumType.WINTER))
-			{
+			else if (cambium.getValue().equals(SylpheCambiumType.WINTER)) {
 				lrub.setContent(I18n.getText("seasons.winter"));
 			}
-			else
-			{
+			else {
 				lrub.setContent(" ");
 			}
 			
@@ -172,23 +163,21 @@ public class SylpheToTridasDefaults extends TridasMetadataFieldSet implements
 		}
 		
 		// Set sapwood info
-		if(getIntegerDefaultValue(DefaultFields.SAPWOOD_START).getValue()!=null)
-		{
-			if (getBooleanDefaultValue(DefaultFields.BARK).getValue()!=null || cambium.getValue()!=null)
-			{
-				// Bark or cambium is present as well as sapwood so sapwood must be complete
+		if (getIntegerDefaultValue(DefaultFields.SAPWOOD_START).getValue() != null) {
+			if (getBooleanDefaultValue(DefaultFields.BARK).getValue() != null || cambium.getValue() != null) {
+				// Bark or cambium is present as well as sapwood so sapwood must be
+				// complete
 				sapwood.setPresence(ComplexPresenceAbsence.COMPLETE);
 			}
-			else
-			{
+			else {
 				// No bark or cambium so sapwood incomplete
 				sapwood.setPresence(ComplexPresenceAbsence.INCOMPLETE);
 			}
-		
+			
 			// Calculate number of sapwood rings
-			if(getIntegerDefaultValue(DefaultFields.RING_COUNT).getValue()!=null)
-			{
-				Integer sapwoodCount = getIntegerDefaultValue(DefaultFields.RING_COUNT).getValue()-getIntegerDefaultValue(DefaultFields.SAPWOOD_START).getValue();
+			if (getIntegerDefaultValue(DefaultFields.RING_COUNT).getValue() != null) {
+				Integer sapwoodCount = getIntegerDefaultValue(DefaultFields.RING_COUNT).getValue()
+						- getIntegerDefaultValue(DefaultFields.SAPWOOD_START).getValue();
 				sapwood.setNrOfSapwoodRings(sapwoodCount);
 			}
 		}
@@ -202,8 +191,5 @@ public class SylpheToTridasDefaults extends TridasMetadataFieldSet implements
 		series.setWoodCompleteness(wc);
 		return series;
 	}
-	
-	
-
 	
 }

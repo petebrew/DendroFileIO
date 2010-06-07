@@ -31,25 +31,21 @@ import org.tridas.schema.Year;
 
 /**
  * <p>
- * A BC/AD calendar year in the form of a signed integer
- * It normally acts similar to an integer, but skips the
- * mythical "year 0".
+ * A BC/AD calendar year in the form of a signed integer It normally acts similar to an
+ * integer, but skips the mythical "year 0".
  * </p>
- *
  * <p>
  * In <code>Year</code> math:
  * </p>
- *
  * <ul>
  * <li>-1 + 1 = 1</li>
  * <li>2 - 4 = -3</li>
  * </ul>
- *
  * <p>
- * Years, like Numbers and Strings, are immutable, so they are not Cloneable
- * (there's no reason for them to be).
+ * Years, like Numbers and Strings, are immutable, so they are not Cloneable (there's no
+ * reason for them to be).
  * </p>
- *
+ * 
  * @author Ken Harris &lt;kbh7 <i style="color: gray">at</i> cornell <i
  *         style="color: gray">dot</i> edu&gt;
  * @version $Id: Year.java 1671 2009-04-29 22:11:14Z lucasm $
@@ -57,23 +53,23 @@ import org.tridas.schema.Year;
 public final class SafeIntYear implements Comparable {
 	/** The default year: 1001. */
 	public static final SafeIntYear DEFAULT = new SafeIntYear(1001);
-
+	
 	/** Holds the year value as an <code>int</code>. */
 	private final int y;
-
+	
 	/**
 	 * Default constructor. Uses <code>DEFAULT</code> as the year.
-	 *
+	 * 
 	 * @see #DEFAULT
 	 */
 	public SafeIntYear() {
 		y = DEFAULT.y;
 	}
-
+	
 	/**
 	 * Constructor for <code>int</code>s. Uses <code>DEFAULT</code> as the year
 	 * if an invalid value is passed.
-	 *
+	 * 
 	 * @param x
 	 *            the year value, as an int
 	 * @see #DEFAULT
@@ -83,37 +79,35 @@ public final class SafeIntYear implements Comparable {
 	}
 	
 	/**
-	 * Construct a SafeIntYear from a native TridasYear.  The TridasYear allows the
-	 * use of suffixes (BP, AD, BC) but does not know how to handle the 0BC/AD 
+	 * Construct a SafeIntYear from a native TridasYear. The TridasYear allows the
+	 * use of suffixes (BP, AD, BC) but does not know how to handle the 0BC/AD
 	 * problem.
 	 * 
 	 * @param x
 	 */
-	public SafeIntYear(Year x){
+	public SafeIntYear(Year x) {
 		int val = 0;
-		switch (x.getSuffix())
-		{
-		case AD:
-			val = x.getValue().intValue();
-			break;
-		case BC:
-			val = x.getValue().negate().intValue();
-			break;
-		case BP:
-			SafeIntYear radioCarbonEra = new SafeIntYear(1950);
-			val =  Integer.parseInt(radioCarbonEra.add(Integer.parseInt(x.getValue().negate().toString())).toString());
-			break;
+		switch (x.getSuffix()) {
+			case AD :
+				val = x.getValue().intValue();
+				break;
+			case BC :
+				val = x.getValue().negate().intValue();
+				break;
+			case BP :
+				SafeIntYear radioCarbonEra = new SafeIntYear(1950);
+				val = Integer.parseInt(radioCarbonEra.add(Integer.parseInt(x.getValue().negate().toString()))
+						.toString());
+				break;
 		}
 		
 		y = (val == 0 ? DEFAULT.y : val);
 	}
-
-	
 	
 	/**
 	 * Constructor from (row,col) pair. Assumes 10-year rows. The column should
 	 * always be between 0 and 9, inclusive.
-	 *
+	 * 
 	 * @param row
 	 *            the row; row 0 is the decade ending in year 9
 	 * @param col
@@ -121,46 +115,49 @@ public final class SafeIntYear implements Comparable {
 	 */
 	public SafeIntYear(int row, int col) {
 		int yy = 10 * row + col;
-		if (yy == 0)
+		if (yy == 0) {
 			yy = DEFAULT.y; // should this be 1?
+		}
 		y = yy;
 	}
-
+	
 	/**
-	 * Constructor from String. No AD/BC; reads it like C's
-	 * <code>scanf(" %d ", &y)</code> would.
-	 *
+	 * Constructor from String. No AD/BC; reads it like C's <code>scanf(" %d ", &y)</code>
+	 * would.
+	 * 
 	 * @exception NumberFormatException
 	 *                if the String cannot be parsed, or is equal to zero
 	 * @see java.lang.String
 	 */
 	public SafeIntYear(String s) throws NumberFormatException {
 		y = Integer.parseInt(s.trim());
-		if (y == 0)
+		if (y == 0) {
 			throw new NumberFormatException();
+		}
 	}
-
+	
 	/**
-	 * Constructor from String. No AD/BC; reads it like C's
-	 * <code>scanf(" %d ", &y)</code> would. This constructor is for
+	 * Constructor from String. No AD/BC; reads it like C's <code>scanf(" %d ", &y)</code>
+	 * would. This constructor is for
 	 * zero-year-systems, if <code>zys</code> is true, i.e., -5 means 6 BC.
-	 *
+	 * 
 	 * @exception NumberFormatException
 	 *                if the String cannot be parsed
 	 * @see java.lang.String
 	 */
 	public SafeIntYear(String s, boolean zys) throws NumberFormatException {
 		int yy = Integer.parseInt(s.trim());
-
+		
 		// back up a year, if this system assumed a zero-year
-		if (zys && yy <= 0)
+		if (zys && yy <= 0) {
 			yy--;
+		}
 		y = yy;
 	}
-
+	
 	/**
 	 * Convert to a String. No "AD"/"BC"; simply the integer value.
-	 *
+	 * 
 	 * @return this year as a String
 	 * @see java.lang.String
 	 */
@@ -168,7 +165,7 @@ public final class SafeIntYear implements Comparable {
 	public String toString() {
 		return String.valueOf(y);
 	}
-
+	
 	/**
 	 * This method always throws UnsupportedOperationException. It's not
 	 * implemented, and don't even think about implementing it yourself! It
@@ -179,7 +176,7 @@ public final class SafeIntYear implements Comparable {
 	 * <code>Integer.parseInt(y.toString())</code>. That way you know you're
 	 * doing it to get the int, and not for imagined performance or convenience
 	 * reasons.
-	 *
+	 * 
 	 * @return never returns
 	 * @exception UnsupportedOperationException
 	 *                always!
@@ -188,64 +185,65 @@ public final class SafeIntYear implements Comparable {
 		// i pity th' fool who tries to use intvalue!
 		throw new UnsupportedOperationException();
 	}
-
-	public Year toTridasYear(DatingSuffix suffix){
+	
+	public Year toTridasYear(DatingSuffix suffix) {
 		
 		Year yr = new Year();
 		yr.setCertainty(Certainty.EXACT);
-	
-		if (suffix==DatingSuffix.AD || suffix==DatingSuffix.BC)
-		{
+		
+		if (suffix == DatingSuffix.AD || suffix == DatingSuffix.BC) {
 			yr.setValue(BigInteger.valueOf(y).abs());
-			if(y>0) {
-				yr.setSuffix(DatingSuffix.AD);	
+			if (y > 0) {
+				yr.setSuffix(DatingSuffix.AD);
 			}
-			else{
+			else {
 				yr.setSuffix(DatingSuffix.BC);
 			}
 		}
-		else if (suffix==DatingSuffix.BP)
-		{
+		else if (suffix == DatingSuffix.BP) {
 			yr.setSuffix(DatingSuffix.BP);
-			if(y>0) yr.setValue(BigInteger.valueOf(1950-y));
-			if(y<0) yr.setValue((BigInteger.valueOf(y).negate()).add((BigInteger.valueOf(1950))));
+			if (y > 0) {
+				yr.setValue(BigInteger.valueOf(1950 - y));
+			}
+			if (y < 0) {
+				yr.setValue((BigInteger.valueOf(y).negate()).add((BigInteger.valueOf(1950))));
+			}
 		}
-
 		
 		return yr;
 	}
 	
 	/**
 	 * Return true, iff this is year 1. (This actually comes up fairly often.)
-	 *
+	 * 
 	 * @return true iff this is year 1
 	 */
 	public boolean isYearOne() {
 		return (y == 1);
 	}
-
+	
 	/**
 	 * The maximum (later) of two years.
-	 *
+	 * 
 	 * @return the later of two years
 	 */
 	public static SafeIntYear max(SafeIntYear y1, SafeIntYear y2) {
 		return (y1.y > y2.y ? y1 : y2);
 	}
-
+	
 	/**
 	 * The minimum (earlier) of two years.
-	 *
+	 * 
 	 * @return the earlier of two years
 	 */
 	public static SafeIntYear min(SafeIntYear y1, SafeIntYear y2) {
 		return (y1.y < y2.y ? y1 : y2);
 	}
-
+	
 	/**
 	 * Adds (or subtracts, for negative values) some number of years, and
 	 * generates a new Year object.
-	 *
+	 * 
 	 * @param dy
 	 *            the number of years to add (subtract)
 	 * @see #diff
@@ -253,23 +251,25 @@ public final class SafeIntYear implements Comparable {
 	public SafeIntYear add(int dy) {
 		// copy, and convert to zys
 		int r = y;
-		if (r < 0)
+		if (r < 0) {
 			r++;
-
+		}
+		
 		// add dy
 		r += dy;
-
+		
 		// convert back, and return
-		if (r <= 0)
+		if (r <= 0) {
 			r--;
+		}
 		return new SafeIntYear(r);
 	}
-
+	
 	/**
 	 * Calculate the number of years difference between two years. That is,
-	 * there are this many years difference between <code>this</code> and
-	 * <code>y2</code>; if they are equal, this number is zero.
-	 *
+	 * there are this many years difference between <code>this</code> and <code>y2</code>;
+	 * if they are equal, this number is zero.
+	 * 
 	 * @param y2
 	 *            the year to subtract
 	 * @return the number of years difference between <code>this</code> and
@@ -279,51 +279,54 @@ public final class SafeIntYear implements Comparable {
 	public int diff(SafeIntYear y2) {
 		// copy, and convert to zys
 		int i1 = y;
-		if (i1 < 0)
+		if (i1 < 0) {
 			i1++;
-
+		}
+		
 		int i2 = y2.y;
-		if (i2 < 0)
+		if (i2 < 0) {
 			i2++;
-
+		}
+		
 		// subtract, and return
 		return i1 - i2;
 	}
-
+	
 	/**
 	 * Computes <code>this</code> modulo <code>m</code>. Always gives a positive
 	 * result, even for negative numbers, so it is suitable for computing a grid
 	 * position for a span of years.
-	 *
+	 * 
 	 * @param m
 	 *            base for modulo
 	 * @return the year modulo <code>m</code>
 	 */
 	public int mod(int m) {
 		int r = y % m;
-		if (r < 0)
+		if (r < 0) {
 			r += m;
+		}
 		return r;
 	}
-
+	
 	/**
 	 * Determines what row this year would be, if years were in a grid 10 wide,
 	 * with the left column years ending in zero. Row 0 is years 1 through 9.
-	 *
+	 * 
 	 * @return this year's row
 	 * @see #column
 	 */
 	public int row() {
 		int z = y / 10;
-		if (y < 0 && y % 10 != 0)
+		if (y < 0 && y % 10 != 0) {
 			z--;
+		}
 		return z;
 	}
-
+	
 	/**
 	 * Determines what column this year would be, if years were in a grid 10
 	 * wide, with the left column years ending in zero.
-	 *
 	 * Works for BC years, also:
 	 * <table border="1" cellspacing="0">
 	 * <tr>
@@ -377,17 +380,17 @@ public final class SafeIntYear implements Comparable {
 	 * <td>19</td>
 	 * </tr>
 	 * </table>
-	 *
+	 * 
 	 * @return this year's column
 	 * @see #row
 	 */
 	public int column() {
 		return mod(10);
 	}
-
+	
 	/**
 	 * Compares this and <code>o</code>.
-	 *
+	 * 
 	 * @see java.lang.Comparable
 	 * @param o
 	 *            Object to compare
@@ -396,23 +399,23 @@ public final class SafeIntYear implements Comparable {
 	 *             if o is not a Year
 	 */
 	public int compareTo(Object o) {
-		return this.y - ((SafeIntYear) o).y;
+		return y - ((SafeIntYear) o).y;
 	}
-
+	
 	/**
 	 * Returns <code>true</code> if and only if <code>this</code> is equal to
 	 * <code>y2</code>.
-	 *
+	 * 
 	 * @param y2
 	 *            the year to compare <code>this</code> to
-	 * @return <code>true</code> if <code>this</code> is equal to
-	 *         <code>y2</code>, else <code>false</code>
+	 * @return <code>true</code> if <code>this</code> is equal to <code>y2</code>, else
+	 *         <code>false</code>
 	 */
 	@Override
 	public boolean equals(Object y2) {
 		return (y == ((SafeIntYear) y2).y);
 	}
-
+	
 	// since i define equals(), i need to define hashCode()
 	@Override
 	public int hashCode() {
@@ -421,16 +424,17 @@ public final class SafeIntYear implements Comparable {
 		// intValue(), so let's do something weird to it first.
 		return y * y * y;
 	}
-
+	
 	// THESE TWO METHODS ARE BUGGY AND NEED WORK!
 	public SafeIntYear cropToCentury() {
 		return add(-mod(100)); // is this correct?
 	}
-
+	
 	public SafeIntYear nextCentury() {
 		SafeIntYear tmp = add(100); // COMPLETELY INCORRECT!
-		if (tmp.y == 101)
+		if (tmp.y == 101) {
 			return new SafeIntYear(100);
+		}
 		return tmp;
 	}
 }

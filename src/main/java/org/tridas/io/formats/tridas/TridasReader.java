@@ -26,14 +26,14 @@ import org.tridas.schema.TridasProject;
 import org.xml.sax.SAXException;
 
 /**
- * Reader for the TRiDaS file format.  This is little more than a
+ * Reader for the TRiDaS file format. This is little more than a
  * wrapper around the JaXB unmarshaller
  * 
  * @see org.tridas.io.formats.tridas
  * @author peterbrewer
  */
 public class TridasReader extends AbstractDendroFileReader {
-
+	
 	private static final SimpleLogger log = new SimpleLogger(TridasReader.class);
 	
 	private TridasProject project = null;
@@ -43,13 +43,13 @@ public class TridasReader extends AbstractDendroFileReader {
 	}
 	
 	@Override
-	protected void parseFile(String[] argFileString,
-			IMetadataFieldSet argDefaultFields) throws InvalidDendroFileException{
+	protected void parseFile(String[] argFileString, IMetadataFieldSet argDefaultFields)
+			throws InvalidDendroFileException {
 		
 		// Build the string array into a FileReader
 		StringBuilder fileString = new StringBuilder();
-		for(String s : argFileString){
-			fileString.append(s+"\n");
+		for (String s : argFileString) {
+			fileString.append(s + "\n");
 		}
 		StringReader reader = new StringReader(fileString.toString());
 		// Validate the file against the TRiDaS schema
@@ -59,47 +59,42 @@ public class TridasReader extends AbstractDendroFileReader {
 		try {
 			schema = factory.newSchema(file);
 		} catch (Exception e) {
-			// if we can't find the schema it's ok, doesn't mean it's not an invalid dendro file
-			log.error(I18n.getText("tridas.schemaMissing", 
-					e.getLocalizedMessage()));
-			addWarning(new ConversionWarning(WarningType.INVALID, I18n.getText("tridas.schemaMissing", 
-							e.getLocalizedMessage())));
+			// if we can't find the schema it's ok, doesn't mean it's not an invalid
+			// dendro file
+			log.error(I18n.getText("tridas.schemaMissing", e.getLocalizedMessage()));
+			addWarning(new ConversionWarning(WarningType.INVALID, I18n.getText("tridas.schemaMissing", e
+					.getLocalizedMessage())));
 		}
 		Validator validator = schema.newValidator();
 		StreamSource source = new StreamSource();
 		source.setReader(reader);
-		try{
+		try {
 			validator.validate(source);
-		}catch (SAXException ex) {
-			throw new InvalidDendroFileException(
-					I18n.getText("tridas.schemaException", 
-							ex.getLocalizedMessage()), 1);
-
+		} catch (SAXException ex) {
+			throw new InvalidDendroFileException(I18n.getText("tridas.schemaException", ex.getLocalizedMessage()), 1);
+			
 		} catch (IOException e) {
-			throw new InvalidDendroFileException(
-					I18n.getText("tridas.schemaException", 
-							e.getLocalizedMessage()), 1);
+			throw new InvalidDendroFileException(I18n.getText("tridas.schemaException", e.getLocalizedMessage()), 1);
 		}
-		
 		
 		// All is ok so now unmarshall to Java classes
 		JAXBContext jc;
 		reader = new StringReader(fileString.toString());
 		try {
-			jc = JAXBContext.newInstance( "org.tridas.schema" );
+			jc = JAXBContext.newInstance("org.tridas.schema");
 			Unmarshaller u = jc.createUnmarshaller();
 			// Read the file into the project
 			project = (TridasProject) u.unmarshal(reader);
 		} catch (JAXBException e2) {
 			addWarning(new ConversionWarning(WarningType.DEFAULT, I18n.getText("fileio.loadfailed")));
-		} 
+		}
 	}
 	
 	@Override
 	public String[] getFileExtensions() {
-		return new String[] {"xml"};
+		return new String[]{"xml"};
 	}
-
+	
 	/**
 	 * @see org.tridas.io.IDendroFileReader#getProject()
 	 */
@@ -115,7 +110,7 @@ public class TridasReader extends AbstractDendroFileReader {
 	public IMetadataFieldSet getDefaults() {
 		return null;
 	}
-
+	
 	@Override
 	public int getCurrentLineNumber() {
 		// TODO Auto-generated method stub
@@ -129,7 +124,7 @@ public class TridasReader extends AbstractDendroFileReader {
 	public String getDescription() {
 		return I18n.getText("tridas.about.description");
 	}
-
+	
 	/**
 	 * @see org.tridas.io.IDendroFileReader#getFullName()
 	 */
@@ -137,7 +132,7 @@ public class TridasReader extends AbstractDendroFileReader {
 	public String getFullName() {
 		return I18n.getText("tridas.about.fullName");
 	}
-
+	
 	/**
 	 * @see org.tridas.io.IDendroFileReader#getShortName()
 	 */
@@ -145,7 +140,7 @@ public class TridasReader extends AbstractDendroFileReader {
 	public String getShortName() {
 		return I18n.getText("tridas.about.shortName");
 	}
-
+	
 	/**
 	 * @see org.tridas.io.AbstractDendroFileReader#resetReader()
 	 */

@@ -2,12 +2,13 @@ package org.tridas.io.maventests;
 
 import java.io.IOException;
 
+import junit.framework.TestCase;
+
 import org.grlea.log.SimpleLogger;
 import org.tridas.io.formats.heidelberg.HeidelbergWriter;
 import org.tridas.io.formats.heidelberg.TridasToHeidelbergDefaults;
 import org.tridas.io.formats.heidelberg.TridasToHeidelbergDefaults.HeidelbergField;
 import org.tridas.io.formats.tridas.TridasReader;
-import org.tridas.io.formats.tridas.TridasWriter;
 import org.tridas.io.formats.tucson.TridasToTucsonDefaults;
 import org.tridas.io.formats.tucson.TucsonWriter;
 import org.tridas.io.formats.tucson.TridasToTucsonDefaults.TucsonField;
@@ -15,12 +16,11 @@ import org.tridas.io.warnings.IncorrectDefaultFieldsException;
 import org.tridas.io.warnings.InvalidDendroFileException;
 import org.tridas.schema.TridasProject;
 
-import junit.framework.TestCase;
-
 public class OverridingTest extends TestCase {
 	private static final SimpleLogger log = new SimpleLogger(OverridingTest.class);
 	
-	public void testHeidelbergOverriding() throws IOException, InvalidDendroFileException, IncorrectDefaultFieldsException{
+	public void testHeidelbergOverriding() throws IOException, InvalidDendroFileException,
+			IncorrectDefaultFieldsException {
 		// load tridas file
 		TridasReader reader = new TridasReader();
 		reader.loadFile("TestData/TRiDaS/Tridas4.xml");
@@ -41,11 +41,11 @@ public class OverridingTest extends TestCase {
 		String[] file = writer.getFiles()[0].saveToString();
 		assertNotNull(file);
 		
-		for(String s : file){
-			if(s.equals("KeyCode=TestOverriding")){
+		for (String s : file) {
+			if (s.equals("KeyCode=TestOverriding")) {
 				keyCodeFound = true;
 			}
-			if(s.equals("DateBegin=0")){
+			if (s.equals("DateBegin=0")) {
 				dateBeginFound = true;
 			}
 		}
@@ -63,11 +63,11 @@ public class OverridingTest extends TestCase {
 		file = writer.getFiles()[1].saveToString();
 		assertNotNull(file);
 		
-		for(String s : file){
-			if(s.equals("KeyCode=TestOverriding")){
+		for (String s : file) {
+			if (s.equals("KeyCode=TestOverriding")) {
 				keyCodeFound = true;
 			}
-			if(s.equals("DateBegin=0")){
+			if (s.equals("DateBegin=0")) {
 				dateChanged = true;
 			}
 		}
@@ -75,7 +75,7 @@ public class OverridingTest extends TestCase {
 		assertFalse(dateChanged);
 	}
 	
-	public void testTucsanOverriding() throws IOException, InvalidDendroFileException, IncorrectDefaultFieldsException{
+	public void testTucsanOverriding() throws IOException, InvalidDendroFileException, IncorrectDefaultFieldsException {
 		// load tridas file
 		TridasReader reader = new TridasReader();
 		reader.loadFile("TestData/TRiDaS/Tridas4.xml");
@@ -96,11 +96,11 @@ public class OverridingTest extends TestCase {
 		String[] file = writer.getFiles()[0].saveToString();
 		assertNotNull(file);
 		
-		for(String s : file){
-			if(s.contains("TestOverriding")){
+		for (String s : file) {
+			if (s.contains("TestOverriding")) {
 				siteNameFound = true;
 			}
-			if(s.contains("MyInvestigator")){
+			if (s.contains("MyInvestigator")) {
 				investigatorFound = true;
 			}
 		}
@@ -116,12 +116,11 @@ public class OverridingTest extends TestCase {
 		file = writer.getFiles()[1].saveToString();
 		assertNotNull(file);
 		
-		
-		for(String s : file){
-			if(s.contains("TestOverriding")){
+		for (String s : file) {
+			if (s.contains("TestOverriding")) {
 				siteNameFound = true;
 			}
-			if(s.contains("MyInvestigator")){
+			if (s.contains("MyInvestigator")) {
 				investegatorChanged = true;
 			}
 		}

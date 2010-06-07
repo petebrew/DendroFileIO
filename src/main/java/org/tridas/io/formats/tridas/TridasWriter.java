@@ -19,7 +19,7 @@ import org.tridas.schema.TridasRadius;
 import org.tridas.schema.TridasSample;
 
 /**
- * Writer for the TRiDaS file format.  This is little more than a
+ * Writer for the TRiDaS file format. This is little more than a
  * wrapper around the JaXB marshaller
  * 
  * @see org.tridas.io.formats.tridas
@@ -28,12 +28,12 @@ import org.tridas.schema.TridasSample;
 public class TridasWriter extends AbstractDendroCollectionWriter {
 	
 	private INamingConvention naming = new HierarchicalNamingConvention();
-
+	
 	/**
 	 * Constructor for the writer that creates TRiDaS XML files from
-	 * TRiDaS java classes. 
+	 * TRiDaS java classes.
 	 */
-	public TridasWriter(){
+	public TridasWriter() {
 		super(TridasMetadataFieldSet.class);
 	}
 	
@@ -41,7 +41,7 @@ public class TridasWriter extends AbstractDendroCollectionWriter {
 	public void parseTridasProject(TridasProject p, IMetadataFieldSet argDefaults)
 			throws IncompleteTridasDataException, ConversionWarningException {
 		
-		if(p==null){
+		if (p == null) {
 			throw new IncompleteTridasDataException("Project is null!");
 			
 		}
@@ -57,19 +57,19 @@ public class TridasWriter extends AbstractDendroCollectionWriter {
 		TridasMeasurementSeries series = null;
 		
 		ArrayList<TridasObject> objects = TridasHierarchyHelper.getObjectList(project);
-		if(objects.size() == 1){
+		if (objects.size() == 1) {
 			object = objects.get(0);
 			
-			if(object.getElements().size() == 1){
+			if (object.getElements().size() == 1) {
 				element = object.getElements().get(0);
 				
-				if(element.getSamples().size() == 1){
+				if (element.getSamples().size() == 1) {
 					sample = element.getSamples().get(0);
 					
-					if(sample.getRadiuses().size() == 1){
+					if (sample.getRadiuses().size() == 1) {
 						radius = sample.getRadiuses().get(0);
 						
-						if(radius.getMeasurementSeries().size() == 1){
+						if (radius.getMeasurementSeries().size() == 1) {
 							series = radius.getMeasurementSeries().get(0);
 						}
 					}
@@ -78,10 +78,9 @@ public class TridasWriter extends AbstractDendroCollectionWriter {
 		}
 		
 		naming.registerFile(file, project, object, element, sample, radius, series);
-		this.addToFileList(file);
+		addToFileList(file);
 	}
-
-
+	
 	/**
 	 * @see org.tridas.io.IDendroCollectionWriter#getNamingConvention()
 	 */
@@ -89,7 +88,7 @@ public class TridasWriter extends AbstractDendroCollectionWriter {
 	public INamingConvention getNamingConvention() {
 		return naming;
 	}
-
+	
 	/**
 	 * @see org.tridas.io.IDendroCollectionWriter#setNamingConvention(org.tridas.io.naming.INamingConvention)
 	 */
@@ -113,7 +112,7 @@ public class TridasWriter extends AbstractDendroCollectionWriter {
 	public String getDescription() {
 		return I18n.getText("tridas.about.description");
 	}
-
+	
 	/**
 	 * @see org.tridas.io.IDendroFileReader#getFullName()
 	 */
@@ -121,7 +120,7 @@ public class TridasWriter extends AbstractDendroCollectionWriter {
 	public String getFullName() {
 		return I18n.getText("tridas.about.fullName");
 	}
-
+	
 	/**
 	 * @see org.tridas.io.IDendroFileReader#getShortName()
 	 */

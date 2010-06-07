@@ -2,6 +2,7 @@ package org.tridas.io.formats.belfastapple;
 
 import java.util.ArrayList;
 import java.util.List;
+
 import org.tridas.interfaces.ITridasSeries;
 import org.tridas.io.AbstractDendroCollectionWriter;
 import org.tridas.io.I18n;
@@ -21,124 +22,115 @@ import org.tridas.schema.TridasRadiusPlaceholder;
 import org.tridas.schema.TridasSample;
 
 public class BelfastAppleWriter extends AbstractDendroCollectionWriter {
-
+	
 	IMetadataFieldSet defaults;
 	INamingConvention naming = new UUIDNamingConvention();
 	
 	public BelfastAppleWriter() {
 		super(TridasToBelfastAppleDefaults.class);
 	}
-
+	
 	@Override
-	protected void parseTridasProject(TridasProject argProject,
-			IMetadataFieldSet argDefaults)
+	protected void parseTridasProject(TridasProject argProject, IMetadataFieldSet argDefaults)
 			throws IncompleteTridasDataException, ConversionWarningException {
 		defaults = argDefaults;
 		String objecttitle = "";
 		String sampletitle = "";
 		
-		
 		ArrayList<ITridasSeries> seriesList = new ArrayList<ITridasSeries>();
 		
 		// Grab all derivedSeries from project
-		try{
-			List<TridasDerivedSeries> lst = argProject.getDerivedSeries();	
-			for (TridasDerivedSeries ds : lst)
-			{
+		try {
+			List<TridasDerivedSeries> lst = argProject.getDerivedSeries();
+			for (TridasDerivedSeries ds : lst) {
 				// Create a belfastappleFile for each and add to file list
 				BelfastAppleFile file = new BelfastAppleFile(defaults, this);
 				naming.registerFile(file, argProject, ds);
 				file.setSeries(ds);
 				file.setObjectTitle(ds.getTitle());
 				file.setSampleTitle(ds.getTitle());
-				this.addToFileList(file);
-			}		
-		} catch (NullPointerException e){}
-
+				addToFileList(file);
+			}
+		} catch (NullPointerException e) {}
+		
 		// Loop through Objects
 		List<TridasObject> obList;
-		try{
+		try {
 			obList = argProject.getObjects();
-			} catch (NullPointerException e)
-			{
-				throw new IncompleteTridasDataException(I18n.getText("fileio.objectMissing"));
-			}	
-		for (TridasObject obj : obList)
-		{
-			if(obj.getTitle()!=null) objecttitle=obj.getTitle();
+		} catch (NullPointerException e) {
+			throw new IncompleteTridasDataException(I18n.getText("fileio.objectMissing"));
+		}
+		for (TridasObject obj : obList) {
+			if (obj.getTitle() != null) {
+				objecttitle = obj.getTitle();
+			}
 			
 			// Loop through Elements
 			ArrayList<TridasElement> elList;
-			try{
+			try {
 				elList = TridasHierarchyHelper.getElementList(obj);
-				} catch (NullPointerException e)
-				{
-					throw new IncompleteTridasDataException(I18n.getText("fileio.elementMissing"));
-				}
+			} catch (NullPointerException e) {
+				throw new IncompleteTridasDataException(I18n.getText("fileio.elementMissing"));
+			}
 			
-			for(TridasElement el : elList)
-			{
+			for (TridasElement el : elList) {
 				// Loop through Samples
 				List<TridasSample> sList;
-				try{
+				try {
 					sList = el.getSamples();
-				} catch (NullPointerException e)
-				{
+				} catch (NullPointerException e) {
 					throw new IncompleteTridasDataException(I18n.getText("fileio.sampleMissing"));
 				}
 				
-				for(TridasSample s : sList)
-				{		
-					if(s.getTitle()!=null) sampletitle=s.getTitle();
-
+				for (TridasSample s : sList) {
+					if (s.getTitle() != null) {
+						sampletitle = s.getTitle();
+					}
+					
 					// Check this isn't a placeholder
 					TridasRadiusPlaceholder rph = null;
-					try{
+					try {
 						rph = s.getRadiusPlaceholder();
-					} catch (NullPointerException e){}
+					} catch (NullPointerException e) {}
 					
-					if(rph!=null) {	continue; }
-				
+					if (rph != null) {
+						continue;
+					}
+					
 					// Loop through radii
 					List<TridasRadius> rList;
-					try{
+					try {
 						rList = s.getRadiuses();
-					} catch (NullPointerException e)
-					{
+					} catch (NullPointerException e) {
 						throw new IncompleteTridasDataException(I18n.getText("fileio.radiusMissing"));
 					}
 					
-					for(TridasRadius r : rList)
-					{
+					for (TridasRadius r : rList) {
 						// Loop through series
 						List<TridasMeasurementSeries> serList = null;
-						try{
+						try {
 							serList = r.getMeasurementSeries();
 						} catch (NullPointerException e) {}
-
-						if(serList!=null)
-						{
-							for (TridasMeasurementSeries ser : serList)
-							{
+						
+						if (serList != null) {
+							for (TridasMeasurementSeries ser : serList) {
 								// Create a belfastappleFile for each and add to file list
 								BelfastAppleFile file = new BelfastAppleFile(defaults, this);
 								naming.registerFile(file, argProject, obj, el, s, r, ser);
 								file.setSeries(ser);
 								file.setObjectTitle(objecttitle);
 								file.setSampleTitle(sampletitle);
-								this.addToFileList(file);	
+								addToFileList(file);
 							}
-						}	
+						}
 					}
-				}	
+				}
 			}
 		}
 		
-
 		// No series found
-		if (this.getFileList().size()==0)
-		{
-			throw new IncompleteTridasDataException(I18n.getText("fileio.noData"));	
+		if (getFileList().size() == 0) {
+			throw new IncompleteTridasDataException(I18n.getText("fileio.noData"));
 		}
 		
 	}
@@ -148,9 +140,9 @@ public class BelfastAppleWriter extends AbstractDendroCollectionWriter {
 	 */
 	@Override
 	public IMetadataFieldSet getDefaults() {
-		return this.defaults;
+		return defaults;
 	}
-
+	
 	/**
 	 * @see org.tridas.io.IDendroCollectionWriter#getDescription()
 	 */
@@ -158,7 +150,7 @@ public class BelfastAppleWriter extends AbstractDendroCollectionWriter {
 	public String getDescription() {
 		return I18n.getText("belfastapple.about.description");
 	}
-
+	
 	/**
 	 * @see org.tridas.io.IDendroCollectionWriter#getFullName()
 	 */
@@ -166,7 +158,7 @@ public class BelfastAppleWriter extends AbstractDendroCollectionWriter {
 	public String getFullName() {
 		return I18n.getText("belfastapple.about.fullName");
 	}
-
+	
 	/**
 	 * @see org.tridas.io.IDendroCollectionWriter#getShortName()
 	 */
@@ -175,7 +167,6 @@ public class BelfastAppleWriter extends AbstractDendroCollectionWriter {
 		return I18n.getText("belfastapple.about.shortName");
 	}
 	
-
 	/**
 	 * @see org.tridas.io.IDendroCollectionWriter#getNamingConvention()
 	 */
@@ -183,7 +174,7 @@ public class BelfastAppleWriter extends AbstractDendroCollectionWriter {
 	public INamingConvention getNamingConvention() {
 		return naming;
 	}
-
+	
 	/**
 	 * @see org.tridas.io.IDendroCollectionWriter#setNamingConvention(org.tridas.io.naming.INamingConvention)
 	 */
@@ -191,5 +182,5 @@ public class BelfastAppleWriter extends AbstractDendroCollectionWriter {
 	public void setNamingConvention(INamingConvention argConvension) {
 		naming = argConvension;
 	}
-
+	
 }

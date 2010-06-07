@@ -5,6 +5,7 @@ package org.tridas.io.formats.trims;
 
 import java.text.SimpleDateFormat;
 import java.util.Calendar;
+
 import org.tridas.io.defaults.AbstractMetadataFieldSet;
 import org.tridas.io.defaults.values.IntegerDefaultValue;
 import org.tridas.io.defaults.values.StringDefaultValue;
@@ -16,14 +17,11 @@ import org.tridas.io.defaults.values.StringDefaultValue;
  * @author peterbrewer
  */
 public class TridasToTrimsDefaults extends AbstractMetadataFieldSet {
-
-	public enum TrimsField{
-		MEASURING_DATE,
-		AUTHOR,
-		START_YEAR;
+	
+	public enum TrimsField {
+		MEASURING_DATE, AUTHOR, START_YEAR;
 	}
 	
-
 	/**
 	 * @see org.tridas.io.defaults.AbstractMetadataFieldSet#initDefaultValues()
 	 */
@@ -33,12 +31,11 @@ public class TridasToTrimsDefaults extends AbstractMetadataFieldSet {
 		setDefaultValue(TrimsField.AUTHOR, new StringDefaultValue("XX", 2, 2));
 		setDefaultValue(TrimsField.START_YEAR, new IntegerDefaultValue(1001));
 	}
-		
-	private String getTodaysDateTrimsStyle(){
-        Calendar calendar = Calendar.getInstance();
-        SimpleDateFormat dateFormat = new SimpleDateFormat("dd/MM/yyyy");
-        return dateFormat.format(calendar.getTime());
-	}
 	
+	private String getTodaysDateTrimsStyle() {
+		Calendar calendar = Calendar.getInstance();
+		SimpleDateFormat dateFormat = new SimpleDateFormat("dd/MM/yyyy");
+		return dateFormat.format(calendar.getTime());
+	}
 	
 }
