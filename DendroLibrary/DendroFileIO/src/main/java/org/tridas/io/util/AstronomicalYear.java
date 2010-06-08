@@ -244,8 +244,19 @@ public final class AstronomicalYear implements Comparable {
 	 * @see #add
 	 */
 	public int diff(AstronomicalYear y2) {
-	
-		return y - y2.y;
+		// copy, and convert to zys
+		int i1 = y;
+		if (i1 < 0) {
+			i1++;
+		}
+		
+		int i2 = y2.y;
+		if (i2 < 0) {
+			i2++;
+		}
+		
+		// subtract, and return
+		return i1 - i2;
 	}
 	
 	/**
@@ -381,5 +392,16 @@ public final class AstronomicalYear implements Comparable {
 		return y * y * y;
 	}
 	
-
+	// THESE TWO METHODS ARE BUGGY AND NEED WORK!
+	public AstronomicalYear cropToCentury() {
+		return add(-mod(100)); // is this correct?
+	}
+	
+	public AstronomicalYear nextCentury() {
+		AstronomicalYear tmp = add(100); // COMPLETELY INCORRECT!
+		if (tmp.y == 101) {
+			return new AstronomicalYear(100);
+		}
+		return tmp;
+	}
 }

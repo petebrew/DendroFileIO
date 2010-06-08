@@ -138,18 +138,18 @@ public final class SafeIntYear implements Comparable {
 	
 	/**
 	 * Constructor from String. No AD/BC; reads it like C's <code>scanf(" %d ", &y)</code>
-	 * would. This constructor is for
-	 * zero-year-systems, if <code>zys</code> is true, i.e., -5 means 6 BC.
+	 * would. If isAstronomical is true, then it subtracts 1 from all values which are <=0.
+	 * i.e., -5 means 6 BC.
 	 * 
 	 * @exception NumberFormatException
 	 *                if the String cannot be parsed
 	 * @see java.lang.String
 	 */
-	public SafeIntYear(String s, boolean zys) throws NumberFormatException {
+	public SafeIntYear(String s, boolean isAstronomical) throws NumberFormatException {
 		int yy = Integer.parseInt(s.trim());
 		
 		// back up a year, if this system assumed a zero-year
-		if (zys && yy <= 0) {
+		if (isAstronomical && yy <= 0) {
 			yy--;
 		}
 		y = yy;
