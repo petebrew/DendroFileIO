@@ -30,29 +30,19 @@ import org.tridas.schema.DatingSuffix;
 import org.tridas.schema.Year;
 
 /**
- * <p>
- * A BC/AD calendar year in the form of a signed integer It normally acts similar to an
- * integer, but skips the mythical "year 0".
- * </p>
- * <p>
- * In <code>Year</code> math:
- * </p>
- * <ul>
- * <li>-1 + 1 = 1</li>
- * <li>2 - 4 = -3</li>
- * </ul>
- * <p>
- * Years, like Numbers and Strings, are immutable, so they are not Cloneable (there's no
+ * This is a year format using the astronomical conventions rather than BC/AD calendar. 
+ * The value 0 is valid in the astronomical convention.  
+ *  1 = 1AD
+ *  0 = 1BC
+ * -1 = 2BC 
+ * 
+ * Like Numbers and Strings, are immutable, so they are not Cloneable (there's no
  * reason for them to be).
  * </p>
- * 
- * @author Ken Harris &lt;kbh7 <i style="color: gray">at</i> cornell <i
- *         style="color: gray">dot</i> edu&gt;
- * @version $Id: Year.java 1671 2009-04-29 22:11:14Z lucasm $
  */
-public final class SafeIntYear implements Comparable {
+public final class AstronomicalYear implements Comparable {
 	/** The default year: 1001. */
-	public static final SafeIntYear DEFAULT = new SafeIntYear(1001);
+	public static final AstronomicalYear DEFAULT = new AstronomicalYear(1001);
 	
 	/** Holds the year value as an <code>int</code>. */
 	private final int y;
@@ -62,46 +52,55 @@ public final class SafeIntYear implements Comparable {
 	 * 
 	 * @see #DEFAULT
 	 */
-	public SafeIntYear() {
+	public AstronomicalYear() {
 		y = DEFAULT.y;
 	}
 	
 	/**
-	 * Constructor for <code>int</code>s. Uses <code>DEFAULT</code> as the year
-	 * if an invalid value is passed.
+	 * Constructor for <code>int</code>s.
 	 * 
 	 * @param x
 	 *            the year value, as an int
 	 * @see #DEFAULT
 	 */
-	public SafeIntYear(int x) {
-		y = (x == 0 ? DEFAULT.y : x);
+	public AstronomicalYear(int x) {
+		y = x;
 	}
 	
 	/**
-	 * Construct a SafeIntYear from a native TridasYear. The TridasYear allows the
-	 * use of suffixes (BP, AD, BC) but does not know how to handle the 0BC/AD
+	 * Construct a AstronomicalYear from a native TridasYear. The TridasYear allows the
+	 * use of suffixes (BP, AD, BC).
 	 * problem.
 	 * 
 	 * @param x
 	 */
-	public SafeIntYear(Year x) {
+	public AstronomicalYear(Year x) {
 		int val = 0;
 		switch (x.getSuffix()) {
 			case AD :
 				val = x.getValue().intValue();
 				break;
 			case BC :
-				val = x.getValue().negate().intValue();
+				val = x.getValue().negate().intValue() +1 ;
 				break;
 			case BP :
-				SafeIntYear radioCarbonEra = new SafeIntYear(1950);
+				AstronomicalYear radioCarbonEra = new AstronomicalYear(1950);
 				val = Integer.parseInt(radioCarbonEra.add(Integer.parseInt(x.getValue().negate().toString()))
 						.toString());
 				break;
 		}
 		
-		y = (val == 0 ? DEFAULT.y : val);
+		y = val;
+	}
+	
+	/**
+	 * Construct a AstronomicalYear from a SafeIntYear. 
+	 * 
+	 * @param x
+	 */
+	public AstronomicalYear(SafeIntYear x) {
+		
+		y = Integer.parseInt(x.toAstronomicalYear().toString());
 	}
 	
 	/**
@@ -113,50 +112,27 @@ public final class SafeIntYear implements Comparable {
 	 * @param col
 	 *            the column; in row 0, year is the column
 	 */
-	public SafeIntYear(int row, int col) {
+	public AstronomicalYear(int row, int col) {
 		int yy = 10 * row + col;
-		if (yy == 0) {
-			yy = DEFAULT.y; // should this be 1?
-		}
+
 		y = yy;
 	}
 	
 	/**
-	 * Constructor from String. No AD/BC; reads it like C's <code>scanf(" %d ", &y)</code>
-	 * would.
-	 * 
-	 * @exception NumberFormatException
-	 *                if the String cannot be parsed, or is equal to zero
-	 * @see java.lang.String
-	 */
-	public SafeIntYear(String s) throws NumberFormatException {
-		y = Integer.parseInt(s.trim());
-		if (y == 0) {
-			throw new NumberFormatException();
-		}
-	}
-	
-	/**
-	 * Constructor from String. No AD/BC; reads it like C's <code>scanf(" %d ", &y)</code>
-	 * would. This constructor is for
-	 * zero-year-systems, if <code>zys</code> is true, i.e., -5 means 6 BC.
+	 * Constructor from String.  The string should be in astronomical format
+	 * where 0 is valid and is equal to 1BC.
 	 * 
 	 * @exception NumberFormatException
 	 *                if the String cannot be parsed
 	 * @see java.lang.String
 	 */
-	public SafeIntYear(String s, boolean zys) throws NumberFormatException {
-		int yy = Integer.parseInt(s.trim());
-		
-		// back up a year, if this system assumed a zero-year
-		if (zys && yy <= 0) {
-			yy--;
-		}
-		y = yy;
+	public AstronomicalYear(String s) throws NumberFormatException {	
+		y = Integer.parseInt(s.trim());
 	}
+
 	
 	/**
-	 * Convert to a String. No "AD"/"BC"; simply the integer value.
+	 * Convert to a String
 	 * 
 	 * @return this year as a String
 	 * @see java.lang.String
@@ -188,48 +164,20 @@ public final class SafeIntYear implements Comparable {
 	
 	public Year toTridasYear(DatingSuffix suffix) {
 		
-		Year yr = new Year();
-		yr.setCertainty(Certainty.EXACT);
+		return toSafeIntYear().toTridasYear(suffix);
 		
-		if (suffix == DatingSuffix.AD || suffix == DatingSuffix.BC) {
-			yr.setValue(BigInteger.valueOf(y).abs());
-			if (y > 0) {
-				yr.setSuffix(DatingSuffix.AD);
-			}
-			else {
-				yr.setSuffix(DatingSuffix.BC);
-			}
-		}
-		else if (suffix == DatingSuffix.BP) {
-			yr.setSuffix(DatingSuffix.BP);
-			if (y > 0) {
-				yr.setValue(BigInteger.valueOf(1950 - y));
-			}
-			if (y < 0) {
-				yr.setValue((BigInteger.valueOf(y).negate()).add((BigInteger.valueOf(1950))));
-			}
-		}
-		
-		return yr;
 	}
 	
-	/**
-	 * Convert to an AstronomicalYear where 0 is valid and is
-	 * equal to 1BC.
-	 * 
-	 * @return
-	 */
-	public AstronomicalYear toAstronomicalYear(){
-		
-		if (y<0)
+	public SafeIntYear toSafeIntYear()
+	{
+		if(y<=0)
 		{
-			return new AstronomicalYear(y+1);
+			return new SafeIntYear(y-1);
 		}
 		else
 		{
-			return new AstronomicalYear(y);
+			return new SafeIntYear(y);
 		}
-		
 	}
 	
 	/**
@@ -246,7 +194,7 @@ public final class SafeIntYear implements Comparable {
 	 * 
 	 * @return the later of two years
 	 */
-	public static SafeIntYear max(SafeIntYear y1, SafeIntYear y2) {
+	public static AstronomicalYear max(AstronomicalYear y1, AstronomicalYear y2) {
 		return (y1.y > y2.y ? y1 : y2);
 	}
 	
@@ -255,7 +203,7 @@ public final class SafeIntYear implements Comparable {
 	 * 
 	 * @return the earlier of two years
 	 */
-	public static SafeIntYear min(SafeIntYear y1, SafeIntYear y2) {
+	public static AstronomicalYear min(AstronomicalYear y1, AstronomicalYear y2) {
 		return (y1.y < y2.y ? y1 : y2);
 	}
 	
@@ -267,7 +215,7 @@ public final class SafeIntYear implements Comparable {
 	 *            the number of years to add (subtract)
 	 * @see #diff
 	 */
-	public SafeIntYear add(int dy) {
+	public AstronomicalYear add(int dy) {
 		// copy, and convert to zys
 		int r = y;
 		if (r < 0) {
@@ -281,7 +229,7 @@ public final class SafeIntYear implements Comparable {
 		if (r <= 0) {
 			r--;
 		}
-		return new SafeIntYear(r);
+		return new AstronomicalYear(r);
 	}
 	
 	/**
@@ -295,20 +243,9 @@ public final class SafeIntYear implements Comparable {
 	 *         <code>y2</code>
 	 * @see #add
 	 */
-	public int diff(SafeIntYear y2) {
-		// copy, and convert to zys
-		int i1 = y;
-		if (i1 < 0) {
-			i1++;
-		}
-		
-		int i2 = y2.y;
-		if (i2 < 0) {
-			i2++;
-		}
-		
-		// subtract, and return
-		return i1 - i2;
+	public int diff(AstronomicalYear y2) {
+	
+		return y - y2.y;
 	}
 	
 	/**
@@ -418,7 +355,7 @@ public final class SafeIntYear implements Comparable {
 	 *             if o is not a Year
 	 */
 	public int compareTo(Object o) {
-		return y - ((SafeIntYear) o).y;
+		return y - ((AstronomicalYear) o).y;
 	}
 	
 	/**
@@ -432,7 +369,7 @@ public final class SafeIntYear implements Comparable {
 	 */
 	@Override
 	public boolean equals(Object y2) {
-		return (y == ((SafeIntYear) y2).y);
+		return (y == ((AstronomicalYear) y2).y);
 	}
 	
 	// since i define equals(), i need to define hashCode()
@@ -444,16 +381,5 @@ public final class SafeIntYear implements Comparable {
 		return y * y * y;
 	}
 	
-	// THESE TWO METHODS ARE BUGGY AND NEED WORK!
-	public SafeIntYear cropToCentury() {
-		return add(-mod(100)); // is this correct?
-	}
-	
-	public SafeIntYear nextCentury() {
-		SafeIntYear tmp = add(100); // COMPLETELY INCORRECT!
-		if (tmp.y == 101) {
-			return new SafeIntYear(100);
-		}
-		return tmp;
-	}
+
 }

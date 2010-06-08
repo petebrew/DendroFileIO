@@ -142,7 +142,7 @@ public class CatrasReader extends AbstractDendroFileReader {
 		// 69-83 Unknown
 		// 84 0=raw 1=treecurve 2=chronology
 		// String dated = new String(getSubByteArray(argFileBytes, 68, 74)); //69-75
-		String userid = new String(getSubByteArray(argFileBytes, 84, 87)); // 85-86
+		String userid = new String(getSubByteArray(argFileBytes, 84, 87)).trim(); // 85-86
 		// 89-92 Float av width
 		// 93-95 Float std dev
 		// 96-100 Foat autocorr

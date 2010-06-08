@@ -32,9 +32,13 @@ import org.tridas.schema.TridasValue;
  * relative/absolute flag)
  * <li>relative/absolute flag starts in column 80 of the title, making it inconvenient to
  * edit with most text editors
- * <li>no way to store BC(E) samples; some labs add 8000 to the absolute year as a hack to
- * get around this, but unfortunately they've run into a Y10K problem (it can't store
- * 5-digit years, either)
+ * <li>officially uses astronomical dates rather than BC/AD so 0 = 1BC etc however most
+ * people enter data as if it <b>does</b> use BC/AD.  This can cause confusion and data 
+ * errors.
+ * <li>only has space for 4 characters to represent years so officially only allows data from
+ * 1000BC (-999) to 9999AD (9999).  People tend either to add 8000 to all years or pinch the
+ * last character from the keycode to allow them to represent years with 5 characters. Neither
+ * method is official or documented though.
  * <li>no way to store auxiliary numerical data (like Weiserjahre, or earlywood/latewood)
  * <li>no way to distinguish with certainty if a summed file is indexed
  * <li>no MIME type (even an application/x- one), standard file extension, or telltale
@@ -84,13 +88,20 @@ import org.tridas.schema.TridasValue;
 public class TucsonFile implements IDendroFile {
 	
 	/**
-	 * Tucson doesn't support negative years (e.g. BC) so a standard
-	 * workaround is to add 8000 to all years. With this flag set to
-	 * true 8000 is added to all year values in the file if any data
-	 * is BC, otherwise it outputs with negative numbers which are
-	 * likely to make the output file invalid for use in other programs
+	 * Tucson only has space for 4 characters to represent years so
+	 * is limited to -999 to 9999.  One method to work around this
+	 * is to add 8000 to all years but this makes years difficult 
+	 * to read.
 	 */
-	private Boolean useEightThousandYearOffsetBodge = true;
+	private Boolean useEightThousandYearOffsetBodge = false;
+	
+	/**
+	 * The alternative work around is to pinch the last character from
+	 * the keycode so that there are then 5 characters available to 
+	 * represent years.  
+	 */
+	private Integer numYearMarkerChars = 4;
+	
 	
 	/**
 	 * Contains the defaults for the fields
@@ -225,13 +236,13 @@ public class TucsonFile implements IDendroFile {
 		if (latitude.compareTo(Double.valueOf("90")) > 0 || latitude.compareTo(Double.valueOf("-90")) < 0) {
 			defaults.getStringDefaultValue(TucsonField.LATLONG).setValue("");
 			defaults.addConversionWarning(new ConversionWarning(WarningType.INVALID, I18n.getText(
-					"tucson.latitude.invalid", String.valueOf(latitude)), I18n.getText("tucson") + "."
+					"location.latitude.invalid", String.valueOf(latitude)), I18n.getText("tucson") + "."
 					+ I18n.getText("tucson.latlong")));
 		}
 		if (longitude.compareTo(Double.valueOf("180")) > 0 || longitude.compareTo(Double.valueOf("-180")) < 0) {
 			defaults.getStringDefaultValue(TucsonField.LATLONG).setValue("");
 			defaults.addConversionWarning(new ConversionWarning(WarningType.INVALID, I18n.getText(
-					"tucson.longitude.invalid", String.valueOf(longitude)), I18n.getText("tucson") + "."
+					"location.longitude.invalid", String.valueOf(longitude)), I18n.getText("tucson") + "."
 					+ I18n.getText("tucson.latlong")));
 		}
 		
