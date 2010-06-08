@@ -16,7 +16,7 @@ import org.tridas.io.defaults.IMetadataFieldSet;
 import org.tridas.io.defaults.TridasMetadataFieldSet.TridasMandatoryField;
 import org.tridas.io.defaults.values.GenericDefaultValue;
 import org.tridas.io.formats.tucson.TridasToTucsonDefaults.TucsonField;
-import org.tridas.io.util.AstronomicalYear;
+import org.tridas.io.util.SafeIntYear;
 import org.tridas.io.util.DateUtils;
 import org.tridas.io.util.YearRange;
 import org.tridas.io.warnings.ConversionWarning;
@@ -73,15 +73,33 @@ public class TucsonReader extends AbstractDendroFileReader {
 	 */
 	private Integer numYearMarkerChars = 4;
 	
-	private String lastSeriesCode = null;
-	private TridasProject project;
-	private AstronomicalYear lastYearMarker = null;
-	private Boolean isChronology = null;
-	
+	/**
+	 * Count of lines which appear to have 6 characters for keycodes
+	 */
 	private Integer keycodeLen6 = 0;
+	
+	/**
+	 * Count of lines which appear to have 8 characters for keycodes
+	 */
 	private Integer keycodeLen8 = 0;
 	
+	/**
+	 * Officially Tucson format uses Astronomical Date format for all years.  However
+	 * many people working solely BC ignore this and use BC/AD calendar so we need to
+	 * be able to turn Astronomical dating on and off.
+	 */
+	private Boolean usingAstronomicalDates = true;
+	private Boolean isAstronomicalDatingOverriden = false;
+	
+	private String lastSeriesCode = null;
+	private TridasProject project;
+	private SafeIntYear lastYearMarker = null;
 	private int currentLineNumber = 0;
+	private Boolean isChronology = null;
+	
+
+	
+
 	
 	public TucsonReader() {
 		super(TucsonToTridasDefaults.class);
@@ -277,13 +295,13 @@ public class TucsonReader extends AbstractDendroFileReader {
 		line = line.substring(codeLength);
 		
 		// Extract the year value and remove from line
-		AstronomicalYear currentLineYearMarker;
+		SafeIntYear currentLineYearMarker;
 		try {
-			currentLineYearMarker = new AstronomicalYear(line.substring(0, numYearMarkerChars).trim());
+			currentLineYearMarker = new SafeIntYear(line.substring(0, numYearMarkerChars).trim(), usingAstronomicalDates);
 		} catch (NumberFormatException e) {
 			
 			addWarning(new ConversionWarning(WarningType.INVALID, I18n.getText("tucson.decadeMarkerNotNumber")));
-			currentLineYearMarker = new AstronomicalYear();
+			currentLineYearMarker = new SafeIntYear();
 			
 		}
 		line = line.substring(numYearMarkerChars);
@@ -438,15 +456,15 @@ public class TucsonReader extends AbstractDendroFileReader {
 		line = line.substring(codeLength);
 		
 		// Extract the year value and remove
-		AstronomicalYear currentLineYearMarker = null;
+		SafeIntYear currentLineYearMarker = null;
 		try {
-			currentLineYearMarker = new AstronomicalYear(line.substring(0, numYearMarkerChars).trim());
+			currentLineYearMarker = new SafeIntYear(line.substring(0, numYearMarkerChars).trim(), usingAstronomicalDates);
 		} catch (NumberFormatException e) {
 			throw new InvalidDendroFileException(I18n.getText("tucson.invalidDecadeMarker", line.substring(0, numYearMarkerChars)),
 					currentLineNumber);
 		}
 		
-		AstronomicalYear oldestYear = currentLineYearMarker;
+		SafeIntYear oldestYear = currentLineYearMarker;
 		Boolean containsYoungestYear = false;
 		Boolean containsOldestYear = false;
 		line = line.substring(numYearMarkerChars);
@@ -609,7 +627,7 @@ public class TucsonReader extends AbstractDendroFileReader {
 			if (containsOldestYear) {
 				TridasInterpretation interp = halfdone.getInterpretation();
 				int numberofvalues = previouslygotvalues.size();
-				AstronomicalYear firstYear = new AstronomicalYear(interp.getFirstYear());
+				SafeIntYear firstYear = new SafeIntYear(interp.getFirstYear());
 				interp.setLastYear(firstYear.add(numberofvalues - 1).toTridasYear(DatingSuffix.AD));
 				
 			}
@@ -657,7 +675,7 @@ public class TucsonReader extends AbstractDendroFileReader {
 	 * @param currentLineYearMarker
 	 * @throws InvalidDendroFileException
 	 */
-	private void checkYearMarker(String thisCode, AstronomicalYear currentLineYearMarker) throws InvalidDendroFileException {
+	private void checkYearMarker(String thisCode, SafeIntYear currentLineYearMarker) throws InvalidDendroFileException {
 		
 		if (lastYearMarker == null || !lastSeriesCode.equals(thisCode)) {
 			// This is the first marker in the series so fine.
@@ -665,7 +683,7 @@ public class TucsonReader extends AbstractDendroFileReader {
 		}
 		else {
 			YearRange expectedRange = new YearRange(lastYearMarker.add(1), lastYearMarker.add(10));
-			if (expectedRange.contains(currentLineYearMarker.toSafeIntYear())) {
+			if (expectedRange.contains(currentLineYearMarker)) {
 				// Marker is in expected range (1 to 10 years of last marker)
 				lastYearMarker = currentLineYearMarker;
 			}
@@ -1222,5 +1240,53 @@ public class TucsonReader extends AbstractDendroFileReader {
 		mseriesList.clear();
 		project = null;
 		tucsonFields = null;
+	}
+	
+	/**
+	 * For use within this class to set if we think this file should
+	 * be using astronomical dating or not.  If this has been 
+	 * overridden then the request will be ignored.
+	 * 
+	 * @param b
+	 */
+	private void setUseAstronomicalDating(Boolean b)
+	{
+		setUseAstronomicalDating(b, false);
+	}
+	
+	/**
+	 * Set whether the reader should be using Astronomical Dating.  
+	 * 
+	 * @param b   
+	 * @param override - Set to true if this is an overriding request
+	 * rather than just an assumption through reading the file
+	 */
+	public void setUseAstronomicalDating(Boolean b, Boolean override)
+	{
+		if(override){
+			// Request is to override whatever has been previously set
+			this.isAstronomicalDatingOverriden = true;
+			this.usingAstronomicalDates = b;
+		}
+		else{
+			// General request that should be ignored if value has already
+			// been overriden.
+			if(this.isAstronomicalDatingOverriden){
+				// ignore
+			}
+			else{
+				this.usingAstronomicalDates = b;
+			}
+		}
+	}
+	
+	/**
+	 * Whether the reader is using astronomical dates or not.
+	 * 
+	 * @return
+	 */
+	public Boolean isUsingAstronomicalDating()
+	{
+		return usingAstronomicalDates;
 	}
 }
