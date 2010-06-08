@@ -69,7 +69,15 @@ public class NumericalNamingConvention extends AbstractNamingConvention {
 	
 	@Override
 	protected String getDendroFilename(IDendroFile argFile, TridasProject argProject, TridasDerivedSeries argSeries) {
-		return baseFilename;
+		// since AbstractNamingConvension handles numerically naming
+		// files with the same filename, we'll just return the same
+		// filename every time
+		if (baseFilename != null) {
+			return baseFilename;
+		}
+		else {
+			return argFile.getClass().getSimpleName();
+		}
 	}
 	
 	@Override
