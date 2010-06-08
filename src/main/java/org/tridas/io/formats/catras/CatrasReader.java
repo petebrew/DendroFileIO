@@ -189,10 +189,20 @@ public class CatrasReader extends AbstractDendroFileReader {
 					log.debug("reached end of count values");
 					break;
 				}
+				else if (valueFromFile == -1)
+				{
+					// Ignore.  This is a padding value found in files created with older versions
+					// of CATRAS
+				}
 				else {
 					sampleDepthValues.add(valueFromFile);
 					log.debug("sample depth as int = " + String.valueOf(getIntFromBytePairByPos(theData, i)));
 				}
+			}
+			else if (valueFromFile == -1)
+			{
+				// Ignore.  This is a padding value found in files created with older versions
+				// of CATRAS
 			}
 			else {
 				// Handle normal ring width values
@@ -203,7 +213,7 @@ public class CatrasReader extends AbstractDendroFileReader {
 		
 		// Check length metadata is valid for the number of ring width values
 		if (ringWidthValues.size() != length) {
-			addWarning(new ConversionWarning(WarningType.INVALID, I18n.getText("fileio.valueCountMismatch")));
+			addWarning(new ConversionWarning(WarningType.INVALID, I18n.getText("fileio.valueCountMismatch", ringWidthValues.size()+"", length+"")));
 			length = ringWidthValues.size();
 			
 		}
