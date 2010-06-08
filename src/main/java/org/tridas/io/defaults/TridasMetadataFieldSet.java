@@ -10,6 +10,7 @@ import org.tridas.io.defaults.values.StringDefaultValue;
 import org.tridas.schema.ComplexPresenceAbsence;
 import org.tridas.schema.ControlledVoc;
 import org.tridas.schema.NormalTridasMeasuringMethod;
+import org.tridas.schema.NormalTridasVariable;
 import org.tridas.schema.ObjectFactory;
 import org.tridas.schema.PresenceAbsence;
 import org.tridas.schema.SeriesLinks;
@@ -97,7 +98,7 @@ public class TridasMetadataFieldSet extends AbstractTridasMetadataFieldSet {
 				new GenericDefaultValue<TridasMeasuringMethod>(measurementSeriesMeasuringMethod));
 		
 		TridasVariable measurementSeriesVariable = new TridasVariable();
-		measurementSeriesVariable.setValue(I18n.getText("unknown"));
+		measurementSeriesVariable.setNormalTridas(NormalTridasVariable.RING_WIDTH);
 		setDefaultValue(TridasMandatoryField.MEASUREMENTSERIES_VARIABLE, new GenericDefaultValue<TridasVariable>(
 				measurementSeriesVariable));
 		setDefaultValue(TridasMandatoryField.DERIVEDSERIES_TITLE,

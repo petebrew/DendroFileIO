@@ -120,6 +120,31 @@ public class YearRange implements Comparable {
 	}
 	
 	/**
+	 * Construct a new range using Astronomical years
+	 * 
+	 * @param y1
+	 *            starting year
+	 * @param y2
+	 *            ending year
+	 */
+	public YearRange(AstronomicalYear y1, AstronomicalYear y2) {
+		// null argument?
+		if (y1 == null || y2 == null) {
+			throw new NullPointerException();
+		}
+		
+		start = y1.toSafeIntYear();
+		end = y2.toSafeIntYear();
+		
+		// empty interval?
+		if (start.compareTo(end) > 0) {
+			start = SafeIntYear.DEFAULT;
+			end = start.add(-1);
+		}
+	}
+	
+	
+	/**
 	 * Get the starting year of this range.
 	 * 
 	 * @return the starting year

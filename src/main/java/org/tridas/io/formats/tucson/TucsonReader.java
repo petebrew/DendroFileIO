@@ -16,8 +16,8 @@ import org.tridas.io.defaults.IMetadataFieldSet;
 import org.tridas.io.defaults.TridasMetadataFieldSet.TridasMandatoryField;
 import org.tridas.io.defaults.values.GenericDefaultValue;
 import org.tridas.io.formats.tucson.TridasToTucsonDefaults.TucsonField;
+import org.tridas.io.util.AstronomicalYear;
 import org.tridas.io.util.DateUtils;
-import org.tridas.io.util.SafeIntYear;
 import org.tridas.io.util.YearRange;
 import org.tridas.io.warnings.ConversionWarning;
 import org.tridas.io.warnings.InvalidDendroFileException;
@@ -66,9 +66,16 @@ public class TucsonReader extends AbstractDendroFileReader {
 	private ArrayList<TridasMeasurementSeries> mseriesList = new ArrayList<TridasMeasurementSeries>();
 	private ArrayList<TridasDerivedSeries> dseriesList = new ArrayList<TridasDerivedSeries>();
 	
+	/**
+	 * The alternative work around is to pinch the last character from
+	 * the keycode so that there are then 5 characters available to 
+	 * represent years.  
+	 */
+	private Integer numYearMarkerChars = 4;
+	
 	private String lastSeriesCode = null;
 	private TridasProject project;
-	private SafeIntYear lastYearMarker = null;
+	private AstronomicalYear lastYearMarker = null;
 	private Boolean isChronology = null;
 	
 	private Integer keycodeLen6 = 0;
@@ -263,20 +270,6 @@ public class TucsonReader extends AbstractDendroFileReader {
 		
 		ArrayList<TridasValue> thisDecadesValues = new ArrayList<TridasValue>();
 		
-		// Work out if we're using 6 or 8 digit series codes
-		if (line.substring(6, 8).equals("  ")) {
-
-		}
-		
-		/*
-		 * Older regex code, not reliable enough
-		 * String regex = "^[\\d\\w\\s]{8}[\\s\\d-]{4}";
-		 * Pattern p1 = Pattern.compile(regex,Pattern.CASE_INSENSITIVE | Pattern.DOTALL);
-		 * Matcher m1 = p1.matcher(line);
-		 * int codeLength = 6;
-		 * if(m1.find()) codeLength=8;
-		 */
-
 		int codeLength = getKeycodeLength();
 		
 		// Extract the code and then remove
@@ -284,22 +277,22 @@ public class TucsonReader extends AbstractDendroFileReader {
 		line = line.substring(codeLength);
 		
 		// Extract the year value and remove from line
-		SafeIntYear currentLineYearMarker;
+		AstronomicalYear currentLineYearMarker;
 		try {
-			currentLineYearMarker = new SafeIntYear(line.substring(0, 4).trim());
+			currentLineYearMarker = new AstronomicalYear(line.substring(0, numYearMarkerChars).trim());
 		} catch (NumberFormatException e) {
 			
 			addWarning(new ConversionWarning(WarningType.INVALID, I18n.getText("tucson.decadeMarkerNotNumber")));
-			currentLineYearMarker = new SafeIntYear();
+			currentLineYearMarker = new AstronomicalYear();
 			
 		}
-		line = line.substring(5).trim();
+		line = line.substring(numYearMarkerChars);
 		
 		checkYearMarker(thisCode, currentLineYearMarker);
 		
 		// Split values into string array. Limiting to 10 values (decade).
 		ArrayList<String> vals = new ArrayList<String>();
-		for (int i = 0; i + 6 < line.length(); i = i + 6) {
+		for (int i = 0; i + 6 <= line.length(); i = i + 6) {
 			vals.add(line.substring(i, i + 6).trim());
 		}
 		
@@ -445,18 +438,18 @@ public class TucsonReader extends AbstractDendroFileReader {
 		line = line.substring(codeLength);
 		
 		// Extract the year value and remove
-		SafeIntYear currentLineYearMarker = null;
+		AstronomicalYear currentLineYearMarker = null;
 		try {
-			currentLineYearMarker = new SafeIntYear(line.substring(0, 4).trim());
+			currentLineYearMarker = new AstronomicalYear(line.substring(0, numYearMarkerChars).trim());
 		} catch (NumberFormatException e) {
-			throw new InvalidDendroFileException(I18n.getText("tucson.invalidDecadeMarker", line.substring(0, 4)),
+			throw new InvalidDendroFileException(I18n.getText("tucson.invalidDecadeMarker", line.substring(0, numYearMarkerChars)),
 					currentLineNumber);
 		}
 		
-		SafeIntYear oldestYear = currentLineYearMarker;
+		AstronomicalYear oldestYear = currentLineYearMarker;
 		Boolean containsYoungestYear = false;
 		Boolean containsOldestYear = false;
-		line = line.substring(4);
+		line = line.substring(numYearMarkerChars);
 		
 		// Check this year marker to see it is within expected range
 		checkYearMarker(thisCode, currentLineYearMarker);
@@ -616,7 +609,7 @@ public class TucsonReader extends AbstractDendroFileReader {
 			if (containsOldestYear) {
 				TridasInterpretation interp = halfdone.getInterpretation();
 				int numberofvalues = previouslygotvalues.size();
-				SafeIntYear firstYear = new SafeIntYear(interp.getFirstYear());
+				AstronomicalYear firstYear = new AstronomicalYear(interp.getFirstYear());
 				interp.setLastYear(firstYear.add(numberofvalues - 1).toTridasYear(DatingSuffix.AD));
 				
 			}
@@ -664,7 +657,7 @@ public class TucsonReader extends AbstractDendroFileReader {
 	 * @param currentLineYearMarker
 	 * @throws InvalidDendroFileException
 	 */
-	private void checkYearMarker(String thisCode, SafeIntYear currentLineYearMarker) throws InvalidDendroFileException {
+	private void checkYearMarker(String thisCode, AstronomicalYear currentLineYearMarker) throws InvalidDendroFileException {
 		
 		if (lastYearMarker == null || !lastSeriesCode.equals(thisCode)) {
 			// This is the first marker in the series so fine.
@@ -672,7 +665,7 @@ public class TucsonReader extends AbstractDendroFileReader {
 		}
 		else {
 			YearRange expectedRange = new YearRange(lastYearMarker.add(1), lastYearMarker.add(10));
-			if (expectedRange.contains(currentLineYearMarker)) {
+			if (expectedRange.contains(currentLineYearMarker.toSafeIntYear())) {
 				// Marker is in expected range (1 to 10 years of last marker)
 				lastYearMarker = currentLineYearMarker;
 			}
@@ -731,6 +724,7 @@ public class TucsonReader extends AbstractDendroFileReader {
 				m1 = p1.matcher(line);
 				if (m1.find()) {
 					keycodeLen6++;
+					if(line.substring(5, 6).equals("-")) {turnOnFiveCharYears();}
 					return true;
 				}
 				return false;
@@ -741,6 +735,7 @@ public class TucsonReader extends AbstractDendroFileReader {
 				if (m1.find()) {
 					if (!matchesLineType(TucsonLineType.RWL_DATA_COMPLETE_6, line)) {
 						keycodeLen6++;
+						if(line.substring(5, 6).equals("-")) {turnOnFiveCharYears();}
 						return true;
 					}
 				}
@@ -751,6 +746,7 @@ public class TucsonReader extends AbstractDendroFileReader {
 				m1 = p1.matcher(line);
 				if (m1.find()) {
 					keycodeLen8++;
+					if(line.substring(7, 8).equals("-")) {turnOnFiveCharYears();}
 					return true;
 				}
 				return false;
@@ -761,6 +757,7 @@ public class TucsonReader extends AbstractDendroFileReader {
 				if (m1.find()) {
 					if (!matchesLineType(TucsonLineType.RWL_DATA_COMPLETE_8, line)) {
 						keycodeLen8++;
+						if(line.substring(7, 8).equals("-")) {turnOnFiveCharYears();}
 						return true;
 					}
 				}
@@ -781,6 +778,7 @@ public class TucsonReader extends AbstractDendroFileReader {
 				m1 = p1.matcher(line);
 				if (m1.find()) {
 					keycodeLen6++;
+					if(line.substring(5, 6).equals("-")) {turnOnFiveCharYears();}
 					return true;
 				}
 				return false;
@@ -794,6 +792,7 @@ public class TucsonReader extends AbstractDendroFileReader {
 				m1 = p1.matcher(line);
 				if (m1.find()) {
 					keycodeLen8++;
+					if(line.substring(7, 8).equals("-")) {turnOnFiveCharYears();}
 					return true;
 				}
 				return false;
@@ -862,6 +861,15 @@ public class TucsonReader extends AbstractDendroFileReader {
 				return false;
 		}
 		
+	}
+	
+	private void turnOnFiveCharYears()
+	{
+		if(numYearMarkerChars!=5)
+		{
+			addWarning(new ConversionWarning(WarningType.WORK_AROUND, I18n.getText("tucson.fiveCharYears")));
+			numYearMarkerChars=5;
+		}
 	}
 	
 	protected void loadMetadata(String line1, String line2, String line3) {
@@ -1082,39 +1090,30 @@ public class TucsonReader extends AbstractDendroFileReader {
 	}
 	
 	/**
-	 * Returns the length of the keycode for this file (either 6 or 8).
+	 * Returns the length of the keycode for this file.  The standard sizes
+	 * are either 6 or 8.  However, the file may pinch the last character
+	 * of the keycode to enable the storage of 5 character year markers.  If
+	 * so, the keycode is reduced by 1.
 	 * 
 	 * @return
 	 */
 	private Integer getKeycodeLength() {
-		/*
-		 * if (headerKeycode6!=null && headerKeycode8!=null)
-		 * {
-		 * if(headerKeycode6.size()<headerKeycode8.size())
-		 * {
-		 * // There are less lines where the first 6 characters
-		 * // are unique than there are lines with the first 8
-		 * // characters unique.
-		 * return 6;
-		 * }
-		 * else
-		 * {
-		 * // There must be the same number of lines first the first
-		 * // 8 characters unique as the first 6 characters.
-		 * return 8;
-		 * }
-		 * }
-		 */
-
+		
 		if (keycodeLen6 > keycodeLen8) {
-			return 6;
+			
+			if(numYearMarkerChars==4){
+				return 6;
+			}else{
+				return 5;
+			}
 		}
 		else {
-			return 8;
+			if(numYearMarkerChars==4){
+				return 8;
+			}else{
+				return 7;
+			}
 		}
-		
-		// log.debug("Error determining keycode length");
-		// return null;
 	}
 	
 	/**
