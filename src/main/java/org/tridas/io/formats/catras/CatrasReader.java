@@ -36,7 +36,12 @@ import org.tridas.schema.TridasVariable;
 
 /**
  * Reader for the CATRAS file format. This is a binary format for software written
- * by R. Aniol released in 1983. There are no specifications published for the
+ * by R. Aniol released in 1983. 
+ * 
+ * Several versions of CATRAS were released over the years, the most recent appears
+ * to be 
+ * 
+ * There are no specifications published for the
  * format. This code is based on Matlab, Fortran and C code of Ronald Visser, Henri
  * Grissino-Mayer and Ian Tyers.
  * The following bytes are unaccounted for and are therefore likely to contain data

@@ -90,6 +90,7 @@ public class TucsonReader extends AbstractDendroFileReader {
 	 */
 	private Boolean usingAstronomicalDates = true;
 	private Boolean isAstronomicalDatingOverriden = false;
+	private Boolean warningAboutNegativeDates = false;
 	
 	private String lastSeriesCode = null;
 	private TridasProject project;
@@ -298,6 +299,7 @@ public class TucsonReader extends AbstractDendroFileReader {
 		SafeIntYear currentLineYearMarker;
 		try {
 			currentLineYearMarker = new SafeIntYear(line.substring(0, numYearMarkerChars).trim(), usingAstronomicalDates);
+			
 		} catch (NumberFormatException e) {
 			
 			addWarning(new ConversionWarning(WarningType.INVALID, I18n.getText("tucson.decadeMarkerNotNumber")));
@@ -305,6 +307,12 @@ public class TucsonReader extends AbstractDendroFileReader {
 			
 		}
 		line = line.substring(numYearMarkerChars);
+		
+		// Warn if years use negative numbers
+		if(currentLineYearMarker.compareTo(new SafeIntYear("0", true))<=0)
+		{
+			this.negativeDateFound();
+		}
 		
 		checkYearMarker(thisCode, currentLineYearMarker);
 		
@@ -1288,5 +1296,16 @@ public class TucsonReader extends AbstractDendroFileReader {
 	public Boolean isUsingAstronomicalDating()
 	{
 		return usingAstronomicalDates;
+	}
+	
+	public void negativeDateFound()
+	{
+		if(this.warningAboutNegativeDates==false)
+		{
+			warningAboutNegativeDates=true;
+			addWarning(new ConversionWarning(WarningType.AMBIGUOUS, 
+					I18n.getText("tucson.negativeYears")));
+			
+		}
 	}
 }
