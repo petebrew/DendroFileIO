@@ -10,6 +10,7 @@ import org.tridas.io.defaults.AbstractMetadataFieldSet;
 import org.tridas.io.defaults.IMetadataFieldSet;
 import org.tridas.io.defaults.values.IntegerDefaultValue;
 import org.tridas.io.defaults.values.StringDefaultValue;
+import org.tridas.io.util.SafeIntYear;
 import org.tridas.schema.TridasDerivedSeries;
 import org.tridas.schema.TridasElement;
 import org.tridas.schema.TridasIdentifier;
@@ -105,13 +106,13 @@ public class TridasToHeidelbergDefaults extends AbstractMetadataFieldSet impleme
 		TridasInterpretation interp = argSeries.getInterpretation();
 		if (interp != null) {
 			if (interp.isSetFirstYear()) {
-				getIntegerDefaultValue(HeidelbergField.DATEBEGIN).setValue(interp.getFirstYear().getValue().intValue());
+				getIntegerDefaultValue(HeidelbergField.DATEBEGIN).setValue(Integer.parseInt((new SafeIntYear(interp.getFirstYear()).toString())));
 			}
 			if (interp.isSetLastYear()) {
-				getIntegerDefaultValue(HeidelbergField.DATEEND).setValue(interp.getLastYear().getValue().intValue());
+				getIntegerDefaultValue(HeidelbergField.DATEEND).setValue(Integer.parseInt((new SafeIntYear(interp.getLastYear()).toString())));
 			}
 			if (interp.isSetDeathYear()) {
-				getIntegerDefaultValue(HeidelbergField.DATEEND).setValue(interp.getDeathYear().getValue().intValue());
+				getIntegerDefaultValue(HeidelbergField.DATEEND).setValue(Integer.parseInt((new SafeIntYear(interp.getDeathYear()).toString())));
 			}
 		}
 	}

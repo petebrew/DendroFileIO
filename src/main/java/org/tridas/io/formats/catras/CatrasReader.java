@@ -38,12 +38,16 @@ import org.tridas.schema.TridasVariable;
  * Reader for the CATRAS file format. This is a binary format for software written
  * by R. Aniol released in 1983. 
  * 
- * Several versions of CATRAS were released over the years, the most recent appears
- * to be 
+ * Several versions of CATRAS were released over the years, the most recent we have
+ * seen is v4.35 released in 2003.  It is uncertain if there have been changes made 
+ * over the years 
  * 
- * There are no specifications published for the
- * format. This code is based on Matlab, Fortran and C code of Ronald Visser, Henri
+ * This code is based on Matlab, Fortran and C code of Ronald Visser, Henri
  * Grissino-Mayer and Ian Tyers.
+ * 
+ * The first 128 bytes contain the file header information and the remainder of the
+ * file contains the r
+ * 
  * The following bytes are unaccounted for and are therefore likely to contain data
  * that we are ignoring:
  * 57-58
@@ -136,7 +140,7 @@ public class CatrasReader extends AbstractDendroFileReader {
 		// 51-52 valid end
 		// 53 1=pith 2=waldkante 3=pith to waldkante
 		// 54 1 = ew only last ring
-		SafeIntYear startyear = new SafeIntYear(getIntFromBytePairByPos(argFileBytes, 54)); // 55-56
+		SafeIntYear startyear = new SafeIntYear(String.valueOf(getIntFromBytePairByPos(argFileBytes, 54)), true); // 55-56
 		// 57-58 Unknown
 		// speciesCode = getIntFromBytePairByPos(argFileBytes, 44); //44
 		// 59-60 species also needs a catras.wnm file
@@ -381,22 +385,20 @@ public class CatrasReader extends AbstractDendroFileReader {
 		
 		// log.debug("LSB = "+String.valueOf(lsb)+"  MSB = "+String.valueOf(lsb));
 		
-		if (msb == 1 && lsb >= 0) {
-			w = lsb + 256;
+
+		if (msb>128)
+		{
+			// Large MSB values appear to indicate negative values.  
+			// Explaining what this means is too hard, I hope you 
+			// can understand from the code!  
+			w = 0-((255-lsb)+(256*(255-msb)));
 		}
-		else if (msb == 0 && lsb >= 0) {
-			w = lsb;
+		else if (msb<128)
+		{
+			// Small MSB values are for positive numbers
+			w = lsb + (256*msb);
 		}
-		else if (msb == 2 && lsb >= 0) {
-			w = lsb + 512;
-		}
-		else if (msb == 3 && lsb >= 0) {
-			w = lsb + 768;
-		}
-		else if (msb == 4 && lsb >= 0) {
-			w = lsb + 1024;
-		}
-		
+				
 		return w;
 		
 	}
