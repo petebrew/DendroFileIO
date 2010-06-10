@@ -194,6 +194,9 @@ public class TucsonWriter extends AbstractDendroCollectionWriter {
 																				// end up
 																				// with
 		
+		// FIXME all of this setting needs to be done in the defaults (see Heidelberg) so at
+		// the end you have each set of metadata stored correctly for each measurement series.
+		
 		/**
 		 * Set what object metadata the file can handle
 		 */
