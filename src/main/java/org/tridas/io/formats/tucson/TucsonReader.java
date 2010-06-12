@@ -1,7 +1,6 @@
-package org.tridas.io.formats.tucsonnew;
+package org.tridas.io.formats.tucson;
 
 import java.util.ArrayList;
-import java.util.List;
 import java.util.UUID;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
@@ -11,14 +10,17 @@ import org.tridas.io.AbstractDendroFileReader;
 import org.tridas.io.I18n;
 import org.tridas.io.defaults.IMetadataFieldSet;
 import org.tridas.io.defaults.values.GenericDefaultValue;
-import org.tridas.io.formats.tucsonnew.TucsonToTridasDefaults.*;
+import org.tridas.io.formats.tucson.TucsonToTridasDefaults.TucsonDefaultField;
 import org.tridas.io.util.SafeIntYear;
 import org.tridas.io.util.YearRange;
 import org.tridas.io.warnings.ConversionWarning;
 import org.tridas.io.warnings.InvalidDendroFileException;
 import org.tridas.io.warnings.ConversionWarning.WarningType;
+import org.tridas.schema.DatingSuffix;
 import org.tridas.schema.NormalTridasUnit;
+import org.tridas.schema.TridasDerivedSeries;
 import org.tridas.schema.TridasElement;
+import org.tridas.schema.TridasInterpretation;
 import org.tridas.schema.TridasMeasurementSeries;
 import org.tridas.schema.TridasMeasurementSeriesPlaceholder;
 import org.tridas.schema.TridasObject;
@@ -37,7 +39,7 @@ import org.tridas.schema.TridasValues;
 public class TucsonReader extends AbstractDendroFileReader {
 	
 	private static final SimpleLogger log = new SimpleLogger(TucsonReader.class);	
-	private ArrayList<TucsonMeasurementSeries> seriesList = new ArrayList<TucsonMeasurementSeries>();
+	private ArrayList<TucsonSeries> seriesList = new ArrayList<TucsonSeries>();
 	
 	private TucsonToTridasDefaults defaults = null;      // defaults given by user
 	private Integer keycodeLen6 = 0;                     // lines which have 6 char keycodes
@@ -46,7 +48,8 @@ public class TucsonReader extends AbstractDendroFileReader {
 	private int currentLineNumber = 0;                   // the current line we're reading
 	private Boolean isChronology = null;                 // is this file a chronology?
 	private Integer numYearMarkerChars = 4;				 // no. of chars used in year markers
-
+	private Boolean lastYearReached = false;			 // Did we reach a 'end of data' marker?
+	
 	/**
 	 * Officially Tucson format uses Astronomical Date format for all years.  However
 	 * many people working solely BC ignore this and use BC/AD calendar so we need to
@@ -112,6 +115,7 @@ public class TucsonReader extends AbstractDendroFileReader {
 		currentLineNumber = -1;
 		defaults = null;
 		seriesList.clear();
+		numYearMarkerChars = 4;
 	}
 	
 	/**
@@ -130,45 +134,92 @@ public class TucsonReader extends AbstractDendroFileReader {
 		
 		TridasProject project = defaults.getProjectWithDefaults(false);
 		ArrayList<TridasObject> olist = new ArrayList<TridasObject>();
+		ArrayList<TridasDerivedSeries> dslist = new ArrayList<TridasDerivedSeries>();
 		
-		for (TucsonMeasurementSeries series : seriesList)
+		for (TucsonSeries series : seriesList)
 		{
 			TridasObject o = series.defaults.getObjectWithDefaults();
 			TridasElement e = series.defaults.getElementWithDefaults();
 			TridasSample s = series.defaults.getSampleWithDefaults();
-			TridasRadius r = series.defaults.getRadiusWithDefaults(false);
-			TridasMeasurementSeries ms = series.defaults.getMeasurementSeriesWithDefaults();
-			List<TridasValues> valuesgroup = ms.getValues();
-			TridasValues values = valuesgroup.get(0);
-			ArrayList<TridasValue> valuesList = new ArrayList<TridasValue>();
 			
-			for (Integer val : series.dataInts)
+			if (series.countInts.size()>0)
 			{
-				TridasValue value = new TridasValue();
-				value.setValue(String.valueOf(val));
-				valuesList.add(value);
+				// Derived Series
+				TridasRadiusPlaceholder rph= new TridasRadiusPlaceholder();
+				TridasMeasurementSeriesPlaceholder msph = series.defaults.getDefaultTridasMeasurementSeriesPlaceholder();
+				rph.setMeasurementSeriesPlaceholder(msph);
+				
+				TridasDerivedSeries ds = series.defaults.getDerivedSeriesWithDefaults();
+				ArrayList<TridasValues> valuesGroupList = new ArrayList<TridasValues>();
+				TridasValues values = series.defaults.getDefaultTridasValues();
+				ArrayList<TridasValue> valuesList = new ArrayList<TridasValue>();
+				
+				for(int i=0; i<series.dataInts.size(); i++)
+				{
+					TridasValue value = new TridasValue();
+					value.setValue(String.valueOf(series.dataInts.get(i)));
+					value.setCount(series.countInts.get(i));
+
+					valuesList.add(value);
+				}
+				values.setValues(valuesList);
+				valuesGroupList.add(values);
+				ds.setValues(valuesGroupList);
+
+				// TODO set link series
+				
+				TridasInterpretation interp = new TridasInterpretation();
+				interp.setFirstYear(series.firstYear.toTridasYear(DatingSuffix.AD));
+				interp.setLastYear(series.firstYear.add(series.dataInts.size()).toTridasYear(DatingSuffix.AD));
+				ds.setInterpretation(interp);
+				
+				dslist.add(ds);
 			}
-			
-			values.setValues(valuesList);
-			
-			ms.setValues(valuesgroup);
-			ArrayList<TridasMeasurementSeries> mslist = new ArrayList<TridasMeasurementSeries>();
-			mslist.add(ms);
-			r.setMeasurementSeries(mslist);
-			ArrayList<TridasRadius> rlist = new ArrayList<TridasRadius>();
-			rlist.add(r);
-			s.setRadiuses(rlist);
-			ArrayList<TridasSample> slist = new ArrayList<TridasSample>();
-			slist.add(s);
-			e.setSamples(slist);
-			ArrayList<TridasElement> elist = new ArrayList<TridasElement>();
-			elist.add(e);
-			o.setElements(elist);
-			olist.add(o);
+			else
+			{
+				// Measurement Series
+				
+				TridasRadius r = series.defaults.getRadiusWithDefaults(false);
+				TridasMeasurementSeries ms = series.defaults.getMeasurementSeriesWithDefaults();
+				ArrayList<TridasValues> valuesGroupList = new ArrayList<TridasValues>();
+				TridasValues values = series.defaults.getDefaultTridasValues();
+				ArrayList<TridasValue> valuesList = new ArrayList<TridasValue>();
+				
+				for (Integer val : series.dataInts)
+				{
+					TridasValue value = new TridasValue();
+					value.setValue(String.valueOf(val));
+					valuesList.add(value);
+				}
+				
+				values.setValues(valuesList);
+				valuesGroupList.add(values);
+				ms.setValues(valuesGroupList);
+				
+				TridasInterpretation interp = new TridasInterpretation();
+				interp.setFirstYear(series.firstYear.toTridasYear(DatingSuffix.AD));
+				interp.setLastYear(series.firstYear.add(series.dataInts.size()).toTridasYear(DatingSuffix.AD));
+				ms.setInterpretation(interp);
+				
+				ArrayList<TridasMeasurementSeries> mslist = new ArrayList<TridasMeasurementSeries>();
+				mslist.add(ms);
+				r.setMeasurementSeries(mslist);
+				ArrayList<TridasRadius> rlist = new ArrayList<TridasRadius>();
+				rlist.add(r);
+				s.setRadiuses(rlist);
+				ArrayList<TridasSample> slist = new ArrayList<TridasSample>();
+				slist.add(s);
+				e.setSamples(slist);
+				ArrayList<TridasElement> elist = new ArrayList<TridasElement>();
+				elist.add(e);
+				o.setElements(elist);
+				olist.add(o);
+			}
 			
 		}
 		
 		project.setObjects(olist);
+		project.setDerivedSeries(dslist);
 		return project;
 	}
 	
@@ -184,12 +235,12 @@ public class TucsonReader extends AbstractDendroFileReader {
 		
 		SafeIntYear lastYearMarker = null;			     // Year marker from previous line
 		String currentSeriesCode = "";		   		     // Series code from previous line
-		TucsonMeasurementSeries currentSeries = null;    // This holds all the info for the current data block
+		TucsonSeries currentSeries = null;    // This holds all the info for the current data block
 		String headercache1 = null;						 // Strings to cache potential header lines
 		String headercache2 = null;						 // Strings to cache potential header lines
 		String headercache3 = null; 					 // Strings to cache potential header lines
 		Boolean withinChronologyBlock = false;           // Whether we're in a chronology block or not
-		Boolean lastYearReached = false;				 // Did we reach a 'end of data' marker?		
+			
 		
 		// Check that the file is valid
 		checkValidFile(argFileString);
@@ -298,7 +349,7 @@ public class TucsonReader extends AbstractDendroFileReader {
 						if(currentSeries!=null) { this.seriesList.add(currentSeries); }
 						
 						// Create new series
-						currentSeries = new TucsonMeasurementSeries((TucsonToTridasDefaults)defaults.clone());
+						currentSeries = new TucsonSeries((TucsonToTridasDefaults)defaults.clone());
 						
 						// Extract metadata from header 
 						loadMetadata(currentSeries, headercache1, headercache2, headercache3);
@@ -310,37 +361,58 @@ public class TucsonReader extends AbstractDendroFileReader {
 						lastYearMarker = null;
 						currentSeriesCode = null;
 						lastYearReached = false;
+						
+						// Check year marker is valid
+						checkYearMarkerIsValid(lastYearMarker, getYearMarkerFromLine(line));
+						lastYearMarker = getYearMarkerFromLine(line);
+						
+						// Set the first year for this series
+						currentSeries.firstYear = new SafeIntYear(String.valueOf(getYearMarkerFromLine(line)), true);
+						
+						// Store series code
+						currentSeriesCode = getSeriesCodeFromLine(line);
+						currentSeries.defaults.getStringDefaultValue(TucsonDefaultField.SERIES_CODE).setValue(currentSeriesCode);
 					}
 					else if (!currentSeriesCode.equals(getSeriesCodeFromLine(line)) || lastYearReached)
 					{
 						// NEW SERIES WITHOUT A HEADER
 						
-						// Reset 'end of data' flag
+						// Reset 'end of data' and last Year markers flag
 						lastYearReached = false;
+						lastYearMarker = null;
 						
 						// Add current series to list if applicable
 						if(currentSeries!=null) { this.seriesList.add(currentSeries); }
 						
 						// Create new series
-						currentSeries = new TucsonMeasurementSeries((TucsonToTridasDefaults)defaults.clone());
+						currentSeries = new TucsonSeries((TucsonToTridasDefaults)defaults.clone());
+						
+						// Check year marker is valid
+						checkYearMarkerIsValid(lastYearMarker, getYearMarkerFromLine(line));
+						lastYearMarker = getYearMarkerFromLine(line);
+
+						// Set the first year for this series
+						currentSeries.firstYear = new SafeIntYear(String.valueOf(getYearMarkerFromLine(line)), true);
+						
+						// Store series code
+						currentSeriesCode = getSeriesCodeFromLine(line);
+						currentSeries.defaults.getStringDefaultValue(TucsonDefaultField.SERIES_CODE).setValue(currentSeriesCode);
+
 					}
 
-					// Store series code
-					currentSeriesCode = getSeriesCodeFromLine(line);
 
-					// Check year marker is valid
-					checkYearMarkerIsValid(lastYearMarker, getYearMarkerFromLine(line));
-					lastYearMarker = getYearMarkerFromLine(line);
-					
-					if (isChronology) {					
-						// This is CRN data
-						//Boolean lastYearFlag = loadDataFromCRNDataLine(line, currentSeries);
+
+					// Extract actual data listening for last year flag
+					if(isChronology)
+					{
+						loadCRNDataFromDataLine(line, currentSeries);
 					}
-					else {
-						// This is RWL data
-						lastYearReached = loadDataFromRWLDataLine(line, currentSeries);
-						break;
+					else
+					{
+						loadRWLDataFromDataLine(line, currentSeries);
 					}
+					break;
+
 				
 				default :
 					// Line is not a standard header or data line so warn
@@ -381,7 +453,7 @@ public class TucsonReader extends AbstractDendroFileReader {
 	{		
 		SafeIntYear yearMarker;
 		try {
-			String yearString = line.substring(this.getKeycodeLength()-1, getKeycodeLength()+numYearMarkerChars).trim();
+			String yearString = line.substring(getKeycodeLength(), getKeycodeLength()+numYearMarkerChars).trim();
 			yearMarker = new SafeIntYear(yearString, usingAstronomicalDates);
 			
 			// Warn if years use negative numbers
@@ -460,7 +532,7 @@ public class TucsonReader extends AbstractDendroFileReader {
 	 * @param line2
 	 * @param line3
 	 */
-	protected void loadMetadata(TucsonMeasurementSeries series, String line1, String line2, String line3) {
+	protected void loadMetadata(TucsonSeries series, String line1, String line2, String line3) {
 		
 		series.defaults = (TucsonToTridasDefaults) defaults.clone();
 		
@@ -549,23 +621,23 @@ public class TucsonReader extends AbstractDendroFileReader {
 	 * @throws InvalidDendroFileException
 	 */
 	@SuppressWarnings("unchecked")
-	private Boolean loadDataFromRWLDataLine(String line, TucsonMeasurementSeries series) throws InvalidDendroFileException {
+	private void loadRWLDataFromDataLine(String line, TucsonSeries series) throws InvalidDendroFileException {
 
 		ArrayList<Integer> dataValues = new ArrayList<Integer>();
-		
+		ArrayList<String> vals = new ArrayList<String>();
+
+
 		// Remove keycode from line
 		line = line.substring(getKeycodeLength());
 		
 		// Remove year marker from line
 		line = line.substring(numYearMarkerChars);
-		
+
 		// Split values into string array. Limiting to 10 values (decade).
-		ArrayList<String> vals = new ArrayList<String>();
 		for (int i = 0; i + 6 <= line.length(); i = i + 6) {
 			vals.add(line.substring(i, i + 6).trim());
 		}
 		
-		Boolean lastYearFlag = false;
 		
 		GenericDefaultValue<NormalTridasUnit> unitField = (GenericDefaultValue<NormalTridasUnit>) series.defaults.getDefaultValue(TucsonDefaultField.UNITS);
 		
@@ -575,13 +647,13 @@ public class TucsonReader extends AbstractDendroFileReader {
 			if (value.equals("999")) {
 				// 0.01mm stop marker
 				unitField.setValue(NormalTridasUnit.HUNDREDTH_MM);
-				lastYearFlag = true;
+				lastYearReached = true;
 				break;
 			}
 			else if (value.equals("-9999")) {
 				// 0.001mm stop marker
 				unitField.setValue(NormalTridasUnit.MICROMETRES);
-				lastYearFlag = true;
+				lastYearReached = true;
 				break;
 			}
 			else if (value.equals("-999")) {
@@ -604,12 +676,11 @@ public class TucsonReader extends AbstractDendroFileReader {
 					throw new InvalidDendroFileException(I18n.getText("fileio.invalidDataValue"), currentLineNumber);
 				}
 			}
+			
 		}
 		
 		// Add these values to the series
 		series.dataInts.addAll(dataValues);
-	
-		return lastYearFlag;
 	}
 	
 	/**
@@ -619,8 +690,79 @@ public class TucsonReader extends AbstractDendroFileReader {
 	 * 
 	 * @param line
 	 */
-	private void loadDataFromCRNDataLine(String line, TucsonMeasurementSeries series) throws InvalidDendroFileException {
+	private void loadCRNDataFromDataLine(String line, TucsonSeries series) throws InvalidDendroFileException {
 
+		ArrayList<Integer> dataValues = new ArrayList<Integer>();
+		ArrayList<Integer> countValues = new ArrayList<Integer>();
+	
+		ArrayList<Integer> vals = new ArrayList<Integer>();
+		ArrayList<Integer> counts = new ArrayList<Integer>();
+
+		// Remove keycode from line
+		line = line.substring(getKeycodeLength());
+		
+		// Remove year marker from line
+		line = line.substring(numYearMarkerChars);
+				
+		// Calculate the limit of where we're going to read to
+		Integer lineLenLimit;
+		if (line.length() - 7 > 63) {
+			// Line is longer than expected so there must be extra chars
+			// at the end which we want to ignore.
+			lineLenLimit = 63;
+		}
+		else {
+			lineLenLimit = line.length() - 7;
+		}
+		
+		Boolean seenDataValue = false; 
+		
+		for (int i = 0; i <= lineLenLimit; i = i + 7) {
+			Integer value = null;
+			Integer count = null;
+			
+			try {
+				value = Integer.valueOf(line.substring(i, i + 4).trim());
+				count = Integer.valueOf(line.substring(i + 4, i + 7).trim());
+			} catch (NumberFormatException e) {
+				throw new InvalidDendroFileException(I18n.getText("fileio.invalidDataValue"), getCurrentLineNumber());
+			}
+			
+			
+			if(value.equals(Integer.valueOf("9990")))
+			{
+				if(seenDataValue==false)
+				{
+					// Must be lead in no-data value
+					series.firstYear.add(1);
+					continue;
+				}
+				else
+				{
+					// Must be lead out no-data value
+					series.lastYear.add(0-(i+1));
+					break;
+				}
+			}
+			else
+			{
+				// Normal value
+				seenDataValue = true;
+				vals.add(value);
+				counts.add(count);
+			}
+		}
+		
+		// number of values and counts *must* be the same
+		if (vals.size() != counts.size()) {
+			throw new InvalidDendroFileException(I18n.getText("fileio.countsAndValuesDontMatch", new String[]{
+					String.valueOf(vals.size()), String.valueOf(counts.size())}), getCurrentLineNumber());
+		}
+		
+		// Add these values and counts to the series
+		series.dataInts.addAll(vals);
+		series.countInts.addAll(counts);
+		
 	}
 	
 	
@@ -1001,12 +1143,14 @@ public class TucsonReader extends AbstractDendroFileReader {
 	 * 
 	 * @author peterbrewer
 	 */
-	private static class TucsonMeasurementSeries{
+	private static class TucsonSeries{
 		public TucsonToTridasDefaults defaults;
 		public final ArrayList<Integer> dataInts = new ArrayList<Integer>();
 		public final ArrayList<Integer> countInts = new ArrayList<Integer>();
+		public SafeIntYear firstYear  = new SafeIntYear();
+		public SafeIntYear lastYear = new SafeIntYear();
 		
-		private TucsonMeasurementSeries(TucsonToTridasDefaults df)
+		private TucsonSeries(TucsonToTridasDefaults df)
 		{
 			defaults =df;
 		}
