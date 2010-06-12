@@ -119,7 +119,8 @@ public class TridasMetadataFieldSet extends AbstractTridasMetadataFieldSet {
 	protected TridasProject getDefaultTridasProject() {
 		TridasProject project = new TridasProject();
 		
-		project.setTypes((List<ControlledVoc>) getDefaultValue(TridasMandatoryField.PROJECT_TYPES).getValue());
+		List<ControlledVoc> types = (List<ControlledVoc>) getDefaultValue(TridasMandatoryField.PROJECT_TYPES).getValue();
+		project.setTypes(types);
 		project.setLaboratories((List<TridasLaboratory>) getDefaultValue(TridasMandatoryField.PROJECT_LABORATORIES)
 				.getValue());
 		project.setTitle(getDefaultValue(TridasMandatoryField.PROJECT_TITLE).getStringValue());
@@ -223,4 +224,5 @@ public class TridasMetadataFieldSet extends AbstractTridasMetadataFieldSet {
 		wc.setBark(bark);
 		return wc;
 	}
+	
 }

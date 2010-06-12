@@ -205,7 +205,7 @@ public class SheffieldReader extends AbstractDendroFileReader {
 			
 			// Line 9 - UK Grid coords
 			else if (lineNum == 9) {
-				// We could add PROJ4 lib to convert these but not sure its worth it
+				// We could add PROJ4 or Jcoord libs to convert these but not sure its worth it
 				// For now just add as genericField
 				if (!lineString.equals("?")) {
 					defaults.getStringDefaultValue(DefaultFields.UK_COORDS).setValue(lineString);

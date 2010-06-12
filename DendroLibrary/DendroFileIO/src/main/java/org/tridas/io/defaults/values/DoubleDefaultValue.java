@@ -1,5 +1,6 @@
 package org.tridas.io.defaults.values;
 
+import org.apache.commons.lang.StringUtils;
 import org.grlea.log.SimpleLogger;
 import org.tridas.io.I18n;
 import org.tridas.io.defaults.AbstractDefaultValue;
