@@ -20,10 +20,10 @@ import org.tridas.io.formats.sheffield.TridasToSheffieldDefaults.SheffieldShapeC
 import org.tridas.io.formats.sheffield.TridasToSheffieldDefaults.SheffieldVariableCode;
 import org.tridas.io.util.CoordinatesUtils;
 import org.tridas.io.util.SafeIntYear;
-import org.tridas.io.warnings.ConversionWarning;
-import org.tridas.io.warnings.ConversionWarningException;
-import org.tridas.io.warnings.InvalidDendroFileException;
-import org.tridas.io.warnings.ConversionWarning.WarningType;
+import org.tridas.io.warningsandexceptions.ConversionWarning;
+import org.tridas.io.warningsandexceptions.ConversionWarningException;
+import org.tridas.io.warningsandexceptions.InvalidDendroFileException;
+import org.tridas.io.warningsandexceptions.ConversionWarning.WarningType;
 import org.tridas.schema.ComplexPresenceAbsence;
 import org.tridas.schema.ObjectFactory;
 import org.tridas.schema.SeriesLink;

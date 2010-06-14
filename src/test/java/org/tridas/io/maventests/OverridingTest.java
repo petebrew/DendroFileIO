@@ -12,8 +12,8 @@ import org.tridas.io.formats.tridas.TridasReader;
 import org.tridas.io.formats.tucson.TridasToTucsonDefaults;
 import org.tridas.io.formats.tucson.TucsonWriter;
 import org.tridas.io.formats.tucson.TridasToTucsonDefaults.TucsonField;
-import org.tridas.io.warnings.IncorrectDefaultFieldsException;
-import org.tridas.io.warnings.InvalidDendroFileException;
+import org.tridas.io.warningsandexceptions.IncorrectDefaultFieldsException;
+import org.tridas.io.warningsandexceptions.InvalidDendroFileException;
 import org.tridas.schema.TridasProject;
 
 public class OverridingTest extends TestCase {
@@ -75,7 +75,7 @@ public class OverridingTest extends TestCase {
 		assertFalse(dateChanged);
 	}
 	
-	public void testTucsanOverriding() throws IOException, InvalidDendroFileException, IncorrectDefaultFieldsException {
+	public void testTucsonOverriding() throws IOException, InvalidDendroFileException, IncorrectDefaultFieldsException {
 		// load tridas file
 		TridasReader reader = new TridasReader();
 		reader.loadFile("TestData/TRiDaS/Tridas4.xml");
@@ -84,8 +84,8 @@ public class OverridingTest extends TestCase {
 		// ok we got our project, lets set defaults stuff
 		TridasToTucsonDefaults defaults = new TridasToTucsonDefaults();
 		
-		defaults.getStringDefaultValue(TucsonField.SITE_NAME).setOverridingValue("TestOverriding");
-		defaults.getStringDefaultValue(TucsonField.INVESTIGATOR).setOverridingValue("MyInvestigator");
+		defaults.getStringDefaultValue(TucsonField.SITE_NAME).setOverridingValue("TstOvrd");
+		defaults.getStringDefaultValue(TucsonField.INVESTIGATOR).setOverridingValue("Test");
 		
 		TucsonWriter writer = new TucsonWriter();
 		writer.loadProject(project, defaults);
@@ -97,10 +97,10 @@ public class OverridingTest extends TestCase {
 		assertNotNull(file);
 		
 		for (String s : file) {
-			if (s.contains("TestOverriding")) {
+			if (s.contains("TstOvrd")) {
 				siteNameFound = true;
 			}
-			if (s.contains("MyInvestigator")) {
+			if (s.contains("Test")) {
 				investigatorFound = true;
 			}
 		}
@@ -108,24 +108,26 @@ public class OverridingTest extends TestCase {
 		assertTrue(investigatorFound);
 		
 		defaults.getStringDefaultValue(TucsonField.INVESTIGATOR).setOverriding(false);
+		defaults.getStringDefaultValue(TucsonField.INVESTIGATOR).setOverridingValue("Test2");
+
 		writer.loadProject(project, defaults);
 		
 		siteNameFound = false;
-		boolean investegatorChanged = false;
+		boolean investigatorChanged = false;
 		
 		file = writer.getFiles()[1].saveToString();
 		assertNotNull(file);
 		
 		for (String s : file) {
-			if (s.contains("TestOverriding")) {
+			if (s.contains("TstOvrd")) {
 				siteNameFound = true;
 			}
-			if (s.contains("MyInvestigator")) {
-				investegatorChanged = true;
+			if (s.contains("Test2")) {
+				investigatorChanged = true;
 			}
 		}
 		
 		assertTrue(siteNameFound);
-		assertFalse(investegatorChanged);
+		assertFalse(investigatorChanged);
 	}
 }

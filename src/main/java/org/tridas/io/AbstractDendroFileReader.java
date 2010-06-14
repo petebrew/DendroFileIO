@@ -6,9 +6,9 @@ import java.util.ArrayList;
 import org.grlea.log.SimpleLogger;
 import org.tridas.io.defaults.IMetadataFieldSet;
 import org.tridas.io.util.FileHelper;
-import org.tridas.io.warnings.ConversionWarning;
-import org.tridas.io.warnings.IncorrectDefaultFieldsException;
-import org.tridas.io.warnings.InvalidDendroFileException;
+import org.tridas.io.warningsandexceptions.ConversionWarning;
+import org.tridas.io.warningsandexceptions.IncorrectDefaultFieldsException;
+import org.tridas.io.warningsandexceptions.InvalidDendroFileException;
 import org.tridas.schema.TridasProject;
 
 public abstract class AbstractDendroFileReader {

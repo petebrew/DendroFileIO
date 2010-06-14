@@ -9,9 +9,9 @@ import org.tridas.io.I18n;
 import org.tridas.io.IDendroFile;
 import org.tridas.io.defaults.IMetadataFieldSet;
 import org.tridas.io.formats.belfastapple.TridasToBelfastAppleDefaults.BelfastAppleField;
-import org.tridas.io.warnings.ConversionWarning;
-import org.tridas.io.warnings.ConversionWarningException;
-import org.tridas.io.warnings.ConversionWarning.WarningType;
+import org.tridas.io.warningsandexceptions.ConversionWarning;
+import org.tridas.io.warningsandexceptions.ConversionWarningException;
+import org.tridas.io.warningsandexceptions.ConversionWarning.WarningType;
 import org.tridas.schema.TridasValue;
 
 public class BelfastAppleFile implements IDendroFile {

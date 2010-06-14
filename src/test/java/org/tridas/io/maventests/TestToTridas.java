@@ -22,10 +22,11 @@ import org.tridas.io.formats.tucson.TucsonToTridasDefaults;
 import org.tridas.io.formats.vformat.VFormatReader;
 import org.tridas.io.naming.NumericalNamingConvention;
 import org.tridas.io.naming.UUIDNamingConvention;
-import org.tridas.io.warnings.ConversionWarningException;
-import org.tridas.io.warnings.IncompleteTridasDataException;
-import org.tridas.io.warnings.IncorrectDefaultFieldsException;
-import org.tridas.io.warnings.InvalidDendroFileException;
+import org.tridas.io.warningsandexceptions.ConversionWarningException;
+import org.tridas.io.warningsandexceptions.IncompleteTridasDataException;
+import org.tridas.io.warningsandexceptions.IncorrectDefaultFieldsException;
+import org.tridas.io.warningsandexceptions.InvalidDendroFileException;
+import org.tridas.io.warningsandexceptions.UnrepresentableTridasDataException;
 import org.tridas.schema.TridasProject;
 
 public class TestToTridas extends TestCase {
@@ -88,6 +89,8 @@ public class TestToTridas extends TestCase {
 				fail();
 			} catch (ConversionWarningException e) {} catch (IncorrectDefaultFieldsException e) {
 				fail();
+			} catch (UnrepresentableTridasDataException e) {
+				e.printStackTrace();
 			}
 			writer.saveAllToDisk(outputLocation);
 			
@@ -135,7 +138,9 @@ public class TestToTridas extends TestCase {
 				writer.loadProject(myproject);
 			} catch (IncompleteTridasDataException e) {
 				fail();
-			} catch (ConversionWarningException e) {}
+			} catch (ConversionWarningException e) {
+			} catch (UnrepresentableTridasDataException e) {
+			}
 			writer.saveAllToDisk(outputLocation);
 			
 		}
@@ -180,7 +185,9 @@ public class TestToTridas extends TestCase {
 				writer.loadProject(myproject);
 			} catch (IncompleteTridasDataException e) {
 				fail();
-			} catch (ConversionWarningException e) {}
+			} catch (ConversionWarningException e) {
+			} catch (UnrepresentableTridasDataException e) {
+			}
 			writer.saveAllToDisk("target/TestOutput/");
 			
 		}
@@ -225,7 +232,9 @@ public class TestToTridas extends TestCase {
 				writer.loadProject(myproject);
 			} catch (IncompleteTridasDataException e) {
 				fail();
-			} catch (ConversionWarningException e) {}
+			} catch (ConversionWarningException e) {
+			} catch (UnrepresentableTridasDataException e) {
+			}
 			writer.saveAllToDisk(outputLocation);
 			
 		}
@@ -271,7 +280,9 @@ public class TestToTridas extends TestCase {
 				writer.loadProject(myproject);
 			} catch (IncompleteTridasDataException e) {
 				fail();
-			} catch (ConversionWarningException e) {}
+			} catch (ConversionWarningException e) {
+			} catch (UnrepresentableTridasDataException e) {
+			}
 			writer.saveAllToDisk(outputLocation);
 			
 		}
@@ -316,7 +327,9 @@ public class TestToTridas extends TestCase {
 				writer.loadProject(myproject);
 			} catch (IncompleteTridasDataException e) {
 				fail();
-			} catch (ConversionWarningException e) {}
+			} catch (ConversionWarningException e) {
+			} catch (UnrepresentableTridasDataException e) {
+			}
 			writer.saveAllToDisk(outputLocation);
 			
 		}
@@ -361,7 +374,9 @@ public class TestToTridas extends TestCase {
 				writer.loadProject(myproject);
 			} catch (IncompleteTridasDataException e) {
 				fail();
-			} catch (ConversionWarningException e) {}
+			} catch (ConversionWarningException e) {
+			} catch (UnrepresentableTridasDataException e) {
+			}
 			writer.saveAllToDisk(outputLocation);
 			
 		}
@@ -408,6 +423,8 @@ public class TestToTridas extends TestCase {
 				fail();
 			} catch (ConversionWarningException e) {} catch (IncorrectDefaultFieldsException e) {
 				fail();
+			} catch (UnrepresentableTridasDataException e) {
+				e.printStackTrace();
 			}
 			writer.saveAllToDisk(outputLocation);
 			
@@ -456,6 +473,8 @@ public class TestToTridas extends TestCase {
 				fail();
 			} catch (ConversionWarningException e) {} catch (IncorrectDefaultFieldsException e) {
 				fail();
+			} catch (UnrepresentableTridasDataException e) {
+				e.printStackTrace();
 			}
 			writer.saveAllToDisk(outputLocation);
 			
@@ -504,6 +523,7 @@ public class TestToTridas extends TestCase {
 				fail();
 			} catch (ConversionWarningException e) {} catch (IncorrectDefaultFieldsException e) {
 				fail();
+			} catch (UnrepresentableTridasDataException e) {
 			}
 			writer.saveAllToDisk(outputLocation);
 			

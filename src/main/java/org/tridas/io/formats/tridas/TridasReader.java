@@ -19,9 +19,9 @@ import org.tridas.io.I18n;
 import org.tridas.io.defaults.IMetadataFieldSet;
 import org.tridas.io.defaults.TridasMetadataFieldSet;
 import org.tridas.io.util.IOUtils;
-import org.tridas.io.warnings.ConversionWarning;
-import org.tridas.io.warnings.InvalidDendroFileException;
-import org.tridas.io.warnings.ConversionWarning.WarningType;
+import org.tridas.io.warningsandexceptions.ConversionWarning;
+import org.tridas.io.warningsandexceptions.InvalidDendroFileException;
+import org.tridas.io.warningsandexceptions.ConversionWarning.WarningType;
 import org.tridas.schema.TridasProject;
 import org.xml.sax.SAXException;
 

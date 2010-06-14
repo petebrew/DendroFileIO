@@ -11,10 +11,11 @@ import org.tridas.io.formats.trims.TrimsWriter;
 import org.tridas.io.formats.tucson.TucsonReader;
 import org.tridas.io.formats.tucson.TucsonToTridasDefaults;
 import org.tridas.io.naming.UUIDNamingConvention;
-import org.tridas.io.warnings.ConversionWarningException;
-import org.tridas.io.warnings.IncompleteTridasDataException;
-import org.tridas.io.warnings.IncorrectDefaultFieldsException;
-import org.tridas.io.warnings.InvalidDendroFileException;
+import org.tridas.io.warningsandexceptions.ConversionWarningException;
+import org.tridas.io.warningsandexceptions.IncompleteTridasDataException;
+import org.tridas.io.warningsandexceptions.IncorrectDefaultFieldsException;
+import org.tridas.io.warningsandexceptions.InvalidDendroFileException;
+import org.tridas.io.warningsandexceptions.UnrepresentableTridasDataException;
 import org.tridas.schema.TridasProject;
 
 public class TestBetweenFormats extends TestCase {
@@ -73,7 +74,9 @@ public class TestBetweenFormats extends TestCase {
 				writer.loadProject(myproject);
 			} catch (IncompleteTridasDataException e) {
 				fail();
-			} catch (ConversionWarningException e) {}
+			} catch (ConversionWarningException e) {
+			} catch (UnrepresentableTridasDataException e) {
+			}
 			writer.saveAllToDisk(outputLocation);
 			
 		}

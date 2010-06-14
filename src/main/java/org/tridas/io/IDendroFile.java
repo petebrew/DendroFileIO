@@ -10,6 +10,8 @@ import org.tridas.io.defaults.IMetadataFieldSet;
  */
 public interface IDendroFile {
 	
+	
+	
 	/**
 	 * Saves the file to strings.
 	 * 
