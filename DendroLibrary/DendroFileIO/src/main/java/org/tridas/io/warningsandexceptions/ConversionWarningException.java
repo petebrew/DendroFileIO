@@ -1,4 +1,4 @@
-package org.tridas.io.warnings;
+package org.tridas.io.warningsandexceptions;
 
 import java.io.IOException;
 

@@ -21,36 +21,39 @@
 //
 // Copyright 2001 Ken Harris <kbh7@cornell.edu>
 //
-package org.tridas.io.warnings;
+package org.tridas.io.warningsandexceptions;
 
 import java.io.IOException;
 
 /**
- * This exception is thrown when a Tridas entity is not complete. This
- * typically happens when an entity with no child entities is passed e.g.
- * a TridasObject with no TridasElements.
+ * This exception is thrown when a Tridas entity is fundamentally not representable
+ * in a legacy data format, for instance when it cannot hold data prior to a 
+ * specified date. This should only be used when no legacy data file can be 
+ * contstructed for the Tridas entity, <I>not</I> to indicate a that a metadata
+ * field cannot be represented.  In this case use 
+ * @see org.tridas.io.warningsandexceptions.ConversionWarningException
  * 
  * @author peterbrewer
  */
-public class IncompleteTridasDataException extends IOException {
+public class UnrepresentableTridasDataException extends IOException {
 	
 	private static final long serialVersionUID = 1L;
 	
 	/**
-	 * Basic non-descriptive missing data exception
+	 * Basic non-descriptive unrepresentable data exception
 	 */
-	public IncompleteTridasDataException() {
-		super("Missing data from TRiDaS classes");
+	public UnrepresentableTridasDataException() {
+		super("TRiDaS class not representable in legacy data format");
 	}
 	
 	/**
-	 * Constructor for an incomplete data exception with
+	 * Constructor for an unrepresentable data exception with
 	 * descriptive message
 	 * 
 	 * @param s
 	 */
-	public IncompleteTridasDataException(String s) {
+	public UnrepresentableTridasDataException(String s) {
 		// For now, just dump debug info
-		System.out.println("Incomplete TRiDaS Data: " + s);
+		System.out.println("Unrepresentable TRiDaS Data: " + s);
 	}
 }

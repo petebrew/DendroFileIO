@@ -10,7 +10,7 @@ import org.tridas.io.defaults.IMetadataFieldSet;
 import org.tridas.io.defaults.TridasMetadataFieldSet.TridasMandatoryField;
 import org.tridas.io.defaults.values.GenericDefaultValue;
 import org.tridas.io.util.DateUtils;
-import org.tridas.io.warnings.InvalidDendroFileException;
+import org.tridas.io.warningsandexceptions.InvalidDendroFileException;
 import org.tridas.schema.NormalTridasUnit;
 import org.tridas.schema.ObjectFactory;
 import org.tridas.schema.TridasElement;

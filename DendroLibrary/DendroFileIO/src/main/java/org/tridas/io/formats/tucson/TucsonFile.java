@@ -13,8 +13,9 @@ import org.tridas.io.formats.tucson.TridasToTucsonDefaults.TucsonField;
 import org.tridas.io.util.SafeIntYear;
 import org.tridas.io.util.StringUtils;
 import org.tridas.io.util.YearRange;
-import org.tridas.io.warnings.ConversionWarning;
-import org.tridas.io.warnings.ConversionWarning.WarningType;
+import org.tridas.io.warningsandexceptions.ConversionWarning;
+import org.tridas.io.warningsandexceptions.UnrepresentableTridasDataException;
+import org.tridas.io.warningsandexceptions.ConversionWarning.WarningType;
 import org.tridas.schema.TridasDerivedSeries;
 import org.tridas.schema.TridasValue;
 
@@ -329,7 +330,7 @@ public class TucsonFile implements IDendroFile {
 	 * 
 	 * @param series
 	 */
-	public void addSeries(ITridasSeries series) {
+	public void addSeries(ITridasSeries series) throws UnrepresentableTridasDataException{
 		
 		// Add this series to our list
 		seriesList.add(series);
@@ -370,6 +371,7 @@ public class TucsonFile implements IDendroFile {
 				range.union(rng);
 			}
 			
+			/*
 			// Warn if using +8000 bodge and some years are > 2000AD whilst others are BC
 			if (SafeIntYear.max(rng.getEnd(), new SafeIntYear(2000)) == rng.getEnd()
 					&& SafeIntYear.min(rng.getStart(), new SafeIntYear(1)) == rng.getStart()
@@ -377,14 +379,14 @@ public class TucsonFile implements IDendroFile {
 				defaults.addConversionWarning(new ConversionWarning(WarningType.UNREPRESENTABLE, I18n
 						.getText("tucson.range.8000BCand2000AD"), I18n.getText("tucson") + "."
 						+ I18n.getText("tucson.range")));
+			}*/
+			
+			// Throw error if years are before 1000BC
+			if (SafeIntYear.min(rng.getStart(), new SafeIntYear(-1001)) == rng.getStart()) {
+				throw new UnrepresentableTridasDataException(I18n.getText("tucson.before1000BC"));
 			}
 			
-			// Warn sternly if years are before 8000BC
-			if (SafeIntYear.min(rng.getStart(), new SafeIntYear(-8001)) == rng.getStart()) {
-				defaults.addConversionWarning(new ConversionWarning(WarningType.UNREPRESENTABLE, I18n
-						.getText("tucson.range.8000BC"), I18n.getText("tucson") + "." + I18n.getText("tucson.range")));
-			}
-			
+			/*
 			// Warn if BC and using +8000 bodge
 			if (SafeIntYear.min(rng.getStart(), new SafeIntYear(1)) == rng.getStart()
 					&& useEightThousandYearOffsetBodge) {
@@ -398,7 +400,7 @@ public class TucsonFile implements IDendroFile {
 					&& !useEightThousandYearOffsetBodge) {
 				defaults.addConversionWarning(new ConversionWarning(WarningType.UNREPRESENTABLE, I18n
 						.getText("tucson.range.noBodge"), I18n.getText("tucson") + "." + I18n.getText("tucson.range")));
-			}
+			}*/
 			
 		}
 		

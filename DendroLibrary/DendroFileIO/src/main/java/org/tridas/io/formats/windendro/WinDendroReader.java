@@ -5,7 +5,7 @@ import java.util.ArrayList;
 import org.tridas.io.AbstractDendroFileReader;
 import org.tridas.io.I18n;
 import org.tridas.io.defaults.IMetadataFieldSet;
-import org.tridas.io.warnings.InvalidDendroFileException;
+import org.tridas.io.warningsandexceptions.InvalidDendroFileException;
 import org.tridas.schema.TridasProject;
 
 public class WinDendroReader extends AbstractDendroFileReader {

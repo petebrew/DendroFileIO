@@ -16,9 +16,10 @@ import org.tridas.io.formats.trims.TrimsWriter;
 import org.tridas.io.formats.tucson.TucsonWriter;
 import org.tridas.io.naming.HierarchicalNamingConvention;
 import org.tridas.io.naming.NumericalNamingConvention;
-import org.tridas.io.warnings.ConversionWarningException;
-import org.tridas.io.warnings.IncompleteTridasDataException;
-import org.tridas.io.warnings.InvalidDendroFileException;
+import org.tridas.io.warningsandexceptions.ConversionWarningException;
+import org.tridas.io.warningsandexceptions.IncompleteTridasDataException;
+import org.tridas.io.warningsandexceptions.InvalidDendroFileException;
+import org.tridas.io.warningsandexceptions.UnrepresentableTridasDataException;
 import org.tridas.schema.TridasProject;
 
 public class TestFromTridas extends TestCase {
@@ -82,6 +83,8 @@ public class TestFromTridas extends TestCase {
 				continue;
 			} catch (ConversionWarningException e) {
 
+			} catch (UnrepresentableTridasDataException e) {
+
 			}
 			
 			// Actually save file(s) to disk
@@ -124,7 +127,7 @@ public class TestFromTridas extends TestCase {
 			} catch (IncompleteTridasDataException e) {
 				e.printStackTrace();
 			} catch (ConversionWarningException e) {
-				e.printStackTrace();
+			} catch (UnrepresentableTridasDataException e) {
 			}
 			
 			// Actually save file(s) to disk
@@ -172,7 +175,7 @@ public class TestFromTridas extends TestCase {
 			} catch (IncompleteTridasDataException e) {
 				e.printStackTrace();
 			} catch (ConversionWarningException e) {
-				e.printStackTrace();
+			} catch (UnrepresentableTridasDataException e) {
 			}
 			
 			// Actually save file(s) to disk
@@ -215,7 +218,7 @@ public class TestFromTridas extends TestCase {
 			} catch (IncompleteTridasDataException e) {
 				e.printStackTrace();
 			} catch (ConversionWarningException e) {
-				e.printStackTrace();
+			} catch (UnrepresentableTridasDataException e) {
 			}
 			
 			// Actually save file(s) to disk
@@ -258,7 +261,7 @@ public class TestFromTridas extends TestCase {
 			} catch (IncompleteTridasDataException e) {
 				e.printStackTrace();
 			} catch (ConversionWarningException e) {
-				e.printStackTrace();
+			} catch (UnrepresentableTridasDataException e) {
 			}
 			
 			// Actually save file(s) to disk
@@ -305,7 +308,7 @@ public class TestFromTridas extends TestCase {
 			} catch (IncompleteTridasDataException e) {
 				e.printStackTrace();
 			} catch (ConversionWarningException e) {
-				e.printStackTrace();
+			} catch (UnrepresentableTridasDataException e) {
 			}
 			
 			// Actually save file(s) to disk

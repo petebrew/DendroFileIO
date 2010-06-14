@@ -24,9 +24,9 @@ import org.tridas.io.formats.heidelberg.HeidelbergToTridasDefaults.FHStartsOrEnd
 import org.tridas.io.formats.heidelberg.HeidelbergToTridasDefaults.FHWaldKante;
 import org.tridas.io.util.ITRDBTaxonConverter;
 import org.tridas.io.util.StringUtils;
-import org.tridas.io.warnings.ConversionWarning;
-import org.tridas.io.warnings.InvalidDendroFileException;
-import org.tridas.io.warnings.ConversionWarning.WarningType;
+import org.tridas.io.warningsandexceptions.ConversionWarning;
+import org.tridas.io.warningsandexceptions.InvalidDendroFileException;
+import org.tridas.io.warningsandexceptions.ConversionWarning.WarningType;
 import org.tridas.schema.ControlledVoc;
 import org.tridas.schema.NormalTridasUnit;
 import org.tridas.schema.SeriesLink;

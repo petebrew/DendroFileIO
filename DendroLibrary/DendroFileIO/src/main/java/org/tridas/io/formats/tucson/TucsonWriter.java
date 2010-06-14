@@ -8,7 +8,8 @@ import org.tridas.io.defaults.IMetadataFieldSet;
 import org.tridas.io.naming.HierarchicalNamingConvention;
 import org.tridas.io.naming.INamingConvention;
 import org.tridas.io.util.TridasHierarchyHelper;
-import org.tridas.io.warnings.IncompleteTridasDataException;
+import org.tridas.io.warningsandexceptions.IncompleteTridasDataException;
+import org.tridas.io.warningsandexceptions.UnrepresentableTridasDataException;
 import org.tridas.schema.TridasDerivedSeries;
 import org.tridas.schema.TridasElement;
 import org.tridas.schema.TridasMeasurementSeries;
@@ -39,7 +40,8 @@ public class TucsonWriter extends AbstractDendroCollectionWriter {
 	
 
 	@Override
-	public void parseTridasProject(TridasProject p, IMetadataFieldSet argDefaults) throws IncompleteTridasDataException {
+	public void parseTridasProject(TridasProject p, IMetadataFieldSet argDefaults) 
+	throws IncompleteTridasDataException, UnrepresentableTridasDataException {
 	
 		// Base defaults for all the output files
 		defaults = (TridasToTucsonDefaults) argDefaults;

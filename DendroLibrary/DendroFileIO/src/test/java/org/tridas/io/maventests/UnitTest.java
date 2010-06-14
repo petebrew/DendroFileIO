@@ -25,10 +25,11 @@ import org.tridas.io.formats.tridas.TridasReader;
 import org.tridas.io.formats.tridas.TridasWriter;
 import org.tridas.io.formats.tucson.TridasToTucsonDefaults;
 import org.tridas.io.formats.tucson.TucsonWriter;
-import org.tridas.io.warnings.ConversionWarningException;
-import org.tridas.io.warnings.IncompleteTridasDataException;
-import org.tridas.io.warnings.IncorrectDefaultFieldsException;
-import org.tridas.io.warnings.InvalidDendroFileException;
+import org.tridas.io.warningsandexceptions.ConversionWarningException;
+import org.tridas.io.warningsandexceptions.IncompleteTridasDataException;
+import org.tridas.io.warningsandexceptions.IncorrectDefaultFieldsException;
+import org.tridas.io.warningsandexceptions.InvalidDendroFileException;
+import org.tridas.io.warningsandexceptions.UnrepresentableTridasDataException;
 import org.tridas.schema.TridasProject;
 
 public class UnitTest extends TestCase {
@@ -65,6 +66,8 @@ public class UnitTest extends TestCase {
 			e.printStackTrace();
 			fail();
 		} catch (IncorrectDefaultFieldsException e) {
+			e.printStackTrace();
+		} catch (UnrepresentableTridasDataException e) {
 			e.printStackTrace();
 		}
 		
@@ -111,6 +114,8 @@ public class UnitTest extends TestCase {
 		} catch (ConversionWarningException e) {
 			e.printStackTrace();
 		} catch (IncorrectDefaultFieldsException e) {
+			e.printStackTrace();
+		} catch (UnrepresentableTridasDataException e) {
 			e.printStackTrace();
 		}
 		
