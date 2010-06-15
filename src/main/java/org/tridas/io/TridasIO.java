@@ -22,6 +22,7 @@ import org.tridas.io.formats.excelmatrix.ExcelMatrixWriter;
 import org.tridas.io.formats.heidelberg.HeidelbergReader;
 import org.tridas.io.formats.heidelberg.HeidelbergWriter;
 import org.tridas.io.formats.sheffield.SheffieldReader;
+import org.tridas.io.formats.windendro.WinDendroReader;
 import org.tridas.io.formats.tridas.TridasReader;
 import org.tridas.io.formats.tridas.TridasWriter;
 import org.tridas.io.formats.trims.TrimsReader;
@@ -62,6 +63,7 @@ public class TridasIO {
 		registerFileReader(VFormatReader.class);
 		// registerFileReader(SylpheReader.class);
 		registerFileReader(BesanconReader.class);
+		registerFileReader(WinDendroReader.class);
 		
 		registerFileWriter(HeidelbergWriter.class);
 		registerFileWriter(BelfastAppleWriter.class);

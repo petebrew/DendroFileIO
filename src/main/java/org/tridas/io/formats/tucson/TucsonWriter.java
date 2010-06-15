@@ -8,8 +8,11 @@ import org.tridas.io.defaults.IMetadataFieldSet;
 import org.tridas.io.naming.HierarchicalNamingConvention;
 import org.tridas.io.naming.INamingConvention;
 import org.tridas.io.util.TridasHierarchyHelper;
+import org.tridas.io.util.UnitUtils;
 import org.tridas.io.warningsandexceptions.IncompleteTridasDataException;
 import org.tridas.io.warningsandexceptions.UnrepresentableTridasDataException;
+import org.tridas.schema.NormalTridasUnit;
+import org.tridas.schema.NormalTridasVariable;
 import org.tridas.schema.TridasDerivedSeries;
 import org.tridas.schema.TridasElement;
 import org.tridas.schema.TridasMeasurementSeries;
@@ -17,8 +20,10 @@ import org.tridas.schema.TridasObject;
 import org.tridas.schema.TridasProject;
 import org.tridas.schema.TridasRadius;
 import org.tridas.schema.TridasSample;
+import org.tridas.schema.TridasUnit;
 import org.tridas.schema.TridasValue;
 import org.tridas.schema.TridasValues;
+import org.tridas.schema.TridasVariable;
 
 /**
  * Writer for the Tucson file format.
@@ -65,6 +70,28 @@ public class TucsonWriter extends AbstractDendroCollectionWriter {
 		
 			for (TridasDerivedSeries ds : dsList) 
 			{
+				TridasValues tvs = ds.getValues().get(0);
+				NormalTridasUnit inputunit = null;			
+				if(tvs.getVariable().getNormalTridas()!=null)
+				{
+					switch (ds.getValues().get(0).getVariable().getNormalTridas())
+					{
+					case RING_WIDTH:
+					case LATEWOOD_WIDTH:
+					case EARLYWOOD_WIDTH:
+						if(ds.getValues().get(0).getUnit().getNormalTridas()!=null)
+						{
+							inputunit =  ds.getValues().get(0).getUnit().getNormalTridas();
+						}
+						break;
+					default: 
+						break;
+						
+					}
+				}
+				
+				ds.getValues().set(0, UnitUtils.convertTridasValues(getOutputUnits(tvs), ds.getValues().get(0), true));
+				
 				TucsonFile file = new TucsonFile(defaults);
 				file.addSeries(ds);
 				naming.registerFile(file, p, ds);
@@ -104,17 +131,9 @@ public class TucsonWriter extends AbstractDendroCollectionWriter {
 								
 								for (int i = 0; i < ms.getValues().size(); i++) {
 									TridasValues tvs = ms.getValues().get(i);
-									
-									// Check there are no non-number values
-									for (TridasValue v : tvs.getValues()) {
-										try {
-											Integer.parseInt(v.getValue());
-										} catch (NumberFormatException e2) {
-											throw new IncompleteTridasDataException(
-													"One or more data values are not numbers!  This is technically acceptable in TRiDaS but not supported in this library.");
-										}
-									}
-									
+	
+									ms.getValues().set(i, UnitUtils.convertTridasValues(getOutputUnits(tvs), ms.getValues().get(i), true));
+																		
 									TridasToTucsonDefaults tvDefaults = (TridasToTucsonDefaults) msDefaults.clone();
 									tvDefaults.populateFromTridasValues(tvs);
 									
@@ -132,7 +151,36 @@ public class TucsonWriter extends AbstractDendroCollectionWriter {
 	}
 	
 
-	
+	private NormalTridasUnit getOutputUnits(TridasValues tvs)
+	{
+		NormalTridasUnit inputunit = null;			
+		if(tvs.getVariable().getNormalTridas()!=null)
+		{
+			switch (tvs.getVariable().getNormalTridas())
+			{
+			case RING_WIDTH:
+			case LATEWOOD_WIDTH:
+			case EARLYWOOD_WIDTH:
+				if(tvs.getUnit().getNormalTridas()!=null)
+				{
+					if (tvs.getUnit().getNormalTridas().equals(NormalTridasUnit.HUNDREDTH_MM))
+					{
+						return NormalTridasUnit.HUNDREDTH_MM;
+					}
+					else
+					{
+						return NormalTridasUnit.MICROMETRES;
+					}
+				}
+				break;
+			default: 
+				break;
+				
+			}
+		}
+		return null;
+		
+	}
 	
 	/**
 	 * @see org.tridas.io.IDendroCollectionWriter#getNamingConvention()
