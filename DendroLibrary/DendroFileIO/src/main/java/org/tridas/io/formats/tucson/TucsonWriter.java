@@ -9,8 +9,10 @@ import org.tridas.io.naming.HierarchicalNamingConvention;
 import org.tridas.io.naming.INamingConvention;
 import org.tridas.io.util.TridasHierarchyHelper;
 import org.tridas.io.util.UnitUtils;
+import org.tridas.io.warningsandexceptions.ConversionWarning;
 import org.tridas.io.warningsandexceptions.IncompleteTridasDataException;
 import org.tridas.io.warningsandexceptions.UnrepresentableTridasDataException;
+import org.tridas.io.warningsandexceptions.ConversionWarning.WarningType;
 import org.tridas.schema.NormalTridasUnit;
 import org.tridas.schema.NormalTridasVariable;
 import org.tridas.schema.TridasDerivedSeries;
@@ -151,6 +153,15 @@ public class TucsonWriter extends AbstractDendroCollectionWriter {
 	}
 	
 
+	/**
+	 * Get the NormalTridasUnits for this TridasValues block.  Tucson can represent 1/100th mm
+	 * or micrometres.  If its any other sort of variable being stored, just return without
+	 * handling units.
+	 * 
+	 * 
+	 * @param tvs
+	 * @return
+	 */
 	private NormalTridasUnit getOutputUnits(TridasValues tvs)
 	{
 		NormalTridasUnit inputunit = null;			
@@ -178,6 +189,9 @@ public class TucsonWriter extends AbstractDendroCollectionWriter {
 				
 			}
 		}
+		
+		addWarning(new ConversionWarning(WarningType.NOT_STRICT, I18n
+						.getText("tucson.unknownVariableUnitsUnhandled")));
 		return null;
 		
 	}
