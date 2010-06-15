@@ -20,6 +20,7 @@ import org.tridas.io.formats.trims.TrimsReader;
 import org.tridas.io.formats.tucson.TucsonReader;
 import org.tridas.io.formats.tucson.TucsonToTridasDefaults;
 import org.tridas.io.formats.vformat.VFormatReader;
+import org.tridas.io.formats.windendro.WinDendroReader;
 import org.tridas.io.naming.NumericalNamingConvention;
 import org.tridas.io.naming.UUIDNamingConvention;
 import org.tridas.io.warningsandexceptions.ConversionWarningException;
@@ -495,6 +496,55 @@ public class TestToTridas extends TestCase {
 			
 			// Create a new converter
 			BesanconReader reader = new BesanconReader();
+			
+			// Parse the legacy data file
+			try {
+				// TridasEntitiesFromDefaults def = new TridasEntitiesFromDefaults();
+				reader.loadFile(folder, filename);
+			} catch (IOException e) {
+				// Standard IO Exception
+				log.info(e.getLocalizedMessage());
+				return;
+			} catch (InvalidDendroFileException e) {
+				// Fatal error interpreting file
+				log.info(e.getLocalizedMessage());
+				return;
+			}
+			
+			// Extract the TridasProject
+			TridasProject myproject = reader.getProject();
+			
+			TridasWriter writer = new TridasWriter();
+			NumericalNamingConvention nc = new NumericalNamingConvention("test");
+			writer.setNamingConvention(nc);
+			
+			try {
+				writer.loadProject(myproject, new TridasMetadataFieldSet());
+			} catch (IncompleteTridasDataException e) {
+				fail();
+			} catch (ConversionWarningException e) {} catch (IncorrectDefaultFieldsException e) {
+				fail();
+			} catch (UnrepresentableTridasDataException e) {
+			}
+			writer.saveAllToDisk(outputLocation);
+			
+		}
+		
+	}
+	
+	public void testWinDendroToTridas() {
+		String folder = "TestData/WinDendro";
+		String[] files = getFilesFromFolder(folder);
+		
+		if (files.length == 0) {
+			fail();
+		}
+		
+		for (String filename : files) {
+			log.info("Test conversion of: " + filename);
+			
+			// Create a new converter
+			WinDendroReader reader = new WinDendroReader();
 			
 			// Parse the legacy data file
 			try {

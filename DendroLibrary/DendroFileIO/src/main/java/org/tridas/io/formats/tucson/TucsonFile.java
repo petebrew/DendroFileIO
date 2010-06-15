@@ -16,6 +16,7 @@ import org.tridas.io.util.YearRange;
 import org.tridas.io.warningsandexceptions.ConversionWarning;
 import org.tridas.io.warningsandexceptions.UnrepresentableTridasDataException;
 import org.tridas.io.warningsandexceptions.ConversionWarning.WarningType;
+import org.tridas.schema.NormalTridasUnit;
 import org.tridas.schema.TridasDerivedSeries;
 import org.tridas.schema.TridasValue;
 
@@ -153,6 +154,26 @@ public class TucsonFile implements IDendroFile {
 			// Extract all values from series
 			List<TridasValue> data = series.getValues().get(0).getValues();
 			
+			// if it's summed, we print spaces instead of [1]'s later
+			boolean isSummed = false; // s.isSummed();
+			boolean isChronology = false; // s.isIndexed() || s.isSummed();
+			if (series instanceof TridasDerivedSeries){isChronology = true;}
+			
+			// Check if units are microns as we need to use a different EOF marker
+			String EOFFlag = "999";
+			try{
+				if(series.getValues().get(0).getUnit().getNormalTridas().equals(NormalTridasUnit.MICROMETRES))
+				{
+					EOFFlag = "-9999";
+				}
+			} catch (Exception e){}
+			
+			// If its a chronology the EOF is different!
+			if (isChronology)
+			{
+				EOFFlag = "9990";
+			}
+			
 			try {
 				// Try and get the unique identifier
 				code = StringUtils.rightPadWithTrim(series.getIdentifier().getValue().toString(), 8);
@@ -181,9 +202,7 @@ public class TucsonFile implements IDendroFile {
 				end = start.add(0);
 			}
 			
-			// if it's summed, we print spaces instead of [1]'s later
-			boolean isSummed = false; // s.isSummed();
-			boolean isChronology = false; // s.isIndexed() || s.isSummed();
+
 			
 			// start year; processed files always start on the decade
 			SafeIntYear y = start;
@@ -203,12 +222,12 @@ public class TucsonFile implements IDendroFile {
 				if (y.compareTo(end) >= 0 || (isChronology && y.compareTo(start) < 0)) {
 					if (!isChronology) {
 						// "   999", and STOP
-						string.append("   999");
+						string.append(StringUtils.leftPad(EOFFlag, 6));
 						break;
 					}
 					else {
 						// "9990   " or "9990  0"
-						string.append(isSummed ? "9990  0" : "9990   ");
+						string.append(isSummed ? StringUtils.rightPad(EOFFlag, 6)+"0": StringUtils.rightPad(EOFFlag, 7));
 					}
 				}
 				else {
@@ -217,7 +236,7 @@ public class TucsonFile implements IDendroFile {
 							? 4
 							: 6)));
 					
-					// Include count of applicable: "%3d" (right-align)
+					// Include count if applicable: "%3d" (right-align)
 					if (isSummed) {
 						string.append(StringUtils.leftPad(data.get(y.diff(start)).toString(), 3));
 					}
