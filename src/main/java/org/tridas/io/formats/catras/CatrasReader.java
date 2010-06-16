@@ -222,7 +222,7 @@ public class CatrasReader extends AbstractDendroFileReader {
 		
 		// Check length metadata and number of ring width values match
 		if (ringWidthValues.size() != length) {
-			addWarning(new ConversionWarning(WarningType.INVALID, I18n.getText("fileio.valueCountMismatch", ringWidthValues.size()+"", length+"")));
+			//addWarning(new ConversionWarning(WarningType.INVALID, I18n.getText("fileio.valueCountMismatch", ringWidthValues.size()+"", length+"")));
 			// Trim off extra ring width values
 			for (int j=length; j<ringWidthValues.size(); j++)
 			{

@@ -88,7 +88,7 @@ public class TucsonFile implements IDendroFile {
 		
 	private TridasToTucsonDefaults defaults; 	 // Contains the defaults for the fields
 	private ArrayList<ITridasSeries> seriesList; // List of series represented by this file
-	private YearRange range = null;              // Total range of years for data in this file
+	private YearRange allSeriesRange = null;              // Total range of years for data in this file
 	
 	
 	public TucsonFile(IMetadataFieldSet argDefaults) {
@@ -277,8 +277,8 @@ public class TucsonFile implements IDendroFile {
 	 */
 	private void writeRowHeader(StringBuilder string, String code, int colWidth, SafeIntYear y) {
 		String prefix; // don't print the decade for the first one
-		if (y.compareTo(range.getStart()) < 0) {
-			prefix = range.getStart().toAstronomicalYear().toString();
+		if (y.compareTo(allSeriesRange.getStart()) < 0) {
+			prefix = allSeriesRange.getStart().toAstronomicalYear().toString();
 		}
 		else {
 			prefix = y.toAstronomicalYear().toString();
@@ -325,21 +325,21 @@ public class TucsonFile implements IDendroFile {
 	private String getRangeAsString() {
 		
 		// Range is null so just return spaces
-		if (range == null) {
+		if (allSeriesRange == null) {
 			return StringUtils.getSpaces(9);
 		}
 		
 		// If years are BC (negative) then add 8000
 		// if 'bodge' flag is turned on
-		if ((Integer.parseInt(range.getStart().toString()) < 0 || Integer.parseInt(range.getEnd().toString()) < 0)
+		if ((Integer.parseInt(allSeriesRange.getStart().toString()) < 0 || Integer.parseInt(allSeriesRange.getEnd().toString()) < 0)
 				&& useEightThousandYearOffsetBodge) {
-			return String.valueOf((Integer.parseInt(range.getStart().toAstronomicalYear().toString()) + 8000)) + " "
-					+ String.valueOf((Integer.parseInt(range.getEnd().toAstronomicalYear().toString()) + 8000));
+			return String.valueOf((Integer.parseInt(allSeriesRange.getStart().toAstronomicalYear().toString()) + 8000)) + " "
+					+ String.valueOf((Integer.parseInt(allSeriesRange.getEnd().toAstronomicalYear().toString()) + 8000));
 			
 		}
 		
 		// return range
-		return range.getStart() + " " + range.getEnd();
+		return allSeriesRange.getStart() + " " + allSeriesRange.getEnd();
 	}
 	
 	/**
@@ -349,52 +349,20 @@ public class TucsonFile implements IDendroFile {
 	 */
 	public void addSeries(ITridasSeries series){
 			
-		// Extract and Check the range and warn if there are problems
-		// **********************************************************
-		YearRange rng = null;
-		SafeIntYear firstYear = null;
-		SafeIntYear lastYear = null;
-		try {
-			// Try to set range using first/last year info from interpretation section
-			firstYear = new SafeIntYear(series.getInterpretation().getFirstYear());
-			lastYear = new SafeIntYear(series.getInterpretation().getLastYear());
-			
-		} catch (NullPointerException e) {
-			// Otherwise set to 1001 relative year and use count of values
-			if (firstYear == null) {
-				// First year is null so just use 1001 relative year and count of values
-				firstYear = new SafeIntYear(1001);
-				lastYear = new SafeIntYear(1001 + series.getValues().get(0).getValues().size());
-			}
-			else if (lastYear == null) {
-				// We have firstYear but not last, so calculate last from count of values
-				BigInteger intfirstyear = BigInteger.valueOf(Integer.parseInt(firstYear.toString()));
-				BigInteger numofvalues = BigInteger.valueOf(series.getValues().get(0).getValues().size());
-				BigInteger intlastyear = intfirstyear.add(numofvalues);
-				lastYear = new SafeIntYear(intlastyear.intValue());
-			}
-		}
+		YearRange thisSeriesRange = new YearRange(series);
 		
-		rng = new YearRange(firstYear, lastYear);
-		if (rng != null) {
-			if (range == null) {
-				range = rng;
+		if (thisSeriesRange != null) {
+			
+			// Add this series range to the files total range
+			if (allSeriesRange == null) {
+				allSeriesRange = thisSeriesRange;
 			}
 			else {
-				range.union(rng);
+				allSeriesRange.union(thisSeriesRange);
 			}
-			
-			// Ignore series if before 1000BC
-			if (SafeIntYear.min(rng.getStart(), new SafeIntYear(-1001)) == rng.getStart()) {
-				defaults.addConversionWarning(new ConversionWarning(WarningType.UNREPRESENTABLE, 
-						I18n.getText("tucson.before1000BC")));
-
-				// Return without setting series
-				return;
-			}
-			
+						
 			// Warn if any data is BC
-			else if (SafeIntYear.min(rng.getStart(), new SafeIntYear(1)) == rng.getStart()) {
+			if (SafeIntYear.min(thisSeriesRange.getStart(), new SafeIntYear(1)) == thisSeriesRange.getStart()) {
 				defaults.addConversionWarning(new ConversionWarning(WarningType.AMBIGUOUS, 
 						I18n.getText("tucson.before1AD")));
 			}
