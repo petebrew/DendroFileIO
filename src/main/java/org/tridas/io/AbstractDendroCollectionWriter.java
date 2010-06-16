@@ -8,11 +8,10 @@ import org.grlea.log.SimpleLogger;
 import org.tridas.io.defaults.IMetadataFieldSet;
 import org.tridas.io.naming.INamingConvention;
 import org.tridas.io.util.FileHelper;
-import org.tridas.io.warningsandexceptions.ConversionWarning;
-import org.tridas.io.warningsandexceptions.ConversionWarningException;
-import org.tridas.io.warningsandexceptions.IncompleteTridasDataException;
-import org.tridas.io.warningsandexceptions.IncorrectDefaultFieldsException;
-import org.tridas.io.warningsandexceptions.UnrepresentableTridasDataException;
+import org.tridas.io.warnings.ConversionWarning;
+import org.tridas.io.warnings.ConversionWarningException;
+import org.tridas.io.warnings.IncompleteTridasDataException;
+import org.tridas.io.warnings.IncorrectDefaultFieldsException;
 import org.tridas.schema.TridasProject;
 
 /**
@@ -54,9 +53,8 @@ public abstract class AbstractDendroCollectionWriter {
 	 * @param argProject
 	 * @throws IncompleteTridasDataException
 	 * @throws ConversionWarningException
-	 * @throws UnrepresentableTridasDataException 
 	 */
-	public void loadProject(TridasProject argProject) throws IncompleteTridasDataException, ConversionWarningException, UnrepresentableTridasDataException {
+	public void loadProject(TridasProject argProject) throws IncompleteTridasDataException, ConversionWarningException {
 		IMetadataFieldSet defaults = constructDefaults();
 		parseTridasProject(argProject, defaults);
 	}
@@ -88,9 +86,10 @@ public abstract class AbstractDendroCollectionWriter {
 	 * @throws IncorrectDefaultFieldsException
 	 */
 	public void loadProject(TridasProject argProject, IMetadataFieldSet argDefaults)
-			throws IncompleteTridasDataException, ConversionWarningException, IncorrectDefaultFieldsException,
-			UnrepresentableTridasDataException{
-		
+			throws IncompleteTridasDataException, ConversionWarningException, IncorrectDefaultFieldsException {
+		if(argDefaults == null){
+			loadProject(argProject);
+		}
 		if (!argDefaults.getClass().equals(defaultFieldsClass)) {
 			throw new IncorrectDefaultFieldsException(defaultFieldsClass);
 		}
@@ -106,8 +105,7 @@ public abstract class AbstractDendroCollectionWriter {
 	 * @throws ConversionWarningException
 	 */
 	protected abstract void parseTridasProject(TridasProject argProject, IMetadataFieldSet argDefaults)
-			throws IncompleteTridasDataException, ConversionWarningException, 
-			UnrepresentableTridasDataException;
+			throws IncompleteTridasDataException, ConversionWarningException;
 	
 	/**
 	 * Get the list of DendroFiles that are associated

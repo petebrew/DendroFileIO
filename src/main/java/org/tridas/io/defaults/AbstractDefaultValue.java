@@ -86,14 +86,18 @@ public abstract class AbstractDefaultValue<E extends Object> implements Cloneabl
 	
 	/**
 	 * Sets the value that will override other calls to {@link #setValue(Object)}. To
-	 * turn overriding off call {@link #setOverriding(boolean)}
+	 * turn overriding off call {@link #setOverriding(boolean)}.  if the value isn't valid,
+	 * then overriding is not turned on.
 	 * 
 	 * @param argValue
 	 * @return if the value was set. if false, that means it wasn't valid
 	 */
 	public boolean setOverridingValue(E argValue) {
-		overriding = true;
-		return validateAndSetValue(argValue);
+		boolean worked = validateAndSetValue(argValue);
+		if(worked){
+			overriding = true;
+		}
+		return worked;
 	}
 	
 	/**

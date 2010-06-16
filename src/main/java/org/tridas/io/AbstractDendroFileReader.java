@@ -6,9 +6,9 @@ import java.util.ArrayList;
 import org.grlea.log.SimpleLogger;
 import org.tridas.io.defaults.IMetadataFieldSet;
 import org.tridas.io.util.FileHelper;
-import org.tridas.io.warningsandexceptions.ConversionWarning;
-import org.tridas.io.warningsandexceptions.IncorrectDefaultFieldsException;
-import org.tridas.io.warningsandexceptions.InvalidDendroFileException;
+import org.tridas.io.warnings.ConversionWarning;
+import org.tridas.io.warnings.IncorrectDefaultFieldsException;
+import org.tridas.io.warnings.InvalidDendroFileException;
 import org.tridas.schema.TridasProject;
 
 public abstract class AbstractDendroFileReader {
@@ -117,6 +117,10 @@ public abstract class AbstractDendroFileReader {
 	 */
 	public void loadFile(String argFilename, IMetadataFieldSet argDefaultFields) throws IOException,
 			IncorrectDefaultFieldsException, InvalidDendroFileException {
+		if(argDefaultFields == null){
+			loadFile(argFilename);
+			return;
+		}
 		FileHelper fileHelper = new FileHelper();
 		log.debug("loading file: " + argFilename);
 		origFilename = argFilename;
@@ -167,6 +171,10 @@ public abstract class AbstractDendroFileReader {
 	 */
 	public void loadFile(String argPath, String argFilename, IMetadataFieldSet argDefaultFields) throws IOException,
 			IncorrectDefaultFieldsException, InvalidDendroFileException {
+		if(argDefaultFields == null){
+			loadFile(argPath, argFilename);
+			return;
+		}
 		FileHelper fileHelper = new FileHelper(argPath);
 		log.debug("loading file: " + argFilename);
 		origFilename = argFilename;
@@ -214,6 +222,10 @@ public abstract class AbstractDendroFileReader {
 	 */
 	public void loadFile(String[] argFileStrings, IMetadataFieldSet argDefaults)
 			throws IncorrectDefaultFieldsException, InvalidDendroFileException {
+		if(argDefaults == null){
+			loadFile(argFileStrings);
+			return;
+		}
 		if (!argDefaults.getClass().equals(defaultFieldsClass)) {
 			throw new IncorrectDefaultFieldsException(defaultFieldsClass);
 		}
