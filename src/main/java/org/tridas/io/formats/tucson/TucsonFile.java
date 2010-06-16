@@ -348,11 +348,7 @@ public class TucsonFile implements IDendroFile {
 	 * @param series
 	 */
 	public void addSeries(ITridasSeries series){
-		
-		// Add this series to our list
-		seriesList.add(series);
-		
-	
+			
 		// Extract and Check the range and warn if there are problems
 		// **********************************************************
 		YearRange rng = null;
@@ -388,6 +384,24 @@ public class TucsonFile implements IDendroFile {
 				range.union(rng);
 			}
 			
+			// Ignore series if before 1000BC
+			if (SafeIntYear.min(rng.getStart(), new SafeIntYear(-1001)) == rng.getStart()) {
+				defaults.addConversionWarning(new ConversionWarning(WarningType.UNREPRESENTABLE, 
+						I18n.getText("tucson.before1000BC")));
+
+				// Return without setting series
+				return;
+			}
+			
+			// Warn if any data is BC
+			else if (SafeIntYear.min(rng.getStart(), new SafeIntYear(1)) == rng.getStart()) {
+				defaults.addConversionWarning(new ConversionWarning(WarningType.AMBIGUOUS, 
+						I18n.getText("tucson.before1AD")));
+			}
+			
+			// Add this series to our list
+			seriesList.add(series);
+			
 			/*
 			// Warn if using +8000 bodge and some years are > 2000AD whilst others are BC
 			if (SafeIntYear.max(rng.getEnd(), new SafeIntYear(2000)) == rng.getEnd()
@@ -398,11 +412,7 @@ public class TucsonFile implements IDendroFile {
 						+ I18n.getText("tucson.range")));
 			}*/
 			
-			// Throw error if years are before 1000BC
-			if (SafeIntYear.min(rng.getStart(), new SafeIntYear(-1001)) == rng.getStart()) {
-				defaults.addConversionWarning(new ConversionWarning(WarningType.FILE_IGNORED, 
-						I18n.getText("tucson.before1000BC")));
-			}
+
 			
 			/*
 			// Warn if BC and using +8000 bodge

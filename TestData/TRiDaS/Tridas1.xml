@@ -100,7 +100,63 @@
                                 <dendrochronologist>Peter I Kuniholm</dendrochronologist>
                                 <measuringMethod normalStd="Corina Dictionary" normalId="1">Measuring platform</measuringMethod>
                                 <interpretation>
-                                    <firstYear suffix="AD">1254</firstYear>
+                                    <firstYear suffix="BC">500</firstYear>
+                                    <statFoundation>
+                                        <statValue>8.3</statValue>
+                                        <type>t-score</type>
+                                        <usedSoftware>Corina 2.10</usedSoftware>
+                                    </statFoundation>
+                                    <deathYear suffix="AD">1535</deathYear>
+                                    <provenance>Possibly from the region of Serres</provenance>
+                                </interpretation>
+                                <values>
+                                    <variable normalTridas="Ring width"/>
+                                    <unit normalTridas="1/100th millimetres"/>
+                                    <value value="54"/>
+                                    <value value="111"/>
+                                    <value value="71"/>
+                                    <value value="40"/>
+                                    <value value="56"/>
+                                </values>
+                            </measurementSeries>
+                            <measurementSeries>
+                                <title>test2</title>
+                                <identifier domain="dendro.cornell.edu">8c50234e-8eda-41bb-b578-01cc881d1ea1</identifier>
+                                <createdTimestamp certainty="exact">1997-02-01T14:13:51.0Z</createdTimestamp>
+                                <lastModifiedTimestamp certainty="exact">1997-02-01T14:13:51.0Z</lastModifiedTimestamp>
+                                <analyst>Laura Steele</analyst>
+                                <dendrochronologist>Peter I Kuniholm</dendrochronologist>
+                                <measuringMethod normalStd="Corina Dictionary" normalId="1">Measuring platform</measuringMethod>
+                                <interpretation>
+                                    <firstYear suffix="BC">1500</firstYear>
+                                    <statFoundation>
+                                        <statValue>8.3</statValue>
+                                        <type>t-score</type>
+                                        <usedSoftware>Corina 2.10</usedSoftware>
+                                    </statFoundation>
+                                    <deathYear suffix="AD">1535</deathYear>
+                                    <provenance>Possibly from the region of Serres</provenance>
+                                </interpretation>
+                                <values>
+                                    <variable normalTridas="Ring width"/>
+                                    <unit normalTridas="1/100th millimetres"/>
+                                    <value value="54"/>
+                                    <value value="111"/>
+                                    <value value="71"/>
+                                    <value value="40"/>
+                                    <value value="56"/>
+                                </values>
+                            </measurementSeries>
+                         <measurementSeries>
+                                <title>C-TWT-65-A-B-A</title>
+                                <identifier domain="dendro.cornell.edu">8c50234e-8eda-41bb-b578-01cc881d1ea1</identifier>
+                                <createdTimestamp certainty="exact">1997-02-01T14:13:51.0Z</createdTimestamp>
+                                <lastModifiedTimestamp certainty="exact">1997-02-01T14:13:51.0Z</lastModifiedTimestamp>
+                                <analyst>Laura Steele</analyst>
+                                <dendrochronologist>Peter I Kuniholm</dendrochronologist>
+                                <measuringMethod normalStd="Corina Dictionary" normalId="1">Measuring platform</measuringMethod>
+                                <interpretation>
+                                    <firstYear suffix="AD">1500</firstYear>
                                     <statFoundation>
                                         <statValue>8.3</statValue>
                                         <type>t-score</type>
