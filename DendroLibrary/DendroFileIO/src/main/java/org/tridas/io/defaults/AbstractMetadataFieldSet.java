@@ -14,8 +14,8 @@ import org.tridas.io.defaults.values.DoubleDefaultValue;
 import org.tridas.io.defaults.values.IntegerDefaultValue;
 import org.tridas.io.defaults.values.SafeIntYearDefaultValue;
 import org.tridas.io.defaults.values.StringDefaultValue;
-import org.tridas.io.warningsandexceptions.ConversionWarning;
-import org.tridas.io.warningsandexceptions.ConversionWarning.WarningType;
+import org.tridas.io.warnings.ConversionWarning;
+import org.tridas.io.warnings.ConversionWarning.WarningType;
 
 /**
  * @author daniel
@@ -206,6 +206,10 @@ public abstract class AbstractMetadataFieldSet implements IMetadataFieldSet {
 	@Override
 	public ArrayList<ConversionWarning> getConversionWarnings() {
 		return warnings;
+	}
+	
+	public Set<Enum<?>> keySet(){
+		return valueMap.keySet();
 	}
 	
 	@Override

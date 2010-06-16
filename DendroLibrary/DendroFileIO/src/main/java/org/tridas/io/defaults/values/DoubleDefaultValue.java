@@ -9,8 +9,8 @@ public class DoubleDefaultValue extends AbstractDefaultValue<Double> {
 	private static final SimpleLogger log = new SimpleLogger(DoubleDefaultValue.class);
 	
 	private Double value = null;
-	private Double max = Double.MAX_VALUE;
-	private Double min = Double.MIN_VALUE;
+	private double max = Double.MAX_VALUE;
+	private double min = Double.MIN_VALUE;
 	private boolean changeToRange = false;
 	
 	public DoubleDefaultValue() {
@@ -115,7 +115,7 @@ public class DoubleDefaultValue extends AbstractDefaultValue<Double> {
 	 * @param max
 	 *            the max to set
 	 */
-	public void setMax(Double max) {
+	public void setMax(double max) {
 		this.max = max;
 		setValue(getValue());
 	}
@@ -125,7 +125,7 @@ public class DoubleDefaultValue extends AbstractDefaultValue<Double> {
 	 * 
 	 * @return the max
 	 */
-	public Double getMax() {
+	public double getMax() {
 		return max;
 	}
 	
@@ -135,7 +135,7 @@ public class DoubleDefaultValue extends AbstractDefaultValue<Double> {
 	 * @param min
 	 *            the min to set
 	 */
-	public void setMin(Double min) {
+	public void setMin(double min) {
 		this.min = min;
 		setValue(getValue());
 	}
@@ -145,7 +145,7 @@ public class DoubleDefaultValue extends AbstractDefaultValue<Double> {
 	 * 
 	 * @return the min
 	 */
-	public Double getMin() {
+	public double getMin() {
 		return min;
 	}
 	

@@ -4,8 +4,9 @@
 package org.tridas.io.defaults;
 
 import java.util.ArrayList;
+import java.util.Set;
 
-import org.tridas.io.warningsandexceptions.ConversionWarning;
+import org.tridas.io.warnings.ConversionWarning;
 
 /**
  * TODO
@@ -13,7 +14,7 @@ import org.tridas.io.warningsandexceptions.ConversionWarning;
  * 
  * @author Daniel
  */
-public interface IMetadataFieldSet extends Cloneable {
+public interface IMetadataFieldSet extends Cloneable{
 	
 	/**
 	 * Add a warning from validation
@@ -47,6 +48,9 @@ public interface IMetadataFieldSet extends Cloneable {
 	 * @return
 	 */
 	public AbstractDefaultValue<? extends Object> getDefaultValue(Enum<?> argValueType);
+	
+	
+	public Set<Enum<?>> keySet();
 	
 	/**
 	 * Clones values to new {@link IMetadataFieldSet}.
