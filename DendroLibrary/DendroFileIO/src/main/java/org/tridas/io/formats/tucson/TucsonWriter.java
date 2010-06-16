@@ -10,8 +10,10 @@ import org.tridas.io.exceptions.IncompleteTridasDataException;
 import org.tridas.io.exceptions.ConversionWarning.WarningType;
 import org.tridas.io.naming.HierarchicalNamingConvention;
 import org.tridas.io.naming.INamingConvention;
+import org.tridas.io.util.SafeIntYear;
 import org.tridas.io.util.TridasHierarchyHelper;
 import org.tridas.io.util.UnitUtils;
+import org.tridas.io.util.YearRange;
 import org.tridas.schema.NormalTridasUnit;
 import org.tridas.schema.NormalTridasVariable;
 import org.tridas.schema.TridasDerivedSeries;
@@ -94,10 +96,23 @@ public class TucsonWriter extends AbstractDendroCollectionWriter {
 				
 				ds.getValues().set(0, UnitUtils.convertTridasValues(getOutputUnits(tvs), ds.getValues().get(0), true));
 				
-				TucsonFile file = new TucsonFile(defaults);
-				file.addSeries(ds);
-				naming.registerFile(file, p, ds);
-				addToFileList(file);
+				// Check that the range does not go outside that which Tucson format is capable of storing
+				YearRange thisSeriesRange = new YearRange(ds);
+				if (SafeIntYear.min(thisSeriesRange.getStart(), new SafeIntYear(-1001)) == thisSeriesRange.getStart()) 
+				{
+					// Series with data before 1000BC cannot be saved
+					addWarning(new ConversionWarning(WarningType.UNREPRESENTABLE, 
+							I18n.getText("tucson.before1000BC", ds.getTitle())));
+					continue;
+				}
+				else
+				{
+					// Range ok so create file and add series
+					TucsonFile file = new TucsonFile(defaults);
+					file.addSeries(ds);
+					naming.registerFile(file, p, ds);
+					addToFileList(file);
+				}
 			}
 			
 		}
@@ -138,11 +153,24 @@ public class TucsonWriter extends AbstractDendroCollectionWriter {
 																		
 									TridasToTucsonDefaults tvDefaults = (TridasToTucsonDefaults) msDefaults.clone();
 									tvDefaults.populateFromTridasValues(tvs);
-									
-									TucsonFile file = new TucsonFile(tvDefaults);
-									file.addSeries(ms);
-									naming.registerFile(file, p, o, e, s, r, ms);
-									addToFileList(file);
+
+									// Check that the range does not go outside that which Tucson format is capable of storing
+									YearRange thisSeriesRange = new YearRange(ms);
+									if (SafeIntYear.min(thisSeriesRange.getStart(), new SafeIntYear(-1001)) == thisSeriesRange.getStart()) 
+									{
+										// Series with data before 1000BC cannot be saved
+										addWarning(new ConversionWarning(WarningType.UNREPRESENTABLE, 
+												I18n.getText("tucson.before1000BC", ms.getTitle())));
+										continue;
+									}
+									else
+									{
+										// Range ok so create file and add series
+										TucsonFile file = new TucsonFile(tvDefaults);
+										file.addSeries(ms);
+										naming.registerFile(file, p, o, e, s, r, ms);
+										addToFileList(file);
+									}
 								}
 							}
 						}
