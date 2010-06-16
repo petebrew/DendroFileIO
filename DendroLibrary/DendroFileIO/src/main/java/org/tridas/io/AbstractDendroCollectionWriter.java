@@ -55,7 +55,7 @@ public abstract class AbstractDendroCollectionWriter {
 	 * @throws ConversionWarningException
 	 */
 	public void loadProject(TridasProject argProject) throws IncompleteTridasDataException, ConversionWarningException {
-		IMetadataFieldSet defaults = constructDefaults();
+		IMetadataFieldSet defaults = constructDefaultMetadata();
 		parseTridasProject(argProject, defaults);
 	}
 	
@@ -64,7 +64,7 @@ public abstract class AbstractDendroCollectionWriter {
 	 * 
 	 * @return
 	 */
-	public IMetadataFieldSet constructDefaults() {
+	public IMetadataFieldSet constructDefaultMetadata() {
 		try {
 			return defaultFieldsClass.newInstance();
 		} catch (InstantiationException e) {
