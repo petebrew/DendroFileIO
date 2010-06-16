@@ -18,6 +18,9 @@ import org.tridas.io.util.SafeIntYear;
 import org.tridas.io.util.YearRange;
 import org.tridas.schema.DatingSuffix;
 import org.tridas.schema.NormalTridasUnit;
+import org.tridas.schema.ObjectFactory;
+import org.tridas.schema.SeriesLink;
+import org.tridas.schema.SeriesLinks;
 import org.tridas.schema.TridasDerivedSeries;
 import org.tridas.schema.TridasElement;
 import org.tridas.schema.TridasInterpretation;
@@ -30,6 +33,7 @@ import org.tridas.schema.TridasRadiusPlaceholder;
 import org.tridas.schema.TridasSample;
 import org.tridas.schema.TridasValue;
 import org.tridas.schema.TridasValues;
+import org.tridas.schema.SeriesLink.IdRef;
 
 /**
  * Reader for the Tucson file format.
@@ -45,6 +49,7 @@ public class TucsonReader extends AbstractDendroFileReader {
 	private Integer keycodeLen6 = 0;                     // lines which have 6 char keycodes
 	private Integer keycodeLen8 = 0;                     // lines which have 8 char keycodes
 	private Boolean warningAboutNegativeDates = false;   // keep track of it we've warned already
+	private Boolean warningAboutNonStandardHeader = false;   // keep track of it we've warned already
 	private int currentLineNumber = 0;                   // the current line we're reading
 	private Boolean isChronology = null;                 // is this file a chronology?
 	private Integer numYearMarkerChars = 4;				 // no. of chars used in year markers
@@ -132,7 +137,7 @@ public class TucsonReader extends AbstractDendroFileReader {
 	@Override
 	public TridasProject getProject() {
 		
-		TridasProject project = defaults.getProjectWithDefaults(false);
+		TridasProject project = defaults.getDefaultTridasProject();
 		ArrayList<TridasObject> olist = new ArrayList<TridasObject>();
 		ArrayList<TridasDerivedSeries> dslist = new ArrayList<TridasDerivedSeries>();
 		
@@ -145,10 +150,7 @@ public class TucsonReader extends AbstractDendroFileReader {
 			if (series.countInts.size()>0)
 			{
 				// Derived Series
-				TridasRadiusPlaceholder rph= new TridasRadiusPlaceholder();
-				TridasMeasurementSeriesPlaceholder msph = series.defaults.getDefaultTridasMeasurementSeriesPlaceholder();
-				rph.setMeasurementSeriesPlaceholder(msph);
-				
+
 				TridasDerivedSeries ds = series.defaults.getDerivedSeriesWithDefaults();
 				ArrayList<TridasValues> valuesGroupList = new ArrayList<TridasValues>();
 				TridasValues values = series.defaults.getDefaultTridasValues();
@@ -166,11 +168,33 @@ public class TucsonReader extends AbstractDendroFileReader {
 				valuesGroupList.add(values);
 				ds.setValues(valuesGroupList);
 
-				// TODO set link series
+				// Set link series
+				TridasRadiusPlaceholder rph= new TridasRadiusPlaceholder();
+				TridasMeasurementSeriesPlaceholder msph = series.defaults.getDefaultTridasMeasurementSeriesPlaceholder();
+				rph.setMeasurementSeriesPlaceholder(msph);
+				s.setRadiusPlaceholder(rph);
+				ArrayList<TridasSample> slist = new ArrayList<TridasSample>();
+				slist.add(s);
+				e.setSamples(slist);
+				ArrayList<TridasElement> elist = new ArrayList<TridasElement>();
+				elist.add(e);
+				o.setElements(elist);
+				olist.add(o);
+				
+				// Do Link to measurementSeriesPlaceholder
+				SeriesLink link = new ObjectFactory().createSeriesLink();
+				IdRef ref = new ObjectFactory().createSeriesLinkIdRef();
+				ArrayList<SeriesLink> linkList = new ArrayList<SeriesLink>();
+				ref.setRef(msph);
+				link.setIdRef(ref);
+				linkList.add(link);
+				SeriesLinks linkseries = new SeriesLinks();
+				linkseries.setSeries(linkList);
+				ds.setLinkSeries(linkseries);
 				
 				TridasInterpretation interp = new TridasInterpretation();
 				interp.setFirstYear(series.firstYear.toTridasYear(DatingSuffix.AD));
-				interp.setLastYear(series.firstYear.add(series.dataInts.size()).toTridasYear(DatingSuffix.AD));
+				interp.setLastYear(series.firstYear.add(series.dataInts.size()-1).toTridasYear(DatingSuffix.AD));
 				ds.setInterpretation(interp);
 				
 				dslist.add(ds);
@@ -276,7 +300,8 @@ public class TucsonReader extends AbstractDendroFileReader {
 					}
 					else {
 						// Header out of order so warn
-						if (headercache1 != null) {
+						
+						/*if (headercache1 != null) {
 							addWarning(new ConversionWarning(WarningType.IGNORED, I18n
 									.getText("tucson.nonstandardHeaderLine")
 									+ ": " + headercache1));
@@ -290,7 +315,7 @@ public class TucsonReader extends AbstractDendroFileReader {
 							addWarning(new ConversionWarning(WarningType.IGNORED, I18n
 									.getText("tucson.nonstandardHeaderLine")
 									+ ": " + headercache3));
-						}
+						}*/
 						
 						// Reset header caches and continue
 						headercache1 = null;
@@ -307,7 +332,8 @@ public class TucsonReader extends AbstractDendroFileReader {
 					}
 					else {
 						// Header line out of order so warn
-						if (headercache1 != null) {
+						
+						/*if (headercache1 != null) {
 							addWarning(new ConversionWarning(WarningType.IGNORED, I18n
 									.getText("tucson.nonstandardHeaderLine")
 									+ ": " + headercache1));
@@ -321,7 +347,7 @@ public class TucsonReader extends AbstractDendroFileReader {
 							addWarning(new ConversionWarning(WarningType.IGNORED, I18n
 									.getText("tucson.nonstandardHeaderLine")
 									+ ": " + headercache3));
-						}
+						}*/
 						
 						// Reset header cache
 						headercache1 = null;
@@ -377,6 +403,8 @@ public class TucsonReader extends AbstractDendroFileReader {
 					{
 						// NEW SERIES WITHOUT A HEADER
 						
+						warnAboutNonStandardHeader();
+						
 						// Reset 'end of data' and last Year markers flag
 						lastYearReached = false;
 						lastYearMarker = null;
@@ -416,11 +444,9 @@ public class TucsonReader extends AbstractDendroFileReader {
 				
 				default :
 					// Line is not a standard header or data line so warn
-					if (line != null) {
-						addWarning(new ConversionWarning(WarningType.IGNORED, I18n
-								.getText("tucson.nonstandardHeaderLine")
-								+ ": " + line));
-					}
+					addWarning(new ConversionWarning(WarningType.IGNORED, I18n
+							.getText("tucson.nonstandardHeaderLine")
+							+ ": " + line));
 					break;
 			}
 		}
@@ -429,6 +455,22 @@ public class TucsonReader extends AbstractDendroFileReader {
 		this.seriesList.add(currentSeries);
 	}
 	
+	/**
+	 * Called when a non-standard header line found so that the user can be 
+	 * warned.  If called repeatedly the warning is only issued once.
+	 * 
+	 */
+	private void warnAboutNonStandardHeader()
+	{
+		if(warningAboutNonStandardHeader==false)
+		{
+			warningAboutNonStandardHeader=true;
+			addWarning(new ConversionWarning(WarningType.IGNORED, 
+					I18n.getText("tucson.nonstandardHeader")));
+			
+		}
+	}
+		
 	/**
 	 * Extract the series code from this data line.  Validity of line should have been
 	 * checked previously.
@@ -548,8 +590,9 @@ public class TucsonReader extends AbstractDendroFileReader {
 				// Attempt to extract data from line 2
 				series.defaults.getStringDefaultValue(TucsonDefaultField.STATE_COUNTRY).setValue((line2.substring(9, 21)).trim());
 				series.defaults.getStringDefaultValue(TucsonDefaultField.SPECIES_NAME).setValue((line2.substring(22, 29)).trim());
-				series.defaults.getIntegerDefaultValue(TucsonDefaultField.ELEVATION).setValue(
+				try{series.defaults.getIntegerDefaultValue(TucsonDefaultField.ELEVATION).setValue(
 						Integer.parseInt((line2.substring(40, 44)).trim()));
+				} catch (Exception e){}
 				series.defaults.getStringDefaultValue(TucsonDefaultField.LATLONG).setValue((line2.substring(47, 56)).trim());
 			}
 			if (line3.length() > 79) {
@@ -560,20 +603,7 @@ public class TucsonReader extends AbstractDendroFileReader {
 						
 		}
 		else {
-			// Non-standard header lines so warn
-			if (line1 != null) {
-				addWarning(new ConversionWarning(WarningType.IGNORED, I18n.getText("tucson.nonstandardHeaderLine")
-						+ ": " + line1));
-			}
-			if (line2 != null) {
-				addWarning(new ConversionWarning(WarningType.IGNORED, I18n.getText("tucson.nonstandardHeaderLine")
-						+ ": " + line2));
-			}
-			if (line3 != null) {
-				addWarning(new ConversionWarning(WarningType.IGNORED, I18n.getText("tucson.nonstandardHeaderLine")
-						+ ": " + line3));
-			}
-			
+			warnAboutNonStandardHeader();			
 		}
 
 	}
@@ -955,7 +985,7 @@ public class TucsonReader extends AbstractDendroFileReader {
 		
 		String regexKeycode6 = "[\\w\\t -.]{6}";
 		String regexKeycode8 = "[\\w\\t -.]{8}";
-		String regexYear = "[\\t\\d- ]{3}[\\d]{1}";
+		String regexYear = "[\\t\\d -]{3}[\\d]{1}";
 		String regexRWLVal = "[ -]{1}[\\t\\d- ]{4}[\\d]{1}";
 		String regexCRNVal = "[\\d ]{4}((\\d\\d\\d)|( \\d\\d)|(  \\d))";
 		
@@ -1076,17 +1106,17 @@ public class TucsonReader extends AbstractDendroFileReader {
 				
 				// HEADER TYPES
 			case HEADER_LINE1 :
-				regex = "^[.]{9}[^\\n]{52}[A-Z]{4}";
+				regex = "^[^\\n]{9}[^\\n]{52}[A-Z]{4}";
 				p1 = Pattern.compile(regex, Pattern.CASE_INSENSITIVE | Pattern.DOTALL);
 				m1 = p1.matcher(line);
 				return m1.find();
 			case HEADER_LINE2 :
-				regex = "^[.]{9}[^\\n]{21}[\\t ]{10}[0-9mMft]{5}[\\s]{2}[0-9\\t ]{10}[\\t ]{10}[\\d\\t ]{9}";
+				regex = "^[^\\n]{9}[^\\n]{21}[\\t ]{10}[0-9mMft]{5}[\\s]{2}[0-9\\t ]{10}[\\t ]{10}[\\d\\t ]{9}";
 				p1 = Pattern.compile(regex, Pattern.CASE_INSENSITIVE | Pattern.DOTALL);
 				m1 = p1.matcher(line);
 				return m1.find();
 			case HEADER_LINE3 :
-				regex = "^[.]{9}[\\w\\t\\. ,-]{62}[\\d\\t ]{8}";
+				regex = "^[^\\n]{9}[\\w\\t\\. ,-]{62}[\\d\\t ]{8}";
 				p1 = Pattern.compile(regex, Pattern.CASE_INSENSITIVE | Pattern.DOTALL);
 				m1 = p1.matcher(line);
 				return m1.find();

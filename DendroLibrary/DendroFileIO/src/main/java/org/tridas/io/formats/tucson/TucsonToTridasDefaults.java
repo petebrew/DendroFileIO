@@ -56,7 +56,7 @@ public class TucsonToTridasDefaults extends TridasMetadataFieldSet implements IM
 		setDefaultValue(TucsonDefaultField.STATE_COUNTRY, new StringDefaultValue());
 		setDefaultValue(TucsonDefaultField.COMP_DATE, new StringDefaultValue());
 		setDefaultValue(TucsonDefaultField.UNITS, new GenericDefaultValue<NormalTridasUnit>());
-		setDefaultValue(TucsonDefaultField.VARIABLE, new GenericDefaultValue<NormalTridasVariable>(NormalTridasVariable.RING_WIDTH));
+		setDefaultValue(TucsonDefaultField.VARIABLE, new GenericDefaultValue<NormalTridasVariable>());
 		setDefaultValue(TucsonDefaultField.SERIES_CODE, new StringDefaultValue(UUID.randomUUID().toString()));
 
 	}
@@ -176,7 +176,11 @@ public class TucsonToTridasDefaults extends TridasMetadataFieldSet implements IM
 		id.setValue(getStringDefaultValue(TucsonDefaultField.SERIES_CODE).getValue());
 		ms.setIdentifier(id);
 		ms.setTitle(getStringDefaultValue(TucsonDefaultField.SERIES_CODE).getValue());
-
+		// Investigator
+		if(getStringDefaultValue(TucsonDefaultField.INVESTIGATOR).getValue()!=null)
+		{
+			ms.setDendrochronologist(getStringDefaultValue(TucsonDefaultField.INVESTIGATOR).getValue().trim());
+		}
 		return ms;
 		
 	}
@@ -189,6 +193,12 @@ public class TucsonToTridasDefaults extends TridasMetadataFieldSet implements IM
 		id.setDomain(getStringDefaultValue(TridasMandatoryField.IDENTIFIER_DOMAIN).getValue());
 		id.setValue(getStringDefaultValue(TucsonDefaultField.SERIES_CODE).getValue());
 		ds.setIdentifier(id);
+		ds.setTitle(getStringDefaultValue(TucsonDefaultField.SERIES_CODE).getValue());
+		// Investigator
+		if(getStringDefaultValue(TucsonDefaultField.INVESTIGATOR).getValue()!=null)
+		{
+			ds.setAuthor(getStringDefaultValue(TucsonDefaultField.INVESTIGATOR).getValue().trim());
+		}
 		return ds;
 		
 	}
@@ -196,7 +206,7 @@ public class TucsonToTridasDefaults extends TridasMetadataFieldSet implements IM
 	public TridasMeasurementSeriesPlaceholder getDefaultTridasMeasurementSeriesPlaceholder()
 	{
 		TridasMeasurementSeriesPlaceholder msph = new TridasMeasurementSeriesPlaceholder();				
-		msph.setId(UUID.randomUUID().toString());
+		msph.setId("XREF-" + UUID.randomUUID().toString());
 		return msph;
 	}
 	
@@ -206,7 +216,14 @@ public class TucsonToTridasDefaults extends TridasMetadataFieldSet implements IM
 		TridasVariable variable = new TridasVariable();
 		
 		// Variable
-		variable.setNormalTridas((NormalTridasVariable) getDefaultValue(TucsonDefaultField.VARIABLE).getValue());
+		if(getDefaultValue(TucsonDefaultField.VARIABLE).getValue()!=null)
+		{	
+			variable.setNormalTridas((NormalTridasVariable) getDefaultValue(TucsonDefaultField.VARIABLE).getValue());
+		}
+		else
+		{
+			variable.setValue(I18n.getText("unknown"));
+		}
 		values.setVariable(variable);
 		
 		// Units
