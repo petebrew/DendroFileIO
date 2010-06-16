@@ -836,7 +836,7 @@ public class TucsonReader extends AbstractDendroFileReader {
 		{
 			warningAboutNegativeDates=true;
 			addWarning(new ConversionWarning(WarningType.AMBIGUOUS, 
-					I18n.getText("tucson.negativeYears")));
+					I18n.getText("tucson.before1AD")));
 			
 		}
 	}
