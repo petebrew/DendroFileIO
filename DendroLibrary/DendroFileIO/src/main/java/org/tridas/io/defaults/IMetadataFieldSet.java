@@ -37,7 +37,7 @@ public interface IMetadataFieldSet extends Cloneable{
 	 * 
 	 * @return
 	 */
-	public ArrayList<ConversionWarning> getConversionWarnings();
+	public ArrayList<ConversionWarning> getWarnings();
 	
 	public void addConversionWarning(ConversionWarning argWarning);
 	
