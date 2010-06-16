@@ -170,7 +170,7 @@ public class TucsonFile implements IDendroFile {
 			// If its a chronology the EOF is different!
 			if (isChronology)
 			{
-				EOFFlag = "9990";
+				EOFFlag = "9990  0";
 			}
 			
 			try {
@@ -230,21 +230,20 @@ public class TucsonFile implements IDendroFile {
 					}
 				}
 				else {
-					// Print data value, eith "%4d" / %6d
-					string.append(StringUtils.leftPad(data.get(y.diff(start)).getValue().toString(), (isChronology
-							? 4
-							: 6)));
+					// Print data value, either left padded to 4 or 6 digits for measurementSeries and derivedSeries
+					// respectively
+					string.append(StringUtils.leftPad
+							(data.get(y.diff(start)).getValue().toString(), 
+							(isChronology ? 4 : 6)));
 					
 					// Include count if applicable: "%3d" (right-align)
-					if (isSummed) {
+					if (isChronology) {
 						string.append(StringUtils.leftPad(data.get(y.diff(start)).toString(), 3));
 					}
-					else if (isChronology) {
-						string.append("   ");
-					}
+
 				}
 				
-				// processed files end only after 9cols+eoln
+				// chronologies end only after 9cols+eoln
 				if (isChronology && y.compareTo(end) > 0 && y.column() == 9) {
 					break;
 				}
