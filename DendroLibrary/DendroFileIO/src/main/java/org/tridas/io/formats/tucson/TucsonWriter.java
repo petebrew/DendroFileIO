@@ -80,7 +80,8 @@ public class TucsonWriter extends AbstractDendroCollectionWriter {
 					case RING_WIDTH:
 					case LATEWOOD_WIDTH:
 					case EARLYWOOD_WIDTH:
-						if(ds.getValues().get(0).getUnit().getNormalTridas()!=null)
+						if(ds.getValues().get(0).getUnit() != null &&
+							ds.getValues().get(0).getUnit().getNormalTridas()!=null)
 						{
 							inputunit =  ds.getValues().get(0).getUnit().getNormalTridas();
 						}
@@ -171,7 +172,7 @@ public class TucsonWriter extends AbstractDendroCollectionWriter {
 			case RING_WIDTH:
 			case LATEWOOD_WIDTH:
 			case EARLYWOOD_WIDTH:
-				if(tvs.getUnit().getNormalTridas()!=null)
+				if(tvs.getUnit() != null && tvs.getUnit().getNormalTridas()!=null)
 				{
 					if (tvs.getUnit().getNormalTridas().equals(NormalTridasUnit.HUNDREDTH_MM))
 					{
