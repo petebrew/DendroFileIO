@@ -7,15 +7,14 @@ import java.io.IOException;
 import junit.framework.TestCase;
 
 import org.grlea.log.SimpleLogger;
+import org.tridas.io.exceptions.ConversionWarningException;
+import org.tridas.io.exceptions.IncompleteTridasDataException;
+import org.tridas.io.exceptions.IncorrectDefaultFieldsException;
+import org.tridas.io.exceptions.InvalidDendroFileException;
 import org.tridas.io.formats.trims.TrimsWriter;
 import org.tridas.io.formats.tucson.TucsonReader;
 import org.tridas.io.formats.tucson.TucsonToTridasDefaults;
 import org.tridas.io.naming.UUIDNamingConvention;
-import org.tridas.io.warningsandexceptions.ConversionWarningException;
-import org.tridas.io.warningsandexceptions.IncompleteTridasDataException;
-import org.tridas.io.warningsandexceptions.IncorrectDefaultFieldsException;
-import org.tridas.io.warningsandexceptions.InvalidDendroFileException;
-import org.tridas.io.warningsandexceptions.UnrepresentableTridasDataException;
 import org.tridas.schema.TridasProject;
 
 public class TestBetweenFormats extends TestCase {
@@ -75,8 +74,7 @@ public class TestBetweenFormats extends TestCase {
 			} catch (IncompleteTridasDataException e) {
 				fail();
 			} catch (ConversionWarningException e) {
-			} catch (UnrepresentableTridasDataException e) {
-			}
+			} 
 			writer.saveAllToDisk(outputLocation);
 			
 		}

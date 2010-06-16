@@ -9,13 +9,12 @@ import org.tridas.interfaces.ITridasSeries;
 import org.tridas.io.I18n;
 import org.tridas.io.IDendroFile;
 import org.tridas.io.defaults.IMetadataFieldSet;
+import org.tridas.io.exceptions.ConversionWarning;
+import org.tridas.io.exceptions.ConversionWarning.WarningType;
 import org.tridas.io.formats.tucson.TridasToTucsonDefaults.TucsonField;
 import org.tridas.io.util.SafeIntYear;
 import org.tridas.io.util.StringUtils;
 import org.tridas.io.util.YearRange;
-import org.tridas.io.warningsandexceptions.ConversionWarning;
-import org.tridas.io.warningsandexceptions.UnrepresentableTridasDataException;
-import org.tridas.io.warningsandexceptions.ConversionWarning.WarningType;
 import org.tridas.schema.NormalTridasUnit;
 import org.tridas.schema.TridasDerivedSeries;
 import org.tridas.schema.TridasValue;
@@ -215,7 +214,7 @@ public class TucsonFile implements IDendroFile {
 				
 				// Row header column
 				if (y.column() == 0 || (y.equals(start) && !isChronology)) {
-					writeRowHeader(string, code, (isChronology ? 4 : 6), y);
+					writeRowHeader(string, code, 8, y);
 				}
 				
 				// Reached end of data so print stop code
@@ -285,9 +284,9 @@ public class TucsonFile implements IDendroFile {
 		else {
 			prefix = y.toAstronomicalYear().toString();
 		}
-		while (prefix.length() < colWidth) {
-			prefix = " " + prefix;
-		}
+
+		prefix = StringUtils.leftPad(prefix, 4);
+		code = StringUtils.rightPad(code, colWidth);
 		string.append(code + prefix);
 	}
 	
@@ -349,7 +348,7 @@ public class TucsonFile implements IDendroFile {
 	 * 
 	 * @param series
 	 */
-	public void addSeries(ITridasSeries series) throws UnrepresentableTridasDataException{
+	public void addSeries(ITridasSeries series){
 		
 		// Add this series to our list
 		seriesList.add(series);
@@ -402,7 +401,8 @@ public class TucsonFile implements IDendroFile {
 			
 			// Throw error if years are before 1000BC
 			if (SafeIntYear.min(rng.getStart(), new SafeIntYear(-1001)) == rng.getStart()) {
-				throw new UnrepresentableTridasDataException(I18n.getText("tucson.before1000BC"));
+				defaults.addConversionWarning(new ConversionWarning(WarningType.FILE_IGNORED, 
+						I18n.getText("tucson.before1000BC")));
 			}
 			
 			/*

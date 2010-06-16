@@ -3,7 +3,7 @@ package org.tridas.io.util;
 import java.util.ArrayList;
 
 import org.tridas.io.I18n;
-import org.tridas.io.warningsandexceptions.IncompleteTridasDataException;
+import org.tridas.io.exceptions.IncompleteTridasDataException;
 import org.tridas.schema.NormalTridasUnit;
 import org.tridas.schema.TridasValue;
 import org.tridas.schema.TridasValues;

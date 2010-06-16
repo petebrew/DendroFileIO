@@ -6,6 +6,10 @@ import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Properties;
 
+import org.tridas.io.exceptions.ConversionWarning;
+import org.tridas.io.exceptions.ConversionWarningException;
+import org.tridas.io.exceptions.IncompleteTridasDataException;
+import org.tridas.io.exceptions.InvalidDendroFileException;
 import org.tridas.io.formats.tridas.TridasWriter;
 import org.tridas.io.naming.HierarchicalNamingConvention;
 import org.tridas.io.naming.INamingConvention;
@@ -14,11 +18,6 @@ import org.tridas.io.naming.UUIDNamingConvention;
 import org.tridas.io.util.FileHelper;
 import org.tridas.io.util.IOUtils;
 import org.tridas.io.util.StringUtils;
-import org.tridas.io.warningsandexceptions.ConversionWarning;
-import org.tridas.io.warningsandexceptions.ConversionWarningException;
-import org.tridas.io.warningsandexceptions.IncompleteTridasDataException;
-import org.tridas.io.warningsandexceptions.InvalidDendroFileException;
-import org.tridas.io.warningsandexceptions.UnrepresentableTridasDataException;
 import org.tridas.schema.TridasProject;
 
 public class CommandLineUI {
@@ -202,9 +201,7 @@ public class CommandLineUI {
 				e.printStackTrace();
 			} catch (ConversionWarningException e) {
 				System.out.println(e.toString());
-			} catch (UnrepresentableTridasDataException e) {
-				System.out.println(e.toString());
-			}
+			} 
 			s.writer = writer;
 		}
 		

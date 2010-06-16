@@ -5,14 +5,13 @@ import java.util.List;
 import org.tridas.io.AbstractDendroCollectionWriter;
 import org.tridas.io.I18n;
 import org.tridas.io.defaults.IMetadataFieldSet;
+import org.tridas.io.exceptions.ConversionWarning;
+import org.tridas.io.exceptions.IncompleteTridasDataException;
+import org.tridas.io.exceptions.ConversionWarning.WarningType;
 import org.tridas.io.naming.HierarchicalNamingConvention;
 import org.tridas.io.naming.INamingConvention;
 import org.tridas.io.util.TridasHierarchyHelper;
 import org.tridas.io.util.UnitUtils;
-import org.tridas.io.warningsandexceptions.ConversionWarning;
-import org.tridas.io.warningsandexceptions.IncompleteTridasDataException;
-import org.tridas.io.warningsandexceptions.UnrepresentableTridasDataException;
-import org.tridas.io.warningsandexceptions.ConversionWarning.WarningType;
 import org.tridas.schema.NormalTridasUnit;
 import org.tridas.schema.NormalTridasVariable;
 import org.tridas.schema.TridasDerivedSeries;
@@ -48,7 +47,7 @@ public class TucsonWriter extends AbstractDendroCollectionWriter {
 
 	@Override
 	public void parseTridasProject(TridasProject p, IMetadataFieldSet argDefaults) 
-	throws IncompleteTridasDataException, UnrepresentableTridasDataException {
+	throws IncompleteTridasDataException {
 	
 		// Base defaults for all the output files
 		defaults = (TridasToTucsonDefaults) argDefaults;
