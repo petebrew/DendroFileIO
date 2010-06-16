@@ -216,8 +216,8 @@ public class CommandLineUI {
 				System.out.println("Reader warnings thrown:");
 				
 				if (reader.getDefaults() != null) {
-					if (reader.getDefaults().getConversionWarnings() != null) {
-						for (ConversionWarning cw : reader.getDefaults().getConversionWarnings()) {
+					if (reader.getDefaults().getWarnings() != null) {
+						for (ConversionWarning cw : reader.getDefaults().getWarnings()) {
 							System.out.println("  - [" + cw.getWarningType().toString() + "]: " + cw.getMessage());
 						}
 					}
@@ -228,8 +228,8 @@ public class CommandLineUI {
 				}
 				System.out.println("Writer warnings thrown:");
 				if (writer.getDefaults() != null) {
-					if (writer.getDefaults().getConversionWarnings() != null) {
-						for (ConversionWarning cw : writer.getDefaults().getConversionWarnings()) {
+					if (writer.getDefaults().getWarnings() != null) {
+						for (ConversionWarning cw : writer.getDefaults().getWarnings()) {
 							System.out.println("  - [" + cw.getWarningType().toString() + "]: " + cw.getMessage());
 						}
 					}

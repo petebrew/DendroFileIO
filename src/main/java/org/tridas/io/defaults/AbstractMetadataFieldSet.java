@@ -201,10 +201,10 @@ public abstract class AbstractMetadataFieldSet implements IMetadataFieldSet {
 	}
 	
 	/**
-	 * @see org.tridas.io.defaults.IMetadataFieldSet2#getConversionWarnings()
+	 * @see org.tridas.io.defaults.IMetadataFieldSet2#getWarnings()
 	 */
 	@Override
-	public ArrayList<ConversionWarning> getConversionWarnings() {
+	public ArrayList<ConversionWarning> getWarnings() {
 		return warnings;
 	}
 	
