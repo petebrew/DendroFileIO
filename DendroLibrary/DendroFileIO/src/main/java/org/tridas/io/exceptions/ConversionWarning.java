@@ -1,4 +1,4 @@
-package org.tridas.io.warningsandexceptions;
+package org.tridas.io.exceptions;
 
 import org.tridas.io.I18n;
 

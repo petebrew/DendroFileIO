@@ -21,15 +21,14 @@ import javax.xml.bind.Unmarshaller;
 import junit.framework.TestCase;
 
 import org.tridas.io.defaults.TridasMetadataFieldSet;
+import org.tridas.io.exceptions.ConversionWarningException;
+import org.tridas.io.exceptions.IncompleteTridasDataException;
+import org.tridas.io.exceptions.IncorrectDefaultFieldsException;
+import org.tridas.io.exceptions.InvalidDendroFileException;
 import org.tridas.io.formats.tridas.TridasReader;
 import org.tridas.io.formats.tridas.TridasWriter;
 import org.tridas.io.formats.tucson.TridasToTucsonDefaults;
 import org.tridas.io.formats.tucson.TucsonWriter;
-import org.tridas.io.warningsandexceptions.ConversionWarningException;
-import org.tridas.io.warningsandexceptions.IncompleteTridasDataException;
-import org.tridas.io.warningsandexceptions.IncorrectDefaultFieldsException;
-import org.tridas.io.warningsandexceptions.InvalidDendroFileException;
-import org.tridas.io.warningsandexceptions.UnrepresentableTridasDataException;
 import org.tridas.schema.TridasProject;
 
 public class UnitTest extends TestCase {
@@ -67,9 +66,7 @@ public class UnitTest extends TestCase {
 			fail();
 		} catch (IncorrectDefaultFieldsException e) {
 			e.printStackTrace();
-		} catch (UnrepresentableTridasDataException e) {
-			e.printStackTrace();
-		}
+		} 
 		
 	}
 	
@@ -115,9 +112,7 @@ public class UnitTest extends TestCase {
 			e.printStackTrace();
 		} catch (IncorrectDefaultFieldsException e) {
 			e.printStackTrace();
-		} catch (UnrepresentableTridasDataException e) {
-			e.printStackTrace();
-		}
+		} 
 		
 		// Actually save file(s) to disk
 		tucsonwriter.saveAllToDisk("target/TestOutput");

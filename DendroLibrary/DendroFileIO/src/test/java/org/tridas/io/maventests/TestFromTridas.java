@@ -7,6 +7,9 @@ import java.io.IOException;
 import junit.framework.TestCase;
 
 import org.grlea.log.SimpleLogger;
+import org.tridas.io.exceptions.ConversionWarningException;
+import org.tridas.io.exceptions.IncompleteTridasDataException;
+import org.tridas.io.exceptions.InvalidDendroFileException;
 import org.tridas.io.formats.belfastapple.BelfastAppleWriter;
 import org.tridas.io.formats.csv.CSVWriter;
 import org.tridas.io.formats.excelmatrix.ExcelMatrixWriter;
@@ -16,10 +19,6 @@ import org.tridas.io.formats.trims.TrimsWriter;
 import org.tridas.io.formats.tucson.TucsonWriter;
 import org.tridas.io.naming.HierarchicalNamingConvention;
 import org.tridas.io.naming.NumericalNamingConvention;
-import org.tridas.io.warningsandexceptions.ConversionWarningException;
-import org.tridas.io.warningsandexceptions.IncompleteTridasDataException;
-import org.tridas.io.warningsandexceptions.InvalidDendroFileException;
-import org.tridas.io.warningsandexceptions.UnrepresentableTridasDataException;
 import org.tridas.schema.TridasProject;
 
 public class TestFromTridas extends TestCase {
@@ -83,9 +82,7 @@ public class TestFromTridas extends TestCase {
 				continue;
 			} catch (ConversionWarningException e) {
 
-			} catch (UnrepresentableTridasDataException e) {
-
-			}
+			} 
 			
 			// Actually save file(s) to disk
 			writer.saveAllToDisk(outputLocation);
@@ -127,8 +124,7 @@ public class TestFromTridas extends TestCase {
 			} catch (IncompleteTridasDataException e) {
 				e.printStackTrace();
 			} catch (ConversionWarningException e) {
-			} catch (UnrepresentableTridasDataException e) {
-			}
+			} 
 			
 			// Actually save file(s) to disk
 			tucsonwriter.saveAllToDisk("target/TestOutput");
@@ -175,8 +171,7 @@ public class TestFromTridas extends TestCase {
 			} catch (IncompleteTridasDataException e) {
 				e.printStackTrace();
 			} catch (ConversionWarningException e) {
-			} catch (UnrepresentableTridasDataException e) {
-			}
+			} 
 			
 			// Actually save file(s) to disk
 			writer.saveAllToDisk(outputLocation);
@@ -218,8 +213,7 @@ public class TestFromTridas extends TestCase {
 			} catch (IncompleteTridasDataException e) {
 				e.printStackTrace();
 			} catch (ConversionWarningException e) {
-			} catch (UnrepresentableTridasDataException e) {
-			}
+			} 
 			
 			// Actually save file(s) to disk
 			writer.saveAllToDisk(outputLocation);
@@ -261,8 +255,7 @@ public class TestFromTridas extends TestCase {
 			} catch (IncompleteTridasDataException e) {
 				e.printStackTrace();
 			} catch (ConversionWarningException e) {
-			} catch (UnrepresentableTridasDataException e) {
-			}
+			} 
 			
 			// Actually save file(s) to disk
 			writer.saveAllToDisk(outputLocation);
@@ -308,8 +301,7 @@ public class TestFromTridas extends TestCase {
 			} catch (IncompleteTridasDataException e) {
 				e.printStackTrace();
 			} catch (ConversionWarningException e) {
-			} catch (UnrepresentableTridasDataException e) {
-			}
+			} 
 			
 			// Actually save file(s) to disk
 			writer.saveAllToDisk(outputLocation);

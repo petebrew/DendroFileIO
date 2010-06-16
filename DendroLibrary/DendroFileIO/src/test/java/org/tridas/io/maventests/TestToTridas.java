@@ -8,13 +8,16 @@ import junit.framework.TestCase;
 
 import org.grlea.log.SimpleLogger;
 import org.tridas.io.defaults.TridasMetadataFieldSet;
+import org.tridas.io.exceptions.ConversionWarningException;
+import org.tridas.io.exceptions.IncompleteTridasDataException;
+import org.tridas.io.exceptions.IncorrectDefaultFieldsException;
+import org.tridas.io.exceptions.InvalidDendroFileException;
 import org.tridas.io.formats.belfastapple.BelfastAppleReader;
 import org.tridas.io.formats.belfastarchive.BelfastArchiveReader;
 import org.tridas.io.formats.besancon.BesanconReader;
 import org.tridas.io.formats.catras.CatrasReader;
 import org.tridas.io.formats.heidelberg.HeidelbergReader;
 import org.tridas.io.formats.sheffield.SheffieldReader;
-import org.tridas.io.formats.sylphe.SylpheReader;
 import org.tridas.io.formats.tridas.TridasWriter;
 import org.tridas.io.formats.trims.TrimsReader;
 import org.tridas.io.formats.tucson.TucsonReader;
@@ -23,11 +26,6 @@ import org.tridas.io.formats.vformat.VFormatReader;
 import org.tridas.io.formats.windendro.WinDendroReader;
 import org.tridas.io.naming.NumericalNamingConvention;
 import org.tridas.io.naming.UUIDNamingConvention;
-import org.tridas.io.warningsandexceptions.ConversionWarningException;
-import org.tridas.io.warningsandexceptions.IncompleteTridasDataException;
-import org.tridas.io.warningsandexceptions.IncorrectDefaultFieldsException;
-import org.tridas.io.warningsandexceptions.InvalidDendroFileException;
-import org.tridas.io.warningsandexceptions.UnrepresentableTridasDataException;
 import org.tridas.schema.TridasProject;
 
 public class TestToTridas extends TestCase {
@@ -90,9 +88,7 @@ public class TestToTridas extends TestCase {
 				fail();
 			} catch (ConversionWarningException e) {} catch (IncorrectDefaultFieldsException e) {
 				fail();
-			} catch (UnrepresentableTridasDataException e) {
-				e.printStackTrace();
-			}
+			} 
 			writer.saveAllToDisk(outputLocation);
 			
 		}
@@ -140,8 +136,7 @@ public class TestToTridas extends TestCase {
 			} catch (IncompleteTridasDataException e) {
 				fail();
 			} catch (ConversionWarningException e) {
-			} catch (UnrepresentableTridasDataException e) {
-			}
+			} 
 			writer.saveAllToDisk(outputLocation);
 			
 		}
@@ -187,8 +182,7 @@ public class TestToTridas extends TestCase {
 			} catch (IncompleteTridasDataException e) {
 				fail();
 			} catch (ConversionWarningException e) {
-			} catch (UnrepresentableTridasDataException e) {
-			}
+			} 
 			writer.saveAllToDisk("target/TestOutput/");
 			
 		}
@@ -234,8 +228,7 @@ public class TestToTridas extends TestCase {
 			} catch (IncompleteTridasDataException e) {
 				fail();
 			} catch (ConversionWarningException e) {
-			} catch (UnrepresentableTridasDataException e) {
-			}
+			} 
 			writer.saveAllToDisk(outputLocation);
 			
 		}
@@ -282,8 +275,7 @@ public class TestToTridas extends TestCase {
 			} catch (IncompleteTridasDataException e) {
 				fail();
 			} catch (ConversionWarningException e) {
-			} catch (UnrepresentableTridasDataException e) {
-			}
+			} 
 			writer.saveAllToDisk(outputLocation);
 			
 		}
@@ -329,8 +321,7 @@ public class TestToTridas extends TestCase {
 			} catch (IncompleteTridasDataException e) {
 				fail();
 			} catch (ConversionWarningException e) {
-			} catch (UnrepresentableTridasDataException e) {
-			}
+			} 
 			writer.saveAllToDisk(outputLocation);
 			
 		}
@@ -376,8 +367,7 @@ public class TestToTridas extends TestCase {
 			} catch (IncompleteTridasDataException e) {
 				fail();
 			} catch (ConversionWarningException e) {
-			} catch (UnrepresentableTridasDataException e) {
-			}
+			} 
 			writer.saveAllToDisk(outputLocation);
 			
 		}
@@ -424,64 +414,14 @@ public class TestToTridas extends TestCase {
 				fail();
 			} catch (ConversionWarningException e) {} catch (IncorrectDefaultFieldsException e) {
 				fail();
-			} catch (UnrepresentableTridasDataException e) {
-				e.printStackTrace();
-			}
+			} 
 			writer.saveAllToDisk(outputLocation);
 			
 		}
 		
 	}
 	
-	public void testSypheToTridas() {
-		String folder = "TestData/SYLPHE";
-		String[] files = getFilesFromFolder(folder);
-		
-		if (files.length == 0) {
-			fail();
-		}
-		
-		for (String filename : files) {
-			log.info("Test conversion of: " + filename);
-			
-			// Create a new converter
-			SylpheReader reader = new SylpheReader();
-			
-			// Parse the legacy data file
-			try {
-				// TridasEntitiesFromDefaults def = new TridasEntitiesFromDefaults();
-				reader.loadFile(folder, filename);
-			} catch (IOException e) {
-				// Standard IO Exception
-				log.info(e.getLocalizedMessage());
-				return;
-			} catch (InvalidDendroFileException e) {
-				// Fatal error interpreting file
-				log.info(e.getLocalizedMessage());
-				return;
-			}
-			
-			// Extract the TridasProject
-			TridasProject myproject = reader.getProject();
-			
-			TridasWriter writer = new TridasWriter();
-			NumericalNamingConvention nc = new NumericalNamingConvention("test");
-			writer.setNamingConvention(nc);
-			
-			try {
-				writer.loadProject(myproject, new TridasMetadataFieldSet());
-			} catch (IncompleteTridasDataException e) {
-				fail();
-			} catch (ConversionWarningException e) {} catch (IncorrectDefaultFieldsException e) {
-				fail();
-			} catch (UnrepresentableTridasDataException e) {
-				e.printStackTrace();
-			}
-			writer.saveAllToDisk(outputLocation);
-			
-		}
-		
-	}
+
 	
 	public void testBesanconToTridas() {
 		String folder = "TestData/Besancon";
@@ -524,7 +464,6 @@ public class TestToTridas extends TestCase {
 				fail();
 			} catch (ConversionWarningException e) {} catch (IncorrectDefaultFieldsException e) {
 				fail();
-			} catch (UnrepresentableTridasDataException e) {
 			}
 			writer.saveAllToDisk(outputLocation);
 			
@@ -573,8 +512,7 @@ public class TestToTridas extends TestCase {
 				fail();
 			} catch (ConversionWarningException e) {} catch (IncorrectDefaultFieldsException e) {
 				fail();
-			} catch (UnrepresentableTridasDataException e) {
-			}
+			} 
 			writer.saveAllToDisk(outputLocation);
 			
 		}

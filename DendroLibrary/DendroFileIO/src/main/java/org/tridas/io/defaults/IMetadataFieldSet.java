@@ -6,7 +6,7 @@ package org.tridas.io.defaults;
 import java.util.ArrayList;
 import java.util.Set;
 
-import org.tridas.io.warnings.ConversionWarning;
+import org.tridas.io.exceptions.ConversionWarning;
 
 /**
  * TODO

@@ -14,8 +14,8 @@ import org.tridas.io.defaults.values.DoubleDefaultValue;
 import org.tridas.io.defaults.values.IntegerDefaultValue;
 import org.tridas.io.defaults.values.SafeIntYearDefaultValue;
 import org.tridas.io.defaults.values.StringDefaultValue;
-import org.tridas.io.warnings.ConversionWarning;
-import org.tridas.io.warnings.ConversionWarning.WarningType;
+import org.tridas.io.exceptions.ConversionWarning;
+import org.tridas.io.exceptions.ConversionWarning.WarningType;
 
 /**
  * @author daniel
