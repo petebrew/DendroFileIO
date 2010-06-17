@@ -26,18 +26,23 @@ import org.tridas.io.formats.heidelberg.HeidelbergToTridasDefaults.FHStartsOrEnd
 import org.tridas.io.formats.heidelberg.HeidelbergToTridasDefaults.FHWaldKante;
 import org.tridas.io.util.ITRDBTaxonConverter;
 import org.tridas.io.util.SafeIntYear;
+import org.tridas.schema.ComplexPresenceAbsence;
 import org.tridas.schema.ControlledVoc;
 import org.tridas.schema.PresenceAbsence;
+import org.tridas.schema.TridasBark;
 import org.tridas.schema.TridasDerivedSeries;
 import org.tridas.schema.TridasElement;
+import org.tridas.schema.TridasHeartwood;
 import org.tridas.schema.TridasIdentifier;
 import org.tridas.schema.TridasInterpretation;
+import org.tridas.schema.TridasLastRingUnderBark;
 import org.tridas.schema.TridasLocation;
 import org.tridas.schema.TridasMeasurementSeries;
 import org.tridas.schema.TridasObject;
 import org.tridas.schema.TridasProject;
 import org.tridas.schema.TridasRadius;
 import org.tridas.schema.TridasSample;
+import org.tridas.schema.TridasSapwood;
 import org.tridas.schema.TridasUnit;
 import org.tridas.schema.TridasValues;
 import org.tridas.schema.TridasWoodCompleteness;
@@ -86,7 +91,7 @@ public class TridasToHeidelbergDefaults extends AbstractMetadataFieldSet impleme
 		setDefaultValue(DefaultFields.LONGITUDE, new DoubleDefaultValue(null, -180.0, 180.0));
 		setDefaultValue(DefaultFields.MISSING_RINGS_AFTER, new IntegerDefaultValue());
 		setDefaultValue(DefaultFields.MISSING_RINGS_BEFORE, new IntegerDefaultValue());
-		setDefaultValue(DefaultFields.PITH, new GenericDefaultValue<FHPith>());
+		setDefaultValue(DefaultFields.PITH, new StringDefaultValue());
 		setDefaultValue(DefaultFields.PROJECT, new StringDefaultValue());
 		setDefaultValue(DefaultFields.PROVINCE, new StringDefaultValue());
 		setDefaultValue(DefaultFields.RADIUS_NUMBER, new StringDefaultValue());
@@ -111,7 +116,7 @@ public class TridasToHeidelbergDefaults extends AbstractMetadataFieldSet impleme
 		setDefaultValue(DefaultFields.TREE_HEIGHT, new StringDefaultValue());
 		setDefaultValue(DefaultFields.TREE_NUMBER, new StringDefaultValue());
 		setDefaultValue(DefaultFields.UNIT, new StringDefaultValue());	
-		setDefaultValue(DefaultFields.WALDKANTE, new GenericDefaultValue<FHWaldKante>());
+		setDefaultValue(DefaultFields.WALDKANTE, new StringDefaultValue());
 		
 		
 	}
@@ -171,6 +176,21 @@ public class TridasToHeidelbergDefaults extends AbstractMetadataFieldSet impleme
 			}
 		}
 			
+		// Dimensions
+		if(argElement.isSetDimensions())
+		{
+			if(argElement.getDimensions().isSetHeight())
+			{
+				// Heights
+				getStringDefaultValue(DefaultFields.TIMBER_HEIGHT).setValue(argElement.getDimensions().getHeight().toPlainString());
+				getStringDefaultValue(DefaultFields.TREE_HEIGHT).setValue(argElement.getDimensions().getHeight().toPlainString());
+			}
+			if(argElement.getDimensions().isSetWidth())
+			{
+				// Width
+				getStringDefaultValue(DefaultFields.TIMBER_WIDTH).setValue(argElement.getDimensions().getWidth().toPlainString());
+			}
+		}
 	}
 	
 	public void populateFromTridasRadius(TridasRadius argRadius){
@@ -185,9 +205,11 @@ public class TridasToHeidelbergDefaults extends AbstractMetadataFieldSet impleme
 	
 	public void populateFromTridasSample(TridasSample argSample) {
 
-		// Core Number
+		// Core Number / StemDiskNumber
 		getStringDefaultValue(DefaultFields.CORE_NUMBER).setValue(argSample.getTitle());
+		getStringDefaultValue(DefaultFields.STEM_DISK_NUMBER).setValue(argSample.getTitle());
 
+		
 		// Sampling Date
 		if(argSample.isSetSamplingDate())
 		{
@@ -201,9 +223,7 @@ public class TridasToHeidelbergDefaults extends AbstractMetadataFieldSet impleme
 		{
 			getStringDefaultValue(DefaultFields.SAMPLING_POINT).setValue(argSample.getPosition());
 		}
-		
-		
-		
+
 	}
 	
 	public void populateFromTridasValues(TridasValues argValues) {
@@ -251,12 +271,14 @@ public class TridasToHeidelbergDefaults extends AbstractMetadataFieldSet impleme
 		
 		TridasIdentifier id = argSeries.getIdentifier();
 		
+		// KEYCODE
 		if (id != null) {
 			if (id.isSetValue()) {
 				getStringDefaultValue(DefaultFields.KEYCODE).setValue(id.getValue());
 			}
 		}
 		
+		// Dates begin and end
 		TridasInterpretation interp = argSeries.getInterpretation();
 		if (interp != null) {
 			if (interp.isSetFirstYear()) {
@@ -265,8 +287,25 @@ public class TridasToHeidelbergDefaults extends AbstractMetadataFieldSet impleme
 			if (interp.isSetLastYear()) {
 				getIntegerDefaultValue(DefaultFields.DATE_END).setValue(Integer.parseInt((new SafeIntYear(interp.getLastYear()).toString())));
 			}
-
 		}
+		
+		// First measurement date
+		if(argSeries.isSetCreatedTimestamp())
+		{
+			XMLGregorianCalendar xcal = argSeries.getCreatedTimestamp().getValue();
+			Date dt = xcal.toGregorianCalendar().getTime();
+			getStringDefaultValue(DefaultFields.FIRST_MEASUREMENT_DATE).setValue(dt.toString());
+		}
+		
+		// Last revision date
+		if(argSeries.isSetLastModifiedTimestamp())
+		{
+			XMLGregorianCalendar xcal = argSeries.getLastModifiedTimestamp().getValue();
+			Date dt = xcal.toGregorianCalendar().getTime();
+			getStringDefaultValue(DefaultFields.LAST_REVISION_DATE).setValue(dt.toString());
+		}	
+		
+		
 	}
 	
 	public void populateFromTridasObject(TridasObject o)
@@ -374,8 +413,11 @@ public class TridasToHeidelbergDefaults extends AbstractMetadataFieldSet impleme
 	@SuppressWarnings("unchecked") 
 	public void populateFromWoodCompleteness(TridasMeasurementSeries series, TridasRadius radius)
 	{
-		// Get the wood completeness from the series if possible, if not then try the radius
 		TridasWoodCompleteness wc = null;
+		TridasSapwood sapwood = null;
+		TridasBark bark = null;
+		
+		// Get the wood completeness from the series if possible, if not then try the radius
 		if (series.isSetWoodCompleteness())
 		{
 			wc = series.getWoodCompleteness();
@@ -391,13 +433,14 @@ public class TridasToHeidelbergDefaults extends AbstractMetadataFieldSet impleme
 		// Bark
 		if(wc.isSetBark())
 		{
-			PresenceAbsence bark = wc.getBark().getPresence();
+			bark = wc.getBark();
+			PresenceAbsence barkPA = bark.getPresence();
 			
-			if(bark.equals(PresenceAbsence.PRESENT))
+			if(barkPA.equals(PresenceAbsence.PRESENT))
 			{
 				getStringDefaultValue(DefaultFields.BARK).setValue(FHBarkType.AVAILABLE.toCode());
 			}
-			else if (bark.equals(PresenceAbsence.ABSENT))
+			else if (barkPA.equals(PresenceAbsence.ABSENT))
 			{
 				getStringDefaultValue(DefaultFields.BARK).setValue(FHBarkType.UNAVAILABLE.toCode());
 			}
@@ -406,15 +449,82 @@ public class TridasToHeidelbergDefaults extends AbstractMetadataFieldSet impleme
 		// Sapwood rings
 		if(wc.isSetSapwood())
 		{
+			sapwood = wc.getSapwood();
 			if(wc.getSapwood().isSetNrOfSapwoodRings())
 			{
 				getIntegerDefaultValue(DefaultFields.SAPWOOD_RINGS).setValue(wc.getSapwood().getNrOfSapwoodRings());
 			}
 		}
 
+		// Pith
+		if(wc.isSetPith())
+		{
+			ComplexPresenceAbsence pith = wc.getPith().getPresence();
+			
+			if(pith.equals(ComplexPresenceAbsence.COMPLETE) ||
+			   pith.equals(ComplexPresenceAbsence.INCOMPLETE))
+			{
+				getStringDefaultValue(DefaultFields.PITH).setValue(FHPith.PRESENT.toCode());
+			}
+			else if (pith.equals(ComplexPresenceAbsence.ABSENT))
+			{
+				getStringDefaultValue(DefaultFields.PITH).setValue(FHPith.ABSENT.toCode());
+			}
+		}
+		
+		// Missing Rings before
+		if(wc.isSetNrOfUnmeasuredInnerRings())
+		{
+			getIntegerDefaultValue(DefaultFields.MISSING_RINGS_BEFORE).setValue(wc.getNrOfUnmeasuredInnerRings());
 
+		}
+
+		// Missing Rings after
+		if(wc.isSetNrOfUnmeasuredOuterRings())
+		{
+			getIntegerDefaultValue(DefaultFields.MISSING_RINGS_AFTER).setValue(wc.getNrOfUnmeasuredOuterRings());
+
+		}
 		
-		
+		// WaldKante
+		if(wc.isSetSapwood())
+		{
+			if(sapwood.isSetLastRingUnderBark())
+			{
+				// Try and get info from last ring under 
+				TridasLastRingUnderBark lrub = sapwood.getLastRingUnderBark();
+				if(lrub.getPresence().equals(PresenceAbsence.PRESENT))
+				{
+					// Last ring under bark is present so we have waldkante, but the 
+					// 'content' for this field is not parsable into the Heidelberg
+					// options so all we can do is say waldkante is present but unknown.
+					// We add the content as a string after so that people can see we 
+					// have more info
+					getStringDefaultValue(DefaultFields.WALDKANTE).setValue(FHWaldKante.UNKNOWN.toCode()+" "+lrub.getContent());
+				}
+				else
+				{
+					// WaldKante is definitely absent
+					getStringDefaultValue(DefaultFields.WALDKANTE).setValue(FHWaldKante.NONE.toCode());
+				}
+			}
+			else if (sapwood.isSetPresence())
+			{
+				// Last ring under bark field is missing so we use sapwood to
+				// determine what to put in here
+				if(sapwood.getPresence().equals(ComplexPresenceAbsence.COMPLETE))
+				{
+					getStringDefaultValue(DefaultFields.WALDKANTE).setValue(FHWaldKante.UNKNOWN.toCode());
+				}
+				else if ((sapwood.getPresence().equals(ComplexPresenceAbsence.INCOMPLETE)) ||
+						 (sapwood.getPresence().equals(ComplexPresenceAbsence.ABSENT)))
+		        {
+					// WaldKante is definitely absent
+					getStringDefaultValue(DefaultFields.WALDKANTE).setValue(FHWaldKante.NONE.toCode());
+				}
+			}
+		}
+	
 		
 		
 	}
