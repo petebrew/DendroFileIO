@@ -439,15 +439,17 @@ public class HeidelbergToTridasDefaults extends TridasMetadataFieldSet {
 			{
 				address.setStateProvinceRegion(getStringDefaultValue(DefaultFields.PROVINCE).getValue());
 			}
-			address.setAddressLine2(getStringDefaultValue(DefaultFields.DISTRICT).getValue());
+
 			String addressline1 = "";
 			addressline1 += getStringDefaultValue(DefaultFields.HOUSE_NAME).getValue()+" ";
 			addressline1 += getStringDefaultValue(DefaultFields.HOUSE_NUMBER).getValue()+" ";
-			addressline1 += getStringDefaultValue(DefaultFields.STREET).getValue();
-			address.setAddressLine1(addressline1);			
+			address.setAddressLine1(addressline1);	
 			
-			
-			
+			String addressline2 = "";
+			addressline2 += getStringDefaultValue(DefaultFields.STREET).getValue()+ " ";
+			addressline2 += getStringDefaultValue(DefaultFields.DISTRICT).getValue()+ " ";
+			address.setAddressLine2(addressline2);	
+				
 			location.setAddress(address);
 			location.setLocationGeometry(geometry);
 			location.setLocationComment(getStringDefaultValue(DefaultFields.LOCATION_CHARACTERISTICS).getValue());

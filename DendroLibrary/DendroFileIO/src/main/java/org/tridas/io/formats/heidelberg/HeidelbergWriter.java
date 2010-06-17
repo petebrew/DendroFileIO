@@ -40,19 +40,27 @@ public class HeidelbergWriter extends AbstractDendroCollectionWriter {
 		defaults.populateFromTridasProject(argProject);
 		
 		for (TridasObject o : TridasHierarchyHelper.getObjectList(argProject)) {
+			TridasToHeidelbergDefaults objectDefaults = (TridasToHeidelbergDefaults) defaults.clone();
+			objectDefaults.populateFromTridasObject(o);
 			
 			for (TridasElement e : o.getElements()) {
-				TridasToHeidelbergDefaults elementDefaults = (TridasToHeidelbergDefaults) defaults.clone();
+				TridasToHeidelbergDefaults elementDefaults = (TridasToHeidelbergDefaults) objectDefaults.clone();
 				elementDefaults.populateFromTridasElement(e);
+				elementDefaults.populateFromTridasLocation(o, e);
 				
 				for (TridasSample s : e.getSamples()) {
+					TridasToHeidelbergDefaults sampleDefaults = (TridasToHeidelbergDefaults) elementDefaults.clone();
+					sampleDefaults.populateFromTridasSample(s);
 					
 					for (TridasRadius r : s.getRadiuses()) {
-						
+						TridasToHeidelbergDefaults radiusDefaults = (TridasToHeidelbergDefaults) sampleDefaults.clone();
+						radiusDefaults.populateFromTridasRadius(r);
+												
 						for (TridasMeasurementSeries ms : r.getMeasurementSeries()) {
-							TridasToHeidelbergDefaults msDefaults = (TridasToHeidelbergDefaults) elementDefaults
+							TridasToHeidelbergDefaults msDefaults = (TridasToHeidelbergDefaults) radiusDefaults
 									.clone();
 							msDefaults.populateFromMS(ms);
+							msDefaults.populateFromWoodCompleteness(ms, r);
 							
 							for (int i = 0; i < ms.getValues().size(); i++) {
 								TridasValues tvs = ms.getValues().get(i);

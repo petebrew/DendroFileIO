@@ -7,12 +7,26 @@ import org.tridas.interfaces.ITridasSeries;
 import org.tridas.io.I18n;
 import org.tridas.io.IDendroFile;
 import org.tridas.io.defaults.IMetadataFieldSet;
+import org.tridas.io.defaults.values.DoubleDefaultValue;
+import org.tridas.io.defaults.values.GenericDefaultValue;
+import org.tridas.io.defaults.values.IntegerDefaultValue;
 import org.tridas.io.defaults.values.StringDefaultValue;
 import org.tridas.io.exceptions.ConversionWarning;
 import org.tridas.io.exceptions.ConversionWarning.WarningType;
-import org.tridas.io.formats.heidelberg.TridasToHeidelbergDefaults.HeidelbergField;
+import org.tridas.io.formats.heidelberg.HeidelbergToTridasDefaults.DefaultFields;
+import org.tridas.io.formats.heidelberg.HeidelbergToTridasDefaults.FHBarkType;
+import org.tridas.io.formats.heidelberg.HeidelbergToTridasDefaults.FHDataFormat;
+import org.tridas.io.formats.heidelberg.HeidelbergToTridasDefaults.FHDataType;
+import org.tridas.io.formats.heidelberg.HeidelbergToTridasDefaults.FHDated;
+import org.tridas.io.formats.heidelberg.HeidelbergToTridasDefaults.FHPith;
+import org.tridas.io.formats.heidelberg.HeidelbergToTridasDefaults.FHSeriesType;
+import org.tridas.io.formats.heidelberg.HeidelbergToTridasDefaults.FHStartsOrEndsWith;
+import org.tridas.io.formats.heidelberg.HeidelbergToTridasDefaults.FHWaldKante;
+import org.tridas.io.util.ITRDBTaxonConverter;
 import org.tridas.io.util.StringUtils;
+import org.tridas.schema.ControlledVoc;
 import org.tridas.schema.TridasDerivedSeries;
+import org.tridas.schema.TridasUnit;
 import org.tridas.schema.TridasValue;
 import org.tridas.schema.TridasValues;
 
@@ -63,7 +77,14 @@ public class HeidelbergFile implements IDendroFile {
 			
 			ints.add(Integer.parseInt(v.getValue()));
 			if (chrono) {
-				ints.add(v.getCount());
+				if(v.getCount()==null)
+				{
+					ints.add(0);
+				}
+				else
+				{
+					ints.add(v.getCount());
+				}
 			}
 		}
 		dataInts = ints.toArray(new Integer[0]);
@@ -92,7 +113,7 @@ public class HeidelbergFile implements IDendroFile {
 	
 	private void reduceUnits() {
 		log.debug(I18n.getText("heidelberg.reducingUnits"));
-		StringDefaultValue sdv = defaults.getStringDefaultValue(HeidelbergField.UNIT);
+		StringDefaultValue sdv = defaults.getStringDefaultValue(DefaultFields.UNIT);
 		
 		if (sdv.getStringValue() == "") {
 			log.error(I18n.getText("heidelberg.couldNotReduceUnits"));
@@ -115,16 +136,26 @@ public class HeidelbergFile implements IDendroFile {
 		}
 	}
 	
+	@SuppressWarnings("unchecked")
 	private void populateDefaults() {
+		
+		GenericDefaultValue<FHDataFormat> dataFormatField = (GenericDefaultValue<FHDataFormat>)
+					defaults.getDefaultValue(DefaultFields.DATA_FORMAT);		
+
 		if (chrono) {
-			defaults.getStringDefaultValue(HeidelbergField.DATA_FORMAT).setValue("Chrono");
-			String standardizationMethod = ((TridasDerivedSeries) series).getStandardizingMethod();
-			defaults.getStringDefaultValue(HeidelbergField.SERIES_TYPE).setValue(standardizationMethod);
+			dataFormatField.setValue(FHDataFormat.Chrono);
+			/*String standardizationMethod = ((TridasDerivedSeries) series).getStandardizingMethod();
+			if(standardizationMethod!=null)
+			{
+				defaults.getStringDefaultValue(DefaultFields.SERIES_TYPE).setValue(standardizationMethod);
+			}*/
 		}
 		else {
-			defaults.getStringDefaultValue(HeidelbergField.DATA_FORMAT).setValue("Tree");
+			dataFormatField.setValue(FHDataFormat.Tree);
 		}
-		defaults.getIntegerDefaultValue(HeidelbergField.LENGTH).setValue(numTridasValues);
+		try{
+		defaults.getStringDefaultValue(DefaultFields.LENGTH).setValue(String.valueOf(numTridasValues));
+		} catch (NumberFormatException e){}
 	}
 	
 	@Override
@@ -136,17 +167,59 @@ public class HeidelbergFile implements IDendroFile {
 	public String[] saveToString() {
 		ArrayList<String> file = new ArrayList<String>();
 		file.add("HEADER:");
-		addIfNotNull("Project", HeidelbergField.PROJECT, file);
-		addIfNotNull("KeyCode", HeidelbergField.KEY_CODE, file);
-		addIfNotNull("DataFormat", HeidelbergField.DATA_FORMAT, file);
-		addIfNotNull("SeriesType", HeidelbergField.SERIES_TYPE, file);
-		addIfNotNull("Length", HeidelbergField.LENGTH, file);
-		addIfNotNull("DateBegin", HeidelbergField.DATEBEGIN, file);
-		addIfNotNull("DateEnd", HeidelbergField.DATEEND, file);
-		addIfNotNull("Dated", HeidelbergField.DATED, file);
-		addIfNotNull("Species", HeidelbergField.SPECIES, file);
-		addIfNotNull("Unit", HeidelbergField.UNIT, file);
 		
+		addIfNotNull("Bark", DefaultFields.BARK, file);
+		addIfNotNull("CoreNo", DefaultFields.CORE_NUMBER, file);
+		addIfNotNull("Country", DefaultFields.COUNTRY, file);
+		addIfNotNull("DataFormat", DefaultFields.DATA_FORMAT, file);
+		addIfNotNull("DataType", DefaultFields.DATA_TYPE, file);
+		addIfNotNull("DateBegin", DefaultFields.DATE_BEGIN, file);
+		addIfNotNull("Dated", DefaultFields.DATED, file);
+		addIfNotNull("DateEnd", DefaultFields.DATE_END, file);
+		addIfNotNull("DateOfSampling", DefaultFields.DATE_OF_SAMPLING, file);
+		addIfNotNull("District", DefaultFields.DISTRICT, file);
+		addIfNotNull("Elevation", DefaultFields.ELEVATION, file);
+		addIfNotNull("EstimatedTimePeriod", DefaultFields.ESTIMATED_TIME_PERIOD, file);
+		addIfNotNull("FirstMeasurementDate", DefaultFields.FIRST_MEASUREMENT_DATE, file);
+		addIfNotNull("HouseName", DefaultFields.HOUSE_NAME, file);
+		addIfNotNull("HouseNumber", DefaultFields.HOUSE_NUMBER, file);	
+		addIfNotNull("LaboratoryCode", DefaultFields.LAB_CODE, file);
+		addIfNotNull("LastRevisionDate", DefaultFields.LAST_REVISION_DATE, file);
+		addIfNotNull("LastRevisionPersID", DefaultFields.LAST_REVISION_PERS_ID, file);
+		addIfNotNull("Latitude", DefaultFields.LATITUDE, file);
+		addIfNotNull("Length", DefaultFields.LENGTH, file);
+		addIfNotNull("Location", DefaultFields.LOCATION, file);
+		addIfNotNull("LocationCharacteristics", DefaultFields.LOCATION_CHARACTERISTICS, file);
+		addIfNotNull("Longitude", DefaultFields.LONGITUDE, file);
+		addIfNotNull("MissingRingsAfter", DefaultFields.MISSING_RINGS_AFTER, file);
+		addIfNotNull("MissingRingsBefore", DefaultFields.MISSING_RINGS_BEFORE, file);
+		addIfNotNull("Pith", DefaultFields.PITH, file);
+		addIfNotNull("Project", DefaultFields.PROJECT, file);
+		addIfNotNull("Province", DefaultFields.PROVINCE, file);
+		addIfNotNull("RadiusNumber", DefaultFields.RADIUS_NUMBER, file);
+		addIfNotNull("SamplingHeight", DefaultFields.SAMPLING_HEIGHT, file);
+		addIfNotNull("SamplingPoint", DefaultFields.SAMPLING_POINT, file);
+		addIfNotNull("SapwoodRings", DefaultFields.SAPWOOD_RINGS, file);
+		addIfNotNull("SeriesEnd", DefaultFields.SERIES_END, file);
+		addIfNotNull("SeriesStart", DefaultFields.SERIES_START, file);
+		addIfNotNull("SeriesType", DefaultFields.SERIES_TYPE, file);
+		addIfNotNull("ShapeOfSample", DefaultFields.SHAPE_OF_SAMPLE, file);
+		addIfNotNull("SiteCode", DefaultFields.SITE_CODE, file);
+		addIfNotNull("SoilType", DefaultFields.SOIL_TYPE, file);
+		addIfNotNull("Species", DefaultFields.SPECIES, file);
+		addIfNotNull("SpeciesName", DefaultFields.SPECIES_NAME, file);
+		addIfNotNull("State", DefaultFields.STATE, file);
+		addIfNotNull("StemDiskNo", DefaultFields.STEM_DISK_NUMBER, file);
+		addIfNotNull("Street", DefaultFields.STREET, file);
+		addIfNotNull("TimberHeight", DefaultFields.TIMBER_HEIGHT, file);
+		addIfNotNull("TimberWidth", DefaultFields.TIMBER_WIDTH, file);
+		addIfNotNull("Town", DefaultFields.TOWN, file);
+		addIfNotNull("TownZipCode", DefaultFields.TOWN_ZIP_CODE, file);
+		addIfNotNull("TreeHeight", DefaultFields.TREE_HEIGHT, file);
+		addIfNotNull("TreeNumber", DefaultFields.TREE_NUMBER, file);
+		addIfNotNull("Unit", DefaultFields.UNIT, file);
+		addIfNotNull("WaldKante", DefaultFields.WALDKANTE, file);
+				
 		if (chrono) {
 			file.add("DATA:Double");
 		}
@@ -172,11 +245,11 @@ public class HeidelbergFile implements IDendroFile {
 		return file.toArray(new String[0]);
 	}
 	
-	private void addIfNotNull(String argKeyString, HeidelbergField argEnum, ArrayList<String> argList) {
+	private void addIfNotNull(String argKeyString, DefaultFields argEnum, ArrayList<String> argList) {
 		if (defaults.getDefaultValue(argEnum).getStringValue().equals("")) {
 			return;
 		}
-		argList.add(argKeyString + "=" + defaults.getDefaultValue(argEnum).getStringValue());
+		argList.add(argKeyString + "=" + defaults.getDefaultValue(argEnum).getStringValue().replaceAll("\\n", "; "));
 	}
 	
 	/**
