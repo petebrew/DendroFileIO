@@ -183,6 +183,7 @@ public class HeidelbergFile implements IDendroFile {
 		addIfNotNull("FirstMeasurementDate", DefaultFields.FIRST_MEASUREMENT_DATE, file);
 		addIfNotNull("HouseName", DefaultFields.HOUSE_NAME, file);
 		addIfNotNull("HouseNumber", DefaultFields.HOUSE_NUMBER, file);	
+		addIfNotNull("KeyCode", DefaultFields.KEYCODE, file);	
 		addIfNotNull("LaboratoryCode", DefaultFields.LAB_CODE, file);
 		addIfNotNull("LastRevisionDate", DefaultFields.LAST_REVISION_DATE, file);
 		addIfNotNull("LastRevisionPersID", DefaultFields.LAST_REVISION_PERS_ID, file);
@@ -196,7 +197,7 @@ public class HeidelbergFile implements IDendroFile {
 		addIfNotNull("Pith", DefaultFields.PITH, file);
 		addIfNotNull("Project", DefaultFields.PROJECT, file);
 		addIfNotNull("Province", DefaultFields.PROVINCE, file);
-		addIfNotNull("RadiusNumber", DefaultFields.RADIUS_NUMBER, file);
+		addIfNotNull("RadiusNo", DefaultFields.RADIUS_NUMBER, file);
 		addIfNotNull("SamplingHeight", DefaultFields.SAMPLING_HEIGHT, file);
 		addIfNotNull("SamplingPoint", DefaultFields.SAMPLING_POINT, file);
 		addIfNotNull("SapwoodRings", DefaultFields.SAPWOOD_RINGS, file);
@@ -216,7 +217,7 @@ public class HeidelbergFile implements IDendroFile {
 		addIfNotNull("Town", DefaultFields.TOWN, file);
 		addIfNotNull("TownZipCode", DefaultFields.TOWN_ZIP_CODE, file);
 		addIfNotNull("TreeHeight", DefaultFields.TREE_HEIGHT, file);
-		addIfNotNull("TreeNumber", DefaultFields.TREE_NUMBER, file);
+		addIfNotNull("TreeNo", DefaultFields.TREE_NUMBER, file);
 		addIfNotNull("Unit", DefaultFields.UNIT, file);
 		addIfNotNull("WaldKante", DefaultFields.WALDKANTE, file);
 				
