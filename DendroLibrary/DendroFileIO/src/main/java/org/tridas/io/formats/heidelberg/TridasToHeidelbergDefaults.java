@@ -24,6 +24,7 @@ import org.tridas.io.formats.heidelberg.HeidelbergToTridasDefaults.FHPith;
 import org.tridas.io.formats.heidelberg.HeidelbergToTridasDefaults.FHSeriesType;
 import org.tridas.io.formats.heidelberg.HeidelbergToTridasDefaults.FHStartsOrEndsWith;
 import org.tridas.io.formats.heidelberg.HeidelbergToTridasDefaults.FHWaldKante;
+import org.tridas.io.formats.sheffield.TridasToSheffieldDefaults.SheffieldVariableCode;
 import org.tridas.io.util.ITRDBTaxonConverter;
 import org.tridas.io.util.SafeIntYear;
 import org.tridas.schema.ComplexPresenceAbsence;
@@ -138,10 +139,10 @@ public class TridasToHeidelbergDefaults extends AbstractMetadataFieldSet impleme
 		// Set Taxon fields
 		if (argElement.isSetTaxon()) {
 			
-			if(argElement.getTaxon().getNormal()!=null)
+			if(argElement.getTaxon().getNormalId()!=null)
 			{
 				// Set the species field to the controlled voc id if possible 
-				getStringDefaultValue(DefaultFields.SPECIES).setValue(argElement.getTaxon().getNormalId());
+				getStringDefaultValue(DefaultFields.SPECIES).setValue(ITRDBTaxonConverter.getNormalisedCode(argElement.getTaxon().getNormalId()));
 			}
 			
 			// Use the value of the taxon tag as the human readable species name field
@@ -226,13 +227,58 @@ public class TridasToHeidelbergDefaults extends AbstractMetadataFieldSet impleme
 
 	}
 	
+	@SuppressWarnings("unchecked")
 	public void populateFromTridasValues(TridasValues argValues) {
-		if (argValues.isSetUnitless() || !argValues.isSetUnit()) {
-			return;
+		
+		GenericDefaultValue<FHDataType> variableField = (GenericDefaultValue<FHDataType>)getDefaultValue(DefaultFields.DATA_TYPE);
+		
+		// Data type (variable) = values.variable.normaltridas
+		if(argValues.isSetVariable())
+		{		
+			if(argValues.getVariable().isSetNormalTridas())
+			{
+				switch(argValues.getVariable().getNormalTridas())
+				{
+				case RING_WIDTH:
+					variableField.setValue(FHDataType.RING_WIDTH);
+					break;
+				case EARLYWOOD_WIDTH:
+					variableField.setValue(FHDataType.EARLY_WOOD);
+					break;	
+				case MAXIMUM_DENSITY:
+					variableField.setValue(FHDataType.MAX_DENSITY);
+					break;
+				case LATEWOOD_WIDTH:
+					variableField.setValue(FHDataType.LATE_WOOD);
+					break;
+				case EARLYWOOD_DENSITY:
+					variableField.setValue(FHDataType.EARLY_WOOD_DENSITY);
+					break;
+				case LATEWOOD_DENSITY:
+					variableField.setValue(FHDataType.LATE_WOOD_DENSITY);
+					break;		
+				case LATEWOOD_PERCENT:
+				case RING_DENSITY:
+				default:
+					break;
+				}
+			}
+			else
+			{
+				variableField.setValue(FHDataType.RING_WIDTH);
+			}
+		}
+		else
+		{
+			variableField.setValue(FHDataType.RING_WIDTH);
 		}
 		
-		if (argValues.getUnit().getNormalTridas() == null) {
-			return;
+		// Set units
+		if(argValues.isSetUnit())
+		{
+			if (argValues.getUnit().getNormalTridas() == null) {
+				return;
+			}
 		}
 		
 		TridasUnit units = argValues.getUnit();

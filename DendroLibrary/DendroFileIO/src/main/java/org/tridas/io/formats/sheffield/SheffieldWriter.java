@@ -129,12 +129,13 @@ public class SheffieldWriter extends AbstractDendroCollectionWriter {
 										{
 										case RING_WIDTH:
 										case EARLYWOOD_WIDTH:
+										case LATEWOOD_WIDTH:
 										case MAXIMUM_DENSITY:
 											// All handled ok
 											break;
 										default:
 											// All other variables not representable
-											this.addWarning(new ConversionWarning(WarningType.IGNORED, I18n.getText("fileio.unsupportedVariable")));
+											this.addWarning(new ConversionWarning(WarningType.IGNORED, I18n.getText("fileio.unsupportedVariable", tvsgroup.getVariable().getNormalTridas().toString().toLowerCase().replace("_", " "))));
 											skipThisGroup = true;
 										}
 									}
@@ -190,12 +191,13 @@ public class SheffieldWriter extends AbstractDendroCollectionWriter {
 						{
 						case RING_WIDTH:
 						case EARLYWOOD_WIDTH:
+						case LATEWOOD_WIDTH:
 						case MAXIMUM_DENSITY:
 							// All handled ok
 							break;
 						default:
 							// All other variables not representable
-							this.addWarning(new ConversionWarning(WarningType.IGNORED, I18n.getText("fileio.unsupportedVariable")));
+							this.addWarning(new ConversionWarning(WarningType.IGNORED, I18n.getText("fileio.unsupportedVariable", tvsgroup.getVariable().getNormalTridas().toString().toLowerCase().replace("_", " "))));
 							skipThisGroup = true;
 						}
 					}
