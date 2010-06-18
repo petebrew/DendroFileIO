@@ -233,6 +233,23 @@ public final class SafeIntYear implements Comparable {
 	}
 	
 	/**
+	 * Returns this SafeIntYear as an integer using the astronomical
+	 * convention for BC years.
+	 * 
+	 * @return
+	 */
+	public Integer toAstronomicalInteger(){
+		if (y<0)
+		{
+			return y+1;
+		}
+		else
+		{
+			return y;
+		}	
+	}
+	
+	/**
 	 * Return true, iff this is year 1. (This actually comes up fairly often.)
 	 * 
 	 * @return true iff this is year 1

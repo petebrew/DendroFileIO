@@ -82,8 +82,8 @@ public class SheffieldStringDefaultValue extends AbstractDefaultValue<String> {
 		String value = argValue.toString();
 		
 		// Replace restricted characters with something that looks similar
-		value.replaceAll("(", "[");
-		value.replaceAll(")", "]");
+		value.replaceAll("\\(", "[");
+		value.replaceAll("\\)", "]");
 		value.replaceAll(",", ";");
 		value.replaceAll("\"", "''");
 		

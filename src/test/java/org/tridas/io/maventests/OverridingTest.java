@@ -9,7 +9,7 @@ import org.tridas.io.exceptions.IncorrectDefaultFieldsException;
 import org.tridas.io.exceptions.InvalidDendroFileException;
 import org.tridas.io.formats.heidelberg.HeidelbergWriter;
 import org.tridas.io.formats.heidelberg.TridasToHeidelbergDefaults;
-import org.tridas.io.formats.heidelberg.TridasToHeidelbergDefaults.HeidelbergField;
+import org.tridas.io.formats.heidelberg.HeidelbergToTridasDefaults.DefaultFields;
 import org.tridas.io.formats.tridas.TridasReader;
 import org.tridas.io.formats.tucson.TridasToTucsonDefaults;
 import org.tridas.io.formats.tucson.TucsonWriter;
@@ -30,8 +30,8 @@ public class OverridingTest extends TestCase {
 		TridasToHeidelbergDefaults defaults = new TridasToHeidelbergDefaults();
 		HeidelbergWriter writer = new HeidelbergWriter();
 		
-		defaults.getStringDefaultValue(HeidelbergField.KEY_CODE).setOverridingValue("TestOverriding");
-		defaults.getIntegerDefaultValue(HeidelbergField.DATEBEGIN).setOverridingValue(0);
+		defaults.getStringDefaultValue(DefaultFields.KEYCODE).setOverridingValue("TestOverriding");
+		defaults.getIntegerDefaultValue(DefaultFields.DATE_BEGIN).setOverridingValue(0);
 		
 		writer.loadProject(project, defaults);
 		
@@ -54,7 +54,7 @@ public class OverridingTest extends TestCase {
 		
 		writer.clearFiles();
 		
-		defaults.getIntegerDefaultValue(HeidelbergField.DATEBEGIN).setOverriding(false);
+		defaults.getIntegerDefaultValue(DefaultFields.DATE_BEGIN).setOverriding(false);
 		writer.loadProject(project, defaults);
 		
 		keyCodeFound = false;

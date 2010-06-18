@@ -1,5 +1,7 @@
 package org.tridas.io.util;
 
+import java.math.BigDecimal;
+import java.math.BigInteger;
 import java.util.ArrayList;
 
 import org.tridas.io.I18n;
@@ -10,6 +12,38 @@ import org.tridas.schema.TridasValues;
 
 public class UnitUtils {
 
+	
+	
+	/**
+	 * Convert a BigDecimal value from one unit to another
+	 * 
+	 * @param inputunits
+	 * @param outputunits
+	 * @param value
+	 * @return
+	 */
+	public static BigDecimal convertBigDecimal(NormalTridasUnit inputunits, NormalTridasUnit outputunits, BigDecimal value)
+	{
+		Double val = value.doubleValue();
+		
+		return BigDecimal.valueOf(UnitUtils.convertDouble(inputunits, outputunits, val));
+	}
+	
+	/**
+	 * Convert a BigInteger value from one unit to another
+	 * 
+	 * @param inputunits
+	 * @param outputunits
+	 * @param value
+	 * @return
+	 */
+	public static BigInteger convertBigInteger(NormalTridasUnit inputunits, NormalTridasUnit outputunits, BigInteger value)
+	{
+		Double val = value.doubleValue();
+		
+		return BigInteger.valueOf(Math.round(UnitUtils.convertDouble(inputunits, outputunits, val)));
+	}
+	
 	/**
 	 * Convert a data value from one unit to another
 	 * 
@@ -18,7 +52,7 @@ public class UnitUtils {
 	 * @param value
 	 * @return
 	 */
-	public static Double convertValue(NormalTridasUnit inputunits, NormalTridasUnit outputunits, Double value)
+	public static Double convertDouble(NormalTridasUnit inputunits, NormalTridasUnit outputunits, Double value)
 	{
 		Double val = value;
 
@@ -106,7 +140,7 @@ public class UnitUtils {
 		for (TridasValue value : values)
 		{
 			Double dblvalue = Double.parseDouble(value.getValue());
-			dblvalue = UnitUtils.convertValue(inputunits, outputunits, dblvalue);
+			dblvalue = UnitUtils.convertDouble(inputunits, outputunits, dblvalue);
 			
 			if(outputAsIntegers)
 			{
