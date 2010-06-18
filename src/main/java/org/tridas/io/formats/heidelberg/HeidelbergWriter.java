@@ -3,8 +3,11 @@ package org.tridas.io.formats.heidelberg;
 import org.tridas.io.AbstractDendroCollectionWriter;
 import org.tridas.io.I18n;
 import org.tridas.io.defaults.IMetadataFieldSet;
+import org.tridas.io.exceptions.ConversionWarning;
 import org.tridas.io.exceptions.ConversionWarningException;
 import org.tridas.io.exceptions.IncompleteTridasDataException;
+import org.tridas.io.exceptions.ConversionWarning.WarningType;
+import org.tridas.io.formats.sheffield.TridasToSheffieldDefaults.SheffieldVariableCode;
 import org.tridas.io.naming.HierarchicalNamingConvention;
 import org.tridas.io.naming.INamingConvention;
 import org.tridas.io.util.TridasHierarchyHelper;
@@ -63,10 +66,40 @@ public class HeidelbergWriter extends AbstractDendroCollectionWriter {
 							msDefaults.populateFromWoodCompleteness(ms, r);
 							
 							for (int i = 0; i < ms.getValues().size(); i++) {
-								TridasValues tvs = ms.getValues().get(i);
+								boolean skipThisGroup = false;
+
+								TridasValues tvsgroup = ms.getValues().get(i);
+								
+								// Check we can handle this variable
+								if(tvsgroup.isSetVariable())
+								{
+									if (!tvsgroup.getVariable().isSetNormalTridas())
+									{
+										this.addWarning(new ConversionWarning(WarningType.AMBIGUOUS, I18n.getText("fileio.nonstandardVariable")));
+									}
+									else
+									{
+										switch(tvsgroup.getVariable().getNormalTridas())
+										{
+										case RING_WIDTH:
+										case EARLYWOOD_WIDTH:
+										case MAXIMUM_DENSITY:
+										case LATEWOOD_WIDTH:
+											// All handled ok
+											break;
+										default:
+											// All other variables not representable
+											this.addWarning(new ConversionWarning(WarningType.IGNORED, I18n.getText("fileio.unsupportedVariable", tvsgroup.getVariable().getNormalTridas().toString().toLowerCase().replace("_", " "))));
+											skipThisGroup = true;
+										}
+									}
+								}
+								
+								// Dodgy variable so skip
+								if(skipThisGroup) continue;
 								
 								// Check there are no non-number values
-								for (TridasValue v : tvs.getValues()) {
+								for (TridasValue v : tvsgroup.getValues()) {
 									try {
 										Integer.parseInt(v.getValue());
 									} catch (NumberFormatException e2) {
@@ -76,10 +109,11 @@ public class HeidelbergWriter extends AbstractDendroCollectionWriter {
 								}
 								
 								TridasToHeidelbergDefaults tvDefaults = (TridasToHeidelbergDefaults) msDefaults.clone();
-								tvDefaults.populateFromTridasValues(tvs);
+								tvDefaults.populateFromTridasValues(tvsgroup);
 								
 								HeidelbergFile file = new HeidelbergFile(tvDefaults);
 								file.setSeries(ms, i);
+								file.setDataValues(tvsgroup);
 								naming.registerFile(file, argProject, o, e, s, r, ms);
 								addToFileList(file);
 							}
@@ -124,26 +158,60 @@ public class HeidelbergWriter extends AbstractDendroCollectionWriter {
 			dsDefaults.populateFromDerivedSeries(ds);
 			
 			for (int i = 0; i < ds.getValues().size(); i++) {
-				TridasValues tvs = ds.getValues().get(i);
+				boolean skipThisGroup = false;
+
+				TridasValues tvsgroup = ds.getValues().get(i);
+				
+				// Check we can handle this variable
+				if(tvsgroup.isSetVariable())
+				{
+					if (!tvsgroup.getVariable().isSetNormalTridas())
+					{
+						this.addWarning(new ConversionWarning(WarningType.AMBIGUOUS, I18n.getText("fileio.nonstandardVariable")));
+					}
+					else
+					{
+						switch(tvsgroup.getVariable().getNormalTridas())
+						{
+						case RING_WIDTH:
+						case EARLYWOOD_WIDTH:
+						case MAXIMUM_DENSITY:
+						case LATEWOOD_WIDTH:
+							// All handled ok
+							break;
+						default:
+							// All other variables not representable
+							this.addWarning(new ConversionWarning(WarningType.IGNORED, I18n.getText("fileio.unsupportedVariable"), tvsgroup.getVariable().getNormalTridas().toString().toLowerCase().replace("_", " ")));
+							skipThisGroup = true;
+						}
+					}
+				}
+				
+				// Dodgy variable so skip
+				if(skipThisGroup) continue;
 				
 				// Check there are no non-number values
-				for (TridasValue v : tvs.getValues()) {
+				for (TridasValue v : tvsgroup.getValues()) {
 					try {
 						Integer.parseInt(v.getValue());
-					} catch (NumberFormatException e) {
+					} catch (NumberFormatException e2) {
 						throw new IncompleteTridasDataException(
 								"One or more data values are not numbers!  This is technically acceptable in TRiDaS but not supported in this library.");
 					}
 				}
 				
 				TridasToHeidelbergDefaults tvDefaults = (TridasToHeidelbergDefaults) dsDefaults.clone();
-				tvDefaults.populateFromTridasValues(tvs);
+				tvDefaults.populateFromTridasValues(tvsgroup);
 				
 				HeidelbergFile file = new HeidelbergFile(tvDefaults);
 				file.setSeries(ds, i);
+				file.setDataValues(tvsgroup);
 				naming.registerFile(file, argProject, ds);
 				addToFileList(file);
 			}
+
+			
+			
 		}
 	}
 	

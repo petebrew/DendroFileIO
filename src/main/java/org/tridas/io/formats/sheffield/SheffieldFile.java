@@ -128,7 +128,7 @@ public class SheffieldFile implements IDendroFile {
 		file.add(((SheffieldPeriodCode)defaults.getDefaultValue(DefaultFields.PERIOD).getValue()).toCode());
 		file.add(defaults.getDefaultValue(DefaultFields.TAXON).getValue().toString());
 		file.add(defaults.getSheffieldStringDefaultValue(DefaultFields.INTERPRETATION_COMMENT).getValue());
-		file.add(defaults.getDefaultValue(DefaultFields.DATA_TYPE).getValue().toString());
+		file.add(defaults.getDefaultValue(DefaultFields.VARIABLE_TYPE).getValue().toString());
 
 	
 		for (TridasValue value : dataValues.getValues())

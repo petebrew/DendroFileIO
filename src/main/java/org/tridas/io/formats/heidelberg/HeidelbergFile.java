@@ -36,6 +36,7 @@ public class HeidelbergFile implements IDendroFile {
 	public static final int DATA_CHARS_PER_NUMBER = 6;
 	
 	private ITridasSeries series = null;
+	private TridasValues dataValues;
 	private TridasToHeidelbergDefaults defaults;
 	
 	private boolean chrono;
@@ -63,19 +64,33 @@ public class HeidelbergFile implements IDendroFile {
 			chrono = false;
 		}
 		
+		populateDefaults();
+	}
+	
+	/**
+	 * 
+	 * @param vals
+	 */
+	public void setDataValues(TridasValues vals)
+	{	
+		dataValues = vals;
 		extractData();
 		verifyData();
-		populateDefaults();
 	}
 	
 	private void extractData() {
 		ArrayList<Integer> ints = new ArrayList<Integer>();
 		
-		TridasValues vals = series.getValues().get(valuesIndex);
-		numTridasValues = vals.getValues().size();
-		for (TridasValue v : vals.getValues()) {
+		numTridasValues = dataValues.getValues().size();
+		for (TridasValue v : dataValues.getValues()) {
 			
+			try{
 			ints.add(Integer.parseInt(v.getValue()));
+			} catch (NumberFormatException e)
+			{
+				defaults.addConversionWarning(new ConversionWarning(WarningType.INVALID, I18n.getText(
+						"fileio.invalidDataValue")));
+			}
 			if (chrono) {
 				if(v.getCount()==null)
 				{

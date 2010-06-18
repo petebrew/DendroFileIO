@@ -329,10 +329,12 @@ public class TridasToSheffieldDefaults extends AbstractMetadataFieldSet implemen
 				case MAXIMUM_DENSITY:
 					variableField.setValue(SheffieldVariableCode.MAXIMUM_DENSITY);
 					break;
-				
-				case RING_DENSITY:
 				case LATEWOOD_WIDTH:
+					variableField.setValue(SheffieldVariableCode.LATE_WOOD_WIDTHS);
+					break;
+					
 				case LATEWOOD_PERCENT:
+				case RING_DENSITY:
 				case EARLYWOOD_DENSITY:
 				case LATEWOOD_DENSITY:
 				default:
