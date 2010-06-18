@@ -14,6 +14,9 @@ public class ITRDBTaxonConverter {
 	
 	private static HashMap<String, String> convertionMap = null;
 	private static HashMap<String, String> convertionMapToCode = null;
+	private static String defaultCode = "UNKN";
+	private static String defaultTaxon = "Plantae";
+	private static String defaultDictionary = "ITRDB/WSL Dendrochronology Species Database";
 	
 	private ITRDBTaxonConverter() {}
 	
@@ -32,6 +35,26 @@ public class ITRDBTaxonConverter {
 		}
 		convertionMap = map;
 		convertionMapToCode = map2;
+	}
+	
+	/**
+	 * Check that the specified code is in the dictionary.  If not then
+	 * return the default standardised code.
+	 * 
+	 * @param argCode
+	 * @return
+	 */
+	public static String getNormalisedCode(String argCode)
+	{
+		if (convertionMap == null) {
+			initializeMap();
+		}
+		if (convertionMap.containsKey(argCode)) {
+			return argCode;
+		}
+		else {
+			return defaultCode;
+		}
 	}
 	
 	/**
@@ -87,15 +110,15 @@ public class ITRDBTaxonConverter {
 		ControlledVoc taxon = new ControlledVoc();
 		
 		if (code == null) {
-			code = "UNKN";
+			code = defaultCode;
 		}
 		else if (code.equals("")) {
-			code = "UNKN";
+			code = defaultCode;
 		}
 		
 		if (ITRDBTaxonConverter.getNameFromCode(code) != code) {
 			// Match found so set controlled vocab
-			taxon.setNormalStd("ITRDB/WSL Dendrochronology Species Database");
+			taxon.setNormalStd(defaultDictionary);
 			taxon.setNormalId(code);
 			taxon.setNormal(ITRDBTaxonConverter.getNameFromCode(code));
 			taxon.setValue(ITRDBTaxonConverter.getNameFromCode(code));
@@ -122,12 +145,12 @@ public class ITRDBTaxonConverter {
 		ControlledVoc taxon = new ControlledVoc();
 		
 		if (name.equals("") || name == null) {
-			name = "Plantae";
+			name = defaultTaxon;
 		}
 		
 		if (ITRDBTaxonConverter.getCodeFromName(name) != name) {
 			// Match found so set controlled vocab
-			taxon.setNormalStd("ITRDB/WSL Dendrochronology Species Database");
+			taxon.setNormalStd(defaultDictionary);
 			taxon.setNormalId(ITRDBTaxonConverter.getCodeFromName(name));
 			taxon.setNormal(name);
 			taxon.setValue(name);

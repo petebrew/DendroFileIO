@@ -13,6 +13,7 @@ import org.tridas.io.defaults.values.DateTimeDefaultValue;
 import org.tridas.io.defaults.values.DoubleDefaultValue;
 import org.tridas.io.defaults.values.IntegerDefaultValue;
 import org.tridas.io.defaults.values.SafeIntYearDefaultValue;
+import org.tridas.io.defaults.values.SheffieldStringDefaultValue;
 import org.tridas.io.defaults.values.StringDefaultValue;
 import org.tridas.io.exceptions.ConversionWarning;
 import org.tridas.io.exceptions.ConversionWarning.WarningType;
@@ -158,6 +159,26 @@ public abstract class AbstractMetadataFieldSet implements IMetadataFieldSet {
 		else {
 			log.debug("The default value object returned by the field '" + argValueType + "' was not"
 					+ " a StringDefaultValue");
+			return null;
+		}
+	}
+	
+	
+	/**
+	 * Helper method to return the {@link SheffieldStringDefaultValue} object;
+	 * 
+	 * @param argValueType
+	 * @return the {@link StringDefaultValue} if mapped, or null if not mapped or
+	 *         the key isn't mapped to an {@link StringDefaultValue}.
+	 */
+	public SheffieldStringDefaultValue getSheffieldStringDefaultValue(Enum<?> argValueType) {
+		AbstractDefaultValue<?> val = getDefaultValue(argValueType);
+		if (val instanceof SheffieldStringDefaultValue) {
+			return (SheffieldStringDefaultValue) val;
+		}
+		else {
+			log.debug("The default value object returned by the field '" + argValueType + "' was not"
+					+ " a SheffieldStringDefaultValue");
 			return null;
 		}
 	}

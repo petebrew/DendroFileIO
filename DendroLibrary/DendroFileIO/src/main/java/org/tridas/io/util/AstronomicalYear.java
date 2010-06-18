@@ -392,16 +392,5 @@ public final class AstronomicalYear implements Comparable {
 		return y * y * y;
 	}
 	
-	// THESE TWO METHODS ARE BUGGY AND NEED WORK!
-	public AstronomicalYear cropToCentury() {
-		return add(-mod(100)); // is this correct?
-	}
-	
-	public AstronomicalYear nextCentury() {
-		AstronomicalYear tmp = add(100); // COMPLETELY INCORRECT!
-		if (tmp.y == 101) {
-			return new AstronomicalYear(100);
-		}
-		return tmp;
-	}
+
 }
