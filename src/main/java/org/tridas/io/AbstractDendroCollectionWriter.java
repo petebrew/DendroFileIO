@@ -4,6 +4,8 @@ import java.io.File;
 import java.io.UnsupportedEncodingException;
 import java.util.ArrayList;
 
+import org.apache.commons.lang.StringUtils;
+import org.codehaus.plexus.util.FileUtils;
 import org.grlea.log.SimpleLogger;
 import org.tridas.io.defaults.IMetadataFieldSet;
 import org.tridas.io.exceptions.ConversionWarning;
@@ -186,8 +188,8 @@ public abstract class AbstractDendroCollectionWriter {
 	 */
 	protected void saveFileToDisk(String argOutputFolder, String argFilename, IDendroFile argFile) {
 		FileHelper helper;
+		boolean absolute = (new File(argOutputFolder)).isAbsolute();
 		
-		boolean absolute = argOutputFolder.startsWith("/") || argOutputFolder.startsWith("\\");
 		// add ending file separator
 		if (!argOutputFolder.endsWith("\\") && !argOutputFolder.endsWith("/") && argOutputFolder.length() != 0) {
 			argOutputFolder += File.separatorChar;
