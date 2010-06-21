@@ -113,6 +113,51 @@ public class UnitUtils {
 	}
 	
 	/**
+	 * Convert a TridasValues tag from one unit to another.  The TridasVales must have 
+	 * NormalTridasUnit set otherwise it throws an IncompleteTridasDataException.  The 
+	 * values returns are integers limited to maxIntChars in length.  If any values 
+	 * are longer it throws an NumberFormatException.
+	 * 
+	 * @param outputunits
+	 * @param tv
+	 * @param maxIntChars
+	 * @return
+	 * @throws NumberFormatException
+	 * @throws IncompleteTridasDataException
+	 */
+	public static TridasValues convertTridasValues(NormalTridasUnit outputunits, TridasValues tv, Integer maxIntChars) 
+	throws NumberFormatException, IncompleteTridasDataException
+	{
+		ArrayList<TridasValue> values = (ArrayList<TridasValue>) tv.getValues();
+		NormalTridasUnit inputunits = null;
+		
+		try{
+			 inputunits = tv.getUnit().getNormalTridas();
+		} catch (Exception e)
+		{
+			throw new IncompleteTridasDataException(I18n.getText("fileio.convertsOnlyTridasUnits"));
+		}
+		
+		for (TridasValue value : values)
+		{
+			Double dblvalue = Double.parseDouble(value.getValue());
+			dblvalue = UnitUtils.convertDouble(inputunits, outputunits, dblvalue);
+			
+			if(String.valueOf(Math.round(dblvalue)).length()>maxIntChars)
+			{
+				throw new NumberFormatException(I18n.getText("fileio.integerTooLong", maxIntChars.toString()));
+			}
+			else
+			{
+				value.setValue(String.valueOf(Math.round(dblvalue)));
+			}
+		}
+		
+		return tv;
+	}
+	
+	
+	/**
 	 * Convert a TridasValues tag from one unit to another.  The TridasValues must have 
 	 * NormalTridasUnit set otherwise it throws an IncompleteTridasDataException.  If the
 	 * outputAsIntegers flag is on, then the data values will be rounded to integers.
