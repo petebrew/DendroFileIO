@@ -31,6 +31,9 @@ import org.tridas.io.formats.trims.TrimsWriter;
 import org.tridas.io.formats.tucson.TucsonReader;
 import org.tridas.io.formats.tucson.TucsonWriter;
 import org.tridas.io.formats.vformat.VFormatReader;
+import org.tridas.io.formats.topham.TophamReader;
+import org.tridas.io.formats.topham.TophamWriter;
+
 
 /**
  * Used to get readers/writers from name or extension. In order to include your
@@ -65,6 +68,7 @@ public class TridasIO {
 		// registerFileReader(SylpheReader.class);
 		registerFileReader(BesanconReader.class);
 		registerFileReader(WinDendroReader.class);
+		registerFileReader(TophamReader.class);
 		
 		registerFileWriter(HeidelbergWriter.class);
 		registerFileWriter(BelfastAppleWriter.class);
@@ -74,6 +78,8 @@ public class TridasIO {
 		registerFileWriter(CSVWriter.class);
 		registerFileWriter(ExcelMatrixWriter.class);
 		registerFileWriter(SheffieldWriter.class);
+		registerFileWriter(TophamWriter.class);
+
 
 	}
 	

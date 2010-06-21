@@ -15,6 +15,7 @@ import org.tridas.io.formats.csv.CSVWriter;
 import org.tridas.io.formats.excelmatrix.ExcelMatrixWriter;
 import org.tridas.io.formats.heidelberg.HeidelbergWriter;
 import org.tridas.io.formats.sheffield.SheffieldWriter;
+import org.tridas.io.formats.topham.TophamWriter;
 import org.tridas.io.formats.tridas.TridasReader;
 import org.tridas.io.formats.trims.TrimsWriter;
 import org.tridas.io.formats.tucson.TucsonWriter;
@@ -131,6 +132,49 @@ public class TestFromTridas extends TestCase {
 			tucsonwriter.saveAllToDisk("target/TestOutput");
 		}
 	}
+	
+	public void testTridasToTopham() {
+		String folder = "TestData/TRiDaS";
+		String[] files = getFilesFromFolder(folder);
+		
+		if (files.length == 0) {
+			fail();
+		}
+		
+		for (String filename : files) {
+			log.info("Test conversion of: " + filename);
+			
+			TridasProject project = null;
+			
+			TridasReader reader = new TridasReader();
+			try {
+				reader.loadFile(folder, filename);
+			} catch (IOException e) {
+				log.info(e.getLocalizedMessage());
+				fail();
+			} catch (InvalidDendroFileException e) {
+				e.printStackTrace();
+				fail();
+			}
+			
+			// Extract the TridasProject
+			project = reader.getProject();
+			
+			// Create a new converter based on a TridasProject
+			TophamWriter writer = new TophamWriter();
+			writer.setNamingConvention(new NumericalNamingConvention());
+			try {
+				writer.loadProject(project);
+			} catch (IncompleteTridasDataException e) {
+				e.printStackTrace();
+			} catch (ConversionWarningException e) {
+			} 
+			
+			// Actually save file(s) to disk
+			writer.saveAllToDisk("target/TestOutput");
+		}
+	}
+	
 	
 	public void testTridasToHeidelberg() {
 		String folder = "TestData/TRiDaS";

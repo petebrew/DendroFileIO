@@ -27,7 +27,7 @@ public abstract class AbstractTridasMetadataFieldSet extends AbstractMetadataFie
 		TridasProject project = getDefaultTridasProject();
 		
 		if (argCascade) {
-			List<TridasObject> objects = new ArrayList<TridasObject>();
+			ArrayList<TridasObject> objects = new ArrayList<TridasObject>();
 			objects.add(getObjectWithDefaults(argCascade));
 			project.setObjects(objects);
 		}
@@ -43,7 +43,7 @@ public abstract class AbstractTridasMetadataFieldSet extends AbstractMetadataFie
 		TridasObject o = getDefaultTridasObject();
 		
 		if (argCascade) {
-			List<TridasElement> elements = new ArrayList<TridasElement>();
+			ArrayList<TridasElement> elements = new ArrayList<TridasElement>();
 			elements.add(getElementWithDefaults(argCascade));
 			o.setElements(elements);
 		}
@@ -77,7 +77,7 @@ public abstract class AbstractTridasMetadataFieldSet extends AbstractMetadataFie
 		TridasElement e = getDefaultTridasElement();
 		
 		if (argCascade) {
-			List<TridasSample> samples = new ArrayList<TridasSample>();
+			ArrayList<TridasSample> samples = new ArrayList<TridasSample>();
 			TridasSample s = getSampleWithDefaults(argCascade);
 			samples.add(s);
 			e.setSamples(samples);
@@ -98,7 +98,7 @@ public abstract class AbstractTridasMetadataFieldSet extends AbstractMetadataFie
 		TridasSample s = getDefaultTridasSample();
 		
 		if (argCascade) {
-			List<TridasRadius> radii = new ArrayList<TridasRadius>();
+			ArrayList<TridasRadius> radii = new ArrayList<TridasRadius>();
 			radii.add(getRadiusWithDefaults(argCascade));
 			s.setRadiuses(radii);
 		}
@@ -110,7 +110,9 @@ public abstract class AbstractTridasMetadataFieldSet extends AbstractMetadataFie
 		TridasRadius r = getDefaultTridasRadius();
 		
 		if (cascade) {
-			// TODO what comes here?
+			ArrayList<TridasMeasurementSeries> mslist = new ArrayList<TridasMeasurementSeries>();
+			mslist.add(getMeasurementSeriesWithDefaults());
+			r.setMeasurementSeries(mslist);
 		}
 		
 		return r;
