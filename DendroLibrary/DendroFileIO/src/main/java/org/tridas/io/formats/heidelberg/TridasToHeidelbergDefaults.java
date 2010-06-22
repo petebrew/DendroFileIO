@@ -276,11 +276,11 @@ public class TridasToHeidelbergDefaults extends AbstractMetadataFieldSet impleme
 		// Set units
 		if(argValues.isSetUnit())
 		{
-			if (argValues.getUnit().getNormalTridas() == null) {
+			if (!argValues.getUnit().isSetNormalTridas()) {
 				return;
 			}
 		}
-		
+				
 		TridasUnit units = argValues.getUnit();
 		StringDefaultValue val = getStringDefaultValue(DefaultFields.UNIT);
 		switch (units.getNormalTridas()) {
