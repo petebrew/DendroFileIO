@@ -1,0 +1,235 @@
+package org.tridas.io.formats.tucsoncompact;
+
+import java.io.DataInputStream;
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
+
+import org.grlea.log.SimpleLogger;
+import org.tridas.interfaces.ITridasSeries;
+import org.tridas.io.AbstractDendroFileReader;
+import org.tridas.io.I18n;
+import org.tridas.io.defaults.IMetadataFieldSet;
+import org.tridas.io.exceptions.ConversionWarning;
+import org.tridas.io.exceptions.InvalidDendroFileException;
+import org.tridas.io.exceptions.ConversionWarning.WarningType;
+import org.tridas.io.formats.tucsoncompact.TucsonCompactToTridasDefaults.DefaultFields;
+import org.tridas.schema.NormalTridasUnit;
+import org.tridas.schema.NormalTridasVariable;
+import org.tridas.schema.TridasDerivedSeries;
+import org.tridas.schema.TridasMeasurementSeries;
+import org.tridas.schema.TridasProject;
+import org.tridas.schema.TridasUnit;
+import org.tridas.schema.TridasValue;
+import org.tridas.schema.TridasValues;
+import org.tridas.schema.TridasVariable;
+
+public class TucsonCompactReader extends AbstractDendroFileReader {
+
+	private static final SimpleLogger log = new SimpleLogger(TucsonCompactReader.class);
+	private TucsonCompactToTridasDefaults defaults = null;
+	private int currentLineNumber = -1;
+	
+	Integer cols = null;
+	Integer chars = null;
+	Integer divFactor = null;
+	
+	private ArrayList<TridasValue> dataVals = new ArrayList<TridasValue>();
+
+	public TucsonCompactReader() {
+		super(TucsonCompactToTridasDefaults.class);
+	}
+	
+	@Override
+	public int getCurrentLineNumber() {
+		return currentLineNumber;
+	}
+
+	@Override
+	public IMetadataFieldSet getDefaults() {
+		return defaults;
+	}
+
+
+	/**
+	 * @see org.tridas.io.IDendroFileReader#getDescription()
+	 */
+	@Override
+	public String getDescription() {
+		return I18n.getText("tucsoncompact.about.description");
+	}
+	
+	/**
+	 * @see org.tridas.io.IDendroFileReader#getFullName()
+	 */
+	@Override
+	public String getFullName() {
+		return I18n.getText("tucsoncompact.about.fullName");
+	}
+	
+	/**
+	 * @see org.tridas.io.IDendroFileReader#getShortName()
+	 */
+	@Override
+	public String getShortName() {
+		return I18n.getText("tucsoncompact.about.shortName");
+	}
+	
+	@Override
+	public String[] getFileExtensions() {
+		return new String[]{"txt"};
+	}
+	
+	@Override
+	protected void resetReader() {
+		
+		dataVals.clear();
+
+	}
+
+
+	@Override
+	public TridasProject getProject() {
+		
+		TridasProject project = defaults.getProjectWithDefaults(true);
+		
+		TridasMeasurementSeries ms = project.getObjects().get(0).getElements().get(0).getSamples().get(0).getRadiuses().get(0).getMeasurementSeries().get(0);
+		TridasUnit units = new TridasUnit();
+		units.setNormalTridas(NormalTridasUnit.HUNDREDTH_MM);
+		TridasVariable variable = new TridasVariable();
+		variable.setNormalTridas(NormalTridasVariable.RING_WIDTH);
+		
+		ArrayList<TridasValues> valuesList = new ArrayList<TridasValues>();
+		TridasValues valuesGroup = new TridasValues();
+		valuesGroup.setUnit(units);
+		valuesGroup.setVariable(variable);
+		valuesGroup.setValues(dataVals);
+		valuesList.add(valuesGroup);
+		
+		ms.setValues(valuesList);
+
+		return project;
+		
+	}
+
+
+	@Override
+	protected void parseFile(String[] argFileString,
+			IMetadataFieldSet argDefaultFields)
+			throws InvalidDendroFileException {
+		
+		log.debug("Parsing: " + argFileString);
+		defaults = (TucsonCompactToTridasDefaults) argDefaultFields;
+		
+		// Remove any blank lines 
+		ArrayList<String> lines = new ArrayList<String>();
+		for (String line: argFileString)
+		{
+			if(!line.equals("")) {lines.add(line);}
+		}
+		argFileString = lines.toArray(new String[0]);
+		
+		checkFileIsValid(argFileString);
+		
+		// Set ring count		
+		if(dataVals!=null)
+		{
+			defaults.getIntegerDefaultValue(DefaultFields.RING_COUNT).setValue(dataVals.size());
+		}
+		
+		// Set start year
+		try{
+			Integer startYear = Integer.parseInt(argFileString[0].substring(10, 18).trim());
+			if(startYear!=null)
+			{
+				defaults.getIntegerDefaultValue(DefaultFields.START_YEAR).setValue(startYear);
+			}
+		} catch (Exception e){}
+		
+		// Set series Title	
+		defaults.getStringDefaultValue(DefaultFields.SERIES_TITLE).setValue(argFileString[0].substring(21,68).trim());
+				
+		// Copy each value into the data array
+		for (int linenum=1; linenum<argFileString.length; linenum++)
+		{
+			String line = argFileString[linenum];
+			
+			for (int charpos=0; charpos+chars<=line.length(); charpos = charpos+chars)
+			{
+				TridasValue val = new TridasValue();
+				String strval = line.substring(charpos, charpos+chars).trim();
+								
+				val.setValue(strval);
+				dataVals.add(val);
+			}
+			
+		}	
+		
+		// Check that the ring count matches what is in the header
+		try{
+			Integer ringcount = Integer.parseInt(argFileString[0].substring(0, 8).trim());
+			if(ringcount!=dataVals.size())
+			{
+				addWarning(new ConversionWarning(WarningType.INVALID, 
+						I18n.getText("nottingham.valuesAndRingCountMismatch")));
+			}
+		} catch (Exception e){}
+
+
+	}
+
+	
+	/**
+	 * Check that the file contains just one double on each line
+	 * 
+	 * @param argFileString
+	 * @throws InvalidDendroFileException
+	 */
+	private void checkFileIsValid(String[] argFileString) throws InvalidDendroFileException
+	{		
+		// Check first line has fortran formatting string
+		String fortranFormat = argFileString[0].substring(argFileString[0].indexOf("(")+1, argFileString[0].indexOf(")"));
+		try{
+		cols = Integer.parseInt(fortranFormat.substring(0, fortranFormat.indexOf("F")));
+		chars = Integer.parseInt(fortranFormat.substring(fortranFormat.indexOf("F")+1, fortranFormat.indexOf(".")));
+		divFactor = Integer.parseInt(fortranFormat.substring(fortranFormat.indexOf(".")+1));
+		} catch (NumberFormatException e)
+		{
+			throw new InvalidDendroFileException(I18n.getText("tucsoncompact.invalidFortranFormatter"));
+		}
+		
+		// Check that the divFactor is 0
+		if (divFactor!=0)
+		{
+			throw new InvalidDendroFileException(I18n.getText("tucsoncompact.invalidFortranFormatter"));
+		}
+		
+		// Check first line is terminated with a ~
+		if(!argFileString[0].substring(argFileString[0].length()-1).equals("~"))
+		{
+			throw new InvalidDendroFileException(I18n.getText("tucsoncompact.missingTilde"));
+		}
+				
+		// Check there are two '=' signs at the expected positions
+		if((argFileString[0].indexOf("=")!=8) || (argFileString[0].indexOf("=", 9)!=18))
+		{
+			throw new InvalidDendroFileException(I18n.getText("tucsoncompact.missingEqualsSigns"));
+		}
+		
+		for (int linenum=1; linenum<argFileString.length; linenum++)
+		{
+			String line = argFileString[linenum];
+			
+			// Check there are no chars other than spaces and digits
+			String regex = "[^\\d ]";
+			Pattern p1 = Pattern.compile(regex, Pattern.CASE_INSENSITIVE | Pattern.DOTALL);
+			Matcher m1 = p1.matcher(line);
+			if (m1.find()) {
+				throw new InvalidDendroFileException(I18n.getText("fileio.invalidDataValue"));
+			}
+		}		
+	}
+
+
+}
