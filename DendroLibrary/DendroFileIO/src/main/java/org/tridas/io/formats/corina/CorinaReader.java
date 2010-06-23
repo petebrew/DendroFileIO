@@ -24,11 +24,13 @@ import org.tridas.interfaces.ITridasSeries;
 import org.tridas.io.AbstractDendroFileReader;
 import org.tridas.io.I18n;
 import org.tridas.io.defaults.IMetadataFieldSet;
+import org.tridas.io.defaults.values.GenericDefaultValue;
 import org.tridas.io.exceptions.ConversionWarning;
+import org.tridas.io.exceptions.ConversionWarningException;
 import org.tridas.io.exceptions.InvalidDendroFileException;
 import org.tridas.io.exceptions.ConversionWarning.WarningType;
-import org.tridas.io.formats.nottingham.NottinghamToTridasDefaults;
-import org.tridas.io.formats.nottingham.NottinghamToTridasDefaults.DefaultFields;
+import org.tridas.io.formats.corina.CorinaToTridasDefaults.DefaultFields;
+import org.tridas.io.util.SafeIntYear;
 import org.tridas.schema.NormalTridasUnit;
 import org.tridas.schema.NormalTridasVariable;
 import org.tridas.schema.TridasDerivedSeries;
@@ -42,13 +44,16 @@ import org.tridas.schema.TridasVariable;
 public class CorinaReader extends AbstractDendroFileReader {
 
 	private static final SimpleLogger log = new SimpleLogger(CorinaReader.class);
-	private NottinghamToTridasDefaults defaults = null;
+	private CorinaToTridasDefaults defaults = null;
 	private int currentLineNumber = -1;
 	
-	private ArrayList<TridasValue> dataVals = new ArrayList<TridasValue>();
-
+	private ArrayList<Integer> dataVals = new ArrayList<Integer>();
+	private ArrayList<Integer> countVals = new ArrayList<Integer>();
+	private ArrayList<String> parentSeries = new ArrayList<String>();
+	
+	
 	public CorinaReader() {
-		super(NottinghamToTridasDefaults.class);
+		super(CorinaToTridasDefaults.class);
 	}
 	
 	@Override
@@ -67,7 +72,7 @@ public class CorinaReader extends AbstractDendroFileReader {
 	 */
 	@Override
 	public String getDescription() {
-		return I18n.getText("nottingham.about.description");
+		return I18n.getText("corina.about.description");
 	}
 	
 	/**
@@ -75,7 +80,7 @@ public class CorinaReader extends AbstractDendroFileReader {
 	 */
 	@Override
 	public String getFullName() {
-		return I18n.getText("nottingham.about.fullName");
+		return I18n.getText("corina.about.fullName");
 	}
 	
 	/**
@@ -83,12 +88,12 @@ public class CorinaReader extends AbstractDendroFileReader {
 	 */
 	@Override
 	public String getShortName() {
-		return I18n.getText("nottingham.about.shortName");
+		return I18n.getText("corina.about.shortName");
 	}
 	
 	@Override
 	public String[] getFileExtensions() {
-		return new String[]{"txt"};
+		return new String[]{"raw", "rec", "cln", "sum"};
 	}
 	
 	@Override
@@ -114,7 +119,10 @@ public class CorinaReader extends AbstractDendroFileReader {
 		TridasValues valuesGroup = new TridasValues();
 		valuesGroup.setUnit(units);
 		valuesGroup.setVariable(variable);
-		valuesGroup.setValues(dataVals);
+	
+
+		
+		valuesGroup.setValues(getTridasValueList());
 		valuesList.add(valuesGroup);
 		
 		ms.setValues(valuesList);
@@ -123,6 +131,30 @@ public class CorinaReader extends AbstractDendroFileReader {
 		
 	}
 
+	
+	private ArrayList<TridasValue> getTridasValueList()
+	{
+		ArrayList<TridasValue> tvs = new ArrayList<TridasValue>();
+		
+		Boolean includeCounts = false;
+		for (int i=0; i<countVals.size(); i++)
+		{
+			if(countVals.get(i).compareTo(1)>0) includeCounts=true;
+		}
+		
+		for (int i=0; i<dataVals.size(); i++)
+		{
+			TridasValue value = new TridasValue();
+			value.setValue(dataVals.get(i).toString());
+			if(includeCounts)
+			{
+				value.setCount(countVals.get(i));
+			}
+			tvs.add(value);
+		}
+		
+		return tvs;
+	}
 
 	@Override
 	protected void parseFile(String[] argFileString,
@@ -130,77 +162,268 @@ public class CorinaReader extends AbstractDendroFileReader {
 			throws InvalidDendroFileException {
 		
 		log.debug("Parsing: " + argFileString);
-		defaults = (NottinghamToTridasDefaults) argDefaultFields;
-		
+		defaults = (CorinaToTridasDefaults) argDefaultFields;
+				
 		checkFileIsValid(argFileString);
 		
-		// Series Title	
-		defaults.getStringDefaultValue(DefaultFields.SERIES_TITLE).setValue(argFileString[0].substring(0,10).trim());
-		
-				
-		// Copy each value into the data array
+		// Loop through lines
 		for (int linenum=1; linenum<argFileString.length; linenum++)
 		{
 			String line = argFileString[linenum];
+			currentLineNumber =linenum+1;
 			
-			for (int charpos=0; charpos+4<=line.length(); charpos = charpos+4)
+			// if line is blank, skip it
+			if(line.equals("")) continue;
+			
+			// Last line is user name which is denoted by a ~
+			if(line.startsWith("~"))
 			{
-				TridasValue val = new TridasValue();
-				String strval = line.substring(charpos, charpos+4).trim();
-				val.setValue(strval);
-				dataVals.add(val);
+				defaults.getStringDefaultValue(DefaultFields.USERNAME).setValue(line.substring(2).trim());
+				return;
 			}
 			
+			// Split the line into key-value pairs based on ';' delimiter
+			if(!line.contains(";")) continue;
+			
+			for(String tagAndValue : line.split(";"))
+			{	
+				String key = null;
+				String value = null;
+				
+				try{
+				key = tagAndValue.substring(0, tagAndValue.indexOf(" "));
+				value = tagAndValue.substring(tagAndValue.indexOf(" "));
+				} catch (Exception e)
+				{
+					continue;
+				}
+				
+				if(key.equalsIgnoreCase("DATA"))
+				{
+					readData(argFileString, linenum+1);
+					linenum = this.getNextLineToRead(argFileString, linenum);
+					
+				}
+				else if (key.equalsIgnoreCase("ELEMENTS"))
+				{
+					readElements(argFileString, linenum+1);
+					linenum = this.getNextLineToRead(argFileString, linenum);
+				}
+				else if (key.equalsIgnoreCase("WEISERJAHRE"))
+				{
+					linenum = this.getNextLineToRead(argFileString, linenum);
+				}
+				else if (key.equalsIgnoreCase("ID"))
+				{
+					defaults.getStringDefaultValue(DefaultFields.ID).setValue(value.trim());
+				}
+				else if (key.equalsIgnoreCase("NAME"))
+				{
+					defaults.getStringDefaultValue(DefaultFields.NAME).setValue(value.trim());
+				}
+				else if (key.equalsIgnoreCase("DATING"))
+				{
+					defaults.getStringDefaultValue(DefaultFields.DATING).setValue(value.trim());
+				}
+				else if (key.equalsIgnoreCase("UNMEAS_PRE"))
+				{
+					try{
+					defaults.getIntegerDefaultValue(DefaultFields.UNMEAS_PRE).setValue(Integer.parseInt(value.trim()));
+					} catch (NumberFormatException e)
+					{
+						addWarning(new ConversionWarning(WarningType.INVALID, I18n.getText("corina.invalidUnmeasPre")));
+					}
+				}
+				else if (key.equalsIgnoreCase("UNMEAS_POST"))
+				{
+					try{
+					defaults.getIntegerDefaultValue(DefaultFields.UNMEAS_POST).setValue(Integer.parseInt(value.trim()));
+					} catch (NumberFormatException e)
+					{
+						addWarning(new ConversionWarning(WarningType.INVALID, I18n.getText("corina.invalidUnmeasPost")));
+					}
+				}
+				else if (key.equalsIgnoreCase("FILENAME"))
+				{
+					defaults.getStringDefaultValue(DefaultFields.FILENAME).setValue(value.trim());
+				}
+				else if (key.equalsIgnoreCase("TYPE"))
+				{
+					defaults.getStringDefaultValue(DefaultFields.TYPE).setValue(value.trim());
+				}
+				else if (key.equalsIgnoreCase("SPECIES"))
+				{
+					defaults.getStringDefaultValue(DefaultFields.SPECIES).setValue(value.trim());
+				}
+				else if (key.equalsIgnoreCase("FORMAT"))
+				{
+					defaults.getStringDefaultValue(DefaultFields.FORMAT).setValue(value.trim());
+				}
+				else if (key.equalsIgnoreCase("PITH"))
+				{
+					defaults.getStringDefaultValue(DefaultFields.PITH).setValue(value.trim());
+				}
+				else if (key.equalsIgnoreCase("TERMINAL"))
+				{
+					defaults.getStringDefaultValue(DefaultFields.TERMINAL).setValue(value.trim());
+				}
+				else if (key.equalsIgnoreCase("CONTINUOUS"))
+				{
+					defaults.getStringDefaultValue(DefaultFields.CONTINUOUS).setValue(value.trim());
+				}
+				else if (key.equalsIgnoreCase("QUALITY"))
+				{
+					defaults.getStringDefaultValue(DefaultFields.QUALITY).setValue(value.trim());
+				}
+				else if (key.equalsIgnoreCase("RECONCILED"))
+				{
+					defaults.getStringDefaultValue(DefaultFields.RECONCILED).setValue(value.trim());
+				}
+			}	
 		}	
-		
-		// Set ring count		
-		if(dataVals!=null)
-		{
-			defaults.getIntegerDefaultValue(DefaultFields.RING_COUNT).setValue(dataVals.size());
-		}
-		
-		// Check that the ring count matches what is in the header
-		try{
-			Integer ringcount = Integer.parseInt(argFileString[0].substring(10));
-			if(ringcount!=dataVals.size())
-			{
-				addWarning(new ConversionWarning(WarningType.INVALID, 
-						I18n.getText("nottingham.valuesAndRingCountMismatch")));
-			}
-		} catch (NumberFormatException e){}
-
 	}
 
+	private Integer getNextLineToRead(String[] argFileString, Integer currentIndex)
+	{
+		for (int i=currentIndex; i<argFileString.length; i++)
+		{
+			if(argFileString[i].startsWith(";") || argFileString[i].startsWith("~"))
+			{
+				return i;
+			}
+		}
+		return null;
+	}
 	
-	/**
-	 * Check that the file contains just one double on each line
-	 * 
+	@SuppressWarnings("unchecked")
+	private void readData(String[] argFileString, Integer dataStartIndex) throws InvalidDendroFileException
+	{
+		defaults.getSafeIntYearDefaultValue(DefaultFields.START_YEAR).setValue(
+				new SafeIntYear(argFileString[dataStartIndex].substring(0, 5).trim()));
+
+		
+		for (int i=dataStartIndex; i+1<argFileString.length; i=i+2)
+		{
+			// Skip blank lines
+			if(argFileString[i].equals("")) continue;
+			
+			// Grab data line (minus the year field)
+			String dataLine = argFileString[i].substring(5);
+			
+			// Grab count line (minus starting spaces)
+			String countLine = argFileString[i+1].substring(5);
+			
+			// Loop through values in dataLine
+			for (int charpos=0; charpos+6<=dataLine.length(); charpos=charpos+6)
+			{
+				String strval = dataLine.substring(charpos, charpos+6).trim();
+				
+				// Skip blank values
+				if (strval.equals("")) continue;
+				
+				// Parse into integer
+				try{
+					Integer intval = Integer.parseInt(strval);
+					
+					// Check for stop marker
+					if(intval.equals(9990)) return;
+					
+					// Add to array
+					dataVals.add(intval);
+				} catch(NumberFormatException e)
+				{
+					throw new InvalidDendroFileException(I18n.getText("fileio.invalidDataValue"), i);
+				}
+			}
+			
+			String[] countArr = countLine.split("\\[");
+			for(String strcount : countArr)
+			{
+				if(strcount.trim().length()==0) continue;
+				
+				strcount = strcount.substring(0, strcount.indexOf("]"));
+				
+				// Parse into integer
+				try{
+					Integer intval = Integer.parseInt(strcount);
+					countVals.add(intval);
+				} catch(NumberFormatException e)
+				{
+					throw new InvalidDendroFileException(I18n.getText("fileio.invalidDataValue"), i);
+				}
+			}
+			
+			
+		}
+		
+	}
+	
+	
+	private void readElements(String[] argFileString, Integer dataStartIndex)
+	{
+		for (int i=dataStartIndex; i<argFileString.length; i++)
+		{
+			// Skip blank lines
+			if(argFileString[i].equals("")) continue;
+				
+			String line = argFileString[i];
+			
+			// If line has a ; in it then return
+			if (line.contains(";")) return;
+			
+			// Add to list
+			parentSeries.add(line);
+			
+		}
+		
+	}
+	
+	private void readWJ(String[] argFileString, Integer dataStartIndex) throws InvalidDendroFileException
+	{
+		for (int i=dataStartIndex; i<argFileString.length; i++)
+		{
+			// Skip blank lines
+			if(argFileString[i].equals("")) continue;
+		
+			// Grab data line (minus the year field)
+			String wjLine = argFileString[i].substring(5);
+		
+			// Loop through values in wjLine
+			for (int charpos=0; charpos+6<=wjLine.length(); charpos=charpos+6)
+			{
+				String strval = wjLine.substring(charpos, charpos+6).trim();
+				
+				// Skip blank values
+				if (strval.equals("")) continue;
+				
+				// Parse into integer
+				try{
+					Integer intval = Integer.parseInt(strval);
+					
+					// Check for stop marker
+					if(intval.equals(9990)) return;
+					
+					// Add to array
+					dataVals.add(intval);
+				} catch(NumberFormatException e)
+				{
+					throw new InvalidDendroFileException(I18n.getText("fileio.invalidDataValue"), i);
+				}
+			}
+			
+		}
+		
+		
+	}
+	
+	
+	/** 
 	 * @param argFileString
 	 * @throws InvalidDendroFileException
 	 */
 	private void checkFileIsValid(String[] argFileString) throws InvalidDendroFileException
 	{
-		if(argFileString[0].length()<=10)
-		{
-			throw new InvalidDendroFileException(I18n.getText("nottingham.headerLineTooShort"));
-		}
-			
-		for (int linenum=1; linenum<argFileString.length; linenum++)
-		{
-			String line = argFileString[linenum];
-
-			if(line.length()!=40)
-			{
-				throw new InvalidDendroFileException(I18n.getText("nottingham.dataLineWrongLength"), linenum);
-			}
-			
-			String regex = "^((\\d\\d\\d\\d)|( \\d\\d\\d)|(  \\d\\d)|(   \\d)){1,20}";
-			Pattern p1 = Pattern.compile(regex, Pattern.CASE_INSENSITIVE | Pattern.DOTALL);
-			Matcher m1 = p1.matcher(line);
-			if (!m1.find()) {
-				throw new InvalidDendroFileException(I18n.getText("fileio.invalidDataValue"));
-			}
-		}		
+	
 	}
 
 
