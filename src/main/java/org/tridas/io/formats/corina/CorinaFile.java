@@ -72,8 +72,9 @@ public class CorinaFile implements IDendroFile {
 			
 		ArrayList<String> file = new ArrayList<String>();
 	
-		file.add(defaults.getStringDefaultValue(DefaultFields.NAME).getValue() + " " +
-				 defaults.getIntegerDefaultValue(DefaultFields.PITH).getValue());
+		file.add(defaults.getStringDefaultValue(DefaultFields.NAME).getValue());
+		
+		
 		
 		
 		String line = "";
