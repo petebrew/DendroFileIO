@@ -15,12 +15,13 @@
  */
 package org.tridas.io.formats.corina;
 
-import org.tridas.io.I18n;
 import org.tridas.io.defaults.AbstractMetadataFieldSet;
 import org.tridas.io.defaults.IMetadataFieldSet;
 import org.tridas.io.defaults.values.IntegerDefaultValue;
+import org.tridas.io.defaults.values.SafeIntYearDefaultValue;
 import org.tridas.io.defaults.values.StringDefaultValue;
-import org.tridas.io.formats.nottingham.NottinghamToTridasDefaults.DefaultFields;
+import org.tridas.io.formats.corina.CorinaToTridasDefaults.DefaultFields;
+import org.tridas.io.util.SafeIntYear;
 import org.tridas.schema.TridasMeasurementSeries;
 import org.tridas.schema.TridasValues;
 
@@ -30,22 +31,120 @@ public class TridasToCorinaDefaults extends AbstractMetadataFieldSet implements
 	@Override
 	protected void initDefaultValues() {
 
-		setDefaultValue(DefaultFields.SERIES_TITLE, new StringDefaultValue(I18n.getText("unnamed"), 9, 9));
-		setDefaultValue(DefaultFields.RING_COUNT, new IntegerDefaultValue());
+		setDefaultValue(DefaultFields.ID, new StringDefaultValue(null, 6, 6));
+		setDefaultValue(DefaultFields.NAME, new StringDefaultValue());
+		setDefaultValue(DefaultFields.DATING, new StringDefaultValue());
+		setDefaultValue(DefaultFields.UNMEAS_PRE, new IntegerDefaultValue());
+		setDefaultValue(DefaultFields.UNMEAS_POST, new IntegerDefaultValue());
+		setDefaultValue(DefaultFields.COMMENTS, new StringDefaultValue());
+		setDefaultValue(DefaultFields.COMMENTS2, new StringDefaultValue());
+		setDefaultValue(DefaultFields.TYPE, new StringDefaultValue());
+		setDefaultValue(DefaultFields.SPECIES, new StringDefaultValue());
+		setDefaultValue(DefaultFields.SAPWOOD, new StringDefaultValue());
+		setDefaultValue(DefaultFields.PITH, new StringDefaultValue());
+		setDefaultValue(DefaultFields.TERMINAL, new StringDefaultValue());
+		setDefaultValue(DefaultFields.CONTINUOUS, new StringDefaultValue());
+		setDefaultValue(DefaultFields.QUALITY, new StringDefaultValue());
+		setDefaultValue(DefaultFields.FORMAT, new StringDefaultValue());
+		setDefaultValue(DefaultFields.INDEX_TYPE, new StringDefaultValue());
+		setDefaultValue(DefaultFields.FILENAME, new StringDefaultValue());
+		setDefaultValue(DefaultFields.RECONCILED, new StringDefaultValue());
+		setDefaultValue(DefaultFields.START_YEAR, new SafeIntYearDefaultValue(new SafeIntYear(1001)));
+		setDefaultValue(DefaultFields.USERNAME, new StringDefaultValue());
 	}
 
 	public void populateFromTridasMeasurementSeries(TridasMeasurementSeries argSeries) {
 		
-		if(argSeries.isSetTitle())
-		{
-			getStringDefaultValue(DefaultFields.SERIES_TITLE).setValue(argSeries.getTitle());
-		}
 		
 	}
 	
 	public void populateFromTridasValues(TridasValues tvs)
 	{
-		getIntegerDefaultValue(DefaultFields.RING_COUNT).setValue(tvs.getValues().size());
+		
+	}
+	
+	public enum CorinaDatingType {
+		ABSOLUTE("A"), RELATIVE("R");
+		
+		private String code;
+		
+		CorinaDatingType(String c) {
+			code = c;
+		}
+		
+		public final String toCode() {
+			return code;
+		}
+		
+		@Override
+		public final String toString() {
+			return name();
+		}
+		
+		public static CorinaDatingType fromCode(String code) {
+			for (CorinaDatingType val : CorinaDatingType.values()) {
+				if (val.toCode().equalsIgnoreCase(code)) {
+					return val;
+				}
+			}
+			return null;
+		}
+	}
+	
+	public enum CorinaTerminalRing {
+		BARK("B"), WANEY_EDGE("W"), NEAR_END("v"), UNKNOWN("vv");
+		
+		private String code;
+		
+		CorinaTerminalRing(String c) {
+			code = c;
+		}
+		
+		public final String toCode() {
+			return code;
+		}
+		
+		@Override
+		public final String toString() {
+			return name();
+		}
+		
+		public static CorinaTerminalRing fromCode(String code) {
+			for (CorinaTerminalRing val : CorinaTerminalRing.values()) {
+				if (val.toCode().equalsIgnoreCase(code)) {
+					return val;
+				}
+			}
+			return null;
+		}
+	}
+	
+	public enum CorinaSampleType {
+		CORE("C"), SECTION("S"), CHARCOAL("H");
+		
+		private String code;
+		
+		CorinaSampleType(String c) {
+			code = c;
+		}
+		
+		public final String toCode() {
+			return code;
+		}
+		
+		@Override
+		public final String toString() {
+			return name();
+		}
+		
+		public static CorinaSampleType fromCode(String code) {
+			for (CorinaSampleType val : CorinaSampleType.values()) {
+				if (val.toCode().equalsIgnoreCase(code)) {
+					return val;
+				}
+			}
+			return null;
+		}
 	}
 	
 }

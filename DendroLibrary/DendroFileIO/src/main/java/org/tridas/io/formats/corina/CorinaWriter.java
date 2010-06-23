@@ -22,15 +22,11 @@ import org.tridas.io.exceptions.ConversionWarning;
 import org.tridas.io.exceptions.ConversionWarningException;
 import org.tridas.io.exceptions.IncompleteTridasDataException;
 import org.tridas.io.exceptions.ConversionWarning.WarningType;
-import org.tridas.io.formats.heidelberg.HeidelbergFile;
-import org.tridas.io.formats.topham.TridasToTophamDefaults;
-import org.tridas.io.naming.HierarchicalNamingConvention;
 import org.tridas.io.naming.INamingConvention;
 import org.tridas.io.naming.NumericalNamingConvention;
 import org.tridas.io.util.TridasHierarchyHelper;
 import org.tridas.io.util.UnitUtils;
 import org.tridas.schema.NormalTridasUnit;
-import org.tridas.schema.NormalTridasVariable;
 import org.tridas.schema.TridasDerivedSeries;
 import org.tridas.schema.TridasElement;
 import org.tridas.schema.TridasMeasurementSeries;
@@ -38,7 +34,6 @@ import org.tridas.schema.TridasObject;
 import org.tridas.schema.TridasProject;
 import org.tridas.schema.TridasRadius;
 import org.tridas.schema.TridasSample;
-import org.tridas.schema.TridasValue;
 import org.tridas.schema.TridasValues;
 
 public class CorinaWriter extends AbstractDendroCollectionWriter {
@@ -60,7 +55,7 @@ public class CorinaWriter extends AbstractDendroCollectionWriter {
 	 */
 	@Override
 	public String getDescription() {
-		return I18n.getText("nottingham.about.description");
+		return I18n.getText("corina.about.description");
 	}
 	
 	/**
@@ -68,7 +63,7 @@ public class CorinaWriter extends AbstractDendroCollectionWriter {
 	 */
 	@Override
 	public String getFullName() {
-		return I18n.getText("nottingham.about.fullName");
+		return I18n.getText("corina.about.fullName");
 	}
 	
 	/**
@@ -76,7 +71,7 @@ public class CorinaWriter extends AbstractDendroCollectionWriter {
 	 */
 	@Override
 	public String getShortName() {
-		return I18n.getText("nottingham.about.shortName");
+		return I18n.getText("corina.about.shortName");
 	}
 
 	/**
