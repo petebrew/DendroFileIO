@@ -21,7 +21,7 @@ import org.apache.commons.lang.StringUtils;
 import org.tridas.interfaces.ITridasSeries;
 import org.tridas.io.IDendroFile;
 import org.tridas.io.defaults.IMetadataFieldSet;
-import org.tridas.io.formats.nottingham.NottinghamToTridasDefaults.DefaultFields;
+import org.tridas.io.formats.corina.CorinaToTridasDefaults.DefaultFields;
 import org.tridas.schema.TridasValue;
 import org.tridas.schema.TridasValues;
 
@@ -43,7 +43,7 @@ public class CorinaFile implements IDendroFile {
 
 	@Override
 	public String getExtension() {
-		return "txt";
+		return "raw";
 	}
 	
 	public void setSeries(ITridasSeries argSeries) {
@@ -72,8 +72,8 @@ public class CorinaFile implements IDendroFile {
 			
 		ArrayList<String> file = new ArrayList<String>();
 	
-		file.add(defaults.getStringDefaultValue(DefaultFields.SERIES_TITLE).getValue() + " " +
-				 defaults.getIntegerDefaultValue(DefaultFields.RING_COUNT).getValue());
+		file.add(defaults.getStringDefaultValue(DefaultFields.NAME).getValue() + " " +
+				 defaults.getIntegerDefaultValue(DefaultFields.PITH).getValue());
 		
 		
 		String line = "";

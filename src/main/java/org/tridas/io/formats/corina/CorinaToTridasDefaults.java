@@ -19,8 +19,22 @@ import org.tridas.io.I18n;
 import org.tridas.io.defaults.IMetadataFieldSet;
 import org.tridas.io.defaults.TridasMetadataFieldSet;
 import org.tridas.io.defaults.values.IntegerDefaultValue;
+import org.tridas.io.defaults.values.SafeIntYearDefaultValue;
 import org.tridas.io.defaults.values.StringDefaultValue;
+import org.tridas.io.util.SafeIntYear;
+import org.tridas.schema.ComplexPresenceAbsence;
+import org.tridas.schema.ControlledVoc;
+import org.tridas.schema.DatingSuffix;
+import org.tridas.schema.PresenceAbsence;
+import org.tridas.schema.TridasBark;
+import org.tridas.schema.TridasDerivedSeries;
+import org.tridas.schema.TridasElement;
+import org.tridas.schema.TridasInterpretation;
 import org.tridas.schema.TridasMeasurementSeries;
+import org.tridas.schema.TridasPith;
+import org.tridas.schema.TridasSample;
+import org.tridas.schema.TridasSapwood;
+import org.tridas.schema.TridasWoodCompleteness;
 
 public class CorinaToTridasDefaults extends TridasMetadataFieldSet implements
 		IMetadataFieldSet {
@@ -28,18 +42,75 @@ public class CorinaToTridasDefaults extends TridasMetadataFieldSet implements
 	
 	public static enum DefaultFields {
 		
-		SERIES_TITLE,
-		RING_COUNT;
+		ID,
+		NAME,
+		DATING,
+		UNMEAS_PRE,
+		UNMEAS_POST,
+		COMMENTS,
+		COMMENTS2,
+		TYPE,
+		SPECIES,
+		SAPWOOD,
+		PITH,
+		TERMINAL,
+		CONTINUOUS,
+		QUALITY,
+		FORMAT,
+		INDEX_TYPE,
+		FILENAME,
+		RECONCILED,
+		START_YEAR,
+		USERNAME;
 
 	}
 	
 	@Override
 	public void initDefaultValues() {
 		super.initDefaultValues();
-		setDefaultValue(DefaultFields.SERIES_TITLE, new StringDefaultValue(I18n.getText("unnamed.series")));
-		setDefaultValue(DefaultFields.RING_COUNT, new IntegerDefaultValue());
+		setDefaultValue(DefaultFields.ID, new StringDefaultValue());
+		setDefaultValue(DefaultFields.NAME, new StringDefaultValue());
+		setDefaultValue(DefaultFields.DATING, new StringDefaultValue());
+		setDefaultValue(DefaultFields.UNMEAS_PRE, new IntegerDefaultValue());
+		setDefaultValue(DefaultFields.UNMEAS_POST, new IntegerDefaultValue());
+		setDefaultValue(DefaultFields.COMMENTS, new StringDefaultValue());
+		setDefaultValue(DefaultFields.COMMENTS2, new StringDefaultValue());
+		setDefaultValue(DefaultFields.TYPE, new StringDefaultValue());
+		setDefaultValue(DefaultFields.SPECIES, new StringDefaultValue());
+		setDefaultValue(DefaultFields.SAPWOOD, new StringDefaultValue());
+		setDefaultValue(DefaultFields.PITH, new StringDefaultValue());
+		setDefaultValue(DefaultFields.TERMINAL, new StringDefaultValue());
+		setDefaultValue(DefaultFields.CONTINUOUS, new StringDefaultValue());
+		setDefaultValue(DefaultFields.QUALITY, new StringDefaultValue());
+		setDefaultValue(DefaultFields.FORMAT, new StringDefaultValue());
+		setDefaultValue(DefaultFields.INDEX_TYPE, new StringDefaultValue());
+		setDefaultValue(DefaultFields.FILENAME, new StringDefaultValue());
+		setDefaultValue(DefaultFields.RECONCILED, new StringDefaultValue());
+		setDefaultValue(DefaultFields.START_YEAR, new SafeIntYearDefaultValue(new SafeIntYear(1001)));
+		setDefaultValue(DefaultFields.USERNAME, new StringDefaultValue());
+
 	}
 	
+	/**
+	 * @see org.tridas.io.defaults.TridasMetadataFieldSet#getDefaultTridasDerivedSeries()
+	 */
+	@Override
+	protected TridasDerivedSeries getDefaultTridasDerivedSeries() {
+		TridasDerivedSeries series = super.getDefaultTridasDerivedSeries();
+		
+		series.setTitle(getStringDefaultValue(DefaultFields.NAME).getValue());
+		
+		if(getStringDefaultValue(DefaultFields.USERNAME).getValue()!=null)
+		{
+			series.setAuthor(getStringDefaultValue(DefaultFields.USERNAME).getValue());
+		}
+		
+		TridasInterpretation interp = new TridasInterpretation();
+		interp.setFirstYear(getSafeIntYearDefaultValue(DefaultFields.START_YEAR).getValue().toTridasYear(DatingSuffix.AD));
+		
+		series.setInterpretation(interp);
+		return series;
+	}
 	
 	/**
 	 * @see org.tridas.io.defaults.TridasMetadataFieldSet#getDefaultTridasMeasurementSeries()
@@ -48,10 +119,141 @@ public class CorinaToTridasDefaults extends TridasMetadataFieldSet implements
 	protected TridasMeasurementSeries getDefaultTridasMeasurementSeries() {
 		TridasMeasurementSeries series = super.getDefaultTridasMeasurementSeries();
 		
-		series.setTitle(getStringDefaultValue(DefaultFields.SERIES_TITLE).getValue());
+		series.setTitle(getStringDefaultValue(DefaultFields.NAME).getValue());
+		
+		if(getStringDefaultValue(DefaultFields.USERNAME).getValue()!=null)
+		{
+			series.setDendrochronologist(getStringDefaultValue(DefaultFields.USERNAME).getValue());
+		}
+		
+		TridasInterpretation interp = new TridasInterpretation();
+		TridasWoodCompleteness wc = super.getDefaultWoodCompleteness();
+		
+		// Unmeasured Pre
+		if(getIntegerDefaultValue(DefaultFields.UNMEAS_PRE).getValue()!=null)
+		{
+			wc.setNrOfUnmeasuredInnerRings(getIntegerDefaultValue(DefaultFields.UNMEAS_PRE).getValue());
+		}
+		
+		// Unmeasured Post
+		if(getIntegerDefaultValue(DefaultFields.UNMEAS_POST).getValue()!=null)
+		{
+			wc.setNrOfUnmeasuredOuterRings(getIntegerDefaultValue(DefaultFields.UNMEAS_POST).getValue());
+		}
+		
+		// Pith
+		if(getStringDefaultValue(DefaultFields.PITH).getValue()!=null)
+		{
+			TridasPith pith = wc.getPith();
+			if(getStringDefaultValue(DefaultFields.PITH).getValue().equalsIgnoreCase("P"))
+			{
+				pith.setPresence(ComplexPresenceAbsence.COMPLETE);
+			}
+			else if(getStringDefaultValue(DefaultFields.PITH).getValue().equalsIgnoreCase("*"))
+			{
+				pith.setPresence(ComplexPresenceAbsence.INCOMPLETE);
+			}
+			else if(getStringDefaultValue(DefaultFields.PITH).getValue().equalsIgnoreCase("N"))
+			{
+				pith.setPresence(ComplexPresenceAbsence.ABSENT);
+			}
+		}
+		
+		// Terminal ring
+		if(getStringDefaultValue(DefaultFields.TERMINAL).getValue()!=null)
+		{
+			TridasBark bark = wc.getBark();
+			TridasSapwood sapwood = wc.getSapwood();
+			if(getStringDefaultValue(DefaultFields.TERMINAL).getValue().equalsIgnoreCase("B"))
+			{
+				sapwood.setPresence(ComplexPresenceAbsence.COMPLETE);
+				bark.setPresence(PresenceAbsence.PRESENT);
+			}
+			else if (getStringDefaultValue(DefaultFields.TERMINAL).getValue().equalsIgnoreCase("W"))
+			{
+				sapwood.setPresence(ComplexPresenceAbsence.COMPLETE);
+				bark.setPresence(PresenceAbsence.ABSENT);
+			}
+			else if (getStringDefaultValue(DefaultFields.TERMINAL).getValue().equalsIgnoreCase("v"))
+			{
+				sapwood.setPresence(ComplexPresenceAbsence.INCOMPLETE);
+				bark.setPresence(PresenceAbsence.ABSENT);
+			}
+			else
+			{
+				bark.setPresence(PresenceAbsence.ABSENT);
+			}
+		}
+		
+		// Comments
+		if(getStringDefaultValue(DefaultFields.COMMENTS).getValue()!=null)
+		{
+			series.setComments(getStringDefaultValue(DefaultFields.COMMENTS).getValue());
+		}
+		
+		interp.setFirstYear(getSafeIntYearDefaultValue(DefaultFields.START_YEAR).getValue().toTridasYear(DatingSuffix.AD));
+		
+		
+		series.setInterpretation(interp);
+		series.setWoodCompleteness(wc);
+		
+		
 		
 		return series;
 		
 		
 	}
+	
+	
+	/**
+	 * @see org.tridas.io.defaults.TridasMetadataFieldSet#getDefaultTridasElement()
+	 */
+	@Override
+	protected TridasElement getDefaultTridasElement()
+	{
+		TridasElement e = super.getDefaultTridasElement();
+		
+		if(getStringDefaultValue(DefaultFields.SPECIES).getValue()!=null)
+		{
+			ControlledVoc taxon = new ControlledVoc();
+			taxon.setValue(getStringDefaultValue(DefaultFields.SPECIES).getValue());
+			e.setTaxon(taxon);
+		}
+		
+		
+		return e;
+		
+	}
+	
+	/**
+	 * @see org.tridas.io.defaults.TridasMetadataFieldSet#getDefaultTridasSample()
+	 */
+	@Override
+	protected TridasSample getDefaultTridasSample()
+	{
+		TridasSample s = super.getDefaultTridasSample();
+		ControlledVoc type = new ControlledVoc();
+		
+		if(getStringDefaultValue(DefaultFields.TYPE).getValue()!=null)
+		{
+			if(getStringDefaultValue(DefaultFields.TYPE).getValue().equalsIgnoreCase("C"))
+			{
+				type.setValue("Core");
+			}
+			else if(getStringDefaultValue(DefaultFields.TYPE).getValue().equalsIgnoreCase("S"))
+			{
+				type.setValue("Section");
+			}
+			else if(getStringDefaultValue(DefaultFields.TYPE).getValue().equalsIgnoreCase("H"))
+			{
+				type.setValue("Charcoal");
+			}
+			
+			s.setType(type);
+		}
+		
+		return s;
+		
+	}
+	
 }
