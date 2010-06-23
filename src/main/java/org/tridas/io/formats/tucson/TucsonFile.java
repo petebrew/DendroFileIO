@@ -181,7 +181,15 @@ public class TucsonFile implements IDendroFile {
 				
 				// Row header column
 				if (y.column() == 0 || (y.equals(start) && !isChronology)) {
-					writeRowHeader(string, code, 8, y);
+					
+					if(isChronology)
+					{
+						writeRowHeader(string, code, 6, y);
+					}
+					else
+					{
+						writeRowHeader(string, code, 8, y);
+					}
 				}
 				
 				// Reached end of data so print stop code
