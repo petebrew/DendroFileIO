@@ -1,0 +1,132 @@
+<body>
+Mecki Pohl's original (MS-DOS) Corina format.
+
+<p>A Corina file contains yearly data (ring width and number of
+samples for that year), some fixed metadata, and optionally
+weiserjahre data and a listing of element samples (for summed
+samples).</p>
+
+<p>The title comes first, on a line by itself, followed by a blank
+line.  The title is repeated later, so this is only to make it
+easier for people or external programs (like `head -1`) to read the
+title.</p>
+
+<p>The metadata section comes next.  The syntax is <code>;TAG
+value</code>.  Tags are all uppercase.  Their order is fixed.  Some
+values are terminated by a newline, others by the next
+semicolon.</p>
+
+<p>Valid tags, and their internal names, are ID, NAME, DATING,
+UNMEAS_PRE, UNMEAS_POST, COMMENTS, COMMENTS2, TYPE, SPECIES,
+SAPWOOD, PITH, TERMINAL, CONTINUOUS, QUALITY, FORMAT, INDEX_TYPE,
+RECONCILED</p>
+
+On disk, they're stored all-caps; in memory, they're lower-case.
+There also exists one special case: "NAME" on disk is "title" in
+memory.
+
+<p>Actually, I lied; there's a second special case now.  Originally
+there was both COMMENTS and COMMENTS2 on-disk and in-memory, but
+eventually people wanted to type more than 2 lines of comments.
+The new semi-backwards-compatible way is: any number of lines of
+comments are stored in memory under simply COMMENTS (with embedded
+newlines), and on disk as COMMENTS, COMMENTS2, COMMENTS3, ... as
+needed.</p>
+
+The order of the tags and position of newlines is as follows:
+
+<pre>
+// -- sample meta section (WRITEME)
+</pre>
+
+// -- description of tags: index_type, ...
+
+<h3>Data Section</h3>
+
+<p>Every sample has a data section.  It starts with the line:</p>
+
+<pre>
+;DATA         
+</pre>
+
+<p>(There are 9 spaces after the A.  Don't ask.)</p>
+
+WRITE ME
+
+<p>The data section has a few quirks:</p>
+
+<ul>
+
+  <li>All files have count data, even raw samples.  Unfortunately
+  the only way to tell if it's a summed sample is to check for the
+  presense of Weiserjahre, Elements, or a count value greater than
+  1.  When loading a Corina file, therefore, it has to load all the
+  count values, and then throw them out if it turns out to not be
+  summed.
+
+  <li>The last line of count data are shifted to the left by 4
+  characters.  (Again, don't ask.)
+
+  <li>The count value for the terminating 9990 value is the same as
+  the count value for the last measured year, though this has no
+  real meaning.
+
+</ul>
+
+<h3>Elements Section</h3>
+
+<p>The Elements section is also optional; only summed samples have
+it.  It starts with the line ";ELEMENTS ".  Each line consists of a
+complete filename, preceded by a "*" if the sample is <i>not</i>
+enabled.  It ends when the next section, Weiserjahre, begins.</p>
+
+<h3>Weiserjahre Section</h3>
+
+<p>The Weiserjahre section is optional; only summed samples have it.  FINISH ME.</p>
+
+<h3>Author Section</h3>
+
+<p>The final tag in a file is the author's name.  The format is:</p>
+
+<pre>
+~ author's name
+</pre>
+
+<p>Everything after this line is ignored, hence, the <code>~</code>
+character is not allowed anywhere in the Corina file.</p>
+
+<h3>Modifications</h3>
+
+<p>There are a couple base features that the Corina filetype can't
+handle.  I actually implement a superset of the original Corina
+filetype.  It should be 100% backwards-compatible with the original
+Corina program, though of course Corina can't take advantage of
+these features, and the extra data will be lost if it is loaded and
+re-saved in Corina.</p>
+
+<p>The additional features are:
+
+<ul>
+
+  <li>Any number of comment lines.  The Sample class stores
+  comments as one long String, possibly with newlines, and this
+  class saves them as <code>;COMMENTS</code>,
+  <code>;COMMENTS2</code>, <code>;COMMENTS3</code>, etc.  MS-DOS
+  Corina will only recognize the first two such lines.
+
+</ul>
+
+<h3>Notes</h3>
+
+<p>This loader is more forgiving than (MS-DOS) Corina's.  When
+reading the metadata tags, the case of the ;-tags doesn't matter,
+nor does their order or position of newlines.</p>
+
+<p>This is one of the longest files in Corina, by quite a bit (40%
+bigger than all of the crossdating algorithms combined right now),
+though it's significantly shorter than it once was
+(StreamTokenizers can be more trouble than they're worth).  I'm not
+concerned about the length alone, except for the fact that it's
+this long and complex and it still doesn't do everything we
+want, hence the experiments with XML.</p>
+</body>
