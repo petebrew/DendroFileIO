@@ -1,3 +1,18 @@
+/**
+ * Copyright 2010 Peter Brewer and Daniel Murphy
+ * 
+ * Licensed under the Apache License, Version 2.0 (the "License");
+ * you may not use this file except in compliance with the License.
+ * You may obtain a copy of the License at:
+ * 
+ *   http://www.apache.org/licenses/LICENSE-2.0
+ *   
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an "AS IS" BASIS,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * See the License for the specific language governing permissions and
+ * limitations under the License.
+ */
 package org.tridas.io.formats.catras;
 
 import java.io.IOException;
@@ -35,25 +50,6 @@ import org.tridas.schema.TridasValues;
 import org.tridas.schema.TridasVariable;
 
 /**
- * Reader for the CATRAS file format. This is a binary format for software written
- * by R. Aniol released in 1983. 
- * 
- * Several versions of CATRAS were released over the years, the most recent we have
- * seen is v4.35 released in 2003.  It is uncertain if there have been changes made 
- * over the years 
- * 
- * This code is based on Matlab, Fortran and C code of Ronald Visser, Henri
- * Grissino-Mayer and Ian Tyers.
- * 
- * The first 128 bytes contain the file header information and the remainder of the
- * file contains the r
- * 
- * The following bytes are unaccounted for and are therefore likely to contain data
- * that we are ignoring:
- * 57-58
- * 69-82
- * 105-128
- * 
  * @author peterbrewer
  */
 public class CatrasReader extends AbstractDendroFileReader {

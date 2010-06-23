@@ -1,0 +1,52 @@
+<body>
+
+ <p>The Tucson tree ring laboratory's file format. This has been the canonical
+ file format since the punchcard days. Unfortunately, since it's just the
+ punchcard format in a text file, it has numerous shortcomings:
+ <ul>
+ <li>minimal metadata support just three 80 character lines in a rigid format that 
+ many ignore
+ <li>relative/absolute flag starts in column 80 of the title, making it inconvenient to
+ edit with most text editors
+ <li>officially uses astronomical dates rather than BC/AD so 0 = 1BC etc however most
+ people enter data as if it <b>does</b> use BC/AD.  This can cause confusion and data 
+ errors.
+ <li>only has space for 4 characters to represent years so officially only allows data from
+ 1000BC (-999) to 9999AD (9999).  People tend either to add 8000 to all years or pinch the
+ last character from the keycode to allow them to represent years with 5 characters. Neither
+ method is official or documented though.
+ <li>no way to store auxiliary numerical data like Weiserjahre
+ <li>no way to indicate the variable that has been measured so often people use filenames 
+ to indicate early/late wood files
+ <li>no way to distinguish with certainty if a summed file is indexed
+ <li>no MIME type (even an application/x- one), standard file extension, or telltale
+ opening signature
+ <li>variety of no data and stop characters used by different programs
+ <li>different number of characters used for keycode in different programs (6 or 8)
+ </ul>
+ 
+ <p>
+ What it does do is store dendro data, readable by most dendro programs. 
+ </p>
+ 
+ <h3>File Format</h3>
+ <p>
+ There are two variants of Tucson files: raw and chronologies. Raw files (RWL) contain
+ just ring width values, whereas chronologies also contain 'sample depth/count' values
+ alongwide each ring width.
+ </p>
+ <p>
+ Due to there being a minimal specification for the format, implementations over the years
+ have introduced many subtle variations which need to be handled.  For instance, the 
+ number of keycode characters, the number of characters for the year marker, whether there
+ should be any placeholder values after the 'end of data' marker, the units of measurement
+ etc etc. This class should handle all popular variants of the Tucon format correctly.
+ </p>
+ 
+ <p>
+ See NOAA's <a href="http://www.ngdc.noaa.gov/paleo/treeinfo.html">Tree Ring Data
+ Description</a>. The <a href="http://www.cybis.se/wiki/index.php?title=Tucson_format"
+ >CDendro wiki</a> also contains useful information.
+ </p>
+
+</body>

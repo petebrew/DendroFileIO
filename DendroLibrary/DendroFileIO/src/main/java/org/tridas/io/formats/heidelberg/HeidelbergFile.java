@@ -1,3 +1,18 @@
+/**
+ * Copyright 2010 Peter Brewer and Daniel Murphy
+ * 
+ * Licensed under the Apache License, Version 2.0 (the "License");
+ * you may not use this file except in compliance with the License.
+ * You may obtain a copy of the License at:
+ * 
+ *   http://www.apache.org/licenses/LICENSE-2.0
+ *   
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an "AS IS" BASIS,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * See the License for the specific language governing permissions and
+ * limitations under the License.
+ */
 package org.tridas.io.formats.heidelberg;
 
 import java.util.ArrayList;
@@ -7,26 +22,14 @@ import org.tridas.interfaces.ITridasSeries;
 import org.tridas.io.I18n;
 import org.tridas.io.IDendroFile;
 import org.tridas.io.defaults.IMetadataFieldSet;
-import org.tridas.io.defaults.values.DoubleDefaultValue;
 import org.tridas.io.defaults.values.GenericDefaultValue;
-import org.tridas.io.defaults.values.IntegerDefaultValue;
 import org.tridas.io.defaults.values.StringDefaultValue;
 import org.tridas.io.exceptions.ConversionWarning;
 import org.tridas.io.exceptions.ConversionWarning.WarningType;
 import org.tridas.io.formats.heidelberg.HeidelbergToTridasDefaults.DefaultFields;
-import org.tridas.io.formats.heidelberg.HeidelbergToTridasDefaults.FHBarkType;
 import org.tridas.io.formats.heidelberg.HeidelbergToTridasDefaults.FHDataFormat;
-import org.tridas.io.formats.heidelberg.HeidelbergToTridasDefaults.FHDataType;
-import org.tridas.io.formats.heidelberg.HeidelbergToTridasDefaults.FHDated;
-import org.tridas.io.formats.heidelberg.HeidelbergToTridasDefaults.FHPith;
-import org.tridas.io.formats.heidelberg.HeidelbergToTridasDefaults.FHSeriesType;
-import org.tridas.io.formats.heidelberg.HeidelbergToTridasDefaults.FHStartsOrEndsWith;
-import org.tridas.io.formats.heidelberg.HeidelbergToTridasDefaults.FHWaldKante;
-import org.tridas.io.util.ITRDBTaxonConverter;
 import org.tridas.io.util.StringUtils;
-import org.tridas.schema.ControlledVoc;
 import org.tridas.schema.TridasDerivedSeries;
-import org.tridas.schema.TridasUnit;
 import org.tridas.schema.TridasValue;
 import org.tridas.schema.TridasValues;
 

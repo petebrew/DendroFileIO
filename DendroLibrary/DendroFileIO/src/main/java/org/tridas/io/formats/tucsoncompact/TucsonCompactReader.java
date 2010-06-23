@@ -1,13 +1,25 @@
+/**
+ * Copyright 2010 Peter Brewer and Daniel Murphy
+ * 
+ * Licensed under the Apache License, Version 2.0 (the "License");
+ * you may not use this file except in compliance with the License.
+ * You may obtain a copy of the License at:
+ * 
+ *   http://www.apache.org/licenses/LICENSE-2.0
+ *   
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an "AS IS" BASIS,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * See the License for the specific language governing permissions and
+ * limitations under the License.
+ */
 package org.tridas.io.formats.tucsoncompact;
 
-import java.io.DataInputStream;
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
 import org.grlea.log.SimpleLogger;
-import org.tridas.interfaces.ITridasSeries;
 import org.tridas.io.AbstractDendroFileReader;
 import org.tridas.io.I18n;
 import org.tridas.io.defaults.IMetadataFieldSet;
@@ -17,7 +29,6 @@ import org.tridas.io.exceptions.ConversionWarning.WarningType;
 import org.tridas.io.formats.tucsoncompact.TucsonCompactToTridasDefaults.DefaultFields;
 import org.tridas.schema.NormalTridasUnit;
 import org.tridas.schema.NormalTridasVariable;
-import org.tridas.schema.TridasDerivedSeries;
 import org.tridas.schema.TridasMeasurementSeries;
 import org.tridas.schema.TridasProject;
 import org.tridas.schema.TridasUnit;
@@ -189,12 +200,13 @@ public class TucsonCompactReader extends AbstractDendroFileReader {
 	private void checkFileIsValid(String[] argFileString) throws InvalidDendroFileException
 	{		
 		// Check first line has fortran formatting string
-		String fortranFormat = argFileString[0].substring(argFileString[0].indexOf("(")+1, argFileString[0].indexOf(")"));
+		String fortranFormat = null;
 		try{
+			fortranFormat = argFileString[0].substring(argFileString[0].indexOf("(")+1, argFileString[0].indexOf(")"));
 		cols = Integer.parseInt(fortranFormat.substring(0, fortranFormat.indexOf("F")));
 		chars = Integer.parseInt(fortranFormat.substring(fortranFormat.indexOf("F")+1, fortranFormat.indexOf(".")));
 		divFactor = Integer.parseInt(fortranFormat.substring(fortranFormat.indexOf(".")+1));
-		} catch (NumberFormatException e)
+		} catch (Exception e)
 		{
 			throw new InvalidDendroFileException(I18n.getText("tucsoncompact.invalidFortranFormatter"));
 		}

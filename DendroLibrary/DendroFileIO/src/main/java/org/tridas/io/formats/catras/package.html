@@ -1,0 +1,50 @@
+<body>
+
+<p>This is a binary format for software written by Aniol, first released in 1983.</p> 
+
+<p>Several versions of CATRAS were released over the years, the most recent we have
+seen is v4.35 released in 2003.  It is uncertain if there have been changes made 
+over the years. The code in this library is based on Matlab, Fortran and C code of
+Ronald Visser, Henri Grissino-Mayer and Ian Tyers.</p> 
+
+<h3>File contents</h3>
+
+<p>The first 128 bytes contain the file header information and the remainder of the file 
+contains the ring width data and sample depth data.  Our current understanding of the 
+header bytes is as follows:</p>
+
+<ul>
+	<li>1-32 - Series name</li>
+    <li>33-40 - Series code</li>
+	<li>41-44 - File extension</li>
+	<li>45-46 - Series length</li>
+	<li>47-48 - Sapwood length</li>
+	<li>49-50 - Start year</li>
+	<li>51-52 - End year</li>
+	<li>53    - 1=pith 2=waldkante 3=pith to waldkante</li>
+	<li>54    - 1 = ew only last ring</li>
+	<li>55-56 - Start year</li>
+	<!--<li>44    - Species code (unique to each lab and corresponds to a separate 'dictionary file'-->
+    <li>59-60 species also needs a catras.wnm file
+    <li>61-63 - Creation date</li>
+	<li>64-66 - Amended date</li>
+	<li>67    - Sapwood </li>
+    <li>68    - 1=valid stats</li>
+    <li>69-75 - dated?</li>
+	<li>84    - 0=raw 1=treecurve 2=chronology</li>
+	<li>85-86 - User id</li>
+	<li>89-92 - Average width </li>
+	<li>93-95 - Standard deviation</li>
+	<li>96-100 - Autocorrelation</li>
+	<li>101-104 - Sensitivity</li>
+
+<p>
+The following bytes are unaccounted for and are therefore likely to contain data
+that we are ignoring:
+ <ul>
+ <li>57-58</li>
+ <li>69-82</li>
+ <li>105-128</li>
+ </ul>
+ 
+</body>
