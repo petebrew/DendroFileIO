@@ -137,6 +137,9 @@ public class CorinaReader extends AbstractDendroFileReader {
 		ArrayList<TridasValue> tvs = new ArrayList<TridasValue>();
 		
 		Boolean includeCounts = false;
+		
+		if(tvs.size()==0) return null;
+		
 		for (int i=0; i<countVals.size(); i++)
 		{
 			if(countVals.get(i).compareTo(1)>0) includeCounts=true;
