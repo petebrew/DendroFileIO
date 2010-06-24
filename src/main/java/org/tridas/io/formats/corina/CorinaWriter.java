@@ -90,16 +90,23 @@ public class CorinaWriter extends AbstractDendroCollectionWriter {
 		
 		defaults = (TridasToCorinaDefaults) argDefaults;
 		
-		for (TridasObject o : TridasHierarchyHelper.getObjectList(argProject)) {			
+		for (TridasObject o : TridasHierarchyHelper.getObjectList(argProject)) {		
+			TridasToCorinaDefaults pdefaults = (TridasToCorinaDefaults) defaults.clone();
 			for (TridasElement e : o.getElements()) {			
-				for (TridasSample s : e.getSamples()) {					
-					for (TridasRadius r : s.getRadiuses()) {											
+				TridasToCorinaDefaults edefaults = (TridasToCorinaDefaults) pdefaults.clone();
+				edefaults.populateFromTridasElement(e);
+				for (TridasSample s : e.getSamples()) {	
+					TridasToCorinaDefaults sdefaults = (TridasToCorinaDefaults) edefaults.clone();
+					for (TridasRadius r : s.getRadiuses()) {	
+						TridasToCorinaDefaults rdefaults = (TridasToCorinaDefaults) sdefaults.clone();
 						for (TridasMeasurementSeries ms : r.getMeasurementSeries()) {	
-							defaults.populateFromTridasMeasurementSeries(ms);
+
 							
 							for (int i = 0; i < ms.getValues().size(); i++) {
 								
-								TridasToCorinaDefaults msDefaults = (TridasToCorinaDefaults) defaults.clone();
+								TridasToCorinaDefaults msDefaults = (TridasToCorinaDefaults) rdefaults.clone();
+								msDefaults.populateFromTridasMeasurementSeries(ms);
+								msDefaults.populateFromWoodCompleteness(ms, r);
 								boolean skipThisGroup = false;
 
 								TridasValues tvsgroup = ms.getValues().get(i);
@@ -146,6 +153,7 @@ public class CorinaWriter extends AbstractDendroCollectionWriter {
 								msDefaults.populateFromTridasValues(tvsgroup);
 								CorinaFile file = new CorinaFile(msDefaults);
 								file.setDataValues(tvsgroup);
+								file.setSeries(ms);
 
 								// Set naming convention
 								naming.registerFile(file, argProject, o, e, s, r, ms);
@@ -213,8 +221,11 @@ public class CorinaWriter extends AbstractDendroCollectionWriter {
 				if(skipThisGroup) continue;
 				
 				dsDefaults.populateFromTridasValues(tvsgroup);
+				dsDefaults.populateFromTridasDerivedSeries(ds);
 				CorinaFile file = new CorinaFile(dsDefaults);
 				file.setDataValues(tvsgroup);
+				file.setSeries(ds);
+
 
 				// Set naming convention
 				naming.registerFile(file, argProject, ds);
