@@ -49,6 +49,9 @@ import org.tridas.io.formats.topham.TophamReader;
 import org.tridas.io.formats.topham.TophamWriter;
 import org.tridas.io.formats.nottingham.NottinghamReader;
 import org.tridas.io.formats.nottingham.NottinghamWriter;
+import org.tridas.io.formats.corina.CorinaWriter;
+import org.tridas.io.formats.corina.CorinaReader;
+
 
 
 /**
@@ -87,6 +90,8 @@ public class TridasIO {
 		registerFileReader(TophamReader.class);
 		registerFileReader(NottinghamReader.class);
 		registerFileReader(TucsonCompactReader.class);
+		registerFileReader(CorinaReader.class);
+
 		
 		registerFileWriter(HeidelbergWriter.class);
 		registerFileWriter(BelfastAppleWriter.class);
@@ -99,6 +104,8 @@ public class TridasIO {
 		registerFileWriter(TophamWriter.class);
 		registerFileWriter(NottinghamWriter.class);
 		registerFileWriter(TucsonCompactWriter.class);
+		registerFileWriter(CorinaWriter.class);
+
 
 
 	}
