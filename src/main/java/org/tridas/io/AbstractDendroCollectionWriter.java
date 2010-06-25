@@ -160,11 +160,8 @@ public abstract class AbstractDendroCollectionWriter {
 	 *            the folder to save the files to
 	 */
 	public void saveAllToDisk(String argOutputFolder) {
-		if (argOutputFolder.contains("\\")) {
-			argOutputFolder.replaceAll("\\\\", "/");
-		}
 		
-		if (!argOutputFolder.endsWith("/") && !argOutputFolder.equals("")) {
+		if (!argOutputFolder.endsWith(File.separator) && !argOutputFolder.equals("")) {
 			argOutputFolder += File.separator;
 		}
 		
