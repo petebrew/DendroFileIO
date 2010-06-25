@@ -294,26 +294,31 @@ public class TridasToHeidelbergDefaults extends AbstractMetadataFieldSet impleme
 			if (!argValues.getUnit().isSetNormalTridas()) {
 				return;
 			}
+		
+			TridasUnit units = argValues.getUnit();
+			StringDefaultValue val = getStringDefaultValue(DefaultFields.UNIT);
+			switch (units.getNormalTridas()) {
+				case HUNDREDTH_MM :
+					val.setValue("1/100 mm");
+					break;
+				case MICROMETRES :
+					val.setValue("1/1000 mm");
+					break;
+				case MILLIMETRES :
+					val.setValue("mm");
+					break;
+				case TENTH_MM :
+					val.setValue("1/10 mm");
+					break;
+				default :
+					addIgnoredWarning(DefaultFields.UNIT, I18n.getText("fileio.invalidUnits"));
+			}
 		}
-				
-		TridasUnit units = argValues.getUnit();
-		StringDefaultValue val = getStringDefaultValue(DefaultFields.UNIT);
-		switch (units.getNormalTridas()) {
-			case HUNDREDTH_MM :
-				val.setValue("1/100 mm");
-				break;
-			case MICROMETRES :
-				val.setValue("1/1000 mm");
-				break;
-			case MILLIMETRES :
-				val.setValue("mm");
-				break;
-			case TENTH_MM :
-				val.setValue("1/10 mm");
-				break;
-			default :
-				addIgnoredWarning(DefaultFields.UNIT, I18n.getText("fileio.invalidUnits"));
-		}
+			
+		// Set Length
+		getStringDefaultValue(DefaultFields.LENGTH).setValue(argValues.getValues().size()+"");
+
+
 	}
 	
 	public void populateFromMS(TridasMeasurementSeries argSeries) {

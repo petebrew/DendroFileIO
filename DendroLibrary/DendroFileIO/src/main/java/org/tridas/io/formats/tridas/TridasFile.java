@@ -28,6 +28,7 @@ import javax.xml.validation.SchemaFactory;
 import org.grlea.log.DebugLevel;
 import org.grlea.log.SimpleLogger;
 import org.tridas.interfaces.ITridasSeries;
+import org.tridas.io.I18n;
 import org.tridas.io.IDendroFile;
 import org.tridas.io.TridasNamespacePrefixMapper;
 import org.tridas.io.defaults.IMetadataFieldSet;
@@ -78,7 +79,7 @@ public class TridasFile implements IDendroFile {
 			log.error("Error getting TRiDaS schema for validation, not using.");
 			log.dbe(DebugLevel.L2_ERROR, e);
 			defaults.addConversionWarning(new ConversionWarning(WarningType.DEFAULT,
-					"Error getting TRiDaS schema for validation, not using."));
+					I18n.getText("fileio.errorGettingSchema")));
 		}
 		
 		StringWriter swriter = new StringWriter();
@@ -92,12 +93,11 @@ public class TridasFile implements IDendroFile {
 				m.setSchema(schema);
 			}
 			m.marshal(project, swriter);
-			
-			// m.marshal(project,new File("/tmp/test.xml"));
-		} catch (JAXBException e) {
+
+		} catch (Exception e) {
 			log.error("Jaxb error");
 			log.dbe(DebugLevel.L2_ERROR, e);
-			defaults.addConversionWarning(new ConversionWarning(WarningType.FILE_IGNORED, "Jaxb error, check log"));
+			defaults.addConversionWarning(new ConversionWarning(WarningType.FILE_IGNORED, I18n.getText("fileio.jaxbError")));
 			return null;
 		}
 		
