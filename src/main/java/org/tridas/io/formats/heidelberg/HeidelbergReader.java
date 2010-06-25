@@ -263,10 +263,10 @@ public class HeidelbergReader extends AbstractDendroFileReader {
 			currentLineNum = i + 1; // +1 because of the HEADER line
 			String[] split = s.split("=");
 			if (split.length == 1) {
-				argSeries.fileMetadata.put(split[0], "");
+				argSeries.fileMetadata.put(split[0].toLowerCase(), "");
 			}
 			else {
-				argSeries.fileMetadata.put(split[0], split[1]);
+				argSeries.fileMetadata.put(split[0].toLowerCase(), split[1]);
 			}
 		}
 	}
@@ -337,140 +337,140 @@ public class HeidelbergReader extends AbstractDendroFileReader {
 			HashMap<String, String> fileMetadata = s.fileMetadata;
 			
 			//BARK, new GenericDefaultValue<FHBarkType>());
-			if(fileMetadata.containsKey("Bark")){
+			if(fileMetadata.containsKey("bark")){
 				GenericDefaultValue<FHBarkType> bark = (GenericDefaultValue<FHBarkType>) s.defaults.getDefaultValue(DefaultFields.BARK);
-				bark.setValue(FHBarkType.fromCode(fileMetadata.get("Bark")));
+				bark.setValue(FHBarkType.fromCode(fileMetadata.get("bark")));
 			}
 			
 			//CORE_NUMBER, new StringDefaultValue());
-			if(fileMetadata.containsKey("CoreNo")){
-				s.defaults.getStringDefaultValue(DefaultFields.CORE_NUMBER).setValue(fileMetadata.get("CoreNo"));
+			if(fileMetadata.containsKey("coreno")){
+				s.defaults.getStringDefaultValue(DefaultFields.CORE_NUMBER).setValue(fileMetadata.get("coreno"));
 			}
 			
 			//COUNTRY, new StringDefaultValue());
-			if(fileMetadata.containsKey("Country")){
-				s.defaults.getStringDefaultValue(DefaultFields.COUNTRY).setValue(fileMetadata.get("Country"));
+			if(fileMetadata.containsKey("country")){
+				s.defaults.getStringDefaultValue(DefaultFields.COUNTRY).setValue(fileMetadata.get("country"));
 			}
 			
 			//DATA_FORMAT, new GenericDefaultValue<FHDataFormat>());
-			if(fileMetadata.containsKey("DataFormat")){
+			if(fileMetadata.containsKey("dataformat")){
 				GenericDefaultValue<FHDataFormat> dataFormatField = (GenericDefaultValue<FHDataFormat>) s.defaults
 				.getDefaultValue(DefaultFields.DATA_FORMAT);
-				dataFormatField.setValue(FHDataFormat.valueOf(fileMetadata.get("DataFormat")));
+				dataFormatField.setValue(FHDataFormat.valueOf(fileMetadata.get("dataformat")));
 			}
 			
 			//DATA_TYPE, new GenericDefaultValue<FHDataType>());
-			if(fileMetadata.containsKey("DataType")){
+			if(fileMetadata.containsKey("datatype")){
 				GenericDefaultValue<FHDataType> dataTypeField = (GenericDefaultValue<FHDataType>) s.defaults
 				.getDefaultValue(DefaultFields.DATA_TYPE);
-				dataTypeField.setValue(FHDataType.fromCode(fileMetadata.get("DataType")));
+				dataTypeField.setValue(FHDataType.fromCode(fileMetadata.get("datatype")));
 			}
 			
 			//DATE_BEGIN, new IntegerDefaultValue());
 			try{
-				if(fileMetadata.containsKey("DateBegin")){
-					s.defaults.getIntegerDefaultValue(DefaultFields.DATE_BEGIN).setValue(Integer.parseInt(fileMetadata.get("DateBegin")));
+				if(fileMetadata.containsKey("datebegin")){
+					s.defaults.getIntegerDefaultValue(DefaultFields.DATE_BEGIN).setValue(Integer.parseInt(fileMetadata.get("datebegin")));
 				}
 			} catch (NumberFormatException e){
 				addWarning(new ConversionWarning(WarningType.INVALID, 
-						I18n.getText("fileio.invalidNumber", fileMetadata.get("DateBegin")),
-						"DateBegin"));		
+						I18n.getText("fileio.invalidNumber", fileMetadata.get("datebegin")),
+						"datebegin"));		
 			}
 			
 			//DATED, new GenericDefaultValue<FHDated>());
-			if(fileMetadata.containsKey("Dated")){
+			if(fileMetadata.containsKey("dated")){
 				GenericDefaultValue<FHDated> datedField = (GenericDefaultValue<FHDated>) s.defaults
 				.getDefaultValue(DefaultFields.DATED);
-				datedField.setValue(FHDated.valueOf(fileMetadata.get("Dated")));
+				datedField.setValue(FHDated.valueOf(fileMetadata.get("dated")));
 			}
 			
 			//DATE_END, new IntegerDefaultValue());
 			try{
-				if(fileMetadata.containsKey("DateEnd")){
-					s.defaults.getIntegerDefaultValue(DefaultFields.DATE_END).setValue(Integer.parseInt(fileMetadata.get("DateEnd")));
+				if(fileMetadata.containsKey("dateend")){
+					s.defaults.getIntegerDefaultValue(DefaultFields.DATE_END).setValue(Integer.parseInt(fileMetadata.get("dateend")));
 				}
 			} catch (NumberFormatException e){
 				addWarning(new ConversionWarning(WarningType.INVALID, 
-						I18n.getText("fileio.invalidNumber", fileMetadata.get("DateEnd")),
+						I18n.getText("fileio.invalidNumber", fileMetadata.get("dateend")),
 						"DateEnd"));
 			}
 			
 			//DATE_OF_SAMPLING, new StringDefaultValue());
-			if(fileMetadata.containsKey("DateOfSampling")){
-				s.defaults.getStringDefaultValue(DefaultFields.DATE_OF_SAMPLING).setValue(fileMetadata.get("DateOfSampling"));
+			if(fileMetadata.containsKey("dateofsampling")){
+				s.defaults.getStringDefaultValue(DefaultFields.DATE_OF_SAMPLING).setValue(fileMetadata.get("dateofsampling"));
 			}
 			
 			//DISTRICT, new StringDefaultValue());
-			if(fileMetadata.containsKey("District")){
-				s.defaults.getStringDefaultValue(DefaultFields.DISTRICT).setValue(fileMetadata.get("District"));
+			if(fileMetadata.containsKey("district")){
+				s.defaults.getStringDefaultValue(DefaultFields.DISTRICT).setValue(fileMetadata.get("district"));
 			}
 			
 			//ELEVATION, new StringDefaultValue());
-			if(fileMetadata.containsKey("Elevation")){
+			if(fileMetadata.containsKey("elevation")){
 				try{
-				Boolean success = s.defaults.getDoubleDefaultValue(DefaultFields.ELEVATION).setValue(Double.parseDouble(fileMetadata.get("Elevation")));
+				Boolean success = s.defaults.getDoubleDefaultValue(DefaultFields.ELEVATION).setValue(Double.parseDouble(fileMetadata.get("elevation")));
 				if(success==false)
 				{
 					addWarning(new ConversionWarning(WarningType.INVALID, 
-							I18n.getText("heidelberg.invalidElevationValue", fileMetadata.get("Elevation")),
+							I18n.getText("heidelberg.invalidElevationValue", fileMetadata.get("elevation")),
 							"Elevation"));
 				}
 				} catch(NumberFormatException e){ 
 					addWarning(new ConversionWarning(WarningType.INVALID, 
-							I18n.getText("fileio.invalidNumber", fileMetadata.get("Elevation")),
+							I18n.getText("fileio.invalidNumber", fileMetadata.get("elevation")),
 							"Latitude"));
 				}
 			}
 			
 			//ESTIMATED_TIME_PERIOD, new StringDefaultValue());
-			if(fileMetadata.containsKey("EstimatedTimePeriod")){
-				s.defaults.getStringDefaultValue(DefaultFields.ESTIMATED_TIME_PERIOD).setValue(fileMetadata.get("EstimatedTimePeriod"));
+			if(fileMetadata.containsKey("estimatedtimeperiod")){
+				s.defaults.getStringDefaultValue(DefaultFields.ESTIMATED_TIME_PERIOD).setValue(fileMetadata.get("estimatedtimeperiod"));
 			}
 			
 			//FIRST_MEASUREMENT_DATE, new StringDefaultValue());
-			if(fileMetadata.containsKey("FirstMeasurementDate")){
-				s.defaults.getStringDefaultValue(DefaultFields.FIRST_MEASUREMENT_DATE).setValue(fileMetadata.get("FirstMeasurementDate"));
+			if(fileMetadata.containsKey("firstmeasurementdate")){
+				s.defaults.getStringDefaultValue(DefaultFields.FIRST_MEASUREMENT_DATE).setValue(fileMetadata.get("firstmeasurementdate"));
 			}
 			
 			//HOUSE_NAME, new StringDefaultValue());
-			if(fileMetadata.containsKey("HouseName")){
-				s.defaults.getStringDefaultValue(DefaultFields.HOUSE_NAME).setValue(fileMetadata.get("HouseName"));
+			if(fileMetadata.containsKey("housename")){
+				s.defaults.getStringDefaultValue(DefaultFields.HOUSE_NAME).setValue(fileMetadata.get("housename"));
 			}
 			
 			//HOUSE_NUMBER, new StringDefaultValue());	
-			if(fileMetadata.containsKey("HouseNumber")){
-				s.defaults.getStringDefaultValue(DefaultFields.HOUSE_NUMBER).setValue(fileMetadata.get("HouseNumber"));
+			if(fileMetadata.containsKey("housenumber")){
+				s.defaults.getStringDefaultValue(DefaultFields.HOUSE_NUMBER).setValue(fileMetadata.get("housenumber"));
 			}
 			
 			//KEYCODE, new StringDefaultValue());
-			if(fileMetadata.containsKey("KeyCode")){
-				s.defaults.getStringDefaultValue(DefaultFields.KEYCODE).setValue(fileMetadata.get("KeyCode"));
+			if(fileMetadata.containsKey("keycode")){
+				s.defaults.getStringDefaultValue(DefaultFields.KEYCODE).setValue(fileMetadata.get("keycode"));
 			}
 			
 			//LAB_CODE, new StringDefaultValue());
 			//TODO the TSAP manual has this field spelled as 'LabotaryCode' in the manual. Check this works
-			if(fileMetadata.containsKey("LaboratoryCode")){
-				s.defaults.getStringDefaultValue(DefaultFields.LAB_CODE).setValue(fileMetadata.get("LaboratoryCode"));
+			if(fileMetadata.containsKey("laboratorycode")){
+				s.defaults.getStringDefaultValue(DefaultFields.LAB_CODE).setValue(fileMetadata.get("laboratorycode"));
 			}
 			
 			//LAST_REVISION_DATE, new StringDefaultValue());
-			if(fileMetadata.containsKey("LastRevisionDate")){
-				s.defaults.getStringDefaultValue(DefaultFields.LAST_REVISION_DATE).setValue(fileMetadata.get("LastRevisionDate"));
+			if(fileMetadata.containsKey("lastrevisiondate")){
+				s.defaults.getStringDefaultValue(DefaultFields.LAST_REVISION_DATE).setValue(fileMetadata.get("lastrevisiondate"));
 			}
 			
 			//LAST_REVISION_PERS_ID, new StringDefaultValue());
-			if(fileMetadata.containsKey("LastRevisionPersID")){
-				s.defaults.getStringDefaultValue(DefaultFields.LAST_REVISION_PERS_ID).setValue(fileMetadata.get("LastRevisionPersID"));
+			if(fileMetadata.containsKey("lastrevisionpersid")){
+				s.defaults.getStringDefaultValue(DefaultFields.LAST_REVISION_PERS_ID).setValue(fileMetadata.get("lastrevisionpersid"));
 			}
 			
 			//LATITUDE, new DoubleDefaultValue());
-			if(fileMetadata.containsKey("Latitude")){
+			if(fileMetadata.containsKey("latitude")){
 				try{
-				Boolean success = s.defaults.getDoubleDefaultValue(DefaultFields.LATITUDE).setValue(Double.parseDouble(fileMetadata.get("Latitude")));
+				Boolean success = s.defaults.getDoubleDefaultValue(DefaultFields.LATITUDE).setValue(Double.parseDouble(fileMetadata.get("latitude")));
 				if(success==false)
 				{
 					addWarning(new ConversionWarning(WarningType.INVALID, 
-							I18n.getText("location.latitude.invalid", fileMetadata.get("Latitude")),
+							I18n.getText("location.latitude.invalid", fileMetadata.get("latitude")),
 							"Latitude"));
 				}
 				} catch(NumberFormatException e){ 
@@ -481,28 +481,28 @@ public class HeidelbergReader extends AbstractDendroFileReader {
 			}
 			
 			//LENGTH, new StringDefaultValue());
-			if(fileMetadata.containsKey("Length")){
-				s.defaults.getStringDefaultValue(DefaultFields.LENGTH).setValue(fileMetadata.get("Length"));
+			if(fileMetadata.containsKey("length")){
+				s.defaults.getStringDefaultValue(DefaultFields.LENGTH).setValue(fileMetadata.get("length"));
 			}
 			
 			//LOCATION, new StringDefaultValue());			
-			if(fileMetadata.containsKey("Location")){
-				s.defaults.getStringDefaultValue(DefaultFields.LOCATION).setValue(fileMetadata.get("Location"));
+			if(fileMetadata.containsKey("location")){
+				s.defaults.getStringDefaultValue(DefaultFields.LOCATION).setValue(fileMetadata.get("location"));
 			}
 			
 			//LOCATION_CHARACTERISTICS, new StringDefaultValue());
-			if(fileMetadata.containsKey("LocationCharacteristics")){
-				s.defaults.getStringDefaultValue(DefaultFields.LOCATION_CHARACTERISTICS).setValue(fileMetadata.get("LocationCharacteristics"));
+			if(fileMetadata.containsKey("locationcharacteristics")){
+				s.defaults.getStringDefaultValue(DefaultFields.LOCATION_CHARACTERISTICS).setValue(fileMetadata.get("locationcharacteristics"));
 			}
 			
 			//LONGITUDE, new StringDefaultValue());
-			if(fileMetadata.containsKey("Longitude")){
+			if(fileMetadata.containsKey("longitude")){
 				try{
 				Boolean success = s.defaults.getDoubleDefaultValue(DefaultFields.LONGITUDE).setValue(Double.parseDouble(fileMetadata.get("Longitude")));
 				if(success==false)
 				{
 					addWarning(new ConversionWarning(WarningType.INVALID, 
-							I18n.getText("location.longitude.invalid", fileMetadata.get("Longitude")),
+							I18n.getText("location.longitude.invalid", fileMetadata.get("longitude")),
 							"Longitude"));
 				}
 				} catch(NumberFormatException e){ 
@@ -514,61 +514,61 @@ public class HeidelbergReader extends AbstractDendroFileReader {
 			
 			//MISSING_RINGS_AFTER, new IntegerDefaultValue());
 			try{
-				if(fileMetadata.containsKey("MissingRingsAfter")){
-					s.defaults.getIntegerDefaultValue(DefaultFields.MISSING_RINGS_AFTER).setValue(Integer.parseInt(fileMetadata.get("MissingRingsAfter")));
+				if(fileMetadata.containsKey("missingringsafter")){
+					s.defaults.getIntegerDefaultValue(DefaultFields.MISSING_RINGS_AFTER).setValue(Integer.parseInt(fileMetadata.get("missingringsafter")));
 				}
 			} catch (NumberFormatException e){
 				addWarning(new ConversionWarning(WarningType.INVALID, 
-						I18n.getText("fileio.invalidNumber", fileMetadata.get("MissingRingsAfter")),
+						I18n.getText("fileio.invalidNumber", fileMetadata.get("missingringsafter")),
 						"MissingRingsAfter"));
 			}
 			
 			//MISSING_RINGS_BEFORE, new IntegerDefaultValue());
 			try{
-				if(fileMetadata.containsKey("MissingRingsBefore")){
-					s.defaults.getIntegerDefaultValue(DefaultFields.MISSING_RINGS_BEFORE).setValue(Integer.parseInt(fileMetadata.get("MissingRingsBefore")));
+				if(fileMetadata.containsKey("missingringsbefore")){
+					s.defaults.getIntegerDefaultValue(DefaultFields.MISSING_RINGS_BEFORE).setValue(Integer.parseInt(fileMetadata.get("missingringsbefore")));
 				}
 			} catch (NumberFormatException e){
 				addWarning(new ConversionWarning(WarningType.INVALID, 
-						I18n.getText("fileio.invalidNumber", fileMetadata.get("MissingRingsBefore")),
+						I18n.getText("fileio.invalidNumber", fileMetadata.get("missingringsbefore")),
 						"MissingRingsBefore"));
 			}
 			
 			//PITH, new GenericDefaultValue<FHPith>());
-			if(fileMetadata.containsKey("Pith")){
+			if(fileMetadata.containsKey("pith")){
 				GenericDefaultValue<FHPith> pithField = (GenericDefaultValue<FHPith>) s.defaults
 				.getDefaultValue(DefaultFields.PITH);
-				pithField.setValue(FHPith.fromCode(fileMetadata.get("Pith")));
+				pithField.setValue(FHPith.fromCode(fileMetadata.get("pith")));
 			}
 			
 			//PROJECT, new StringDefaultValue());
-			if(fileMetadata.containsKey("Project")){
-				s.defaults.getStringDefaultValue(DefaultFields.PROJECT).setValue(fileMetadata.get("Project"));
+			if(fileMetadata.containsKey("project")){
+				s.defaults.getStringDefaultValue(DefaultFields.PROJECT).setValue(fileMetadata.get("project"));
 			}
 			
 			//PROVINCE, new StringDefaultValue());
-			if(fileMetadata.containsKey("Province")){
-				s.defaults.getStringDefaultValue(DefaultFields.PROVINCE).setValue(fileMetadata.get("Province"));
+			if(fileMetadata.containsKey("province")){
+				s.defaults.getStringDefaultValue(DefaultFields.PROVINCE).setValue(fileMetadata.get("province"));
 			}
 			
 			//RADIUS_NUMBER, new StringDefaultValue());
-			if(fileMetadata.containsKey("RadiusNumber")){
-				s.defaults.getStringDefaultValue(DefaultFields.RADIUS_NUMBER).setValue(fileMetadata.get("RadiusNumber"));
+			if(fileMetadata.containsKey("radiusnumber")){
+				s.defaults.getStringDefaultValue(DefaultFields.RADIUS_NUMBER).setValue(fileMetadata.get("radiusnumber"));
 			}
 			
 			//SAMPLING_HEIGHT, new StringDefaultValue());
-			if(fileMetadata.containsKey("SamplingHeight")){
-				s.defaults.getStringDefaultValue(DefaultFields.SAMPLING_HEIGHT).setValue(fileMetadata.get("SamplingHeight"));
+			if(fileMetadata.containsKey("samplingheight")){
+				s.defaults.getStringDefaultValue(DefaultFields.SAMPLING_HEIGHT).setValue(fileMetadata.get("samplingheight"));
 			}
 			
 			//SAPWOOD_RINGS, new IntegerDefaultValue());
 			try{
-				if(fileMetadata.containsKey("SapWoodRings")){
-					s.defaults.getIntegerDefaultValue(DefaultFields.SAPWOOD_RINGS).setValue(Integer.parseInt(fileMetadata.get("SapWoodRings")));
+				if(fileMetadata.containsKey("sapwoodrings")){
+					s.defaults.getIntegerDefaultValue(DefaultFields.SAPWOOD_RINGS).setValue(Integer.parseInt(fileMetadata.get("sapwoodrings")));
 				}
 			} catch (NumberFormatException e){
 				addWarning(new ConversionWarning(WarningType.INVALID, 
-						I18n.getText("fileio.invalidNumber", fileMetadata.get("SapWoodRings")),
+						I18n.getText("fileio.invalidNumber", fileMetadata.get("sapwoodrings")),
 						"SapWoodRings"));
 			}
 			
@@ -580,96 +580,100 @@ public class HeidelbergReader extends AbstractDendroFileReader {
 			}
 			
 			//SERIES_START, new GenericDefaultValue<FHStartsOrEndsWith>());
-			if(fileMetadata.containsKey("SeriesStart")){
+			if(fileMetadata.containsKey("seriesstart")){
 				GenericDefaultValue<FHStartsOrEndsWith> seriesStartField = (GenericDefaultValue<FHStartsOrEndsWith>) s.defaults
 				.getDefaultValue(DefaultFields.SERIES_START);
-				seriesStartField.setValue(FHStartsOrEndsWith.fromCode(fileMetadata.get("SeriesStart")));
+				seriesStartField.setValue(FHStartsOrEndsWith.fromCode(fileMetadata.get("seriesstart")));
 			}
 			
 			//SERIES_TYPE, new GenericDefaultValue<FHSeriesType>());
-			if(fileMetadata.containsKey("SeriesType")){
+			if(fileMetadata.containsKey("seriestype")){
 				GenericDefaultValue<FHSeriesType> seriesTypeField = (GenericDefaultValue<FHSeriesType>) s.defaults
 				.getDefaultValue(DefaultFields.SERIES_TYPE);
-				seriesTypeField.setValue(FHSeriesType.fromCode(fileMetadata.get("SeriesType")));
+				seriesTypeField.setValue(FHSeriesType.fromCode(fileMetadata.get("seriestype")));
 			}
 			
 			//SHAPE_OF_SAMPLE, new StringDefaultValue());
-			if(fileMetadata.containsKey("ShapeOfSample")){
-				s.defaults.getStringDefaultValue(DefaultFields.SHAPE_OF_SAMPLE).setValue(fileMetadata.get("ShapeOfSample"));
+			if(fileMetadata.containsKey("shapeofsample")){
+				s.defaults.getStringDefaultValue(DefaultFields.SHAPE_OF_SAMPLE).setValue(fileMetadata.get("shapeofsample"));
 			}
 			
 			//SITE_CODE, new StringDefaultValue());
-			if(fileMetadata.containsKey("SiteCode")){
-				s.defaults.getStringDefaultValue(DefaultFields.SITE_CODE).setValue(fileMetadata.get("SiteCode"));
+			if(fileMetadata.containsKey("sitecode")){
+				s.defaults.getStringDefaultValue(DefaultFields.SITE_CODE).setValue(fileMetadata.get("sitecode"));
 			}
 			
 			//SOIL_TYPE, new StringDefaultValue());
-			if(fileMetadata.containsKey("SoilType")){
-				s.defaults.getStringDefaultValue(DefaultFields.SOIL_TYPE).setValue(fileMetadata.get("SoilType"));
+			if(fileMetadata.containsKey("soiltype")){
+				s.defaults.getStringDefaultValue(DefaultFields.SOIL_TYPE).setValue(fileMetadata.get("soiltype"));
 			}
 			
 			//SPECIES, new GenericDefaultValue<ControlledVoc>());
-			if(fileMetadata.containsKey("Species")){
-				GenericDefaultValue<ControlledVoc> speciesField = (GenericDefaultValue<ControlledVoc>) s.defaults
-				.getDefaultValue(DefaultFields.SPECIES);
-				speciesField.setValue(ITRDBTaxonConverter.getControlledVocFromCode(fileMetadata.get("Species")));
+			GenericDefaultValue<ControlledVoc> speciesField = (GenericDefaultValue<ControlledVoc>) s.defaults
+			.getDefaultValue(DefaultFields.SPECIES);
+			if(fileMetadata.containsKey("species")){
+				speciesField.setValue(ITRDBTaxonConverter.getControlledVocFromCode(fileMetadata.get("species")));
+			}
+			else
+			{
+				speciesField.setValue(ITRDBTaxonConverter.getControlledVocFromCode("UNKN"));
 			}
 							
 			//SPECIES_NAME, new StringDefaultValue());
-			if(fileMetadata.containsKey("SpeciesName")){
-				s.defaults.getStringDefaultValue(DefaultFields.SPECIES_NAME).setValue(fileMetadata.get("SpeciesName"));
+			if(fileMetadata.containsKey("speciesname")){
+				s.defaults.getStringDefaultValue(DefaultFields.SPECIES_NAME).setValue(fileMetadata.get("speciesname"));
 			}
 			
 			//STATE, new StringDefaultValue());
-			if(fileMetadata.containsKey("State")){
-				s.defaults.getStringDefaultValue(DefaultFields.STATE).setValue(fileMetadata.get("State"));
+			if(fileMetadata.containsKey("state")){
+				s.defaults.getStringDefaultValue(DefaultFields.STATE).setValue(fileMetadata.get("state"));
 			}
 			
 			//STEM_DISK_NUMBER, new StringDefaultValue());
-			if(fileMetadata.containsKey("StemDiskNo")){
-				s.defaults.getStringDefaultValue(DefaultFields.STEM_DISK_NUMBER).setValue(fileMetadata.get("StemDiskNo"));
+			if(fileMetadata.containsKey("stemdiskno")){
+				s.defaults.getStringDefaultValue(DefaultFields.STEM_DISK_NUMBER).setValue(fileMetadata.get("stemdiskno"));
 			}
 			
 			//STREET, new StringDefaultValue());
-			if(fileMetadata.containsKey("Street")){
-				s.defaults.getStringDefaultValue(DefaultFields.STREET).setValue(fileMetadata.get("Street"));
+			if(fileMetadata.containsKey("street")){
+				s.defaults.getStringDefaultValue(DefaultFields.STREET).setValue(fileMetadata.get("street"));
 			}
 			
 			//TIMBER_HEIGHT, new StringDefaultValue());
-			if(fileMetadata.containsKey("TimberHeight")){
-				s.defaults.getStringDefaultValue(DefaultFields.TIMBER_HEIGHT).setValue(fileMetadata.get("TimberHeight"));
+			if(fileMetadata.containsKey("timberheight")){
+				s.defaults.getStringDefaultValue(DefaultFields.TIMBER_HEIGHT).setValue(fileMetadata.get("timberheight"));
 			}
 			
 			//TIMBER_WIDTH, new StringDefaultValue());
-			if(fileMetadata.containsKey("TimberWidth")){
-				s.defaults.getStringDefaultValue(DefaultFields.TIMBER_WIDTH).setValue(fileMetadata.get("TimberWidth"));
+			if(fileMetadata.containsKey("timberwidth")){
+				s.defaults.getStringDefaultValue(DefaultFields.TIMBER_WIDTH).setValue(fileMetadata.get("timberwidth"));
 			}
 			
 			//TOWN, new StringDefaultValue());
-			if(fileMetadata.containsKey("Town")){
-				s.defaults.getStringDefaultValue(DefaultFields.TOWN).setValue(fileMetadata.get("Town"));
+			if(fileMetadata.containsKey("town")){
+				s.defaults.getStringDefaultValue(DefaultFields.TOWN).setValue(fileMetadata.get("town"));
 			}
 			
 			//TOWN_ZIP_CODE, new StringDefaultValue());
-			if(fileMetadata.containsKey("TownZipCode")){
-				s.defaults.getStringDefaultValue(DefaultFields.TOWN_ZIP_CODE).setValue(fileMetadata.get("TownZipCode"));
+			if(fileMetadata.containsKey("townzipcode")){
+				s.defaults.getStringDefaultValue(DefaultFields.TOWN_ZIP_CODE).setValue(fileMetadata.get("townzipcode"));
 			}
 			
 			//TREE_HEIGHT, new StringDefaultValue());
-			if(fileMetadata.containsKey("TreeHeight")){
-				s.defaults.getStringDefaultValue(DefaultFields.TREE_HEIGHT).setValue(fileMetadata.get("TreeHeight"));
+			if(fileMetadata.containsKey("treeheight")){
+				s.defaults.getStringDefaultValue(DefaultFields.TREE_HEIGHT).setValue(fileMetadata.get("treeheight"));
 			}
 			
 			//TREE_NUMBER, new StringDefaultValue());
-			if(fileMetadata.containsKey("TreeNumber")){
-				s.defaults.getStringDefaultValue(DefaultFields.TREE_NUMBER).setValue(fileMetadata.get("TreeNumber"));
+			if(fileMetadata.containsKey("treenumber")){
+				s.defaults.getStringDefaultValue(DefaultFields.TREE_NUMBER).setValue(fileMetadata.get("treenumber"));
 			}
 			
 			//UNIT, new GenericDefaultValue<TridasUnit>());	
 			GenericDefaultValue<TridasUnit> unit = (GenericDefaultValue<TridasUnit>) s.defaults
 			.getDefaultValue(DefaultFields.UNIT);
-			if (fileMetadata.containsKey("Unit")) {
-				String units = fileMetadata.get("Unit");
+			if (fileMetadata.containsKey("unit")) {
+				String units = fileMetadata.get("unit");
 				TridasUnit value = new TridasUnit();
 				if (units.equals("mm")) {
 					value.setNormalTridas(NormalTridasUnit.MILLIMETRES);
@@ -694,10 +698,10 @@ public class HeidelbergReader extends AbstractDendroFileReader {
 			}
 			
 			//WALDKANTE, new GenericDefaultValue<FHWaldKante>());
-			if(fileMetadata.containsKey("WaldKante")){
+			if(fileMetadata.containsKey("waldkante")){
 				GenericDefaultValue<FHWaldKante> waldKanteField = (GenericDefaultValue<FHWaldKante>) s.defaults
 				.getDefaultValue(DefaultFields.WALDKANTE);
-				waldKanteField.setValue(FHWaldKante.fromCode(fileMetadata.get("WaldKante")));
+				waldKanteField.setValue(FHWaldKante.fromCode(fileMetadata.get("waldkante")));
 			}
 		}
 	}
@@ -775,7 +779,7 @@ public class HeidelbergReader extends AbstractDendroFileReader {
 					List<TridasValue> values = valuesGroup.getValues();
 					
 					int numDataInts = s.dataInts.size();
-					String slength = s.fileMetadata.get("Length");
+					String slength = s.fileMetadata.get("length");
 					if (slength != null) {
 						try {
 							numDataInts = Integer.parseInt(slength); // value
@@ -817,8 +821,9 @@ public class HeidelbergReader extends AbstractDendroFileReader {
 			elements.add(element);
 		}
 		
-		project.getObjects().add(object);
 		object.setElements(elements);
+		project.getObjects().add(object);
+		
 		
 		return project;
 	}

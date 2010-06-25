@@ -45,7 +45,6 @@ public class HeidelbergFile implements IDendroFile {
 	private boolean chrono;
 	private Integer[] dataInts;
 	private int valuesIndex;
-	private int numTridasValues;
 	
 	public HeidelbergFile(TridasToHeidelbergDefaults argDefaults) {
 		defaults = argDefaults;
@@ -84,7 +83,7 @@ public class HeidelbergFile implements IDendroFile {
 	private void extractData() {
 		ArrayList<Integer> ints = new ArrayList<Integer>();
 		
-		numTridasValues = dataValues.getValues().size();
+
 		for (TridasValue v : dataValues.getValues()) {
 			
 			try{
@@ -161,7 +160,7 @@ public class HeidelbergFile implements IDendroFile {
 					defaults.getDefaultValue(DefaultFields.DATA_FORMAT);		
 
 		if (chrono) {
-			dataFormatField.setValue(FHDataFormat.Chrono);
+			dataFormatField.setValue(FHDataFormat.HalfChrono);
 			/*String standardizationMethod = ((TridasDerivedSeries) series).getStandardizingMethod();
 			if(standardizationMethod!=null)
 			{
@@ -169,11 +168,9 @@ public class HeidelbergFile implements IDendroFile {
 			}*/
 		}
 		else {
-			dataFormatField.setValue(FHDataFormat.Tree);
+			dataFormatField.setValue(FHDataFormat.Single);
 		}
-		try{
-		defaults.getStringDefaultValue(DefaultFields.LENGTH).setValue(String.valueOf(numTridasValues));
-		} catch (NumberFormatException e){}
+
 	}
 	
 	@Override
@@ -240,7 +237,7 @@ public class HeidelbergFile implements IDendroFile {
 		addIfNotNull("WaldKante", DefaultFields.WALDKANTE, file);
 				
 		if (chrono) {
-			file.add("DATA:Double");
+			file.add("DATA:HalfChrono");
 		}
 		else {
 			file.add("DATA:Single");

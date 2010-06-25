@@ -171,6 +171,8 @@ public class TestToTridas extends TestCase {
 		}
 		
 		for (String filename : files) {
+			//if(!filename.equals("SYNTH2.FH")) continue;
+			
 			log.info("Test conversion of: " + filename);
 			
 			HeidelbergReader reader = new HeidelbergReader();

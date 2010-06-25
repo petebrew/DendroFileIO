@@ -84,13 +84,14 @@ public class HeidelbergWriter extends AbstractDendroCollectionWriter {
 								boolean skipThisGroup = false;
 
 								TridasValues tvsgroup = ms.getValues().get(i);
+								TridasToHeidelbergDefaults tvDefaults = (TridasToHeidelbergDefaults) msDefaults.clone();
 								
 								// Check we can handle this variable
 								if(tvsgroup.isSetVariable())
 								{
 									if (!tvsgroup.getVariable().isSetNormalTridas())
 									{
-										this.addWarning(new ConversionWarning(WarningType.AMBIGUOUS, I18n.getText("fileio.nonstandardVariable")));
+										tvDefaults.addConversionWarning(new ConversionWarning(WarningType.AMBIGUOUS, I18n.getText("fileio.nonstandardVariable")));
 									}
 									else
 									{
@@ -104,7 +105,7 @@ public class HeidelbergWriter extends AbstractDendroCollectionWriter {
 											break;
 										default:
 											// All other variables not representable
-											this.addWarning(new ConversionWarning(WarningType.IGNORED, I18n.getText("fileio.unsupportedVariable", tvsgroup.getVariable().getNormalTridas().toString().toLowerCase().replace("_", " "))));
+											tvDefaults.addConversionWarning(new ConversionWarning(WarningType.IGNORED, I18n.getText("fileio.unsupportedVariable", tvsgroup.getVariable().getNormalTridas().toString().toLowerCase().replace("_", " "))));
 											skipThisGroup = true;
 										}
 									}
@@ -123,7 +124,7 @@ public class HeidelbergWriter extends AbstractDendroCollectionWriter {
 									}
 								}
 								
-								TridasToHeidelbergDefaults tvDefaults = (TridasToHeidelbergDefaults) msDefaults.clone();
+								
 								tvDefaults.populateFromTridasValues(tvsgroup);
 								
 								HeidelbergFile file = new HeidelbergFile(tvDefaults);
@@ -176,13 +177,14 @@ public class HeidelbergWriter extends AbstractDendroCollectionWriter {
 				boolean skipThisGroup = false;
 
 				TridasValues tvsgroup = ds.getValues().get(i);
+				TridasToHeidelbergDefaults tvDefaults = (TridasToHeidelbergDefaults) dsDefaults.clone();
 				
 				// Check we can handle this variable
 				if(tvsgroup.isSetVariable())
 				{
 					if (!tvsgroup.getVariable().isSetNormalTridas())
 					{
-						this.addWarning(new ConversionWarning(WarningType.AMBIGUOUS, I18n.getText("fileio.nonstandardVariable")));
+						tvDefaults.addConversionWarning(new ConversionWarning(WarningType.AMBIGUOUS, I18n.getText("fileio.nonstandardVariable")));
 					}
 					else
 					{
@@ -196,7 +198,7 @@ public class HeidelbergWriter extends AbstractDendroCollectionWriter {
 							break;
 						default:
 							// All other variables not representable
-							this.addWarning(new ConversionWarning(WarningType.IGNORED, I18n.getText("fileio.unsupportedVariable"), tvsgroup.getVariable().getNormalTridas().toString().toLowerCase().replace("_", " ")));
+							tvDefaults.addConversionWarning(new ConversionWarning(WarningType.IGNORED, I18n.getText("fileio.unsupportedVariable"), tvsgroup.getVariable().getNormalTridas().toString().toLowerCase().replace("_", " ")));
 							skipThisGroup = true;
 						}
 					}
@@ -215,7 +217,6 @@ public class HeidelbergWriter extends AbstractDendroCollectionWriter {
 					}
 				}
 				
-				TridasToHeidelbergDefaults tvDefaults = (TridasToHeidelbergDefaults) dsDefaults.clone();
 				tvDefaults.populateFromTridasValues(tvsgroup);
 				
 				HeidelbergFile file = new HeidelbergFile(tvDefaults);
@@ -224,9 +225,6 @@ public class HeidelbergWriter extends AbstractDendroCollectionWriter {
 				naming.registerFile(file, argProject, ds);
 				addToFileList(file);
 			}
-
-			
-			
 		}
 	}
 	

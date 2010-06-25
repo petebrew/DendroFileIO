@@ -259,7 +259,7 @@ public class HeidelbergToTridasDefaults extends TridasMetadataFieldSet {
 		setDefaultValue(DefaultFields.UNIT, new GenericDefaultValue<TridasUnit>());	
 		setDefaultValue(DefaultFields.WALDKANTE, new GenericDefaultValue<FHWaldKante>());
 	}
-	
+		
 	/**
 	 * @see org.tridas.io.defaults.TridasMetadataFieldSet#getDefaultTridasDerivedSeries()
 	 */
@@ -271,6 +271,9 @@ public class HeidelbergToTridasDefaults extends TridasMetadataFieldSet {
 		id.setValue(getStringDefaultValue(DefaultFields.KEYCODE).getStringValue());
 		id.setDomain(getDefaultValue(TridasMandatoryField.IDENTIFIER_DOMAIN).getStringValue());
 		series.setIdentifier(id);
+		
+		//TITLE
+		series.setTitle(getStringDefaultValue(DefaultFields.KEYCODE).getStringValue());
 		
 		// FIXME detect ad/bc
 		TridasInterpretation interp = new TridasInterpretation();
@@ -301,6 +304,9 @@ public class HeidelbergToTridasDefaults extends TridasMetadataFieldSet {
 		id.setValue(getStringDefaultValue(DefaultFields.KEYCODE).getStringValue());
 		id.setDomain(getDefaultValue(TridasMandatoryField.IDENTIFIER_DOMAIN).getStringValue());
 		series.setIdentifier(id);
+		
+		//TITLE
+		series.setTitle(getStringDefaultValue(DefaultFields.KEYCODE).getStringValue());
 		
 		// FIXME detect ad/bc
 		TridasInterpretation interp = new TridasInterpretation();
@@ -367,6 +373,8 @@ public class HeidelbergToTridasDefaults extends TridasMetadataFieldSet {
 	protected TridasSample getDefaultTridasSample() {
 		TridasSample s = super.getDefaultTridasSample();
 		
+		s.setTitle("Hello");
+		
 		// Identifier
 		if(getStringDefaultValue(DefaultFields.CORE_NUMBER).getStringValue()!=null)
 		{
@@ -386,7 +394,10 @@ public class HeidelbergToTridasDefaults extends TridasMetadataFieldSet {
 		}
 		
 		// Sampling height
-		s.setPosition(getStringDefaultValue(DefaultFields.STEM_DISK_NUMBER).getStringValue());	
+		if(getStringDefaultValue(DefaultFields.SAMPLING_HEIGHT).getStringValue()!=null)
+		{
+			s.setPosition(getStringDefaultValue(DefaultFields.SAMPLING_HEIGHT).getStringValue());
+		}
 		
 		
 
@@ -402,6 +413,8 @@ public class HeidelbergToTridasDefaults extends TridasMetadataFieldSet {
 	protected TridasElement getDefaultTridasElement() {
 		TridasElement e = super.getDefaultTridasElement();
 			
+		e.setTitle("unknown");
+		
 		// Identifier
 		if(getStringDefaultValue(DefaultFields.TREE_NUMBER).getStringValue()!=null)
 		{
