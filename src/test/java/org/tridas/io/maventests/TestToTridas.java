@@ -123,6 +123,8 @@ public class TestToTridas extends TestCase {
 		}
 		
 		for (String filename : files) {
+			
+			if(!filename.equals("AKK00010.CAT")) continue;
 			log.info("Test conversion of: " + filename);
 			
 			// Create a new converter
@@ -148,7 +150,7 @@ public class TestToTridas extends TestCase {
 			TridasProject myproject = reader.getProject();
 			
 			TridasWriter writer = new TridasWriter();
-			writer.setNamingConvention(new UUIDNamingConvention());
+			writer.setNamingConvention(new NumericalNamingConvention());
 			
 			try {
 				writer.loadProject(myproject);
