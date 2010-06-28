@@ -124,7 +124,6 @@ public class TestToTridas extends TestCase {
 		
 		for (String filename : files) {
 			
-			if(!filename.equals("AKK00010.CAT")) continue;
 			log.info("Test conversion of: " + filename);
 			
 			// Create a new converter
@@ -734,4 +733,55 @@ public class TestToTridas extends TestCase {
 		}
 		
 	}*/
+	
+	public void testCorinaToTridas() {
+		String folder = "TestData/Corina";
+		String[] files = getFilesFromFolder(folder);
+		
+		if (files.length == 0) {
+			fail();
+		}
+		
+		for (String filename : files) {
+			if(!filename.equals("TRB1AB.SUM")) continue;
+			
+			log.info("Test conversion of: " + filename);
+			
+			// Create a new converter
+			CorinaReader reader = new CorinaReader();
+			
+			// Parse the legacy data file
+			try {
+				// TridasEntitiesFromDefaults def = new TridasEntitiesFromDefaults();
+				reader.loadFile(folder, filename);
+			} catch (IOException e) {
+				// Standard IO Exception
+				log.info(e.getLocalizedMessage());
+				fail();
+				return;
+			} catch (InvalidDendroFileException e) {
+				// Fatal error interpreting file
+				log.info(e.getLocalizedMessage());
+				fail();
+				return;
+			}
+			
+			// Extract the TridasProject
+			TridasProject myproject = reader.getProject();
+			
+			TridasWriter writer = new TridasWriter();
+			writer.setNamingConvention(new NumericalNamingConvention());
+			
+			try {
+				writer.loadProject(myproject);
+			} catch (IncompleteTridasDataException e) {
+				fail();
+			} catch (ConversionWarningException e) {
+			} 
+			writer.saveAllToDisk(outputLocation);
+			
+		}
+	}
+	
+	
 }
