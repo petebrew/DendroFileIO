@@ -22,32 +22,23 @@ import org.grlea.log.SimpleLogger;
 import org.tridas.io.AbstractDendroFileReader;
 import org.tridas.io.I18n;
 import org.tridas.io.defaults.IMetadataFieldSet;
-import org.tridas.io.defaults.TridasMetadataFieldSet.TridasMandatoryField;
-import org.tridas.io.defaults.values.GenericDefaultValue;
 import org.tridas.io.exceptions.ConversionWarning;
 import org.tridas.io.exceptions.IncorrectDefaultFieldsException;
 import org.tridas.io.exceptions.InvalidDendroFileException;
 import org.tridas.io.exceptions.ConversionWarning.WarningType;
+import org.tridas.io.formats.catras.CatrasToTridasDefaults.DefaultFields;
 import org.tridas.io.util.DateUtils;
 import org.tridas.io.util.FileHelper;
 import org.tridas.io.util.SafeIntYear;
-import org.tridas.schema.DatingSuffix;
-import org.tridas.schema.NormalTridasUnit;
-import org.tridas.schema.ObjectFactory;
 import org.tridas.schema.TridasDerivedSeries;
 import org.tridas.schema.TridasElement;
-import org.tridas.schema.TridasGenericField;
-import org.tridas.schema.TridasIdentifier;
-import org.tridas.schema.TridasInterpretation;
 import org.tridas.schema.TridasMeasurementSeries;
 import org.tridas.schema.TridasObject;
 import org.tridas.schema.TridasProject;
 import org.tridas.schema.TridasRadius;
 import org.tridas.schema.TridasSample;
-import org.tridas.schema.TridasUnit;
 import org.tridas.schema.TridasValue;
 import org.tridas.schema.TridasValues;
-import org.tridas.schema.TridasVariable;
 
 /**
  * @author peterbrewer
@@ -60,9 +51,9 @@ public class CatrasReader extends AbstractDendroFileReader {
 	
 	private ArrayList<TridasMeasurementSeries> mseriesList = new ArrayList<TridasMeasurementSeries>();
 	private ArrayList<TridasDerivedSeries> dseriesList = new ArrayList<TridasDerivedSeries>();;
-	
-	int speciesCode;
-	
+	private ArrayList<Integer> ringWidthValues = new ArrayList<Integer>();
+	private ArrayList<Integer> sampleDepthValues = new ArrayList<Integer>();
+		
 	public CatrasReader() {
 		super(CatrasToTridasDefaults.class);
 	}
@@ -109,15 +100,13 @@ public class CatrasReader extends AbstractDendroFileReader {
 	}
 	
 	/**
+	 * Check this is a valid CATRAS file
+	 * 
 	 * @param argFileBytes
-	 * @param argDefaultFields
+	 * @throws InvalidDendroFileException
 	 */
-	protected void parseFile(byte[] argFileBytes, IMetadataFieldSet argDefaultFields) throws InvalidDendroFileException {
-		
-		defaults = (CatrasToTridasDefaults) argDefaultFields;
-		log.debug("starting catras file parsing");
-		int index = 0;
-		
+	protected void checkFile(byte[] argFileBytes) throws InvalidDendroFileException{
+	
 		// Check there are at least 128 bytes
 		if (argFileBytes == null) {
 			throw new InvalidDendroFileException(I18n.getText("fileio.tooShort"), 1);
@@ -125,56 +114,124 @@ public class CatrasReader extends AbstractDendroFileReader {
 		else if (argFileBytes.length < 128) {
 			throw new InvalidDendroFileException(I18n.getText("fileio.tooShort"), 1);
 		}
+	}
+	
+	/**
+	 * @param argFileBytes
+	 * @param argDefaultFields
+	 */
+	protected void parseFile(byte[] argFileBytes, IMetadataFieldSet argDefaultFields) throws InvalidDendroFileException {
 		
-		// Extract basic metadata
-		String headertext = new String(getSubByteArray(argFileBytes, 0, 31)); // 1-32
-		String seriesCode = new String(getSubByteArray(argFileBytes, 32, 39)); // 33-40
-		String fileExt = new String(getSubByteArray(argFileBytes, 40, 43)); // 41-44
-		int length = getIntFromBytePair(getSubByteArray(argFileBytes, 44, 45)); // 45-46
-		int saplength = getIntFromBytePair(getSubByteArray(argFileBytes, 46, 47)); // 47-48
+		defaults = (CatrasToTridasDefaults) argDefaultFields;
+		log.debug("starting catras file parsing");
+		
+		checkFile(argFileBytes);
+		
+		
+		this.debugAsIntSingleByte(0, 128, argFileBytes);
+		this.debugAsIntBytePairs(0, 128, argFileBytes);
+		this.debugAsStringBytePairs(0, 128, argFileBytes);
+		
+		// Series Title - bytes 1-32
+		defaults.getStringDefaultValue(DefaultFields.SERIES_NAME)
+			.setValue(new String(getSubByteArray(argFileBytes, 0, 31)));
+		
+		// Series code - bytes 33-40
+		defaults.getStringDefaultValue(DefaultFields.SERIES_CODE)
+			.setValue(new String(getSubByteArray(argFileBytes, 32, 39)));
+		
+		// File extension - bytes 41-44
+		defaults.getStringDefaultValue(DefaultFields.FILE_EXTENSION)
+			.setValue(new String(getSubByteArray(argFileBytes, 40, 43)));
+		
+		// Length of series - bytes 45-46
+		defaults.getIntegerDefaultValue(DefaultFields.SERIES_LENGTH)
+			.setValue(getIntFromBytePair(getSubByteArray(argFileBytes, 44, 45)));
+		int length = getIntFromBytePair(getSubByteArray(argFileBytes, 44, 45));
+		
+		// Length of sapwood - bytes 47-48
+		defaults.getIntegerDefaultValue(DefaultFields.SAPWOOD_LENGTH)
+			.setValue(getIntFromBytePair(getSubByteArray(argFileBytes, 46, 47)));
+		
 		// 49-50 valid start
 		// 51-52 valid end
 		// 53 1=pith 2=waldkante 3=pith to waldkante
 		// 54 1 = ew only last ring
-		SafeIntYear startyear = new SafeIntYear(String.valueOf(getIntFromBytePairByPos(argFileBytes, 54)), true); // 55-56
+		
+		// Start year- bytes 55-56
+		defaults.getSafeIntYearDefaultValue(DefaultFields.START_YEAR)
+			.setValue(new SafeIntYear(String.valueOf(getIntFromBytePairByPos(argFileBytes, 54)), true));
+		
 		// 57-58 Unknown
-		// speciesCode = getIntFromBytePairByPos(argFileBytes, 44); //44
-		// 59-60 species also needs a catras.wnm file
-		// 61-63 creation date
-		// 64-66 amended date
+		
+		// Species code - byte 54  **** Not convinced this is the correct byte - not sure how to check
+		//defaults.getStringDefaultValue(DefaultFields.SPECIES_CODE)
+		//	.setValue(String.valueOf(getIntFromBytePairByPos(argFileBytes, 53)));
+		
+		// 61, 62, 63 creation date- dd, mm, yy respectively
+		try{
+			Integer day   = getIntFromByte(argFileBytes[60], true);
+			Integer month = getIntFromByte(argFileBytes[61], true);
+			Integer year  = getIntFromByte(argFileBytes[62], true);
+			
+			// Year is only two digit style so if after 70 presume 19xx
+			// Obviously this will break if someone is still using CATRAS
+			// in 2070 but then they deserve it! ;-) 
+			if(year>70) {
+				year = year+1900;
+			} else {
+				year = year+2000;
+			}
+			
+			defaults.getDateTimeDefaultValue(DefaultFields.CREATION_DATE)
+				.setValue(DateUtils.getDateTime(day, month, year));
+		} catch (Exception e)
+		{
+			addWarning(new ConversionWarning(WarningType.INVALID, I18n.getText("catras.creationDateInvalid")));
+
+		}
+		
+		// 64, 65, 66 - amended date - day, month year 
+		try{
+			Integer day   = getIntFromByte(argFileBytes[63], true);
+			Integer month = getIntFromByte(argFileBytes[64], true);
+			Integer year  = getIntFromByte(argFileBytes[65], true);
+			
+			// Year is only two digit style so if after 70 presume 19xx
+			// Obviously this will break if someone is still using CATRAS
+			// in 2070 but then they deserve it! ;-) 
+			if(year>70) {
+				year = year+1900;
+			} else {
+				year = year+2000;
+			}
+			
+			defaults.getDateTimeDefaultValue(DefaultFields.UPDATED_DATE)
+				.setValue(DateUtils.getDateTime(day, month, year));
+		} catch (Exception e)
+		{
+			addWarning(new ConversionWarning(WarningType.INVALID, I18n.getText("catras.updatedDateInvalid")));
+
+		}
+	
+		
 		// String sapwood = new String(getSubByteArray(argFileBytes, 66, 67)); //67
 		// 67-68 1=valid stats
 		// 69-83 Unknown
 		// 84 0=raw 1=treecurve 2=chronology
 		// String dated = new String(getSubByteArray(argFileBytes, 68, 74)); //69-75
-		String userid = new String(getSubByteArray(argFileBytes, 84, 87)).trim(); // 85-86
+		
+		// Userid - bytes 85-86
+		defaults.getStringDefaultValue(DefaultFields.USER_ID)
+			.setValue(new String(getSubByteArray(argFileBytes, 84, 87)).trim());
+		
 		// 89-92 Float av width
 		// 93-95 Float std dev
 		// 96-100 Foat autocorr
 		// 101-104 Float sens
 		// 105-128 Unknown
-		
-		// Log the metadata
-		log.debug("Whole meta = [" + new String(argFileBytes) + "]");
-		log.debug("Header text = [" + headertext + "]");
-		log.debug("Speices Code = [" + speciesCode + "]");
-		log.debug("Series Code = [" + seriesCode + "]");
-		log.debug("Length = " + String.valueOf(length));
-		// log.debug("Sapwood? = ["+sapwood+"]");
-		// log.debug("Dated = ["+dated+"]");
-		log.debug("Start year = [" + startyear.toTridasYear(DatingSuffix.AD).getValue()
-				+ startyear.toTridasYear(DatingSuffix.AD).getSuffix() + "]");
-		log.debug("Userid = [" + userid + "]");
-		
-		// Species codes are not standardised so we cannot convert
-		if (speciesCode > 0) {
-			addWarning(new ConversionWarning(WarningType.UNREPRESENTABLE, I18n
-					.getText("catras.speciesCodeNotConvertable")));
-		}
-		
+				
 		// Extract the data
-		ArrayList<Integer> ringWidthValues = new ArrayList<Integer>();
-		ArrayList<Integer> sampleDepthValues = new ArrayList<Integer>();
 		byte[] theData = getSubByteArray(argFileBytes, 127, argFileBytes.length - 1);
 		boolean reachedStopMarker = false;
 		for (int i = 1; i < theData.length; i = i + 2) {
@@ -217,13 +274,17 @@ public class CatrasReader extends AbstractDendroFileReader {
 		}
 		
 		// Check length metadata and number of ring width values match
-		if (ringWidthValues.size() != length) {
+		if (ringWidthValues.size() != getIntFromBytePair(getSubByteArray(argFileBytes, 44, 45))) {
 			//addWarning(new ConversionWarning(WarningType.INVALID, I18n.getText("fileio.valueCountMismatch", ringWidthValues.size()+"", length+"")));
 			// Trim off extra ring width values
-			for (int j=length; j<ringWidthValues.size(); j++)
+			ArrayList<Integer> trimmedRingValues = new ArrayList<Integer>();
+			trimmedRingValues.ensureCapacity(length);
+			
+			for (int j=0; j<length; j++)
 			{
-				ringWidthValues.remove(j);
+				trimmedRingValues.add(ringWidthValues.get(j));
 			}
+			ringWidthValues = trimmedRingValues;
 		}
 		
 		// Check sample depth values count is valid
@@ -245,55 +306,18 @@ public class CatrasReader extends AbstractDendroFileReader {
 			}
 		}
 		
-		// Compile TridasValues array
-		ArrayList<TridasValue> tridasValues = new ArrayList<TridasValue>();
-		for (int i = 0; i < ringWidthValues.size(); i++) {
-			TridasValue v = new TridasValue();
-			v.setValue(String.valueOf(ringWidthValues.get(i)));
-			if (sampleDepthValues.size() > 0) {
-				v.setCount(sampleDepthValues.get(i));
+		// Set end date 
+		if (defaults.getSafeIntYearDefaultValue(DefaultFields.START_YEAR).getValue()!=null)
+		{
+			if(defaults.getIntegerDefaultValue(DefaultFields.SERIES_LENGTH).getValue()!=null)
+			{
+				defaults.getSafeIntYearDefaultValue(DefaultFields.END_YEAR).setValue(
+						defaults.getSafeIntYearDefaultValue(DefaultFields.START_YEAR).getValue()
+							.add(defaults.getIntegerDefaultValue(DefaultFields.SERIES_LENGTH).getValue()-1));				
 			}
-			tridasValues.add(v);
 		}
 		
-		// Now build up our measurementSeries
-		
-		TridasMeasurementSeries series = defaults.getMeasurementSeriesWithDefaults();
-		TridasUnit units = new TridasUnit();
-		
-		// Set units to 1/100th mm. Is this always the case?
-		units.setNormalTridas(NormalTridasUnit.HUNDREDTH_MM);
-		
-		// Build identifier for series
-		TridasIdentifier seriesId = new ObjectFactory().createTridasIdentifier();
-		seriesId.setValue(seriesCode.trim());
-		seriesId.setDomain(defaults.getDefaultValue(TridasMandatoryField.IDENTIFIER_DOMAIN).getStringValue());
-		
-		// Build interpretation group for series
-		TridasInterpretation interp = new TridasInterpretation();
-		interp.setFirstYear(startyear.toTridasYear(DatingSuffix.AD));
-		interp.setLastYear(startyear.add(tridasValues.size()).toTridasYear(DatingSuffix.AD));
-		
-		// Add values to nested value(s) tags
-		TridasValues valuesGroup = new TridasValues();
-		valuesGroup.setValues(tridasValues);
-		valuesGroup.setUnit(units);
-		GenericDefaultValue<TridasVariable> variable = (GenericDefaultValue<TridasVariable>) defaults
-				.getDefaultValue(TridasMandatoryField.MEASUREMENTSERIES_VARIABLE);
-		valuesGroup.setVariable(variable.getValue());
-		ArrayList<TridasValues> valuesGroupList = new ArrayList<TridasValues>();
-		valuesGroupList.add(valuesGroup);
-		
-		// Add all the data to the series
-		series.setValues(valuesGroupList);
-		series.setInterpretation(interp);
-		series.setIdentifier(seriesId);
-		series.setTitle(headertext.trim());
-		series.setLastModifiedTimestamp(DateUtils.getTodaysDateTime());
-		series.setDendrochronologist(userid);
-		
-		// Add series to our list
-		mseriesList.add(series);
+
 		
 	}
 	
@@ -400,6 +424,21 @@ public class CatrasReader extends AbstractDendroFileReader {
 	}
 	
 	/**
+	 * Extract the integer value from a byte according to endianess
+	 * 
+	 * @param argBytes
+	 * @param littleEndian
+	 *            use little-endian?
+	 * @return
+	 */
+	private int getIntFromByte(byte argByte, Boolean littleEndian) {
+		
+		return (0x000000FF & (argByte));
+		
+	}
+	
+	
+	/**
 	 * Extract a byte pair from a large byte array according to the position
 	 * value of the first byte. Then extract the integer value assuming
 	 * data is little-endian.
@@ -419,40 +458,56 @@ public class CatrasReader extends AbstractDendroFileReader {
 	
 	@Override
 	public TridasProject getProject() {
-		TridasProject project = null;
 		
-		try {
-			project = defaults.getProjectWithDefaults(true);
-			TridasObject o = project.getObjects().get(0);
-			TridasElement e = o.getElements().get(0);
-			TridasSample s = e.getSamples().get(0);
-			
-			if (speciesCode > 0) {
-				ArrayList<TridasGenericField> genericFields = new ArrayList<TridasGenericField>();
-				TridasGenericField gf = new TridasGenericField();
-				gf.setName("catras.speciesCode");
-				gf.setType("xs:int");
-				gf.setValue(String.valueOf(speciesCode));
-				genericFields.add(gf);
-				e.setGenericFields(genericFields);
+		// Create entities
+		TridasProject p = defaults.getProjectWithDefaults();
+		TridasObject o = defaults.getObjectWithDefaults();
+		TridasElement e = defaults.getElementWithDefaults();
+		TridasSample s = defaults.getSampleWithDefaults();
+		TridasRadius r = defaults.getRadiusWithDefaults(false);
+				
+		// Now build up our measurementSeries
+		TridasMeasurementSeries series = defaults.getMeasurementSeriesWithDefaults();
+		
+		// Compile TridasValues array
+		ArrayList<TridasValue> tridasValues = new ArrayList<TridasValue>();
+		for (int i = 0; i < ringWidthValues.size(); i++) {
+			TridasValue v = new TridasValue();
+			v.setValue(String.valueOf(ringWidthValues.get(i)));
+			if (sampleDepthValues.size() > 0) {
+				v.setCount(sampleDepthValues.get(i));
 			}
-			
-			if (mseriesList.size() > 0) {
-				TridasRadius r = s.getRadiuses().get(0);
-				r.setMeasurementSeries(mseriesList);
-			}
-			
-			if (dseriesList.size() > 0) {
-				project.setDerivedSeries(dseriesList);
-			}
-			
-		} catch (NullPointerException e) {
-
-		} catch (IndexOutOfBoundsException e2) {
-
+			tridasValues.add(v);
 		}
+		TridasValues valuesGroup = defaults.getTridasValuesWithDefaults();
+		valuesGroup.setValues(tridasValues);
+
+		// Compile project
+		ArrayList<TridasValues> vlist = new ArrayList<TridasValues>();
+		vlist.add(valuesGroup);
+		series.setValues(vlist);
 		
-		return project;
+		ArrayList<TridasMeasurementSeries> seriesList = new ArrayList<TridasMeasurementSeries>();
+		seriesList.add(series);
+		r.setMeasurementSeries(seriesList);
+	
+		ArrayList<TridasRadius> rList = new ArrayList<TridasRadius>();
+		rList.add(r);
+		s.setRadiuses(rList);
+		
+		ArrayList<TridasSample> sList = new ArrayList<TridasSample>();
+		sList.add(s);
+		e.setSamples(sList);
+		
+		ArrayList<TridasElement> eList = new ArrayList<TridasElement>();
+		eList.add(e);
+		o.setElements(eList);
+		
+		ArrayList<TridasObject> oList = new ArrayList<TridasObject>();
+		oList.add(o);		
+		p.setObjects(oList);
+		
+		return p;
 		
 	}
 	
@@ -528,6 +583,39 @@ public class CatrasReader extends AbstractDendroFileReader {
 		defaults = null;
 		dseriesList.clear();
 		mseriesList.clear();
-		speciesCode = 0;
+		ringWidthValues.clear();
+		sampleDepthValues.clear();
 	}
+	
+	
+	private void debugAsIntSingleByte(int first, int last, byte[] argFileBytes)
+	{
+		for (int i=first; i<=last; i++)
+		{
+			byte[] byteArray = getSubByteArray(argFileBytes, i, i+1);
+			log.warn("As Integer - Sing byte " + String.valueOf(i)+": "+ String.valueOf(getIntFromByte(byteArray[0], true)));
+
+		}
+	}
+	
+	private void debugAsIntBytePairs(int first, int last, byte[] argFileBytes)
+	{
+		for (int i=first; i<=last; i++)
+		{
+			byte[] byteArray = getSubByteArray(argFileBytes, i, i+1);
+			log.warn("As Integer - Byte pair " + String.valueOf(i)+": "+ String.valueOf(getIntFromBytePair(byteArray)));
+
+		}
+	}
+	
+	private void debugAsStringBytePairs(int first, int last, byte[] argFileBytes)
+	{
+		for (int i=first; i<=last; i++)
+		{
+			byte[] byteArray = getSubByteArray(argFileBytes, i, i+1);
+			log.warn("As String  - Byte pair " + String.valueOf(i)+": "+ new String(byteArray));	
+
+		}
+	}
+	
 }
