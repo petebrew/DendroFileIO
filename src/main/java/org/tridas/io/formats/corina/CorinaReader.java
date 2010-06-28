@@ -16,30 +16,30 @@
 package org.tridas.io.formats.corina;
 
 import java.util.ArrayList;
-import java.util.regex.Matcher;
-import java.util.regex.Pattern;
 
 import org.grlea.log.SimpleLogger;
-import org.tridas.interfaces.ITridasSeries;
 import org.tridas.io.AbstractDendroFileReader;
 import org.tridas.io.I18n;
 import org.tridas.io.defaults.IMetadataFieldSet;
-import org.tridas.io.defaults.values.GenericDefaultValue;
 import org.tridas.io.exceptions.ConversionWarning;
-import org.tridas.io.exceptions.ConversionWarningException;
 import org.tridas.io.exceptions.InvalidDendroFileException;
 import org.tridas.io.exceptions.ConversionWarning.WarningType;
 import org.tridas.io.formats.corina.CorinaToTridasDefaults.DefaultFields;
 import org.tridas.io.util.SafeIntYear;
-import org.tridas.schema.NormalTridasUnit;
-import org.tridas.schema.NormalTridasVariable;
+import org.tridas.schema.ObjectFactory;
+import org.tridas.schema.SeriesLink;
+import org.tridas.schema.SeriesLinks;
 import org.tridas.schema.TridasDerivedSeries;
+import org.tridas.schema.TridasElement;
 import org.tridas.schema.TridasMeasurementSeries;
+import org.tridas.schema.TridasObject;
 import org.tridas.schema.TridasProject;
-import org.tridas.schema.TridasUnit;
+import org.tridas.schema.TridasRadius;
+import org.tridas.schema.TridasRadiusPlaceholder;
+import org.tridas.schema.TridasSample;
 import org.tridas.schema.TridasValue;
 import org.tridas.schema.TridasValues;
-import org.tridas.schema.TridasVariable;
+import org.tridas.schema.SeriesLink.XLink;
 
 public class CorinaReader extends AbstractDendroFileReader {
 
@@ -50,6 +50,7 @@ public class CorinaReader extends AbstractDendroFileReader {
 	private ArrayList<Integer> dataVals = new ArrayList<Integer>();
 	private ArrayList<Integer> countVals = new ArrayList<Integer>();
 	private ArrayList<String> parentSeries = new ArrayList<String>();
+	private Boolean isDerivedSeries = false;
 	
 	
 	public CorinaReader() {
@@ -104,30 +105,97 @@ public class CorinaReader extends AbstractDendroFileReader {
 	}
 
 
-	@Override
+	/*@Override
 	public TridasProject getProject() {
 		
 		TridasProject project = defaults.getProjectWithDefaults(true);
 		
 		TridasMeasurementSeries ms = project.getObjects().get(0).getElements().get(0).getSamples().get(0).getRadiuses().get(0).getMeasurementSeries().get(0);
-		TridasUnit units = new TridasUnit();
-		units.setNormalTridas(NormalTridasUnit.HUNDREDTH_MM);
-		TridasVariable variable = new TridasVariable();
-		variable.setNormalTridas(NormalTridasVariable.RING_WIDTH);
+		TridasValues valuesGroup = defaults.getTridasValuesWithDefaults();
+		valuesGroup.setValues(getTridasValueList());
 		
 		ArrayList<TridasValues> valuesList = new ArrayList<TridasValues>();
-		TridasValues valuesGroup = new TridasValues();
-		valuesGroup.setUnit(units);
-		valuesGroup.setVariable(variable);
-	
-
 		
-		valuesGroup.setValues(getTridasValueList());
 		valuesList.add(valuesGroup);
-		
 		ms.setValues(valuesList);
 
 		return project;
+		
+	}*/
+	
+	@Override
+	public TridasProject getProject() {
+
+		// Create entities
+		TridasProject p = defaults.getProjectWithDefaults();
+		TridasObject o = defaults.getObjectWithDefaults();
+		TridasElement e = defaults.getElementWithDefaults();
+		TridasSample s = defaults.getSampleWithDefaults();
+		
+		// Compile TridasValues array
+		TridasValues valuesGroup = defaults.getTridasValuesWithDefaults();
+		valuesGroup.setValues(getTridasValueList());
+		ArrayList<TridasValues> vlist = new ArrayList<TridasValues>();
+		vlist.add(valuesGroup);
+		
+		if(isDerivedSeries)
+		{
+			TridasDerivedSeries dseries = defaults.getDefaultTridasDerivedSeries();
+			dseries.setValues(vlist);
+			
+			// Set Link series
+			SeriesLinks slinks = new SeriesLinks();
+			ArrayList<SeriesLink> seriesList = new ArrayList<SeriesLink>();
+			for(String parent : parentSeries)
+			{
+				SeriesLink series = new SeriesLink();
+				XLink linkvalue = new XLink();
+				linkvalue.setHref(parent);
+				series.setXLink(linkvalue);
+				seriesList.add(series);
+			}
+			
+			slinks.setSeries(seriesList);
+			dseries.setLinkSeries(slinks);
+			
+			ArrayList<TridasDerivedSeries> dslist = new ArrayList<TridasDerivedSeries>();
+			dslist.add(dseries);
+			p.setDerivedSeries(dslist);
+		}
+		else
+		{
+			TridasRadius r = defaults.getRadiusWithDefaults(false);
+					
+			// Now build up our measurementSeries
+			TridasMeasurementSeries series = defaults.getMeasurementSeriesWithDefaults();
+
+			// Compile project
+			series.setValues(vlist);
+			
+			ArrayList<TridasMeasurementSeries> seriesList = new ArrayList<TridasMeasurementSeries>();
+			seriesList.add(series);
+			r.setMeasurementSeries(seriesList);
+		
+			ArrayList<TridasRadius> rList = new ArrayList<TridasRadius>();
+			rList.add(r);
+			s.setRadiuses(rList);
+			
+			ArrayList<TridasSample> sList = new ArrayList<TridasSample>();
+			sList.add(s);
+			e.setSamples(sList);
+			
+			ArrayList<TridasElement> eList = new ArrayList<TridasElement>();
+			eList.add(e);
+			o.setElements(eList);
+			
+			ArrayList<TridasObject> oList = new ArrayList<TridasObject>();
+			oList.add(o);		
+			p.setObjects(oList);
+		}
+		
+		
+		
+		return p;
 		
 	}
 
@@ -136,20 +204,22 @@ public class CorinaReader extends AbstractDendroFileReader {
 	{
 		ArrayList<TridasValue> tvs = new ArrayList<TridasValue>();
 		
-		Boolean includeCounts = false;
-		
-		if(tvs.size()==0) return null;
-		
 		for (int i=0; i<countVals.size(); i++)
 		{
-			if(countVals.get(i).compareTo(1)>0) includeCounts=true;
+			if(countVals.get(i).compareTo(1)>0) isDerivedSeries=true;
+		}
+		
+		if(countVals.size()!=dataVals.size())
+		{
+			log.warn("Count and data vals are not the same size: Count="+ countVals.size()+ " Data="+ dataVals.size());
+			return null;
 		}
 		
 		for (int i=0; i<dataVals.size(); i++)
 		{
 			TridasValue value = new TridasValue();
 			value.setValue(dataVals.get(i).toString());
-			if(includeCounts)
+			if(isDerivedSeries)
 			{
 				value.setCount(countVals.get(i));
 			}
@@ -304,8 +374,9 @@ public class CorinaReader extends AbstractDendroFileReader {
 		defaults.getSafeIntYearDefaultValue(DefaultFields.START_YEAR).setValue(
 				new SafeIntYear(argFileString[dataStartIndex].substring(0, 5).trim()));
 
+		Boolean eolMarker = false;
 		
-		for (int i=dataStartIndex; i+1<argFileString.length; i=i+2)
+		for (int i=dataStartIndex; i+1<=argFileString.length; i=i+2)
 		{
 			// Skip blank lines
 			if(argFileString[i].equals("")) continue;
@@ -318,7 +389,7 @@ public class CorinaReader extends AbstractDendroFileReader {
 			
 			// Loop through values in dataLine
 			for (int charpos=0; charpos+6<=dataLine.length(); charpos=charpos+6)
-			{
+			{			
 				String strval = dataLine.substring(charpos, charpos+6).trim();
 				
 				// Skip blank values
@@ -329,7 +400,10 @@ public class CorinaReader extends AbstractDendroFileReader {
 					Integer intval = Integer.parseInt(strval);
 					
 					// Check for stop marker
-					if(intval.equals(9990)) return;
+					if(intval.equals(9990)) {
+						eolMarker = true;
+						break;
+					}
 					
 					// Add to array
 					dataVals.add(intval);
@@ -340,6 +414,7 @@ public class CorinaReader extends AbstractDendroFileReader {
 			}
 			
 			String[] countArr = countLine.split("\\[");
+			
 			for(String strcount : countArr)
 			{
 				if(strcount.trim().length()==0) continue;
@@ -352,10 +427,17 @@ public class CorinaReader extends AbstractDendroFileReader {
 					countVals.add(intval);
 				} catch(NumberFormatException e)
 				{
+					log.warn("invalid count number");
 					throw new InvalidDendroFileException(I18n.getText("fileio.invalidDataValue"), i);
 				}
 			}
 			
+			// Reached end of data
+			if(eolMarker) {
+				// Remove the last count as it is just refers to the end marker
+				countVals.remove(countVals.size()-1);
+				return;
+			}
 			
 		}
 		

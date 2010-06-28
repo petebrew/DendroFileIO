@@ -25,6 +25,8 @@ import org.tridas.io.util.SafeIntYear;
 import org.tridas.schema.ComplexPresenceAbsence;
 import org.tridas.schema.ControlledVoc;
 import org.tridas.schema.DatingSuffix;
+import org.tridas.schema.NormalTridasUnit;
+import org.tridas.schema.NormalTridasVariable;
 import org.tridas.schema.PresenceAbsence;
 import org.tridas.schema.TridasBark;
 import org.tridas.schema.TridasDerivedSeries;
@@ -34,6 +36,9 @@ import org.tridas.schema.TridasMeasurementSeries;
 import org.tridas.schema.TridasPith;
 import org.tridas.schema.TridasSample;
 import org.tridas.schema.TridasSapwood;
+import org.tridas.schema.TridasUnit;
+import org.tridas.schema.TridasValues;
+import org.tridas.schema.TridasVariable;
 import org.tridas.schema.TridasWoodCompleteness;
 
 public class CorinaToTridasDefaults extends TridasMetadataFieldSet implements
@@ -254,6 +259,24 @@ public class CorinaToTridasDefaults extends TridasMetadataFieldSet implements
 		
 		return s;
 		
+	}
+	
+	@SuppressWarnings("unchecked")
+	public TridasValues getTridasValuesWithDefaults() {
+		TridasValues valuesGroup = new TridasValues();
+		
+		// Set units to 1/100th mm.
+		TridasUnit units = new TridasUnit();
+		units.setNormalTridas(NormalTridasUnit.HUNDREDTH_MM);
+		valuesGroup.setUnit(units);
+		
+		// Set variable to ringwidth.  
+		TridasVariable variable = new TridasVariable();
+		variable.setNormalTridas(NormalTridasVariable.RING_WIDTH);
+		valuesGroup.setVariable(variable);
+		
+
+		return valuesGroup;
 	}
 	
 }
