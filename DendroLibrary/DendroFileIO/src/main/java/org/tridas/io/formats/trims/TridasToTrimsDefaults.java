@@ -21,6 +21,9 @@ import java.util.Calendar;
 import org.tridas.io.defaults.AbstractMetadataFieldSet;
 import org.tridas.io.defaults.values.IntegerDefaultValue;
 import org.tridas.io.defaults.values.StringDefaultValue;
+import org.tridas.io.formats.tucson.TridasToTucsonDefaults.TucsonField;
+import org.tridas.schema.TridasDerivedSeries;
+import org.tridas.schema.TridasMeasurementSeries;
 
 /**
  * Place to hold and change default fields for the TRIMS filetype
@@ -44,10 +47,32 @@ public class TridasToTrimsDefaults extends AbstractMetadataFieldSet {
 		setDefaultValue(TrimsField.START_YEAR, new IntegerDefaultValue(1001));
 	}
 	
+	protected void populateFromTridasMeasurementSeries(TridasMeasurementSeries ms)
+	{
+		if(ms.isSetAnalyst())
+		{
+			getStringDefaultValue(TrimsField.AUTHOR).setValue(ms.getAnalyst());
+		}
+		else if (ms.isSetDendrochronologist())
+		{
+			getStringDefaultValue(TrimsField.AUTHOR).setValue(ms.getDendrochronologist());
+		}
+
+	}
+	
 	private String getTodaysDateTrimsStyle() {
 		Calendar calendar = Calendar.getInstance();
 		SimpleDateFormat dateFormat = new SimpleDateFormat("dd/MM/yyyy");
 		return dateFormat.format(calendar.getTime());
+	}
+
+	protected void populateFromTridasDerivedSeries(TridasDerivedSeries ds) {
+		
+		if(ds.isSetAuthor())
+		{
+			getStringDefaultValue(TrimsField.AUTHOR).setValue(ds.getAuthor());
+		}
+		
 	}
 	
 }

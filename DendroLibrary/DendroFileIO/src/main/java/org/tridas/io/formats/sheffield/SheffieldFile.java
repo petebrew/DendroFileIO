@@ -111,7 +111,7 @@ public class SheffieldFile implements IDendroFile {
 	public String[] saveToString() {
 		ArrayList<String> file = new ArrayList<String>();
 		
-		file.add(defaults.getSheffieldStringDefaultValue(DefaultFields.SITE_NAME).getValue());
+		file.add(defaults.getSheffieldStringDefaultValue(DefaultFields.SERIES_NAME).getValue());
 		file.add(String.valueOf(defaults.getIntegerDefaultValue(DefaultFields.RING_COUNT).getValue()));
 		file.add(defaults.getDefaultValue(DefaultFields.DATE_TYPE).getValue().toString());
 		file.add(String.valueOf(defaults.getIntegerDefaultValue(DefaultFields.START_DATE).getValue()));

@@ -290,6 +290,12 @@ public class HeidelbergToTridasDefaults extends TridasMetadataFieldSet {
 		
 		series.setStandardizingMethod(getDefaultValue(DefaultFields.SERIES_TYPE).getStringValue());
 		
+		// AUTHOR
+		if(getStringDefaultValue(DefaultFields.PERS_ID).getStringValue()!=null)
+		{
+			series.setAuthor(getStringDefaultValue(DefaultFields.PERS_ID).getStringValue());
+		}
+		
 		return series;
 	}
 	
@@ -320,6 +326,11 @@ public class HeidelbergToTridasDefaults extends TridasMetadataFieldSet {
 		}
 		series.setInterpretation(interp);
 		series.setLastModifiedTimestamp(DateUtils.getTodaysDateTime());
+		
+		if(getStringDefaultValue(DefaultFields.PERS_ID).getStringValue()!=null)
+		{
+			series.setAnalyst(getStringDefaultValue(DefaultFields.PERS_ID).getStringValue());
+		}
 		
 		return series;
 	}

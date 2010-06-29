@@ -40,6 +40,7 @@ import org.tridas.io.formats.heidelberg.HeidelbergToTridasDefaults.FHSeriesType;
 import org.tridas.io.formats.heidelberg.HeidelbergToTridasDefaults.FHStartsOrEndsWith;
 import org.tridas.io.formats.heidelberg.HeidelbergToTridasDefaults.FHWaldKante;
 import org.tridas.io.formats.sheffield.TridasToSheffieldDefaults.SheffieldVariableCode;
+import org.tridas.io.formats.tucson.TridasToTucsonDefaults.TucsonField;
 import org.tridas.io.util.ITRDBTaxonConverter;
 import org.tridas.io.util.SafeIntYear;
 import org.tridas.schema.ComplexPresenceAbsence;
@@ -107,6 +108,7 @@ public class TridasToHeidelbergDefaults extends AbstractMetadataFieldSet impleme
 		setDefaultValue(DefaultFields.LONGITUDE, new DoubleDefaultValue(null, -180.0, 180.0));
 		setDefaultValue(DefaultFields.MISSING_RINGS_AFTER, new IntegerDefaultValue());
 		setDefaultValue(DefaultFields.MISSING_RINGS_BEFORE, new IntegerDefaultValue());
+		setDefaultValue(DefaultFields.PERS_ID, new StringDefaultValue());
 		setDefaultValue(DefaultFields.PITH, new StringDefaultValue());
 		setDefaultValue(DefaultFields.PROJECT, new StringDefaultValue());
 		setDefaultValue(DefaultFields.PROVINCE, new StringDefaultValue());
@@ -323,6 +325,15 @@ public class TridasToHeidelbergDefaults extends AbstractMetadataFieldSet impleme
 	
 	public void populateFromMS(TridasMeasurementSeries argSeries) {
 		populateFromSeries(argSeries);
+		
+		if(argSeries.isSetAnalyst())
+		{
+			getStringDefaultValue(DefaultFields.PERS_ID).setValue(argSeries.getAnalyst());
+		}
+		else if (argSeries.isSetDendrochronologist())
+		{
+			getStringDefaultValue(DefaultFields.PERS_ID).setValue(argSeries.getDendrochronologist());
+		}
 	}
 	
 	public void populateFromDerivedSeries(TridasDerivedSeries argSeries) {
@@ -331,6 +342,11 @@ public class TridasToHeidelbergDefaults extends AbstractMetadataFieldSet impleme
 		/*if (argSeries.isSetStandardizingMethod()) {
 			getStringDefaultValue(DefaultFields.SERIES_TYPE).setValue(argSeries.getStandardizingMethod());
 		}*/
+		
+		if(argSeries.isSetAuthor())
+		{
+			getStringDefaultValue(DefaultFields.PERS_ID).setValue(argSeries.getAuthor());
+		}
 	}
 	
 	private void populateFromSeries(ITridasSeries argSeries) {

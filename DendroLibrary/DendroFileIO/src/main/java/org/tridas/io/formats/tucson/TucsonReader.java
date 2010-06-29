@@ -29,6 +29,7 @@ import org.tridas.io.exceptions.ConversionWarning;
 import org.tridas.io.exceptions.InvalidDendroFileException;
 import org.tridas.io.exceptions.ConversionWarning.WarningType;
 import org.tridas.io.formats.tucson.TucsonToTridasDefaults.TucsonDefaultField;
+import org.tridas.io.util.DateUtils;
 import org.tridas.io.util.SafeIntYear;
 import org.tridas.io.util.YearRange;
 import org.tridas.schema.DatingSuffix;
@@ -603,17 +604,37 @@ public class TucsonReader extends AbstractDendroFileReader {
 			}
 			if (line2.length() > 75) {
 				// Attempt to extract data from line 2
-				series.defaults.getStringDefaultValue(TucsonDefaultField.STATE_COUNTRY).setValue((line2.substring(9, 21)).trim());
-				series.defaults.getStringDefaultValue(TucsonDefaultField.SPECIES_NAME).setValue((line2.substring(22, 29)).trim());
-				try{series.defaults.getIntegerDefaultValue(TucsonDefaultField.ELEVATION).setValue(
-						Integer.parseInt((line2.substring(40, 44)).trim()));
-				} catch (Exception e){}
-				series.defaults.getStringDefaultValue(TucsonDefaultField.LATLONG).setValue((line2.substring(47, 56)).trim());
+				series.defaults.getStringDefaultValue(TucsonDefaultField.STATE_COUNTRY).setValue((line2.substring(9, 22)).trim());
+				series.defaults.getStringDefaultValue(TucsonDefaultField.SPECIES_NAME).setValue((line2.substring(22, 30)).trim());
+				try{series.defaults.getDoubleDefaultValue(TucsonDefaultField.ELEVATION).setValue(
+						Double.parseDouble((line2.substring(40, 45)).trim()));
+				} catch (Exception e)
+				{
+					addWarning(new ConversionWarning(WarningType.IGNORED, I18n.getText("tucson.invalidElevation")));
+				}
+				series.defaults.getStringDefaultValue(TucsonDefaultField.LATLONG).setValue((line2.substring(47, 57)).trim());
+				try{
+				series.defaults.getSafeIntYearDefaultValue(TucsonDefaultField.FIRST_YEAR).
+						setValue(new SafeIntYear((line2.substring(67, 71)).trim()));
+				} catch (Exception e)
+				{
+					addWarning(new ConversionWarning(WarningType.IGNORED, I18n.getText("tucson.invalidFirstYear")));
+				}
+				
+				
 			}
 			if (line3.length() > 79) {
 				// Attempt to extract data from line 3
 				series.defaults.getStringDefaultValue(TucsonDefaultField.INVESTIGATOR).setValue((line3.substring(9, 71)).trim());
-				series.defaults.getStringDefaultValue(TucsonDefaultField.COMP_DATE).setValue((line2.substring(72, 79)).trim());
+				try{
+					int day = Integer.parseInt(line3.substring(78, 80));
+					int month = Integer.parseInt(line3.substring(75, 78));
+					int year = Integer.parseInt(line3.substring(72, 76));
+					series.defaults.getDateTimeDefaultValue(TucsonDefaultField.COMP_DATE).setValue(DateUtils.getDateTime(day, month, year));
+				} catch (Exception e)
+				{
+					addWarning(new ConversionWarning(WarningType.IGNORED, I18n.getText("tucson.invalidCompDate")));	
+				}
 			}
 						
 		}
@@ -680,7 +701,10 @@ public class TucsonReader extends AbstractDendroFileReader {
 
 		// Split values into string array. Limiting to 10 values (decade).
 		for (int i = 0; i + 6 <= line.length(); i = i + 6) {
-			vals.add(line.substring(i, i + 6).trim());
+			if(!line.substring(i, i + 6).trim().equals(""))
+			{
+				vals.add(line.substring(i, i + 6).trim());
+			}
 		}
 		
 		
@@ -1126,12 +1150,12 @@ public class TucsonReader extends AbstractDendroFileReader {
 				m1 = p1.matcher(line);
 				return m1.find();
 			case HEADER_LINE2 :
-				regex = "^[^\\n]{9}[^\\n]{21}[\\t ]{10}[0-9mMft]{5}[\\s]{2}[0-9\\t ]{10}[\\t ]{10}[\\d\\t ]{9}";
+				regex = "^[^\\n]{9}[^\\n]{21}[\\t ]{10}[0-9mMft.]{5}[\\s]{2}[0-9\\t+\\- ]{10}[\\t ]{10}[\\d\\t ]{9}";
 				p1 = Pattern.compile(regex, Pattern.CASE_INSENSITIVE | Pattern.DOTALL);
 				m1 = p1.matcher(line);
 				return m1.find();
 			case HEADER_LINE3 :
-				regex = "^[^\\n]{9}[\\w\\t\\. ,-]{62}[\\d\\t ]{8}";
+				regex = "^[^\\n]{9}[\\w\\t\\. ,-]{63}[\\d\\t ]{8}";
 				p1 = Pattern.compile(regex, Pattern.CASE_INSENSITIVE | Pattern.DOTALL);
 				m1 = p1.matcher(line);
 				return m1.find();
