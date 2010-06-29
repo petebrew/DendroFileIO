@@ -24,6 +24,7 @@ import org.tridas.io.I18n;
 import org.tridas.io.defaults.IMetadataFieldSet;
 import org.tridas.io.exceptions.ConversionWarningException;
 import org.tridas.io.exceptions.IncompleteTridasDataException;
+import org.tridas.io.formats.sheffield.TridasToSheffieldDefaults;
 import org.tridas.io.naming.INamingConvention;
 import org.tridas.io.naming.UUIDNamingConvention;
 import org.tridas.io.util.TridasHierarchyHelper;
@@ -38,7 +39,7 @@ import org.tridas.schema.TridasSample;
 
 public class TrimsWriter extends AbstractDendroCollectionWriter {
 	
-	IMetadataFieldSet defaults;
+	private TridasToTrimsDefaults defaults;
 	INamingConvention naming = new UUIDNamingConvention();
 	
 	public TrimsWriter() {
@@ -48,7 +49,7 @@ public class TrimsWriter extends AbstractDendroCollectionWriter {
 	@Override
 	protected void parseTridasProject(TridasProject argProject, IMetadataFieldSet argDefaults)
 			throws IncompleteTridasDataException, ConversionWarningException {
-		defaults = argDefaults;
+		defaults = (TridasToTrimsDefaults) argDefaults;
 		
 		ArrayList<ITridasSeries> seriesList = new ArrayList<ITridasSeries>();
 		
@@ -56,6 +57,7 @@ public class TrimsWriter extends AbstractDendroCollectionWriter {
 		try {
 			List<TridasDerivedSeries> lst = argProject.getDerivedSeries();
 			for (TridasDerivedSeries ds : lst) {
+				defaults.populateFromTridasDerivedSeries(ds);
 				// Create a TrimsFile for each and add to file list
 				TrimsFile file = new TrimsFile(defaults);
 				naming.registerFile(file, argProject, ds);
@@ -118,6 +120,7 @@ public class TrimsWriter extends AbstractDendroCollectionWriter {
 						
 						if (serList != null) {
 							for (TridasMeasurementSeries ser : serList) {
+								defaults.populateFromTridasMeasurementSeries(ser);
 								// Create a TrimsFile for each and add to file list
 								TrimsFile file = new TrimsFile(defaults);
 								naming.registerFile(file, argProject, obj, el, s, r, ser);

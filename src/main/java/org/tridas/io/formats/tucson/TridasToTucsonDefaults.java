@@ -25,6 +25,7 @@ import org.tridas.io.I18n;
 import org.tridas.io.defaults.AbstractMetadataFieldSet;
 import org.tridas.io.defaults.values.DoubleDefaultValue;
 import org.tridas.io.defaults.values.StringDefaultValue;
+import org.tridas.schema.TridasDerivedSeries;
 import org.tridas.schema.TridasElement;
 import org.tridas.schema.TridasLocationGeometry;
 import org.tridas.schema.TridasMeasurementSeries;
@@ -53,12 +54,12 @@ public class TridasToTucsonDefaults extends AbstractMetadataFieldSet {
 	protected void initDefaultValues() {
 		setDefaultValue(TucsonField.SITE_CODE, new StringDefaultValue(UUID.randomUUID().toString().substring(0, 6), 6,
 				6));
-		setDefaultValue(TucsonField.SITE_NAME, new StringDefaultValue(I18n.getText("unnamed.object"), 50, 50));
+		setDefaultValue(TucsonField.SITE_NAME, new StringDefaultValue(I18n.getText("unnamed.object"), 52, 52));
 		setDefaultValue(TucsonField.SPECIES_CODE, new StringDefaultValue("UNKN", 4, 4));
-		setDefaultValue(TucsonField.SPECIES_NAME, new StringDefaultValue("Plantae", 8, 8));
-		setDefaultValue(TucsonField.INVESTIGATOR, new StringDefaultValue(I18n.getText("unknown"), 61, 61));
-		setDefaultValue(TucsonField.ELEVATION, new DoubleDefaultValue(null, -418.0, 8850.0, 10, 10)); // Heights of Dead Sea and Everest! ;-)
-		setDefaultValue(TucsonField.LATLONG, new StringDefaultValue("", 11, 11));
+		setDefaultValue(TucsonField.SPECIES_NAME, new StringDefaultValue("Plantae", 18, 18));
+		setDefaultValue(TucsonField.INVESTIGATOR, new StringDefaultValue(I18n.getText("unknown"), 63, 63));
+		setDefaultValue(TucsonField.ELEVATION, new DoubleDefaultValue(999.9, -418.0, 8850.0, 7, 7)); // Heights of Dead Sea and Everest! ;-)
+		setDefaultValue(TucsonField.LATLONG, new StringDefaultValue("+1234-1234", 10, 10));
 		setDefaultValue(TucsonField.STATE_COUNTRY, new StringDefaultValue(I18n.getText("unknown"), 13, 13));
 		setDefaultValue(TucsonField.COMP_DATE, new StringDefaultValue(getTodaysDateTucsonStyle(), 8, 8));
 	}
@@ -139,7 +140,24 @@ public class TridasToTucsonDefaults extends AbstractMetadataFieldSet {
 	
 	protected void populateFromTridasMeasurementSeries(TridasMeasurementSeries ms)
 	{
-		
+		if(ms.isSetAnalyst())
+		{
+			getStringDefaultValue(TucsonField.INVESTIGATOR).setValue(ms.getAnalyst());
+		}
+		else if (ms.isSetDendrochronologist())
+		{
+			getStringDefaultValue(TucsonField.INVESTIGATOR).setValue(ms.getDendrochronologist());
+		}
+	}
+	
+	
+	protected void populateFromTridasDerivedSeries(TridasDerivedSeries ds)
+	{
+		if(ds.isSetAuthor())
+		{
+			getStringDefaultValue(TucsonField.INVESTIGATOR).setValue(ds.getAuthor());
+		}
+
 	}
 	
 	protected void populateFromTridasValues(TridasValues tvs)

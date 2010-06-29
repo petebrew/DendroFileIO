@@ -117,7 +117,7 @@ public class TestFromTridas extends TestCase {
 			fail();
 		}
 		
-		for (String filename : files) {
+		for (String filename : files) {		
 			log.info("Test conversion of: " + filename);
 			
 			TridasProject project = null;

@@ -55,12 +55,12 @@ import org.tridas.schema.TridasWoodCompleteness;
 public class TridasToSheffieldDefaults extends AbstractMetadataFieldSet implements IMetadataFieldSet {
 	
 	public static enum DefaultFields {
-		SITE_NAME, RING_COUNT, DATE_TYPE, START_DATE, DATA_TYPE, SAPWOOD_COUNT, TIMBER_COUNT, EDGE_CODE, CHRONOLOGY_TYPE, COMMENT, UK_COORDS, LAT_LONG, PITH_CODE, SHAPE_CODE, MAJOR_DIM, MINOR_DIM, INNER_RING_CODE, OUTER_RING_CODE, PHASE, SHORT_TITLE, PERIOD, TAXON, INTERPRETATION_COMMENT, VARIABLE_TYPE;
+		SERIES_NAME, RING_COUNT, DATE_TYPE, START_DATE, DATA_TYPE, SAPWOOD_COUNT, TIMBER_COUNT, EDGE_CODE, CHRONOLOGY_TYPE, COMMENT, UK_COORDS, LAT_LONG, PITH_CODE, SHAPE_CODE, MAJOR_DIM, MINOR_DIM, INNER_RING_CODE, OUTER_RING_CODE, PHASE, SHORT_TITLE, PERIOD, TAXON, INTERPRETATION_COMMENT, VARIABLE_TYPE;
 	}
 	
 	@Override
 	public void initDefaultValues() {
-		setDefaultValue(DefaultFields.SITE_NAME, new SheffieldStringDefaultValue(I18n.getText("unnamed.object"), 1, 64));
+		setDefaultValue(DefaultFields.SERIES_NAME, new SheffieldStringDefaultValue(I18n.getText("unnamed.series"), 1, 64));
 		setDefaultValue(DefaultFields.RING_COUNT, new IntegerDefaultValue(1, 2147483647));
 		setDefaultValue(DefaultFields.DATE_TYPE, new GenericDefaultValue<SheffieldDateType>(SheffieldDateType.ABSOLUTE));
 		setDefaultValue(DefaultFields.START_DATE, new IntegerDefaultValue(1));
@@ -94,11 +94,6 @@ public class TridasToSheffieldDefaults extends AbstractMetadataFieldSet implemen
 	
 	public void populateFromTridasObject(TridasObject o) {
 
-		// Object.title = Site Name
-		if(o.isSetTitle())
-		{
-			getSheffieldStringDefaultValue(DefaultFields.SITE_NAME).setValue(o.getTitle());
-		}
 
 	}
 	
@@ -271,6 +266,11 @@ public class TridasToSheffieldDefaults extends AbstractMetadataFieldSet implemen
 		GenericDefaultValue<SheffieldDataType> dataTypeField = (GenericDefaultValue<SheffieldDataType>)getDefaultValue(DefaultFields.DATA_TYPE);
 		dataTypeField.setValue(SheffieldDataType.ANNUAL_RAW_RING_WIDTH);
 		
+		if(ms.isSetTitle())
+		{
+			getSheffieldStringDefaultValue(DefaultFields.SERIES_NAME).setValue(ms.getTitle());
+		}
+		
 		// Author and comment
 		String comment ="";
 		if(ms.isSetDendrochronologist())
@@ -288,6 +288,11 @@ public class TridasToSheffieldDefaults extends AbstractMetadataFieldSet implemen
 	@SuppressWarnings("unchecked")
 	public void populateFromTridasDerivedSeries(TridasDerivedSeries ds) {
 
+		if(ds.isSetTitle())
+		{
+			getSheffieldStringDefaultValue(DefaultFields.SERIES_NAME).setValue(ds.getTitle());
+		}
+		
 		GenericDefaultValue<SheffieldDataType> dataTypeField = (GenericDefaultValue<SheffieldDataType>)getDefaultValue(DefaultFields.DATA_TYPE);
 		dataTypeField.setValue(SheffieldDataType.CHRON_MEAN);
 		

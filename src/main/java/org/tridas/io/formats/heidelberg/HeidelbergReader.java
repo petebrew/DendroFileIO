@@ -534,6 +534,11 @@ public class HeidelbergReader extends AbstractDendroFileReader {
 						"MissingRingsBefore"));
 			}
 			
+			//PERSID, new StringDefaultValue());
+			if(fileMetadata.containsKey("persid")){
+				s.defaults.getStringDefaultValue(DefaultFields.PERS_ID).setValue(fileMetadata.get("persid"));
+			}
+			
 			//PITH, new GenericDefaultValue<FHPith>());
 			if(fileMetadata.containsKey("pith")){
 				GenericDefaultValue<FHPith> pithField = (GenericDefaultValue<FHPith>) s.defaults

@@ -71,7 +71,7 @@ public class TestToTridas extends TestCase {
 		}
 		
 		for (String filename : files) {
-			//if(!filename.equals("Tucson2.crn")) { continue; }
+			if(!filename.equals("AKK00010.rwl")) { continue; }
 			
 			log.info("Test conversion of: " + filename);
 			

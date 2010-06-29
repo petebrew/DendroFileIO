@@ -209,6 +209,7 @@ public class HeidelbergFile implements IDendroFile {
 		addIfNotNull("Longitude", DefaultFields.LONGITUDE, file);
 		addIfNotNull("MissingRingsAfter", DefaultFields.MISSING_RINGS_AFTER, file);
 		addIfNotNull("MissingRingsBefore", DefaultFields.MISSING_RINGS_BEFORE, file);
+		addIfNotNull("PersID", DefaultFields.PERS_ID, file);
 		addIfNotNull("Pith", DefaultFields.PITH, file);
 		addIfNotNull("Project", DefaultFields.PROJECT, file);
 		addIfNotNull("Province", DefaultFields.PROVINCE, file);

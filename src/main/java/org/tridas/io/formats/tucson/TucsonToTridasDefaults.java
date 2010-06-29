@@ -21,17 +21,21 @@ import java.util.UUID;
 import org.tridas.io.I18n;
 import org.tridas.io.defaults.IMetadataFieldSet;
 import org.tridas.io.defaults.TridasMetadataFieldSet;
+import org.tridas.io.defaults.values.DateTimeDefaultValue;
 import org.tridas.io.defaults.values.DoubleDefaultValue;
 import org.tridas.io.defaults.values.GenericDefaultValue;
+import org.tridas.io.defaults.values.SafeIntYearDefaultValue;
 import org.tridas.io.defaults.values.StringDefaultValue;
 import org.tridas.io.util.ITRDBTaxonConverter;
 import org.tridas.schema.ControlledVoc;
+import org.tridas.schema.DatingSuffix;
 import org.tridas.schema.NormalTridasUnit;
 import org.tridas.schema.NormalTridasVariable;
 import org.tridas.schema.TridasDerivedSeries;
 import org.tridas.schema.TridasElement;
 import org.tridas.schema.TridasGenericField;
 import org.tridas.schema.TridasIdentifier;
+import org.tridas.schema.TridasInterpretation;
 import org.tridas.schema.TridasMeasurementSeries;
 import org.tridas.schema.TridasMeasurementSeriesPlaceholder;
 import org.tridas.schema.TridasObject;
@@ -52,7 +56,7 @@ public class TucsonToTridasDefaults extends TridasMetadataFieldSet implements IM
 	
 	public enum TucsonDefaultField {
 		SITE_CODE, SITE_NAME, SPECIES_CODE, SPECIES_NAME, INVESTIGATOR, ELEVATION, LATLONG, 
-		STATE_COUNTRY, COMP_DATE, UNITS, VARIABLE, SERIES_CODE;
+		STATE_COUNTRY, COMP_DATE, UNITS, VARIABLE, SERIES_CODE, FIRST_YEAR, LAST_YEAR;
 	}
 	
 	/**
@@ -69,11 +73,12 @@ public class TucsonToTridasDefaults extends TridasMetadataFieldSet implements IM
 		setDefaultValue(TucsonDefaultField.ELEVATION, new DoubleDefaultValue());
 		setDefaultValue(TucsonDefaultField.LATLONG, new StringDefaultValue());
 		setDefaultValue(TucsonDefaultField.STATE_COUNTRY, new StringDefaultValue());
-		setDefaultValue(TucsonDefaultField.COMP_DATE, new StringDefaultValue());
+		setDefaultValue(TucsonDefaultField.COMP_DATE, new DateTimeDefaultValue());
 		setDefaultValue(TucsonDefaultField.UNITS, new GenericDefaultValue<NormalTridasUnit>());
 		setDefaultValue(TucsonDefaultField.VARIABLE, new GenericDefaultValue<NormalTridasVariable>());
 		setDefaultValue(TucsonDefaultField.SERIES_CODE, new StringDefaultValue(UUID.randomUUID().toString()));
-
+		setDefaultValue(TucsonDefaultField.FIRST_YEAR, new SafeIntYearDefaultValue());
+		setDefaultValue(TucsonDefaultField.LAST_YEAR, new SafeIntYearDefaultValue());		
 	}
 
 	
@@ -196,6 +201,15 @@ public class TucsonToTridasDefaults extends TridasMetadataFieldSet implements IM
 		{
 			ms.setDendrochronologist(getStringDefaultValue(TucsonDefaultField.INVESTIGATOR).getValue().trim());
 		}
+		
+		TridasInterpretation interp = new TridasInterpretation();
+		
+		if(getSafeIntYearDefaultValue(TucsonDefaultField.FIRST_YEAR).getValue()!=null)
+		{
+			interp.setFirstYear(getSafeIntYearDefaultValue(TucsonDefaultField.FIRST_YEAR).getValue().toTridasYear(DatingSuffix.AD));
+		}
+		ms.setInterpretation(interp);
+		
 		return ms;
 		
 	}
