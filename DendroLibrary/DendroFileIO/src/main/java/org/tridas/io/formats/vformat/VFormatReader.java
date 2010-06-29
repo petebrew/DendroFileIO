@@ -16,6 +16,7 @@
 package org.tridas.io.formats.vformat;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
@@ -26,9 +27,12 @@ import org.tridas.io.I18n;
 import org.tridas.io.defaults.IMetadataFieldSet;
 import org.tridas.io.defaults.TridasMetadataFieldSet;
 import org.tridas.io.defaults.TridasMetadataFieldSet.TridasMandatoryField;
+import org.tridas.io.defaults.values.GenericDefaultValue;
 import org.tridas.io.exceptions.ConversionWarning;
 import org.tridas.io.exceptions.InvalidDendroFileException;
 import org.tridas.io.exceptions.ConversionWarning.WarningType;
+import org.tridas.io.formats.vformat.VFormatToTridasDefaults.VFormatDataType;
+import org.tridas.io.formats.vformat.VFormatToTridasDefaults.VFormatParameter;
 import org.tridas.io.util.DateUtils;
 import org.tridas.io.util.SafeIntYear;
 import org.tridas.schema.DatingSuffix;
@@ -54,34 +58,10 @@ import org.tridas.schema.TridasWoodCompleteness;
 public class VFormatReader extends AbstractDendroFileReader {
 	
 	private static final SimpleLogger log = new SimpleLogger(VFormatReader.class);
-	// defaults given by user
 	private VFormatToTridasDefaults defaults = new VFormatToTridasDefaults();
-	
-	private ArrayList<ITridasSeries> seriesList = new ArrayList<ITridasSeries>();
-	
-	enum ParamMeasured {
-		MEAN_DENSITY("D"), EARLYWOOD_WIDTH("F"), MAX_DENSITY("G"), RING_WIDTH("J"), MIN_DENSITY("K");
+	private ArrayList<VFormatSeries> seriesList = new ArrayList<VFormatSeries>();
+	private Integer currentLineNumber = 0;
 		
-		private String code;
-		
-		ParamMeasured(String code) {
-			this.code = code;
-		}
-		
-		/*
-		 * public String toString()
-		 * {
-		 * switch(this)
-		 * {
-		 * case MEAN_DENSITY:
-		 * return I18n.getText("general.meanDensity");
-		 * }
-		 * return null;
-		 * }
-		 */
-
-	}
-	
 	enum VFormatLineType {
 		HEADER_1, HEADER_2, HEADER_3, DATA, INVALID;
 	}
@@ -92,211 +72,188 @@ public class VFormatReader extends AbstractDendroFileReader {
 	
 	@Override
 	public int getCurrentLineNumber() {
-		// TODO Auto-generated method stub
-		return 0;
+		return currentLineNumber;
 	}
 	
+	@SuppressWarnings("unchecked")
 	@Override
 	protected void parseFile(String[] argFileString, IMetadataFieldSet argDefaultFields)
 			throws InvalidDendroFileException {
 		
-		// Sanity checks
-		if (argFileString[0].length() != 80) {
-			throw new InvalidDendroFileException(I18n.getText("vformat.headerWrongSize", String
-					.valueOf(argFileString[0].length())), 1);
-		}
+		defaults = (VFormatToTridasDefaults) argDefaultFields;
 		
-		if (!argFileString[0].substring(8, 9).equals(".")) {
-			throw new InvalidDendroFileException(I18n.getText("vformat.missingDot"), 1);
-		}
-		
-		if (!getLineType(argFileString[0]).equals(VFormatLineType.HEADER_1)) {
-			throw new InvalidDendroFileException(I18n.getText("vformat.headerLineWrong"), 1);
-		}
-		
+		// Check the file is valid
+		checkFile(argFileString);
+				
+		// Create a new series and set line type to 'DATA'
+		VFormatSeries series = new VFormatSeries();
+		series.defaults = defaults;
 		VFormatLineType lastLineType = VFormatLineType.DATA;
-		ITridasSeries thisseries = null;
-		int linenumber = 0;
-		TridasUnit units = new TridasUnit();
-		TridasVariable var = new TridasVariable();
-		TridasLocation location = new TridasLocation();
 		
-		for (String line : argFileString) {
-			linenumber++;
+		// Loop through each line in file
+		for (String line : argFileString) 
+		{
+			currentLineNumber++;
 			switch (getLineType(line)) {
 				case HEADER_1 :
 					// Last line should have been data otherwise something has gone wrong
 					if (!lastLineType.equals(VFormatLineType.DATA)) {
-						throw new InvalidDendroFileException(I18n.getText("vformat.invalidLine"), linenumber);
+						throw new InvalidDendroFileException(I18n.getText("vformat.invalidLine"), currentLineNumber);
 					}
 					
-					// If thisseries is not null then we should add it to our list
+					// If series is not null then we should add it to our list
 					// as we're just about to start another
-					if (thisseries != null) {
-						
-						seriesList.add(thisseries);
+					if (series.dataValues.size()>0) {
+						this.addSeriesToList(series);
+						series = new VFormatSeries();
+						series.defaults = defaults;
 					}
 					
 					// Check whether this is a supported version format
-					// TODO
-					// Versions >=10 have additional lines for which I don't have the
-					// specs
 					try {
 						Integer fileVersionNumber = Integer.valueOf(line.substring(68, 70));
-						if (fileVersionNumber.compareTo(10) >= 0) {
+						if (fileVersionNumber.compareTo(12) > 0) {
 							addWarning(new ConversionWarning(WarningType.NOT_STRICT, I18n.getText(
 									"vformat.unsupportedFormat", String.valueOf(fileVersionNumber))));
-							
-							/*
-							 * throw newInvalidDendroFileException(I18n.getText(
-							 * "vformat.unsupportedFormat",
-							 * String.valueOf(fileVersionNumber)),
-							 * linenumber);
-							 */
 						}
 					} catch (NumberFormatException e) {}
+															
+					// Series ID
+					series.defaults.getStringDefaultValue(DefaultFields.SERIES_ID).setValue(line.substring(0, 11));
+					log.warn(line.substring(0, 11));
 					
-					// Reset
-					units = new TridasUnit();
-					ArrayList<TridasGenericField> genericFields = new ArrayList<TridasGenericField>();
-					var = new TridasVariable();
+					// Project id
+					series.defaults.getStringDefaultValue(DefaultFields.PROJECT_CODE).setValue(line.substring(0,1));
+					log.warn(line.substring(0, 1));
 					
-					// Create new series depending on type and set fields that are
-					// specific
-					// to that type.
-					String typeCode = line.substring(9, 10);
-					if (typeCode.equals("!")) {
-						String objectid = line.substring(0, 4);
-						String elementid = line.substring(4, 6);
-						String sampleid = line.substring(6, 7);
-						String seriesid = line.substring(0, 12);
-						
-						thisseries = defaults.getMeasurementSeriesWithDefaults();
-						
-						// Set Analyst
-						((TridasMeasurementSeries) thisseries).setAnalyst(line.substring(58, 60));
-						
-						// Set missing rings fields
-						TridasWoodCompleteness wc = new TridasWoodCompleteness();
-						Integer missingInnerRings = null;
-						Integer missingOuterRings = null;
-						try {
-							missingInnerRings = Integer.valueOf((line.substring(70, 73)));
-							wc.setNrOfUnmeasuredInnerRings(missingInnerRings);
-						} catch (NumberFormatException e) {}
-						
-						try {
-							missingOuterRings = Integer.valueOf((line.substring(75, 78)));
-							wc.setNrOfUnmeasuredOuterRings(missingOuterRings);
-						} catch (NumberFormatException e) {}
-						
-						// Add woodcompleteness to series
-						if (missingInnerRings != null || missingOuterRings != null) {
-							((TridasMeasurementSeries) thisseries).setWoodCompleteness(wc);
-						}
-						
-						try {
-							String stdErrInnerRings = line.substring(73, 75);
-							if (stdErrInnerRings != null && !stdErrInnerRings.equals(".")) {
-								TridasGenericField gf = new TridasGenericField();
-								gf.setName("vformat.stdErrMissingInnerRings");
-								gf.setValue(stdErrInnerRings);
-								gf.setType("xs:string");
-								genericFields.add(gf);
-							}
-						} catch (NumberFormatException e) {}
-						
-						try {
-							String stdErrOuterRings = line.substring(78, 80).trim();
-							if (stdErrOuterRings != null && !stdErrOuterRings.equals(".")) {
-								TridasGenericField gf = new TridasGenericField();
-								gf.setName("vformat.stdErrMissingOuterRings");
-								gf.setValue(stdErrOuterRings);
-								gf.setType("xs:string");
-								genericFields.add(gf);
-							}
-						} catch (NumberFormatException e) {}
-						
-						// Add genericFields list to series
-						((TridasMeasurementSeries) thisseries).setGenericFields(genericFields);
-					}
-					else {
-						thisseries = defaults.getDerivedSeriesWithDefaults();
+					// Object id
+					series.defaults.getStringDefaultValue(DefaultFields.OBJECT_CODE).setValue(line.substring(2,4));
+					log.warn(line.substring(2, 4));
+					
+					// Tree id
+					series.defaults.getStringDefaultValue(DefaultFields.TREE_CODE).setValue(line.substring(4,6));
+					log.warn(line.substring(4, 6));
+					
+					// Height
+					series.defaults.getStringDefaultValue(DefaultFields.HEIGHT_CODE).setValue(line.substring(6,7));
+					log.warn(line.substring(6, 7));
+					
+					// Data type
+					GenericDefaultValue<VFormatDataType> dataTypeField = (GenericDefaultValue<VFormatDataType>) series.defaults.getDefaultValue(DefaultFields.DATA_TYPE);
+					dataTypeField.setValue(VFormatDataType.fromCode(line.substring(9,10)));
+					log.warn(line.substring(9, 10));
+					if(dataTypeField.getValue()==null)
+					{
+						throw new InvalidDendroFileException(I18n.getText("vformat.invalidDataType"), currentLineNumber);
 					}
 					
-					// Set series identifier and title
-					TridasIdentifier id = new TridasIdentifier();
-					id.setValue(line.substring(0, 12));
-					TridasMetadataFieldSet df = new TridasMetadataFieldSet();
-					id.setDomain(defaults.getDefaultValue(TridasMandatoryField.IDENTIFIER_DOMAIN).getStringValue());
-					thisseries.setIdentifier(id);
-					thisseries.setTitle(line.substring(0, 12));
+					// Stats treatment used
+					series.defaults.getStringDefaultValue(DefaultFields.STAT_CODE).setValue(line.substring(10,11));
+					log.warn(line.substring(10, 11));
 					
-					// Set variable type
-					String paramMeasured = line.substring(11, 12);
-					if (paramMeasured.equals("J")) {
-						var.setNormalTridas(NormalTridasVariable.RING_WIDTH);
-					}
-					else if (paramMeasured.equals("F")) {
-						var.setNormalTridas(NormalTridasVariable.EARLYWOOD_WIDTH);
-					}
-					else if (paramMeasured.equals("S")) {
-						var.setNormalTridas(NormalTridasVariable.LATEWOOD_WIDTH);
-					}
-					else if (paramMeasured.equals("D")) {
-						var.setNormalTridas(NormalTridasVariable.RING_DENSITY);
-					}
-					else if (paramMeasured.equals("G")) {
-						var.setNormalTridas(NormalTridasVariable.MAXIMUM_DENSITY);
-					}
-					else if (paramMeasured.equals("K")) {
-						var.setValue("Minimum density");
-					}
-					else if (paramMeasured.equals("P")) {
-						var.setValue("Portion of latewood (%)");
-					}
-					else {
-						throw new InvalidDendroFileException(I18n.getText("fileio.unknownError"), linenumber);
+					// Parameter
+					GenericDefaultValue<VFormatParameter> parameterField = (GenericDefaultValue<VFormatParameter>) series.defaults.getDefaultValue(DefaultFields.PARAMETER_CODE);
+					parameterField.setValue(VFormatParameter.fromCode(line.substring(11,12)));
+					log.warn(line.substring(11,12));
+					if(parameterField.getValue()==null)
+					{
+						throw new InvalidDendroFileException(I18n.getText("vformat.invalidParameter"), currentLineNumber);
 					}
 					
-					// Set last year
-					TridasInterpretation interp = new TridasInterpretation();
-					try {
-						Integer lastYear = Integer.valueOf(line.substring(24, 30));
-						if (lastYear != null) {
-							interp.setLastYear(new SafeIntYear(lastYear).toTridasYear(DatingSuffix.AD));
-						}
-						thisseries.setInterpretation(interp);
-					} catch (NumberFormatException e) {}
+					// Units
+					series.defaults.getStringDefaultValue(DefaultFields.UNIT).setValue(line.substring(12,15));
+					log.warn(line.substring(12, 15));
 					
-					// Set created timestamp
-					try {
-						int day = Integer.valueOf(line.substring(50, 52));
-						int month = Integer.valueOf(line.substring(52, 54));
-						int year = Integer.valueOf(line.substring(54, 58));
-						thisseries.setCreatedTimestamp(DateUtils.getDateTime(day, month, year));
-					} catch (NumberFormatException e) {}
-					
-					// Set analysts/author
-					if (thisseries instanceof TridasMeasurementSeries) {
+					// Count of values
+					try{
+					series.defaults.getIntegerDefaultValue(DefaultFields.COUNT).setValue(Integer.parseInt(line.substring(15,20)));
+					log.warn(line.substring(15, 20));
+					} catch (NumberFormatException e)
+					{	}
 
-					}
-					else if (thisseries instanceof TridasDerivedSeries) {
-						((TridasDerivedSeries) thisseries).setAuthor(line.substring(58, 60));
+					// Species
+					series.defaults.getStringDefaultValue(DefaultFields.SPECIES).setValue(line.substring(20,24));
+					log.warn(line.substring(20, 24));
+					
+					// Last year
+					try{
+					series.defaults.getSafeIntYearDefaultValue(DefaultFields.LAST_YEAR).setValue(new SafeIntYear(line.substring(24,30)));
+					log.warn(line.substring(24, 30));
+					} catch (NumberFormatException e)
+					{
+						
 					}
 					
-					// Set comments/description
-					thisseries.setComments(line.substring(30, 50).trim());
-					
-					// Set units variable for use in <values> tag
-					String unitsCode = line.substring(12, 15).trim();
-					if (!unitsCode.equals("mm")) {
-						units.setValue(unitsCode);
+					// Description
+					if(line.substring(30,50).trim()!=null)
+					{
+						series.defaults.getStringDefaultValue(DefaultFields.DESCRIPTION).setValue(line.substring(30,50));
+						log.warn(line.substring(30, 50));
 					}
-					else {
-						units.setNormalTridas(NormalTridasUnit.HUNDREDTH_MM);
+		
+					// Created date
+					try{
+						int day = Integer.parseInt(line.substring(50,52));
+						int month = Integer.parseInt(line.substring(52,54));
+						int year = Integer.parseInt(line.substring(54,58));
+						log.warn(line.substring(50,52)+"/"+line.substring(52,54)+"/"+line.substring(54,58));
+						series.defaults.getDateTimeDefaultValue(DefaultFields.CREATED_DATE).setValue(DateUtils.getDateTime(day, month, year));
+					} catch (Exception e)
+					{
+						
 					}
 					
+					// Analyst
+					series.defaults.getStringDefaultValue(DefaultFields.ANALYST).setValue(line.substring(58,60));
+					log.warn(line.substring(58, 60));
+
+					// Updated date
+					try{
+						int day = Integer.parseInt(line.substring(60,62));
+						int month = Integer.parseInt(line.substring(62,64));
+						int year = Integer.parseInt(line.substring(64,68));
+						log.warn(line.substring(60,62)+"/"+line.substring(62,64)+"/"+line.substring(64,68));
+						series.defaults.getDateTimeDefaultValue(DefaultFields.UPDATED_DATE).setValue(DateUtils.getDateTime(day, month, year));
+					} catch (Exception e)
+					{
+						
+					}
+					
+					// VFormat version
+					try{
+						series.defaults.getIntegerDefaultValue(DefaultFields.FORMAT_VERSION).setValue(Integer.parseInt(line.substring(68,70)));
+						log.warn(line.substring(68, 70));
+
+					} catch (Exception e)
+					{
+						
+					}
+					
+					// Unmeasured rings at start
+					try{
+						series.defaults.getIntegerDefaultValue(DefaultFields.UNMEAS_PRE).setValue(Integer.parseInt(line.substring(70,73)));
+						log.warn(line.substring(70, 73));
+					} catch (Exception e)
+					{
+						
+					}
+					
+					// Error for unmeasured rings at start
+					series.defaults.getStringDefaultValue(DefaultFields.UNMEAS_PRE_ERR).setValue(line.substring(73,75));						
+					log.warn(line.substring(73, 75));
+
+					
+					// Unmeasured rings at end
+					try{
+						series.defaults.getIntegerDefaultValue(DefaultFields.UNMEAS_POST).setValue(Integer.parseInt(line.substring(75,78)));
+					} catch (Exception e)
+					{
+						
+					}
+					
+					// Error for unmeasured rings at end
+					series.defaults.getStringDefaultValue(DefaultFields.UNMEAS_POST_ERR).setValue(line.substring(78,80));
+
 					// Set this line type as the last linetype before continuing
 					lastLineType = VFormatLineType.HEADER_1;
 					break;
@@ -305,18 +262,11 @@ public class VFormatReader extends AbstractDendroFileReader {
 					// Last line should have been header1 otherwise something has gone
 					// wrong
 					if (!lastLineType.equals(VFormatLineType.HEADER_1)) {
-						throw new InvalidDendroFileException(I18n.getText("vformat.invalidLine"), linenumber);
+						throw new InvalidDendroFileException(I18n.getText("vformat.invalidLine"), currentLineNumber);
 					}
 					
-					try {
-						ArrayList<TridasGenericField> gflist = (ArrayList<TridasGenericField>) thisseries
-								.getGenericFields();
-						TridasGenericField gf = new TridasGenericField();
-						gf.setName("vformat.freeTextHeaderLine");
-						gf.setValue(line.trim());
-						gf.setType("xs:string");
-						gflist.add(gf);
-					} catch (NullPointerException e) {}
+					// Free text field
+					series.defaults.getStringDefaultValue(DefaultFields.FREE_TEXT_FIELD).setValue(line.trim());
 					
 					// Set this line type as the last linetype before continuing
 					lastLineType = VFormatLineType.HEADER_2;
@@ -326,35 +276,27 @@ public class VFormatReader extends AbstractDendroFileReader {
 					// Last line should have been header2 otherwise something has gone
 					// wrong
 					if (!lastLineType.equals(VFormatLineType.HEADER_2)) {
-						throw new InvalidDendroFileException(I18n.getText("vformat.invalidLine"), linenumber);
+						throw new InvalidDendroFileException(I18n.getText("vformat.invalidLine"), currentLineNumber);
 					}
 					
-					try {
-						Double lon = Double.valueOf(line.substring(0, 10));
-						Double lat = Double.valueOf(line.substring(10, 20));
-						
-						// Check values are sane
-						if ((lon.compareTo(new Double(-180f)) < 0) || (lon.compareTo(new Double(180f)) > 0)) {
-							addWarning(new ConversionWarning(WarningType.NOT_STRICT, I18n.getText(
-									"fileio.longOutOfBounds", String.valueOf(lon))));
-						}
-						if ((lat.compareTo(new Double(-90f)) < 0) || (lat.compareTo(new Double(90f)) > 0)) {
-							addWarning(new ConversionWarning(WarningType.NOT_STRICT, I18n.getText(
-									"fileio.latOutOfBounds", String.valueOf(lat))));
-						}
-						
+					// Latitude and Longitude
+					try {		
+						series.defaults.getDoubleDefaultValue(DefaultFields.LATITUDE).setValue(Double.parseDouble(line.substring(10, 20)));
+						series.defaults.getDoubleDefaultValue(DefaultFields.LONGITUDE).setValue(Double.parseDouble(line.substring(0, 10)));						
 					} catch (NumberFormatException e) {}
 					
+					// Set this line type as the last linetype before continuing
+					lastLineType = VFormatLineType.HEADER_3;
 					break;
 				
 				case DATA :
-					// Last line should have been header2 or data otherwise something has
+					// Last line should have been header2,3 or data otherwise something has
 					// gone wrong
 					if (lastLineType.equals(VFormatLineType.HEADER_1)) {
-						throw new InvalidDendroFileException(I18n.getText("vformat.invalidLine"), linenumber);
+						throw new InvalidDendroFileException(I18n.getText("vformat.invalidLine"), currentLineNumber);
 					}
 					
-					// Get his decades values
+					// Get this decades values
 					ArrayList<TridasValue> thisDecadesValues = new ArrayList<TridasValue>();
 					for (int i = 1; i < line.length(); i = i + 8) {
 						/*
@@ -368,31 +310,53 @@ public class VFormatReader extends AbstractDendroFileReader {
 						thisDecadesValues.add(theValue);
 					}
 					
-					if (!lastLineType.equals(VFormatLineType.DATA)) {
-						// Must be the first batch of data so set up <values> container
-						TridasValues valuesGroup = new TridasValues();
-						valuesGroup.setValues(thisDecadesValues);
-						valuesGroup.setUnit(units);
-						valuesGroup.setVariable(var);
-						ArrayList<TridasValues> valuesGroupList = new ArrayList<TridasValues>();
-						valuesGroupList.add(valuesGroup);
-						thisseries.setValues(valuesGroupList);
-					}
-					else {
-						// Adding to existing ring values
-						thisseries.getValues().get(0).getValues().addAll(thisDecadesValues);
-					}
+					// Add them to the series
+					series.dataValues.addAll(thisDecadesValues);
 					
 					// Set this line type as the last linetype before continuing
 					lastLineType = VFormatLineType.DATA;
 					break;
 				
 				default :
-					throw new InvalidDendroFileException(I18n.getText("vformat.invalidLine"), linenumber);
+					throw new InvalidDendroFileException(I18n.getText("vformat.invalidLine"), currentLineNumber);
 			}
 		}
-		
 	}
+	
+	/**
+	 * Adds a VFormatSeries to the list, whilst setting a number of remaining 
+	 * fields. 
+	 * 
+	 * @param series
+	 */
+	private void addSeriesToList(VFormatSeries series)
+	{
+		// Check count is correct, if not fix it
+		if(series.defaults.getIntegerDefaultValue(DefaultFields.COUNT).getValue()!=null)
+		{
+			if (series.defaults.getIntegerDefaultValue(DefaultFields.COUNT).getValue()!=
+				series.dataValues.size())
+			{
+				series.defaults.getIntegerDefaultValue(DefaultFields.COUNT).setValue(series.dataValues.size());
+				addWarning(new ConversionWarning(WarningType.INVALID, I18n.getText(
+						"fileio.valueCountMismatch", 
+						series.dataValues.size()+"",
+						series.defaults.getIntegerDefaultValue(DefaultFields.COUNT).getValue()+"")));
+			}		
+		}
+		
+		// Set First year from last year and count
+		if(series.defaults.getSafeIntYearDefaultValue(DefaultFields.LAST_YEAR).getValue()!=null)
+		{
+			series.defaults.getSafeIntYearDefaultValue(DefaultFields.FIRST_YEAR).setValue(
+					series.defaults.getSafeIntYearDefaultValue(DefaultFields.LAST_YEAR).getValue()
+					.add(1-series.dataValues.size()));
+		}
+		
+		// Add to list
+		seriesList.add(series);
+	}
+	
 	
 	/**
 	 * Attempt to work out what sort of line this is
@@ -453,154 +417,64 @@ public class VFormatReader extends AbstractDendroFileReader {
 	
 	@Override
 	public TridasProject getProject() {
-		TridasProject project = null;
-		try {
-			project = defaults.getProjectWithDefaults(true);
-			TridasObject o = project.getObjects().get(0);
-			TridasElement e = o.getElements().get(0);
-			TridasSample s = e.getSamples().get(0);
+		TridasProject project = defaults.getProjectWithDefaults();
+		ArrayList<TridasObject> oList = new ArrayList<TridasObject>();
+		
+		
+		for(VFormatSeries series: seriesList)
+		{
+			TridasObject object = series.defaults.getDefaultTridasObject();
+			TridasElement element = series.defaults.getDefaultTridasElement();		
+			TridasSample sample = series.defaults.getDefaultTridasSample();
+			TridasRadius radius = series.defaults.getDefaultTridasRadius();
+			TridasMeasurementSeries ms = series.defaults.getDefaultTridasMeasurementSeries();
+			TridasValues tvs = series.defaults.getTridasValuesWithDefaults();
 			
-			if (seriesList.size() > 0) {
-				ArrayList<TridasMeasurementSeries> mSeriesList;
-				
-				for (ITridasSeries series : seriesList) {
-					if (series instanceof TridasMeasurementSeries) {
-						TridasRadius r = s.getRadiuses().get(0);
-						mSeriesList = (ArrayList<TridasMeasurementSeries>) r.getMeasurementSeries();
-						mSeriesList.add((TridasMeasurementSeries) series);
-					}
-					else if (series instanceof TridasDerivedSeries) {
-						// TODO
-					}
-				}
-				
-			}
+			tvs.setValues(series.dataValues);
 			
-		} catch (NullPointerException e) {
-
-		} catch (IndexOutOfBoundsException e2) {
-
+			ArrayList<TridasValues> tvsList = new ArrayList<TridasValues>();
+			tvsList.add(tvs);
+			ms.setValues(tvsList);
+			
+			ArrayList<TridasMeasurementSeries> msList = new ArrayList<TridasMeasurementSeries>();
+			msList.add(ms);
+			radius.setMeasurementSeries(msList);
+			
+			ArrayList<TridasRadius> rList  = new ArrayList<TridasRadius>();
+			rList.add(radius);
+			sample.setRadiuses(rList);
+			
+			ArrayList<TridasSample> sList = new ArrayList<TridasSample>();
+			sList.add(sample);
+			element.setSamples(sList);
+			
+			ArrayList<TridasElement> eList = new ArrayList<TridasElement>();
+			eList.add(element);
+			object.setElements(eList);
+						
+			oList.add(object);
 		}
+		
+		
+		project.setObjects(oList);
 		
 		return project;
 	}
-	
-	private TridasObject getObject(TridasProject project, String objectid) {
-		ArrayList<TridasObject> olist;
 		
-		try {
-			olist = (ArrayList<TridasObject>) project.getObjects();
-			for (TridasObject o : olist) {
-				if (o.getIdentifier().getValue().equals(objectid)) {
-					return o;
-				}
-			}
-		} catch (NullPointerException e) {}
-		
-		return null;
-	}
-	
-	private TridasObject getOrCreateObject(TridasProject project, String objectid) {
-		TridasObject o = getObject(project, objectid);
-		
-		if (o == null) {
-			// No object found so create
-			ArrayList<TridasObject> olist = new ArrayList<TridasObject>();
-			o = defaults.getObjectWithDefaults(objectid);
-			o.setTitle(objectid);
-			olist.add(o);
-			project.setObjects(olist);
+	private void checkFile(String[] argFileString) throws InvalidDendroFileException
+	{
+		if (argFileString[0].length() != 80) {
+			throw new InvalidDendroFileException(I18n.getText("vformat.headerWrongSize", String
+					.valueOf(argFileString[0].length())), 1);
 		}
 		
-		return getObject(project, objectid);
-		
-	}
-	
-	private TridasElement getElement(TridasProject project, String objectid, String elementid) {
-		TridasObject o = getOrCreateObject(project, objectid);
-		
-		ArrayList<TridasElement> elist;
-		try {
-			elist = (ArrayList<TridasElement>) o.getElements();
-			for (TridasElement e : elist) {
-				if (e.getIdentifier().getValue().equals(elementid)) {
-					return e;
-				}
-			}
-		} catch (NullPointerException e) {}
-		
-		return null;
-		
-	}
-	
-	private TridasElement getOrCreateElement(TridasProject project, String objectid, String elementid) {
-		TridasElement e = getElement(project, objectid, elementid);
-		
-		if (e == null) {
-			ArrayList<TridasElement> elist = new ArrayList<TridasElement>();
-			e = defaults.getElementWithDefaults(elementid);
-			e.setTitle(elementid);
-			elist.add(e);
-			getOrCreateObject(project, objectid).setElements(elist);
+		if (!argFileString[0].substring(8, 9).equals(".")) {
+			throw new InvalidDendroFileException(I18n.getText("vformat.missingDot"), 1);
 		}
 		
-		return getElement(project, objectid, elementid);
-		
-	}
-	
-	private TridasSample getSample(TridasProject project, String objectid, String elementid, String sampleid) {
-		TridasElement e = getOrCreateElement(project, objectid, elementid);
-		
-		ArrayList<TridasSample> slist;
-		try {
-			slist = (ArrayList<TridasSample>) e.getSamples();
-			for (TridasSample s : slist) {
-				if (s.getIdentifier().getValue().equals(sampleid)) {
-					return s;
-				}
-			}
-		} catch (NullPointerException e2) {}
-		
-		return null;
-	}
-	
-	private TridasSample getOrCreateSample(TridasProject project, String objectid, String elementid, String sampleid) {
-		TridasSample s = getSample(project, objectid, elementid, sampleid);
-		
-		if (s == null) {
-			TridasRadius r = defaults.getRadiusWithDefaults(false);
-			ArrayList<TridasRadius> rlist = new ArrayList<TridasRadius>();
-			rlist.add(r);
-			s = defaults.getSampleWithDefaults(sampleid);
-			s.setTitle(sampleid);
-			s.setRadiuses(rlist);
-			ArrayList<TridasSample> slist = new ArrayList<TridasSample>();
-			slist.add(s);
-			getOrCreateElement(project, objectid, elementid).setSamples(slist);
+		if (!getLineType(argFileString[0]).equals(VFormatLineType.HEADER_1)) {
+			throw new InvalidDendroFileException(I18n.getText("vformat.headerLineWrong"), 1);
 		}
-		
-		return getSample(project, objectid, elementid, sampleid);
-	}
-	
-	private TridasMeasurementSeries createMeasurementSeries(TridasProject project, String objectid, String elementid,
-			String sampleid, String seriesid) {
-		TridasSample samp = getOrCreateSample(project, objectid, elementid, sampleid);
-		TridasRadius r = samp.getRadiuses().get(0);
-		
-		ArrayList<TridasMeasurementSeries> seriesList;
-		try {
-			seriesList = (ArrayList<TridasMeasurementSeries>) getOrCreateSample(project, objectid, elementid, sampleid)
-					.getRadiuses().get(0).getMeasurementSeries();
-		} catch (NullPointerException e) {
-			seriesList = new ArrayList<TridasMeasurementSeries>();
-		}
-		
-		TridasMeasurementSeries series = defaults.getMeasurementSeriesWithDefaults();
-		seriesList.add(series);
-		r.setMeasurementSeries(seriesList);
-		
-		return series;
-		
 	}
 	
 	/**
@@ -634,5 +508,15 @@ public class VFormatReader extends AbstractDendroFileReader {
 	protected void resetReader() {
 		defaults = null;
 		seriesList.clear();
+	}
+	
+	/**
+	 * Class to store the series data
+	 * 
+	 * @author peterbrewer
+	 */
+	private static class VFormatSeries {
+		public VFormatToTridasDefaults defaults;
+		public final ArrayList<TridasValue> dataValues = new ArrayList<TridasValue>();
 	}
 }

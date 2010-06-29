@@ -428,7 +428,7 @@ public class TestToTridas extends TestCase {
 			TridasProject myproject = reader.getProject();
 			
 			TridasWriter writer = new TridasWriter();
-			writer.setNamingConvention(new UUIDNamingConvention());
+			writer.setNamingConvention(new NumericalNamingConvention());
 			
 			try {
 				writer.loadProject(myproject, new TridasMetadataFieldSet());
