@@ -17,6 +17,7 @@ package org.tridas.io.util;
 
 import java.math.BigDecimal;
 import java.math.BigInteger;
+import java.text.DecimalFormat;
 import java.util.ArrayList;
 
 import org.tridas.io.I18n;
@@ -171,6 +172,76 @@ public class UnitUtils {
 		return tv;
 	}
 	
+	/**
+	 * This function returns the DecimalFormat with the correct number of significant figures when converting
+	 * from one unit type to another.
+	 * 
+	 * @param inputunits
+	 * @param outputunits
+	 * @return
+	 */
+	public static DecimalFormat getDecimalFormatForSigFigs(NormalTridasUnit inputunits, NormalTridasUnit outputunits)
+	{
+		int sigfigs = 0;
+		
+		switch(inputunits)
+		{
+		case METRES:
+			break;
+		case CENTIMETRES:
+			sigfigs = 2;
+			break;
+		case MILLIMETRES:
+			sigfigs = 3;
+			break;
+		case TENTH_MM:
+			sigfigs = 4;
+			break;
+		case HUNDREDTH_MM:
+			sigfigs = 5;
+			break;
+		case MICROMETRES:
+			sigfigs = 6;
+			break;
+		default:
+		}
+		
+		switch(outputunits)
+		{
+		case METRES:
+			break;
+		case CENTIMETRES:
+			sigfigs = sigfigs - 2;
+			break;
+		case MILLIMETRES:
+			sigfigs = sigfigs - 3;
+			break;
+		case TENTH_MM:
+			sigfigs = sigfigs - 4;
+			break;
+		case HUNDREDTH_MM:
+			sigfigs = sigfigs - 5;
+			break;
+		case MICROMETRES:
+			sigfigs = sigfigs - 6;
+			break;
+		default:
+		}
+		
+		if(sigfigs>0)
+		{
+			String format = "0.";
+			for (int i=1; i<=sigfigs; i++)
+			{
+				format = format+"0";
+			}
+			return new DecimalFormat(format);
+		}
+		else
+		{
+			return new DecimalFormat("0");
+		}
+	}
 	
 	/**
 	 * Convert a TridasValues tag from one unit to another.  The TridasValues must have 
@@ -208,7 +279,9 @@ public class UnitUtils {
 			}
 			else
 			{
-				value.setValue(String.valueOf(dblvalue));
+				// Make sure only the correct number of significant decimals are shown
+				DecimalFormat dformat = getDecimalFormatForSigFigs(inputunits, outputunits);
+				value.setValue(String.valueOf(dformat.format(dblvalue)));
 			}
 		}
 		
