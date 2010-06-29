@@ -120,28 +120,28 @@ public class VFormatReader extends AbstractDendroFileReader {
 															
 					// Series ID
 					series.defaults.getStringDefaultValue(DefaultFields.SERIES_ID).setValue(line.substring(0, 11));
-					log.warn(line.substring(0, 11));
+					log.debug(line.substring(0, 11));
 					
 					// Project id
 					series.defaults.getStringDefaultValue(DefaultFields.PROJECT_CODE).setValue(line.substring(0,1));
-					log.warn(line.substring(0, 1));
+					log.debug(line.substring(0, 1));
 					
 					// Object id
 					series.defaults.getStringDefaultValue(DefaultFields.OBJECT_CODE).setValue(line.substring(2,4));
-					log.warn(line.substring(2, 4));
+					log.debug(line.substring(2, 4));
 					
 					// Tree id
 					series.defaults.getStringDefaultValue(DefaultFields.TREE_CODE).setValue(line.substring(4,6));
-					log.warn(line.substring(4, 6));
+					log.debug(line.substring(4, 6));
 					
 					// Height
 					series.defaults.getStringDefaultValue(DefaultFields.HEIGHT_CODE).setValue(line.substring(6,7));
-					log.warn(line.substring(6, 7));
+					log.debug(line.substring(6, 7));
 					
 					// Data type
 					GenericDefaultValue<VFormatDataType> dataTypeField = (GenericDefaultValue<VFormatDataType>) series.defaults.getDefaultValue(DefaultFields.DATA_TYPE);
 					dataTypeField.setValue(VFormatDataType.fromCode(line.substring(9,10)));
-					log.warn(line.substring(9, 10));
+					log.debug(line.substring(9, 10));
 					if(dataTypeField.getValue()==null)
 					{
 						throw new InvalidDendroFileException(I18n.getText("vformat.invalidDataType"), currentLineNumber);
@@ -149,12 +149,12 @@ public class VFormatReader extends AbstractDendroFileReader {
 					
 					// Stats treatment used
 					series.defaults.getStringDefaultValue(DefaultFields.STAT_CODE).setValue(line.substring(10,11));
-					log.warn(line.substring(10, 11));
+					log.debug(line.substring(10, 11));
 					
 					// Parameter
 					GenericDefaultValue<VFormatParameter> parameterField = (GenericDefaultValue<VFormatParameter>) series.defaults.getDefaultValue(DefaultFields.PARAMETER_CODE);
 					parameterField.setValue(VFormatParameter.fromCode(line.substring(11,12)));
-					log.warn(line.substring(11,12));
+					log.debug(line.substring(11,12));
 					if(parameterField.getValue()==null)
 					{
 						throw new InvalidDendroFileException(I18n.getText("vformat.invalidParameter"), currentLineNumber);
@@ -162,23 +162,23 @@ public class VFormatReader extends AbstractDendroFileReader {
 					
 					// Units
 					series.defaults.getStringDefaultValue(DefaultFields.UNIT).setValue(line.substring(12,15));
-					log.warn(line.substring(12, 15));
+					log.debug(line.substring(12, 15));
 					
 					// Count of values
 					try{
 					series.defaults.getIntegerDefaultValue(DefaultFields.COUNT).setValue(Integer.parseInt(line.substring(15,20)));
-					log.warn(line.substring(15, 20));
+					log.debug(line.substring(15, 20));
 					} catch (NumberFormatException e)
 					{	}
 
 					// Species
 					series.defaults.getStringDefaultValue(DefaultFields.SPECIES).setValue(line.substring(20,24));
-					log.warn(line.substring(20, 24));
+					log.debug(line.substring(20, 24));
 					
 					// Last year
 					try{
 					series.defaults.getSafeIntYearDefaultValue(DefaultFields.LAST_YEAR).setValue(new SafeIntYear(line.substring(24,30)));
-					log.warn(line.substring(24, 30));
+					log.debug(line.substring(24, 30));
 					} catch (NumberFormatException e)
 					{
 						
@@ -188,7 +188,7 @@ public class VFormatReader extends AbstractDendroFileReader {
 					if(line.substring(30,50).trim()!=null)
 					{
 						series.defaults.getStringDefaultValue(DefaultFields.DESCRIPTION).setValue(line.substring(30,50));
-						log.warn(line.substring(30, 50));
+						log.debug(line.substring(30, 50));
 					}
 		
 					// Created date
@@ -196,7 +196,7 @@ public class VFormatReader extends AbstractDendroFileReader {
 						int day = Integer.parseInt(line.substring(50,52));
 						int month = Integer.parseInt(line.substring(52,54));
 						int year = Integer.parseInt(line.substring(54,58));
-						log.warn(line.substring(50,52)+"/"+line.substring(52,54)+"/"+line.substring(54,58));
+						log.debug(line.substring(50,52)+"/"+line.substring(52,54)+"/"+line.substring(54,58));
 						series.defaults.getDateTimeDefaultValue(DefaultFields.CREATED_DATE).setValue(DateUtils.getDateTime(day, month, year));
 					} catch (Exception e)
 					{
@@ -205,14 +205,14 @@ public class VFormatReader extends AbstractDendroFileReader {
 					
 					// Analyst
 					series.defaults.getStringDefaultValue(DefaultFields.ANALYST).setValue(line.substring(58,60));
-					log.warn(line.substring(58, 60));
+					log.debug(line.substring(58, 60));
 
 					// Updated date
 					try{
 						int day = Integer.parseInt(line.substring(60,62));
 						int month = Integer.parseInt(line.substring(62,64));
 						int year = Integer.parseInt(line.substring(64,68));
-						log.warn(line.substring(60,62)+"/"+line.substring(62,64)+"/"+line.substring(64,68));
+						log.debug(line.substring(60,62)+"/"+line.substring(62,64)+"/"+line.substring(64,68));
 						series.defaults.getDateTimeDefaultValue(DefaultFields.UPDATED_DATE).setValue(DateUtils.getDateTime(day, month, year));
 					} catch (Exception e)
 					{
@@ -222,7 +222,7 @@ public class VFormatReader extends AbstractDendroFileReader {
 					// VFormat version
 					try{
 						series.defaults.getIntegerDefaultValue(DefaultFields.FORMAT_VERSION).setValue(Integer.parseInt(line.substring(68,70)));
-						log.warn(line.substring(68, 70));
+						log.debug(line.substring(68, 70));
 
 					} catch (Exception e)
 					{
@@ -232,7 +232,7 @@ public class VFormatReader extends AbstractDendroFileReader {
 					// Unmeasured rings at start
 					try{
 						series.defaults.getIntegerDefaultValue(DefaultFields.UNMEAS_PRE).setValue(Integer.parseInt(line.substring(70,73)));
-						log.warn(line.substring(70, 73));
+						log.debug(line.substring(70, 73));
 					} catch (Exception e)
 					{
 						
@@ -240,7 +240,7 @@ public class VFormatReader extends AbstractDendroFileReader {
 					
 					// Error for unmeasured rings at start
 					series.defaults.getStringDefaultValue(DefaultFields.UNMEAS_PRE_ERR).setValue(line.substring(73,75));						
-					log.warn(line.substring(73, 75));
+					log.debug(line.substring(73, 75));
 
 					
 					// Unmeasured rings at end

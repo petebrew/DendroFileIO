@@ -58,8 +58,8 @@ public class TridasToTucsonDefaults extends AbstractMetadataFieldSet {
 		setDefaultValue(TucsonField.SPECIES_CODE, new StringDefaultValue("UNKN", 4, 4));
 		setDefaultValue(TucsonField.SPECIES_NAME, new StringDefaultValue("Plantae", 18, 18));
 		setDefaultValue(TucsonField.INVESTIGATOR, new StringDefaultValue(I18n.getText("unknown"), 63, 63));
-		setDefaultValue(TucsonField.ELEVATION, new DoubleDefaultValue(999.9, -418.0, 8850.0, 7, 7)); // Heights of Dead Sea and Everest! ;-)
-		setDefaultValue(TucsonField.LATLONG, new StringDefaultValue("+1234-1234", 10, 10));
+		setDefaultValue(TucsonField.ELEVATION, new DoubleDefaultValue(null, -418.0, 8850.0, 7, 7)); // Heights of Dead Sea and Everest! ;-)
+		setDefaultValue(TucsonField.LATLONG, new StringDefaultValue(null, 10, 10));
 		setDefaultValue(TucsonField.STATE_COUNTRY, new StringDefaultValue(I18n.getText("unknown"), 13, 13));
 		setDefaultValue(TucsonField.COMP_DATE, new StringDefaultValue(getTodaysDateTucsonStyle(), 8, 8));
 	}
