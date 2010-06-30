@@ -159,6 +159,8 @@ public class TridasToBesanconDefaults extends AbstractMetadataFieldSet
 			wc = r.getWoodCompleteness();
 		}
 		
+		// Woodcompleteness not there so return without doing anything
+		if(wc==null) {return ;}
 		
 		// Pith
 		if(wc.isSetPith())

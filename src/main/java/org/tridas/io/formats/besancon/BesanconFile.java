@@ -24,6 +24,7 @@ import org.tridas.io.defaults.IMetadataFieldSet;
 import org.tridas.io.formats.besancon.BesanconToTridasDefaults.DefaultFields;
 import org.tridas.io.formats.heidelberg.HeidelbergToTridasDefaults;
 import org.tridas.io.formats.heidelberg.HeidelbergToTridasDefaults.FHDataFormat;
+import org.tridas.io.util.SafeIntYear;
 import org.tridas.io.util.StringUtils;
 import org.tridas.schema.TridasValue;
 import org.tridas.schema.TridasValues;
@@ -89,6 +90,9 @@ public class BesanconFile implements IDendroFile {
 		
 		for (BesanconSeriesDefaultsPair dataPair : dataPairList)
 		{
+			// Take advantage of the free text feature
+			file.add("## TridasMeasurementSeries: "+dataPair.defaults.getStringDefaultValue(DefaultFields.SERIES_TITLE).getValue());
+						
 			// Series title 
 			file.add(". "+dataPair.defaults.getStringDefaultValue(DefaultFields.SERIES_TITLE).getValue().replace(" ", ""));
 			
@@ -115,6 +119,27 @@ public class BesanconFile implements IDendroFile {
 			{
 				file.add("   MOE ");
 			}
+			
+			// Sapwood - this is a little tricky as Besancon format requires the index of the first sapwood ring 
+			if(dataPair.defaults.getIntegerDefaultValue(DefaultFields.RING_COUNT).getValue()!=null &&
+			   dataPair.defaults.getIntegerDefaultValue(DefaultFields.SAPWOOD_COUNT).getValue()!=null &&
+			   dataPair.defaults.getSafeIntYearDefaultValue(DefaultFields.FIRST_YEAR).getValue()!=null)
+			{
+				// First calculate the year of the first sapwood ring
+				SafeIntYear firstSapYear = dataPair.defaults.getSafeIntYearDefaultValue(DefaultFields.FIRST_YEAR).getValue()
+						.add(dataPair.defaults.getIntegerDefaultValue(DefaultFields.RING_COUNT).getValue())
+						.add(0-dataPair.defaults.getIntegerDefaultValue(DefaultFields.SAPWOOD_COUNT).getValue());
+				
+				// Calculate index
+				int index = firstSapYear.diff(dataPair.defaults.getSafeIntYearDefaultValue(DefaultFields.FIRST_YEAR).getValue());
+				
+				// Only add to file if index is not 0 or the same as the number of rings
+				if(index>0 && index<dataPair.defaults.getIntegerDefaultValue(DefaultFields.RING_COUNT).getValue())
+				{
+					file.add("   AUB "+String.valueOf(index));
+				}
+			}
+			
 			
 			// Start data block
 			file.add("VALeur");

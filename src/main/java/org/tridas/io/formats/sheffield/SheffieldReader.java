@@ -451,7 +451,7 @@ public class SheffieldReader extends AbstractDendroFileReader {
 		
 		int lineNum = 23;
 		// Extract actual values
-		for (int i = 23; i < argFileString.length; i++) {
+		for (int i = 22; i < argFileString.length; i++) {
 			
 			TridasValue v = new TridasValue();
 			
