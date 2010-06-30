@@ -395,6 +395,7 @@ public class TridasToSheffieldDefaults extends AbstractMetadataFieldSet implemen
 			wc = r.getWoodCompleteness();
 		}
 		
+		
 		// Woodcompleteness not there so return without doing anything
 		if(wc==null) {return ;}
 		
