@@ -50,6 +50,7 @@ public class BesanconToTridasDefaults extends TridasMetadataFieldSet {
 		SPECIES, // ESP
 		PITH, // MOE
 		SAPWOOD_START, // AUB
+		SAPWOOD_COUNT,
 		CAMBIUM, // CAM
 		BARK, // ECO
 		FIRST_YEAR, // ORI
