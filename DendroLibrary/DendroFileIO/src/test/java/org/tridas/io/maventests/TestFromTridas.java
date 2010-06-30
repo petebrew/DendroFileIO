@@ -26,6 +26,7 @@ import org.tridas.io.exceptions.ConversionWarningException;
 import org.tridas.io.exceptions.IncompleteTridasDataException;
 import org.tridas.io.exceptions.InvalidDendroFileException;
 import org.tridas.io.formats.belfastapple.BelfastAppleWriter;
+import org.tridas.io.formats.besancon.BesanconWriter;
 import org.tridas.io.formats.corina.CorinaWriter;
 import org.tridas.io.formats.csv.CSVWriter;
 import org.tridas.io.formats.excelmatrix.ExcelMatrixWriter;
@@ -548,4 +549,47 @@ public class TestFromTridas extends TestCase {
 		}
 	}
 	
+	public void testTridasToBesancon() {
+		String folder = "TestData/TRiDaS";
+		String[] files = getFilesFromFolder(folder);
+		
+		if (files.length == 0) {
+			fail();
+		}
+		
+		for (String filename : files) {
+				
+			//if(!filename.equals("TridasMultiVars.xml")) continue;
+			log.info("Test conversion of: " + filename);
+			
+			TridasProject project = null;
+			
+			TridasReader reader = new TridasReader();
+			try {
+				reader.loadFile(folder, filename);
+			} catch (IOException e) {
+				log.info(e.getLocalizedMessage());
+				fail();
+			} catch (InvalidDendroFileException e) {
+				e.printStackTrace();
+				fail();
+			}
+			
+			// Extract the TridasProject
+			project = reader.getProject();
+			
+			// Create a new converter based on a TridasProject
+			BesanconWriter writer = new BesanconWriter();
+			writer.setNamingConvention(new NumericalNamingConvention());
+			try {
+				writer.loadProject(project);
+			} catch (IncompleteTridasDataException e) {
+				e.printStackTrace();
+			} catch (ConversionWarningException e) {
+			} 
+			
+			// Actually save file(s) to disk
+			writer.saveAllToDisk(outputLocation);
+		}
+	}
 }
