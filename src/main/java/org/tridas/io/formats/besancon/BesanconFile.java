@@ -30,7 +30,7 @@ import org.tridas.schema.TridasValues;
 
 public class BesanconFile implements IDendroFile {
 
-	private ArrayList<BesanconSeriesDefaultsPair> dataPairList;
+	private ArrayList<BesanconSeriesDefaultsPair> dataPairList = new ArrayList<BesanconSeriesDefaultsPair>();
 	
 	public BesanconFile() {
 	}
@@ -121,10 +121,10 @@ public class BesanconFile implements IDendroFile {
 			
 			// Loop through values
 			String line = "";
+			int i = 0;
 			for (TridasValue value : dataPair.series.getValues().get(0).getValues())
 			{
-				for (int i=1; i<=10; i++ )
-				{
+					i++;
 					// First line has leader spaces
 					if (i==1)
 					{
@@ -146,8 +146,9 @@ public class BesanconFile implements IDendroFile {
 					{
 						file.add(line);
 						line = "";
+						i=0;
 					}
-				}
+				
 			}
 			
 			// Add end marker (and any remaining values in line buffer)
