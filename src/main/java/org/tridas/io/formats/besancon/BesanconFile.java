@@ -17,8 +17,10 @@ package org.tridas.io.formats.besancon;
 
 import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.List;
 
 import org.tridas.interfaces.ITridasSeries;
+import org.tridas.io.I18n;
 import org.tridas.io.IDendroFile;
 import org.tridas.io.defaults.IMetadataFieldSet;
 import org.tridas.io.formats.besancon.BesanconToTridasDefaults.DefaultFields;
@@ -26,6 +28,9 @@ import org.tridas.io.formats.heidelberg.HeidelbergToTridasDefaults;
 import org.tridas.io.formats.heidelberg.HeidelbergToTridasDefaults.FHDataFormat;
 import org.tridas.io.util.SafeIntYear;
 import org.tridas.io.util.StringUtils;
+import org.tridas.schema.SeriesLink;
+import org.tridas.schema.TridasDerivedSeries;
+import org.tridas.schema.TridasMeasurementSeries;
 import org.tridas.schema.TridasValue;
 import org.tridas.schema.TridasValues;
 
@@ -90,8 +95,44 @@ public class BesanconFile implements IDendroFile {
 		
 		for (BesanconSeriesDefaultsPair dataPair : dataPairList)
 		{
-			// Take advantage of the free text feature
-			file.add("## TridasMeasurementSeries: "+dataPair.defaults.getStringDefaultValue(DefaultFields.SERIES_TITLE).getValue());
+			// Take advantage of the free text feature first
+			if (dataPair.series instanceof TridasMeasurementSeries)
+			{
+				// Just show title of measurement series
+				file.add("## TridasMeasurementSeries: "+dataPair.defaults.getStringDefaultValue(DefaultFields.SERIES_TITLE).getValue());
+			}
+			else
+			{
+				// Try and show a list of series this derivedSeries is created from
+				file.add("## TridasDerivedSeries: "+dataPair.defaults.getStringDefaultValue(DefaultFields.SERIES_TITLE).getValue());
+				TridasDerivedSeries ds = (TridasDerivedSeries) dataPair.series;
+				if(ds.isSetLinkSeries())
+				{
+					file.add("## "+I18n.getText("besancon.parentSeries")+":");
+					List<SeriesLink> serieslist = ds.getLinkSeries().getSeries();
+					for (SeriesLink link : serieslist)
+					{
+						if(link.isSetXLink())
+						{
+							file.add("##   - "+link.getXLink().getHref());
+						}
+						else if (link.isSetIdentifier())
+						{
+							file.add("##   - "+link.getIdentifier().getDomain()+":"+link.getIdentifier().getValue());
+						}
+						else if (link.isSetIdRef())
+						{
+							try{
+							ITridasSeries linkedSeries = ((ITridasSeries)link.getIdRef().getRef());
+							file.add("##   - "+linkedSeries.getIdentifier().getDomain()+":"+linkedSeries.getIdentifier().getValue());
+							} catch (Exception e)
+							{
+								file.add("##   - "+I18n.getText("unnamed.series"));
+							}
+						}
+					}
+				}
+			}
 						
 			// Series title 
 			file.add(". "+dataPair.defaults.getStringDefaultValue(DefaultFields.SERIES_TITLE).getValue().replace(" ", ""));
@@ -186,9 +227,6 @@ public class BesanconFile implements IDendroFile {
 				line += StringUtils.leftPad(";", 6);
 				file.add(line);
 			}
-			
-			
-			
 		}
 		
 		return file.toArray(new String[0]);

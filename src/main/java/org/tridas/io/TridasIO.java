@@ -46,6 +46,7 @@ import org.tridas.io.formats.tucson.TucsonWriter;
 import org.tridas.io.formats.tucsoncompact.TucsonCompactReader;
 import org.tridas.io.formats.tucsoncompact.TucsonCompactWriter;
 import org.tridas.io.formats.vformat.VFormatReader;
+import org.tridas.io.formats.vformat.VFormatWriter;
 import org.tridas.io.formats.topham.TophamReader;
 import org.tridas.io.formats.topham.TophamWriter;
 import org.tridas.io.formats.nottingham.NottinghamReader;
@@ -107,6 +108,7 @@ public class TridasIO {
 		registerFileWriter(TucsonCompactWriter.class);
 		registerFileWriter(CorinaWriter.class);
 		registerFileWriter(BesanconWriter.class);
+		registerFileWriter(VFormatWriter.class);
 
 
 

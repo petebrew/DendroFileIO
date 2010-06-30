@@ -38,6 +38,7 @@ import org.tridas.io.formats.tridas.TridasReader;
 import org.tridas.io.formats.trims.TrimsWriter;
 import org.tridas.io.formats.tucson.TucsonWriter;
 import org.tridas.io.formats.tucsoncompact.TucsonCompactWriter;
+import org.tridas.io.formats.vformat.VFormatWriter;
 import org.tridas.io.naming.HierarchicalNamingConvention;
 import org.tridas.io.naming.NumericalNamingConvention;
 import org.tridas.schema.TridasProject;
@@ -580,6 +581,50 @@ public class TestFromTridas extends TestCase {
 			
 			// Create a new converter based on a TridasProject
 			BesanconWriter writer = new BesanconWriter();
+			writer.setNamingConvention(new NumericalNamingConvention());
+			try {
+				writer.loadProject(project);
+			} catch (IncompleteTridasDataException e) {
+				e.printStackTrace();
+			} catch (ConversionWarningException e) {
+			} 
+			
+			// Actually save file(s) to disk
+			writer.saveAllToDisk(outputLocation);
+		}
+	}
+	
+	public void testTridasToVFormat() {
+		String folder = "TestData/TRiDaS";
+		String[] files = getFilesFromFolder(folder);
+		
+		if (files.length == 0) {
+			fail();
+		}
+		
+		for (String filename : files) {
+				
+			//if(!filename.equals("TridasMultiVars.xml")) continue;
+			log.info("Test conversion of: " + filename);
+			
+			TridasProject project = null;
+			
+			TridasReader reader = new TridasReader();
+			try {
+				reader.loadFile(folder, filename);
+			} catch (IOException e) {
+				log.info(e.getLocalizedMessage());
+				fail();
+			} catch (InvalidDendroFileException e) {
+				e.printStackTrace();
+				fail();
+			}
+			
+			// Extract the TridasProject
+			project = reader.getProject();
+			
+			// Create a new converter based on a TridasProject
+			VFormatWriter writer = new VFormatWriter();
 			writer.setNamingConvention(new NumericalNamingConvention());
 			try {
 				writer.loadProject(project);

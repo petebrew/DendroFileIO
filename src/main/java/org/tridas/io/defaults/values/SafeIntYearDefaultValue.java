@@ -36,6 +36,15 @@ public class SafeIntYearDefaultValue extends AbstractDefaultValue<SafeIntYear> {
 		value = argValue;
 	}
 	
+	public SafeIntYearDefaultValue(SafeIntYear argValue, int argMinLength, int argMaxLength) {
+		super(argMaxLength, argMinLength);
+		value = argValue;
+	}
+	
+	public SafeIntYearDefaultValue(int argMinLength, int argMaxLength) {
+		super(argMaxLength, argMinLength);
+	}
+	
 	/**
 	 * @see org.tridas.io.defaults.IDefaultValue#getValue()
 	 */
@@ -43,12 +52,7 @@ public class SafeIntYearDefaultValue extends AbstractDefaultValue<SafeIntYear> {
 	public SafeIntYear getValue() {
 		return value;
 	}
-	
-	@Override
-	public String getStringValue() {
-		return value.toString();
-	}
-	
+		
 	@Override
 	protected boolean validateAndSetValue(SafeIntYear argValue) {
 		value = argValue;
