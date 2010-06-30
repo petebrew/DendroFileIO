@@ -65,7 +65,7 @@ public class ITRDBTaxonConverter {
 			initializeMap();
 		}
 		if (convertionMap.containsKey(argCode)) {
-			return argCode;
+			return argCode.toUpperCase();
 		}
 		else {
 			return defaultCode;

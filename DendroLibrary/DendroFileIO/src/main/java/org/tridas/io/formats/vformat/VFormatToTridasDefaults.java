@@ -69,7 +69,8 @@ import org.tridas.schema.TridasWoodCompleteness;
 		UNMEAS_POST_ERR,
 		FREE_TEXT_FIELD,
 		LATITUDE,
-		LONGITUDE;	
+		LONGITUDE,
+		ELEVATION;	
 	}
 
 public class VFormatToTridasDefaults extends TridasMetadataFieldSet {
@@ -107,6 +108,8 @@ public class VFormatToTridasDefaults extends TridasMetadataFieldSet {
 		setDefaultValue(DefaultFields.FREE_TEXT_FIELD, new StringDefaultValue());
 		setDefaultValue(DefaultFields.LATITUDE, new DoubleDefaultValue(null, -90.0, 90.0));
 		setDefaultValue(DefaultFields.LONGITUDE, new DoubleDefaultValue(null, -180.0, 180.0));
+		setDefaultValue(DefaultFields.ELEVATION, new DoubleDefaultValue(null));
+
 	}
 	
 	
@@ -177,6 +180,12 @@ public class VFormatToTridasDefaults extends TridasMetadataFieldSet {
 					getDoubleDefaultValue(DefaultFields.LATITUDE).getValue(), 
 					getDoubleDefaultValue(DefaultFields.LONGITUDE).getValue()));
 			e.setLocation(location);
+		}
+		
+		// Elevation
+		if(getDoubleDefaultValue(DefaultFields.ELEVATION).getValue()!=null)
+		{
+			e.setAltitude(getDoubleDefaultValue(DefaultFields.ELEVATION).getValue());
 		}
 		
 		return e;
@@ -438,6 +447,33 @@ public class VFormatToTridasDefaults extends TridasMetadataFieldSet {
 		
 		public static VFormatParameter fromCode(String code) {
 			for (VFormatParameter val : VFormatParameter.values()) {
+				if (val.toString().equalsIgnoreCase(code)) {
+					return val;
+				}
+			}
+			return null;
+		}
+		
+	}
+	
+	public enum VFormatStatType {
+		FREQ_FILTERED_SERIES("F"), INDEX("I"), MEAN_OF_SERIES("M"), ORIGINAL("O"), POINTER_YEAR("P"),
+		CULSTER_POINTER_YEAR("Q"), RESIDUAL("R"), MOVING_DEVIATION("S"), TREND_FITTED_CURVE("T"), 
+		TRANSFORMED_WUCHSWERT("W"), STANDARDISED_MEAN_AND_VARIANCE("X"), CENTRAL_MOMENT("Z");
+		
+		private String code;
+		
+		VFormatStatType(String c) {
+			code = c;
+		}
+		
+		@Override
+		public final String toString() {
+			return code;
+		}
+		
+		public static VFormatStatType fromCode(String code) {
+			for (VFormatStatType val : VFormatStatType.values()) {
 				if (val.toString().equalsIgnoreCase(code)) {
 					return val;
 				}

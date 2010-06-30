@@ -15,6 +15,9 @@
  */
 package org.tridas.io.defaults.values;
 
+import java.text.SimpleDateFormat;
+import java.util.Date;
+
 import org.grlea.log.SimpleLogger;
 import org.tridas.io.defaults.AbstractDefaultValue;
 import org.tridas.io.util.DateUtils;
@@ -28,6 +31,7 @@ public class DateTimeDefaultValue extends AbstractDefaultValue<DateTime> {
 	private static final SimpleLogger log = new SimpleLogger(DateTimeDefaultValue.class);
 	
 	private DateTime value = null;
+	private SimpleDateFormat sdf = new SimpleDateFormat("dd/MM/yyyy");
 	
 	public DateTimeDefaultValue() {
 
@@ -35,6 +39,30 @@ public class DateTimeDefaultValue extends AbstractDefaultValue<DateTime> {
 	
 	public DateTimeDefaultValue(DateTime argValue) {
 		value = argValue;
+	}
+	
+	public DateTimeDefaultValue(DateTime argValue, SimpleDateFormat format) {
+		sdf = format;
+		value = argValue;
+	}
+	
+	/**
+	 * Set the formatter that should be used by the toStringValue function
+	 * @param format
+	 */
+	public void setSimpleDateFormat(SimpleDateFormat format)
+	{
+		sdf = format;
+	}
+	
+	/**
+	 * Get the formatter used for saving this DateTime to string
+	 * @param format
+	 * @return
+	 */
+	public SimpleDateFormat getSimpleDateFormat(SimpleDateFormat format)
+	{
+		return sdf;
 	}
 	
 	/**
@@ -49,6 +77,8 @@ public class DateTimeDefaultValue extends AbstractDefaultValue<DateTime> {
 	public String getStringValue() {
 		if (value != null) {
 			value.toString();
+			Date dt = value.getValue().toGregorianCalendar().getTime();
+			return sdf.format(dt.getTime());
 		}
 		return null;
 	}

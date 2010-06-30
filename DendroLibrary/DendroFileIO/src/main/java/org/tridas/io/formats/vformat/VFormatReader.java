@@ -61,7 +61,8 @@ public class VFormatReader extends AbstractDendroFileReader {
 	private VFormatToTridasDefaults defaults = new VFormatToTridasDefaults();
 	private ArrayList<VFormatSeries> seriesList = new ArrayList<VFormatSeries>();
 	private Integer currentLineNumber = 0;
-		
+	private Integer formatVersion = 12;	
+	
 	enum VFormatLineType {
 		HEADER_1, HEADER_2, HEADER_3, DATA, INVALID;
 	}
@@ -111,12 +112,16 @@ public class VFormatReader extends AbstractDendroFileReader {
 					
 					// Check whether this is a supported version format
 					try {
-						Integer fileVersionNumber = Integer.valueOf(line.substring(68, 70));
-						if (fileVersionNumber.compareTo(12) > 0) {
+						formatVersion = Integer.valueOf(line.substring(68, 70));
+						if (formatVersion.compareTo(20) >= 0) {
 							addWarning(new ConversionWarning(WarningType.NOT_STRICT, I18n.getText(
-									"vformat.unsupportedFormat", String.valueOf(fileVersionNumber))));
+									"vformat.unsupportedFormat", String.valueOf(formatVersion))));
 						}
-					} catch (NumberFormatException e) {}
+					} catch (NumberFormatException e) 
+					{
+						throw new InvalidDendroFileException(I18n.getText("vformat.invalidFormatVersion"), currentLineNumber);
+
+					}
 															
 					// Series ID
 					series.defaults.getStringDefaultValue(DefaultFields.SERIES_ID).setValue(line.substring(0, 11));
@@ -169,7 +174,10 @@ public class VFormatReader extends AbstractDendroFileReader {
 					series.defaults.getIntegerDefaultValue(DefaultFields.COUNT).setValue(Integer.parseInt(line.substring(15,20)));
 					log.debug(line.substring(15, 20));
 					} catch (NumberFormatException e)
-					{	}
+					{	
+						addWarning(new ConversionWarning(WarningType.IGNORED, I18n.getText(
+								"fileio.unableToParse", "count")));
+					}
 
 					// Species
 					series.defaults.getStringDefaultValue(DefaultFields.SPECIES).setValue(line.substring(20,24));
@@ -181,7 +189,8 @@ public class VFormatReader extends AbstractDendroFileReader {
 					log.debug(line.substring(24, 30));
 					} catch (NumberFormatException e)
 					{
-						
+						addWarning(new ConversionWarning(WarningType.IGNORED, I18n.getText(
+								"fileio.unableToParse", "lastYear")));
 					}
 					
 					// Description
@@ -200,7 +209,8 @@ public class VFormatReader extends AbstractDendroFileReader {
 						series.defaults.getDateTimeDefaultValue(DefaultFields.CREATED_DATE).setValue(DateUtils.getDateTime(day, month, year));
 					} catch (Exception e)
 					{
-						
+						addWarning(new ConversionWarning(WarningType.IGNORED, I18n.getText(
+								"fileio.unableToParse", "createdDate")));
 					}
 					
 					// Analyst
@@ -216,26 +226,18 @@ public class VFormatReader extends AbstractDendroFileReader {
 						series.defaults.getDateTimeDefaultValue(DefaultFields.UPDATED_DATE).setValue(DateUtils.getDateTime(day, month, year));
 					} catch (Exception e)
 					{
-						
+						addWarning(new ConversionWarning(WarningType.IGNORED, I18n.getText(
+								"fileio.unableToParse", "updatedDate")));
 					}
-					
-					// VFormat version
-					try{
-						series.defaults.getIntegerDefaultValue(DefaultFields.FORMAT_VERSION).setValue(Integer.parseInt(line.substring(68,70)));
-						log.debug(line.substring(68, 70));
-
-					} catch (Exception e)
-					{
-						
-					}
-					
+									
 					// Unmeasured rings at start
 					try{
 						series.defaults.getIntegerDefaultValue(DefaultFields.UNMEAS_PRE).setValue(Integer.parseInt(line.substring(70,73)));
 						log.debug(line.substring(70, 73));
 					} catch (Exception e)
 					{
-						
+						addWarning(new ConversionWarning(WarningType.IGNORED, I18n.getText(
+								"fileio.unableToParse", "unmeasuredRingsPre")));
 					}
 					
 					// Error for unmeasured rings at start
@@ -248,7 +250,8 @@ public class VFormatReader extends AbstractDendroFileReader {
 						series.defaults.getIntegerDefaultValue(DefaultFields.UNMEAS_POST).setValue(Integer.parseInt(line.substring(75,78)));
 					} catch (Exception e)
 					{
-						
+						addWarning(new ConversionWarning(WarningType.IGNORED, I18n.getText(
+								"fileio.unableToParse", "unmeasuredRingsPost")));
 					}
 					
 					// Error for unmeasured rings at end
