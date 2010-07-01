@@ -79,39 +79,34 @@ public class TridasIO {
 		// register file readers/writers
 		registerFileReader(BelfastAppleReader.class);
 		registerFileReader(BelfastArchiveReader.class);
+		registerFileReader(BesanconReader.class);
 		registerFileReader(CatrasReader.class);
+		registerFileReader(CorinaReader.class);
 		registerFileReader(HeidelbergReader.class);
+		registerFileReader(NottinghamReader.class);
 		registerFileReader(SheffieldReader.class);
+		registerFileReader(TophamReader.class);
 		registerFileReader(TridasReader.class);
 		registerFileReader(TrimsReader.class);
 		registerFileReader(TucsonReader.class);
-		registerFileReader(VFormatReader.class);
-		// registerFileReader(SylpheReader.class);
-		registerFileReader(BesanconReader.class);
-		registerFileReader(WinDendroReader.class);
-		registerFileReader(TophamReader.class);
-		registerFileReader(NottinghamReader.class);
 		registerFileReader(TucsonCompactReader.class);
-		registerFileReader(CorinaReader.class);
-
+		registerFileReader(VFormatReader.class);
+		registerFileReader(WinDendroReader.class);
 		
-		registerFileWriter(HeidelbergWriter.class);
 		registerFileWriter(BelfastAppleWriter.class);
-		registerFileWriter(TridasWriter.class);
-		registerFileWriter(TucsonWriter.class);
-		registerFileWriter(TrimsWriter.class);
+		registerFileWriter(BesanconWriter.class);
+		registerFileWriter(CorinaWriter.class);
 		registerFileWriter(CSVWriter.class);
 		registerFileWriter(ExcelMatrixWriter.class);
+		registerFileWriter(HeidelbergWriter.class);
+		registerFileWriter(NottinghamWriter.class);
 		registerFileWriter(SheffieldWriter.class);
 		registerFileWriter(TophamWriter.class);
-		registerFileWriter(NottinghamWriter.class);
+		registerFileWriter(TridasWriter.class);
+		registerFileWriter(TrimsWriter.class);
+		registerFileWriter(TucsonWriter.class);
 		registerFileWriter(TucsonCompactWriter.class);
-		registerFileWriter(CorinaWriter.class);
-		registerFileWriter(BesanconWriter.class);
 		registerFileWriter(VFormatWriter.class);
-
-
-
 	}
 	
 	/**
