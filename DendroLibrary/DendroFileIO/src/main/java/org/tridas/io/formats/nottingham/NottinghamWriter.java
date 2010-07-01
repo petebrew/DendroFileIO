@@ -91,7 +91,7 @@ public class NottinghamWriter extends AbstractDendroCollectionWriter {
 	@Override
 	protected void parseTridasProject(TridasProject argProject,
 			IMetadataFieldSet argDefaults)
-			throws IncompleteTridasDataException, ConversionWarningException {
+			throws IncompleteTridasDataException {
 		
 		defaults = (TridasToNottinghamDefaults) argDefaults;
 		
@@ -127,7 +127,7 @@ public class NottinghamWriter extends AbstractDendroCollectionWriter {
 											break;
 										default:
 											// All other variables not representable
-											this.addWarning(new ConversionWarning(WarningType.IGNORED, I18n.getText("fileio.unsupportedVariable", tvsgroup.getVariable().getNormalTridas().toString().toLowerCase().replace("_", " "))));
+											this.addWarning(new ConversionWarning(WarningType.IGNORED, I18n.getText("fileio.unsupportedVariable", tvsgroup.getVariable().getNormalTridas().value())));
 											skipThisGroup = true;
 										}
 									}
@@ -142,6 +142,8 @@ public class NottinghamWriter extends AbstractDendroCollectionWriter {
 								{
 									this.addWarning(new ConversionWarning(WarningType.IGNORED, ex.getLocalizedMessage()));
 									skipThisGroup=true;
+								} catch (ConversionWarningException ex) {
+									this.addWarning(ex.getWarning());
 								}
 								
 								
@@ -193,7 +195,7 @@ public class NottinghamWriter extends AbstractDendroCollectionWriter {
 							break;
 						default:
 							// All other variables not representable
-							 this.addWarning(new ConversionWarning(WarningType.IGNORED, I18n.getText("fileio.unsupportedVariable"), tvsgroup.getVariable().getNormalTridas().toString().toLowerCase().replace("_", " ")));
+							 this.addWarning(new ConversionWarning(WarningType.IGNORED, I18n.getText("fileio.unsupportedVariable", tvsgroup.getVariable().getNormalTridas().value())));
 							skipThisGroup = true;
 						}
 					}
@@ -211,6 +213,8 @@ public class NottinghamWriter extends AbstractDendroCollectionWriter {
 				{
 					this.addWarning(new ConversionWarning(WarningType.IGNORED, ex.getLocalizedMessage()));
 					skipThisGroup=true;
+				} catch (ConversionWarningException ex) {
+					this.addWarning(ex.getWarning());
 				}
 				
 				

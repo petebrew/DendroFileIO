@@ -1,3 +1,18 @@
+/*******************************************************************************
+ * Copyright 2010 Peter Brewer and Daniel Murphy
+ * 
+ * Licensed under the Apache License, Version 2.0 (the "License");
+ * you may not use this file except in compliance with the License.
+ * You may obtain a copy of the License at
+ * 
+ *   http://www.apache.org/licenses/LICENSE-2.0
+ * 
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an "AS IS" BASIS,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * See the License for the specific language governing permissions and
+ * limitations under the License.
+ ******************************************************************************/
 package org.tridas.io.formats.vformat;
 
 import org.tridas.io.AbstractDendroCollectionWriter;
@@ -81,9 +96,10 @@ public class VFormatWriter extends AbstractDendroCollectionWriter {
 	@Override
 	protected void parseTridasProject(TridasProject argProject,
 			IMetadataFieldSet argDefaults)
-			throws IncompleteTridasDataException, ConversionWarningException {
+			throws IncompleteTridasDataException {
 		defaults = (TridasToVFormatDefaults) argDefaults;
 		defaults.populateFromTridasProject(argProject);
+		VFormatFile file = new VFormatFile();
 		
 		for (TridasObject o : TridasHierarchyHelper.getObjectList(argProject)) {
 			TridasToVFormatDefaults objectDefaults = (TridasToVFormatDefaults) defaults.clone();
@@ -128,7 +144,12 @@ public class VFormatWriter extends AbstractDendroCollectionWriter {
 										case EARLYWOOD_WIDTH:
 										case LATEWOOD_WIDTH:
 											// Handled ok - but needs unit convertion
-											tvsgroup = UnitUtils.convertTridasValues(NormalTridasUnit.HUNDREDTH_MM, tvsgroup, true);				
+											try {
+												tvsgroup = UnitUtils.convertTridasValues(NormalTridasUnit.HUNDREDTH_MM, tvsgroup, true);
+											} catch (NumberFormatException e1) {
+											} catch (ConversionWarningException e1) {
+												this.addWarning(e1.getWarning());
+											}				
 											break;		
 										case LATEWOOD_PERCENT:
 										case MAXIMUM_DENSITY:
@@ -137,7 +158,7 @@ public class VFormatWriter extends AbstractDendroCollectionWriter {
 											break;
 										default:
 											// All other variables not representable
-											this.addWarning(new ConversionWarning(WarningType.IGNORED, I18n.getText("fileio.unsupportedVariable", tvsgroup.getVariable().getNormalTridas().toString().toLowerCase().replace("_", " "))));
+											this.addWarning(new ConversionWarning(WarningType.IGNORED, I18n.getText("fileio.unsupportedVariable", tvsgroup.getVariable().getNormalTridas().value())));
 											skipThisGroup = true;
 										}
 									}
@@ -148,18 +169,13 @@ public class VFormatWriter extends AbstractDendroCollectionWriter {
 								
 								TridasToVFormatDefaults tvDefaults = (TridasToVFormatDefaults) msDefaults.clone();
 								tvDefaults.populateFromTridasValues(tvsgroup);
-								
-								VFormatFile file = new VFormatFile(tvDefaults);
+					
 								
 								// Add series to file
-								file.setSeries(ms);
-								file.setDataValues(tvsgroup);
+								file.addSeries(tvsgroup, tvDefaults);
 								
 								// Set naming convention
 								naming.registerFile(file, argProject, o, e, s, r, ms);
-								
-								// Add file to list
-								addToFileList(file);
 							}
 							
 						}
@@ -168,7 +184,8 @@ public class VFormatWriter extends AbstractDendroCollectionWriter {
 			}
 		}
 		
-		for (TridasDerivedSeries ds : argProject.getDerivedSeries()) {
+		for (TridasDerivedSeries ds : argProject.getDerivedSeries()) 
+		{
 			TridasToVFormatDefaults dsDefaults = (TridasToVFormatDefaults) defaults.clone();
 			dsDefaults.populateFromTridasDerivedSeries(ds);
 			
@@ -193,7 +210,12 @@ public class VFormatWriter extends AbstractDendroCollectionWriter {
 						case EARLYWOOD_WIDTH:
 						case LATEWOOD_WIDTH:
 							// Handled ok - but needs unit convertion
-							tvsgroup = UnitUtils.convertTridasValues(NormalTridasUnit.HUNDREDTH_MM, tvsgroup, true);				
+							try {
+								tvsgroup = UnitUtils.convertTridasValues(NormalTridasUnit.HUNDREDTH_MM, tvsgroup, true);
+							} catch (NumberFormatException e) {
+							} catch (ConversionWarningException e) {
+								this.addWarning(e.getWarning());
+							}				
 							break;		
 						case LATEWOOD_PERCENT:
 						case MAXIMUM_DENSITY:
@@ -202,7 +224,7 @@ public class VFormatWriter extends AbstractDendroCollectionWriter {
 							break;
 						default:
 							// All other variables not representable
-							this.addWarning(new ConversionWarning(WarningType.IGNORED, I18n.getText("fileio.unsupportedVariable", tvsgroup.getVariable().getNormalTridas().toString().toLowerCase().replace("_", " "))));
+							this.addWarning(new ConversionWarning(WarningType.IGNORED, I18n.getText("fileio.unsupportedVariable", tvsgroup.getVariable().getNormalTridas().value())));
 							skipThisGroup = true;
 						}
 					}
@@ -213,20 +235,18 @@ public class VFormatWriter extends AbstractDendroCollectionWriter {
 				
 				TridasToVFormatDefaults tvDefaults = (TridasToVFormatDefaults) dsDefaults.clone();
 				tvDefaults.populateFromTridasValues(tvsgroup);
-				
-				VFormatFile file = new VFormatFile(tvDefaults);
-				
+			
 				// Add series to file
-				file.setSeries(ds);
-				file.setDataValues(tvsgroup);
+				file.addSeries(tvsgroup, tvDefaults);
 								
 				// Set naming convention
 				naming.registerFile(file, argProject, ds);
-				
-				// Add file to list
-				addToFileList(file);
+			
 			}
 			
 		}
+		
+		// Add file to list
+		addToFileList(file);
 	}
 }

@@ -213,7 +213,7 @@ public class TucsonFile implements IDendroFile {
 					
 					// Include count if applicable: "%3d" (right-align)
 					if (isChronology) {
-						string.append(StringUtils.leftPad(data.get(y.diff(start)).toString(), 3));
+						string.append(StringUtils.leftPad(data.get(y.diff(start)).getCount().toString(), 3));
 					}
 
 				}

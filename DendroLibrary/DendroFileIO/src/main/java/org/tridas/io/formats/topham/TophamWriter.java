@@ -91,7 +91,7 @@ public class TophamWriter extends AbstractDendroCollectionWriter {
 	@Override
 	protected void parseTridasProject(TridasProject argProject,
 			IMetadataFieldSet argDefaults)
-			throws IncompleteTridasDataException, ConversionWarningException {
+			throws IncompleteTridasDataException {
 		
 		defaults = (TridasToTophamDefaults) argDefaults;
 		
@@ -123,7 +123,7 @@ public class TophamWriter extends AbstractDendroCollectionWriter {
 											break;
 										default:
 											// All other variables not representable
-											this.addWarning(new ConversionWarning(WarningType.IGNORED, I18n.getText("fileio.unsupportedVariable", tvsgroup.getVariable().getNormalTridas().toString().toLowerCase().replace("_", " "))));
+											this.addWarning(new ConversionWarning(WarningType.IGNORED, I18n.getText("fileio.unsupportedVariable", tvsgroup.getVariable().getNormalTridas().value())));
 											skipThisGroup = true;
 										}
 									}
@@ -146,7 +146,13 @@ public class TophamWriter extends AbstractDendroCollectionWriter {
 								
 							
 								// Convert units and add data to file
-								file.setDataValues(UnitUtils.convertTridasValues(NormalTridasUnit.MILLIMETRES, tvsgroup, false));
+								try {
+									file.setDataValues(UnitUtils.convertTridasValues(NormalTridasUnit.MILLIMETRES, tvsgroup, false));
+								} catch (NumberFormatException e1) {
+
+								} catch (ConversionWarningException e1) {
+									this.addWarning(e1.getWarning());
+								}
 								
 								// Set naming convention
 								naming.registerFile(file, argProject, o, e, s, r, ms);
@@ -186,7 +192,7 @@ public class TophamWriter extends AbstractDendroCollectionWriter {
 							break;
 						default:
 							// All other variables not representable
-							this.addWarning(new ConversionWarning(WarningType.IGNORED, I18n.getText("fileio.unsupportedVariable"), tvsgroup.getVariable().getNormalTridas().toString().toLowerCase().replace("_", " ")));
+							this.addWarning(new ConversionWarning(WarningType.IGNORED, I18n.getText("fileio.unsupportedVariable", tvsgroup.getVariable().getNormalTridas().value())));
 							skipThisGroup = true;
 						}
 					}
@@ -209,7 +215,12 @@ public class TophamWriter extends AbstractDendroCollectionWriter {
 
 				
 				// Convert units and add data to file
-				file.setDataValues(UnitUtils.convertTridasValues(NormalTridasUnit.MILLIMETRES, tvsgroup, false));
+				try {
+					file.setDataValues(UnitUtils.convertTridasValues(NormalTridasUnit.MILLIMETRES, tvsgroup, false));
+				} catch (NumberFormatException e) {
+				} catch (ConversionWarningException e) {
+					this.addWarning(e.getWarning());
+				}
 				
 				// Set naming convention
 				naming.registerFile(file, argProject, ds);

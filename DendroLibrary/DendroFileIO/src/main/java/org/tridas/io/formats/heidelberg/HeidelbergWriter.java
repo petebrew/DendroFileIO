@@ -53,7 +53,7 @@ public class HeidelbergWriter extends AbstractDendroCollectionWriter {
 	
 	@Override
 	protected void parseTridasProject(TridasProject argProject, IMetadataFieldSet argDefaults)
-			throws IncompleteTridasDataException, ConversionWarningException {
+			throws IncompleteTridasDataException {
 		defaults = (TridasToHeidelbergDefaults) argDefaults;
 		defaults.populateFromTridasProject(argProject);
 		
@@ -174,9 +174,10 @@ public class HeidelbergWriter extends AbstractDendroCollectionWriter {
 			dsDefaults.populateFromDerivedSeries(ds);
 			
 			for (int i = 0; i < ds.getValues().size(); i++) {
-				boolean skipThisGroup = false;
-
+				
 				TridasValues tvsgroup = ds.getValues().get(i);
+				
+				boolean skipThisGroup = false;
 				TridasToHeidelbergDefaults tvDefaults = (TridasToHeidelbergDefaults) dsDefaults.clone();
 				
 				// Check we can handle this variable
@@ -198,32 +199,34 @@ public class HeidelbergWriter extends AbstractDendroCollectionWriter {
 							break;
 						default:
 							// All other variables not representable
-							tvDefaults.addConversionWarning(new ConversionWarning(WarningType.IGNORED, I18n.getText("fileio.unsupportedVariable"), tvsgroup.getVariable().getNormalTridas().toString().toLowerCase().replace("_", " ")));
+							this.addWarning(new ConversionWarning(WarningType.UNREPRESENTABLE, I18n.getText("fileio.unsupportedVariable", tvsgroup.getVariable().getNormalTridas().value())));
 							skipThisGroup = true;
 						}
 					}
 				}
 				
 				// Dodgy variable so skip
-				if(skipThisGroup) continue;
+				if(!skipThisGroup)
+				{
 				
-				// Check there are no non-number values
-				for (TridasValue v : tvsgroup.getValues()) {
-					try {
-						Integer.parseInt(v.getValue());
-					} catch (NumberFormatException e2) {
-						throw new IncompleteTridasDataException(
-								"One or more data values are not numbers!  This is technically acceptable in TRiDaS but not supported in this library.");
+					// Check there are no non-number values
+					for (TridasValue v : tvsgroup.getValues()) {
+						try {
+							Integer.parseInt(v.getValue());
+						} catch (NumberFormatException e2) {
+							throw new IncompleteTridasDataException(
+									I18n.getText("heidelberg.integerValuesOnly"));
+						}
 					}
+					
+					tvDefaults.populateFromTridasValues(tvsgroup);
+					
+					HeidelbergFile file = new HeidelbergFile(tvDefaults);
+					file.setSeries(ds, i);
+					file.setDataValues(tvsgroup);
+					naming.registerFile(file, argProject, ds);
+					addToFileList(file);
 				}
-				
-				tvDefaults.populateFromTridasValues(tvsgroup);
-				
-				HeidelbergFile file = new HeidelbergFile(tvDefaults);
-				file.setSeries(ds, i);
-				file.setDataValues(tvsgroup);
-				naming.registerFile(file, argProject, ds);
-				addToFileList(file);
 			}
 		}
 	}

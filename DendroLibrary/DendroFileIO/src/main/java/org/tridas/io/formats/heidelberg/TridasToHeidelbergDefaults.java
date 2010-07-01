@@ -15,7 +15,7 @@
  */
 package org.tridas.io.formats.heidelberg;
 
-import java.text.DateFormat;
+import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.List;
 
@@ -30,6 +30,8 @@ import org.tridas.io.defaults.values.DoubleDefaultValue;
 import org.tridas.io.defaults.values.GenericDefaultValue;
 import org.tridas.io.defaults.values.IntegerDefaultValue;
 import org.tridas.io.defaults.values.StringDefaultValue;
+import org.tridas.io.exceptions.ConversionWarning;
+import org.tridas.io.exceptions.ConversionWarning.WarningType;
 import org.tridas.io.formats.heidelberg.HeidelbergToTridasDefaults.DefaultFields;
 import org.tridas.io.formats.heidelberg.HeidelbergToTridasDefaults.FHBarkType;
 import org.tridas.io.formats.heidelberg.HeidelbergToTridasDefaults.FHDataFormat;
@@ -39,17 +41,13 @@ import org.tridas.io.formats.heidelberg.HeidelbergToTridasDefaults.FHPith;
 import org.tridas.io.formats.heidelberg.HeidelbergToTridasDefaults.FHSeriesType;
 import org.tridas.io.formats.heidelberg.HeidelbergToTridasDefaults.FHStartsOrEndsWith;
 import org.tridas.io.formats.heidelberg.HeidelbergToTridasDefaults.FHWaldKante;
-import org.tridas.io.formats.sheffield.TridasToSheffieldDefaults.SheffieldVariableCode;
-import org.tridas.io.formats.tucson.TridasToTucsonDefaults.TucsonField;
 import org.tridas.io.util.ITRDBTaxonConverter;
 import org.tridas.io.util.SafeIntYear;
 import org.tridas.schema.ComplexPresenceAbsence;
-import org.tridas.schema.ControlledVoc;
 import org.tridas.schema.PresenceAbsence;
 import org.tridas.schema.TridasBark;
 import org.tridas.schema.TridasDerivedSeries;
 import org.tridas.schema.TridasElement;
-import org.tridas.schema.TridasHeartwood;
 import org.tridas.schema.TridasIdentifier;
 import org.tridas.schema.TridasInterpretation;
 import org.tridas.schema.TridasLastRingUnderBark;
@@ -67,7 +65,7 @@ import org.tridas.schema.TridasWoodCompleteness;
 public class TridasToHeidelbergDefaults extends AbstractMetadataFieldSet implements IMetadataFieldSet {
 	
 	private static final SimpleLogger log = new SimpleLogger(TridasToHeidelbergDefaults.class);
-	
+	private SimpleDateFormat dateFormat = new SimpleDateFormat("dd/MM/yyyy");
 	
 	@Override
 	protected void initDefaultValues() {
@@ -97,7 +95,7 @@ public class TridasToHeidelbergDefaults extends AbstractMetadataFieldSet impleme
 		setDefaultValue(DefaultFields.FIRST_MEASUREMENT_DATE, new StringDefaultValue());
 		setDefaultValue(DefaultFields.HOUSE_NAME, new StringDefaultValue());
 		setDefaultValue(DefaultFields.HOUSE_NUMBER, new StringDefaultValue());	
-		setDefaultValue(DefaultFields.KEYCODE, new StringDefaultValue());
+		setDefaultValue(DefaultFields.KEYCODE, new StringDefaultValue("XXXXXX"));
 		setDefaultValue(DefaultFields.LAB_CODE, new StringDefaultValue());
 		setDefaultValue(DefaultFields.LAST_REVISION_DATE, new StringDefaultValue());
 		setDefaultValue(DefaultFields.LAST_REVISION_PERS_ID, new StringDefaultValue());
@@ -177,7 +175,7 @@ public class TridasToHeidelbergDefaults extends AbstractMetadataFieldSet impleme
 		{
 			if(argElement.getShape().isSetNormal())
 			{
-				getStringDefaultValue(DefaultFields.SHAPE_OF_SAMPLE).setValue(argElement.getShape().getNormalTridas().toString());
+				getStringDefaultValue(DefaultFields.SHAPE_OF_SAMPLE).setValue(argElement.getShape().getNormalTridas().value());
 			}
 			else 
 			{
@@ -233,7 +231,7 @@ public class TridasToHeidelbergDefaults extends AbstractMetadataFieldSet impleme
 		{
 			XMLGregorianCalendar xcal = argSample.getSamplingDate().getValue();
 			Date dt = xcal.toGregorianCalendar().getTime();
-			getStringDefaultValue(DefaultFields.DATE_OF_SAMPLING).setValue(dt.toString());
+			getStringDefaultValue(DefaultFields.DATE_OF_SAMPLING).setValue(dateFormat.format(dt));
 		}
 		
 		// Sampling position
@@ -246,6 +244,9 @@ public class TridasToHeidelbergDefaults extends AbstractMetadataFieldSet impleme
 	
 	@SuppressWarnings("unchecked")
 	public void populateFromTridasValues(TridasValues argValues) {
+		
+		// Set Length
+		getStringDefaultValue(DefaultFields.LENGTH).setValue(argValues.getValues().size()+"");
 		
 		GenericDefaultValue<FHDataType> variableField = (GenericDefaultValue<FHDataType>)getDefaultValue(DefaultFields.DATA_TYPE);
 		
@@ -282,11 +283,13 @@ public class TridasToHeidelbergDefaults extends AbstractMetadataFieldSet impleme
 			}
 			else
 			{
+				addConversionWarning(new ConversionWarning(WarningType.AMBIGUOUS, I18n.getText("fileio.nonstandardVariable")));
 				variableField.setValue(FHDataType.RING_WIDTH);
 			}
 		}
 		else
 		{
+			addConversionWarning(new ConversionWarning(WarningType.AMBIGUOUS, I18n.getText("fileio.nonstandardVariable")));
 			variableField.setValue(FHDataType.RING_WIDTH);
 		}
 		
@@ -294,31 +297,36 @@ public class TridasToHeidelbergDefaults extends AbstractMetadataFieldSet impleme
 		if(argValues.isSetUnit())
 		{
 			if (!argValues.getUnit().isSetNormalTridas()) {
-				return;
+				addConversionWarning(new ConversionWarning(WarningType.AMBIGUOUS, I18n.getText("fileio.invalidUnits")));	
 			}
-		
-			TridasUnit units = argValues.getUnit();
-			StringDefaultValue val = getStringDefaultValue(DefaultFields.UNIT);
-			switch (units.getNormalTridas()) {
-				case HUNDREDTH_MM :
-					val.setValue("1/100 mm");
-					break;
-				case MICROMETRES :
-					val.setValue("1/1000 mm");
-					break;
-				case MILLIMETRES :
-					val.setValue("mm");
-					break;
-				case TENTH_MM :
-					val.setValue("1/10 mm");
-					break;
-				default :
-					addIgnoredWarning(DefaultFields.UNIT, I18n.getText("fileio.invalidUnits"));
+			else
+			{
+				TridasUnit units = argValues.getUnit();
+				StringDefaultValue val = getStringDefaultValue(DefaultFields.UNIT);
+				switch (units.getNormalTridas()) {
+					case HUNDREDTH_MM :
+						val.setValue("1/100 mm");
+						break;
+					case MICROMETRES :
+						val.setValue("1/1000 mm");
+						break;
+					case MILLIMETRES :
+						val.setValue("mm");
+						break;
+					case TENTH_MM :
+						val.setValue("1/10 mm");
+						break;
+					default :
+						addConversionWarning(new ConversionWarning(WarningType.AMBIGUOUS, I18n.getText("fileio.invalidUnits")));	
+				}
 			}
 		}
+		else
+		{
+			addConversionWarning(new ConversionWarning(WarningType.AMBIGUOUS, I18n.getText("fileio.invalidUnits")));	
+		}
 			
-		// Set Length
-		getStringDefaultValue(DefaultFields.LENGTH).setValue(argValues.getValues().size()+"");
+
 
 
 	}
@@ -359,6 +367,10 @@ public class TridasToHeidelbergDefaults extends AbstractMetadataFieldSet impleme
 				getStringDefaultValue(DefaultFields.KEYCODE).setValue(id.getValue());
 			}
 		}
+		else if (argSeries.isSetTitle())
+		{
+			getStringDefaultValue(DefaultFields.KEYCODE).setValue(argSeries.getTitle());
+		}
 		
 		// Dates begin and end
 		TridasInterpretation interp = argSeries.getInterpretation();
@@ -376,7 +388,7 @@ public class TridasToHeidelbergDefaults extends AbstractMetadataFieldSet impleme
 		{
 			XMLGregorianCalendar xcal = argSeries.getCreatedTimestamp().getValue();
 			Date dt = xcal.toGregorianCalendar().getTime();
-			getStringDefaultValue(DefaultFields.FIRST_MEASUREMENT_DATE).setValue(dt.toString());
+			getStringDefaultValue(DefaultFields.FIRST_MEASUREMENT_DATE).setValue(dateFormat.format(dt));
 		}
 		
 		// Last revision date
@@ -384,7 +396,7 @@ public class TridasToHeidelbergDefaults extends AbstractMetadataFieldSet impleme
 		{
 			XMLGregorianCalendar xcal = argSeries.getLastModifiedTimestamp().getValue();
 			Date dt = xcal.toGregorianCalendar().getTime();
-			getStringDefaultValue(DefaultFields.LAST_REVISION_DATE).setValue(dt.toString());
+			getStringDefaultValue(DefaultFields.LAST_REVISION_DATE).setValue(dateFormat.format(dt));
 		}	
 		
 		

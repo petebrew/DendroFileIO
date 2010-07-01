@@ -81,7 +81,11 @@ public class ITRDBTaxonConverter {
 	 */
 	public static String getNameFromCode(String argCode) {
 		
+		if(argCode==null) return null;
+		
+		//Upper case the code
 		argCode = argCode.toUpperCase();
+		
 		if (convertionMap == null) {
 			initializeMap();
 		}

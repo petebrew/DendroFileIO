@@ -355,7 +355,7 @@ public class VFormatToTridasDefaults extends TridasMetadataFieldSet {
 				case MIN_DENSITY :
 					variable.setNormalId("I");
 					variable.setNormalStd("Sheffield D-Format");
-					variable.setNormalStd("Minimum density");
+					variable.setNormal("Minimum density");
 					variable.setValue("Minimum density");
 					units.setValue(I18n.getText("unknown"));
 					break;
@@ -370,7 +370,7 @@ public class VFormatToTridasDefaults extends TridasMetadataFieldSet {
 				case MEAN_DENSITY:
 					variable.setNormalId("D");
 					variable.setNormalStd("VFormat Parameter");
-					variable.setNormalStd("Mean density");
+					variable.setNormal("Mean density");
 					units.setValue(I18n.getText("unknown"));
 					break;
 				default :
