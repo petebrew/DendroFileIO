@@ -1,3 +1,18 @@
+/*******************************************************************************
+ * Copyright 2010 Peter Brewer and Daniel Murphy
+ * 
+ * Licensed under the Apache License, Version 2.0 (the "License");
+ * you may not use this file except in compliance with the License.
+ * You may obtain a copy of the License at
+ * 
+ *   http://www.apache.org/licenses/LICENSE-2.0
+ * 
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an "AS IS" BASIS,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * See the License for the specific language governing permissions and
+ * limitations under the License.
+ ******************************************************************************/
 package org.tridas.io.formats.vformat;
 
 import java.math.BigDecimal;
@@ -42,9 +57,9 @@ public class TridasToVFormatDefaults extends AbstractMetadataFieldSet implements
 	protected void initDefaultValues() {
 		
 		setDefaultValue(DefaultFields.PROJECT_CODE, new StringDefaultValue(null, 1, 1));
-		setDefaultValue(DefaultFields.REGION_CODE, new StringDefaultValue("X", 1, 1));
-		setDefaultValue(DefaultFields.OBJECT_CODE, new StringDefaultValue("XX", 2, 2));
-		setDefaultValue(DefaultFields.TREE_CODE, new StringDefaultValue("XX", 2, 2));
+		setDefaultValue(DefaultFields.REGION_CODE, new StringDefaultValue("_", 1, 1));
+		setDefaultValue(DefaultFields.OBJECT_CODE, new StringDefaultValue("__", 2, 2));
+		setDefaultValue(DefaultFields.TREE_CODE, new StringDefaultValue("__", 2, 2));
 		setDefaultValue(DefaultFields.HEIGHT_CODE, new StringDefaultValue("0", 1, 1));
 		setDefaultValue(DefaultFields.DATA_TYPE, new GenericDefaultValue<VFormatDataType>(VFormatDataType.SINGLE));
 		setDefaultValue(DefaultFields.STAT_CODE, new GenericDefaultValue<VFormatStatType>(VFormatStatType.ORIGINAL));
@@ -283,12 +298,10 @@ public class TridasToVFormatDefaults extends AbstractMetadataFieldSet implements
 				break;
 			case MAXIMUM_DENSITY:
 				parameterField.setValue(VFormatParameter.MAX_DENSITY);
-				//TODO Find out correct density units
 				getStringDefaultValue(DefaultFields.UNIT).setValue("XX");
 				break;
 			case RING_DENSITY:
 				parameterField.setValue(VFormatParameter.MEAN_DENSITY);
-				//TODO Find out correct density units
 				getStringDefaultValue(DefaultFields.UNIT).setValue("XX");
 				break;
 			case LATEWOOD_DENSITY:

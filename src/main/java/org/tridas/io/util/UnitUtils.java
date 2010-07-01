@@ -21,7 +21,10 @@ import java.text.DecimalFormat;
 import java.util.ArrayList;
 
 import org.tridas.io.I18n;
+import org.tridas.io.exceptions.ConversionWarning;
+import org.tridas.io.exceptions.ConversionWarningException;
 import org.tridas.io.exceptions.IncompleteTridasDataException;
+import org.tridas.io.exceptions.ConversionWarning.WarningType;
 import org.tridas.schema.NormalTridasUnit;
 import org.tridas.schema.TridasValue;
 import org.tridas.schema.TridasValues;
@@ -142,7 +145,7 @@ public class UnitUtils {
 	 * @throws IncompleteTridasDataException
 	 */
 	public static TridasValues convertTridasValues(NormalTridasUnit outputunits, TridasValues tv, Integer maxIntChars) 
-	throws NumberFormatException, IncompleteTridasDataException
+	throws NumberFormatException, ConversionWarningException
 	{
 		ArrayList<TridasValue> values = (ArrayList<TridasValue>) tv.getValues();
 		NormalTridasUnit inputunits = null;
@@ -151,7 +154,7 @@ public class UnitUtils {
 			 inputunits = tv.getUnit().getNormalTridas();
 		} catch (Exception e)
 		{
-			throw new IncompleteTridasDataException(I18n.getText("fileio.convertsOnlyTridasUnits"));
+			throw new ConversionWarningException(new ConversionWarning(WarningType.AMBIGUOUS, I18n.getText("fileio.convertsOnlyTridasUnits")));
 		}
 		
 		for (TridasValue value : values)
@@ -182,6 +185,12 @@ public class UnitUtils {
 	 */
 	public static DecimalFormat getDecimalFormatForSigFigs(NormalTridasUnit inputunits, NormalTridasUnit outputunits)
 	{
+		// If either input out output format is null return as integer
+		if (inputunits==null || outputunits==null)
+		{
+			return new DecimalFormat("0");
+		}
+		
 		int sigfigs = 0;
 		
 		switch(inputunits)
@@ -256,7 +265,7 @@ public class UnitUtils {
 	 * @throws IncompleteTridasDataException
 	 */
 	public static TridasValues convertTridasValues(NormalTridasUnit outputunits, TridasValues tv, Boolean outputAsIntegers) 
-	throws NumberFormatException, IncompleteTridasDataException
+	throws NumberFormatException, ConversionWarningException
 	{
 		ArrayList<TridasValue> values = (ArrayList<TridasValue>) tv.getValues();
 		NormalTridasUnit inputunits = null;
@@ -265,7 +274,7 @@ public class UnitUtils {
 			 inputunits = tv.getUnit().getNormalTridas();
 		} catch (Exception e)
 		{
-			throw new IncompleteTridasDataException(I18n.getText("fileio.convertsOnlyTridasUnits"));
+			throw new ConversionWarningException(new ConversionWarning(WarningType.AMBIGUOUS, I18n.getText("fileio.convertsOnlyTridasUnits")));
 		}
 		
 		for (TridasValue value : values)

@@ -21,6 +21,7 @@ import org.tridas.io.AbstractDendroCollectionWriter;
 import org.tridas.io.I18n;
 import org.tridas.io.defaults.IMetadataFieldSet;
 import org.tridas.io.exceptions.ConversionWarning;
+import org.tridas.io.exceptions.ConversionWarningException;
 import org.tridas.io.exceptions.IncompleteTridasDataException;
 import org.tridas.io.exceptions.ConversionWarning.WarningType;
 import org.tridas.io.naming.HierarchicalNamingConvention;
@@ -109,7 +110,12 @@ public class TucsonWriter extends AbstractDendroCollectionWriter {
 					}
 				}
 				
-				ds.getValues().set(0, UnitUtils.convertTridasValues(getOutputUnits(tvs), ds.getValues().get(0), true));
+				try {
+					ds.getValues().set(0, UnitUtils.convertTridasValues(getOutputUnits(tvs), ds.getValues().get(0), true));
+				} catch (NumberFormatException e) {
+				} catch (ConversionWarningException e) {
+					this.addWarning(e.getWarning());
+				}
 				
 				// Check that the range does not go outside that which Tucson format is capable of storing
 				YearRange thisSeriesRange = new YearRange(ds);
@@ -164,7 +170,12 @@ public class TucsonWriter extends AbstractDendroCollectionWriter {
 								for (int i = 0; i < ms.getValues().size(); i++) {
 									TridasValues tvs = ms.getValues().get(i);
 	
-									ms.getValues().set(i, UnitUtils.convertTridasValues(getOutputUnits(tvs), ms.getValues().get(i), true));
+									try {
+										ms.getValues().set(i, UnitUtils.convertTridasValues(getOutputUnits(tvs), ms.getValues().get(i), true));
+									} catch (NumberFormatException e1) {
+									} catch (ConversionWarningException e1) {
+										this.addWarning(e1.getWarning());
+									}
 																		
 									TridasToTucsonDefaults tvDefaults = (TridasToTucsonDefaults) msDefaults.clone();
 									tvDefaults.populateFromTridasValues(tvs);

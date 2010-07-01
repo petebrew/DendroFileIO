@@ -138,7 +138,7 @@ public class TrimsFile implements IDendroFile {
 				date = ((TridasDerivedSeries) series).getDerivationDate().getValue();
 			}
 			setMeasuringDate(date);
-		} catch (NullPointerException e) {}
+		} catch (Exception e) {}
 		
 		// Set Author
 		try {

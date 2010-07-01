@@ -86,7 +86,7 @@ public class CorinaWriter extends AbstractDendroCollectionWriter {
 	@Override
 	protected void parseTridasProject(TridasProject argProject,
 			IMetadataFieldSet argDefaults)
-			throws IncompleteTridasDataException, ConversionWarningException {
+			throws IncompleteTridasDataException {
 		
 		defaults = (TridasToCorinaDefaults) argDefaults;
 		
@@ -144,6 +144,8 @@ public class CorinaWriter extends AbstractDendroCollectionWriter {
 								{
 									this.addWarning(new ConversionWarning(WarningType.IGNORED, ex.getLocalizedMessage()));
 									skipThisGroup=true;
+								} catch (ConversionWarningException ex) {
+									this.addWarning(ex.getWarning());
 								}
 								
 								
@@ -196,7 +198,7 @@ public class CorinaWriter extends AbstractDendroCollectionWriter {
 							break;
 						default:
 							// All other variables not representable
-							 this.addWarning(new ConversionWarning(WarningType.IGNORED, I18n.getText("fileio.unsupportedVariable"), tvsgroup.getVariable().getNormalTridas().toString().toLowerCase().replace("_", " ")));
+							 this.addWarning(new ConversionWarning(WarningType.IGNORED, I18n.getText("fileio.unsupportedVariable", tvsgroup.getVariable().getNormalTridas().value())));
 							skipThisGroup = true;
 						}
 					}
@@ -214,6 +216,8 @@ public class CorinaWriter extends AbstractDendroCollectionWriter {
 				{
 					this.addWarning(new ConversionWarning(WarningType.IGNORED, ex.getLocalizedMessage()));
 					skipThisGroup=true;
+				} catch (ConversionWarningException ex) {
+					this.addWarning(ex.getWarning());
 				}
 				
 				

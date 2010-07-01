@@ -99,7 +99,7 @@ public class SheffieldWriter extends AbstractDendroCollectionWriter {
 	@Override
 	protected void parseTridasProject(TridasProject argProject,
 			IMetadataFieldSet argDefaults)
-			throws IncompleteTridasDataException, ConversionWarningException {
+			throws IncompleteTridasDataException {
 		defaults = (TridasToSheffieldDefaults) argDefaults;
 		defaults.populateFromTridasProject(argProject);
 		
@@ -168,7 +168,12 @@ public class SheffieldWriter extends AbstractDendroCollectionWriter {
 								file.setSeries(ms);
 								
 								// Convert units and add data to file
-								file.setDataValues(UnitUtils.convertTridasValues(NormalTridasUnit.HUNDREDTH_MM, tvsgroup, true));
+								try {
+									file.setDataValues(UnitUtils.convertTridasValues(NormalTridasUnit.HUNDREDTH_MM, tvsgroup, true));
+								} catch (NumberFormatException e1) {
+								} catch (ConversionWarningException e1) {
+									this.addWarning(e1.getWarning());
+								}
 								
 								// Set naming convention
 								naming.registerFile(file, argProject, o, e, s, r, ms);
@@ -230,7 +235,12 @@ public class SheffieldWriter extends AbstractDendroCollectionWriter {
 				file.setSeries(ds);
 				
 				// Convert units and add data to file
-				file.setDataValues(UnitUtils.convertTridasValues(NormalTridasUnit.HUNDREDTH_MM, tvsgroup, true));
+				try {
+					file.setDataValues(UnitUtils.convertTridasValues(NormalTridasUnit.HUNDREDTH_MM, tvsgroup, true));
+				} catch (NumberFormatException e) {
+				} catch (ConversionWarningException e) {
+					this.addWarning(e.getWarning());
+				}
 				
 				// Set naming convention
 				naming.registerFile(file, argProject, ds);

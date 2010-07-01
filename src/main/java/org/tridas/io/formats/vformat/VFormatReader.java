@@ -33,6 +33,7 @@ import org.tridas.io.exceptions.InvalidDendroFileException;
 import org.tridas.io.exceptions.ConversionWarning.WarningType;
 import org.tridas.io.formats.vformat.VFormatToTridasDefaults.VFormatDataType;
 import org.tridas.io.formats.vformat.VFormatToTridasDefaults.VFormatParameter;
+import org.tridas.io.formats.vformat.VFormatToTridasDefaults.VFormatStatType;
 import org.tridas.io.util.DateUtils;
 import org.tridas.io.util.SafeIntYear;
 import org.tridas.schema.DatingSuffix;
@@ -124,7 +125,7 @@ public class VFormatReader extends AbstractDendroFileReader {
 					}
 															
 					// Series ID
-					series.defaults.getStringDefaultValue(DefaultFields.SERIES_ID).setValue(line.substring(0, 11));
+					series.defaults.getStringDefaultValue(DefaultFields.SERIES_ID).setValue(line.substring(0, 12));
 					log.debug(line.substring(0, 11));
 					
 					// Project id
@@ -171,12 +172,15 @@ public class VFormatReader extends AbstractDendroFileReader {
 					
 					// Count of values
 					try{
-					series.defaults.getIntegerDefaultValue(DefaultFields.COUNT).setValue(Integer.parseInt(line.substring(15,20)));
+					series.defaults.getIntegerDefaultValue(DefaultFields.COUNT).setValue(Integer.parseInt(line.substring(15,20).trim()));
 					log.debug(line.substring(15, 20));
 					} catch (NumberFormatException e)
 					{	
-						addWarning(new ConversionWarning(WarningType.IGNORED, I18n.getText(
-								"fileio.unableToParse", "count")));
+						if(!line.substring(15,20).trim().equals(""))
+						{
+							addWarning(new ConversionWarning(WarningType.IGNORED, I18n.getText(
+									"fileio.unableToParse", "count")));
+						}
 					}
 
 					// Species
@@ -189,8 +193,11 @@ public class VFormatReader extends AbstractDendroFileReader {
 					log.debug(line.substring(24, 30));
 					} catch (NumberFormatException e)
 					{
-						addWarning(new ConversionWarning(WarningType.IGNORED, I18n.getText(
-								"fileio.unableToParse", "lastYear")));
+						if(!line.substring(24,30).trim().equals(""))
+						{
+							addWarning(new ConversionWarning(WarningType.IGNORED, I18n.getText(
+									"fileio.unableToParse", "lastYear")));
+						}
 					}
 					
 					// Description
@@ -209,8 +216,11 @@ public class VFormatReader extends AbstractDendroFileReader {
 						series.defaults.getDateTimeDefaultValue(DefaultFields.CREATED_DATE).setValue(DateUtils.getDateTime(day, month, year));
 					} catch (Exception e)
 					{
-						addWarning(new ConversionWarning(WarningType.IGNORED, I18n.getText(
-								"fileio.unableToParse", "createdDate")));
+						if(!line.substring(50,58).trim().equals(""))
+						{
+							addWarning(new ConversionWarning(WarningType.IGNORED, I18n.getText(
+									"fileio.unableToParse", "createdDate")));
+						}
 					}
 					
 					// Analyst
@@ -219,25 +229,31 @@ public class VFormatReader extends AbstractDendroFileReader {
 
 					// Updated date
 					try{
-						int day = Integer.parseInt(line.substring(60,62));
-						int month = Integer.parseInt(line.substring(62,64));
-						int year = Integer.parseInt(line.substring(64,68));
+						int day = Integer.parseInt(line.substring(60,62).trim());
+						int month = Integer.parseInt(line.substring(62,64).trim());
+						int year = Integer.parseInt(line.substring(64,68).trim());
 						log.debug(line.substring(60,62)+"/"+line.substring(62,64)+"/"+line.substring(64,68));
 						series.defaults.getDateTimeDefaultValue(DefaultFields.UPDATED_DATE).setValue(DateUtils.getDateTime(day, month, year));
 					} catch (Exception e)
 					{
-						addWarning(new ConversionWarning(WarningType.IGNORED, I18n.getText(
-								"fileio.unableToParse", "updatedDate")));
+						if(!line.substring(60,68).trim().equals(""))
+						{
+							addWarning(new ConversionWarning(WarningType.IGNORED, I18n.getText(
+									"fileio.unableToParse", "updatedDate")));
+						}
 					}
 									
 					// Unmeasured rings at start
 					try{
-						series.defaults.getIntegerDefaultValue(DefaultFields.UNMEAS_PRE).setValue(Integer.parseInt(line.substring(70,73)));
+						series.defaults.getIntegerDefaultValue(DefaultFields.UNMEAS_PRE).setValue(Integer.parseInt(line.substring(70,73).trim()));
 						log.debug(line.substring(70, 73));
 					} catch (Exception e)
 					{
-						addWarning(new ConversionWarning(WarningType.IGNORED, I18n.getText(
-								"fileio.unableToParse", "unmeasuredRingsPre")));
+						if(!line.substring(70,73).trim().equals(""))
+						{
+							addWarning(new ConversionWarning(WarningType.IGNORED, I18n.getText(
+									"fileio.unableToParse", "unmeasuredRingsPre")));
+						}
 					}
 					
 					// Error for unmeasured rings at start
@@ -247,11 +263,14 @@ public class VFormatReader extends AbstractDendroFileReader {
 					
 					// Unmeasured rings at end
 					try{
-						series.defaults.getIntegerDefaultValue(DefaultFields.UNMEAS_POST).setValue(Integer.parseInt(line.substring(75,78)));
+						series.defaults.getIntegerDefaultValue(DefaultFields.UNMEAS_POST).setValue(Integer.parseInt(line.substring(75,78).trim()));
 					} catch (Exception e)
 					{
-						addWarning(new ConversionWarning(WarningType.IGNORED, I18n.getText(
-								"fileio.unableToParse", "unmeasuredRingsPost")));
+						if(!line.substring(75,78).trim().equals(""))
+						{
+							addWarning(new ConversionWarning(WarningType.IGNORED, I18n.getText(
+									"fileio.unableToParse", "unmeasuredRingsPost")));
+						}
 					}
 					
 					// Error for unmeasured rings at end
@@ -286,7 +305,14 @@ public class VFormatReader extends AbstractDendroFileReader {
 					try {		
 						series.defaults.getDoubleDefaultValue(DefaultFields.LATITUDE).setValue(Double.parseDouble(line.substring(10, 20)));
 						series.defaults.getDoubleDefaultValue(DefaultFields.LONGITUDE).setValue(Double.parseDouble(line.substring(0, 10)));						
-					} catch (NumberFormatException e) {}
+					} catch (NumberFormatException e) 
+					{
+						if(!line.substring(0,20).trim().equals(""))
+						{
+							addWarning(new ConversionWarning(WarningType.IGNORED, I18n.getText(
+									"fileio.unableToParse", "coordinates")));
+						}
+					}
 					
 					// Set this line type as the last linetype before continuing
 					lastLineType = VFormatLineType.HEADER_3;
@@ -309,6 +335,10 @@ public class VFormatReader extends AbstractDendroFileReader {
 						 */
 
 						TridasValue theValue = new TridasValue();
+						
+						// Skip blank values at beginning/end of series
+						if(line.substring(i + 2, i + 7).trim().equals("")) continue;
+						
 						theValue.setValue(line.substring(i + 2, i + 7).trim());
 						thisDecadesValues.add(theValue);
 					}
@@ -337,14 +367,14 @@ public class VFormatReader extends AbstractDendroFileReader {
 		// Check count is correct, if not fix it
 		if(series.defaults.getIntegerDefaultValue(DefaultFields.COUNT).getValue()!=null)
 		{
-			if (series.defaults.getIntegerDefaultValue(DefaultFields.COUNT).getValue()!=
-				series.dataValues.size())
+			if (!series.defaults.getIntegerDefaultValue(DefaultFields.COUNT).getValue()
+					.equals(series.dataValues.size()))
 			{
-				series.defaults.getIntegerDefaultValue(DefaultFields.COUNT).setValue(series.dataValues.size());
 				addWarning(new ConversionWarning(WarningType.INVALID, I18n.getText(
 						"fileio.valueCountMismatch", 
 						series.dataValues.size()+"",
 						series.defaults.getIntegerDefaultValue(DefaultFields.COUNT).getValue()+"")));
+				series.defaults.getIntegerDefaultValue(DefaultFields.COUNT).setValue(series.dataValues.size());
 			}		
 		}
 		
@@ -381,7 +411,7 @@ public class VFormatReader extends AbstractDendroFileReader {
 		}
 		
 		// Data line
-		regex = "^([ !\"#$%&\']{3}[ \\d.]{4}[\\d]{1}){1,10}";
+		regex = "^([ !\"#$%&\'\\w]{3}[ \\d.]{4}[\\d]{1}){1,10}";
 		p1 = Pattern.compile(regex, Pattern.CASE_INSENSITIVE | Pattern.DOTALL);
 		m1 = p1.matcher(line);
 		if (m1.find()) {
@@ -415,7 +445,23 @@ public class VFormatReader extends AbstractDendroFileReader {
 	
 	@Override
 	public String[] getFileExtensions() {
-		return new String[]{"!oj"};
+		
+		// File extensions for VFormat files can be any one of the combination
+		// of datatype, stattype and paramtype codes.
+		
+		ArrayList<String> fileExtensions = new ArrayList<String>();
+		for (VFormatDataType dataType : VFormatDataType.values())
+		{
+			for(VFormatStatType statType : VFormatStatType.values())
+			{
+				for(VFormatParameter paramType : VFormatParameter.values())
+				{
+					fileExtensions.add(dataType.toString()+statType.toString()+paramType.toString());
+				}
+			}
+		}
+		
+		return fileExtensions.toArray(new String[0]);
 	}
 	
 	@Override

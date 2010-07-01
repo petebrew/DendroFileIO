@@ -1,3 +1,18 @@
+/*******************************************************************************
+ * Copyright 2010 Peter Brewer and Daniel Murphy
+ * 
+ * Licensed under the Apache License, Version 2.0 (the "License");
+ * you may not use this file except in compliance with the License.
+ * You may obtain a copy of the License at
+ * 
+ *   http://www.apache.org/licenses/LICENSE-2.0
+ * 
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an "AS IS" BASIS,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * See the License for the specific language governing permissions and
+ * limitations under the License.
+ ******************************************************************************/
 package org.tridas.io.formats.besancon;
 
 import org.tridas.io.AbstractDendroCollectionWriter;
@@ -81,7 +96,7 @@ public class BesanconWriter extends AbstractDendroCollectionWriter {
 	@Override
 	protected void parseTridasProject(TridasProject argProject,
 			IMetadataFieldSet argDefaults)
-			throws IncompleteTridasDataException, ConversionWarningException {
+			throws IncompleteTridasDataException {
 		defaults = (TridasToBesanconDefaults) argDefaults;
 		defaults.populateFromTridasProject(argProject);
 		
@@ -125,12 +140,18 @@ public class BesanconWriter extends AbstractDendroCollectionWriter {
 										{
 										case RING_WIDTH:
 											// Able to handle this variable but need to convert units
-											tvsgroup = UnitUtils.convertTridasValues(NormalTridasUnit.HUNDREDTH_MM, tvsgroup, true);											
+											try {
+												tvsgroup = UnitUtils.convertTridasValues(NormalTridasUnit.HUNDREDTH_MM, tvsgroup, true);
+											} catch (NumberFormatException e1) {
+
+											} catch (ConversionWarningException e1) {
+												addWarning(e1.getWarning());
+											}											
 											
 											break;
 										default:
 											// All other variables not representable
-											this.addWarning(new ConversionWarning(WarningType.IGNORED, I18n.getText("fileio.unsupportedVariable", tvsgroup.getVariable().getNormalTridas().toString().toLowerCase().replace("_", " "))));
+											this.addWarning(new ConversionWarning(WarningType.IGNORED, I18n.getText("fileio.unsupportedVariable", tvsgroup.getVariable().getNormalTridas().value())));
 											skipThisGroup = true;
 										}
 									}
@@ -184,12 +205,17 @@ public class BesanconWriter extends AbstractDendroCollectionWriter {
 						{
 						case RING_WIDTH:
 							// Able to handle this variable but need to convert units
-							tvsgroup = UnitUtils.convertTridasValues(NormalTridasUnit.HUNDREDTH_MM, tvsgroup, true);											
+							try {
+								tvsgroup = UnitUtils.convertTridasValues(NormalTridasUnit.HUNDREDTH_MM, tvsgroup, true);
+							} catch (NumberFormatException e) {
+							} catch (ConversionWarningException e) {
+								this.addWarning(e.getWarning());
+							}											
 							
 							break;
 						default:
 							// All other variables not representable
-							this.addWarning(new ConversionWarning(WarningType.IGNORED, I18n.getText("fileio.unsupportedVariable", tvsgroup.getVariable().getNormalTridas().toString().toLowerCase().replace("_", " "))));
+							this.addWarning(new ConversionWarning(WarningType.IGNORED, I18n.getText("fileio.unsupportedVariable", tvsgroup.getVariable().getNormalTridas().value())));
 							skipThisGroup = true;
 						}
 					}
