@@ -593,7 +593,7 @@ public class CatrasReader extends AbstractDendroFileReader {
 		for (int i=first; i<=last; i++)
 		{
 			byte[] byteArray = getSubByteArray(argFileBytes, i, i+1);
-			log.warn("As Integer - Sing byte " + String.valueOf(i)+": "+ String.valueOf(getIntFromByte(byteArray[0], true)));
+			log.debug("As Integer - Sing byte " + String.valueOf(i)+": "+ String.valueOf(getIntFromByte(byteArray[0], true)));
 
 		}
 	}
@@ -603,7 +603,7 @@ public class CatrasReader extends AbstractDendroFileReader {
 		for (int i=first; i<=last; i++)
 		{
 			byte[] byteArray = getSubByteArray(argFileBytes, i, i+1);
-			log.warn("As Integer - Byte pair " + String.valueOf(i)+": "+ String.valueOf(getIntFromBytePair(byteArray)));
+			log.debug("As Integer - Byte pair " + String.valueOf(i)+": "+ String.valueOf(getIntFromBytePair(byteArray)));
 
 		}
 	}
@@ -613,7 +613,7 @@ public class CatrasReader extends AbstractDendroFileReader {
 		for (int i=first; i<=last; i++)
 		{
 			byte[] byteArray = getSubByteArray(argFileBytes, i, i+1);
-			log.warn("As String  - Byte pair " + String.valueOf(i)+": "+ new String(byteArray));	
+			log.debug("As String  - Byte pair " + String.valueOf(i)+": "+ new String(byteArray));	
 
 		}
 	}
