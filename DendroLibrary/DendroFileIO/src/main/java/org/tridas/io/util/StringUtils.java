@@ -379,4 +379,52 @@ public class StringUtils {
 		
 		return hex.toString();
 	}
+	
+	/**
+	 * Returns upper case initials from a persons name.  Expects fullName to be 
+	 * in the format 'Firstname Surname' or 'Surname, Firstname'.  If fullName is 
+	 * in a different format then it simply returns the first two characters with 
+	 * case unchanged.
+	 * 
+	 * @param fullName
+	 * @return
+	 */
+	public static String parseInitials(String fullName)
+	{
+		if(fullName==null)
+		{
+			return null;
+		}
+		
+		if(fullName.length()<=2)
+		{
+			return fullName;
+		}
+		
+		// Check if names are comma delimited.  If so, then 
+		// assume 'Surname, Firstname'.
+		String[] names = fullName.split(", ");
+		if(names.length==2)
+		{
+			return names[1].substring(0,1).toUpperCase() + names[0].substring(0,1).toUpperCase();
+		}
+		else if(names.length>0)
+		{
+			// Just return first two letters instead but leave case alone
+			return fullName.substring(0,2);
+		}
+		
+		// Now try simple space delimited assuming 'Firstname Surname'.
+		names = fullName.split("\\s");
+		if(names.length==2)
+		{
+			return names[0].substring(0,1).toUpperCase() + names[1].substring(0,1).toUpperCase();
+		}
+		else
+		{
+			// Just return first two letters instead but leave case alone
+			return fullName.substring(0,2);
+		}
+	}
+	
 }

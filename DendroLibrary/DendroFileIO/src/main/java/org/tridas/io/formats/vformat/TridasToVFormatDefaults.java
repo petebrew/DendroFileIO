@@ -37,6 +37,7 @@ import org.tridas.io.formats.vformat.VFormatToTridasDefaults.VFormatStatType;
 import org.tridas.io.util.DateUtils;
 import org.tridas.io.util.ITRDBTaxonConverter;
 import org.tridas.io.util.SafeIntYear;
+import org.tridas.io.util.StringUtils;
 import org.tridas.io.util.UnitUtils;
 import org.tridas.schema.NormalTridasUnit;
 import org.tridas.schema.TridasDerivedSeries;
@@ -205,7 +206,8 @@ public class TridasToVFormatDefaults extends AbstractMetadataFieldSet implements
 		// Analyst
 		if(ms.isSetAnalyst())
 		{
-			getStringDefaultValue(DefaultFields.ANALYST).setValue(ms.getAnalyst());
+			// Try and extract initials intelligently
+			getStringDefaultValue(DefaultFields.ANALYST).setValue(StringUtils.parseInitials(ms.getAnalyst()));
 		}
 		
 	}

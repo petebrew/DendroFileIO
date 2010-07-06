@@ -22,6 +22,7 @@ import java.util.List;
 
 import org.apache.commons.lang.StringUtils;
 import org.tridas.interfaces.ITridasSeries;
+import org.tridas.io.I18n;
 import org.tridas.io.IDendroFile;
 import org.tridas.io.defaults.IMetadataFieldSet;
 import org.tridas.io.defaults.values.IntegerDefaultValue;
@@ -214,8 +215,27 @@ public class CorinaFile implements IDendroFile {
 					{
 						if(sl.getIdRef().getRef() instanceof ITridasSeries)
 						{
-							TridasIdentifier id = ((ITridasSeries) sl.getIdRef().getRef()).getIdentifier();
-							file.add(id.getDomain()+":"+id.getValue());
+							ITridasSeries linkedToSeries = ((ITridasSeries) sl.getIdRef().getRef());
+							TridasIdentifier id = linkedToSeries.getIdentifier();
+							if(id==null) 
+							{
+								file.add(I18n.getText("unamed.series"));
+							}
+							else
+							{
+								if(id.isSetDomain() && id.isSetValue())
+								{
+									file.add(id.getDomain()+":"+id.getValue());
+								}
+								else if (linkedToSeries.isSetTitle())
+								{
+									file.add(linkedToSeries.getTitle());
+								}
+								else
+								{
+									file.add(I18n.getText("unnamed.series"));
+								}
+							}
 						}
 					}
 					else if (sl.isSetXLink())

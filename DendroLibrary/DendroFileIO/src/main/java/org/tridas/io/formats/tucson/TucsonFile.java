@@ -44,19 +44,10 @@ public class TucsonFile implements IDendroFile {
 	 * is to add 8000 to all years but this makes years difficult 
 	 * to read.
 	 */
-	private Boolean useEightThousandYearOffsetBodge = false;
-	
-	/**
-	 * The alternative work around is to pinch the last character from
-	 * the keycode so that there are then 5 characters available to 
-	 * represent years.  
-	 */
-	private Integer numYearMarkerChars = 4;
-		
+	private Boolean useEightThousandYearOffsetBodge = false;	
 	private TridasToTucsonDefaults defaults; 	 // Contains the defaults for the fields
 	private ArrayList<ITridasSeries> seriesList; // List of series represented by this file
 	private YearRange allSeriesRange = null;              // Total range of years for data in this file
-	
 	
 	public TucsonFile(IMetadataFieldSet argDefaults) {
 		defaults = (TridasToTucsonDefaults) argDefaults;
@@ -213,7 +204,15 @@ public class TucsonFile implements IDendroFile {
 					
 					// Include count if applicable: "%3d" (right-align)
 					if (isChronology) {
-						string.append(StringUtils.leftPad(data.get(y.diff(start)).getCount().toString(), 3));
+						if(data.get(y.diff(start)).isSetCount())
+						{
+							string.append(StringUtils.leftPad(data.get(y.diff(start)).getCount().toString(), 3));
+						}
+						else
+						{
+							// This series is a derivedSeries but has no count info.  Set count to 1.
+							string.append(StringUtils.leftPad("1", 3));
+						}
 					}
 
 				}
@@ -344,34 +343,6 @@ public class TucsonFile implements IDendroFile {
 			
 			// Add this series to our list
 			seriesList.add(series);
-			
-			/*
-			// Warn if using +8000 bodge and some years are > 2000AD whilst others are BC
-			if (SafeIntYear.max(rng.getEnd(), new SafeIntYear(2000)) == rng.getEnd()
-					&& SafeIntYear.min(rng.getStart(), new SafeIntYear(1)) == rng.getStart()
-					&& useEightThousandYearOffsetBodge) {
-				defaults.addConversionWarning(new ConversionWarning(WarningType.UNREPRESENTABLE, I18n
-						.getText("tucson.range.8000BCand2000AD"), I18n.getText("tucson") + "."
-						+ I18n.getText("tucson.range")));
-			}*/
-			
-
-			
-			/*
-			// Warn if BC and using +8000 bodge
-			if (SafeIntYear.min(rng.getStart(), new SafeIntYear(1)) == rng.getStart()
-					&& useEightThousandYearOffsetBodge) {
-				defaults.addConversionWarning(new ConversionWarning(WarningType.WORK_AROUND, I18n
-						.getText("tucson.range.usingBodge"), I18n.getText("tucson") + "."
-						+ I18n.getText("tucson.range")));
-			}
-			
-			// Warn if BC and not using +8000 bodge
-			if (SafeIntYear.min(rng.getStart(), new SafeIntYear(1)) == rng.getStart()
-					&& !useEightThousandYearOffsetBodge) {
-				defaults.addConversionWarning(new ConversionWarning(WarningType.UNREPRESENTABLE, I18n
-						.getText("tucson.range.noBodge"), I18n.getText("tucson") + "." + I18n.getText("tucson.range")));
-			}*/
 			
 		}
 		
