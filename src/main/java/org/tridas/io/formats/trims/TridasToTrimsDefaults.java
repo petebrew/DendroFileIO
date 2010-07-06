@@ -22,6 +22,7 @@ import org.tridas.io.defaults.AbstractMetadataFieldSet;
 import org.tridas.io.defaults.values.IntegerDefaultValue;
 import org.tridas.io.defaults.values.StringDefaultValue;
 import org.tridas.io.formats.tucson.TridasToTucsonDefaults.TucsonField;
+import org.tridas.io.util.StringUtils;
 import org.tridas.schema.TridasDerivedSeries;
 import org.tridas.schema.TridasMeasurementSeries;
 
@@ -70,7 +71,7 @@ public class TridasToTrimsDefaults extends AbstractMetadataFieldSet {
 		
 		if(ds.isSetAuthor())
 		{
-			getStringDefaultValue(TrimsField.AUTHOR).setValue(ds.getAuthor());
+			getStringDefaultValue(TrimsField.AUTHOR).setValue(StringUtils.parseInitials(ds.getAuthor()));
 		}
 		
 	}

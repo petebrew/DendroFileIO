@@ -25,6 +25,7 @@ import org.tridas.io.I18n;
 import org.tridas.io.defaults.AbstractMetadataFieldSet;
 import org.tridas.io.defaults.values.DoubleDefaultValue;
 import org.tridas.io.defaults.values.StringDefaultValue;
+import org.tridas.io.util.StringUtils;
 import org.tridas.schema.TridasDerivedSeries;
 import org.tridas.schema.TridasElement;
 import org.tridas.schema.TridasLocationGeometry;
@@ -73,11 +74,7 @@ public class TridasToTucsonDefaults extends AbstractMetadataFieldSet {
 
 	protected void populateFromTridasProject(TridasProject p)
 	{
-		if(getStringDefaultValue(TucsonField.INVESTIGATOR).setValue(p.getInvestigator())==false)
-		{
-			this.addTruncatedWarning(TucsonField.INVESTIGATOR, 
-					I18n.getText("tucson.investigator.truncated", String.valueOf(p.getInvestigator().length())));
-		}
+
 	}
 	
 	protected void populateFromTridasObject(TridasObject o)
@@ -142,11 +139,11 @@ public class TridasToTucsonDefaults extends AbstractMetadataFieldSet {
 	{
 		if(ms.isSetAnalyst())
 		{
-			getStringDefaultValue(TucsonField.INVESTIGATOR).setValue(ms.getAnalyst());
+			getStringDefaultValue(TucsonField.INVESTIGATOR).setValue(StringUtils.parseInitials(ms.getAnalyst()));
 		}
 		else if (ms.isSetDendrochronologist())
 		{
-			getStringDefaultValue(TucsonField.INVESTIGATOR).setValue(ms.getDendrochronologist());
+			getStringDefaultValue(TucsonField.INVESTIGATOR).setValue(StringUtils.parseInitials(ms.getDendrochronologist()));
 		}
 	}
 	
@@ -155,7 +152,7 @@ public class TridasToTucsonDefaults extends AbstractMetadataFieldSet {
 	{
 		if(ds.isSetAuthor())
 		{
-			getStringDefaultValue(TucsonField.INVESTIGATOR).setValue(ds.getAuthor());
+			getStringDefaultValue(TucsonField.INVESTIGATOR).setValue(StringUtils.parseInitials(ds.getAuthor()));
 		}
 
 	}

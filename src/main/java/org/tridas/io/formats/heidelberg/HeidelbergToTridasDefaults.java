@@ -233,6 +233,7 @@ public class HeidelbergToTridasDefaults extends TridasMetadataFieldSet {
 		setDefaultValue(DefaultFields.LONGITUDE, new DoubleDefaultValue(null, -180.0, 180.0));
 		setDefaultValue(DefaultFields.MISSING_RINGS_AFTER, new IntegerDefaultValue());
 		setDefaultValue(DefaultFields.MISSING_RINGS_BEFORE, new IntegerDefaultValue());
+		setDefaultValue(DefaultFields.PERS_ID, new StringDefaultValue());
 		setDefaultValue(DefaultFields.PITH, new GenericDefaultValue<FHPith>());
 		setDefaultValue(DefaultFields.PROJECT, new StringDefaultValue());
 		setDefaultValue(DefaultFields.PROVINCE, new StringDefaultValue());
