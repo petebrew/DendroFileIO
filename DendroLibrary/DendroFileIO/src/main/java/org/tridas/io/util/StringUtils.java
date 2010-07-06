@@ -408,7 +408,7 @@ public class StringUtils {
 		{
 			return names[1].substring(0,1).toUpperCase() + names[0].substring(0,1).toUpperCase();
 		}
-		else if(names.length>0)
+		else if(names.length>1)
 		{
 			// Just return first two letters instead but leave case alone
 			return fullName.substring(0,2);
