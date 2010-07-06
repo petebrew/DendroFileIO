@@ -212,7 +212,9 @@
                                             <genericField name="name23" type="xs:string">genericField11</genericField>
                                             <measurementSeries id="ID007">
                                                 <title>title6</title>
+                                                <analyst>Brewer, Peter</analyst>
                                                 <measuringMethod normalTridas="Measuring platform" normalStd="normalStd21" normalId="normalId21" normal="normal21" lang="en-US">measuringMethod0</measuringMethod>
+                                                
                                                 <values>
                                                     <variable normalTridas="Ring width"/>
                                                     <unit normalTridas="1/100th millimetres"/>
