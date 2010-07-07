@@ -25,7 +25,7 @@ import org.tridas.io.exceptions.ConversionWarningException;
 import org.tridas.io.exceptions.IncompleteTridasDataException;
 import org.tridas.io.naming.HierarchicalNamingConvention;
 import org.tridas.io.naming.INamingConvention;
-import org.tridas.io.util.TridasHierarchyHelper;
+import org.tridas.io.util.TridasUtils;
 import org.tridas.schema.TridasElement;
 import org.tridas.schema.TridasMeasurementSeries;
 import org.tridas.schema.TridasObject;
@@ -71,7 +71,7 @@ public class TridasWriter extends AbstractDendroCollectionWriter {
 		TridasRadius radius = null;
 		TridasMeasurementSeries series = null;
 		
-		ArrayList<TridasObject> objects = TridasHierarchyHelper.getObjectList(project);
+		ArrayList<TridasObject> objects = TridasUtils.getObjectList(project);
 		if (objects.size() == 1) {
 			object = objects.get(0);
 			

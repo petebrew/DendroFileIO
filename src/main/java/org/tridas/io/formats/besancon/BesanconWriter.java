@@ -24,7 +24,7 @@ import org.tridas.io.exceptions.IncompleteTridasDataException;
 import org.tridas.io.exceptions.ConversionWarning.WarningType;
 import org.tridas.io.naming.INamingConvention;
 import org.tridas.io.naming.NumericalNamingConvention;
-import org.tridas.io.util.TridasHierarchyHelper;
+import org.tridas.io.util.TridasUtils;
 import org.tridas.io.util.UnitUtils;
 import org.tridas.schema.NormalTridasUnit;
 import org.tridas.schema.TridasDerivedSeries;
@@ -100,7 +100,7 @@ public class BesanconWriter extends AbstractDendroCollectionWriter {
 		defaults = (TridasToBesanconDefaults) argDefaults;
 		defaults.populateFromTridasProject(argProject);
 		
-		for (TridasObject o : TridasHierarchyHelper.getObjectList(argProject)) {
+		for (TridasObject o : TridasUtils.getObjectList(argProject)) {
 			TridasToBesanconDefaults objectDefaults = (TridasToBesanconDefaults) defaults.clone();
 			objectDefaults.populateFromTridasObject(o);
 			
@@ -119,7 +119,6 @@ public class BesanconWriter extends AbstractDendroCollectionWriter {
 						for (TridasMeasurementSeries ms : r.getMeasurementSeries()) {
 							TridasToBesanconDefaults msDefaults = (TridasToBesanconDefaults) radiusDefaults
 									.clone();
-							msDefaults.populateFromTridasMeasurementSeries(ms);
 							msDefaults.populateFromWoodCompleteness(ms, r);
 							
 							for (int i = 0; i < ms.getValues().size(); i++) {
@@ -161,9 +160,8 @@ public class BesanconWriter extends AbstractDendroCollectionWriter {
 								if(skipThisGroup) continue;
 								
 								TridasToBesanconDefaults tvDefaults = (TridasToBesanconDefaults) msDefaults.clone();
-								tvDefaults.populateFromTridasValues(tvsgroup);
-								
-								
+								tvDefaults.populateFromTridasValuesAndSeries(tvsgroup, ms);
+	
 								BesanconFile file = new BesanconFile();
 								
 								// Add series to file	
@@ -184,9 +182,7 @@ public class BesanconWriter extends AbstractDendroCollectionWriter {
 		
 		for (TridasDerivedSeries ds : argProject.getDerivedSeries()) {
 			TridasToBesanconDefaults dsDefaults = (TridasToBesanconDefaults) defaults.clone();
-			dsDefaults.populateFromTridasDerivedSeries(ds);
-			
-			
+						
 			for (int i = 0; i < ds.getValues().size(); i++) {
 				boolean skipThisGroup = false;
 
@@ -225,7 +221,7 @@ public class BesanconWriter extends AbstractDendroCollectionWriter {
 				if(skipThisGroup) continue;
 				
 				TridasToBesanconDefaults tvDefaults = (TridasToBesanconDefaults) dsDefaults.clone();
-				tvDefaults.populateFromTridasValues(tvsgroup);
+				tvDefaults.populateFromTridasValuesAndSeries(tvsgroup, ds);
 				
 				BesanconFile file = new BesanconFile();
 				

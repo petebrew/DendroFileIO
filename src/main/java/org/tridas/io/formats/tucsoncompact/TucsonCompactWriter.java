@@ -27,7 +27,7 @@ import org.tridas.io.formats.topham.TridasToTophamDefaults;
 import org.tridas.io.naming.HierarchicalNamingConvention;
 import org.tridas.io.naming.INamingConvention;
 import org.tridas.io.naming.NumericalNamingConvention;
-import org.tridas.io.util.TridasHierarchyHelper;
+import org.tridas.io.util.TridasUtils;
 import org.tridas.io.util.UnitUtils;
 import org.tridas.schema.NormalTridasUnit;
 import org.tridas.schema.NormalTridasVariable;
@@ -95,7 +95,7 @@ public class TucsonCompactWriter extends AbstractDendroCollectionWriter {
 		
 		defaults = (TridasToTucsonCompactDefaults) argDefaults;
 		
-		for (TridasObject o : TridasHierarchyHelper.getObjectList(argProject)) {			
+		for (TridasObject o : TridasUtils.getObjectList(argProject)) {			
 			for (TridasElement e : o.getElements()) {			
 				for (TridasSample s : e.getSamples()) {					
 					for (TridasRadius r : s.getRadiuses()) {											

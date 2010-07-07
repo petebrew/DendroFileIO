@@ -116,19 +116,21 @@ public class TucsonFile implements IDendroFile {
 			boolean isChronology = false; // s.isIndexed() || s.isSummed();
 			if (series instanceof TridasDerivedSeries){isChronology = true;}
 			
-			// Check if units are microns as we need to use a different EOF marker
-			String EOFFlag = "999";
+			// Check if units are microns as we need to use a different EOF and missing ring markers 
+			String eofMarker = "999";
+			String missingRingMarker = "-999";
 			try{
 				if(series.getValues().get(0).getUnit().getNormalTridas().equals(NormalTridasUnit.MICROMETRES))
 				{
-					EOFFlag = "-9999";
+					eofMarker = "-9999";
+					missingRingMarker = "0";
 				}
 			} catch (Exception e){}
 			
 			// If its a chronology the EOF is different!
 			if (isChronology)
 			{
-				EOFFlag = "9990  0";
+				eofMarker = "9990  0";
 			}
 			
 			try {
@@ -187,19 +189,28 @@ public class TucsonFile implements IDendroFile {
 				if (y.compareTo(end) >= 0 || (isChronology && y.compareTo(start) < 0)) {
 					if (!isChronology) {
 						// "   999", and STOP
-						string.append(StringUtils.leftPad(EOFFlag, 6));
+						string.append(StringUtils.leftPad(eofMarker, 6));
 						break;
 					}
 					else {
 						// "9990   " or "9990  0"
-						string.append(isSummed ? StringUtils.rightPad(EOFFlag, 6)+"0": StringUtils.rightPad(EOFFlag, 7));
+						string.append(isSummed ? StringUtils.rightPad(eofMarker, 6)+"0": StringUtils.rightPad(eofMarker, 7));
 					}
 				}
 				else {
+					// Extract data value				
+					String thisDataValue = data.get(y.diff(start)).getValue().toString();
+					
+					// If this is a missing ring we should override
+					if(thisDataValue.trim().equals("0"))
+					{
+						thisDataValue = missingRingMarker;
+					}
+					
 					// Print data value, either left padded to 4 or 6 digits for measurementSeries and derivedSeries
 					// respectively
 					string.append(StringUtils.leftPad
-							(data.get(y.diff(start)).getValue().toString(), 
+							(thisDataValue, 
 							(isChronology ? 4 : 6)));
 					
 					// Include count if applicable: "%3d" (right-align)

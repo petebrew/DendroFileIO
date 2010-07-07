@@ -26,10 +26,12 @@ import org.tridas.schema.TridasObject;
 import org.tridas.schema.TridasProject;
 import org.tridas.schema.TridasRadius;
 import org.tridas.schema.TridasSample;
+import org.tridas.schema.TridasValue;
+import org.tridas.schema.TridasValues;
 
-public class TridasHierarchyHelper {
+public class TridasUtils {
 	
-	public TridasHierarchyHelper() {
+	public TridasUtils() {
 
 	}
 	
@@ -38,7 +40,7 @@ public class TridasHierarchyHelper {
 		ArrayList<TridasMeasurementSeries> serlist = new ArrayList<TridasMeasurementSeries>();
 		
 		for (TridasObject o : p.getObjects()) {
-			serlist.addAll(TridasHierarchyHelper.getMeasurementSeriesFromTridasObject(o));
+			serlist.addAll(TridasUtils.getMeasurementSeriesFromTridasObject(o));
 		}
 		
 		return serlist;
@@ -55,7 +57,7 @@ public class TridasHierarchyHelper {
 			sol = o.getObjects();
 		} catch (NullPointerException e) {};
 		for (TridasObject so : sol) {
-			seriesSet.addAll(TridasHierarchyHelper.getMeasurementSeriesFromTridasObject(so));
+			seriesSet.addAll(TridasUtils.getMeasurementSeriesFromTridasObject(so));
 		}
 		
 		// Try to get a list of elements from the object
@@ -189,4 +191,84 @@ public class TridasHierarchyHelper {
 		return ols;
 	}
 	
+	
+	/**
+	 * Checks to see whether a TridasValues block contains only only values
+	 * of a certain data type. If tests cannot be completed, (e.g. argValues 
+	 * is empty) then it returns null.
+	 * 
+	 * @param argValues
+	 * @return
+	 */
+	public static Boolean checkTridasValuesDataType(TridasValues argValues, TridasValueDataType dataType)
+	{
+		// Only test if argValues is not null
+		if(argValues==null) return null;
+		
+		// Only test if argValues contains values
+		if(argValues.isSetValues())
+		{
+			// Loop through all the values
+			for (TridasValue val : argValues.getValues())
+			{
+				switch(dataType)
+				{
+				case DOUBLE:
+				case POSITIVE_DOUBLE:
+				case ANYNUMBER:
+					// Parse to double if possible
+					try{
+						Double dbl = Double.parseDouble(val.getValue());
+						if(dataType.equals(TridasValueDataType.POSITIVE_DOUBLE))
+						{
+							if(dbl.compareTo(Double.valueOf("0.0"))<0)
+							{
+								// Value is less than 0 
+								return false;
+							}
+						}	
+					} catch (NumberFormatException e)
+					{
+						// Parse to double failed 
+						return false;
+					}
+					break;
+				case INTEGER:
+				case POSITIVE_INTEGER:
+					// Parse to integer if possible
+					try{
+						Integer intval = Integer.parseInt(val.getValue());
+						if(dataType.equals(TridasValueDataType.POSITIVE_INTEGER))
+						{
+							if(intval.compareTo(0)<0)
+							{
+								// Value is less than 0 
+								return false;
+							}
+						}			
+					} catch (NumberFormatException e)
+					{
+						// Parse to integer failed 
+						return false;
+					}
+					break;
+				case STRING:
+					break;
+				}
+			}
+		}
+
+		return true;
+	}
+	
+
+	public enum TridasValueDataType{
+		DOUBLE,
+		INTEGER,
+		POSITIVE_DOUBLE,
+		POSITIVE_INTEGER,
+		ANYNUMBER,
+		STRING;
+	}
 }
+

@@ -26,7 +26,7 @@ import org.tridas.io.formats.heidelberg.HeidelbergFile;
 import org.tridas.io.formats.sheffield.TridasToSheffieldDefaults.SheffieldVariableCode;
 import org.tridas.io.naming.HierarchicalNamingConvention;
 import org.tridas.io.naming.INamingConvention;
-import org.tridas.io.util.TridasHierarchyHelper;
+import org.tridas.io.util.TridasUtils;
 import org.tridas.io.util.UnitUtils;
 import org.tridas.schema.NormalTridasUnit;
 import org.tridas.schema.TridasDerivedSeries;
@@ -103,7 +103,7 @@ public class SheffieldWriter extends AbstractDendroCollectionWriter {
 		defaults = (TridasToSheffieldDefaults) argDefaults;
 		defaults.populateFromTridasProject(argProject);
 		
-		for (TridasObject o : TridasHierarchyHelper.getObjectList(argProject)) {
+		for (TridasObject o : TridasUtils.getObjectList(argProject)) {
 			TridasToSheffieldDefaults objectDefaults = (TridasToSheffieldDefaults) defaults.clone();
 			objectDefaults.populateFromTridasObject(o);
 			

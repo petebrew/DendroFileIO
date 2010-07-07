@@ -101,7 +101,7 @@ public class TridasToBesanconDefaults extends AbstractMetadataFieldSet
 
 	}
 	
-	public void populateFromTridasMeasurementSeries(TridasMeasurementSeries ms) {
+	/*public void populateFromTridasMeasurementSeries(TridasMeasurementSeries ms) {
 
 		populateFromTridasSeries(ms);
 
@@ -111,7 +111,7 @@ public class TridasToBesanconDefaults extends AbstractMetadataFieldSet
 		
 		populateFromTridasSeries(ds);
 		
-	}
+	}*/
 	
 	private void populateFromTridasSeries(ITridasSeries ser)
 	{
@@ -151,12 +151,31 @@ public class TridasToBesanconDefaults extends AbstractMetadataFieldSet
 	}
 	
 	
-	public void populateFromTridasValues(TridasValues argValues) {
+	private void populateFromTridasValues(TridasValues argValues) {
 		
 		// Ring count
 		getIntegerDefaultValue(DefaultFields.RING_COUNT).setValue(argValues.getValues().size());
-
+		
 	}
+	
+	public void populateFromTridasValuesAndSeries(TridasValues argValues, ITridasSeries series)
+	{
+		populateFromTridasValues(argValues);
+		populateFromTridasSeries(series);
+		
+		// If possible, override last year with first year + count of values
+		if(argValues.isSetValues() && series.isSetInterpretation())
+		{	
+			if(series.getInterpretation().isSetFirstYear())
+			{
+				getSafeIntYearDefaultValue(DefaultFields.LAST_YEAR).setValue(
+						new SafeIntYear(series.getInterpretation().getFirstYear())
+						.add(argValues.getValues().size()));
+			}
+		}
+		
+	}
+	
 	
 	
 	@SuppressWarnings("unchecked")
