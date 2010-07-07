@@ -62,7 +62,9 @@ public class DateUtils {
 	 */
 	public static DateTime getDateTime(Integer day, Integer month, Integer year) {
 		try {
-			GregorianCalendar c = new GregorianCalendar(year, month, day);
+			// Month is base 0 in Gregorian Calendar so minus 1 so this function can 
+			// have logical month integers!
+			GregorianCalendar c = new GregorianCalendar(year, month-1, day);
 			XMLGregorianCalendar requestedDate = DatatypeFactory.newInstance().newXMLGregorianCalendar(c);
 			DateTime returnval = new DateTime();
 			returnval.setValue(requestedDate);
@@ -83,7 +85,9 @@ public class DateUtils {
 	 */
 	public static DateTime getDateTime(Integer day, Integer month, Integer year, Integer hours, Integer minutes) {
 		try {
-			GregorianCalendar c = new GregorianCalendar(year, month, day, hours, minutes);
+			// Month is base 0 in Gregorian Calendar so minus 1 so this function can 
+			// have logical month integers!
+			GregorianCalendar c = new GregorianCalendar(year, month-1, day, hours, minutes);
 			XMLGregorianCalendar requestedDate = DatatypeFactory.newInstance().newXMLGregorianCalendar(c);
 			DateTime returnval = new DateTime();
 			returnval.setValue(requestedDate);
@@ -127,8 +131,8 @@ public class DateUtils {
 		Integer mins  = null;
 		try{
 			day   = Integer.parseInt(dateParts[0]);
-			month = Integer.parseInt(dateParts[1])-1;  // Base 0
-			year  = Integer.parseInt(dateParts[2])-1;  // Base 0
+			month = Integer.parseInt(dateParts[1]);
+			year  = Integer.parseInt(dateParts[2]);
 			hours = Integer.parseInt(timeParts[0]);
 			mins  = Integer.parseInt(timeParts[1]);
 		} catch (NumberFormatException e)

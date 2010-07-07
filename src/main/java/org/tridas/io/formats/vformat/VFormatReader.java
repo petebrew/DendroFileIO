@@ -90,7 +90,7 @@ public class VFormatReader extends AbstractDendroFileReader {
 				
 		// Create a new series and set line type to 'DATA'
 		VFormatSeries series = new VFormatSeries();
-		series.defaults = defaults;
+		series.defaults = (VFormatToTridasDefaults) defaults.clone();
 		VFormatLineType lastLineType = VFormatLineType.DATA;
 		
 		// Loop through each line in file
@@ -111,7 +111,7 @@ public class VFormatReader extends AbstractDendroFileReader {
 				if (series.dataValues.size()>0) {
 					this.addSeriesToList(series);
 					series = new VFormatSeries();
-					series.defaults = defaults;
+					series.defaults = (VFormatToTridasDefaults) defaults.clone();
 				}
 				
 				// Check whether this is a supported version format

@@ -57,11 +57,13 @@ public class TridasToVFormatDefaults extends AbstractMetadataFieldSet implements
 	@Override
 	protected void initDefaultValues() {
 		
-		setDefaultValue(DefaultFields.PROJECT_CODE, new StringDefaultValue(null, 1, 1));
+		/*setDefaultValue(DefaultFields.PROJECT_CODE, new StringDefaultValue(null, 1, 1));
 		setDefaultValue(DefaultFields.REGION_CODE, new StringDefaultValue("_", 1, 1));
 		setDefaultValue(DefaultFields.OBJECT_CODE, new StringDefaultValue("__", 2, 2));
 		setDefaultValue(DefaultFields.TREE_CODE, new StringDefaultValue("__", 2, 2));
-		setDefaultValue(DefaultFields.HEIGHT_CODE, new StringDefaultValue("0", 1, 1));
+		setDefaultValue(DefaultFields.HEIGHT_CODE, new StringDefaultValue("0", 1, 1));*/
+		
+		setDefaultValue(DefaultFields.SERIES_ID, new StringDefaultValue(I18n.getText("unnamed"), 1, 8));
 		setDefaultValue(DefaultFields.DATA_TYPE, new GenericDefaultValue<VFormatDataType>(VFormatDataType.SINGLE));
 		setDefaultValue(DefaultFields.STAT_CODE, new GenericDefaultValue<VFormatStatType>(VFormatStatType.ORIGINAL));
 		setDefaultValue(DefaultFields.PARAMETER_CODE, new GenericDefaultValue<VFormatParameter>(VFormatParameter.RING_WIDTH));
@@ -210,6 +212,28 @@ public class TridasToVFormatDefaults extends AbstractMetadataFieldSet implements
 			getStringDefaultValue(DefaultFields.ANALYST).setValue(StringUtils.parseInitials(ms.getAnalyst()));
 		}
 		
+		// Set series id from ID or Title
+		String seriesid = null;
+		if(ms.isSetIdentifier())
+		{
+			if(ms.getIdentifier().isSetValue())
+			{
+				seriesid = ms.getIdentifier().getValue();
+			}
+			else if(ms.isSetTitle())
+			{
+				seriesid = ms.getTitle();
+			}
+		}
+		else if (ms.isSetTitle())
+		{
+			seriesid = ms.getTitle();
+		}
+		if(seriesid!=null)
+		{
+			getStringDefaultValue(DefaultFields.SERIES_ID).setValue(seriesid);
+		}
+		
 	}
 	
 	@SuppressWarnings("unchecked")
@@ -225,6 +249,28 @@ public class TridasToVFormatDefaults extends AbstractMetadataFieldSet implements
 		if(ds.isSetAuthor())
 		{
 			getStringDefaultValue(DefaultFields.ANALYST).setValue(ds.getAuthor());
+		}
+		
+		// Set series id from ID or Title
+		String seriesid = null;
+		if(ds.isSetIdentifier())
+		{
+			if(ds.getIdentifier().isSetValue())
+			{
+				seriesid = ds.getIdentifier().getValue();
+			}
+			else if(ds.isSetTitle())
+			{
+				seriesid = ds.getTitle();
+			}
+		}
+		else if (ds.isSetTitle())
+		{
+			seriesid = ds.getTitle();
+		}
+		if(seriesid!=null)
+		{
+			getStringDefaultValue(DefaultFields.SERIES_ID).setValue(seriesid);
 		}
 		
 	}
