@@ -25,7 +25,7 @@ import org.tridas.io.exceptions.ConversionWarning.WarningType;
 import org.tridas.io.formats.sheffield.TridasToSheffieldDefaults.SheffieldVariableCode;
 import org.tridas.io.naming.HierarchicalNamingConvention;
 import org.tridas.io.naming.INamingConvention;
-import org.tridas.io.util.TridasHierarchyHelper;
+import org.tridas.io.util.TridasUtils;
 import org.tridas.schema.TridasDerivedSeries;
 import org.tridas.schema.TridasElement;
 import org.tridas.schema.TridasMeasurementSeries;
@@ -57,7 +57,7 @@ public class HeidelbergWriter extends AbstractDendroCollectionWriter {
 		defaults = (TridasToHeidelbergDefaults) argDefaults;
 		defaults.populateFromTridasProject(argProject);
 		
-		for (TridasObject o : TridasHierarchyHelper.getObjectList(argProject)) {
+		for (TridasObject o : TridasUtils.getObjectList(argProject)) {
 			TridasToHeidelbergDefaults objectDefaults = (TridasToHeidelbergDefaults) defaults.clone();
 			objectDefaults.populateFromTridasObject(o);
 			

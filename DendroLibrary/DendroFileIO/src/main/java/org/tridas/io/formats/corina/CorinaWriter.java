@@ -24,7 +24,7 @@ import org.tridas.io.exceptions.IncompleteTridasDataException;
 import org.tridas.io.exceptions.ConversionWarning.WarningType;
 import org.tridas.io.naming.INamingConvention;
 import org.tridas.io.naming.NumericalNamingConvention;
-import org.tridas.io.util.TridasHierarchyHelper;
+import org.tridas.io.util.TridasUtils;
 import org.tridas.io.util.UnitUtils;
 import org.tridas.schema.NormalTridasUnit;
 import org.tridas.schema.TridasDerivedSeries;
@@ -90,7 +90,7 @@ public class CorinaWriter extends AbstractDendroCollectionWriter {
 		
 		defaults = (TridasToCorinaDefaults) argDefaults;
 		
-		for (TridasObject o : TridasHierarchyHelper.getObjectList(argProject)) {		
+		for (TridasObject o : TridasUtils.getObjectList(argProject)) {		
 			TridasToCorinaDefaults pdefaults = (TridasToCorinaDefaults) defaults.clone();
 			for (TridasElement e : o.getElements()) {			
 				TridasToCorinaDefaults edefaults = (TridasToCorinaDefaults) pdefaults.clone();

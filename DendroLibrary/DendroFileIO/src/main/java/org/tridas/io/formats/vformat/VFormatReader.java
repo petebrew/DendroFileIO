@@ -36,6 +36,7 @@ import org.tridas.io.formats.vformat.VFormatToTridasDefaults.VFormatParameter;
 import org.tridas.io.formats.vformat.VFormatToTridasDefaults.VFormatStatType;
 import org.tridas.io.util.DateUtils;
 import org.tridas.io.util.SafeIntYear;
+import org.tridas.schema.DateTime;
 import org.tridas.schema.DatingSuffix;
 import org.tridas.schema.NormalTridasUnit;
 import org.tridas.schema.NormalTridasVariable;
@@ -65,7 +66,7 @@ public class VFormatReader extends AbstractDendroFileReader {
 	private Integer formatVersion = 12;	
 	
 	enum VFormatLineType {
-		HEADER_1, HEADER_2, HEADER_3, DATA, INVALID;
+		HEADER_1, HEADER_2, HEADER_3, HEADER_4, DATA, INVALID;
 	}
 	
 	public VFormatReader() {
@@ -96,262 +97,292 @@ public class VFormatReader extends AbstractDendroFileReader {
 		for (String line : argFileString) 
 		{
 			currentLineNumber++;
-			switch (getLineType(line)) {
-				case HEADER_1 :
-					// Last line should have been data otherwise something has gone wrong
-					if (!lastLineType.equals(VFormatLineType.DATA)) {
-						throw new InvalidDendroFileException(I18n.getText("vformat.invalidLine"), currentLineNumber);
-					}
-					
-					// If series is not null then we should add it to our list
-					// as we're just about to start another
-					if (series.dataValues.size()>0) {
-						this.addSeriesToList(series);
-						series = new VFormatSeries();
-						series.defaults = defaults;
-					}
-					
-					// Check whether this is a supported version format
-					try {
-						formatVersion = Integer.valueOf(line.substring(68, 70));
-						if (formatVersion.compareTo(20) >= 0) {
-							addWarning(new ConversionWarning(WarningType.NOT_STRICT, I18n.getText(
-									"vformat.unsupportedFormat", String.valueOf(formatVersion))));
-						}
-					} catch (NumberFormatException e) 
-					{
-						throw new InvalidDendroFileException(I18n.getText("vformat.invalidFormatVersion"), currentLineNumber);
-
-					}
-															
-					// Series ID
-					series.defaults.getStringDefaultValue(DefaultFields.SERIES_ID).setValue(line.substring(0, 12));
-					log.debug(line.substring(0, 11));
-					
-					// Project id
-					series.defaults.getStringDefaultValue(DefaultFields.PROJECT_CODE).setValue(line.substring(0,1));
-					log.debug(line.substring(0, 1));
-					
-					// Object id
-					series.defaults.getStringDefaultValue(DefaultFields.OBJECT_CODE).setValue(line.substring(2,4));
-					log.debug(line.substring(2, 4));
-					
-					// Tree id
-					series.defaults.getStringDefaultValue(DefaultFields.TREE_CODE).setValue(line.substring(4,6));
-					log.debug(line.substring(4, 6));
-					
-					// Height
-					series.defaults.getStringDefaultValue(DefaultFields.HEIGHT_CODE).setValue(line.substring(6,7));
-					log.debug(line.substring(6, 7));
-					
-					// Data type
-					GenericDefaultValue<VFormatDataType> dataTypeField = (GenericDefaultValue<VFormatDataType>) series.defaults.getDefaultValue(DefaultFields.DATA_TYPE);
-					dataTypeField.setValue(VFormatDataType.fromCode(line.substring(9,10)));
-					log.debug(line.substring(9, 10));
-					if(dataTypeField.getValue()==null)
-					{
-						throw new InvalidDendroFileException(I18n.getText("vformat.invalidDataType"), currentLineNumber);
-					}
-					
-					// Stats treatment used
-					series.defaults.getStringDefaultValue(DefaultFields.STAT_CODE).setValue(line.substring(10,11));
-					log.debug(line.substring(10, 11));
-					
-					// Parameter
-					GenericDefaultValue<VFormatParameter> parameterField = (GenericDefaultValue<VFormatParameter>) series.defaults.getDefaultValue(DefaultFields.PARAMETER_CODE);
-					parameterField.setValue(VFormatParameter.fromCode(line.substring(11,12)));
-					log.debug(line.substring(11,12));
-					if(parameterField.getValue()==null)
-					{
-						throw new InvalidDendroFileException(I18n.getText("vformat.invalidParameter"), currentLineNumber);
-					}
-					
-					// Units
-					series.defaults.getStringDefaultValue(DefaultFields.UNIT).setValue(line.substring(12,15));
-					log.debug(line.substring(12, 15));
-					
-					// Count of values
-					try{
-					series.defaults.getIntegerDefaultValue(DefaultFields.COUNT).setValue(Integer.parseInt(line.substring(15,20).trim()));
-					log.debug(line.substring(15, 20));
-					} catch (NumberFormatException e)
-					{	
-						if(!line.substring(15,20).trim().equals(""))
-						{
-							addWarning(new ConversionWarning(WarningType.IGNORED, I18n.getText(
-									"fileio.unableToParse", "count")));
-						}
-					}
-
-					// Species
-					series.defaults.getStringDefaultValue(DefaultFields.SPECIES).setValue(line.substring(20,24));
-					log.debug(line.substring(20, 24));
-					
-					// Last year
-					try{
-					series.defaults.getSafeIntYearDefaultValue(DefaultFields.LAST_YEAR).setValue(new SafeIntYear(line.substring(24,30)));
-					log.debug(line.substring(24, 30));
-					} catch (NumberFormatException e)
-					{
-						if(!line.substring(24,30).trim().equals(""))
-						{
-							addWarning(new ConversionWarning(WarningType.IGNORED, I18n.getText(
-									"fileio.unableToParse", "lastYear")));
-						}
-					}
-					
-					// Description
-					if(line.substring(30,50).trim()!=null)
-					{
-						series.defaults.getStringDefaultValue(DefaultFields.DESCRIPTION).setValue(line.substring(30,50));
-						log.debug(line.substring(30, 50));
-					}
-		
-					// Created date
-					try{
-						int day = Integer.parseInt(line.substring(50,52));
-						int month = Integer.parseInt(line.substring(52,54));
-						int year = Integer.parseInt(line.substring(54,58));
-						log.debug(line.substring(50,52)+"/"+line.substring(52,54)+"/"+line.substring(54,58));
-						series.defaults.getDateTimeDefaultValue(DefaultFields.CREATED_DATE).setValue(DateUtils.getDateTime(day, month, year));
-					} catch (Exception e)
-					{
-						if(!line.substring(50,58).trim().equals(""))
-						{
-							addWarning(new ConversionWarning(WarningType.IGNORED, I18n.getText(
-									"fileio.unableToParse", "createdDate")));
-						}
-					}
-					
-					// Analyst
-					series.defaults.getStringDefaultValue(DefaultFields.ANALYST).setValue(line.substring(58,60));
-					log.debug(line.substring(58, 60));
-
-					// Updated date
-					try{
-						int day = Integer.parseInt(line.substring(60,62).trim());
-						int month = Integer.parseInt(line.substring(62,64).trim());
-						int year = Integer.parseInt(line.substring(64,68).trim());
-						log.debug(line.substring(60,62)+"/"+line.substring(62,64)+"/"+line.substring(64,68));
-						series.defaults.getDateTimeDefaultValue(DefaultFields.UPDATED_DATE).setValue(DateUtils.getDateTime(day, month, year));
-					} catch (Exception e)
-					{
-						if(!line.substring(60,68).trim().equals(""))
-						{
-							addWarning(new ConversionWarning(WarningType.IGNORED, I18n.getText(
-									"fileio.unableToParse", "updatedDate")));
-						}
-					}
-									
-					// Unmeasured rings at start
-					try{
-						series.defaults.getIntegerDefaultValue(DefaultFields.UNMEAS_PRE).setValue(Integer.parseInt(line.substring(70,73).trim()));
-						log.debug(line.substring(70, 73));
-					} catch (Exception e)
-					{
-						if(!line.substring(70,73).trim().equals(""))
-						{
-							addWarning(new ConversionWarning(WarningType.IGNORED, I18n.getText(
-									"fileio.unableToParse", "unmeasuredRingsPre")));
-						}
-					}
-					
-					// Error for unmeasured rings at start
-					series.defaults.getStringDefaultValue(DefaultFields.UNMEAS_PRE_ERR).setValue(line.substring(73,75));						
-					log.debug(line.substring(73, 75));
-
-					
-					// Unmeasured rings at end
-					try{
-						series.defaults.getIntegerDefaultValue(DefaultFields.UNMEAS_POST).setValue(Integer.parseInt(line.substring(75,78).trim()));
-					} catch (Exception e)
-					{
-						if(!line.substring(75,78).trim().equals(""))
-						{
-							addWarning(new ConversionWarning(WarningType.IGNORED, I18n.getText(
-									"fileio.unableToParse", "unmeasuredRingsPost")));
-						}
-					}
-					
-					// Error for unmeasured rings at end
-					series.defaults.getStringDefaultValue(DefaultFields.UNMEAS_POST_ERR).setValue(line.substring(78,80));
-
-					// Set this line type as the last linetype before continuing
-					lastLineType = VFormatLineType.HEADER_1;
-					break;
-				
-				case HEADER_2 :
-					// Last line should have been header1 otherwise something has gone
-					// wrong
-					if (!lastLineType.equals(VFormatLineType.HEADER_1)) {
-						throw new InvalidDendroFileException(I18n.getText("vformat.invalidLine"), currentLineNumber);
-					}
-					
-					// Free text field
-					series.defaults.getStringDefaultValue(DefaultFields.FREE_TEXT_FIELD).setValue(line.trim());
-					
-					// Set this line type as the last linetype before continuing
-					lastLineType = VFormatLineType.HEADER_2;
-					break;
-				
-				case HEADER_3 :
-					// Last line should have been header2 otherwise something has gone
-					// wrong
-					if (!lastLineType.equals(VFormatLineType.HEADER_2)) {
-						throw new InvalidDendroFileException(I18n.getText("vformat.invalidLine"), currentLineNumber);
-					}
-					
-					// Latitude and Longitude
-					try {		
-						series.defaults.getDoubleDefaultValue(DefaultFields.LATITUDE).setValue(Double.parseDouble(line.substring(10, 20)));
-						series.defaults.getDoubleDefaultValue(DefaultFields.LONGITUDE).setValue(Double.parseDouble(line.substring(0, 10)));						
-					} catch (NumberFormatException e) 
-					{
-						if(!line.substring(0,20).trim().equals(""))
-						{
-							addWarning(new ConversionWarning(WarningType.IGNORED, I18n.getText(
-									"fileio.unableToParse", "coordinates")));
-						}
-					}
-					
-					// Set this line type as the last linetype before continuing
-					lastLineType = VFormatLineType.HEADER_3;
-					break;
-				
-				case DATA :
-					// Last line should have been header2,3 or data otherwise something has
-					// gone wrong
-					if (lastLineType.equals(VFormatLineType.HEADER_1)) {
-						throw new InvalidDendroFileException(I18n.getText("vformat.invalidLine"), currentLineNumber);
-					}
-					
-					// Get this decades values
-					ArrayList<TridasValue> thisDecadesValues = new ArrayList<TridasValue>();
-					for (int i = 1; i < line.length(); i = i + 8) {
-						/*
-						 * String validity = line.substring(i-1,i).trim();
-						 * String importance = line.substring(i, i+1).trim();
-						 * String remark = line.substring(i+1, i+2).trim();
-						 */
-
-						TridasValue theValue = new TridasValue();
-						
-						// Skip blank values at beginning/end of series
-						if(line.substring(i + 2, i + 7).trim().equals("")) continue;
-						
-						theValue.setValue(line.substring(i + 2, i + 7).trim());
-						thisDecadesValues.add(theValue);
-					}
-					
-					// Add them to the series
-					series.dataValues.addAll(thisDecadesValues);
-					
-					// Set this line type as the last linetype before continuing
-					lastLineType = VFormatLineType.DATA;
-					break;
-				
-				default :
+			
+			// CHECK IF THIS IS FIRST LINE OF SERIES
+			if(checkLineType(line, VFormatLineType.HEADER_1))
+			{
+				// Last line should have been data otherwise something has gone wrong
+				if (!lastLineType.equals(VFormatLineType.DATA)) {
 					throw new InvalidDendroFileException(I18n.getText("vformat.invalidLine"), currentLineNumber);
+				}
+				
+				// If series is not null then we should add it to our list
+				// as we're just about to start another
+				if (series.dataValues.size()>0) {
+					this.addSeriesToList(series);
+					series = new VFormatSeries();
+					series.defaults = defaults;
+				}
+				
+				// Check whether this is a supported version format
+				try {
+					formatVersion = Integer.valueOf(line.substring(68, 70));
+					if (formatVersion.compareTo(20) >= 0) {
+						addWarning(new ConversionWarning(WarningType.NOT_STRICT, I18n.getText(
+								"vformat.unsupportedFormat", String.valueOf(formatVersion))));
+					}
+				} catch (NumberFormatException e) 
+				{
+					throw new InvalidDendroFileException(I18n.getText("vformat.invalidFormatVersion"), currentLineNumber);
+
+				}
+														
+				// Series ID
+				series.defaults.getStringDefaultValue(DefaultFields.SERIES_ID).setValue(line.substring(0, 12));
+				log.debug(line.substring(0, 11));
+				
+				// Project id
+				series.defaults.getStringDefaultValue(DefaultFields.PROJECT_CODE).setValue(line.substring(0,1));
+				log.debug(line.substring(0, 1));
+				
+				// Object id
+				series.defaults.getStringDefaultValue(DefaultFields.OBJECT_CODE).setValue(line.substring(2,4));
+				log.debug(line.substring(2, 4));
+				
+				// Tree id
+				series.defaults.getStringDefaultValue(DefaultFields.TREE_CODE).setValue(line.substring(4,6));
+				log.debug(line.substring(4, 6));
+				
+				// Height
+				series.defaults.getStringDefaultValue(DefaultFields.HEIGHT_CODE).setValue(line.substring(6,7));
+				log.debug(line.substring(6, 7));
+				
+				// Data type
+				GenericDefaultValue<VFormatDataType> dataTypeField = (GenericDefaultValue<VFormatDataType>) series.defaults.getDefaultValue(DefaultFields.DATA_TYPE);
+				dataTypeField.setValue(VFormatDataType.fromCode(line.substring(9,10)));
+				log.debug(line.substring(9, 10));
+				if(dataTypeField.getValue()==null)
+				{
+					throw new InvalidDendroFileException(I18n.getText("vformat.invalidDataType"), currentLineNumber);
+				}
+				
+				// Stats treatment used
+				series.defaults.getStringDefaultValue(DefaultFields.STAT_CODE).setValue(line.substring(10,11));
+				log.debug(line.substring(10, 11));
+				
+				// Parameter
+				GenericDefaultValue<VFormatParameter> parameterField = (GenericDefaultValue<VFormatParameter>) series.defaults.getDefaultValue(DefaultFields.PARAMETER_CODE);
+				parameterField.setValue(VFormatParameter.fromCode(line.substring(11,12)));
+				log.debug(line.substring(11,12));
+				if(parameterField.getValue()==null)
+				{
+					throw new InvalidDendroFileException(I18n.getText("vformat.invalidParameter"), currentLineNumber);
+				}
+				
+				// Units
+				series.defaults.getStringDefaultValue(DefaultFields.UNIT).setValue(line.substring(12,15));
+				log.debug(line.substring(12, 15));
+				
+				// Count of values
+				try{
+				series.defaults.getIntegerDefaultValue(DefaultFields.COUNT).setValue(Integer.parseInt(line.substring(15,20).trim()));
+				log.debug(line.substring(15, 20));
+				} catch (NumberFormatException e)
+				{	
+					if(!line.substring(15,20).trim().equals(""))
+					{
+						addWarning(new ConversionWarning(WarningType.IGNORED, I18n.getText(
+								"fileio.unableToParse", "count")));
+					}
+				}
+
+				// Species
+				series.defaults.getStringDefaultValue(DefaultFields.SPECIES).setValue(line.substring(20,24));
+				log.debug(line.substring(20, 24));
+				
+				// Last year
+				try{
+				series.defaults.getSafeIntYearDefaultValue(DefaultFields.LAST_YEAR).setValue(new SafeIntYear(line.substring(24,30)));
+				log.debug(line.substring(24, 30));
+				} catch (NumberFormatException e)
+				{
+					if(!line.substring(24,30).trim().equals(""))
+					{
+						addWarning(new ConversionWarning(WarningType.IGNORED, I18n.getText(
+								"fileio.unableToParse", "lastYear")));
+					}
+				}
+				
+				// Description
+				if(line.substring(30,50).trim()!=null)
+				{
+					series.defaults.getStringDefaultValue(DefaultFields.DESCRIPTION).setValue(line.substring(30,50));
+					log.debug(line.substring(30, 50));
+				}
+	
+				// Created date
+				try{
+					DateTime date = DateUtils.parseDateFromDayMonthYearString(line.substring(50,58));
+					if(date!=null)
+					{
+						series.defaults.getDateTimeDefaultValue(DefaultFields.CREATED_DATE).setValue(date);
+					}
+				}
+				catch (Exception e)
+				{
+					if(!line.substring(50,58).trim().equals(""))
+					{
+						addWarning(new ConversionWarning(WarningType.IGNORED, I18n.getText(
+								"fileio.unableToParse", "createdDate")));
+					}
+				}
+				
+				// Analyst
+				series.defaults.getStringDefaultValue(DefaultFields.ANALYST).setValue(line.substring(58,60));
+				log.debug(line.substring(58, 60));
+
+				// Updated date
+				try{
+					DateTime date = DateUtils.parseDateFromDayMonthYearString(line.substring(60,68));
+					if(date!=null)
+					{
+						series.defaults.getDateTimeDefaultValue(DefaultFields.UPDATED_DATE).setValue(date);
+					}
+				}
+				catch (Exception e)
+				{
+					if(!line.substring(60,68).trim().equals(""))
+					{
+						addWarning(new ConversionWarning(WarningType.IGNORED, I18n.getText(
+								"fileio.unableToParse", "updatedDate")));
+					}
+				}
+								
+				// Unmeasured rings at start
+				try{
+					series.defaults.getIntegerDefaultValue(DefaultFields.UNMEAS_PRE).setValue(Integer.parseInt(line.substring(70,73).trim()));
+					log.debug(line.substring(70, 73));
+				} catch (Exception e)
+				{
+					if(!line.substring(70,73).trim().equals(""))
+					{
+						addWarning(new ConversionWarning(WarningType.IGNORED, I18n.getText(
+								"fileio.unableToParse", "unmeasuredRingsPre")));
+					}
+				}
+				
+				// Error for unmeasured rings at start
+				series.defaults.getStringDefaultValue(DefaultFields.UNMEAS_PRE_ERR).setValue(line.substring(73,75));						
+				log.debug(line.substring(73, 75));
+
+				
+				// Unmeasured rings at end
+				try{
+					series.defaults.getIntegerDefaultValue(DefaultFields.UNMEAS_POST).setValue(Integer.parseInt(line.substring(75,78).trim()));
+				} catch (Exception e)
+				{
+					if(!line.substring(75,78).trim().equals(""))
+					{
+						addWarning(new ConversionWarning(WarningType.IGNORED, I18n.getText(
+								"fileio.unableToParse", "unmeasuredRingsPost")));
+					}
+				}
+				
+				// Error for unmeasured rings at end
+				series.defaults.getStringDefaultValue(DefaultFields.UNMEAS_POST_ERR).setValue(line.substring(78,80));
+
+				// Set this line type as the last linetype before continuing
+				lastLineType = VFormatLineType.HEADER_1;
+				
+			
+			}
+			
+			// If last line was HEADER1 then this must be HEADER2!
+			else if(lastLineType.equals(VFormatLineType.HEADER_1))
+			{				
+				// Free text field
+				series.defaults.getStringDefaultValue(DefaultFields.FREE_TEXT_FIELD).setValue(line.trim());
+				
+				// Set this line type as the last linetype before continuing
+				lastLineType = VFormatLineType.HEADER_2;
+				
+			}
+			
+			// If last line was Header2 then this could be either HEADER3 or DATA depending on version
+			else if ((lastLineType.equals(VFormatLineType.HEADER_2)) && (formatVersion>=10))
+			{
+				// Expecting HEADER3
+				if (!checkLineType(line, VFormatLineType.HEADER_3))
+				{
+					throw new InvalidDendroFileException(I18n.getText("vformat.invalidLine"), currentLineNumber);
+				}
+				
+				// Latitude and Longitude
+				try {		
+					series.defaults.getDoubleDefaultValue(DefaultFields.LATITUDE).setValue(Double.parseDouble(line.substring(10, 20)));
+					series.defaults.getDoubleDefaultValue(DefaultFields.LONGITUDE).setValue(Double.parseDouble(line.substring(0, 10)));						
+				} catch (NumberFormatException e) 
+				{
+					if(!line.substring(0,20).trim().equals(""))
+					{
+						addWarning(new ConversionWarning(WarningType.IGNORED, I18n.getText(
+								"fileio.unableToParse", "coordinates")));
+					}
+				}
+				
+				// Set this line type as the last linetype before continuing
+				lastLineType = VFormatLineType.HEADER_3;
+				
+			}
+			
+			
+			// HEADER 3 should be followed by HEADER4 if version is >20
+			else if (lastLineType.equals(VFormatLineType.HEADER_3))
+			{
+				if(formatVersion>=20)
+				{
+					// Expecting HEADER4
+					if (!checkLineType(line, VFormatLineType.HEADER_4))
+					{
+						throw new InvalidDendroFileException(I18n.getText("vformat.invalidLine"), currentLineNumber);
+					}
+				}
+				
+				// Not extracting any HEADER4 info as it is variable between users
+				lastLineType = VFormatLineType.HEADER_4;
+				
+			}
+			
+			// This should be data now
+			else
+			{
+				if (!checkLineType(line, VFormatLineType.DATA))
+				{
+					throw new InvalidDendroFileException(I18n.getText("vformat.invalidLine"), currentLineNumber);
+				}
+								
+				// Get this decades values
+				ArrayList<TridasValue> thisDecadesValues = new ArrayList<TridasValue>();
+				
+				// Trim off trailing spaces
+				if(line.length()>80)
+				{
+					line = line.substring(0, 80);
+				}
+				
+				for (int i = 0; i+8 <= line.length(); i = i + 8) 
+				{
+					/*
+					 * String validity = line.substring(i-1,i).trim();
+					 * String importance = line.substring(i, i+1).trim();
+					 * String remark = line.substring(i+1, i+2).trim();
+					 */
+
+					TridasValue theValue = new TridasValue();
+					
+					// Skip blank values at beginning/end of series
+					if(line.substring(i + 3, i + 8).trim().equals("")) continue;
+					
+					theValue.setValue(line.substring(i + 3, i + 8).trim());
+					thisDecadesValues.add(theValue);
+				}
+				
+				// Add them to the series
+				series.dataValues.addAll(thisDecadesValues);
+				
+				// Set this line type as the last linetype before continuing
+				lastLineType = VFormatLineType.DATA;
+			
 			}
 		}
 	}
@@ -390,6 +421,77 @@ public class VFormatReader extends AbstractDendroFileReader {
 		seriesList.add(series);
 	}
 	
+	private Boolean checkLineType(String line, VFormatLineType type)
+	{
+
+		String regex = null;
+		Pattern p1;
+		Matcher m1;
+		
+		// If line is empty return false 
+		if (line == null) {
+			return false;
+		}
+		
+		// Line should only be 80 chars long, but be cool and allow longer
+		// lines as long as the trailing characters are white space
+		if (line.length() > 80) {
+			if(!line.substring(80).matches("^\\s*$")){
+				return false;
+			}
+			line = line.substring(0,80);
+		}
+			
+		switch(type)
+		{
+		case HEADER_1:
+			regex = "^[\\S\\s]{8}.[!%#][FIMOPQRSTWXZ][DFGJKPS][\\S\\s]{12}[\\d\\s]{6}[\\S\\s]{20}[\\d\\s/.]{8}[\\S\\s]{10}[\\d}]{2}[\\d\\s.]{10}$";
+			p1 = Pattern.compile(regex, Pattern.CASE_INSENSITIVE | Pattern.DOTALL);
+			m1 = p1.matcher(line);
+			if (m1.find()) {
+				return true;
+			}
+			else
+			{
+				return false;
+			}
+			
+		case HEADER_2:
+			// Free text line so always matches!
+			return true;
+			
+		case HEADER_3:
+		case HEADER_4:
+			regex = "^[- \\d.]{0,80}$";
+			p1 = Pattern.compile(regex, Pattern.CASE_INSENSITIVE | Pattern.DOTALL);
+			m1 = p1.matcher(line);
+			if (m1.find()) {
+				return true;
+			}
+			else
+			{
+				return false;
+			}		
+			
+		case DATA:
+			regex = "^([ !\"#$%&\'\\w]{3}[ \\d.]{4}[\\d]{1}){1,10}[\\s]*$";
+			p1 = Pattern.compile(regex, Pattern.CASE_INSENSITIVE | Pattern.DOTALL);
+			m1 = p1.matcher(line);
+			if (m1.find()) {
+				return true;
+			}
+			else
+			{
+				return false;
+			}
+		default:
+			return false;
+		}
+
+	
+		
+	}
+	
 	
 	/**
 	 * Attempt to work out what sort of line this is
@@ -398,44 +500,23 @@ public class VFormatReader extends AbstractDendroFileReader {
 	 * @return
 	 */
 	private VFormatLineType getLineType(String line) {
-		String regex = null;
-		Pattern p1;
-		Matcher m1;
-		
-		// If line is empty or is not the right length return invalid now
-		if (line == null) {
-			return VFormatLineType.INVALID;
-		}
-		if (line.length() > 80) {
-			return VFormatLineType.INVALID;
-		}
-		
-		// Data line
-		regex = "^([ !\"#$%&\'\\w]{3}[ \\d.]{4}[\\d]{1}){1,10}";
-		p1 = Pattern.compile(regex, Pattern.CASE_INSENSITIVE | Pattern.DOTALL);
-		m1 = p1.matcher(line);
-		if (m1.find()) {
-			return VFormatLineType.DATA;
-		}
-		
-		// Header line 1
-		regex = "^[\\S\\s]{8}.[!%#][FIMOPQRSTWXZ][DFGJKPS][\\S\\s]{12}[\\d\\s]{6}[\\S\\s]{20}[\\d\\s/.]{8}[\\S\\s]{10}[\\d}]{2}[\\d\\s.]{10}";
-		p1 = Pattern.compile(regex, Pattern.CASE_INSENSITIVE | Pattern.DOTALL);
-		m1 = p1.matcher(line);
-		if (m1.find()) {
+
+		if(checkLineType(line, VFormatLineType.HEADER_1))
+		{
 			return VFormatLineType.HEADER_1;
 		}
-		
-		// Header line 3
-		regex = "^[\\d.]{20}";
-		p1 = Pattern.compile(regex, Pattern.CASE_INSENSITIVE | Pattern.DOTALL);
-		m1 = p1.matcher(line);
-		if (m1.find()) {
-			return VFormatLineType.HEADER_3;
+		else if(checkLineType(line, VFormatLineType.DATA))
+		{
+			return VFormatLineType.DATA;
 		}
-		
-		// Default to header 2 as this is free text we have no way of identifying
-		return VFormatLineType.HEADER_2;
+		else if(checkLineType(line, VFormatLineType.HEADER_3))
+		{
+			return VFormatLineType.HEADER_3;
+		}		
+		else
+		{
+			return VFormatLineType.HEADER_2;
+		}
 	}
 	
 	@Override

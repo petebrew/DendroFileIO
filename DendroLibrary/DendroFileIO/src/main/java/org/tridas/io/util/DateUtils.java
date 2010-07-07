@@ -15,6 +15,8 @@
  */
 package org.tridas.io.util;
 
+import java.text.SimpleDateFormat;
+import java.util.Calendar;
 import java.util.Date;
 import java.util.GregorianCalendar;
 import java.util.regex.Matcher;
@@ -24,6 +26,9 @@ import javax.xml.datatype.DatatypeConfigurationException;
 import javax.xml.datatype.DatatypeFactory;
 import javax.xml.datatype.XMLGregorianCalendar;
 
+import org.tridas.io.I18n;
+import org.tridas.io.exceptions.ConversionWarning;
+import org.tridas.io.exceptions.ConversionWarning.WarningType;
 import org.tridas.schema.DateTime;
 
 public class DateUtils {
@@ -133,6 +138,93 @@ public class DateUtils {
 		
 		
 		return DateUtils.getDateTime(day, month, year, hours, mins);
+
+	}
+	
+	/**
+	 * Try and parse a DateTime from a string.  Supported styles are:
+	 *   - dd/MM/yy
+	 *   - dd.MM.yy
+	 *   - dd-MM-yy
+	 *   - ddMMyyyy
+	 *   
+	 *   For two digit years, yy>50 is interpreted as 19xx, and yy<50 is
+	 *   interpreted as 20xx
+	 *   
+	 *   All other formats return null.
+	 *   
+	 * @param date
+	 * @return
+	 * @throws Exception
+	 */
+	public static DateTime parseDateFromDayMonthYearString(String date) throws Exception
+	{
+		if(date==null) return null;
+		
+		date = date.trim();
+		if(date.equals("")) return null;
+	
+		int day = 0;
+		int month = 0;
+		int year = 0;
+
+		if(date.matches("\\d\\d(.|-/|)\\d\\d(.|-|/)\\d\\d"))
+		{
+			// Old style dd/MM/yy or dd-MM-yy assuming 20th century year
+			day = Integer.parseInt(date.substring(0,2));
+			month = Integer.parseInt(date.substring(3,5));
+			year = Integer.parseInt(date.substring(6,8));
+			if(year>50)
+			{
+				year = year+1900;
+			}
+			else
+			{
+				year = year+2000;
+			}
+			
+		}
+		else
+		{
+			// Newer style ddMMyyyy
+			day = Integer.parseInt(date.substring(0,2));
+			month = Integer.parseInt(date.substring(2,4));
+			year = Integer.parseInt(date.substring(4,8));
+		}
+		
+		if(day>0 && month >0 && year > 0)
+		{
+			return DateUtils.getDateTime(day, month, year);
+		}
+		else
+		{
+			return null;
+		}
+			
+
+	}
+	
+	/**
+	 * Converts a DateTime into a Tucson style date string (yyyyMMdd). If
+	 * the supplied date is null, then it returns the correct string for
+	 * todays date.
+	 * 
+	 * @param date
+	 * @return
+	 */
+	public static String getDateTimeTucsonStyle(DateTime date) {
+		
+		SimpleDateFormat dateFormat = new SimpleDateFormat("yyyyMMdd");
+		
+		if(date==null)
+		{
+			Calendar calendar = Calendar.getInstance();	
+			return dateFormat.format(calendar.getTime());
+		}
+		else
+		{
+			return dateFormat.format(date.getValue().toGregorianCalendar().getTime());
+		}
 
 	}
 	

@@ -27,7 +27,7 @@ import org.tridas.io.exceptions.ConversionWarning.WarningType;
 import org.tridas.io.naming.HierarchicalNamingConvention;
 import org.tridas.io.naming.INamingConvention;
 import org.tridas.io.util.SafeIntYear;
-import org.tridas.io.util.TridasHierarchyHelper;
+import org.tridas.io.util.TridasUtils;
 import org.tridas.io.util.UnitUtils;
 import org.tridas.io.util.YearRange;
 import org.tridas.schema.NormalTridasUnit;
@@ -138,7 +138,7 @@ public class TucsonWriter extends AbstractDendroCollectionWriter {
 			
 		}
 		
-		if (TridasHierarchyHelper.getMeasurementSeriesFromTridasProject(p).size()>0)
+		if (TridasUtils.getMeasurementSeriesFromTridasProject(p).size()>0)
 		{
 			/**
 			 * RWL FILE(S)
@@ -154,7 +154,7 @@ public class TucsonWriter extends AbstractDendroCollectionWriter {
 				TridasToTucsonDefaults objectDefaults = (TridasToTucsonDefaults) defaults.clone();
 				objectDefaults.populateFromTridasObject(o);
 				
-				for (TridasElement e : TridasHierarchyHelper.getElementList(o)) {
+				for (TridasElement e : TridasUtils.getElementList(o)) {
 					TridasToTucsonDefaults elementDefaults = (TridasToTucsonDefaults) objectDefaults.clone();
 					elementDefaults.populateFromTridasElement(e);
 					

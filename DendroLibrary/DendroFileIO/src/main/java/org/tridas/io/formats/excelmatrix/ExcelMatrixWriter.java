@@ -33,7 +33,7 @@ import org.tridas.io.exceptions.IncompleteTridasDataException;
 import org.tridas.io.naming.INamingConvention;
 import org.tridas.io.naming.UUIDNamingConvention;
 import org.tridas.io.util.FileHelper;
-import org.tridas.io.util.TridasHierarchyHelper;
+import org.tridas.io.util.TridasUtils;
 import org.tridas.schema.TridasDerivedSeries;
 import org.tridas.schema.TridasMeasurementSeries;
 import org.tridas.schema.TridasProject;
@@ -65,7 +65,7 @@ public class ExcelMatrixWriter extends AbstractDendroCollectionWriter {
 		} catch (NullPointerException e) {}
 		
 		try {
-			List<TridasMeasurementSeries> lst = TridasHierarchyHelper.getMeasurementSeriesFromTridasProject(argProject);
+			List<TridasMeasurementSeries> lst = TridasUtils.getMeasurementSeriesFromTridasProject(argProject);
 			for (TridasMeasurementSeries ser : lst) {
 				// add to list
 				seriesList.add(ser);

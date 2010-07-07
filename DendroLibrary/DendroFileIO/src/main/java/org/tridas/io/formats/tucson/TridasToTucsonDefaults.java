@@ -25,6 +25,7 @@ import org.tridas.io.I18n;
 import org.tridas.io.defaults.AbstractMetadataFieldSet;
 import org.tridas.io.defaults.values.DoubleDefaultValue;
 import org.tridas.io.defaults.values.StringDefaultValue;
+import org.tridas.io.util.DateUtils;
 import org.tridas.io.util.StringUtils;
 import org.tridas.schema.TridasDerivedSeries;
 import org.tridas.schema.TridasElement;
@@ -62,13 +63,7 @@ public class TridasToTucsonDefaults extends AbstractMetadataFieldSet {
 		setDefaultValue(TucsonField.ELEVATION, new DoubleDefaultValue(null, -418.0, 8850.0, 7, 7)); // Heights of Dead Sea and Everest! ;-)
 		setDefaultValue(TucsonField.LATLONG, new StringDefaultValue("", 10, 10));
 		setDefaultValue(TucsonField.STATE_COUNTRY, new StringDefaultValue(I18n.getText("unknown"), 13, 13));
-		setDefaultValue(TucsonField.COMP_DATE, new StringDefaultValue(getTodaysDateTucsonStyle(), 8, 8));
-	}
-	
-	private String getTodaysDateTucsonStyle() {
-		Calendar calendar = Calendar.getInstance();
-		SimpleDateFormat dateFormat = new SimpleDateFormat("yyyyMMdd");
-		return dateFormat.format(calendar.getTime());
+		setDefaultValue(TucsonField.COMP_DATE, new StringDefaultValue(DateUtils.getDateTimeTucsonStyle(null), 8, 8));
 	}
 	
 
@@ -145,6 +140,16 @@ public class TridasToTucsonDefaults extends AbstractMetadataFieldSet {
 		{
 			getStringDefaultValue(TucsonField.INVESTIGATOR).setValue(StringUtils.parseInitials(ms.getDendrochronologist()));
 		}
+		
+		if(ms.isSetCreatedTimestamp())
+		{
+			getStringDefaultValue(TucsonField.COMP_DATE).setValue(DateUtils.getDateTimeTucsonStyle(ms.getCreatedTimestamp()));
+		}
+		else if (ms.isSetLastModifiedTimestamp())
+		{
+			getStringDefaultValue(TucsonField.COMP_DATE).setValue(DateUtils.getDateTimeTucsonStyle(ms.getLastModifiedTimestamp()));
+		}
+		
 	}
 	
 	
@@ -154,6 +159,16 @@ public class TridasToTucsonDefaults extends AbstractMetadataFieldSet {
 		{
 			getStringDefaultValue(TucsonField.INVESTIGATOR).setValue(StringUtils.parseInitials(ds.getAuthor()));
 		}
+		
+		if(ds.isSetCreatedTimestamp())
+		{
+			getStringDefaultValue(TucsonField.COMP_DATE).setValue(DateUtils.getDateTimeTucsonStyle(ds.getCreatedTimestamp()));
+		}
+		else if (ds.isSetLastModifiedTimestamp())
+		{
+			getStringDefaultValue(TucsonField.COMP_DATE).setValue(DateUtils.getDateTimeTucsonStyle(ds.getLastModifiedTimestamp()));
+		}
+		
 
 	}
 	

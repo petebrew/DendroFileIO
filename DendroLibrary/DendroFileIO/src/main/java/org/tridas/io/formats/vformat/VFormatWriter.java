@@ -25,7 +25,7 @@ import org.tridas.io.exceptions.ConversionWarning.WarningType;
 import org.tridas.io.formats.vformat.VFormatToTridasDefaults.VFormatParameter;
 import org.tridas.io.naming.INamingConvention;
 import org.tridas.io.naming.NumericalNamingConvention;
-import org.tridas.io.util.TridasHierarchyHelper;
+import org.tridas.io.util.TridasUtils;
 import org.tridas.io.util.UnitUtils;
 import org.tridas.schema.NormalTridasUnit;
 import org.tridas.schema.TridasDerivedSeries;
@@ -101,7 +101,7 @@ public class VFormatWriter extends AbstractDendroCollectionWriter {
 		defaults.populateFromTridasProject(argProject);
 		VFormatFile file = new VFormatFile();
 		
-		for (TridasObject o : TridasHierarchyHelper.getObjectList(argProject)) {
+		for (TridasObject o : TridasUtils.getObjectList(argProject)) {
 			TridasToVFormatDefaults objectDefaults = (TridasToVFormatDefaults) defaults.clone();
 			objectDefaults.populateFromTridasObject(o);
 			

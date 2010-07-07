@@ -431,8 +431,8 @@ public class VFormatToTridasDefaults extends TridasMetadataFieldSet {
 	}
 	
 	public enum VFormatParameter {
-		RING_WIDTH("J"), MEAN_DENSITY("D"), EARLYWOOD_WIDTH("F"), MAX_DENSITY("G"), MIN_DENSITY("K"),
-		PERC_LATEWOOD("P"), LATEWOOD_WIDTH("S");
+		RING_WIDTH("j"), MEAN_DENSITY("d"), EARLYWOOD_WIDTH("f"), MAX_DENSITY("g"), MIN_DENSITY("k"),
+		PERC_LATEWOOD("p"), LATEWOOD_WIDTH("s");
 		
 		private String code;
 		
@@ -457,9 +457,9 @@ public class VFormatToTridasDefaults extends TridasMetadataFieldSet {
 	}
 	
 	public enum VFormatStatType {
-		FREQ_FILTERED_SERIES("F"), INDEX("I"), MEAN_OF_SERIES("M"), ORIGINAL("O"), POINTER_YEAR("P"),
-		CULSTER_POINTER_YEAR("Q"), RESIDUAL("R"), MOVING_DEVIATION("S"), TREND_FITTED_CURVE("T"), 
-		TRANSFORMED_WUCHSWERT("W"), STANDARDISED_MEAN_AND_VARIANCE("X"), CENTRAL_MOMENT("Z");
+		FREQ_FILTERED_SERIES("f"), INDEX("i"), MEAN_OF_SERIES("m"), ORIGINAL("o"), POINTER_YEAR("p"),
+		CULSTER_POINTER_YEAR("q"), RESIDUAL("r"), MOVING_DEVIATION("s"), TREND_FITTED_CURVE("t"), 
+		TRANSFORMED_WUCHSWERT("w"), STANDARDISED_MEAN_AND_VARIANCE("x"), CENTRAL_MOMENT("z");
 		
 		private String code;
 		

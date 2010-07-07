@@ -27,7 +27,7 @@ import org.tridas.io.exceptions.IncompleteTridasDataException;
 import org.tridas.io.formats.sheffield.TridasToSheffieldDefaults;
 import org.tridas.io.naming.INamingConvention;
 import org.tridas.io.naming.UUIDNamingConvention;
-import org.tridas.io.util.TridasHierarchyHelper;
+import org.tridas.io.util.TridasUtils;
 import org.tridas.schema.TridasDerivedSeries;
 import org.tridas.schema.TridasElement;
 import org.tridas.schema.TridasMeasurementSeries;
@@ -78,7 +78,7 @@ public class TrimsWriter extends AbstractDendroCollectionWriter {
 			// Loop through Elements
 			ArrayList<TridasElement> elList;
 			try {
-				elList = TridasHierarchyHelper.getElementList(obj);
+				elList = TridasUtils.getElementList(obj);
 			} catch (NullPointerException e) {
 				throw new IncompleteTridasDataException(I18n.getText("fileio.elementMissing"));
 			}
