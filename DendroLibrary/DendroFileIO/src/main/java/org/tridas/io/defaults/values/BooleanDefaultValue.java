@@ -25,7 +25,7 @@ public class BooleanDefaultValue extends AbstractDefaultValue<Boolean> {
 	
 	private static final SimpleLogger log = new SimpleLogger(BooleanDefaultValue.class);
 	
-	private Boolean value = null;
+	protected Boolean value = null;
 	
 	public BooleanDefaultValue() {
 
