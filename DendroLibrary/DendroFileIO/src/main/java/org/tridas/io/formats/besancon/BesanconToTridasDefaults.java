@@ -131,18 +131,42 @@ public class BesanconToTridasDefaults extends TridasMetadataFieldSet {
 		wc.setRingCount(getIntegerDefaultValue(DefaultFields.RING_COUNT).getValue());
 		
 		// Set pith info
+		TridasPith pith = new TridasPith();
+
 		if (getBooleanDefaultValue(DefaultFields.PITH).getValue() != null) {
-			TridasPith pith = new TridasPith();
-			pith.setPresence(ComplexPresenceAbsence.COMPLETE);
-			wc.setPith(pith);
+			if(getBooleanDefaultValue(DefaultFields.PITH).getValue())
+			{
+				pith.setPresence(ComplexPresenceAbsence.COMPLETE);
+			}
+			else
+			{
+				pith.setPresence(ComplexPresenceAbsence.ABSENT);
+			}
 		}
+		else
+		{
+			pith.setPresence(ComplexPresenceAbsence.ABSENT);
+		}
+		wc.setPith(pith);
 		
 		// Set bark info
-		if (getBooleanDefaultValue(DefaultFields.BARK).getValue() != null) {
-			TridasBark bark = new TridasBark();
-			bark.setPresence(PresenceAbsence.PRESENT);
-			wc.setBark(bark);
+		TridasBark bark = new TridasBark();
+		if (getBooleanDefaultValue(DefaultFields.BARK).getValue() != null) 
+		{
+			if(getBooleanDefaultValue(DefaultFields.BARK).getValue())
+			{		
+				bark.setPresence(PresenceAbsence.PRESENT);
+			}
+			else
+			{
+				bark.setPresence(PresenceAbsence.ABSENT);
+			}
 		}
+		else
+		{
+			bark.setPresence(PresenceAbsence.ABSENT);
+		}
+		wc.setBark(bark);
 		
 		// Create sapwood with default presence
 		TridasSapwood sapwood = new TridasSapwood();
@@ -173,11 +197,20 @@ public class BesanconToTridasDefaults extends TridasMetadataFieldSet {
 		}
 		
 		// Set sapwood info
-		if (getIntegerDefaultValue(DefaultFields.SAPWOOD_START).getValue() != null) {
-			if (getBooleanDefaultValue(DefaultFields.BARK).getValue() != null || cambium.getValue() != null) {
-				// Bark or cambium is present as well as sapwood so sapwood must be
-				// complete
-				sapwood.setPresence(ComplexPresenceAbsence.COMPLETE);
+		if (getIntegerDefaultValue(DefaultFields.SAPWOOD_START).getValue() != null) 
+		{
+			if(getBooleanDefaultValue(DefaultFields.BARK).getValue() != null)
+			{		
+				if (getBooleanDefaultValue(DefaultFields.BARK).getValue() || cambium.getValue() != null) {
+					// Bark or cambium is present as well as sapwood so sapwood must be
+					// complete
+					sapwood.setPresence(ComplexPresenceAbsence.COMPLETE);
+				}
+				else
+				{
+					// No bark or cambium so sapwood incomplete
+					sapwood.setPresence(ComplexPresenceAbsence.INCOMPLETE);
+				}
 			}
 			else {
 				// No bark or cambium so sapwood incomplete
@@ -185,20 +218,40 @@ public class BesanconToTridasDefaults extends TridasMetadataFieldSet {
 			}
 			
 			// Calculate number of sapwood rings
-			if (getIntegerDefaultValue(DefaultFields.RING_COUNT).getValue() != null) {
-				Integer sapwoodCount = getIntegerDefaultValue(DefaultFields.RING_COUNT).getValue()
-						- getIntegerDefaultValue(DefaultFields.SAPWOOD_START).getValue();
-				sapwood.setNrOfSapwoodRings(sapwoodCount);
-			}
+			if ((getIntegerDefaultValue(DefaultFields.RING_COUNT).getValue() != null) && 
+			   (getIntegerDefaultValue(DefaultFields.SAPWOOD_START).getValue() != null))
+			   {
+					if(getIntegerDefaultValue(DefaultFields.SAPWOOD_START).getValue()!=0)
+					{	
+						Integer sapwoodCount = getIntegerDefaultValue(DefaultFields.RING_COUNT).getValue()
+								- getIntegerDefaultValue(DefaultFields.SAPWOOD_START).getValue()+1;
+						sapwood.setNrOfSapwoodRings(sapwoodCount);
+					}
+			   }
 		}
 		
-		// Add sapwood and (blank) heartwood details as wc must be complete
+		// Add sapwood details
 		wc.setSapwood(sapwood);
+
+		// Heartwood
+		// No heartwood details are given but if pith is present and sapwood is present then we can 
+		// assume heartwood is complete.  
 		TridasHeartwood heartwood = new TridasHeartwood();
 		heartwood.setPresence(ComplexPresenceAbsence.UNKNOWN);
+		if(     ((pith.getPresence().equals(ComplexPresenceAbsence.COMPLETE)) || 
+		        (pith.getPresence().equals(ComplexPresenceAbsence.INCOMPLETE)))		
+			&& 
+				((sapwood.getPresence().equals(ComplexPresenceAbsence.COMPLETE)) || 
+				(sapwood.getPresence().equals(ComplexPresenceAbsence.INCOMPLETE)))
+		   )
+		{
+			heartwood.setPresence(ComplexPresenceAbsence.COMPLETE);
+		}	
 		wc.setHeartwood(heartwood);
 		
+		// Add wood completeness to series
 		series.setWoodCompleteness(wc);
+		
 		return series;
 	}
 	
