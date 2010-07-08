@@ -137,6 +137,9 @@ public class BesanconFile implements IDendroFile {
 			// Series title 
 			file.add(". "+dataPair.defaults.getStringDefaultValue(DefaultFields.SERIES_TITLE).getValue().replace(" ", ""));
 			
+			// Species
+			file.add("   ESP "+String.valueOf(dataPair.defaults.getStringDefaultValue(DefaultFields.SPECIES).getValue()));
+			
 			// Length of series
 			file.add("   LON "+String.valueOf(dataPair.defaults.getIntegerDefaultValue(DefaultFields.RING_COUNT).getValue()));
 			

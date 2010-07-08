@@ -73,7 +73,8 @@ public class TridasToBesanconDefaults extends AbstractMetadataFieldSet
 
 	}
 	
-	public void populateFromTridasElement(TridasElement e) {
+	public void populateFromTridasElement(TridasElement e) 
+	{
 
 		// Species
 		if(e.isSetTaxon())

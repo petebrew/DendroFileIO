@@ -197,7 +197,8 @@ public class BesanconReader extends AbstractDendroFileReader {
 			}
 			
 			// Loop through metadata lines extracting info
-			for (String lineString : series.metadataBlock) {
+			for (String lineString : series.metadataBlock) 
+			{
 				// Title - use the string up to the first space. Any chars after that
 				// should be ignored
 				if (lineString.startsWith(". ")) {
@@ -294,8 +295,9 @@ public class BesanconReader extends AbstractDendroFileReader {
 						}
 					}
 					
+					// This key is ignore and set by calculating ORI + number of data values
 					// Last Year
-					else if (key.startsWith("TER")) {
+					/*else if (key.startsWith("TER")) {
 						try {
 							series.defaults.getSafeIntYearDefaultValue(DefaultFields.LAST_YEAR).setValue(
 									Integer.parseInt(value));
@@ -303,7 +305,7 @@ public class BesanconReader extends AbstractDendroFileReader {
 							addWarning(new ConversionWarning(WarningType.INVALID, I18n
 									.getText("besancon.invalidLastYear"), "Terme"));
 						}
-					}
+					}*/
 					
 					// Position in a mean
 					else if (key.startsWith("POS")) {
@@ -315,9 +317,11 @@ public class BesanconReader extends AbstractDendroFileReader {
 									.getText("besancon.invalidPositionInMean"), "Position"));
 						}
 					}
-				}
-				
+				}	
 			}
+			
+			
+			
 			
 		}
 		
@@ -370,6 +374,13 @@ public class BesanconReader extends AbstractDendroFileReader {
 			
 			ArrayList<TridasValues> valuesGroup = new ArrayList<TridasValues>();
 			valuesGroup.add(values);
+			
+			// Override last year with first year + number of values
+			try {
+				thisseries.defaults.getSafeIntYearDefaultValue(DefaultFields.LAST_YEAR).setValue(
+						thisseries.defaults.getSafeIntYearDefaultValue(DefaultFields.FIRST_YEAR).getValue()
+						.add(thisseries.dataValues.size()));
+			} catch (Exception e) {	}
 			
 			TridasMeasurementSeries ser = thisseries.defaults.getDefaultMeasurementSeries();
 			ser.setValues(valuesGroup);
