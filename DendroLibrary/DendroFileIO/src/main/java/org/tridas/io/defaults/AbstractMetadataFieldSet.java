@@ -24,6 +24,7 @@ import org.tridas.io.defaults.values.BooleanDefaultValue;
 import org.tridas.io.defaults.values.DateTimeDefaultValue;
 import org.tridas.io.defaults.values.DoubleDefaultValue;
 import org.tridas.io.defaults.values.IntegerDefaultValue;
+import org.tridas.io.defaults.values.Past4BooleanDefaultValue;
 import org.tridas.io.defaults.values.SafeIntYearDefaultValue;
 import org.tridas.io.defaults.values.SheffieldStringDefaultValue;
 import org.tridas.io.defaults.values.StringDefaultValue;
@@ -136,6 +137,26 @@ public abstract class AbstractMetadataFieldSet implements IMetadataFieldSet {
 			return null;
 		}
 	}
+	
+	/**
+	 * Helper method to return the {@link BooleanDefaultValue} object;
+	 * 
+	 * @param argValueType
+	 * @return the {@link BooleanDefaultValue} if mapped, or null if not mapped or
+	 *         the key isn't mapped to an {@link BooleanDefaultValue}.
+	 */
+	public Past4BooleanDefaultValue getPast4BooleanDefaultValue(Enum<?> argValueType) {
+		AbstractDefaultValue<?> val = getDefaultValue(argValueType);
+		if (val instanceof BooleanDefaultValue) {
+			return (Past4BooleanDefaultValue) val;
+		}
+		else {
+			log.debug("The default value object returned by the field '" + argValueType + "' was not"
+					+ " a Past4BooleanDefaultValue");
+			return null;
+		}
+	}
+	
 	
 	/**
 	 * Helper method to return the {@link DateTimeDefaultValue} object;

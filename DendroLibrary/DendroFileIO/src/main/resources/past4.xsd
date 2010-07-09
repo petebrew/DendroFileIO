@@ -1,0 +1,289 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<xs:schema xmlns:xs="http://www.w3.org/2001/XMLSchema" elementFormDefault="qualified">
+  <!-- Simple TRUE or FALSE-->
+  <xs:simpleType name="booleanType">
+    <xs:restriction base="xs:string">
+      <xs:enumeration value="FALSE"/>
+      <xs:enumeration value="TRUE"/>
+      <xs:enumeration value="0"/>
+    </xs:restriction>
+  </xs:simpleType>
+  
+  <!-- Date/time format-->
+  <xs:simpleType name="dateTimeType">
+    <xs:restriction base="xs:token">
+      <xs:pattern value="[0-9]{1,2}/[0-9]{1,2}/[0-9]{4} [0-9]{1,2}:[0-9]{2}(:[0-9]{2})?( (A|P)M)?"/>
+    </xs:restriction>
+  </xs:simpleType>
+  
+  <!-- Delphi Color-->
+  <xs:simpleType name="delphiColorType">
+    <xs:restriction base="xs:token">
+      <xs:pattern value="[0-9]{0,7}"/>
+    </xs:restriction>
+  </xs:simpleType>
+  
+  <!-- Ring width data -->
+  <xs:simpleType name="ringWidthData">
+    <xs:restriction base="xs:token">
+      <xs:pattern value="([0-9.]*\s[0-9]*\s[0-9]*\s[0-9]*\s[0-9.]*\s[\w]+)*"/>
+    </xs:restriction>
+  </xs:simpleType>
+  
+
+  
+  <xs:element name="PAST_4_PROJECT_FILE">
+    <xs:complexType>
+      <xs:sequence>
+        <xs:element ref="PROJECT" minOccurs="1" maxOccurs="1"/>
+        <xs:element ref="SETTINGS" minOccurs="0" maxOccurs="1"/>
+        <xs:element ref="GROUP" minOccurs="1" maxOccurs="unbounded"/>
+        <xs:element ref="RECORD" minOccurs="1" maxOccurs="unbounded"/>
+      </xs:sequence>
+    </xs:complexType>
+  </xs:element>
+  <xs:element name="PROJECT">
+    <xs:complexType>
+      <xs:attribute name="ActiveGroup" use="optional" type="xs:integer"/>
+      <xs:attribute name="CreationDate" use="optional" type="dateTimeType"/>
+      <xs:attribute name="EditDate" use="optional" type="dateTimeType" />
+      <xs:attribute name="Groups" use="required" type="xs:integer"/>
+      <xs:attribute name="Locked" use="optional" type="booleanType"/>
+      <xs:attribute name="Name" use="required" type="xs:string"/>
+      <xs:attribute name="Password" use="optional" type="xs:string"/>
+      <xs:attribute name="PersID" use="optional" type="xs:string"/>
+      <xs:attribute name="Records" use="required" type="xs:integer"/>
+      <xs:attribute name="Reference" use="optional" type="xs:integer"/>
+      <xs:attribute name="Sample" use="optional" type="xs:integer"/>
+      <xs:attribute name="Version" use="optional" type="xs:integer"/>
+    </xs:complexType>
+  </xs:element>
+  <xs:element name="SETTINGS">
+    <xs:complexType>
+      <xs:attribute name="BarGraphAdaptFontSize" use="required" type="xs:string"/>
+      <xs:attribute name="BarGraphAddgraphHeight" use="required" type="xs:integer"/>
+      <xs:attribute name="BarGraphBarHeight" use="required" type="xs:integer"/>
+      <xs:attribute name="BarGraphBarSpace" use="required" type="xs:integer"/>
+      <xs:attribute name="BarGraphBarsFilled" use="required" type="xs:string"/>
+      <xs:attribute name="BarGraphDrawGrid" use="required" type="xs:string"/>
+      <xs:attribute name="BarGraphFollowSample" use="required" type="xs:string"/>
+      <xs:attribute name="BarGraphFontBold" use="required" type="xs:string"/>
+      <xs:attribute name="BarGraphFontColor" use="required" type="xs:integer"/>
+      <xs:attribute name="BarGraphFontItalic" use="required" type="xs:string"/>
+      <xs:attribute name="BarGraphFontName" use="required"/>
+      <xs:attribute name="BarGraphFontSize" use="required" type="xs:integer"/>
+      <xs:attribute name="BarGraphGRDrawBars" use="required" type="xs:string"/>
+      <xs:attribute name="BarGraphGRDrawGroupNames" use="required" type="xs:string"/>
+      <xs:attribute name="BarGraphGRDrawLegende" use="required" type="xs:string"/>
+      <xs:attribute name="BarGraphHZoom" use="required" type="xs:integer"/>
+      <xs:attribute name="BarGraphMaximized" use="required" type="xs:string"/>
+      <xs:attribute name="BarGraphShowBelegung" use="required" type="xs:string"/>
+      <xs:attribute name="BarGraphShowDates" use="required" type="xs:string"/>
+      <xs:attribute name="BarGraphShowGleichlauf" use="required" type="xs:string"/>
+      <xs:attribute name="BarGraphShowGroupRectangles" use="required" type="xs:string"/>
+      <xs:attribute name="BarGraphShowKeycodes" use="required" type="xs:string"/>
+      <xs:attribute name="BarGraphShowMeanOnly" use="required" type="xs:string"/>
+      <xs:attribute name="BarGraphShowSkeleton" use="required" type="xs:string"/>
+      <xs:attribute name="BarGraphShowXOnly" use="required" type="xs:string"/>
+      <xs:attribute name="BarGraphTOffset" use="required" type="xs:integer"/>
+      <xs:attribute name="BarGraphUseFontColor" use="required" type="xs:string"/>
+      <xs:attribute name="BarGraphX1" use="required" type="xs:integer"/>
+      <xs:attribute name="BarGraphX2" use="required" type="xs:integer"/>
+      <xs:attribute name="BarGraphY1" use="required" type="xs:integer"/>
+      <xs:attribute name="BarGraphY2" use="required" type="xs:integer"/>
+      <xs:attribute name="BelDrawText" use="required" type="xs:string"/>
+      <xs:attribute name="BelUseColors" use="required" type="xs:string"/>
+      <xs:attribute name="Color0" use="required" type="xs:integer"/>
+      <xs:attribute name="Color1" use="required" type="xs:integer"/>
+      <xs:attribute name="Color10" use="required" type="xs:integer"/>
+      <xs:attribute name="Color11" use="required" type="xs:integer"/>
+      <xs:attribute name="Color12" use="required" type="xs:integer"/>
+      <xs:attribute name="Color13" use="required" type="xs:integer"/>
+      <xs:attribute name="Color14" use="required" type="xs:integer"/>
+      <xs:attribute name="Color15" use="required" type="xs:integer"/>
+      <xs:attribute name="Color16" use="required" type="xs:integer"/>
+      <xs:attribute name="Color17" use="required" type="xs:integer"/>
+      <xs:attribute name="Color18" use="required" type="xs:integer"/>
+      <xs:attribute name="Color19" use="required" type="xs:integer"/>
+      <xs:attribute name="Color2" use="required" type="xs:integer"/>
+      <xs:attribute name="Color20" use="required" type="xs:integer"/>
+      <xs:attribute name="Color21" use="required" type="xs:integer"/>
+      <xs:attribute name="Color22" use="required" type="xs:integer"/>
+      <xs:attribute name="Color23" use="required" type="xs:integer"/>
+      <xs:attribute name="Color24" use="required" type="xs:integer"/>
+      <xs:attribute name="Color25" use="required" type="xs:integer"/>
+      <xs:attribute name="Color26" use="required" type="xs:integer"/>
+      <xs:attribute name="Color27" use="required" type="xs:integer"/>
+      <xs:attribute name="Color28" use="required" type="xs:integer"/>
+      <xs:attribute name="Color29" use="required" type="xs:integer"/>
+      <xs:attribute name="Color3" use="required" type="xs:integer"/>
+      <xs:attribute name="Color4" use="required" type="xs:integer"/>
+      <xs:attribute name="Color5" use="required" type="xs:integer"/>
+      <xs:attribute name="Color6" use="required" type="xs:integer"/>
+      <xs:attribute name="Color7" use="required" type="xs:integer"/>
+      <xs:attribute name="Color8" use="required" type="xs:integer"/>
+      <xs:attribute name="Color9" use="required" type="xs:integer"/>
+      <xs:attribute name="ExtGraphAdaptFontSize" use="required" type="xs:string"/>
+      <xs:attribute name="ExtGraphDezBarSpace" use="required" type="xs:integer"/>
+      <xs:attribute name="ExtGraphDrawWeiser" use="required" type="xs:string"/>
+      <xs:attribute name="ExtGraphFollowSample" use="required" type="xs:string"/>
+      <xs:attribute name="ExtGraphFontBold" use="required" type="xs:string"/>
+      <xs:attribute name="ExtGraphFontColor" use="required" type="xs:integer"/>
+      <xs:attribute name="ExtGraphFontItalic" use="required" type="xs:string"/>
+      <xs:attribute name="ExtGraphFontName" use="required"/>
+      <xs:attribute name="ExtGraphFontSize" use="required" type="xs:integer"/>
+      <xs:attribute name="ExtGraphHZoom" use="required" type="xs:integer"/>
+      <xs:attribute name="ExtGraphLogBarSpace" use="required" type="xs:integer"/>
+      <xs:attribute name="ExtGraphLogarithmic" use="required" type="xs:string"/>
+      <xs:attribute name="ExtGraphMaximized" use="required" type="xs:string"/>
+      <xs:attribute name="ExtGraphPointSize" use="required" type="xs:integer"/>
+      <xs:attribute name="ExtGraphShowBelegung" use="required" type="xs:string"/>
+      <xs:attribute name="ExtGraphShowDates" use="required" type="xs:string"/>
+      <xs:attribute name="ExtGraphShowEndYear" use="required" type="xs:string"/>
+      <xs:attribute name="ExtGraphShowGleichlauf" use="required" type="xs:string"/>
+      <xs:attribute name="ExtGraphShowGrid" use="required" type="xs:string"/>
+      <xs:attribute name="ExtGraphShowInfos" use="required" type="xs:string"/>
+      <xs:attribute name="ExtGraphShowKeycode" use="required" type="xs:string"/>
+      <xs:attribute name="ExtGraphShowMeanOnly" use="required" type="xs:string"/>
+      <xs:attribute name="ExtGraphShowPoints" use="required" type="xs:string"/>
+      <xs:attribute name="ExtGraphShowRefSamp" use="required" type="xs:string"/>
+      <xs:attribute name="ExtGraphShowSkeleton" use="required" type="xs:string"/>
+      <xs:attribute name="ExtGraphShowXOnly" use="required" type="xs:string"/>
+      <xs:attribute name="ExtGraphTOffset" use="required" type="xs:integer"/>
+      <xs:attribute name="ExtGraphVDezZoom" use="required" type="xs:integer"/>
+      <xs:attribute name="ExtGraphVLogZoom" use="required" type="xs:integer"/>
+      <xs:attribute name="ExtGraphX1" use="required" type="xs:integer"/>
+      <xs:attribute name="ExtGraphX2" use="required" type="xs:integer"/>
+      <xs:attribute name="ExtGraphY1" use="required" type="xs:integer"/>
+      <xs:attribute name="ExtGraphY2" use="required" type="xs:integer"/>
+      <xs:attribute name="RecListDisplayEndYear" use="required" type="xs:string"/>
+      <xs:attribute name="RecListDisplayKeyNo" use="required" type="xs:string"/>
+      <xs:attribute name="RecListDisplayKeycode" use="required" type="xs:string"/>
+      <xs:attribute name="RecListDisplayLength" use="required" type="xs:string"/>
+      <xs:attribute name="RecListDisplayLocation" use="required" type="xs:string"/>
+      <xs:attribute name="RecListDisplaySapwood" use="required" type="xs:string"/>
+      <xs:attribute name="RecListDisplaySpecies" use="required" type="xs:string"/>
+      <xs:attribute name="RecListX1" use="required" type="xs:integer"/>
+      <xs:attribute name="RecListX2" use="required" type="xs:integer"/>
+      <xs:attribute name="RecListY1" use="required" type="xs:integer"/>
+      <xs:attribute name="RecListY2" use="required" type="xs:integer"/>
+      <xs:attribute name="SkeletonMaxWidth" use="required" type="xs:integer"/>
+      <xs:attribute name="SkeletonOld" use="required" type="xs:string"/>
+      <xs:attribute name="SkeletonThreshold1" use="required" type="xs:integer"/>
+      <xs:attribute name="SkeletonThreshold2" use="required" type="xs:integer"/>
+      <xs:attribute name="SkeletonUseColors" use="required" type="xs:string"/>
+      <xs:attribute name="SlotTest" use="required" type="xs:integer"/>
+      <xs:attribute name="StatisticsMWPrefix" use="required"/>
+      <xs:attribute name="StatisticsMWSuffix" use="required"/>
+      <xs:attribute name="StatisticsThresholdBP" use="required" type="xs:integer"/>
+      <xs:attribute name="StatisticsThresholdGL" use="required" type="xs:integer"/>
+      <xs:attribute name="StatisticsThresholdHO" use="required" type="xs:integer"/>
+      <xs:attribute name="StatisticsThresholdOlap" use="required" type="xs:integer"/>
+      <xs:attribute name="StatisticsThresholdSlot0" use="required" type="xs:integer"/>
+      <xs:attribute name="StatisticsThresholdSlot1" use="required" type="xs:integer"/>
+      <xs:attribute name="StatisticsThresholdSlot2" use="required" type="xs:integer"/>
+      <xs:attribute name="StatisticsThresholdSlot3" use="required" type="xs:integer"/>
+      <xs:attribute name="StatisticsThresholdSlot4" use="required" type="xs:integer"/>
+      <xs:attribute name="StatisticsThresholdSlot5" use="required" type="xs:integer"/>
+      <xs:attribute name="StatisticsThresholdSlot6" use="required" type="xs:integer"/>
+      <xs:attribute name="StatisticsThresholdSlot7" use="required" type="xs:integer"/>
+      <xs:attribute name="StatisticsThresholdSlot8" use="required" type="xs:integer"/>
+      <xs:attribute name="StatisticsThresholdSlot9" use="required" type="xs:integer"/>
+      <xs:attribute name="StatisticsThresholdUseBP" use="required" type="xs:string"/>
+      <xs:attribute name="StatisticsThresholdUseDI" use="required" type="xs:string"/>
+      <xs:attribute name="StatisticsThresholdUseGL" use="required" type="xs:string"/>
+      <xs:attribute name="StatisticsThresholdUseHO" use="required" type="xs:string"/>
+      <xs:attribute name="StatisticsThresholdUseOL" use="required" type="xs:string"/>
+      <xs:attribute name="StatisticsUseThresholds" use="required" type="xs:string"/>
+      <xs:attribute name="StatisticsWeiserMinBel" use="required" type="xs:integer"/>
+      <xs:attribute name="StatisticsWeiserMinPercent" use="required" type="xs:integer"/>
+      <xs:attribute name="YTGraphAddGraphHeight" use="required" type="xs:integer"/>
+      <xs:attribute name="YTGraphDrawWeiser" use="required" type="xs:string"/>
+      <xs:attribute name="YTGraphFollowSample" use="required" type="xs:string"/>
+      <xs:attribute name="YTGraphFontBold" use="required" type="xs:string"/>
+      <xs:attribute name="YTGraphFontColor" use="required" type="xs:integer"/>
+      <xs:attribute name="YTGraphFontItalic" use="required" type="xs:string"/>
+      <xs:attribute name="YTGraphFontName" use="required"/>
+      <xs:attribute name="YTGraphFontSize" use="required" type="xs:integer"/>
+      <xs:attribute name="YTGraphHZoom" use="required" type="xs:integer"/>
+      <xs:attribute name="YTGraphLogarithmic" use="required" type="xs:string"/>
+      <xs:attribute name="YTGraphMaxOrdinate" use="required" type="xs:integer"/>
+      <xs:attribute name="YTGraphMaximized" use="required" type="xs:string"/>
+      <xs:attribute name="YTGraphMouseWheelDelta" use="required" type="xs:integer"/>
+      <xs:attribute name="YTGraphPointSize" use="required" type="xs:integer"/>
+      <xs:attribute name="YTGraphShowBelegung" use="required" type="xs:string"/>
+      <xs:attribute name="YTGraphShowDates" use="required" type="xs:string"/>
+      <xs:attribute name="YTGraphShowGleichlauf" use="required" type="xs:string"/>
+      <xs:attribute name="YTGraphShowGrid" use="required" type="xs:string"/>
+      <xs:attribute name="YTGraphShowInfos" use="required" type="xs:string"/>
+      <xs:attribute name="YTGraphShowKeycodes" use="required" type="xs:string"/>
+      <xs:attribute name="YTGraphShowMeanOnly" use="required" type="xs:string"/>
+      <xs:attribute name="YTGraphShowPointerYears" use="required" type="xs:string"/>
+      <xs:attribute name="YTGraphShowPoints" use="required" type="xs:string"/>
+      <xs:attribute name="YTGraphShowRefSamp" use="required" type="xs:string"/>
+      <xs:attribute name="YTGraphShowSkeleton" use="required" type="xs:string"/>
+      <xs:attribute name="YTGraphShowXOnly" use="required" type="xs:string"/>
+      <xs:attribute name="YTGraphTOffset" use="required" type="xs:integer"/>
+      <xs:attribute name="YTGraphVDezZoom" use="required" type="xs:integer"/>
+      <xs:attribute name="YTGraphVLogZoom" use="required" type="xs:integer"/>
+      <xs:attribute name="YTGraphX1" use="required" type="xs:integer"/>
+      <xs:attribute name="YTGraphX2" use="required" type="xs:integer"/>
+      <xs:attribute name="YTGraphY1" use="required" type="xs:integer"/>
+      <xs:attribute name="YTGraphY2" use="required" type="xs:integer"/>
+      <xs:attribute name="YTGraphYShift" use="required" type="xs:integer"/>
+    </xs:complexType>
+  </xs:element>
+  <xs:element name="GROUP">
+    <xs:complexType>
+      <xs:attribute name="Changed" use="optional" type="booleanType"/>
+      <xs:attribute name="Checked" use="required" type="booleanType"/>
+      <xs:attribute name="Color" use="optional" type="delphiColorType"/>
+      <xs:attribute name="Expanded" use="optional" type="booleanType"/>
+      <xs:attribute name="Fixed" use="optional" type="booleanType"/>
+      <xs:attribute name="HasMeanValue" use="required" type="booleanType"/>
+      <xs:attribute name="IsChrono" use="required" type="booleanType"/>
+      <xs:attribute name="Locked" use="required" type="booleanType"/>
+      <xs:attribute name="MVKeycode" use="optional" type="xs:string"/>
+      <xs:attribute name="Name" use="required" type="xs:string"/>
+      <xs:attribute name="Owner" use="required" type="xs:integer"/>
+      <xs:attribute name="Quality" use="optional" type="xs:integer"/>
+      <xs:attribute name="Selected" use="optional" type="booleanType"/>
+      <xs:attribute name="UseColor" use="optional" type="booleanType"/>
+      <xs:attribute name="Visible" use="optional" type="booleanType"/>
+    </xs:complexType>
+  </xs:element>
+  <xs:element name="RECORD">
+    <xs:complexType>
+      <xs:sequence>
+        <xs:element name="HEADER" type="xs:string"/>
+        <xs:element ref="DATA"/>
+      </xs:sequence>
+      <xs:attribute name="Checked" use="optional" type="booleanType"/>
+      <xs:attribute name="Chrono" use="optional" type="booleanType"/>
+      <xs:attribute name="Color" use="optional" type="delphiColorType"/>
+      <xs:attribute name="Filter" use="optional" type="booleanType"/>
+      <xs:attribute name="FilterB1" use="optional" type="xs:string"/>
+      <xs:attribute name="FilterIndex" use="optional" type="xs:integer"/>
+      <xs:attribute name="FilterS1" use="optional" type="xs:integer"/>
+      <xs:attribute name="FilterS2" use="optional" type="xs:integer"/>
+      <xs:attribute name="FilterWeight" use="optional" type="xs:string"/>
+      <xs:attribute name="FirstValidRing" use="optional" type="xs:integer"/>
+      <xs:attribute name="IsMeanValue" use="optional" type="booleanType"/>
+      <xs:attribute name="Keycode" use="required" type="xs:string"/>
+      <xs:attribute name="LastValidRing" use="optional" type="xs:integer"/>
+      <xs:attribute name="Length" use="required" type="xs:integer"/>
+      <xs:attribute name="Location" use="optional" type="xs:string"/>
+      <xs:attribute name="Locked" use="optional" type="booleanType"/>
+      <xs:attribute name="Offset" use="required" type="xs:integer"/>
+      <xs:attribute name="Owner" use="required" type="xs:integer"/>
+      <xs:attribute name="Pith" use="required" type="booleanType"/>
+      <xs:attribute name="Quality" use="optional" type="xs:integer"/>
+      <xs:attribute name="SapWood" use="optional" type="xs:integer"/>
+      <xs:attribute name="Species" use="optional" type="xs:string"/>
+      <xs:attribute name="UseValidRingsOnly" use="optional" type="booleanType"/>
+      <xs:attribute name="VShift" use="optional" type="xs:integer"/>
+      <xs:attribute name="Waldkante" use="optional" type="xs:string"/>
+    </xs:complexType>
+  </xs:element>
+  <xs:element name="DATA" type="ringWidthData"/>
+</xs:schema>
