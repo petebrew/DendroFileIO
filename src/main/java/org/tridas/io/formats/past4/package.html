@@ -1,7 +1,18 @@
 <body>
 
 <p>
-The PAST4 format is the native format for SCIEM's PAST4 software.  In contains both data and metadata</p>
+This package contains support for the native XML format used SCIEM's PAST4 software.  The format supports both data and extensible metadata.
+It is different from most in that it also contains a lot of settings and display information for the PAST4 software, e.g. what
+color to display for each series, whether the series is highlighted or not etc.  
+</p>
+<p>
+The general layout of the file is as follows:
+ <ul>
+ <li>PROJECT (required)</li>
+ <li>SETTINGS (optional)</li>
+ <li>GROUP (required, repeatable)</li>
+ <li>RECORD (required, repeatable)</li>
+ </ul>
 
 
 

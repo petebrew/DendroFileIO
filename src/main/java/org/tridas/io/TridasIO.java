@@ -51,6 +51,7 @@ import org.tridas.io.formats.topham.TophamReader;
 import org.tridas.io.formats.topham.TophamWriter;
 import org.tridas.io.formats.nottingham.NottinghamReader;
 import org.tridas.io.formats.nottingham.NottinghamWriter;
+import org.tridas.io.formats.past4.Past4Writer;
 import org.tridas.io.formats.corina.CorinaWriter;
 import org.tridas.io.formats.corina.CorinaReader;
 
@@ -107,6 +108,8 @@ public class TridasIO {
 		registerFileWriter(TucsonWriter.class);
 		registerFileWriter(TucsonCompactWriter.class);
 		registerFileWriter(VFormatWriter.class);
+		registerFileWriter(Past4Writer.class);
+
 	}
 	
 	/**
