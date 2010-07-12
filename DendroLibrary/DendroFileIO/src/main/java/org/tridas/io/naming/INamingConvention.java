@@ -39,4 +39,11 @@ public interface INamingConvention {
 	public String getDescription();
 	
 	public String getName();
+	
+	/**
+	 * Sets the filename manually.
+	 * @param argFile
+	 * @param argFilename
+	 */
+	public void setFilename(IDendroFile argFile, String argFilename);
 }
