@@ -37,6 +37,7 @@ import java.util.ArrayList;
 
 import org.apache.commons.lang.StringUtils;
 import org.codehaus.plexus.util.FileUtils;
+import org.grlea.log.DebugLevel;
 import org.grlea.log.SimpleLogger;
 import org.tridas.io.defaults.IMetadataFieldSet;
 import org.tridas.io.exceptions.ConversionWarning;
@@ -45,6 +46,7 @@ import org.tridas.io.exceptions.IncompleteTridasDataException;
 import org.tridas.io.exceptions.IncorrectDefaultFieldsException;
 import org.tridas.io.naming.INamingConvention;
 import org.tridas.io.util.FileHelper;
+import org.tridas.io.util.IOUtils;
 import org.tridas.schema.TridasProject;
 
 /**
@@ -260,9 +262,7 @@ public abstract class AbstractDendroCollectionWriter {
 							.getWritingCharset());
 					return;
 				} catch (UnsupportedEncodingException e) {
-					// shouldn't happen, but
-					// TODO add warning, log message
-					e.printStackTrace();
+					log.dbe(DebugLevel.L2_ERROR, e);
 				}
 			}
 			helper.saveStrings(argOutputFolder + argFilename + "." + argFile.getExtension(), file);
