@@ -1,4 +1,100 @@
 <body>
-The Besançon format is used in various forms in a number of laboratories, mostly in France.  It contains both data and (some)
-metadata and also allows for a lot of free text comments inline.  
+<p>The Besançon format is used in various forms in a number of laboratories, mostly in France.  It contains both data and (some)
+metadata and also allows for a lot of free text comments inline.  In fact, the specification requires that 
+any line within the metadata block that cannot be interpreted as metadata must be ignored by the reading 
+process.</p>
+
+<h2>File contents</h2>
+
+<p>In Besançon terminology an 'Element block' is equivalent to a series.  Each file can have one or more
+element blocks.  Each element block is made up of three parts:</p>
+
+<ul>
+ <li>Header line</li>
+ <li>Metadata</li>
+ <li>Data block</li>
+</ul>
+
+
+<h3>Header line</h3>
+
+<p>The header line denotes the beginning of an element block (~series).  Line prior to the header line are
+therefore ignored.  A header line is written as follows:
+
+<table border=1>
+<tr>
+<td>.</td><td>one or more spaces</td><td>element name</td><td>one or more spaces</td><td>ignored characters</td>
+</tr>
+</table>
+
+<p>The element name must be a string with no spaces.</p>
+
+<h3>Metadata</h3>
+
+<p>Metadata is provided with a number of keywords: </p>
+
+<ul>
+<li>Especies (species)
+<li>Longeur (length)
+<li>Position (relative year position)
+<li>Origine (calendar date of first ring)
+<li>Terme (origine + longeur)
+<li>Moelle (pith)
+<li>Cambium
+<li>Aubier (sapwood - relative number of ring where sapwood begins).  
+</ul>
+
+<p>In many Besançon files the whole key is given, but only
+the first three letters of each is required so if some files that is all that is present. The keys
+are also case insensitive.  For boolean fields
+(Moelle and Cambium) the presence of the key indicates 'true' and the absence of the key indicates 'false'.  All 
+other fields are written as follows:</p>
+<table border=1>
+<tr>
+<td>one or more spaces</td><td>key</td><td>one or more spaces</td><td>integer</td>
+</tr>
+</table>
+
+<p>Each metadata field can be delimited with either a space or a return.  In some files all the metadata appears
+on one line, but more commonly each field is presented on its own line.</p>
+
+<h3>Data block</h3>
+
+<p>The data block begins with the following line:</p>
+<table border=1>
+<tr>
+<td>val[eurs[:]]</td><td>ignored chars</td>
+</tr>
+</table>
+
+<p>Like the metadata fields, only the first three characters are read, so some files contain 'val' and others 'valeur'.
+Also like the metadata fields this is case insensitive.</p>
+
+<p>Next comes the actual data.  Each value is writen as an integer delimited by a space or a return.  Most often this
+means that data are written in space delimited decadal lines, but a single line of all values is valid, as is one value
+per line and anything inbetween.  Missing measurements are recorded as commas, and following the last data value there
+should be a space followed by a semicolon.</p>  
+
+
+<h2>Example file</h2>
+
+<pre>
+. Mensor_measurement
+    ESP    QUERC
+    MOE    
+    CAM      HIV
+    LON       39
+    POS        1
+    ORI     1432
+    TER     1470
+    AUB       33
+VALeur    NAT    
+      213   286   233   358   328   265   277   185   170   150 
+      211   243   184   156   211   222   191   151   215   255 
+      158     ,   184   202   272   200   262   171   208   254 
+      214   284   157   187   140   202   107    96   142     ;    
+</pre>
+
+
+  
 </body>

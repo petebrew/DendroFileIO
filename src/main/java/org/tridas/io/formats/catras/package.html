@@ -7,11 +7,67 @@ seen is v4.35 released in 2003.  It is uncertain if there have been changes made
 over the years. The code in this library is based on Matlab, Fortran and C code of
 Ronald Visser, Henri Grissino-Mayer and Ian Tyers.</p> 
 
-<h3>File contents</h3>
+<h2>Reading byte code</h2>
+
+Reading byte code is more complicated than reading text files.  Each byte is 8-bits and 
+therefore can represent up to 256 values.  Depending on the type of information each byte
+contains, the bytes are interpreted in one of three ways:
+
+<h4>Strings</h4>
+<p>Some of the bytes in CATRAS files contain character information.  In the case
+each byte represents a letter.  In java an array of bytes can be directly decoded into 
+a string.</p>
+
+<h4>Integers</h4>
+<p>As a byte can only represent 256 values, whenever an integer is required CATRAS
+stores them as byte pairs.  Each byte pair consists of a least significant byte (LSB) and a 
+most significant byte (MSB).  The order that they appear in files typically varies between 
+platforms and is known as 'endianness'.  As CATRAS solely runs of Microsoft (x86) processors 
+we can safely assume that all CATRAS files will be using little-endian (i.e. LSB MSB). The counting
+ in a byte pair therefore works as follows:</p>
+<table>
+<tr><td>LSB</td><td>MSB</td></tr>
+<tr><td>0</td><td>0</td></tr>
+<tr><td>1</td><td>0</td></tr>
+<tr><td>2</td><td>0</td></tr>
+<tr><td>...</td><td>...</td></tr>
+<tr><td>255</td><td>0</td></tr>
+<tr><td>0</td><td>1</td></tr>
+<tr><td>1</td><td>1</td></tr>
+<tr><td>2</td><td>1</td></tr>
+<tr><td>...</td><td>...</td></tr>
+<tr><td>255</td><td>255</td></tr>
+</table>
+
+<p>A byte pair can therefore store 256x256=65536 values (more than
+enough for most number fields).  Matters are complicated though by the need to store negative 
+numbers.  In CATRAS pairs with an MSB<=128 are positive, while pairs with an MSB ranging from
+255 to 128 (counting backwards) represent negative values.</p>  
+
+<h4>Categories</h4>
+<p>Categories are typically recorded as single bytes as most categories have just a few possible values. They 
+can therefore be conceptualised as being integers where 0=first option, 1=second option etc. The exception
+to this is for species as there are more than 256 species.  In this case, a byte pair is used in 
+exactly the same way as described for integers above.  The only problem for species is that the codes
+are unique to each laboratory and refer to values enumerated in a separate '.wnm' file.  Without this
+dictionary the species code is of little use.</p>
+
+<h4>Dates</h4>
+<p>
+Dates are stored as three single bytes, one for day, one for month, one for year.  With only 256 
+values available for 'year', all dates are stored with 2 digit years e.g. 25/12/84.  When converting
+to TRiDaS all years >70 are treated as 20th century, whereas years <70 are treated as 21st century. 
+This is an arbitrary decision for use in this library as CATRAS does not care either way.
+</p>
+
+
+<h2>Metadata</h2>
 
 <p>The first 128 bytes contain the file header information and the remainder of the file 
 contains the ring width data and sample depth data.  Our current understanding of the 
-header bytes is as follows but I'm not convinced that these are all correct:</p>
+header bytes is as follows but I'm not convinced that these are all correct. Deciphering these
+is a requires painstaking work because we must try to ascertain how each byte is being used (e.g.
+as a byte pair, single byte or as a string):</p>
 
 <ul>
 	<li>1-32 - Series name</li>
@@ -24,7 +80,6 @@ header bytes is as follows but I'm not convinced that these are all correct:</p>
 	<li>53    - 1=pith 2=waldkante 3=pith to waldkante</li>
 	<li>54    - 1 = ew only last ring</li>
 	<li>55-56 - Start year</li>
-	<!--<li>44    - Species code (unique to each lab and corresponds to a separate 'dictionary file'-->
     <li>59-60 species also needs a catras.wnm file
     <li>61-63 - Creation date</li>
 	<li>64-66 - Amended date</li>
@@ -37,14 +92,34 @@ header bytes is as follows but I'm not convinced that these are all correct:</p>
 	<li>93-95 - Standard deviation</li>
 	<li>96-100 - Autocorrelation</li>
 	<li>101-104 - Sensitivity</li>
+</ul>
+ 
+<h2>Data</h2>
+<p>The remaining bytes in the file contain the actual data values stored as integer byte pairs.  It appears
+that older version of CATRAS included one or more padding values of -1.  These values should be ignored. 
+The end of the data values are indicated by a stop value of 999.</p>
 
-<p>
-The following bytes are unaccounted for and are therefore likely to contain data
-that we are ignoring:
+<p>Following the ring width data values there are 42 bytes of unknown meaning.  These are then followed by 
+byte pairs representing the counts/sample depth for each ring if the series is a chronology. 
+
+<h2>Unknown bytes</h2>
+
+There are a number of bytes in both the header and data sections that are are unaccounted for 
+and are therefore likely to contain data that we are ignoring:
+<ul>
+<li>Header
+  <ul>
+    <li>57-58</li>
+    <li>69-82</li>
+    <li>105-128</li>
+  </ul>
+</li>
+<li>Data</li>
  <ul>
- <li>57-58</li>
- <li>69-82</li>
- <li>105-128</li>
+   <li>0-42 following end of data marker</li>
  </ul>
+</li>
+</ul> 
+ 
  
 </body>
