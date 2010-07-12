@@ -170,9 +170,9 @@ public class CatrasReader extends AbstractDendroFileReader {
 		
 		// 61, 62, 63 creation date- dd, mm, yy respectively
 		try{
-			Integer day   = getIntFromByte(argFileBytes[60], true);
-			Integer month = getIntFromByte(argFileBytes[61], true);
-			Integer year  = getIntFromByte(argFileBytes[62], true);
+			Integer day   = getIntFromByte(argFileBytes[60]);
+			Integer month = getIntFromByte(argFileBytes[61]);
+			Integer year  = getIntFromByte(argFileBytes[62]);
 			
 			// Year is only two digit style so if after 70 presume 19xx
 			// Obviously this will break if someone is still using CATRAS
@@ -193,9 +193,9 @@ public class CatrasReader extends AbstractDendroFileReader {
 		
 		// 64, 65, 66 - amended date - day, month year 
 		try{
-			Integer day   = getIntFromByte(argFileBytes[63], true);
-			Integer month = getIntFromByte(argFileBytes[64], true);
-			Integer year  = getIntFromByte(argFileBytes[65], true);
+			Integer day   = getIntFromByte(argFileBytes[63]);
+			Integer month = getIntFromByte(argFileBytes[64]);
+			Integer year  = getIntFromByte(argFileBytes[65]);
 			
 			// Year is only two digit style so if after 70 presume 19xx
 			// Obviously this will break if someone is still using CATRAS
@@ -424,14 +424,14 @@ public class CatrasReader extends AbstractDendroFileReader {
 	}
 	
 	/**
-	 * Extract the integer value from a byte according to endianess
+	 * Extract a single integer value from a byte
 	 * 
 	 * @param argBytes
 	 * @param littleEndian
 	 *            use little-endian?
 	 * @return
 	 */
-	private int getIntFromByte(byte argByte, Boolean littleEndian) {
+	private int getIntFromByte(byte argByte) {
 		
 		return (0x000000FF & (argByte));
 		
@@ -593,7 +593,7 @@ public class CatrasReader extends AbstractDendroFileReader {
 		for (int i=first; i<=last; i++)
 		{
 			byte[] byteArray = getSubByteArray(argFileBytes, i, i+1);
-			log.debug("As Integer - Sing byte " + String.valueOf(i)+": "+ String.valueOf(getIntFromByte(byteArray[0], true)));
+			log.debug("As Integer - Sing byte " + String.valueOf(i)+": "+ String.valueOf(getIntFromByte(byteArray[0])));
 
 		}
 	}
