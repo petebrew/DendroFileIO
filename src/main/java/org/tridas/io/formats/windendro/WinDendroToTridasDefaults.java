@@ -62,14 +62,14 @@ public class WinDendroToTridasDefaults extends TridasMetadataFieldSet implements
 		super.initDefaultValues();
 		
 		// Version 3 fields
-		setDefaultValue(WDDefaultField.TREE_NAME, new StringDefaultValue(UUID.randomUUID().toString()));
-		setDefaultValue(WDDefaultField.PATH_ID, new StringDefaultValue(UUID.randomUUID().toString()));
-		setDefaultValue(WDDefaultField.SITE_ID, new StringDefaultValue(UUID.randomUUID().toString()));
+		setDefaultValue(WDDefaultField.TREE_NAME, new StringDefaultValue(I18n.getText("unnamed.element")));
+		setDefaultValue(WDDefaultField.PATH_ID, new StringDefaultValue());
+		setDefaultValue(WDDefaultField.SITE_ID, new StringDefaultValue(I18n.getText("unnamed.object")));
 		setDefaultValue(WDDefaultField.LAST_RING_YEAR, new SafeIntYearDefaultValue());
-		setDefaultValue(WDDefaultField.SAPWOOD_DISTANCE, new DoubleDefaultValue());
+		setDefaultValue(WDDefaultField.SAPWOOD_DISTANCE, new DoubleDefaultValue(null, Double.MIN_VALUE, Double.MAX_VALUE));
 		setDefaultValue(WDDefaultField.TREE_HEIGHT, new DoubleDefaultValue(null, 1.0, 150.0));  // Tallest tree is ~115m
 		setDefaultValue(WDDefaultField.TREE_AGE, new IntegerDefaultValue());
-		setDefaultValue(WDDefaultField.SECTION_HEIGHT, new DoubleDefaultValue(null, 0.0, 150.0));
+		setDefaultValue(WDDefaultField.SECTION_HEIGHT, new DoubleDefaultValue(null, Double.MIN_VALUE, 150.0));
 		setDefaultValue(WDDefaultField.USER_VARIABLE, new StringDefaultValue());
 		setDefaultValue(WDDefaultField.RING_COUNT, new IntegerDefaultValue(null, 1, Integer.MAX_VALUE));
 		setDefaultValue(WDDefaultField.WD_DATA_TYPE, new GenericDefaultValue<WinDendroDataType>());
@@ -151,9 +151,21 @@ public class WinDendroToTridasDefaults extends TridasMetadataFieldSet implements
 		TridasMeasurementSeries ms = super.getDefaultTridasMeasurementSeries();
 		TridasIdentifier id = new TridasIdentifier();
 		id.setDomain(getStringDefaultValue(TridasMandatoryField.IDENTIFIER_DOMAIN).getValue());
-		id.setValue(getStringDefaultValue(WDDefaultField.PATH_ID).getValue());
+	
+		if(getStringDefaultValue(WDDefaultField.PATH_ID).getValue()!=null)
+		{
+			// Try and use path id 
+			id.setValue(getStringDefaultValue(WDDefaultField.PATH_ID).getValue());
+			ms.setTitle(getStringDefaultValue(WDDefaultField.PATH_ID).getValue());
+		}
+		else
+		{
+			// Path id is null so use tree name instead
+			id.setValue(getStringDefaultValue(WDDefaultField.TREE_NAME).getValue());
+			ms.setTitle(getStringDefaultValue(WDDefaultField.TREE_NAME).getValue());
+		}
 		ms.setIdentifier(id);
-		ms.setTitle(getStringDefaultValue(WDDefaultField.PATH_ID).getValue());
+		
 		
 		// Analysis timestamp
 		ms.setCreatedTimestamp(getDateTimeDefaultValue(WDDefaultField.ANALYSIS_TIMESTAMP).getValue());

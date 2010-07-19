@@ -57,11 +57,11 @@ public class TridasToVFormatDefaults extends AbstractMetadataFieldSet implements
 	@Override
 	protected void initDefaultValues() {
 		
-		/*setDefaultValue(DefaultFields.PROJECT_CODE, new StringDefaultValue(null, 1, 1));
+		setDefaultValue(DefaultFields.PROJECT_CODE, new StringDefaultValue(null, 1, 1));
 		setDefaultValue(DefaultFields.REGION_CODE, new StringDefaultValue("_", 1, 1));
 		setDefaultValue(DefaultFields.OBJECT_CODE, new StringDefaultValue("__", 2, 2));
 		setDefaultValue(DefaultFields.TREE_CODE, new StringDefaultValue("__", 2, 2));
-		setDefaultValue(DefaultFields.HEIGHT_CODE, new StringDefaultValue("0", 1, 1));*/
+		setDefaultValue(DefaultFields.HEIGHT_CODE, new StringDefaultValue("0", 1, 1));
 		
 		setDefaultValue(DefaultFields.SERIES_ID, new StringDefaultValue(I18n.getText("unnamed"), 1, 8));
 		setDefaultValue(DefaultFields.DATA_TYPE, new GenericDefaultValue<VFormatDataType>(VFormatDataType.SINGLE));

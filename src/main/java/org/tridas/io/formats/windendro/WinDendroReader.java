@@ -161,6 +161,8 @@ public class WinDendroReader extends AbstractDendroFileReader {
 			/**
 			 * SET ALL VERSION 3 FIELDS
 			 */
+
+			
 			// Tree name
 			currentSeries.defaults.getStringDefaultValue(WDDefaultField.TREE_NAME).setValue(data[0]);
 			
@@ -169,7 +171,7 @@ public class WinDendroReader extends AbstractDendroFileReader {
 			{
 				currentSeries.defaults.getStringDefaultValue(WDDefaultField.PATH_ID).setValue(data[1]);
 			}
-
+						
 			// Site ID
 			currentSeries.defaults.getStringDefaultValue(WDDefaultField.SITE_ID).setValue(data[2]);
 
@@ -182,14 +184,22 @@ public class WinDendroReader extends AbstractDendroFileReader {
 			
 			// Sapwood Distance
 			try{
-				currentSeries.defaults.getDoubleDefaultValue(WDDefaultField.SAPWOOD_DISTANCE).setValue(Double.parseDouble(data[4]));
+				Double distance = Double.parseDouble(data[4]);
+				if(distance.compareTo(0.0)>0)
+				{
+					currentSeries.defaults.getDoubleDefaultValue(WDDefaultField.SAPWOOD_DISTANCE).setValue(distance);
+				}
 			} catch (NumberFormatException e){
 				addWarning(new ConversionWarning(WarningType.INVALID, I18n.getText("windendro.invalidSapwoodDistance", currentLineNumber+"")));
 			}
 			
 			// Tree height
 			try{
-				currentSeries.defaults.getDoubleDefaultValue(WDDefaultField.TREE_HEIGHT).setValue(Double.parseDouble(data[5]));
+				Double treeHeight = Double.parseDouble(data[5]);
+				if(treeHeight.compareTo(0.0)>0)
+				{
+					currentSeries.defaults.getDoubleDefaultValue(WDDefaultField.TREE_HEIGHT).setValue(treeHeight);
+				}
 			} catch (NumberFormatException e){
 				addWarning(new ConversionWarning(WarningType.INVALID, I18n.getText("windendro.invalidTreeHeight", currentLineNumber+"")));
 			}
@@ -203,7 +213,11 @@ public class WinDendroReader extends AbstractDendroFileReader {
 			
 			// Section height
 			try{
-				currentSeries.defaults.getDoubleDefaultValue(WDDefaultField.SECTION_HEIGHT).setValue(Double.parseDouble(data[7]));
+				Double height = Double.parseDouble(data[7]);
+				if(height.compareTo(0.0)>0)
+				{
+					currentSeries.defaults.getDoubleDefaultValue(WDDefaultField.SECTION_HEIGHT).setValue(height);
+				}
 			} catch (NumberFormatException e){
 				addWarning(new ConversionWarning(WarningType.INVALID, I18n.getText("windendro.invalidSectionHeight", currentLineNumber+"")));
 			}
@@ -244,14 +258,22 @@ public class WinDendroReader extends AbstractDendroFileReader {
 			{
 				// Average disk diameter
 				try{
-					currentSeries.defaults.getDoubleDefaultValue(WDDefaultField.DISK_AVG_DIAM).setValue(Double.parseDouble(data[30]));
+					Double diameter = Double.parseDouble(data[30]);
+					if(diameter.compareTo(0.0)>0)
+					{
+						currentSeries.defaults.getDoubleDefaultValue(WDDefaultField.DISK_AVG_DIAM).setValue(diameter);
+					}
 				} catch (NumberFormatException e){
 					addWarning(new ConversionWarning(WarningType.INVALID, I18n.getText("windendro.invalidDiskAvDiam", currentLineNumber+"")));
 				}
 			
 				// Path Length
 				try{
-					currentSeries.defaults.getDoubleDefaultValue(WDDefaultField.PATH_LENGTH).setValue(Double.parseDouble(data[34]));
+					Double length = Double.parseDouble(data[34]);
+					if(length.compareTo(0.0)>0)
+					{
+						currentSeries.defaults.getDoubleDefaultValue(WDDefaultField.PATH_LENGTH).setValue(length);
+					}
 				} catch (NumberFormatException e){
 					addWarning(new ConversionWarning(WarningType.INVALID, I18n.getText("windendro.invalidPathLength", currentLineNumber+"")));
 				}

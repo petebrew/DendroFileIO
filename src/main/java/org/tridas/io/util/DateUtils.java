@@ -121,7 +121,7 @@ public class DateUtils {
 
 		// Split time into hours:minutes
 		String[] timeParts = dateAndTime[1].split(":");
-		if(timeParts.length!=2) return null;
+		if(timeParts.length>3) return null;
 	
 		// Convert all to Integers
 		Integer day   = null;
