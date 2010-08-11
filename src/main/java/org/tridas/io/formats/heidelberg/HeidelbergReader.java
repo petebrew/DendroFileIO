@@ -372,9 +372,12 @@ public class HeidelbergReader extends AbstractDendroFileReader {
 					s.defaults.getIntegerDefaultValue(DefaultFields.DATE_BEGIN).setValue(Integer.parseInt(fileMetadata.get("datebegin")));
 				}
 			} catch (NumberFormatException e){
-				addWarning(new ConversionWarning(WarningType.INVALID, 
-						I18n.getText("fileio.invalidNumber", fileMetadata.get("datebegin")),
-						"datebegin"));		
+				if(fileMetadata.get("datebegin")!="")
+				{
+					addWarning(new ConversionWarning(WarningType.INVALID, 
+							I18n.getText("fileio.invalidNumber", fileMetadata.get("datebegin")),
+							"datebegin"));
+				}
 			}
 			
 			//DATED, new GenericDefaultValue<FHDated>());
@@ -390,9 +393,12 @@ public class HeidelbergReader extends AbstractDendroFileReader {
 					s.defaults.getIntegerDefaultValue(DefaultFields.DATE_END).setValue(Integer.parseInt(fileMetadata.get("dateend")));
 				}
 			} catch (NumberFormatException e){
-				addWarning(new ConversionWarning(WarningType.INVALID, 
-						I18n.getText("fileio.invalidNumber", fileMetadata.get("dateend")),
-						"DateEnd"));
+				if(fileMetadata.get("dateend")!="")
+				{
+					addWarning(new ConversionWarning(WarningType.INVALID, 
+							I18n.getText("fileio.invalidNumber", fileMetadata.get("dateend")),
+							"DateEnd"));
+				}
 			}
 			
 			//DATE_OF_SAMPLING, new StringDefaultValue());
@@ -416,9 +422,12 @@ public class HeidelbergReader extends AbstractDendroFileReader {
 							"Elevation"));
 				}
 				} catch(NumberFormatException e){ 
-					addWarning(new ConversionWarning(WarningType.INVALID, 
-							I18n.getText("fileio.invalidNumber", fileMetadata.get("elevation")),
-							"Latitude"));
+					if(fileMetadata.get("elevation")!="")
+					{
+						addWarning(new ConversionWarning(WarningType.INVALID, 
+								I18n.getText("fileio.invalidNumber", fileMetadata.get("elevation")),
+								"Latitude"));
+					}
 				}
 			}
 			
@@ -444,6 +453,7 @@ public class HeidelbergReader extends AbstractDendroFileReader {
 			
 			//KEYCODE, new StringDefaultValue());
 			if(fileMetadata.containsKey("keycode")){
+				System.out.println(fileMetadata.get("keycode"));
 				s.defaults.getStringDefaultValue(DefaultFields.KEYCODE).setValue(fileMetadata.get("keycode"));
 			}
 			
@@ -518,9 +528,12 @@ public class HeidelbergReader extends AbstractDendroFileReader {
 					s.defaults.getIntegerDefaultValue(DefaultFields.MISSING_RINGS_AFTER).setValue(Integer.parseInt(fileMetadata.get("missingringsafter")));
 				}
 			} catch (NumberFormatException e){
-				addWarning(new ConversionWarning(WarningType.INVALID, 
-						I18n.getText("fileio.invalidNumber", fileMetadata.get("missingringsafter")),
-						"MissingRingsAfter"));
+				if(fileMetadata.get("missingringsafter")!="")
+				{
+					addWarning(new ConversionWarning(WarningType.INVALID, 
+							I18n.getText("fileio.invalidNumber", fileMetadata.get("missingringsafter")),
+							"MissingRingsAfter"));
+				}
 			}
 			
 			//MISSING_RINGS_BEFORE, new IntegerDefaultValue());
@@ -529,9 +542,12 @@ public class HeidelbergReader extends AbstractDendroFileReader {
 					s.defaults.getIntegerDefaultValue(DefaultFields.MISSING_RINGS_BEFORE).setValue(Integer.parseInt(fileMetadata.get("missingringsbefore")));
 				}
 			} catch (NumberFormatException e){
-				addWarning(new ConversionWarning(WarningType.INVALID, 
-						I18n.getText("fileio.invalidNumber", fileMetadata.get("missingringsbefore")),
-						"MissingRingsBefore"));
+				if(fileMetadata.get("missingringsbefore")!="")
+				{
+					addWarning(new ConversionWarning(WarningType.INVALID, 
+							I18n.getText("fileio.invalidNumber", fileMetadata.get("missingringsbefore")),
+							"MissingRingsBefore"));
+				}				
 			}
 			
 			//PERSID, new StringDefaultValue());
@@ -572,9 +588,12 @@ public class HeidelbergReader extends AbstractDendroFileReader {
 					s.defaults.getIntegerDefaultValue(DefaultFields.SAPWOOD_RINGS).setValue(Integer.parseInt(fileMetadata.get("sapwoodrings")));
 				}
 			} catch (NumberFormatException e){
-				addWarning(new ConversionWarning(WarningType.INVALID, 
-						I18n.getText("fileio.invalidNumber", fileMetadata.get("sapwoodrings")),
-						"SapWoodRings"));
+				if(fileMetadata.get("sapwoodrings")!="")
+				{
+					addWarning(new ConversionWarning(WarningType.INVALID, 
+							I18n.getText("fileio.invalidNumber", fileMetadata.get("sapwoodrings")),
+							"SapWoodRings"));
+				}
 			}
 			
 			//SERIES_END, new GenericDefaultValue<FHStartsOrEndsWith>());
@@ -716,15 +735,15 @@ public class HeidelbergReader extends AbstractDendroFileReader {
 	}
 	
 	private TridasProject createProject() {
-		TridasProject project = defaults.getProjectWithDefaults();
-		TridasObject object = defaults.getObjectWithDefaults();
+		TridasProject project = defaults.getDefaultTridasProject();
+		TridasObject object = defaults.getDefaultTridasObject();
 		// the defaults populate from the element downward, so I make a new
 		// element for each series in the file
 		ArrayList<TridasElement> elements = new ArrayList<TridasElement>();
 		
 		for (HeidelbergMeasurementSeries s : series) {
-			TridasElement element = s.defaults.getElementWithDefaults();
-			TridasSample sample = s.defaults.getSampleWithDefaults();
+			TridasElement element = s.defaults.getDefaultTridasElement();
+			TridasSample sample = s.defaults.getDefaultTridasSample();
 			
 			FHDataFormat dataType = s.dataType;
 			switch (dataType) {
@@ -739,7 +758,7 @@ public class HeidelbergReader extends AbstractDendroFileReader {
 					radius.setMeasurementSeriesPlaceholder(ms);
 					ms.setId(uuidKey);
 					
-					TridasDerivedSeries series = s.defaults.getDerivedSeriesWithDefaults();
+					TridasDerivedSeries series = s.defaults.getDefaultTridasDerivedSeries();
 					ArrayList<TridasValue> tridasValues = new ArrayList<TridasValue>();
 					
 					// Add values to nested value(s) tags
@@ -777,10 +796,10 @@ public class HeidelbergReader extends AbstractDendroFileReader {
 					break;
 				case Single :
 				case Tree : {
-					TridasRadius radius = defaults.getRadiusWithDefaults(false);
-					TridasMeasurementSeries series = defaults.getMeasurementSeriesWithDefaults();
+					TridasRadius radius = s.defaults.getDefaultTridasRadius();
+					TridasMeasurementSeries series = s.defaults.getDefaultTridasMeasurementSeries();
 					
-					TridasValues valuesGroup = defaults.getTridasValuesWithDefaults();
+					TridasValues valuesGroup = s.defaults.getTridasValuesWithDefaults();
 					List<TridasValue> values = valuesGroup.getValues();
 					
 					int numDataInts = s.dataInts.size();

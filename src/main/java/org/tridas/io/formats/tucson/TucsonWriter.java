@@ -237,7 +237,10 @@ public class TucsonWriter extends AbstractDendroCollectionWriter {
 						return NormalTridasUnit.MICROMETRES;
 					}
 				}
-				break;
+				else
+				{
+					return null;
+				}
 			default: 
 				break;
 				
