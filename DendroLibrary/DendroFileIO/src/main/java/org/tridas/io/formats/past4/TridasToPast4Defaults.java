@@ -235,6 +235,15 @@ public class TridasToPast4Defaults extends AbstractMetadataFieldSet implements
 			getStringDefaultValue(DefaultFields.KEYCODE).setValue(series.getTitle());
 		}
 		
+		if(series.isSetInterpretation())
+		{
+			if(series.getInterpretation().isSetFirstYear())
+			{
+				getIntegerDefaultValue(DefaultFields.OFFSET).setValue(series.getInterpretation().getFirstYear().getValue().intValue());
+			}
+
+		}
+		
 	}
 	
 	public void populateFromWoodCompleteness(TridasMeasurementSeries series, TridasRadius radius)
