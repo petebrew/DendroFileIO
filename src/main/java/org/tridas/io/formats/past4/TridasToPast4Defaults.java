@@ -12,6 +12,7 @@ import org.tridas.schema.ComplexPresenceAbsence;
 import org.tridas.schema.TridasBark;
 import org.tridas.schema.TridasDerivedSeries;
 import org.tridas.schema.TridasElement;
+import org.tridas.schema.TridasLocation;
 import org.tridas.schema.TridasMeasurementSeries;
 import org.tridas.schema.TridasObject;
 import org.tridas.schema.TridasPith;
@@ -73,6 +74,7 @@ public class TridasToPast4Defaults extends AbstractMetadataFieldSet implements
 		IS_MEAN_VALUE,
 		PITH,
 		SAPWOOD,
+		SPECIES,
 		LOCATION,
 		WALDKANTE,
 		FIRST_VALID_RING,
@@ -133,6 +135,7 @@ public class TridasToPast4Defaults extends AbstractMetadataFieldSet implements
 		setDefaultValue(DefaultFields.IS_MEAN_VALUE, new Past4BooleanDefaultValue(false));
 		setDefaultValue(DefaultFields.PITH, new Past4BooleanDefaultValue(false));
 		setDefaultValue(DefaultFields.SAPWOOD, new IntegerDefaultValue());
+		setDefaultValue(DefaultFields.SPECIES, new StringDefaultValue());
 		setDefaultValue(DefaultFields.LOCATION, new StringDefaultValue());
 		setDefaultValue(DefaultFields.WALDKANTE, new StringDefaultValue());
 		setDefaultValue(DefaultFields.FIRST_VALID_RING, new IntegerDefaultValue());
@@ -190,6 +193,18 @@ public class TridasToPast4Defaults extends AbstractMetadataFieldSet implements
 	}
 	
 	public void populateFromTridasElement(TridasElement e) {
+		
+		if(e.isSetTaxon())
+		{
+			if (e.getTaxon().isSetNormal())
+			{
+				getStringDefaultValue(DefaultFields.SPECIES).setValue(e.getTaxon().getNormal());
+			}
+			else if (e.getTaxon().isSetValue())
+			{
+				getStringDefaultValue(DefaultFields.SPECIES).setValue(e.getTaxon().getValue());
+			}
+		}
 		
 	}
 	
@@ -325,10 +340,29 @@ public class TridasToPast4Defaults extends AbstractMetadataFieldSet implements
 		getIntegerDefaultValue(DefaultFields.LENGTH).setValue(argValues.getValues().size());
 
 		
+		
+		
 	}
 	
 	public void populateFromTridasLocation(TridasObject o, TridasElement e)
 	{
+		// Grab location from element, or object
+		TridasLocation location = null;
+		if(e.isSetLocation())
+		{
+			location = e.getLocation();
+		}
+		else if (o.isSetLocation())
+		{
+			location = o.getLocation();
+		}	
+		if (location==null) {return; }
+		
+		if(location.isSetLocationComment())
+		{
+			getStringDefaultValue(DefaultFields.LOCATION).setValue(location.getLocationComment());
+		}
+		
 		
 	}
 	

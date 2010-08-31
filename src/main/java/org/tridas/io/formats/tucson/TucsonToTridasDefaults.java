@@ -104,7 +104,7 @@ public class TucsonToTridasDefaults extends TridasMetadataFieldSet implements IM
 		TridasObject o = super.getDefaultTridasObject();
 		
 		// Object code and title
-		o.setTitle(getStringDefaultValue(TucsonDefaultField.SITE_NAME).getValue());
+		o.setTitle(getStringDefaultValue(TucsonDefaultField.SITE_NAME).getValue().trim());
 		TridasIdentifier id = new TridasIdentifier();
 		id.setDomain(getStringDefaultValue(TridasMandatoryField.IDENTIFIER_DOMAIN).getValue());
 		id.setValue(getStringDefaultValue(TucsonDefaultField.SITE_CODE).getValue());
@@ -126,7 +126,7 @@ public class TucsonToTridasDefaults extends TridasMetadataFieldSet implements IM
 			TridasGenericField country = new TridasGenericField();
 			country.setName("tucson.StateOrCountry");
 			country.setType("xs:string");
-			country.setValue(getStringDefaultValue(TucsonDefaultField.STATE_COUNTRY).getValue());
+			country.setValue(getStringDefaultValue(TucsonDefaultField.STATE_COUNTRY).getValue().trim());
 			genericFields.add(country);
 		}
 	

@@ -1,8 +1,9 @@
 HEADER:
 Keycode=AMK00011
 Length=141
+DateBegin=950
 DateEnd=975
-Species=
+Species=QUSP
 Location=92-132
 SapWoodRings=15
 DATA:Tree
