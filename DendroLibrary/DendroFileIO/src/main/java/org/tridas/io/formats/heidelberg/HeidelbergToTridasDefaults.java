@@ -315,7 +315,6 @@ public class HeidelbergToTridasDefaults extends TridasMetadataFieldSet {
 		//TITLE
 		series.setTitle(getStringDefaultValue(DefaultFields.KEYCODE).getStringValue());
 		
-		// FIXME detect ad/bc
 		TridasInterpretation interp = new TridasInterpretation();
 		if (getIntegerDefaultValue(DefaultFields.DATE_BEGIN).getValue() != null) {
 			SafeIntYear startYear = new SafeIntYear(getIntegerDefaultValue(DefaultFields.DATE_BEGIN).getValue());
@@ -351,6 +350,7 @@ public class HeidelbergToTridasDefaults extends TridasMetadataFieldSet {
 		}
 		GenericDefaultValue<TridasVariable> variable = (GenericDefaultValue<TridasVariable>) getDefaultValue(TridasMandatoryField.MEASUREMENTSERIES_VARIABLE);
 		valuesGroup.setVariable(variable.getValue());
+	
 		return valuesGroup;
 	}
 	

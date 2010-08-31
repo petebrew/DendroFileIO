@@ -263,6 +263,9 @@ public class TridasToSheffieldDefaults extends AbstractMetadataFieldSet implemen
 	
 	@SuppressWarnings("unchecked")
 	public void populateFromTridasMeasurementSeries(TridasMeasurementSeries ms) {
+		
+		populateFromTridasSeries(ms);
+		
 		GenericDefaultValue<SheffieldDataType> dataTypeField = (GenericDefaultValue<SheffieldDataType>)getDefaultValue(DefaultFields.DATA_TYPE);
 		dataTypeField.setValue(SheffieldDataType.ANNUAL_RAW_RING_WIDTH);
 		
@@ -288,9 +291,10 @@ public class TridasToSheffieldDefaults extends AbstractMetadataFieldSet implemen
 	@SuppressWarnings("unchecked")
 	public void populateFromTridasDerivedSeries(TridasDerivedSeries ds) {
 
+		populateFromTridasSeries(ds);
+		
 		if(ds.isSetTitle())
 		{
-			getSheffieldStringDefaultValue(DefaultFields.SERIES_NAME).setValue(ds.getTitle());
 		}
 		
 		GenericDefaultValue<SheffieldDataType> dataTypeField = (GenericDefaultValue<SheffieldDataType>)getDefaultValue(DefaultFields.DATA_TYPE);
@@ -314,7 +318,7 @@ public class TridasToSheffieldDefaults extends AbstractMetadataFieldSet implemen
 		// series.title = Short title
 		if (ser.isSetTitle())
 		{
-			getStringDefaultValue(DefaultFields.SHORT_TITLE).setValue(ser.getTitle());
+			getSheffieldStringDefaultValue(DefaultFields.SHORT_TITLE).setValue(ser.getTitle());
 
 		}
 		

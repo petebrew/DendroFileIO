@@ -162,8 +162,24 @@ public class Past4Writer extends AbstractDendroCollectionWriter {
 		defaults = (TridasToPast4Defaults) argDefaults;
 		defaults.populateFromTridasProject(argProject);
 
+		if(argProject.isSetDerivedSeries())
+		{
+			// Now add any derived Series to another group
+			p4pGroups.add(getGroupTag(defaults, "-1"));
+			
+			for (TridasDerivedSeries ds : argProject.getDerivedSeries())
+			{
+				defaults.populateFromTridasDerivedSeries(ds);
+				
+				for (TridasValues tvsgroup : ds.getValues())
+				{
+					p4pRecords.add(getRecordTag(tvsgroup, defaults, p4pGroups.size()-1));
+				}
+			}
+		}
+		
 		// Loop through objects getting PAST4 Groups and Records 
-		if(argProject.isSetObjects())
+		else if(argProject.isSetObjects())
 		{
 			for (TridasObject o : argProject.getObjects()) 
 			{
@@ -172,21 +188,7 @@ public class Past4Writer extends AbstractDendroCollectionWriter {
 		}
 		
 		
-		if(argProject.isSetDerivedSeries())
-		{
-			// Now add any derived Series to another group
-			p4pGroups.add(getGroupTag(defaults, "-1"));
-			
-			for (TridasDerivedSeries ds : argProject.getDerivedSeries())
-			{
-				for (TridasValues tvsgroup : ds.getValues())
-				{
-					p4pRecords.add(getRecordTag(tvsgroup, defaults, p4pGroups.size()-1));
-				}
-			}
-		
-		}
-		
+
 		// Set the project info
 		p4pProject =  getProjectTag(defaults);
 
@@ -292,12 +294,32 @@ public class Past4Writer extends AbstractDendroCollectionWriter {
 		
 		
 		record  = "<RECORD ";
+		
+		// Mandatory attributes
 		record += "Keycode=\""+defaults.getStringDefaultValue(DefaultFields.KEYCODE).getValue()+"\" ";
 		record += "Length=\""+defaults.getIntegerDefaultValue(DefaultFields.LENGTH).getValue()+"\" ";
 		record += "Offset=\""+defaults.getIntegerDefaultValue(DefaultFields.OFFSET).getValue()+"\" ";
 		record += "Owner=\""+parentIndex+"\" ";
-		record += "Pith=\""+defaults.getPast4BooleanDefaultValue(DefaultFields.PITH).getStringValue()+"\">";
-		record += "\n";
+		
+		// Optional attributes
+		if(defaults.getPast4BooleanDefaultValue(DefaultFields.PITH).getValue()!=null)
+		{
+			record += "Pith=\""+defaults.getPast4BooleanDefaultValue(DefaultFields.PITH).getStringValue()+"\" ";
+		}
+		if(defaults.getIntegerDefaultValue(DefaultFields.SAPWOOD).getValue()!=null)
+		{
+			record += "Sapwood=\""+defaults.getIntegerDefaultValue(DefaultFields.SAPWOOD).getStringValue()+"\" ";
+		}
+		if(defaults.getStringDefaultValue(DefaultFields.LOCATION).getValue()!=null)
+		{
+			record += "Location=\""+defaults.getStringDefaultValue(DefaultFields.LOCATION).getStringValue()+"\" ";
+		}
+		if(defaults.getStringDefaultValue(DefaultFields.SPECIES).getValue()!=null)
+		{
+			record += "Species=\""+defaults.getStringDefaultValue(DefaultFields.SPECIES).getStringValue()+"\" ";
+		}
+		
+		record += ">\n";
 		record += "<HEADER><![CDATA[";
 		
 		if(tvsgroup.isSetUnit())
