@@ -34,6 +34,8 @@ import org.tridas.io.formats.catras.CatrasReader;
 import org.tridas.io.formats.corina.CorinaReader;
 import org.tridas.io.formats.heidelberg.HeidelbergReader;
 import org.tridas.io.formats.nottingham.NottinghamReader;
+import org.tridas.io.formats.past4.Past4Reader;
+import org.tridas.io.formats.past4.Past4ToTridasDefaults;
 import org.tridas.io.formats.sheffield.SheffieldReader;
 import org.tridas.io.formats.topham.TophamReader;
 import org.tridas.io.formats.tridas.TridasWriter;
@@ -113,6 +115,60 @@ public class TestToTridas extends TestCase {
 		}
 		
 	}
+	
+	public void testPast4ToTridas() {
+		String folder = "TestData/PAST4";
+		String[] files = getFilesFromFolder(folder);
+		
+		if (files.length == 0) {
+			fail();
+		}
+		
+		for (String filename : files) {
+			if(!filename.equals("title0.p4p")) { continue; }
+			
+			log.info("Test conversion of: " + filename);
+			
+			// Create a new converter
+			Past4Reader reader = new Past4Reader();
+			
+			// Parse the legacy data file
+			try {
+				// TridasEntitiesFromDefaults def = new TridasEntitiesFromDefaults();
+				reader.loadFile(folder, filename, new Past4ToTridasDefaults());
+			} catch (IOException e) {
+				// Standard IO Exception
+				log.info(e.getLocalizedMessage());
+				fail();
+			} catch (IncorrectDefaultFieldsException e) {
+				// The default fields you gave were wrong
+				e.printStackTrace();
+				fail();
+			} catch (InvalidDendroFileException e) {
+				// Fatal error interpreting file
+				log.info(e.getLocalizedMessage());
+				fail();
+			}
+			
+			// Extract the TridasProject
+			TridasProject myproject = reader.getProject();
+			TridasWriter writer = new TridasWriter();
+			writer.setNamingConvention(new NumericalNamingConvention());
+			
+			try {
+				writer.loadProject(myproject, new TridasMetadataFieldSet());
+			} catch (IncompleteTridasDataException e) {
+				fail();
+			} catch (ConversionWarningException e) {} catch (IncorrectDefaultFieldsException e) {
+				fail();
+			} 
+			writer.saveAllToDisk(outputLocation);
+			
+		}
+		
+	}
+	
+	
 	
 	public void testCatrasToTridas() {
 		String folder = "TestData/CATRAS";

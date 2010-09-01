@@ -51,6 +51,7 @@ import org.tridas.io.formats.topham.TophamReader;
 import org.tridas.io.formats.topham.TophamWriter;
 import org.tridas.io.formats.nottingham.NottinghamReader;
 import org.tridas.io.formats.nottingham.NottinghamWriter;
+import org.tridas.io.formats.past4.Past4Reader;
 import org.tridas.io.formats.past4.Past4Writer;
 import org.tridas.io.formats.corina.CorinaWriter;
 import org.tridas.io.formats.corina.CorinaReader;
@@ -85,6 +86,7 @@ public class TridasIO {
 		registerFileReader(CorinaReader.class);
 		registerFileReader(HeidelbergReader.class);
 		registerFileReader(NottinghamReader.class);
+		//registerFileReader(Past4Reader.class);
 		registerFileReader(SheffieldReader.class);
 		registerFileReader(TophamReader.class);
 		registerFileReader(TridasReader.class);
