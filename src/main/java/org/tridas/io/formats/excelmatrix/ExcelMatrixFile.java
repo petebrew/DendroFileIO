@@ -285,7 +285,7 @@ public class ExcelMatrixFile implements IDendroFile {
 			thisStartYear = new SafeIntYear(series.getInterpretation().getFirstYear());
 		} catch (NullPointerException e) {}
 		
-		Integer row = 2;
+		Integer row = 1;
 		
 		for (SafeIntYear currYear = yrRange.getStart(); currYear.compareTo(thisStartYear) < 0; currYear = currYear
 				.add(1)) {
