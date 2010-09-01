@@ -84,10 +84,25 @@ public class DateUtils {
 	 * @return
 	 */
 	public static DateTime getDateTime(Integer day, Integer month, Integer year, Integer hours, Integer minutes) {
+		return DateUtils.getDateTime(day, month, year, hours, minutes, 0);
+	}
+	
+	/**
+	 * Create a DateTime from the constituent day, month, year, hours, minutes and seconds
+	 * 
+	 * @param day
+	 * @param month
+	 * @param year
+	 * @param hours
+	 * @param minutes
+	 * @param seconds
+	 * @return
+	 */
+	public static DateTime getDateTime(Integer day, Integer month, Integer year, Integer hours, Integer minutes, Integer seconds) {
 		try {
 			// Month is base 0 in Gregorian Calendar so minus 1 so this function can 
 			// have logical month integers!
-			GregorianCalendar c = new GregorianCalendar(year, month-1, day, hours, minutes);
+			GregorianCalendar c = new GregorianCalendar(year, month-1, day, hours, minutes, seconds);
 			XMLGregorianCalendar requestedDate = DatatypeFactory.newInstance().newXMLGregorianCalendar(c);
 			DateTime returnval = new DateTime();
 			returnval.setValue(requestedDate);
@@ -253,6 +268,83 @@ public class DateUtils {
 			return dateFormat.format(date.getValue().toGregorianCalendar().getTime());
 		}
 
+	}
+	
+	/**
+	 * Parse a DateTime from a PAST4 format string (dd/MM/yyyy hh:mm)
+	 * @param date
+	 * @return
+	 * @throws Exception
+	 */
+	public static DateTime parseDateFromPast4String(String date) throws Exception
+	{
+		
+		if(date==null) return null;
+		
+		date = date.trim();
+		if(date.equals("")) return null;
+	
+		int day = 0;
+		int month = 0;
+		int year = 0;
+		int hours = 0;
+		int mins = 0;
+		int seconds = 0;
+		boolean pmFlag = false;
+		
+		if(date.toLowerCase().contains("pm"))
+		{
+			pmFlag = true;
+		}
+		
+		if(date.matches("\\d{1,2}(/)\\d{1,2}(/)\\d{4} \\d{1,2}:\\d{2}([APMapm :\\d])*"))
+		{
+			String[] parts = date.split(" ");
+			if(!(parts.length>=2))
+			{
+				throw new Exception();
+			}
+			
+			String[] dateparts = parts[0].split("/");
+			if(dateparts.length!=3)
+			{
+				throw new Exception();
+			}
+			day = Integer.parseInt(dateparts[0]);
+			month = Integer.parseInt(dateparts[1]);
+			year = Integer.parseInt(dateparts[2]);
+			
+			String[] timeparts = parts[1].split(":");
+			if(!(timeparts.length>=2))
+			{
+				throw new Exception();
+			}
+			hours = Integer.parseInt(timeparts[0]);
+			mins = Integer.parseInt(timeparts[1]);
+			
+			if(timeparts.length>=3)
+			{
+				seconds = Integer.parseInt(timeparts[2]);
+			}
+			
+			if(pmFlag && hours>0)
+			{
+				hours = hours+12; 
+			}
+	
+		}
+		
+		if(day>0 && month >0 && year > 0)
+		{
+			return DateUtils.getDateTime(day, month, year, hours, mins, seconds);
+		}
+		else
+		{
+			return null;
+		}
+		
+
+		
 	}
 	
 }
