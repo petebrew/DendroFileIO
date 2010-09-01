@@ -274,8 +274,12 @@ public class HeidelbergToTridasDefaults extends TridasMetadataFieldSet {
 		series.setIdentifier(id);
 		
 		//TITLE
-		series.setTitle(getStringDefaultValue(DefaultFields.KEYCODE).getStringValue());
-		
+		if((getStringDefaultValue(DefaultFields.KEYCODE).getStringValue()!=null) &&
+				(getStringDefaultValue(DefaultFields.KEYCODE).getStringValue()!=""))
+		{
+			series.setTitle(getStringDefaultValue(DefaultFields.KEYCODE).getStringValue());
+		}
+				
 		// FIXME detect ad/bc
 		TridasInterpretation interp = new TridasInterpretation();
 		if (getIntegerDefaultValue(DefaultFields.DATE_BEGIN).getValue() != null) {
@@ -313,7 +317,11 @@ public class HeidelbergToTridasDefaults extends TridasMetadataFieldSet {
 		series.setIdentifier(id);
 		
 		//TITLE
-		series.setTitle(getStringDefaultValue(DefaultFields.KEYCODE).getStringValue());
+		if((getStringDefaultValue(DefaultFields.KEYCODE).getStringValue()!=null) &&
+				(getStringDefaultValue(DefaultFields.KEYCODE).getStringValue()!=""))
+		{
+			series.setTitle(getStringDefaultValue(DefaultFields.KEYCODE).getStringValue());
+		}
 		
 		TridasInterpretation interp = new TridasInterpretation();
 		if (getIntegerDefaultValue(DefaultFields.DATE_BEGIN).getValue() != null) {
@@ -363,7 +371,8 @@ public class HeidelbergToTridasDefaults extends TridasMetadataFieldSet {
 		TridasRadius r = super.getDefaultTridasRadius();
 		
 		// Identifier
-		if(getStringDefaultValue(DefaultFields.RADIUS_NUMBER).getStringValue()!=null)
+		if((getStringDefaultValue(DefaultFields.RADIUS_NUMBER).getStringValue()!=null) &&
+				(getStringDefaultValue(DefaultFields.RADIUS_NUMBER).getStringValue()!=""))
 		{
 			r.setTitle(getStringDefaultValue(DefaultFields.RADIUS_NUMBER).getStringValue());
 			TridasIdentifier id = new ObjectFactory().createTridasIdentifier();
@@ -384,11 +393,10 @@ public class HeidelbergToTridasDefaults extends TridasMetadataFieldSet {
 	@Override
 	protected TridasSample getDefaultTridasSample() {
 		TridasSample s = super.getDefaultTridasSample();
-		
-		s.setTitle("Hello");
-		
+				
 		// Identifier
-		if(getStringDefaultValue(DefaultFields.CORE_NUMBER).getStringValue()!=null)
+		if((getStringDefaultValue(DefaultFields.CORE_NUMBER).getStringValue()!=null) &&
+			(getStringDefaultValue(DefaultFields.CORE_NUMBER).getStringValue()!=""))
 		{
 			s.setTitle(getStringDefaultValue(DefaultFields.CORE_NUMBER).getStringValue());
 			TridasIdentifier id = new ObjectFactory().createTridasIdentifier();
@@ -396,7 +404,8 @@ public class HeidelbergToTridasDefaults extends TridasMetadataFieldSet {
 			id.setValue(getStringDefaultValue(DefaultFields.CORE_NUMBER).getStringValue());
 			s.setIdentifier(id);
 		}
-		else if(getStringDefaultValue(DefaultFields.STEM_DISK_NUMBER).getStringValue()!=null)
+		else if((getStringDefaultValue(DefaultFields.STEM_DISK_NUMBER).getStringValue()!=null) &&
+			(getStringDefaultValue(DefaultFields.STEM_DISK_NUMBER).getStringValue()!=""))
 		{
 			s.setTitle(getStringDefaultValue(DefaultFields.STEM_DISK_NUMBER).getStringValue());
 			TridasIdentifier id = new ObjectFactory().createTridasIdentifier();
@@ -424,11 +433,10 @@ public class HeidelbergToTridasDefaults extends TridasMetadataFieldSet {
 	@Override
 	protected TridasElement getDefaultTridasElement() {
 		TridasElement e = super.getDefaultTridasElement();
-			
-		e.setTitle("unknown");
-		
+					
 		// Identifier
-		if(getStringDefaultValue(DefaultFields.TREE_NUMBER).getStringValue()!=null)
+		if((getStringDefaultValue(DefaultFields.TREE_NUMBER).getStringValue()!=null) &&
+		   (getStringDefaultValue(DefaultFields.TREE_NUMBER).getStringValue())!="")
 		{
 			e.setTitle(getStringDefaultValue(DefaultFields.TREE_NUMBER).getStringValue());
 			TridasIdentifier id = new ObjectFactory().createTridasIdentifier();
@@ -535,7 +543,8 @@ public class HeidelbergToTridasDefaults extends TridasMetadataFieldSet {
 	protected TridasObject getDefaultTridasObject() {
 		TridasObject o = super.getDefaultTridasObject();
 		
-		if(getStringDefaultValue(DefaultFields.SITE_CODE).getStringValue()!=null)
+		if((getStringDefaultValue(DefaultFields.SITE_CODE).getStringValue()!=null) &&
+				(getStringDefaultValue(DefaultFields.SITE_CODE).getStringValue())!="")
 		{
 			o.setTitle(getStringDefaultValue(DefaultFields.SITE_CODE).getStringValue());
 			TridasIdentifier id = new ObjectFactory().createTridasIdentifier();
@@ -565,8 +574,11 @@ public class HeidelbergToTridasDefaults extends TridasMetadataFieldSet {
 	protected TridasProject getDefaultTridasProject() {
 		TridasProject p = super.getDefaultTridasProject();
 		
-
-		p.setTitle(getStringDefaultValue(DefaultFields.PROJECT).getStringValue());
+		if((getStringDefaultValue(DefaultFields.PROJECT).getStringValue()!=null) &&
+		   (getStringDefaultValue(DefaultFields.PROJECT).getStringValue())!="")
+		{
+			p.setTitle(getStringDefaultValue(DefaultFields.PROJECT).getStringValue());
+		}
 		return p;
 	}
 	
