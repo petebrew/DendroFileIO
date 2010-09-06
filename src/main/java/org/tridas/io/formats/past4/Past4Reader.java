@@ -2,6 +2,8 @@ package org.tridas.io.formats.past4;
 
 import java.io.IOException;
 import java.io.StringReader;
+import java.util.ArrayList;
+import java.util.List;
 
 import javax.xml.parsers.DocumentBuilder;
 import javax.xml.parsers.DocumentBuilderFactory;
@@ -9,6 +11,7 @@ import javax.xml.parsers.ParserConfigurationException;
 
 import org.grlea.log.SimpleLogger;
 
+import org.tridas.interfaces.ITridasSeries;
 import org.tridas.io.AbstractDendroFileReader;
 import org.tridas.io.I18n;
 import org.tridas.io.defaults.IMetadataFieldSet;
@@ -23,6 +26,8 @@ import org.tridas.schema.TridasObject;
 import org.tridas.schema.TridasProject;
 import org.tridas.schema.TridasRadius;
 import org.tridas.schema.TridasSample;
+import org.tridas.schema.TridasValue;
+import org.tridas.schema.TridasValues;
 
 import org.w3c.dom.CDATASection;
 import org.w3c.dom.Document;
@@ -148,9 +153,7 @@ public class Past4Reader extends AbstractDendroFileReader {
 		}
 		
 		TridasObject object = defaults.getObjectWithDefaults();
-		TridasElement element = defaults.getElementWithDefaults();
-		TridasSample sample = defaults.getSampleWithDefaults();
-		TridasRadius radius = defaults.getRadiusWithDefaults(false);
+
 		
 			
 		
@@ -162,23 +165,18 @@ public class Past4Reader extends AbstractDendroFileReader {
 			throw new InvalidDendroFileException(I18n.getText("past4.numOfRecordsDiscrepancy"));
 		}
 		
-		for (int i=0; i<=records.getLength(); i++)
+		for (int i=0; i<records.getLength(); i++)
 		{		
 			Element record = (Element) records.item(i);
-			extractSeriesInfo(record);
-			
-			TridasMeasurementSeries series = defaults.getMeasurementSeriesWithDefaults();
-
 			
 			
-			radius.getMeasurementSeries().add(series);
+			TridasElement el = getTridasElementFromRecord(record);
+			object.getElements().add(el);
 
 			
 		}
+
 		
-		sample.getRadiuses().add(radius);
-		element.getSamples().add(sample);
-		object.getElements().add(element);
 		project.getObjects().add(object);
 		
 	}
@@ -291,11 +289,11 @@ public class Past4Reader extends AbstractDendroFileReader {
 	 * @param record
 	 * @throws InvalidDendroFileException
 	 */
-	private void extractSeriesInfo(Element record) throws InvalidDendroFileException
+	private TridasElement getTridasElementFromRecord(Element record) throws InvalidDendroFileException
 	{
 		if(record==null)
 		{
-			return;
+			return null;
 		}
 		
 		// Set the series name	
@@ -357,6 +355,12 @@ public class Past4Reader extends AbstractDendroFileReader {
 
 		}
 		
+		TridasElement el = defaults.getDefaultTridasElement();
+		TridasSample samp = defaults.getDefaultTridasSample();
+		TridasRadius radius = defaults.getDefaultTridasRadius();
+		TridasMeasurementSeries series = defaults.getMeasurementSeriesWithDefaults();
+		
+		
 		NodeList children = record.getChildNodes();
 		
 		for(int i=0; i<children.getLength(); i++)
@@ -369,8 +373,7 @@ public class Past4Reader extends AbstractDendroFileReader {
 					if(child.getFirstChild() instanceof CDATASection)
 					{
 						CDATASection content = (CDATASection) child.getFirstChild();
-						String blah = content.getTextContent();
-						extractValuesFromContent(content.getTextContent());
+						series.setValues(extractTridasValuesInfoFromContent(content.getTextContent()));
 					}
 				}
 				else if (child.getTagName().equals("HEADER"))
@@ -380,11 +383,18 @@ public class Past4Reader extends AbstractDendroFileReader {
 			}
 		}
 		
+		radius.getMeasurementSeries().add(series);
+		samp.getRadiuses().add(radius);
+		el.getSamples().add(samp);
+		return el;
 	}
 	
 	
-	private void extractValuesFromContent(String cdata) throws InvalidDendroFileException
+	private List<TridasValues> extractTridasValuesInfoFromContent(String cdata) throws InvalidDendroFileException
 	{
+		TridasValues valuesGroup = defaults.getTridasValuesWithDefaults();
+		ArrayList<TridasValue> dataValues = new ArrayList<TridasValue>();
+		
 		String[] dataLines = cdata.split("\\n");
 		
 		if(length!=dataLines.length)
@@ -395,11 +405,17 @@ public class Past4Reader extends AbstractDendroFileReader {
 		for (String dataline : dataLines)
 		{
 			String[] bitsOfData = dataline.split("\\t");
-			log.error("Ring width value: "+ bitsOfData[0]);
-			
-			
-			
+			TridasValue val = new TridasValue();
+			val.setValue(bitsOfData[0]);
+			dataValues.add(val);			
 		}
+		
+		valuesGroup.setValues(dataValues);
+		
+		ArrayList<TridasValues> lst = new ArrayList<TridasValues>();
+		lst.add(valuesGroup);
+		
+		return lst;
 	}
 	
 	private TridasProject createProject()
