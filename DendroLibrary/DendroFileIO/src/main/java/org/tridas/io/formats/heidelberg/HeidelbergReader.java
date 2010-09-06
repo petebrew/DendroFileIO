@@ -155,7 +155,7 @@ public class HeidelbergReader extends AbstractDendroFileReader {
 			Integer length = null;
 			
 			
-			if(thisSeries.defaults.getStringDefaultValue(DefaultFields.LENGTH)!=null)
+			if(thisSeries.defaults.getStringDefaultValue(DefaultFields.LENGTH).getValue()!=null)
 			{
 				try{
 					length = Integer.valueOf(thisSeries.defaults.getStringDefaultValue(DefaultFields.LENGTH).getValue());
@@ -174,11 +174,11 @@ public class HeidelbergReader extends AbstractDendroFileReader {
 			
 
 			// Check that DateBegin, DateEnd and number of values agree
-			if(thisSeries.defaults.getIntegerDefaultValue(DefaultFields.DATE_BEGIN)!=null)
+			if(thisSeries.defaults.getIntegerDefaultValue(DefaultFields.DATE_BEGIN).getValue()!=null)
 			{
 				startYear = new SafeIntYear(thisSeries.defaults.getIntegerDefaultValue(DefaultFields.DATE_BEGIN).getValue());
 			}
-			if(thisSeries.defaults.getIntegerDefaultValue(DefaultFields.DATE_END)!=null)
+			if(thisSeries.defaults.getIntegerDefaultValue(DefaultFields.DATE_END).getValue()!=null)
 			{
 				endYear = new SafeIntYear(thisSeries.defaults.getIntegerDefaultValue(DefaultFields.DATE_END).getValue());
 			}
@@ -199,12 +199,12 @@ public class HeidelbergReader extends AbstractDendroFileReader {
 			else if (startYear!=null && endYear==null)
 			{
 				// Use start year to set endYear based on the length
-				thisSeries.defaults.getIntegerDefaultValue(DefaultFields.DATE_END).setValue(Integer.parseInt(startYear.add(length).toString()));					
+				thisSeries.defaults.getIntegerDefaultValue(DefaultFields.DATE_END).setValue(Integer.parseInt(startYear.add(length-1).toString()));					
 			}
 			else if (startYear==null && endYear!=null)
 			{
 				// Set startYear based on endYear and length
-				thisSeries.defaults.getIntegerDefaultValue(DefaultFields.DATE_BEGIN).setValue(Integer.parseInt(endYear.add(0-length).toString()));					
+				thisSeries.defaults.getIntegerDefaultValue(DefaultFields.DATE_BEGIN).setValue(Integer.parseInt(endYear.add(1-length).toString()));					
 			}
 			else
 			{
