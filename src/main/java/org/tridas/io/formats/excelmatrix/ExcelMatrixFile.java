@@ -73,8 +73,8 @@ public class ExcelMatrixFile implements IDendroFile {
 			try {
 				
 				// Make sure we're using years with the right calendar
-				Year yearsWithCalendar = new SafeIntYear(ser.getInterpretation().getFirstYear()).toTridasYear(calendar);
-				startYear = new SafeIntYear(yearsWithCalendar);
+				//Year yearsWithCalendar = new SafeIntYear(ser.getInterpretation().getFirstYear()).toTridasYear(calendar);
+				startYear = new SafeIntYear(ser.getInterpretation().getFirstYear());
 				
 			} catch (NullPointerException e) {
 				startYear = new SafeIntYear("1001");
