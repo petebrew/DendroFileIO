@@ -1,6 +1,5 @@
 package org.tridas.io.formats.past4;
 
-import org.tridas.io.I18n;
 import org.tridas.io.defaults.TridasMetadataFieldSet;
 import org.tridas.io.defaults.values.DateTimeDefaultValue;
 import org.tridas.io.defaults.values.GenericDefaultValue;
@@ -8,8 +7,13 @@ import org.tridas.io.defaults.values.IntegerDefaultValue;
 import org.tridas.io.defaults.values.Past4BooleanDefaultValue;
 import org.tridas.io.defaults.values.StringDefaultValue;
 import org.tridas.io.formats.past4.TridasToPast4Defaults.DefaultFields;
-import org.tridas.io.util.DateUtils;
+import org.tridas.schema.TridasElement;
 import org.tridas.schema.TridasProject;
+import org.tridas.schema.TridasRadius;
+import org.tridas.schema.TridasSample;
+import org.tridas.schema.TridasUnitless;
+import org.tridas.schema.TridasValues;
+import org.tridas.schema.TridasVariable;
 
 
 public class Past4ToTridasDefaults extends TridasMetadataFieldSet {
@@ -114,4 +118,32 @@ public class Past4ToTridasDefaults extends TridasMetadataFieldSet {
 	}
 	
 	
+	protected TridasElement getDefaultTridasElement() {
+		TridasElement e = super.getDefaultTridasElement();
+		
+		return e;
+	}
+	
+	protected TridasSample getDefaultTridasSample(){
+		TridasSample s = super.getDefaultTridasSample();
+		
+		return s;
+	}
+	
+	protected TridasRadius getDefaultTridasRadius(){
+		TridasRadius r = super.getDefaultTridasRadius();
+		return r;
+	}
+	
+	@SuppressWarnings("unchecked")
+	public TridasValues getTridasValuesWithDefaults() {
+		TridasValues valuesGroup = new TridasValues();
+		
+		valuesGroup.setUnitless(new TridasUnitless());
+
+		GenericDefaultValue<TridasVariable> variable = (GenericDefaultValue<TridasVariable>) getDefaultValue(TridasMandatoryField.MEASUREMENTSERIES_VARIABLE);
+		valuesGroup.setVariable(variable.getValue());
+	
+		return valuesGroup;
+	}
 }

@@ -86,7 +86,7 @@ public class TridasIO {
 		registerFileReader(CorinaReader.class);
 		registerFileReader(HeidelbergReader.class);
 		registerFileReader(NottinghamReader.class);
-		//registerFileReader(Past4Reader.class);
+		registerFileReader(Past4Reader.class);
 		registerFileReader(SheffieldReader.class);
 		registerFileReader(TophamReader.class);
 		registerFileReader(TridasReader.class);

@@ -96,8 +96,8 @@ public class TridasToTucsonDefaults extends AbstractMetadataFieldSet {
 	}
 	
 	protected void populateFromTridasElement(TridasElement e)
-	{
-		if(e.getTaxon() != null){
+	{		
+		if(e.isSetTaxon()){
 			if(e.getTaxon().getNormalId()!=null)
 			{
 				getStringDefaultValue(TucsonField.SPECIES_CODE).setValue(e.getTaxon().getNormalId());
@@ -113,7 +113,7 @@ public class TridasToTucsonDefaults extends AbstractMetadataFieldSet {
 			}
 		}
 		
-		if(e.getAltitude()!=null)
+		if(e.isSetAltitude())
 		{
 			getDoubleDefaultValue(TucsonField.ELEVATION).setValue(e.getAltitude());
 		}
