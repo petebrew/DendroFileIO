@@ -41,6 +41,7 @@ import org.tridas.io.formats.heidelberg.HeidelbergToTridasDefaults.FHSeriesType;
 import org.tridas.io.formats.heidelberg.HeidelbergToTridasDefaults.FHStartsOrEndsWith;
 import org.tridas.io.formats.heidelberg.HeidelbergToTridasDefaults.FHWaldKante;
 import org.tridas.io.util.ITRDBTaxonConverter;
+import org.tridas.io.util.SafeIntYear;
 import org.tridas.io.util.StringUtils;
 import org.tridas.schema.ControlledVoc;
 import org.tridas.schema.NormalTridasUnit;
@@ -132,6 +133,7 @@ public class HeidelbergReader extends AbstractDendroFileReader {
 				}
 				currSeries.dataType = dataType;
 				extractData(data.toArray(new String[0]), currSeries);
+											
 				series.add(currSeries);
 				currSeries = null;
 			}
@@ -142,6 +144,76 @@ public class HeidelbergReader extends AbstractDendroFileReader {
 		
 		populateHeaderInformation();
 		populateDataInformation();
+		
+
+		// Loop through all the series to check dates are logical
+		for (HeidelbergMeasurementSeries thisSeries : series)
+		{
+			SafeIntYear startYear = null;
+			SafeIntYear endYear = null;
+			Integer yearCount = thisSeries.dataInts.size();
+			Integer length = null;
+			
+			
+			if(thisSeries.defaults.getStringDefaultValue(DefaultFields.LENGTH)!=null)
+			{
+				try{
+					length = Integer.valueOf(thisSeries.defaults.getStringDefaultValue(DefaultFields.LENGTH).getValue());
+				} catch (Exception e)
+				{
+					length = yearCount;
+				}
+			}
+			else
+			{
+				length = yearCount;
+			}
+			
+			
+			
+			
+
+			// Check that DateBegin, DateEnd and number of values agree
+			if(thisSeries.defaults.getIntegerDefaultValue(DefaultFields.DATE_BEGIN)!=null)
+			{
+				startYear = new SafeIntYear(thisSeries.defaults.getIntegerDefaultValue(DefaultFields.DATE_BEGIN).getValue());
+			}
+			if(thisSeries.defaults.getIntegerDefaultValue(DefaultFields.DATE_END)!=null)
+			{
+				endYear = new SafeIntYear(thisSeries.defaults.getIntegerDefaultValue(DefaultFields.DATE_END).getValue());
+			}
+			
+			if(startYear!=null && endYear!=null)
+			{
+				// Check the difference is the same as the yearCount
+				if(endYear.diff(startYear)!=length-1)
+				{
+					/*thisSeries.defaults.addConversionWarning(
+							new ConversionWarning(
+									WarningType.AMBIGUOUS, 
+									I18n.getText("heidelberg.inconsistentDates"))
+							);*/
+					throw new InvalidDendroFileException(I18n.getText("heidelberg.inconsistentDates"));
+				}
+			}
+			else if (startYear!=null && endYear==null)
+			{
+				// Use start year to set endYear based on the length
+				thisSeries.defaults.getIntegerDefaultValue(DefaultFields.DATE_END).setValue(Integer.parseInt(startYear.add(length).toString()));					
+			}
+			else if (startYear==null && endYear!=null)
+			{
+				// Set startYear based on endYear and length
+				thisSeries.defaults.getIntegerDefaultValue(DefaultFields.DATE_BEGIN).setValue(Integer.parseInt(endYear.add(0-length).toString()));					
+			}
+			else
+			{
+				// both start and end year are null
+				addWarning(new ConversionWarning(WarningType.NULL_VALUE, I18n.getText("heidelberg.noStartOrEndDate")));
+			}
+		}
+
+		
 	}
 	
 	// check file to see if it generally looks like a Heidelberg file
