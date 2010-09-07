@@ -20,11 +20,14 @@ import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
 
+import org.tridas.schema.ControlledVoc;
+import org.tridas.schema.NormalTridasRemark;
 import org.tridas.schema.TridasElement;
 import org.tridas.schema.TridasMeasurementSeries;
 import org.tridas.schema.TridasObject;
 import org.tridas.schema.TridasProject;
 import org.tridas.schema.TridasRadius;
+import org.tridas.schema.TridasRemark;
 import org.tridas.schema.TridasSample;
 import org.tridas.schema.TridasValue;
 import org.tridas.schema.TridasValues;
@@ -261,6 +264,38 @@ public class TridasUtils {
 		return true;
 	}
 	
+	/**
+	 * Attempt to standardise a ring remark into a NormalTridasRemark.
+	 * 
+	 * @param str
+	 * @return
+	 */
+	public static TridasRemark getRemarkFromString(String str)
+	{
+		TridasRemark remark = new TridasRemark();
+		
+		if(str==null)
+		{
+			return null;	
+		}
+		else if (str.trim().length()==0)
+		{
+			return null;
+		}
+		
+		for(NormalTridasRemark trmk : NormalTridasRemark.values())
+		{
+			if(trmk.value().equalsIgnoreCase(str))
+			{
+				remark.setNormalTridas(trmk);
+				return remark;
+			}
+		}
+		
+		remark.setValue(str);
+		
+		return remark;
+	}
 
 	public enum TridasValueDataType{
 		DOUBLE,

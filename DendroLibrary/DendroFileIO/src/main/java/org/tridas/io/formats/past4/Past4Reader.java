@@ -20,11 +20,16 @@ import org.tridas.io.exceptions.InvalidDendroFileException;
 import org.tridas.io.exceptions.ConversionWarning.WarningType;
 import org.tridas.io.formats.past4.TridasToPast4Defaults.DefaultFields;
 import org.tridas.io.util.DateUtils;
+import org.tridas.io.util.TridasUtils;
+import org.tridas.schema.TridasDerivedSeries;
 import org.tridas.schema.TridasElement;
 import org.tridas.schema.TridasMeasurementSeries;
+import org.tridas.schema.TridasMeasurementSeriesPlaceholder;
 import org.tridas.schema.TridasObject;
 import org.tridas.schema.TridasProject;
 import org.tridas.schema.TridasRadius;
+import org.tridas.schema.TridasRadiusPlaceholder;
+import org.tridas.schema.TridasRemark;
 import org.tridas.schema.TridasSample;
 import org.tridas.schema.TridasValue;
 import org.tridas.schema.TridasValues;
@@ -153,7 +158,7 @@ public class Past4Reader extends AbstractDendroFileReader {
 		}
 		
 		TridasObject object = defaults.getObjectWithDefaults();
-
+		project.getObjects().add(object);
 		
 			
 		
@@ -167,17 +172,9 @@ public class Past4Reader extends AbstractDendroFileReader {
 		
 		for (int i=0; i<records.getLength(); i++)
 		{		
-			Element record = (Element) records.item(i);
-			
-			
-			TridasElement el = getTridasElementFromRecord(record);
-			object.getElements().add(el);
-
-			
+			Element record = (Element) records.item(i);	
+			extractRecordInfo(record);			
 		}
-
-		
-		project.getObjects().add(object);
 		
 	}
 
@@ -289,11 +286,11 @@ public class Past4Reader extends AbstractDendroFileReader {
 	 * @param record
 	 * @throws InvalidDendroFileException
 	 */
-	private TridasElement getTridasElementFromRecord(Element record) throws InvalidDendroFileException
+	private void extractRecordInfo(Element record) throws InvalidDendroFileException
 	{
 		if(record==null)
 		{
-			return null;
+			return;
 		}
 		
 		// Set the series name	
@@ -361,16 +358,67 @@ public class Past4Reader extends AbstractDendroFileReader {
 			defaults.getStringDefaultValue(DefaultFields.SPECIES).setValue(record.getAttribute("Species"));
 		}
 
+		// Is this a dynamic mean?
+		Boolean isDerivedSeries = null;
+		if(record.hasAttribute("IsMeanValue"))
+		{
+			defaults.getPast4BooleanDefaultValue(DefaultFields.IS_MEAN_VALUE).setValueFromString(record.getAttribute("IsMeanValue"));
+			isDerivedSeries = defaults.getPast4BooleanDefaultValue(DefaultFields.IS_MEAN_VALUE).getValue();
+		}
+		
+		// Is filtered?
+		Boolean isFilteredSeries = null;
+		if(record.hasAttribute("Filter"))
+		{
+			defaults.getPast4BooleanDefaultValue(DefaultFields.FILTER).setValueFromString(record.getAttribute("Filter"));
+			isFilteredSeries = defaults.getPast4BooleanDefaultValue(DefaultFields.FILTER).getValue();
+			isDerivedSeries = true;
+		}
+		
+		
+		// Pith
+		if(record.hasAttribute("Pith"))
+		{
+			defaults.getPast4BooleanDefaultValue(DefaultFields.PITH).setValueFromString(record.getAttribute("Pith"));
+		}
+		
+		// Sapwood
+		if(record.hasAttribute("SapWood"))
+		{
+			try{
+				defaults.getIntegerDefaultValue(DefaultFields.SAPWOOD).setValue(Integer.valueOf(record.getAttribute("SapWood")));
+			} catch (NumberFormatException e)
+			{
+				
+			}
+		}
+		
 		
 		TridasElement el = defaults.getDefaultTridasElement();
 		TridasSample samp = defaults.getDefaultTridasSample();
 		TridasRadius radius = defaults.getDefaultTridasRadius();
-		TridasMeasurementSeries series = defaults.getDefaultTridasMeasurementSeries();
-
 		
+		// Set series depending on whether it's a mean or not
+		ITridasSeries series;
+		List<TridasValues> originalValues;
+		if(isDerivedSeries!=null)
+		{
+			if(isDerivedSeries)
+			{
+				series = defaults.getDefaultTridasDerivedSeries();
+			}
+			else
+			{
+				series = defaults.getDefaultTridasMeasurementSeries();
+			}
+		}
+		else
+		{
+			series = defaults.getDefaultTridasMeasurementSeries();
+		}
 		
+		// Now grab the actual data
 		NodeList children = record.getChildNodes();
-		
 		for(int i=0; i<children.getLength(); i++)
 		{
 			if(children.item(i) instanceof Element)
@@ -381,7 +429,15 @@ public class Past4Reader extends AbstractDendroFileReader {
 					if(child.getFirstChild() instanceof CDATASection)
 					{
 						CDATASection content = (CDATASection) child.getFirstChild();
-						series.setValues(extractTridasValuesInfoFromContent(content.getTextContent()));
+						series.setValues(extractTridasValuesInfoFromContent(
+								content.getTextContent(),isDerivedSeries));
+						
+						if(isFilteredSeries)
+						{
+							originalValues = extractTridasValuesInfoFromContent(
+								content.getTextContent(),isDerivedSeries, true);
+						}
+						continue;
 					}
 				}
 				else if (child.getTagName().equals("HEADER"))
@@ -391,14 +447,36 @@ public class Past4Reader extends AbstractDendroFileReader {
 			}
 		}
 		
-		radius.getMeasurementSeries().add(series);
-		samp.getRadiuses().add(radius);
-		el.getSamples().add(samp);
-		return el;
+		if(isDerivedSeries)
+		{
+			/*TridasRadiusPlaceholder rph = new TridasRadiusPlaceholder();
+			TridasMeasurementSeriesPlaceholder mph = new TridasMeasurementSeriesPlaceholder();
+			rph.setMeasurementSeriesPlaceholder(mph);
+			samp.setRadiusPlaceholder(rph);
+			el.getSamples().add(samp);*/
+			//project.getObjects().get(0).getElements().add(el);
+			project.getDerivedSeries().add((TridasDerivedSeries) series);
+		}
+		else
+		{
+			radius.getMeasurementSeries().add((TridasMeasurementSeries)series);
+			samp.getRadiuses().add(radius);
+			el.getSamples().add(samp);
+			project.getObjects().get(0).getElements().add(el);
+		}
+		
+		
+		return;
 	}
 	
 	
-	private List<TridasValues> extractTridasValuesInfoFromContent(String cdata) throws InvalidDendroFileException
+	private List<TridasValues> extractTridasValuesInfoFromContent(String cdata, Boolean isDerivedSeries) throws InvalidDendroFileException
+	{
+		return extractTridasValuesInfoFromContent(cdata, isDerivedSeries, false);
+	}
+	
+	
+	private List<TridasValues> extractTridasValuesInfoFromContent(String cdata, Boolean isDerivedSeries, Boolean getUnfilteredData) throws InvalidDendroFileException
 	{
 		TridasValues valuesGroup = defaults.getTridasValuesWithDefaults();
 		ArrayList<TridasValue> dataValues = new ArrayList<TridasValue>();
@@ -414,7 +492,33 @@ public class Past4Reader extends AbstractDendroFileReader {
 		{
 			String[] bitsOfData = dataline.split("\\t");
 			TridasValue val = new TridasValue();
+			
+			// Set the actual value
 			val.setValue(bitsOfData[0]);
+			
+			// Set sample count if 
+			if(isDerivedSeries)
+			{
+				try{
+					Integer sampleCount = Integer.parseInt(bitsOfData[1]);
+					val.setCount(sampleCount);					
+				} catch (NumberFormatException e)
+				{
+					throw new InvalidDendroFileException(I18n.getText("past4.sampleCountInvalid"));
+				}
+			}
+			
+			// Add comments as remarks if present
+			if(bitsOfData.length>=6)
+			{
+				if(bitsOfData[5].trim().length()>0)
+				{
+					TridasRemark remark = new TridasRemark();
+					remark = TridasUtils.getRemarkFromString(bitsOfData[5]);
+					val.getRemarks().add(remark);
+				}
+			}
+			
 			dataValues.add(val);			
 		}
 		
@@ -425,12 +529,7 @@ public class Past4Reader extends AbstractDendroFileReader {
 		
 		return lst;
 	}
-	
-	private TridasProject createProject()
-	{
-		return null;
-	}
-	
+		
 	
 	@Override
 	public TridasProject getProject() {

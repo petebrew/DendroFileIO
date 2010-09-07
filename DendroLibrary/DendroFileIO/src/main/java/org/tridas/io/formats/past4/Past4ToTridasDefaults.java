@@ -11,6 +11,7 @@ import org.tridas.io.util.ITRDBTaxonConverter;
 import org.tridas.schema.ComplexPresenceAbsence;
 import org.tridas.schema.PresenceAbsence;
 import org.tridas.schema.TridasBark;
+import org.tridas.schema.TridasDerivedSeries;
 import org.tridas.schema.TridasElement;
 import org.tridas.schema.TridasHeartwood;
 import org.tridas.schema.TridasMeasurementSeries;
@@ -124,6 +125,7 @@ public class Past4ToTridasDefaults extends TridasMetadataFieldSet {
 		if(getIntegerDefaultValue(DefaultFields.SAPWOOD).getValue()!=null)
 		{
 			sapwood.setNrOfSapwoodRings(getIntegerDefaultValue(DefaultFields.SAPWOOD).getValue());
+			sapwood.setPresence(ComplexPresenceAbsence.UNKNOWN);
 			include = true;
 		}
 		else
@@ -143,6 +145,13 @@ public class Past4ToTridasDefaults extends TridasMetadataFieldSet {
 		return null;
 		
 	}
+	
+	protected TridasDerivedSeries getDefaultTridasDerivedSeries()
+	{
+		TridasDerivedSeries ds = super.getDefaultTridasDerivedSeries();
+		return ds;
+	}
+	
 	
 	protected TridasMeasurementSeries getDefaultTridasMeasurementSeries()
 	{
