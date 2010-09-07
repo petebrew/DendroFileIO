@@ -72,14 +72,18 @@ public class TridasFile implements IDendroFile {
 		
 		// Validate output against schema first
 		SchemaFactory factory = SchemaFactory.newInstance(XMLConstants.W3C_XML_SCHEMA_NS_URI);
-		URL file = IOUtils.getFileInJarURL("tridas.xsd");
-		try {
-			schema = factory.newSchema(file);
-		} catch (SAXException e) {
-			log.error("Error getting TRiDaS schema for validation, not using.");
-			log.dbe(DebugLevel.L2_ERROR, e);
-			defaults.addConversionWarning(new ConversionWarning(WarningType.DEFAULT,
-					I18n.getText("fileio.errorGettingSchema")));
+		URL file = IOUtils.getFileInJarURL("schemas/tridas-1.2.1.xsd");
+		if(file == null){
+			log.error("Could not find schema file");
+		}else{
+			try {
+				schema = factory.newSchema(file);
+			} catch (SAXException e) {
+				log.error("Error getting TRiDaS schema for validation, not using.");
+				log.dbe(DebugLevel.L2_ERROR, e);
+				defaults.addConversionWarning(new ConversionWarning(WarningType.DEFAULT,
+						I18n.getText("fileio.errorGettingSchema")));
+			}
 		}
 		
 		StringWriter swriter = new StringWriter();
