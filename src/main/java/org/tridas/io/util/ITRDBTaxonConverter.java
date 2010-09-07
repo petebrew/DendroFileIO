@@ -98,6 +98,37 @@ public class ITRDBTaxonConverter {
 	}
 	
 	/**
+	 * Creates a taxon ControlledVoc from the given string.  The string
+	 * should be either an ITRDB code or a species name.  
+	 * 
+	 * @param str
+	 * @return
+	 */
+	public static ControlledVoc getControlledVocFromString(String str)
+	{
+		if(str.length()==4)
+		{
+			// String is 4 chars long so probably an ITRDB code
+			ControlledVoc cv = getControlledVocFromCode(str);
+			if(cv.isSetNormal())
+			{
+				// A controlled vocab has been returned so all is well
+				return cv;
+			}
+			else
+			{
+				// Non-standardised response so lets try again as if its a name
+				return getControlledVocFromName(str);
+			}
+		}
+		else
+		{
+			// Probably a taxon name
+			return getControlledVocFromName(str);
+		}
+	}
+	
+	/**
 	 * Get the four letter code for this latin name. Note that this is
 	 * a simple text string match so the latin name must be precisely
 	 * the same (including authority) to get a hit.
@@ -126,19 +157,19 @@ public class ITRDBTaxonConverter {
 	 * @param code
 	 * @return
 	 */
-	public static ControlledVoc getControlledVocFromCode(String code) {
+	public static ControlledVoc getControlledVocFromCode(String incode) {
 		
 		ControlledVoc taxon = new ControlledVoc();
-		
-		if (code == null) {
+		String code;
+		if (incode == null) {
 			code = defaultCode;
 		}
-		else if (code.equals("")) {
+		else if (incode.equals("")) {
 			code = defaultCode;
 		}
 		else
 		{
-			code = code.toUpperCase();
+			code = incode.toUpperCase();
 		}
 		
 		if (ITRDBTaxonConverter.getNameFromCode(code) != code) {
@@ -150,7 +181,7 @@ public class ITRDBTaxonConverter {
 		}
 		else {
 			// Not match so make simple tag with supplied value
-			taxon.setValue(code);
+			taxon.setValue(incode);
 		}
 		
 		return taxon;

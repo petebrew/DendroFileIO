@@ -355,10 +355,18 @@ public class Past4Reader extends AbstractDendroFileReader {
 
 		}
 		
+		// Set the offset of this series
+		if(record.hasAttribute("Species"))
+		{
+			defaults.getStringDefaultValue(DefaultFields.SPECIES).setValue(record.getAttribute("Species"));
+		}
+
+		
 		TridasElement el = defaults.getDefaultTridasElement();
 		TridasSample samp = defaults.getDefaultTridasSample();
 		TridasRadius radius = defaults.getDefaultTridasRadius();
-		TridasMeasurementSeries series = defaults.getMeasurementSeriesWithDefaults();
+		TridasMeasurementSeries series = defaults.getDefaultTridasMeasurementSeries();
+
 		
 		
 		NodeList children = record.getChildNodes();
