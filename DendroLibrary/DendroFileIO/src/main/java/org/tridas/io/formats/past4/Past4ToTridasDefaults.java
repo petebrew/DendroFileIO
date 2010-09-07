@@ -7,13 +7,22 @@ import org.tridas.io.defaults.values.IntegerDefaultValue;
 import org.tridas.io.defaults.values.Past4BooleanDefaultValue;
 import org.tridas.io.defaults.values.StringDefaultValue;
 import org.tridas.io.formats.past4.TridasToPast4Defaults.DefaultFields;
+import org.tridas.io.util.ITRDBTaxonConverter;
+import org.tridas.schema.ComplexPresenceAbsence;
+import org.tridas.schema.PresenceAbsence;
+import org.tridas.schema.TridasBark;
 import org.tridas.schema.TridasElement;
+import org.tridas.schema.TridasHeartwood;
+import org.tridas.schema.TridasMeasurementSeries;
+import org.tridas.schema.TridasPith;
 import org.tridas.schema.TridasProject;
 import org.tridas.schema.TridasRadius;
 import org.tridas.schema.TridasSample;
+import org.tridas.schema.TridasSapwood;
 import org.tridas.schema.TridasUnitless;
 import org.tridas.schema.TridasValues;
 import org.tridas.schema.TridasVariable;
+import org.tridas.schema.TridasWoodCompleteness;
 
 
 public class Past4ToTridasDefaults extends TridasMetadataFieldSet {
@@ -83,6 +92,66 @@ public class Past4ToTridasDefaults extends TridasMetadataFieldSet {
 		
 	}
 	
+	protected TridasWoodCompleteness getDefaultWoodCompleteness(){
+		Boolean include = false;
+		TridasWoodCompleteness wc = new TridasWoodCompleteness();
+		TridasPith pith = new TridasPith();
+		TridasSapwood sapwood = new TridasSapwood();
+		TridasHeartwood heartwood = new TridasHeartwood();
+		TridasBark bark = new TridasBark();
+		
+		heartwood.setPresence(ComplexPresenceAbsence.UNKNOWN);
+		bark.setPresence(PresenceAbsence.ABSENT);
+		
+		if(getPast4BooleanDefaultValue(DefaultFields.PITH).getValue()!=null)
+		{
+			if(getPast4BooleanDefaultValue(DefaultFields.PITH).getValue()==true)
+			{
+				pith.setPresence(ComplexPresenceAbsence.COMPLETE);
+				include = true;
+			}
+			else 
+			{
+				pith.setPresence(ComplexPresenceAbsence.ABSENT);
+				include = true;
+			}
+		}
+		else
+		{
+			pith.setPresence(ComplexPresenceAbsence.UNKNOWN);
+		}
+		
+		if(getIntegerDefaultValue(DefaultFields.SAPWOOD).getValue()!=null)
+		{
+			sapwood.setNrOfSapwoodRings(getIntegerDefaultValue(DefaultFields.SAPWOOD).getValue());
+			include = true;
+		}
+		else
+		{
+			sapwood.setPresence(ComplexPresenceAbsence.UNKNOWN);
+		}
+		
+		if(include)
+		{
+			wc.setSapwood(sapwood);
+			wc.setHeartwood(heartwood);
+			wc.setPith(pith);
+			wc.setBark(bark);
+			return wc;
+		}
+		
+		return null;
+		
+	}
+	
+	protected TridasMeasurementSeries getDefaultTridasMeasurementSeries()
+	{
+		TridasMeasurementSeries ms = super.getDefaultTridasMeasurementSeries();
+		
+		ms.setWoodCompleteness(getDefaultWoodCompleteness());
+		
+		return ms;
+	}
 	
 	/**
 	 * @see org.tridas.io.defaults.TridasMetadataFieldSet#getDefaultTridasProject()
@@ -120,6 +189,13 @@ public class Past4ToTridasDefaults extends TridasMetadataFieldSet {
 	
 	protected TridasElement getDefaultTridasElement() {
 		TridasElement e = super.getDefaultTridasElement();
+		
+		if(getStringDefaultValue(DefaultFields.SPECIES).getStringValue()!=null)
+		{
+			e.setTaxon(ITRDBTaxonConverter.getControlledVocFromString(getStringDefaultValue(DefaultFields.SPECIES).getStringValue()));
+		}
+		
+		
 		
 		return e;
 	}

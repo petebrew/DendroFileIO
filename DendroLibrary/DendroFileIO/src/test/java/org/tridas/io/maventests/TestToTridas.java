@@ -125,7 +125,7 @@ public class TestToTridas extends TestCase {
 		}
 		
 		for (String filename : files) {
-			if(!filename.equals("title0.p4p")) { continue; }
+			if(!filename.equals("Voorburg 1988.p4p")) { continue; }
 			
 			log.info("Test conversion of: " + filename);
 			
