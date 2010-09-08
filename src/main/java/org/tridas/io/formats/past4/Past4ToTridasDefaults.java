@@ -1,5 +1,6 @@
 package org.tridas.io.formats.past4;
 
+import org.tridas.io.I18n;
 import org.tridas.io.defaults.TridasMetadataFieldSet;
 import org.tridas.io.defaults.values.DateTimeDefaultValue;
 import org.tridas.io.defaults.values.GenericDefaultValue;
@@ -9,17 +10,21 @@ import org.tridas.io.defaults.values.StringDefaultValue;
 import org.tridas.io.formats.past4.TridasToPast4Defaults.DefaultFields;
 import org.tridas.io.util.ITRDBTaxonConverter;
 import org.tridas.schema.ComplexPresenceAbsence;
+import org.tridas.schema.ControlledVoc;
 import org.tridas.schema.PresenceAbsence;
 import org.tridas.schema.TridasBark;
 import org.tridas.schema.TridasDerivedSeries;
 import org.tridas.schema.TridasElement;
+import org.tridas.schema.TridasGenericField;
 import org.tridas.schema.TridasHeartwood;
 import org.tridas.schema.TridasMeasurementSeries;
+import org.tridas.schema.TridasObject;
 import org.tridas.schema.TridasPith;
 import org.tridas.schema.TridasProject;
 import org.tridas.schema.TridasRadius;
 import org.tridas.schema.TridasSample;
 import org.tridas.schema.TridasSapwood;
+import org.tridas.schema.TridasUnit;
 import org.tridas.schema.TridasUnitless;
 import org.tridas.schema.TridasValues;
 import org.tridas.schema.TridasVariable;
@@ -27,7 +32,10 @@ import org.tridas.schema.TridasWoodCompleteness;
 
 
 public class Past4ToTridasDefaults extends TridasMetadataFieldSet {
-
+	
+	enum HeaderFields{
+		PERSID;
+	}
 	
 	
 	@Override
@@ -61,7 +69,7 @@ public class Past4ToTridasDefaults extends TridasMetadataFieldSet {
 		setDefaultValue(DefaultFields.GRP_COLOR, new IntegerDefaultValue());
 		setDefaultValue(DefaultFields.GRP_QUALITY, new IntegerDefaultValue(null));
 		setDefaultValue(DefaultFields.GRP_MV_KEYCODE, new StringDefaultValue());
-		setDefaultValue(DefaultFields.GRP_OWNER, new IntegerDefaultValue(-1));
+		setDefaultValue(DefaultFields.GRP_OWNER, new IntegerDefaultValue(-1, -1, Integer.MAX_VALUE));
 		setDefaultValue(DefaultFields.GRP_DESCRIPTION, new StringDefaultValue());
 
 		setDefaultValue(DefaultFields.KEYCODE, new StringDefaultValue());
@@ -90,7 +98,8 @@ public class Past4ToTridasDefaults extends TridasMetadataFieldSet {
 		setDefaultValue(DefaultFields.USE_VALID_RINGS_ONLY, new Past4BooleanDefaultValue(false));
 		setDefaultValue(DefaultFields.QUALITY, new IntegerDefaultValue());
 		
-		
+		setDefaultValue(HeaderFields.PERSID, new StringDefaultValue());
+
 	}
 	
 	protected TridasWoodCompleteness getDefaultWoodCompleteness(){
@@ -145,10 +154,23 @@ public class Past4ToTridasDefaults extends TridasMetadataFieldSet {
 		return null;
 		
 	}
-	
+		
 	protected TridasDerivedSeries getDefaultTridasDerivedSeries()
 	{
 		TridasDerivedSeries ds = super.getDefaultTridasDerivedSeries();
+		
+		// Title
+		if(getStringDefaultValue(DefaultFields.KEYCODE).getStringValue()!=null)
+		{
+			ds.setTitle(getStringDefaultValue(DefaultFields.KEYCODE).getStringValue());
+		}
+		
+		// Author
+		if(getStringDefaultValue(HeaderFields.PERSID).getStringValue()!=null)
+		{
+			ds.setAuthor(getStringDefaultValue(HeaderFields.PERSID).getStringValue());
+		}
+		
 		return ds;
 	}
 	
@@ -156,6 +178,18 @@ public class Past4ToTridasDefaults extends TridasMetadataFieldSet {
 	protected TridasMeasurementSeries getDefaultTridasMeasurementSeries()
 	{
 		TridasMeasurementSeries ms = super.getDefaultTridasMeasurementSeries();
+		
+		// Title
+		if(getStringDefaultValue(DefaultFields.KEYCODE).getStringValue()!=null)
+		{
+			ms.setTitle(getStringDefaultValue(DefaultFields.KEYCODE).getStringValue());
+		}
+		
+		// Analyst
+		if(getStringDefaultValue(HeaderFields.PERSID).getStringValue()!=null)
+		{
+			ms.setAnalyst(getStringDefaultValue(HeaderFields.PERSID).getStringValue());
+		}
 		
 		ms.setWoodCompleteness(getDefaultWoodCompleteness());
 		
@@ -196,6 +230,47 @@ public class Past4ToTridasDefaults extends TridasMetadataFieldSet {
 	}
 	
 	
+	/**
+	 * @see org.tridas.io.defaults.TridasMetadataFieldSet#getDefaultTridasObject()
+	 */
+	@Override
+	protected TridasObject getDefaultTridasObject() {
+		TridasObject o = super.getDefaultTridasObject();
+		
+		// Name
+		if(getStringDefaultValue(DefaultFields.GRP_NAME).getValue()!=null)
+		{
+			o.setTitle(getStringDefaultValue(DefaultFields.GRP_NAME).getValue());
+		}
+		
+		// Type
+		ControlledVoc type = new ControlledVoc();
+		type.setValue("PAST4 Group");
+		o.setType(type);
+		
+		// Owner
+		if(getIntegerDefaultValue(DefaultFields.GRP_OWNER).getValue()!=null)
+		{
+			TridasGenericField gf = new TridasGenericField();
+			gf.setName("past4.ownerIndex");
+			gf.setValue(String.valueOf(getIntegerDefaultValue(DefaultFields.GRP_OWNER).getValue()));
+			gf.setType("xs:int");
+			o.getGenericFields().add(gf);
+		}
+		
+		// Quality
+		if(getIntegerDefaultValue(DefaultFields.GRP_QUALITY).getValue()!=null)
+		{
+			TridasGenericField gf = new TridasGenericField();
+			gf.setName("past4.qualityIndex");
+			gf.setValue(String.valueOf(getIntegerDefaultValue(DefaultFields.GRP_QUALITY).getValue()));
+			gf.setType("xs:int");
+			o.getGenericFields().add(gf);
+		}
+		
+		return o;
+	}
+	
 	protected TridasElement getDefaultTridasElement() {
 		TridasElement e = super.getDefaultTridasElement();
 		
@@ -224,7 +299,10 @@ public class Past4ToTridasDefaults extends TridasMetadataFieldSet {
 	public TridasValues getTridasValuesWithDefaults() {
 		TridasValues valuesGroup = new TridasValues();
 		
-		valuesGroup.setUnitless(new TridasUnitless());
+		//valuesGroup.setUnitless(new TridasUnitless());
+		TridasUnit units = new TridasUnit();
+		units.setValue(I18n.getText("unknown"));
+		valuesGroup.setUnit(units);
 
 		GenericDefaultValue<TridasVariable> variable = (GenericDefaultValue<TridasVariable>) getDefaultValue(TridasMandatoryField.MEASUREMENTSERIES_VARIABLE);
 		valuesGroup.setVariable(variable.getValue());
