@@ -3,7 +3,11 @@ package org.tridas.io.formats.past4;
 import java.io.IOException;
 import java.io.StringReader;
 import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.Iterator;
 import java.util.List;
+import java.util.Map;
+import java.util.Set;
 
 import javax.xml.parsers.DocumentBuilder;
 import javax.xml.parsers.DocumentBuilderFactory;
@@ -18,11 +22,13 @@ import org.tridas.io.defaults.IMetadataFieldSet;
 import org.tridas.io.exceptions.ConversionWarning;
 import org.tridas.io.exceptions.InvalidDendroFileException;
 import org.tridas.io.exceptions.ConversionWarning.WarningType;
+import org.tridas.io.formats.past4.Past4ToTridasDefaults.HeaderFields;
 import org.tridas.io.formats.past4.TridasToPast4Defaults.DefaultFields;
 import org.tridas.io.util.DateUtils;
 import org.tridas.io.util.TridasUtils;
 import org.tridas.schema.TridasDerivedSeries;
 import org.tridas.schema.TridasElement;
+import org.tridas.schema.TridasGenericField;
 import org.tridas.schema.TridasMeasurementSeries;
 import org.tridas.schema.TridasMeasurementSeriesPlaceholder;
 import org.tridas.schema.TridasObject;
@@ -37,6 +43,7 @@ import org.tridas.schema.TridasValues;
 import org.w3c.dom.CDATASection;
 import org.w3c.dom.Document;
 import org.w3c.dom.Element;
+import org.w3c.dom.Node;
 import org.w3c.dom.NodeList;
 
 import org.xml.sax.InputSource;
@@ -45,6 +52,7 @@ import org.xml.sax.SAXException;
 public class Past4Reader extends AbstractDendroFileReader {
 	private static final SimpleLogger log = new SimpleLogger(Past4Reader.class);
 	private Past4ToTridasDefaults defaults = null;
+	private Past4ToTridasDefaults originalDefaults = null;
 	private Integer numOfRecords = 0;
 	private Integer numOfGroups = 0;
 	private Integer length = 0;
@@ -96,7 +104,13 @@ public class Past4Reader extends AbstractDendroFileReader {
 		return I18n.getText("past4.about.shortName");
 	}
 	
-	
+	/**
+	 * Get XML Document from array of strings
+	 * 
+	 * @param argFileString
+	 * @return
+	 * @throws InvalidDendroFileException
+	 */
 	private Document getDocument(String[] argFileString) throws InvalidDendroFileException
 	{
 		// Recombine lines of file into a single string
@@ -140,44 +154,203 @@ public class Past4Reader extends AbstractDendroFileReader {
 		
 		log.debug("Parsing: " + argFileString);
 		defaults = (Past4ToTridasDefaults) argDefaultFields;
+		originalDefaults = defaults;
 		
 		Document doc = getDocument(argFileString); 
 
 		// Handle PROJECT tag
 		extractProjectInfo(doc);
 		
-		project = defaults.getProjectWithDefaults();
-		
-	
-		
 		// Handle GROUPS tags
+		extractGroupInfo(doc);
+			
+		// Handle RECORDS tags
+		extractRecordInfo(doc);			
+		
+		
+	}
+
+	/**
+	 * Extract information from the GROUP tags of a PAST4 XML File
+	 * 
+	 * @param doc
+	 * @throws InvalidDendroFileException
+	 */
+	@SuppressWarnings("unchecked")
+	private void extractGroupInfo(Document doc) throws InvalidDendroFileException
+	{
+
 		NodeList groups = doc.getElementsByTagName("GROUP");
 		if(groups.getLength()!=this.numOfGroups)
 		{
 			throw new InvalidDendroFileException(I18n.getText("past4.numOfGroupsDiscrepancy"));
 		}
 		
-		TridasObject object = defaults.getObjectWithDefaults();
-		project.getObjects().add(object);
+		HashMap<Integer, TridasObject> objMap = new HashMap<Integer, TridasObject>();
 		
-			
-		
-		
-		// Handle RECORDS tags
-		NodeList records = doc.getElementsByTagName("RECORD");
-		if(records.getLength()!=this.numOfRecords)
+		for(int i=0; i<groups.getLength(); i++)
 		{
-			throw new InvalidDendroFileException(I18n.getText("past4.numOfRecordsDiscrepancy"));
+			Element grp = (Element) groups.item(i);
+			objMap.put(i, createObjectFromGroup(grp, i));			
 		}
 		
-		for (int i=0; i<records.getLength(); i++)
-		{		
-			Element record = (Element) records.item(i);	
-			extractRecordInfo(record);			
+		Set set = objMap.entrySet();
+		Iterator  i = set.iterator();
+		
+		while(i.hasNext())
+		{
+			Map.Entry<Integer, TridasObject> hm = (Map.Entry<Integer, TridasObject>)i.next();
+			
+			Integer ownerIndex = getOwnerIndexFromObject(hm.getValue());
+		
+			if(ownerIndex==null)
+			{
+				throw new InvalidDendroFileException("past4.groupsCorrupted");
+			}
+			else if(ownerIndex==-1)
+			{
+				project.getObjects().add(hm.getValue());
+			}
+			else
+			{
+				TridasObject parentObject = getObjectByIndex(ownerIndex);
+				
+				if(parentObject==null)
+				{
+					throw new InvalidDendroFileException("past4.groupsCorrupted");
+				}
+				parentObject.getObjects().add(hm.getValue());
+			}	
 		}
 		
 	}
-
+	
+	/**
+	 * Get the TridasObject by the position index in the original file 
+	 * 
+	 * @param index
+	 * @return
+	 */
+	private TridasObject getObjectByIndex(Integer index)
+	{
+		for(TridasObject o: TridasUtils.getObjectList(project))
+		{
+			Integer thisIndex = getIndexFromObject(o);
+			
+			
+			if(thisIndex.equals(index))
+			{
+				return o;
+			}
+		}
+		
+		return null;
+	}
+	
+	/**
+	 * Get the position index of the GROUP tag that is the 'owner' of the specified
+	 * TridasObject
+	 * 
+	 * @param obj
+	 * @return
+	 */
+	private Integer getOwnerIndexFromObject(TridasObject obj)
+	{
+	
+		for(TridasGenericField gf : obj.getGenericFields())
+		{
+			if(gf.getName().equals("past4.ownerIndex"))
+			{
+				return Integer.valueOf(gf.getValue());
+			}
+		}
+		
+		return null;	
+	}
+	
+	/**
+	 * Get the position in the file of the GROUP tag that is represented by
+	 * the specified TridasObject
+	 *  
+	 * @param obj
+	 * @return
+	 */
+	private Integer getIndexFromObject(TridasObject obj)
+	{
+	
+		for(TridasGenericField gf : obj.getGenericFields())
+		{
+			if(gf.getName().equals("past4.thisIndex"))
+			{
+				return Integer.valueOf(gf.getValue());
+			}
+		}
+		
+		return null;	
+	}
+	
+	/**
+	 * Create a TridasObject from a PAST4 GROUP tag.  The index at which this group is within the 
+	 * file must be supplied
+	 * 
+	 * @param group
+	 * @param index
+	 * @return
+	 * @throws InvalidDendroFileException
+	 */
+	private TridasObject createObjectFromGroup(Element group, Integer index) throws InvalidDendroFileException
+	{
+		Past4ToTridasDefaults objDefaults = (Past4ToTridasDefaults) defaults.clone();
+		
+		// Set the project name	
+		if(group.hasAttribute("Name"))
+		{
+			objDefaults.getStringDefaultValue(DefaultFields.GRP_NAME).setValue(group.getAttribute("Name").toString());
+		}
+		else
+		{
+			throw new InvalidDendroFileException(I18n.getText("past4.missingMandatoryField", "group", "name"));
+		}
+			
+		
+		// Set the project name	
+		if(group.hasAttribute("Owner"))
+		{
+			try {
+				objDefaults.getIntegerDefaultValue(DefaultFields.GRP_OWNER)
+					.setValue(Integer.valueOf(group.getAttribute("Owner")));
+			} catch (NumberFormatException e) {
+				throw new InvalidDendroFileException(I18n.getText("fileio.invalidGroupOwner"));
+			}
+		}
+		else
+		{
+			throw new InvalidDendroFileException(I18n.getText("past4.missingMandatoryField", "group", "owner"));
+		}
+		
+		// Set the quality	
+		if(group.hasAttribute("Quality"))
+		{
+			try {
+				objDefaults.getIntegerDefaultValue(DefaultFields.GRP_QUALITY)
+					.setValue(Integer.valueOf(group.getAttribute("Quality")));
+			} catch (NumberFormatException e) {	}
+		}
+		
+		
+		// Generate the object
+		TridasObject object = objDefaults.getObjectWithDefaults();
+		
+		TridasGenericField gf = new TridasGenericField();
+		gf.setName("past4.thisIndex");
+		gf.setType("xs:int");
+		gf.setValue(String.valueOf(index));
+		object.getGenericFields().add(gf);
+		
+		return object;
+	}
+	
+	
 	/**
 	 * Extract information from the PROJECT tag of a PAST4 XML file
 	 * 
@@ -278,204 +451,272 @@ public class Past4Reader extends AbstractDendroFileReader {
 			throw new InvalidDendroFileException(I18n.getText("past4.missingMandatoryField", "project", "records"));
 		}
 		
+		
+		project = defaults.getProjectWithDefaults();
 	}
 	
 	/**
-	 * Extract series information from a RECORD tag
+	 * Extract series information from the XML document
 	 * 
-	 * @param record
+	 * @param doc
 	 * @throws InvalidDendroFileException
 	 */
-	private void extractRecordInfo(Element record) throws InvalidDendroFileException
+	private void extractRecordInfo(Document doc) throws InvalidDendroFileException
 	{
-		if(record==null)
+		Past4ToTridasDefaults currDefaults = (Past4ToTridasDefaults) defaults.clone();
+		
+		NodeList records = doc.getElementsByTagName("RECORD");
+		if(records.getLength()!=this.numOfRecords)
 		{
-			return;
+			throw new InvalidDendroFileException(I18n.getText("past4.numOfRecordsDiscrepancy"));
 		}
 		
-		// Set the series name	
-		if(record.hasAttribute("Keycode"))
-		{
-			defaults.getStringDefaultValue(DefaultFields.KEYCODE).setValue(record.getAttribute("Keycode").toString());
-		}
-		else
-		{
-			throw new InvalidDendroFileException(I18n.getText("past4.missingMandatoryField", "record", "keycode"));
-		}
-		
-		// Set the index of the owner element of this record
-		if(record.hasAttribute("Owner"))
-		{
-			try{
-			defaults.getIntegerDefaultValue(DefaultFields.OWNER).setValue(Integer.valueOf(record.getAttribute("Owner")));
-			} catch (NumberFormatException e)
+		for (int reci=0; reci<records.getLength(); reci++)
+		{		
+			Element record = (Element) records.item(reci);	
+
+			if(record==null)
 			{
-				throw new InvalidDendroFileException(I18n.getText("past4.missingMandatoryField", "record", "owner"));
+				continue;
 			}
-		}
-		else
-		{
-			throw new InvalidDendroFileException(I18n.getText("past4.missingMandatoryField", "record", "owner"));
-
-		}
-		
-		// Set the length of this series
-		if(record.hasAttribute("Length"))
-		{
-			try{
-				length = Integer.valueOf(record.getAttribute("Length"));
-				defaults.getIntegerDefaultValue(DefaultFields.LENGTH).setValue(length);
-				} catch (NumberFormatException e)
-				{
-					throw new InvalidDendroFileException(I18n.getText("past4.missingMandatoryField", "record", "length"));
-				}
-		}
-		else
-		{
-			throw new InvalidDendroFileException(I18n.getText("past4.missingMandatoryField", "record", "length"));
-
-		}
-
-		// Set the offset of this series
-		if(record.hasAttribute("Offset"))
-		{
-			try{
-				defaults.getIntegerDefaultValue(DefaultFields.OFFSET).setValue(Integer.valueOf(record.getAttribute("Offset")));
-				} catch (NumberFormatException e)
-				{
-					throw new InvalidDendroFileException(I18n.getText("past4.missingMandatoryField", "record", "offset"));
-				}
-		}
-		else
-		{
-			throw new InvalidDendroFileException(I18n.getText("past4.missingMandatoryField", "record", "offset"));
-
-		}
-		
-		// Set the offset of this series
-		if(record.hasAttribute("Species"))
-		{
-			defaults.getStringDefaultValue(DefaultFields.SPECIES).setValue(record.getAttribute("Species"));
-		}
-
-		// Is this a dynamic mean?
-		Boolean isDerivedSeries = null;
-		if(record.hasAttribute("IsMeanValue"))
-		{
-			defaults.getPast4BooleanDefaultValue(DefaultFields.IS_MEAN_VALUE).setValueFromString(record.getAttribute("IsMeanValue"));
-			isDerivedSeries = defaults.getPast4BooleanDefaultValue(DefaultFields.IS_MEAN_VALUE).getValue();
-		}
-		
-		// Is filtered?
-		Boolean isFilteredSeries = null;
-		if(record.hasAttribute("Filter"))
-		{
-			defaults.getPast4BooleanDefaultValue(DefaultFields.FILTER).setValueFromString(record.getAttribute("Filter"));
-			isFilteredSeries = defaults.getPast4BooleanDefaultValue(DefaultFields.FILTER).getValue();
-			isDerivedSeries = true;
-		}
-		
-		
-		// Pith
-		if(record.hasAttribute("Pith"))
-		{
-			defaults.getPast4BooleanDefaultValue(DefaultFields.PITH).setValueFromString(record.getAttribute("Pith"));
-		}
-		
-		// Sapwood
-		if(record.hasAttribute("SapWood"))
-		{
-			try{
-				defaults.getIntegerDefaultValue(DefaultFields.SAPWOOD).setValue(Integer.valueOf(record.getAttribute("SapWood")));
-			} catch (NumberFormatException e)
+			
+			// Set the series name	
+			if(record.hasAttribute("Keycode"))
 			{
-				
-			}
-		}
-		
-		
-		TridasElement el = defaults.getDefaultTridasElement();
-		TridasSample samp = defaults.getDefaultTridasSample();
-		TridasRadius radius = defaults.getDefaultTridasRadius();
-		
-		// Set series depending on whether it's a mean or not
-		ITridasSeries series;
-		List<TridasValues> originalValues;
-		if(isDerivedSeries!=null)
-		{
-			if(isDerivedSeries)
-			{
-				series = defaults.getDefaultTridasDerivedSeries();
+				currDefaults.getStringDefaultValue(DefaultFields.KEYCODE).setValue(record.getAttribute("Keycode").toString());
 			}
 			else
 			{
-				series = defaults.getDefaultTridasMeasurementSeries();
+				throw new InvalidDendroFileException(I18n.getText("past4.missingMandatoryField", "record", "keycode"));
 			}
-		}
-		else
-		{
-			series = defaults.getDefaultTridasMeasurementSeries();
-		}
-		
-		// Now grab the actual data
-		NodeList children = record.getChildNodes();
-		for(int i=0; i<children.getLength(); i++)
-		{
-			if(children.item(i) instanceof Element)
+			
+			// Set the index of the owner element of this record
+			if(record.hasAttribute("Owner"))
 			{
-				Element child = (Element) children.item(i);
-				if(child.getTagName().equals("DATA"))
+				try{
+					currDefaults.getIntegerDefaultValue(DefaultFields.OWNER).setValue(Integer.valueOf(record.getAttribute("Owner")));
+				} catch (NumberFormatException e)
 				{
-					if(child.getFirstChild() instanceof CDATASection)
-					{
-						CDATASection content = (CDATASection) child.getFirstChild();
-						series.setValues(extractTridasValuesInfoFromContent(
-								content.getTextContent(),isDerivedSeries));
-						
-						if(isFilteredSeries)
-						{
-							originalValues = extractTridasValuesInfoFromContent(
-								content.getTextContent(),isDerivedSeries, true);
-						}
-						continue;
-					}
+					throw new InvalidDendroFileException(I18n.getText("past4.missingMandatoryField", "record", "owner"));
 				}
-				else if (child.getTagName().equals("HEADER"))
+			}
+			else
+			{
+				throw new InvalidDendroFileException(I18n.getText("past4.missingMandatoryField", "record", "owner"));
+	
+			}
+			
+			// Set the length of this series
+			if(record.hasAttribute("Length"))
+			{
+				try{
+					length = Integer.valueOf(record.getAttribute("Length"));
+					currDefaults.getIntegerDefaultValue(DefaultFields.LENGTH).setValue(length);
+					} catch (NumberFormatException e)
+					{
+						throw new InvalidDendroFileException(I18n.getText("past4.missingMandatoryField", "record", "length"));
+					}
+			}
+			else
+			{
+				throw new InvalidDendroFileException(I18n.getText("past4.missingMandatoryField", "record", "length"));
+	
+			}
+	
+			// Set the offset of this series
+			if(record.hasAttribute("Offset"))
+			{
+				try{
+					currDefaults.getIntegerDefaultValue(DefaultFields.OFFSET).setValue(Integer.valueOf(record.getAttribute("Offset")));
+					} catch (NumberFormatException e)
+					{
+						throw new InvalidDendroFileException(I18n.getText("past4.missingMandatoryField", "record", "offset"));
+					}
+			}
+			else
+			{
+				throw new InvalidDendroFileException(I18n.getText("past4.missingMandatoryField", "record", "offset"));
+	
+			}
+			
+			// Set the offset of this series
+			if(record.hasAttribute("Species"))
+			{
+				currDefaults.getStringDefaultValue(DefaultFields.SPECIES).setValue(record.getAttribute("Species"));
+			}
+	
+			// Is this a dynamic mean?
+			Boolean isDerivedSeries = null;
+			if(record.hasAttribute("IsMeanValue"))
+			{
+				currDefaults.getPast4BooleanDefaultValue(DefaultFields.IS_MEAN_VALUE).setValueFromString(record.getAttribute("IsMeanValue"));
+				isDerivedSeries = defaults.getPast4BooleanDefaultValue(DefaultFields.IS_MEAN_VALUE).getValue();
+			}
+			
+			// Is filtered?
+			/*Boolean isFilteredSeries = null;
+			if(record.hasAttribute("Filter"))
+			{
+				defaults.getPast4BooleanDefaultValue(DefaultFields.FILTER).setValueFromString(record.getAttribute("Filter"));
+				isFilteredSeries = defaults.getPast4BooleanDefaultValue(DefaultFields.FILTER).getValue();
+				isDerivedSeries = true;
+			}*/
+			
+			
+			// Pith
+			if(record.hasAttribute("Pith"))
+			{
+				currDefaults.getPast4BooleanDefaultValue(DefaultFields.PITH).setValueFromString(record.getAttribute("Pith"));
+			}
+			
+			// Sapwood
+			if(record.hasAttribute("SapWood"))
+			{
+				try{
+					currDefaults.getIntegerDefaultValue(DefaultFields.SAPWOOD).setValue(Integer.valueOf(record.getAttribute("SapWood")));
+				} catch (NumberFormatException e)
 				{
 					
 				}
 			}
+			
+			
+			TridasElement el = currDefaults.getDefaultTridasElement();
+			TridasSample samp = currDefaults.getDefaultTridasSample();
+			TridasRadius radius = currDefaults.getDefaultTridasRadius();
+			
+			// Set series depending on whether it's a mean or not
+			ITridasSeries series;
+			List<TridasValues> originalValues;
+			if(isDerivedSeries!=null)
+			{
+				if(isDerivedSeries)
+				{
+					series = currDefaults.getDefaultTridasDerivedSeries();
+				}
+				else
+				{
+					series = currDefaults.getDefaultTridasMeasurementSeries();
+				}
+			}
+			else
+			{
+				series = currDefaults.getDefaultTridasMeasurementSeries();
+			}
+			
+			// Now grab the actual data
+			NodeList children = record.getChildNodes();
+			for(int i=0; i<children.getLength(); i++)
+			{
+				if(children.item(i) instanceof Element)
+				{
+					Element child = (Element) children.item(i);
+					if(child.getTagName().equals("DATA"))
+					{
+						if(child.getFirstChild() instanceof CDATASection)
+						{
+							CDATASection content = (CDATASection) child.getFirstChild();
+							series.setValues(extractTridasValuesInfoFromContent(
+									content.getTextContent(),isDerivedSeries));
+							
+							/*if(isFilteredSeries)
+							{
+								originalValues = extractTridasValuesInfoFromContent(
+									content.getTextContent(),isDerivedSeries, true);
+							}
+							continue;*/
+						}
+					}
+					else if (child.getTagName().equals("HEADER"))
+					{
+						extractMetadataFromHeader(child);
+					}
+				}
+			}
+			
+			if(isDerivedSeries)
+			{
+				/*TridasRadiusPlaceholder rph = new TridasRadiusPlaceholder();
+				TridasMeasurementSeriesPlaceholder mph = new TridasMeasurementSeriesPlaceholder();
+				rph.setMeasurementSeriesPlaceholder(mph);
+				samp.setRadiusPlaceholder(rph);
+				el.getSamples().add(samp);*/
+				//project.getObjects().get(0).getElements().add(el);
+				project.getDerivedSeries().add((TridasDerivedSeries) series);
+			}
+			else
+			{
+				radius.getMeasurementSeries().add((TridasMeasurementSeries)series);
+				samp.getRadiuses().add(radius);
+				el.getSamples().add(samp);
+				
+				// Add to the correct part of the hierarchy
+				TridasObject parentObject = getObjectByIndex(currDefaults.getIntegerDefaultValue(DefaultFields.OWNER).getValue());
+				
+				if(parentObject!=null)
+				{
+					parentObject.getElements().add(el);
+				}
+				else
+				{
+					throw new InvalidDendroFileException(I18n.getText("past4.groupsCorrupted"));
+				}
+				
+			}
 		}
 		
-		if(isDerivedSeries)
-		{
-			/*TridasRadiusPlaceholder rph = new TridasRadiusPlaceholder();
-			TridasMeasurementSeriesPlaceholder mph = new TridasMeasurementSeriesPlaceholder();
-			rph.setMeasurementSeriesPlaceholder(mph);
-			samp.setRadiusPlaceholder(rph);
-			el.getSamples().add(samp);*/
-			//project.getObjects().get(0).getElements().add(el);
-			project.getDerivedSeries().add((TridasDerivedSeries) series);
-		}
-		else
-		{
-			radius.getMeasurementSeries().add((TridasMeasurementSeries)series);
-			samp.getRadiuses().add(radius);
-			el.getSamples().add(samp);
-			project.getObjects().get(0).getElements().add(el);
-		}
-		
-		
-		return;
+
 	}
 	
+	/**
+	 * Extract key=value metadata from XML Element
+	 * 
+	 * @param header
+	 */
+	private void extractMetadataFromHeader(Element header)
+	{
+		String blah = header.getFirstChild().getTextContent();
+		String[] lines = blah.split(System.getProperty("line.separator"));
+		
+		for (String line : lines)
+		{
+			String[] split = line.split("=");
+			if(split.length!=2) return;
+			
+			if (split[0].trim().equalsIgnoreCase("PersID"))
+			{
+				defaults.getStringDefaultValue(HeaderFields.PERSID).setValue(split[1].trim());
+			}
+			
+				
+			
+		}
+		
+	}
 	
+	/**
+	 * Extract a list of TridasValues from the content section of a PAST4 file
+	 * 
+	 * @param cdata
+	 * @param isDerivedSeries
+	 * @return
+	 * @throws InvalidDendroFileException
+	 */
 	private List<TridasValues> extractTridasValuesInfoFromContent(String cdata, Boolean isDerivedSeries) throws InvalidDendroFileException
 	{
 		return extractTridasValuesInfoFromContent(cdata, isDerivedSeries, false);
 	}
 	
 	
+	/**
+	 * Extract a list of TridasValues from the content section of a PAST4 file
+	 * 
+	 * @param cdata
+	 * @param isDerivedSeries
+	 * @param getUnfilteredData
+	 * @return
+	 * @throws InvalidDendroFileException
+	 */
 	private List<TridasValues> extractTridasValuesInfoFromContent(String cdata, Boolean isDerivedSeries, Boolean getUnfilteredData) throws InvalidDendroFileException
 	{
 		TridasValues valuesGroup = defaults.getTridasValuesWithDefaults();
@@ -533,17 +774,40 @@ public class Past4Reader extends AbstractDendroFileReader {
 	
 	@Override
 	public TridasProject getProject() {
+		
+		// Strip out temporary index genericFields
+		for(TridasObject o : TridasUtils.getObjectList(project))
+		{
+			TridasGenericField ownerIndex = null;
+			TridasGenericField thisIndex = null;
+			
+			for(TridasGenericField gf : o.getGenericFields())
+			{
+				if(gf.getName().equals("past4.ownerIndex"))
+				{
+					ownerIndex = gf;
+				}
+				else if(gf.getName().equals("past4.thisIndex"))
+				{
+					thisIndex = gf;
+				}
 				
+			}
+			if(ownerIndex!=null) o.getGenericFields().remove(ownerIndex);
+			if(thisIndex!=null) o.getGenericFields().remove(thisIndex);
+		}
+		
 		return project;
 	}
 	
 	@Override
 	protected void resetReader() {
+		project = null;
 		defaults = null;
+		originalDefaults = null;
 		numOfRecords = 0;
 		numOfGroups = 0;
 		length = 0;
-
 	}
 
 }
