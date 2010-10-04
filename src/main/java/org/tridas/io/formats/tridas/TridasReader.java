@@ -72,26 +72,36 @@ public class TridasReader extends AbstractDendroFileReader {
 		SchemaFactory factory = SchemaFactory.newInstance(XMLConstants.W3C_XML_SCHEMA_NS_URI);
 		URL file = IOUtils.getFileInJarURL("tridas.xsd");
 		Schema schema = null;
-		try {
-			schema = factory.newSchema(file);
-		} catch (Exception e) {
-			// if we can't find the schema it's ok, doesn't mean it's not an invalid
-			// dendro file
-			log.error(I18n.getText("tridas.schemaMissing", e.getLocalizedMessage()));
-			addWarning(new ConversionWarning(WarningType.INVALID, I18n.getText("tridas.schemaMissing", e
-					.getLocalizedMessage())));
+		if(file==null)
+		{
+			log.error(I18n.getText("tridas.schemaMissing"));
+			addWarning(new ConversionWarning(WarningType.INVALID, I18n.getText("tridas.schemaMissing")));
 		}
-		Validator validator = schema.newValidator();
-		StreamSource source = new StreamSource();
-		source.setReader(reader);
-		try {
-			validator.validate(source);
-		} catch (SAXException ex) {
-			throw new InvalidDendroFileException(I18n.getText("tridas.schemaException", ex.getLocalizedMessage()), 1);
+		else
+		{
+			try {
+				schema = factory.newSchema(file);
+			} catch (Exception e) {
+				// if we can't find the schema it's ok, doesn't mean it's not an invalid
+				// dendro file
+				log.error(I18n.getText("tridas.schemaMissing", e.getLocalizedMessage()));
+				addWarning(new ConversionWarning(WarningType.INVALID, I18n.getText("tridas.schemaMissing", e
+						.getLocalizedMessage())));
+			}
 			
-		} catch (IOException e) {
-			throw new InvalidDendroFileException(I18n.getText("tridas.schemaException", e.getLocalizedMessage()), 1);
+			Validator validator = schema.newValidator();
+			StreamSource source = new StreamSource();
+			source.setReader(reader);
+			try {
+				validator.validate(source);
+			} catch (SAXException ex) {
+				throw new InvalidDendroFileException(I18n.getText("tridas.schemaException", ex.getLocalizedMessage()), 1);
+				
+			} catch (IOException e) {
+				throw new InvalidDendroFileException(I18n.getText("tridas.schemaException", e.getLocalizedMessage()), 1);
+			}
 		}
+
 		
 		// All is ok so now unmarshall to Java classes
 		JAXBContext jc;
