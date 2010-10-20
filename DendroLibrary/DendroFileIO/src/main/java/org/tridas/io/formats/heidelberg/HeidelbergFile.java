@@ -168,7 +168,7 @@ public class HeidelbergFile implements IDendroFile {
 			}*/
 		}
 		else {
-			dataFormatField.setValue(FHDataFormat.Single);
+			dataFormatField.setValue(FHDataFormat.Tree);
 		}
 
 	}
@@ -241,7 +241,7 @@ public class HeidelbergFile implements IDendroFile {
 			file.add("DATA:HalfChrono");
 		}
 		else {
-			file.add("DATA:Single");
+			file.add("DATA:Tree");
 		}
 		
 		int j = 0;
