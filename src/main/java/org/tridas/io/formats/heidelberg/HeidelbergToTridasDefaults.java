@@ -39,6 +39,7 @@ import org.tridas.schema.TridasCoverage;
 import org.tridas.schema.TridasDerivedSeries;
 import org.tridas.schema.TridasDimensions;
 import org.tridas.schema.TridasElement;
+import org.tridas.schema.TridasGenericField;
 import org.tridas.schema.TridasIdentifier;
 import org.tridas.schema.TridasInterpretation;
 import org.tridas.schema.TridasLaboratory;
@@ -301,6 +302,17 @@ public class HeidelbergToTridasDefaults extends TridasMetadataFieldSet {
 			series.setAuthor(getStringDefaultValue(DefaultFields.PERS_ID).getStringValue());
 		}
 		
+		if(getStringDefaultValue(DefaultFields.KEYCODE).getStringValue()!=null)
+		{
+			TridasGenericField gf = new TridasGenericField();
+			gf.setName("keycode");
+			gf.setValue(getStringDefaultValue(DefaultFields.KEYCODE).getStringValue());
+			gf.setType("xs:string");
+			ArrayList<TridasGenericField> gflist = new ArrayList<TridasGenericField>();
+			gflist.add(gf);
+			series.setGenericFields(gflist);
+		}
+		
 		return series;
 	}
 	
@@ -340,10 +352,21 @@ public class HeidelbergToTridasDefaults extends TridasMetadataFieldSet {
 			series.setAnalyst(getStringDefaultValue(DefaultFields.PERS_ID).getStringValue());
 		}
 		
+		if(getStringDefaultValue(DefaultFields.KEYCODE).getStringValue()!=null)
+		{
+			TridasGenericField gf = new TridasGenericField();
+			gf.setName("keycode");
+			gf.setValue(getStringDefaultValue(DefaultFields.KEYCODE).getStringValue());
+			gf.setType("xs:string");
+			ArrayList<TridasGenericField> gflist = new ArrayList<TridasGenericField>();
+			gflist.add(gf);
+			series.setGenericFields(gflist);
+		}
+		
 		return series;
 	}
 	
-
+	
 	
 	@SuppressWarnings("unchecked")
 	public TridasValues getTridasValuesWithDefaults() {
