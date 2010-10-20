@@ -72,7 +72,7 @@ public class TridasFile implements IDendroFile {
 		
 		// Validate output against schema first
 		SchemaFactory factory = SchemaFactory.newInstance(XMLConstants.W3C_XML_SCHEMA_NS_URI);
-		URL file = IOUtils.getFileInJarURL("schemas/tridas-1.2.1.xsd");
+		URL file = IOUtils.getFileInJarURL("schemas/tridas.xsd");
 		if(file == null){
 			log.error("Could not find schema file");
 		}else{

@@ -36,9 +36,11 @@ import org.tridas.interfaces.ITridasSeries;
 import org.tridas.io.I18n;
 import org.tridas.io.IDendroFile;
 import org.tridas.io.defaults.IMetadataFieldSet;
+import org.tridas.io.formats.heidelberg.HeidelbergToTridasDefaults.DefaultFields;
 import org.tridas.io.util.SafeIntYear;
 import org.tridas.io.util.YearRange;
 import org.tridas.schema.DatingSuffix;
+import org.tridas.schema.TridasGenericField;
 import org.tridas.schema.TridasValue;
 import org.tridas.schema.Year;
 
@@ -257,7 +259,26 @@ public class ExcelMatrixFile implements IDendroFile {
 	private void writeMetadataColumn(WritableSheet s, Integer col, ITridasSeries series) throws RowsExceededException,
 			WriteException {
 		// Creates year label
-		Label l = new Label(col, 0, series.getTitle(), getHeaderFormat());
+		Label l;
+		String keycode = null;
+		if(series.isSetGenericFields())
+		{
+			for(TridasGenericField gf : series.getGenericFields())
+			{
+				if(gf.getName().toLowerCase().equals("keycode"))
+				{
+					keycode = gf.getValue();
+				}
+			}
+		}
+		if(keycode!=null)
+		{
+			l = new Label(col, 0, keycode, getHeaderFormat());
+		}
+		else
+		{
+			l = new Label(col, 0, series.getTitle(), getHeaderFormat());
+		}
 		s.addCell(l);
 		
 	}
@@ -276,7 +297,26 @@ public class ExcelMatrixFile implements IDendroFile {
 		List<TridasValue> values = series.getValues().get(0).getValues();
 		
 		// Creates year label
-		Label l = new Label(col, 0, series.getTitle(), getHeaderFormat());
+		Label l;
+		String keycode = null;
+		if(series.isSetGenericFields())
+		{
+			for(TridasGenericField gf : series.getGenericFields())
+			{
+				if(gf.getName().toLowerCase().equals("keycode"))
+				{
+					keycode = gf.getValue();
+				}
+			}
+		}
+		if(keycode!=null)
+		{
+			l = new Label(col, 0, keycode, getHeaderFormat());
+		}
+		else
+		{
+		    l = new Label(col, 0, series.getTitle(), getHeaderFormat());
+		}
 		s.addCell(l);
 		
 		// Calculate which row to start on
