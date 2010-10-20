@@ -48,6 +48,7 @@ import org.tridas.schema.PresenceAbsence;
 import org.tridas.schema.TridasBark;
 import org.tridas.schema.TridasDerivedSeries;
 import org.tridas.schema.TridasElement;
+import org.tridas.schema.TridasGenericField;
 import org.tridas.schema.TridasIdentifier;
 import org.tridas.schema.TridasInterpretation;
 import org.tridas.schema.TridasLastRingUnderBark;
@@ -362,7 +363,22 @@ public class TridasToHeidelbergDefaults extends AbstractMetadataFieldSet impleme
 		TridasIdentifier id = argSeries.getIdentifier();
 		
 		// KEYCODE
-		if (id != null) {
+		String keycode = null;
+		if(argSeries.isSetGenericFields())
+		{
+			for(TridasGenericField gf : argSeries.getGenericFields())
+			{
+				if(gf.getName().toLowerCase().equals("keycode"))
+				{
+					keycode = gf.getValue();
+				}
+			}
+		}
+		if(keycode!=null)
+		{
+			getStringDefaultValue(DefaultFields.KEYCODE).setValue(keycode);
+		}
+		else if (id != null) {
 			if (id.isSetValue()) {
 				getStringDefaultValue(DefaultFields.KEYCODE).setValue(id.getValue());
 			}
