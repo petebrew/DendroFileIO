@@ -31,6 +31,7 @@ import org.tridas.schema.PresenceAbsence;
 import org.tridas.schema.TridasBark;
 import org.tridas.schema.TridasDerivedSeries;
 import org.tridas.schema.TridasElement;
+import org.tridas.schema.TridasGenericField;
 import org.tridas.schema.TridasInterpretation;
 import org.tridas.schema.TridasMeasurementSeries;
 import org.tridas.schema.TridasPith;
@@ -113,6 +114,18 @@ public class CorinaToTridasDefaults extends TridasMetadataFieldSet implements
 		TridasInterpretation interp = new TridasInterpretation();
 		interp.setFirstYear(getSafeIntYearDefaultValue(DefaultFields.START_YEAR).getValue().toTridasYear(DatingSuffix.AD));
 		
+		
+		// ID > Generic field
+		if(getStringDefaultValue(DefaultFields.ID).getValue()!=null)
+		{
+			TridasGenericField gf = new TridasGenericField();
+			gf.setName("keycode");
+			gf.setType("xs:string");
+			gf.setValue(getStringDefaultValue(DefaultFields.ID).getValue());
+			series.getGenericFields().add(gf);
+		}
+		
+		
 		series.setInterpretation(interp);
 		return series;
 	}
@@ -150,7 +163,7 @@ public class CorinaToTridasDefaults extends TridasMetadataFieldSet implements
 		if(getStringDefaultValue(DefaultFields.PITH).getValue()!=null)
 		{
 			TridasPith pith = wc.getPith();
-			if(getStringDefaultValue(DefaultFields.PITH).getValue().equalsIgnoreCase("P"))
+			if(getStringDefaultValue(DefaultFields.PITH).getValue().equalsIgnoreCase("+"))
 			{
 				pith.setPresence(ComplexPresenceAbsence.COMPLETE);
 			}
@@ -195,6 +208,17 @@ public class CorinaToTridasDefaults extends TridasMetadataFieldSet implements
 		{
 			series.setComments(getStringDefaultValue(DefaultFields.COMMENTS).getValue());
 		}
+		
+		// ID > Generic field
+		if(getStringDefaultValue(DefaultFields.ID).getValue()!=null)
+		{
+			TridasGenericField gf = new TridasGenericField();
+			gf.setName("keycode");
+			gf.setType("xs:string");
+			gf.setValue(getStringDefaultValue(DefaultFields.ID).getValue());
+			series.getGenericFields().add(gf);
+		}
+		
 		
 		interp.setFirstYear(getSafeIntYearDefaultValue(DefaultFields.START_YEAR).getValue().toTridasYear(DatingSuffix.AD));
 		
