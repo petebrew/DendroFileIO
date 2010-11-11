@@ -40,6 +40,7 @@ import org.tridas.io.formats.heidelberg.HeidelbergToTridasDefaults.FHPith;
 import org.tridas.io.formats.heidelberg.HeidelbergToTridasDefaults.FHSeriesType;
 import org.tridas.io.formats.heidelberg.HeidelbergToTridasDefaults.FHStartsOrEndsWith;
 import org.tridas.io.formats.heidelberg.HeidelbergToTridasDefaults.FHWaldKante;
+import org.tridas.io.util.CoordinatesUtils;
 import org.tridas.io.util.ITRDBTaxonConverter;
 import org.tridas.io.util.SafeIntYear;
 import org.tridas.io.util.StringUtils;
@@ -548,14 +549,19 @@ public class HeidelbergReader extends AbstractDendroFileReader {
 			//LATITUDE, new DoubleDefaultValue());
 			if(fileMetadata.containsKey("latitude")){
 				try{
-				Boolean success = s.defaults.getDoubleDefaultValue(DefaultFields.LATITUDE).setValue(Double.parseDouble(fileMetadata.get("latitude")));
-				if(success==false)
+					Boolean success = s.defaults.getDoubleDefaultValue(DefaultFields.LATITUDE).setValue(CoordinatesUtils.parseLatLonFromHalfLatLongString(fileMetadata.get("latitude")));
+					if(success==false)
+					{
+						addWarning(new ConversionWarning(WarningType.INVALID, 
+								I18n.getText("location.latitude.invalid", fileMetadata.get("latitude")),
+								"Latitude"));
+					}
+				} catch (NumberFormatException e)
 				{
-					addWarning(new ConversionWarning(WarningType.INVALID, 
-							I18n.getText("location.latitude.invalid", fileMetadata.get("latitude")),
+					addWarning(new ConversionWarning(WarningType.INVALID,
+							e.getMessage(),
 							"Latitude"));
-				}
-				} catch(NumberFormatException e){ 
+				} catch(Exception e){ 
 					addWarning(new ConversionWarning(WarningType.INVALID, 
 							I18n.getText("heidelberg.invalidCoordinate"),
 							"Latitude"));
@@ -580,14 +586,19 @@ public class HeidelbergReader extends AbstractDendroFileReader {
 			//LONGITUDE, new StringDefaultValue());
 			if(fileMetadata.containsKey("longitude")){
 				try{
-				Boolean success = s.defaults.getDoubleDefaultValue(DefaultFields.LONGITUDE).setValue(Double.parseDouble(fileMetadata.get("Longitude")));
-				if(success==false)
+					Boolean success = s.defaults.getDoubleDefaultValue(DefaultFields.LONGITUDE).setValue(CoordinatesUtils.parseLatLonFromHalfLatLongString(fileMetadata.get("longitude")));
+					if(success==false)
+					{
+						addWarning(new ConversionWarning(WarningType.INVALID, 
+								I18n.getText("location.longitude.invalid", fileMetadata.get("longitude")),
+								"Longitude"));
+					}
+				}catch (NumberFormatException e)
 				{
-					addWarning(new ConversionWarning(WarningType.INVALID, 
-							I18n.getText("location.longitude.invalid", fileMetadata.get("longitude")),
+					addWarning(new ConversionWarning(WarningType.INVALID,
+							e.getMessage(),
 							"Longitude"));
-				}
-				} catch(NumberFormatException e){ 
+				} catch(Exception e){ 
 					addWarning(new ConversionWarning(WarningType.INVALID, 
 							I18n.getText("heidelberg.invalidCoordinate"),
 							"Longitude"));

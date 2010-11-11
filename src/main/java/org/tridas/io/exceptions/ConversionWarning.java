@@ -97,7 +97,7 @@ public class ConversionWarning {
 	 * @return
 	 */
 	public String toStringWithField() {
-		return type + " - " + (field != null ? " Field: " + field : " ") + message;
+		return type + (field != null ? " (" + field +") ": " ") + " - " + message;
 	}
 	
 	/**
