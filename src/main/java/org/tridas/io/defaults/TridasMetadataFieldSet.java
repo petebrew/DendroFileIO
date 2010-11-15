@@ -31,7 +31,6 @@ import org.tridas.schema.PresenceAbsence;
 import org.tridas.schema.SeriesLinks;
 import org.tridas.schema.TridasAddress;
 import org.tridas.schema.TridasBark;
-import org.tridas.schema.TridasCategory;
 import org.tridas.schema.TridasDerivedSeries;
 import org.tridas.schema.TridasElement;
 import org.tridas.schema.TridasHeartwood;
@@ -82,9 +81,9 @@ public class TridasMetadataFieldSet extends AbstractTridasMetadataFieldSet {
 		setDefaultValue(TridasMandatoryField.PROJECT_LABORATORIES,
 				new GenericDefaultValue<ArrayList<TridasLaboratory>>(projectLaboratories));
 		
-		TridasCategory projectCategory = new ObjectFactory().createTridasCategory();
+		ControlledVoc projectCategory = new ControlledVoc();
 		projectCategory.setValue(I18n.getText("unknown"));
-		setDefaultValue(TridasMandatoryField.PROJECT_CATEGORY, new GenericDefaultValue<TridasCategory>(projectCategory));
+		setDefaultValue(TridasMandatoryField.PROJECT_CATEGORY, new GenericDefaultValue<ControlledVoc>(projectCategory));
 		
 		setDefaultValue(TridasMandatoryField.PROJECT_INVESTIGATOR, new StringDefaultValue(I18n.getText("unknown")));
 		setDefaultValue(TridasMandatoryField.PROJECT_PERIOD, new StringDefaultValue(I18n.getText("unknown")));
@@ -140,7 +139,7 @@ public class TridasMetadataFieldSet extends AbstractTridasMetadataFieldSet {
 				.getValue());
 		project.setTitle(getDefaultValue(TridasMandatoryField.PROJECT_TITLE).getStringValue());
 		project.setInvestigator(getDefaultValue(TridasMandatoryField.PROJECT_INVESTIGATOR).getStringValue());
-		project.setCategory((TridasCategory) getDefaultValue(TridasMandatoryField.PROJECT_CATEGORY).getValue());
+		project.setCategory((ControlledVoc) getDefaultValue(TridasMandatoryField.PROJECT_CATEGORY).getValue());
 		project.setPeriod(getDefaultValue(TridasMandatoryField.PROJECT_PERIOD).getStringValue());
 		return project;
 	}

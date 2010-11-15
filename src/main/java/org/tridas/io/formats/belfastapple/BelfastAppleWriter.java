@@ -33,7 +33,6 @@ import org.tridas.schema.TridasMeasurementSeries;
 import org.tridas.schema.TridasObject;
 import org.tridas.schema.TridasProject;
 import org.tridas.schema.TridasRadius;
-import org.tridas.schema.TridasRadiusPlaceholder;
 import org.tridas.schema.TridasSample;
 
 public class BelfastAppleWriter extends AbstractDendroCollectionWriter {
@@ -103,14 +102,14 @@ public class BelfastAppleWriter extends AbstractDendroCollectionWriter {
 					}
 					
 					// Check this isn't a placeholder
-					TridasRadiusPlaceholder rph = null;
+					/*TridasRadiusPlaceholder rph = null;
 					try {
 						rph = s.getRadiusPlaceholder();
 					} catch (NullPointerException e) {}
 					
 					if (rph != null) {
 						continue;
-					}
+					}*/
 					
 					// Loop through radii
 					List<TridasRadius> rList;

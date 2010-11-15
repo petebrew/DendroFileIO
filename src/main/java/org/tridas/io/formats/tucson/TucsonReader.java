@@ -41,11 +41,9 @@ import org.tridas.schema.TridasDerivedSeries;
 import org.tridas.schema.TridasElement;
 import org.tridas.schema.TridasInterpretation;
 import org.tridas.schema.TridasMeasurementSeries;
-import org.tridas.schema.TridasMeasurementSeriesPlaceholder;
 import org.tridas.schema.TridasObject;
 import org.tridas.schema.TridasProject;
 import org.tridas.schema.TridasRadius;
-import org.tridas.schema.TridasRadiusPlaceholder;
 import org.tridas.schema.TridasSample;
 import org.tridas.schema.TridasValue;
 import org.tridas.schema.TridasValues;
@@ -185,10 +183,10 @@ public class TucsonReader extends AbstractDendroFileReader {
 				ds.setValues(valuesGroupList);
 
 				// Set link series
-				TridasRadiusPlaceholder rph= new TridasRadiusPlaceholder();
+				/*TridasRadiusPlaceholder rph= new TridasRadiusPlaceholder();
 				TridasMeasurementSeriesPlaceholder msph = series.defaults.getDefaultTridasMeasurementSeriesPlaceholder();
 				rph.setMeasurementSeriesPlaceholder(msph);
-				s.setRadiusPlaceholder(rph);
+				//s.setRadiusPlaceholder(rph);*/
 				ArrayList<TridasSample> slist = new ArrayList<TridasSample>();
 				slist.add(s);
 				e.setSamples(slist);
@@ -201,7 +199,7 @@ public class TucsonReader extends AbstractDendroFileReader {
 				SeriesLink link = new ObjectFactory().createSeriesLink();
 				IdRef ref = new ObjectFactory().createSeriesLinkIdRef();
 				ArrayList<SeriesLink> linkList = new ArrayList<SeriesLink>();
-				ref.setRef(msph);
+				ref.setRef(s);
 				link.setIdRef(ref);
 				linkList.add(link);
 				SeriesLinks linkseries = new SeriesLinks();
@@ -652,7 +650,7 @@ public class TucsonReader extends AbstractDendroFileReader {
 	 * @param project
 	 * @return
 	 */
-	private TridasProject replaceRadiusWithPlaceholder(TridasProject project) {
+/*	private TridasProject replaceRadiusWithPlaceholder(TridasProject project) {
 		try {
 			TridasObject o = project.getObjects().get(0);
 			TridasElement e = o.getElements().get(0);
@@ -664,7 +662,7 @@ public class TucsonReader extends AbstractDendroFileReader {
 			msph.setId("XREF-" + UUID.randomUUID().toString());
 			rph.setMeasurementSeriesPlaceholder(msph);
 			
-			s.setRadiusPlaceholder(rph);
+			//s.setRadiusPlaceholder(rph);
 			ArrayList<TridasSample> samplist = new ArrayList<TridasSample>();
 			samplist.add(s);
 			
@@ -674,7 +672,7 @@ public class TucsonReader extends AbstractDendroFileReader {
 
 		}
 		return project;
-	}
+	}*/
 	
 	/**
 	 * Attempts to read a line of standard RWL format data and add to the dataInts
@@ -875,7 +873,7 @@ public class TucsonReader extends AbstractDendroFileReader {
 		{
 			warningAboutNegativeDates=true;
 			addWarning(new ConversionWarning(WarningType.AMBIGUOUS, 
-					I18n.getText("tucson.negativeYears")));
+					I18n.getText("general.astronomicalWarning")));
 			
 		}
 	}

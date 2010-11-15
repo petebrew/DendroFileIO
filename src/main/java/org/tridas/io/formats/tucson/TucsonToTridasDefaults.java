@@ -37,7 +37,6 @@ import org.tridas.schema.TridasGenericField;
 import org.tridas.schema.TridasIdentifier;
 import org.tridas.schema.TridasInterpretation;
 import org.tridas.schema.TridasMeasurementSeries;
-import org.tridas.schema.TridasMeasurementSeriesPlaceholder;
 import org.tridas.schema.TridasObject;
 import org.tridas.schema.TridasProject;
 import org.tridas.schema.TridasRadius;
@@ -232,12 +231,12 @@ public class TucsonToTridasDefaults extends TridasMetadataFieldSet implements IM
 		
 	}
 	
-	public TridasMeasurementSeriesPlaceholder getDefaultTridasMeasurementSeriesPlaceholder()
+	/*public TridasMeasurementSeriesPlaceholder getDefaultTridasMeasurementSeriesPlaceholder()
 	{
 		TridasMeasurementSeriesPlaceholder msph = new TridasMeasurementSeriesPlaceholder();				
 		msph.setId("XREF-" + UUID.randomUUID().toString());
 		return msph;
-	}
+	}*/
 	
 	public TridasValues getDefaultTridasValues()
 	{		
