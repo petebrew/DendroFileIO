@@ -1,18 +1,18 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!-- 
-TRiDaS 1.2.1: Tree-Ring Data Standard for dendrochronology
+TRiDaS 1.2.2: Tree-Ring Data Standard for dendrochronology
 See http://www.tridas.org/ for:
 - more information
 - contact information  
 - latest version
 
-Version date: 2010-02-18
+Version date: 2010-11-12
 
 This XML Schema is available under LGPLv3 
 more information on http://www.gnu.org/licenses/lgpl.html
 
 ***********************************************-->
-<xs:schema xmlns="http://www.tridas.org/1.2.1" xmlns:xs="http://www.w3.org/2001/XMLSchema" xmlns:xlink="http://www.w3.org/1999/xlink" xmlns:gml="http://www.opengis.net/gml" targetNamespace="http://www.tridas.org/1.2.1" elementFormDefault="qualified" attributeFormDefault="unqualified">
+<xs:schema xmlns="http://www.tridas.org/1.2.2" xmlns:xs="http://www.w3.org/2001/XMLSchema" xmlns:xlink="http://www.w3.org/1999/xlink" xmlns:gml="http://www.opengis.net/gml" targetNamespace="http://www.tridas.org/1.2.2" elementFormDefault="qualified" attributeFormDefault="unqualified">
 	<!--
 %%%%%%%%%%%%%%
 %		EXTERNAL SCHEMAS	
@@ -122,6 +122,8 @@ more information on http://www.gnu.org/licenses/lgpl.html
 		<xs:restriction base="xs:string">
 			<xs:enumeration value="micrometres"/>
 			<xs:enumeration value="1/100th millimetres"/>
+			<xs:enumeration value="1/50th millimetres"/>
+			<xs:enumeration value="1/20th millimetres"/>
 			<xs:enumeration value="1/10th millimetres"/>
 			<xs:enumeration value="millimetres"/>
 			<xs:enumeration value="centimetres"/>
@@ -144,16 +146,6 @@ more information on http://www.gnu.org/licenses/lgpl.html
 			<xs:enumeration value="Unspecified injury"/>
 		</xs:restriction>
 	</xs:simpleType>
-	<!-- TRiDaS controlledVoc for project categories-->
-	<xs:simpleType name="normalTridasCategory">
-		<xs:annotation>
-			<xs:documentation xml:lang="EN">Enumeration of TRiDaS recognised project categories</xs:documentation>
-		</xs:annotation>		
-		<xs:restriction base="xs:string">
-			<xs:enumeration value=""/>
-		</xs:restriction>
-	</xs:simpleType>
-
 
 <!--
 %%%%%%%%%%%%%%
@@ -164,10 +156,13 @@ more information on http://www.gnu.org/licenses/lgpl.html
 	<xs:complexType name="controlledVoc">
 		<xs:annotation>
 			<xs:documentation xml:lang="EN">
-				A controlled vocabulary is used to limit users to a pick list of values
+				A controlled vocabulary is used to limit users to a pick list of values.
 			</xs:documentation>
+			<xs:appinfo>Programmers note that if using controlled vocabularies, then normal, normalId and normalStd should all be 
+			present.  There is no way to describe optionality of attribute groups in xsd schemas so this must be done by you!</xs:appinfo>
 		</xs:annotation>
 		<xs:simpleContent>
+			
 			<xs:extension base="xs:string">
 				<xs:attribute name="normalStd">
 					<xs:annotation>
@@ -184,7 +179,7 @@ more information on http://www.gnu.org/licenses/lgpl.html
 						<xs:documentation xml:lang="EN">The normalised name for this entry</xs:documentation>
 					</xs:annotation>
 				</xs:attribute>
-				<xs:attribute name="lang" type="xs:language">
+				<xs:attribute name="lang" type="xs:language" use="optional">
 					<xs:annotation>
 						<xs:documentation xml:lang="EN">The language this term is in.  Default is EN if not specified.</xs:documentation>
 					</xs:annotation>
@@ -377,7 +372,7 @@ name of the organisation as long as it is not ambiguous.
 		</xs:annotation>
 		<xs:complexType>
 			<xs:sequence>
-				<xs:element ref="locationGeometry"/>
+				<xs:element ref="locationGeometry" minOccurs="0"/>
 				<xs:element ref="locationType" minOccurs="0"/>
 				<xs:element ref="locationPrecision" minOccurs="0"/>
 				<xs:element ref="locationComment" minOccurs="0"/>
@@ -585,25 +580,12 @@ Therefore, a project can have one or more objects associated with it.
 	</xs:element>
 	<!-- PROJECT.type (global type) -->
 	<!-- PROJECT.category -->
-	<xs:element name="category">
+	<xs:element name="category" type="controlledVoc">
 		<xs:annotation>
 			<xs:documentation xml:lang="EN">
 				Category of research this project falls into.  Preferably from a controlled vocabulary.
 			</xs:documentation>
 		</xs:annotation>
-		<xs:complexType>
-			<xs:complexContent>
-				<xs:extension base="controlledVoc">
-					<xs:attribute name="normalTridas" type="normalTridasCategory">
-						<xs:annotation>
-							<xs:documentation>
-								TRiDaS controlled vocabulary of research categories.
-							</xs:documentation>
-						</xs:annotation>
-					</xs:attribute>
-				</xs:extension>
-			</xs:complexContent>
-		</xs:complexType>
 	</xs:element>
 	<!-- PROJECT.investigator -->
 	<xs:element name="investigator" type="xs:string">
@@ -1013,10 +995,7 @@ from exactly one element and can be represented by one or more radii.
 						<xs:element ref="state" minOccurs="0"/>
 						<xs:element ref="knots" minOccurs="0"/>
 						<xs:element ref="genericField" minOccurs="0" maxOccurs="unbounded"/>
-						<xs:choice>
-							<xs:element ref="radius" minOccurs="0" maxOccurs="unbounded"/>
-							<xs:element ref="radiusPlaceholder" minOccurs="0"/>
-						</xs:choice>
+						<xs:element ref="radius" minOccurs="0" maxOccurs="unbounded"/>
 					</xs:sequence>
 				</xs:extension>
 			</xs:complexContent>
@@ -1267,19 +1246,6 @@ resulting in multiple measurementSeries.
 		</xs:annotation>
 	</xs:element>
 	<!-- RADIUS.genericField (global type) -->
-	<!-- RADIUS-PLACEHOLDER -->
-	<xs:element name="radiusPlaceholder">
-		<xs:annotation>
-			<xs:documentation xml:lang="EN">
-				This entity is used instead of a standard 'radius' when radius details are not known.
-			</xs:documentation>
-		</xs:annotation>
-		<xs:complexType>
-			<xs:sequence>
-				<xs:element ref="measurementSeriesPlaceholder"/>
-			</xs:sequence>
-		</xs:complexType>
-	</xs:element>
 	<!--
 		%%%%%%%%%%%%%%
 		%        SERIES
@@ -1545,19 +1511,6 @@ Container for fields that describe the statistical method used for crossdating
 	<xs:element name="interpretationUnsolved">
 		<xs:complexType/>
 	</xs:element>
-	<!-- MEASUREMENTSSERIES-PLACEHOLDER -->
-	<xs:element name="measurementSeriesPlaceholder">
-		<xs:annotation>
-			<xs:documentation xml:lang="EN">
-If no measurementSeries information is known (e.g. if describing a 
-derivedSeries where no measurementSeries data is available) this 
-placeholder is used instead of a standard measurementSeries entity.
-			</xs:documentation>
-		</xs:annotation>
-		<xs:complexType>
-			<xs:attribute name="id" type="xs:ID" use="required"/>
-		</xs:complexType>
-	</xs:element>
 	<!--
 %%%%%%%%%%%%%%
 %		DERIVEDSERIES
@@ -1666,7 +1619,7 @@ are unitless, then the special &lt;unitless&gt; field is used.
 					<xs:element ref="unitless"/>	
 					<xs:element ref="unit"/>
 				</xs:choice>
-				<xs:element ref="value" maxOccurs="unbounded"/>
+				<xs:element ref="value" minOccurs="0" maxOccurs="unbounded"/>
 			</xs:sequence>
 		</xs:complexType>
 	</xs:element>

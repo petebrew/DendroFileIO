@@ -335,16 +335,24 @@ public class HeidelbergToTridasDefaults extends TridasMetadataFieldSet {
 			series.setTitle(getStringDefaultValue(DefaultFields.KEYCODE).getStringValue());
 		}
 		
-		TridasInterpretation interp = new TridasInterpretation();
-		if (getIntegerDefaultValue(DefaultFields.DATE_BEGIN).getValue() != null) {
-			SafeIntYear startYear = new SafeIntYear(getIntegerDefaultValue(DefaultFields.DATE_BEGIN).getValue());
-			interp.setFirstYear(startYear.toTridasYear(DatingSuffix.AD));
+		//INTERPRETATION			
+		GenericDefaultValue<FHDated> dated = (GenericDefaultValue<FHDated>) getDefaultValue(DefaultFields.DATED);
+		if(dated!=null && dated.getValue()!=null)
+		{
+			if (dated.getValue().equals(FHDated.Dated)) {
+				// Don't include if series is undated
+				TridasInterpretation interp = new TridasInterpretation();
+				if (getIntegerDefaultValue(DefaultFields.DATE_BEGIN).getValue() != null) {
+					SafeIntYear startYear = new SafeIntYear(getIntegerDefaultValue(DefaultFields.DATE_BEGIN).getValue());
+					interp.setFirstYear(startYear.toTridasYear(DatingSuffix.AD));
+				}
+				if (getIntegerDefaultValue(DefaultFields.DATE_END).getValue() != null) {
+					SafeIntYear endYear = new SafeIntYear(getIntegerDefaultValue(DefaultFields.DATE_END).getValue());
+					interp.setLastYear(endYear.toTridasYear(DatingSuffix.AD));
+				}
+				series.setInterpretation(interp);
+			}
 		}
-		if (getIntegerDefaultValue(DefaultFields.DATE_END).getValue() != null) {
-			SafeIntYear endYear = new SafeIntYear(getIntegerDefaultValue(DefaultFields.DATE_END).getValue());
-			interp.setLastYear(endYear.toTridasYear(DatingSuffix.AD));
-		}
-		series.setInterpretation(interp);
 		series.setLastModifiedTimestamp(DateUtils.getTodaysDateTime());
 		
 		if(getStringDefaultValue(DefaultFields.PERS_ID).getStringValue()!=null)

@@ -64,6 +64,68 @@ public class UnitUtils {
 	}
 	
 	/**
+	 * Parse a NormalTridasUnit from a string
+	 * 
+	 * @param str
+	 * @return
+	 */
+	public static NormalTridasUnit parseUnitString(String str) throws Exception
+	{
+		str = str.trim();
+		if ((str==null) || (str.equals(""))) return null;
+	
+		Integer val;
+		Boolean mmDetected = false;
+		
+		//Remove leading fraction
+		if(str.startsWith("1/")){ str = str.substring(2);}
+		
+		// Remove 'ths'
+		if(str.contains("ths")){ str = str.replace("ths", "");}
+		
+		// Remove 'th'
+		if(str.contains("th")){ str = str.replace("th", "");}
+		
+		// Remove 'mm'
+		if(str.contains("mm"))
+		{ 
+			str = str.replace("mm", "");
+			mmDetected = true;
+		}
+		if(str.contains("millimet"))
+		{ 
+			str = str.replace("millimetres", "");
+			str = str.replace("millimeters", "");
+			str = str.replace("millimetre", "");
+			str = str.replace("millimeter", "");
+			mmDetected = true;
+		}
+		
+		if(str.length()==0 && mmDetected)
+		{
+			return NormalTridasUnit.MILLIMETRES;
+		}
+		
+		try{
+			val = Integer.parseInt(str);
+		} catch (NumberFormatException e)
+		{
+			throw new Exception("Unable to parse units from units string");
+		}
+		
+		switch(val)
+		{	
+			case 10:   return NormalTridasUnit.TENTH_MM; 
+			case 20:   return NormalTridasUnit.TWENTIETH_MM;
+			case 50:   return NormalTridasUnit.FIFTIETH_MM;
+			case 100:  return NormalTridasUnit.HUNDREDTH_MM; 
+			case 1000: return NormalTridasUnit.MICROMETRES; 
+		}
+		
+		throw new Exception("Unable to parse units from units string");
+	}
+	
+	/**
 	 * Convert a data value from one unit to another
 	 * 
 	 * @param inputunits
@@ -92,6 +154,12 @@ public class UnitUtils {
 		case TENTH_MM:
 			val = value / 10000;
 			break;
+		case TWENTIETH_MM:
+			val = value / 20000;
+			break;
+		case FIFTIETH_MM:
+			val = value / 50000;
+			break;
 		case HUNDREDTH_MM:
 			val = value / 100000;
 			break;
@@ -115,6 +183,12 @@ public class UnitUtils {
 			break;
 		case TENTH_MM:
 			val = val * 10000;
+			break;
+		case TWENTIETH_MM:
+			val = val * 20000;
+			break;
+		case FIFTIETH_MM:
+			val = val * 50000;
 			break;
 		case HUNDREDTH_MM:
 			val = val * 100000;
@@ -204,6 +278,8 @@ public class UnitUtils {
 			sigfigs = 3;
 			break;
 		case TENTH_MM:
+		case TWENTIETH_MM:
+		case FIFTIETH_MM:
 			sigfigs = 4;
 			break;
 		case HUNDREDTH_MM:
@@ -226,6 +302,8 @@ public class UnitUtils {
 			sigfigs = sigfigs - 3;
 			break;
 		case TENTH_MM:
+		case TWENTIETH_MM:
+		case FIFTIETH_MM:
 			sigfigs = sigfigs - 4;
 			break;
 		case HUNDREDTH_MM:

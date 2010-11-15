@@ -46,11 +46,9 @@ import org.tridas.schema.SeriesLinks;
 import org.tridas.schema.TridasDerivedSeries;
 import org.tridas.schema.TridasElement;
 import org.tridas.schema.TridasMeasurementSeries;
-import org.tridas.schema.TridasMeasurementSeriesPlaceholder;
 import org.tridas.schema.TridasObject;
 import org.tridas.schema.TridasProject;
 import org.tridas.schema.TridasRadius;
-import org.tridas.schema.TridasRadiusPlaceholder;
 import org.tridas.schema.TridasSample;
 import org.tridas.schema.TridasValue;
 import org.tridas.schema.TridasValues;
@@ -597,12 +595,12 @@ public class SheffieldReader extends AbstractDendroFileReader {
 			project.setObjects(objList);
 		}
 		else if (series instanceof TridasDerivedSeries) {
-			TridasMeasurementSeriesPlaceholder msph = new TridasMeasurementSeriesPlaceholder();
+			/*TridasMeasurementSeriesPlaceholder msph = new TridasMeasurementSeriesPlaceholder();
 			msph.setId("XREF-" + UUID.randomUUID().toString());
 			TridasRadiusPlaceholder rph = new TridasRadiusPlaceholder();
 			
 			rph.setMeasurementSeriesPlaceholder(msph);
-			s.setRadiusPlaceholder(rph);
+			s.setRadiusPlaceholder(rph);*/
 			
 			ArrayList<TridasSample> samples = new ArrayList<TridasSample>();
 			samples.add(s);
@@ -623,11 +621,11 @@ public class SheffieldReader extends AbstractDendroFileReader {
 			objList.add(o);
 			project.setObjects(objList);
 			
-			// Do Link to measurementSeriesPlaceholder
+			// Do Link to sample
 			SeriesLink link = new ObjectFactory().createSeriesLink();
 			IdRef ref = new ObjectFactory().createSeriesLinkIdRef();
 			ArrayList<SeriesLink> linkList = new ArrayList<SeriesLink>();
-			ref.setRef(msph);
+			ref.setRef(s);
 			link.setIdRef(ref);
 			linkList.add(link);
 			SeriesLinks linkseries = new SeriesLinks();

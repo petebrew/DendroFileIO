@@ -44,17 +44,16 @@ import org.tridas.io.util.CoordinatesUtils;
 import org.tridas.io.util.ITRDBTaxonConverter;
 import org.tridas.io.util.SafeIntYear;
 import org.tridas.io.util.StringUtils;
+import org.tridas.io.util.UnitUtils;
 import org.tridas.schema.ControlledVoc;
 import org.tridas.schema.NormalTridasUnit;
 import org.tridas.schema.SeriesLink;
 import org.tridas.schema.TridasDerivedSeries;
 import org.tridas.schema.TridasElement;
 import org.tridas.schema.TridasMeasurementSeries;
-import org.tridas.schema.TridasMeasurementSeriesPlaceholder;
 import org.tridas.schema.TridasObject;
 import org.tridas.schema.TridasProject;
 import org.tridas.schema.TridasRadius;
-import org.tridas.schema.TridasRadiusPlaceholder;
 import org.tridas.schema.TridasSample;
 import org.tridas.schema.TridasUnit;
 import org.tridas.schema.TridasValue;
@@ -177,11 +176,11 @@ public class HeidelbergReader extends AbstractDendroFileReader {
 			// Check that DateBegin, DateEnd and number of values agree
 			if(thisSeries.defaults.getIntegerDefaultValue(DefaultFields.DATE_BEGIN).getValue()!=null)
 			{
-				startYear = new SafeIntYear(thisSeries.defaults.getIntegerDefaultValue(DefaultFields.DATE_BEGIN).getValue());
+				startYear = new SafeIntYear(thisSeries.defaults.getIntegerDefaultValue(DefaultFields.DATE_BEGIN).getValue().toString(), true);
 			}
 			if(thisSeries.defaults.getIntegerDefaultValue(DefaultFields.DATE_END).getValue()!=null)
 			{
-				endYear = new SafeIntYear(thisSeries.defaults.getIntegerDefaultValue(DefaultFields.DATE_END).getValue());
+				endYear = new SafeIntYear(thisSeries.defaults.getIntegerDefaultValue(DefaultFields.DATE_END).getValue().toString(), true);
 			}
 			
 			if(startYear!=null && endYear!=null)
@@ -442,7 +441,13 @@ public class HeidelbergReader extends AbstractDendroFileReader {
 			//DATE_BEGIN, new IntegerDefaultValue());
 			try{
 				if(fileMetadata.containsKey("datebegin")){
-					s.defaults.getIntegerDefaultValue(DefaultFields.DATE_BEGIN).setValue(Integer.parseInt(fileMetadata.get("datebegin")));
+					Integer val = Integer.parseInt(fileMetadata.get("datebegin"));
+					if(val<=0)
+					{
+						addWarning(new ConversionWarning(WarningType.AMBIGUOUS, 
+								I18n.getText("general.astronomicalWarning")));
+					}
+					s.defaults.getIntegerDefaultValue(DefaultFields.DATE_BEGIN).setValue(val);
 				}
 			} catch (NumberFormatException e){
 				if(fileMetadata.get("datebegin")!="")
@@ -780,25 +785,16 @@ public class HeidelbergReader extends AbstractDendroFileReader {
 			GenericDefaultValue<TridasUnit> unit = (GenericDefaultValue<TridasUnit>) s.defaults
 			.getDefaultValue(DefaultFields.UNIT);
 			if (fileMetadata.containsKey("unit")) {
-				String units = fileMetadata.get("unit");
+				
 				TridasUnit value = new TridasUnit();
-				if (units.equals("mm")) {
-					value.setNormalTridas(NormalTridasUnit.MILLIMETRES);
-				}
-				else if (units.equals("1/10 mm")) {
-					value.setNormalTridas(NormalTridasUnit.TENTH_MM);
-				}
-				else if (units.equals("1/100 mm")) {
-					value.setNormalTridas(NormalTridasUnit.HUNDREDTH_MM);
-				}
-				else if (units.equals("1/1000 mm")) {
-					value.setNormalTridas(NormalTridasUnit.MICROMETRES);
-				}
-				else {
+				try {
+					value.setNormalTridas(UnitUtils.parseUnitString(fileMetadata.get("unit")));
+				} catch (Exception e) {
+					addWarning(new ConversionWarning(WarningType.INVALID, I18n.getText("fileio.invalidUnits")));
 					value = null;
-					addWarning(new ConversionWarning(WarningType.NULL_VALUE, I18n.getText("fileio.noUnitsDetected")));
 				}
 				unit.setValue(value);
+				
 			}
 			else {
 				unit.setValue(null);
@@ -835,11 +831,11 @@ public class HeidelbergReader extends AbstractDendroFileReader {
 				case HalfChrono :
 				case Quadro : {
 					// derived series
-					String uuidKey = "XREF-" + UUID.randomUUID();
+					/*String uuidKey = "XREF-" + UUID.randomUUID();
 					TridasRadiusPlaceholder radius = new TridasRadiusPlaceholder();
 					TridasMeasurementSeriesPlaceholder ms = new TridasMeasurementSeriesPlaceholder();
 					radius.setMeasurementSeriesPlaceholder(ms);
-					ms.setId(uuidKey);
+					ms.setId(uuidKey);*/
 					
 					TridasDerivedSeries series = s.defaults.getDefaultTridasDerivedSeries();
 					ArrayList<TridasValue> tridasValues = new ArrayList<TridasValue>();
@@ -848,9 +844,9 @@ public class HeidelbergReader extends AbstractDendroFileReader {
 					TridasValues valuesGroup = s.defaults.getTridasValuesWithDefaults();
 					valuesGroup.setValues(tridasValues);
 					
-					// link series to placeholder
+					// link series to sample
 					IdRef idref = new IdRef();
-					idref.setRef(ms);
+					idref.setRef(sample);
 					SeriesLink link = new SeriesLink();
 					link.setIdRef(idref);
 					series.getLinkSeries().getSeries().add(link);
@@ -872,7 +868,7 @@ public class HeidelbergReader extends AbstractDendroFileReader {
 						tridasValues.add(val);
 					}
 					
-					sample.setRadiusPlaceholder(radius);
+					//sample.setRadiusPlaceholder(radius);
 					sample.setRadiuses(null);
 					project.getDerivedSeries().add(series);
 				}

@@ -29,7 +29,7 @@ public class TridasNamespacePrefixMapper extends NamespacePrefixMapper {
 			// namespace, filename, prefix
 			{"http://www.w3.org/1999/xlink", "xlinks.xsd", "xlink"},
 			{"http://www.opengis.net/gml", "gmlsf.xsd", "gml"},
-			{"http://www.tridas.org/1.2.1", "tridas.xsd", "tridas"},};
+			{"http://www.tridas.org/1.2.2", "tridas.xsd", "tridas"},};
 	
 	@Override
 	public String getPreferredPrefix(String namespaceUri, String suggestion, boolean requirePrefix) {

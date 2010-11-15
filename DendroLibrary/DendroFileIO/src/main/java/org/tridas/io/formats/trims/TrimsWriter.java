@@ -24,7 +24,6 @@ import org.tridas.io.I18n;
 import org.tridas.io.defaults.IMetadataFieldSet;
 import org.tridas.io.exceptions.ConversionWarningException;
 import org.tridas.io.exceptions.IncompleteTridasDataException;
-import org.tridas.io.formats.sheffield.TridasToSheffieldDefaults;
 import org.tridas.io.naming.INamingConvention;
 import org.tridas.io.naming.UUIDNamingConvention;
 import org.tridas.io.util.TridasUtils;
@@ -34,7 +33,6 @@ import org.tridas.schema.TridasMeasurementSeries;
 import org.tridas.schema.TridasObject;
 import org.tridas.schema.TridasProject;
 import org.tridas.schema.TridasRadius;
-import org.tridas.schema.TridasRadiusPlaceholder;
 import org.tridas.schema.TridasSample;
 
 public class TrimsWriter extends AbstractDendroCollectionWriter {
@@ -94,14 +92,14 @@ public class TrimsWriter extends AbstractDendroCollectionWriter {
 				
 				for (TridasSample s : sList) {
 					// Check this isn't a placeholder
-					TridasRadiusPlaceholder rph = null;
+					/*TridasRadiusPlaceholder rph = null;
 					try {
 						rph = s.getRadiusPlaceholder();
 					} catch (NullPointerException e) {}
 					
 					if (rph != null) {
 						continue;
-					}
+					}*/
 					
 					// Loop through radii
 					List<TridasRadius> rList;
