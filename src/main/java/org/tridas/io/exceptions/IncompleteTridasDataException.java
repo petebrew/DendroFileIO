@@ -43,6 +43,7 @@ public class IncompleteTridasDataException extends IOException {
 	 */
 	public IncompleteTridasDataException(String s) {
 		// For now, just dump debug info
+		super(s);
 		System.out.println("Incomplete TRiDaS Data: " + s);
 	}
 }

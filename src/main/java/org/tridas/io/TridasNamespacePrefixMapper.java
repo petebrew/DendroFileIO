@@ -27,9 +27,10 @@ public class TridasNamespacePrefixMapper extends NamespacePrefixMapper {
 	private final static String SCHEMAS_USED[][] = {
 			// Order is important!
 			// namespace, filename, prefix
+		    // tridas prefix is important and should be left alone
 			{"http://www.w3.org/1999/xlink", "xlinks.xsd", "xlink"},
 			{"http://www.opengis.net/gml", "gmlsf.xsd", "gml"},
-			{"http://www.tridas.org/1.2.2", "tridas.xsd", "tridas"},};
+			{"http://www.tridas.org/1.2.2", "tridas.xsd", "tridas"},};  
 	
 	@Override
 	public String getPreferredPrefix(String namespaceUri, String suggestion, boolean requirePrefix) {
@@ -42,6 +43,25 @@ public class TridasNamespacePrefixMapper extends NamespacePrefixMapper {
 		}
 		
 		return suggestion;
+	}
+	
+	/**
+	 * Get the namespace URI for the TRiDaS schema elements
+	 * 
+	 * @return
+	 */
+	public static String getTridasNamespaceURI()
+	{
+		
+		String[][] schemas = TridasNamespacePrefixMapper.SCHEMAS_USED;
+		
+		for (String[] schema : schemas) {
+			if (schema[2].equals("tridas")) {
+				return schema[0];
+			}
+		}
+		
+		return null;
 	}
 	
 }

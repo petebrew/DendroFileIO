@@ -18,19 +18,34 @@ package org.tridas.io.formats.tridas;
 import java.io.IOException;
 import java.io.StringReader;
 import java.net.URL;
+import java.util.Iterator;
 
+import com.sun.org.apache.xml.internal.utils.PrefixResolver;
+import com.sun.org.apache.xml.internal.utils.PrefixResolverDefault;
+import com.sun.xml.bind.v2.runtime.output.NamespaceContextImpl;
+ 
 import javax.xml.XMLConstants;
 import javax.xml.bind.JAXBContext;
 import javax.xml.bind.JAXBException;
 import javax.xml.bind.Unmarshaller;
+import javax.xml.namespace.NamespaceContext;
+import javax.xml.parsers.DocumentBuilder;
+import javax.xml.parsers.DocumentBuilderFactory;
+import javax.xml.parsers.ParserConfigurationException;
 import javax.xml.transform.stream.StreamSource;
 import javax.xml.validation.Schema;
 import javax.xml.validation.SchemaFactory;
 import javax.xml.validation.Validator;
+import javax.xml.xpath.XPath;
+import javax.xml.xpath.XPathConstants;
+import javax.xml.xpath.XPathExpression;
+import javax.xml.xpath.XPathExpressionException;
+import javax.xml.xpath.XPathFactory;
 
 import org.grlea.log.SimpleLogger;
 import org.tridas.io.AbstractDendroFileReader;
 import org.tridas.io.I18n;
+import org.tridas.io.TridasNamespacePrefixMapper;
 import org.tridas.io.defaults.IMetadataFieldSet;
 import org.tridas.io.defaults.TridasMetadataFieldSet;
 import org.tridas.io.exceptions.ConversionWarning;
@@ -38,6 +53,8 @@ import org.tridas.io.exceptions.InvalidDendroFileException;
 import org.tridas.io.exceptions.ConversionWarning.WarningType;
 import org.tridas.io.util.IOUtils;
 import org.tridas.schema.TridasProject;
+import org.w3c.dom.Document;
+import org.w3c.dom.NodeList;
 import org.xml.sax.SAXException;
 
 /**
@@ -47,6 +64,7 @@ import org.xml.sax.SAXException;
  * @see org.tridas.io.formats.tridas
  * @author peterbrewer
  */
+@SuppressWarnings("restriction")
 public class TridasReader extends AbstractDendroFileReader {
 	
 	private static final SimpleLogger log = new SimpleLogger(TridasReader.class);
@@ -79,6 +97,7 @@ public class TridasReader extends AbstractDendroFileReader {
 		}
 		else
 		{
+		
 			try {
 				schema = factory.newSchema(file);
 			} catch (Exception e) {
@@ -92,13 +111,19 @@ public class TridasReader extends AbstractDendroFileReader {
 			Validator validator = schema.newValidator();
 			StreamSource source = new StreamSource();
 			source.setReader(reader);
+			
+			
 			try {
 				validator.validate(source);
 			} catch (SAXException ex) {
-				throw new InvalidDendroFileException(I18n.getText("tridas.schemaException", ex.getLocalizedMessage()), 1);
+				if(!isTridasNamespaceCorrect(fileString.toString()))
+				{
+					throw new InvalidDendroFileException(I18n.getText("tridas.schemaException", "TRiDaS schema version is either incorrect or missing"));
+				}
+				throw new InvalidDendroFileException(I18n.getText("tridas.schemaException", ex.getLocalizedMessage()));
 				
 			} catch (IOException e) {
-				throw new InvalidDendroFileException(I18n.getText("tridas.schemaException", e.getLocalizedMessage()), 1);
+				throw new InvalidDendroFileException(I18n.getText("tridas.schemaException", e.getLocalizedMessage()));
 			}
 		}
 
@@ -114,6 +139,52 @@ public class TridasReader extends AbstractDendroFileReader {
 		} catch (JAXBException e2) {
 			addWarning(new ConversionWarning(WarningType.DEFAULT, I18n.getText("fileio.loadfailed")));
 		}
+	}
+	
+	/**
+	 * Check that the current Tridas namespace is mentioned in the
+	 * provided XML file
+	 * 
+	 * @param xmlfile
+	 * @return
+	 */
+	private Boolean isTridasNamespaceCorrect(String xmlfile)
+	{
+		try{
+	    DocumentBuilderFactory domFactory = 
+	        DocumentBuilderFactory.newInstance();
+	              domFactory.setNamespaceAware(true); 
+	        DocumentBuilder builder = domFactory.newDocumentBuilder();
+	        Document doc = builder.parse(xmlfile);
+	        XPath xpath = XPathFactory.newInstance().newXPath();
+	        XPathExpression expr = xpath.compile("//*[namespace-uri()='"+
+	        		TridasNamespacePrefixMapper.getTridasNamespaceURI()+"']");
+
+	        Object result = expr.evaluate(doc, XPathConstants.NODESET);
+	        NodeList nodes = (NodeList) result;
+	        
+	        if(nodes.getLength()>0)
+	        {
+	        	return true;
+	        }
+		} catch (ParserConfigurationException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+			return false;
+		} catch (SAXException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+			return false;
+		} catch (IOException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+			return false;			
+		} catch (XPathExpressionException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+			return false;
+		}
+		return false;
 	}
 	
 	@Override
