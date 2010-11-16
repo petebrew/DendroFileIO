@@ -137,8 +137,7 @@ public class TophamWriter extends AbstractDendroCollectionWriter {
 									try {
 										Double.parseDouble(v.getValue());
 									} catch (NumberFormatException e2) {
-										throw new IncompleteTridasDataException(
-												"One or more data values are not numbers!  This is technically acceptable in TRiDaS but not supported in this library.");
+										throw new IncompleteTridasDataException(I18n.getText("general.ringValuesNotNumbers"));
 									}
 								}
 																

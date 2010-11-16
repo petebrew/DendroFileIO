@@ -107,7 +107,7 @@ public class UnitUtils {
 		}
 		
 		try{
-			val = Integer.parseInt(str);
+			val = Integer.parseInt(str.trim());
 		} catch (NumberFormatException e)
 		{
 			throw new Exception("Unable to parse units from units string");

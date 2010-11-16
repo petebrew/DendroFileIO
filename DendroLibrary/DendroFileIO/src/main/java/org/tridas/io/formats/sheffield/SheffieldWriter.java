@@ -22,8 +22,6 @@ import org.tridas.io.exceptions.ConversionWarning;
 import org.tridas.io.exceptions.ConversionWarningException;
 import org.tridas.io.exceptions.IncompleteTridasDataException;
 import org.tridas.io.exceptions.ConversionWarning.WarningType;
-import org.tridas.io.formats.heidelberg.HeidelbergFile;
-import org.tridas.io.formats.sheffield.TridasToSheffieldDefaults.SheffieldVariableCode;
 import org.tridas.io.naming.HierarchicalNamingConvention;
 import org.tridas.io.naming.INamingConvention;
 import org.tridas.io.util.TridasUtils;
@@ -168,12 +166,42 @@ public class SheffieldWriter extends AbstractDendroCollectionWriter {
 								file.setSeries(ms);
 								
 								// Convert units and add data to file
+								TridasValues theValues = null;
 								try {
-									file.setDataValues(UnitUtils.convertTridasValues(NormalTridasUnit.HUNDREDTH_MM, tvsgroup, true));
+									theValues = UnitUtils.convertTridasValues(NormalTridasUnit.HUNDREDTH_MM, tvsgroup, true);
 								} catch (NumberFormatException e1) {
+									throw new IncompleteTridasDataException(I18n.getText("general.ringValuesNotNumbers"));
 								} catch (ConversionWarningException e1) {
+									// Convertion failed so warn and stick with original values
 									this.addWarning(e1.getWarning());
+									theValues = tvsgroup;
 								}
+						
+								// Intercept missing rings and replace with 1's as Sheffield can't cope otherwise
+								for(TridasValue val : theValues.getValues())
+								{
+									try
+									{
+										Double dblval = Double.parseDouble(val.getValue());
+										if(dblval.equals(0.0))
+										{
+											val.setValue("1");
+											this.addWarning(new ConversionWarning(WarningType.UNREPRESENTABLE, 
+													I18n.getText("sheffield.missingRingHandling")));
+										}
+										else if (dblval.compareTo(0.0)<0)
+										{
+											val.setValue("1");
+											this.addWarning(new ConversionWarning(WarningType.UNREPRESENTABLE, 
+													I18n.getText("sheffield.negativeRingHandling")));
+										}
+									}
+									catch (Exception e2)
+									{
+										throw new IncompleteTridasDataException(I18n.getText("general.ringValuesNotNumbers"));
+									}
+								}
+								file.setDataValues(theValues);
 								
 								// Set naming convention
 								naming.registerFile(file, argProject, o, e, s, r, ms);

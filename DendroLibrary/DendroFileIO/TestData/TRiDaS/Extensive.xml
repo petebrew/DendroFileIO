@@ -3,7 +3,7 @@
  xmlns:xlink="http://www.w3.org/1999/xlink"
  xmlns:gml="http://www.opengis.net/gml"
  xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
- xsi:schemaLocation="http://www.tridas.org/1.2.2 file:/Users/peterbrewer/dev/sourceforge/tridas/XMLSchema/1.2.1/tridas-1.2.2.xsd">
+ xsi:schemaLocation="http://www.tridas.org/1.2.1 file:/Users/peterbrewer/dev/sourceforge/tridas/XMLSchema/1.2.1/tridas-1.2.1.xsd">
         <title>title0</title>
         <identifier domain="domain1">identifier0</identifier>
         <createdTimestamp certainty="unknown">2006-05-04T18:13:51.0Z</createdTimestamp>
@@ -38,7 +38,7 @@
                 <country>country1</country>
             </address>
         </laboratory>
-        <category normalTridas="" normalStd="normalStd5" normalId="normalId5" normal="normal5" lang="en-US">category0</category>
+        <category>category0</category>
         <investigator>investigator0</investigator>
         <period>period0</period>
         <requestDate certainty="unknown">2006-05-04</requestDate>
@@ -173,9 +173,6 @@
                                 <knots>false</knots>
                                 <genericField name="name13" type="xs:string">genericField6</genericField>
                                 <genericField name="name15" type="xs:string">genericField7</genericField>
-                                    <radiusPlaceholder>
-                                        <measurementSeriesPlaceholder id="ID005"/>
-                                    </radiusPlaceholder>
                         </sample>
                         <sample>
                                 <title>title4</title>
