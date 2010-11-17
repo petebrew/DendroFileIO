@@ -15,6 +15,8 @@
  */
 package org.tridas.io.formats.tucsoncompact;
 
+import java.util.ArrayList;
+
 import org.tridas.io.I18n;
 import org.tridas.io.defaults.IMetadataFieldSet;
 import org.tridas.io.defaults.TridasMetadataFieldSet;
@@ -22,8 +24,13 @@ import org.tridas.io.defaults.values.IntegerDefaultValue;
 import org.tridas.io.defaults.values.StringDefaultValue;
 import org.tridas.io.util.SafeIntYear;
 import org.tridas.schema.DatingSuffix;
+import org.tridas.schema.NormalTridasUnit;
+import org.tridas.schema.NormalTridasVariable;
 import org.tridas.schema.TridasInterpretation;
 import org.tridas.schema.TridasMeasurementSeries;
+import org.tridas.schema.TridasUnit;
+import org.tridas.schema.TridasValues;
+import org.tridas.schema.TridasVariable;
 
 public class TucsonCompactToTridasDefaults extends TridasMetadataFieldSet implements
 		IMetadataFieldSet {
@@ -33,7 +40,8 @@ public class TucsonCompactToTridasDefaults extends TridasMetadataFieldSet implem
 		
 		SERIES_TITLE,
 		RING_COUNT,
-		START_YEAR;
+		START_YEAR,
+		DIVFACTOR;
 
 	}
 	
@@ -43,6 +51,8 @@ public class TucsonCompactToTridasDefaults extends TridasMetadataFieldSet implem
 		setDefaultValue(DefaultFields.SERIES_TITLE, new StringDefaultValue(I18n.getText("unnamed.series")));
 		setDefaultValue(DefaultFields.RING_COUNT, new IntegerDefaultValue());
 		setDefaultValue(DefaultFields.START_YEAR, new IntegerDefaultValue());
+		setDefaultValue(DefaultFields.DIVFACTOR, new IntegerDefaultValue());
+
 		
 	}
 	
@@ -69,5 +79,33 @@ public class TucsonCompactToTridasDefaults extends TridasMetadataFieldSet implem
 		return series;
 		
 		
+	}
+	
+	public TridasValues getDefaultTridasValues(){
+		TridasUnit units = new TridasUnit();
+		
+		if(getIntegerDefaultValue(DefaultFields.DIVFACTOR).getValue()!=null)
+		{
+			Integer divFactor = getIntegerDefaultValue(DefaultFields.DIVFACTOR).getValue();
+			if(divFactor.compareTo(-4)<=0)
+			{
+				units.setNormalTridas(NormalTridasUnit.MICROMETRES);
+			}
+		}
+		
+		if(units.getNormalTridas()==null)
+		{
+			units.setNormalTridas(NormalTridasUnit.HUNDREDTH_MM);
+		}		
+		
+		TridasVariable variable = new TridasVariable();
+		variable.setNormalTridas(NormalTridasVariable.RING_WIDTH);
+		
+		TridasValues valuesGroup = new TridasValues();
+		valuesGroup.setUnit(units);
+		valuesGroup.setVariable(variable);
+		
+		
+		return valuesGroup;
 	}
 }

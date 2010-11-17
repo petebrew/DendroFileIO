@@ -27,6 +27,7 @@ import org.tridas.io.exceptions.ConversionWarning;
 import org.tridas.io.exceptions.InvalidDendroFileException;
 import org.tridas.io.exceptions.ConversionWarning.WarningType;
 import org.tridas.io.formats.tucsoncompact.TucsonCompactToTridasDefaults.DefaultFields;
+import org.tridas.io.util.UnitUtils;
 import org.tridas.schema.NormalTridasUnit;
 import org.tridas.schema.NormalTridasVariable;
 import org.tridas.schema.TridasMeasurementSeries;
@@ -106,18 +107,10 @@ public class TucsonCompactReader extends AbstractDendroFileReader {
 		TridasProject project = defaults.getProjectWithDefaults(true);
 		
 		TridasMeasurementSeries ms = project.getObjects().get(0).getElements().get(0).getSamples().get(0).getRadiuses().get(0).getMeasurementSeries().get(0);
-		TridasUnit units = new TridasUnit();
-		units.setNormalTridas(NormalTridasUnit.HUNDREDTH_MM);
-		TridasVariable variable = new TridasVariable();
-		variable.setNormalTridas(NormalTridasVariable.RING_WIDTH);
-		
-		ArrayList<TridasValues> valuesList = new ArrayList<TridasValues>();
-		TridasValues valuesGroup = new TridasValues();
-		valuesGroup.setUnit(units);
-		valuesGroup.setVariable(variable);
+		TridasValues valuesGroup = defaults.getDefaultTridasValues();
 		valuesGroup.setValues(dataVals);
+		ArrayList<TridasValues> valuesList = new ArrayList<TridasValues>();
 		valuesList.add(valuesGroup);
-		
 		ms.setValues(valuesList);
 
 		return project;
@@ -170,8 +163,28 @@ public class TucsonCompactReader extends AbstractDendroFileReader {
 			{
 				TridasValue val = new TridasValue();
 				String strval = line.substring(charpos, charpos+chars).trim();
-								
-				val.setValue(strval);
+				Integer intval;
+				try 
+				{
+					intval = Integer.parseInt(strval);
+				} catch (NumberFormatException e)
+				{
+					throw new InvalidDendroFileException("Failed to convert data value");
+				}		
+				
+				// Convert integer from file to double by using the divFactor
+				Double dblval = intval*Math.pow(10, this.divFactor);
+				
+				// Convert and set the units to appropriate value based on divFactor
+				if(divFactor.compareTo(-4)<=0)
+				{
+					val.setValue(Math.round(UnitUtils.convertDouble(NormalTridasUnit.MILLIMETRES, NormalTridasUnit.MICROMETRES, dblval))+"");
+				}
+				else 
+				{
+					val.setValue(Math.round(UnitUtils.convertDouble(NormalTridasUnit.MILLIMETRES, NormalTridasUnit.HUNDREDTH_MM, dblval))+"");
+				}
+				
 				dataVals.add(val);
 			}
 			
@@ -190,6 +203,10 @@ public class TucsonCompactReader extends AbstractDendroFileReader {
 
 	}
 
+	private Double convertDataVal(Integer val)
+	{
+		return Math.pow(val, this.divFactor);
+	}
 	
 	/**
 	 * Check that the file contains just one double on each line
@@ -202,20 +219,21 @@ public class TucsonCompactReader extends AbstractDendroFileReader {
 		// Check first line has fortran formatting string
 		String fortranFormat = null;
 		try{
-			fortranFormat = argFileString[0].substring(argFileString[0].indexOf("(")+1, argFileString[0].indexOf(")"));
-		cols = Integer.parseInt(fortranFormat.substring(0, fortranFormat.indexOf("F")));
+			fortranFormat = argFileString[0].substring(argFileString[0].indexOf("(")-2, argFileString[0].indexOf(")"));
+		cols = Integer.parseInt(fortranFormat.substring(3, fortranFormat.indexOf("F")));
 		chars = Integer.parseInt(fortranFormat.substring(fortranFormat.indexOf("F")+1, fortranFormat.indexOf(".")));
-		divFactor = Integer.parseInt(fortranFormat.substring(fortranFormat.indexOf(".")+1));
+		divFactor = Integer.parseInt(fortranFormat.substring(0, 2));
+		defaults.getIntegerDefaultValue(DefaultFields.DIVFACTOR).setValue(divFactor);
 		} catch (Exception e)
 		{
 			throw new InvalidDendroFileException(I18n.getText("tucsoncompact.invalidFortranFormatter"));
 		}
 		
 		// Check that the divFactor is 0
-		if (divFactor!=0)
+		/*if (divFactor!=0)
 		{
 			throw new InvalidDendroFileException(I18n.getText("tucsoncompact.invalidFortranFormatter"));
-		}
+		}*/
 		
 		// Check first line is terminated with a ~
 		if(!argFileString[0].substring(argFileString[0].length()-1).equals("~"))
@@ -238,7 +256,10 @@ public class TucsonCompactReader extends AbstractDendroFileReader {
 			Pattern p1 = Pattern.compile(regex, Pattern.CASE_INSENSITIVE | Pattern.DOTALL);
 			Matcher m1 = p1.matcher(line);
 			if (m1.find()) {
-				throw new InvalidDendroFileException(I18n.getText("fileio.invalidDataValue"));
+				if(!line.endsWith("~"))
+				{
+					throw new InvalidDendroFileException(I18n.getText("fileio.invalidDataValue"));
+				}
 			}
 		}		
 	}
