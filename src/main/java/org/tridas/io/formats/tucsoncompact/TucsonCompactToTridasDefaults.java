@@ -22,6 +22,7 @@ import org.tridas.io.defaults.IMetadataFieldSet;
 import org.tridas.io.defaults.TridasMetadataFieldSet;
 import org.tridas.io.defaults.values.IntegerDefaultValue;
 import org.tridas.io.defaults.values.StringDefaultValue;
+import org.tridas.io.formats.tucson.TucsonToTridasDefaults;
 import org.tridas.io.util.SafeIntYear;
 import org.tridas.schema.DatingSuffix;
 import org.tridas.schema.NormalTridasUnit;
@@ -108,4 +109,6 @@ public class TucsonCompactToTridasDefaults extends TridasMetadataFieldSet implem
 		
 		return valuesGroup;
 	}
+	
+
 }
