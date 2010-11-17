@@ -99,7 +99,7 @@ public class TucsonCompactReader extends AbstractDendroFileReader {
 		
 		TridasProject project = defaults.getProjectWithDefaults(false);
 		
-		// Loop through each series 
+		// Loop through each series and add to our project
 		for(TucsonCompactSeries ser : seriesList)
 		{		
 			TridasObject obj = ser.defaults.getObjectWithDefaults(true);
@@ -125,11 +125,25 @@ public class TucsonCompactReader extends AbstractDendroFileReader {
 		defaults = (TucsonCompactToTridasDefaults) argDefaultFields;
 		
 		// Remove any blank lines 
-		ArrayList<String> lines = new ArrayList<String>();
+		ArrayList<String> lines2 = new ArrayList<String>();
 		for (String line: argFileString)
 		{
-			if(!line.equals("")) {lines.add(line);}
+			if(!line.equals("")) {lines2.add(line);}
 		}
+		
+		// Check for lines at beginning of file that do not terminate with a ~
+		// These will be treated as project comments
+		String comments = "";
+		ArrayList<String> lines = (ArrayList<String>) lines2.clone();
+		for(int linenum = 0; linenum < lines2.size(); linenum++)
+		{
+			String line = lines2.get(linenum);
+			if(line.endsWith("~")) break;
+			lines.remove(linenum);
+			comments = comments + line + "; "; 	
+		}
+		// Remove duplicate white space chars from comment
+		defaults.getStringDefaultValue(DefaultFields.PROJECT_COMMENT).setValue(comments.replaceAll("\\s+", " "));
 		argFileString = lines.toArray(new String[0]);
 		
 		// Loop through file compiling data in series chunks
@@ -160,14 +174,11 @@ public class TucsonCompactReader extends AbstractDendroFileReader {
 		}
 		
 		
-		// Loop through each series 
+		// Loop through each series parsing info as we go
 		for(TucsonCompactSeries ser : seriesList)
 		{
 			parseSeries(ser);
 		}
-		
-
-
 	}
 	
 	/**

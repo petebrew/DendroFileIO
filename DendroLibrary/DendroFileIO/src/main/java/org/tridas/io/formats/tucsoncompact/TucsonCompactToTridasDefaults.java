@@ -29,6 +29,7 @@ import org.tridas.schema.NormalTridasUnit;
 import org.tridas.schema.NormalTridasVariable;
 import org.tridas.schema.TridasInterpretation;
 import org.tridas.schema.TridasMeasurementSeries;
+import org.tridas.schema.TridasProject;
 import org.tridas.schema.TridasUnit;
 import org.tridas.schema.TridasValues;
 import org.tridas.schema.TridasVariable;
@@ -42,7 +43,9 @@ public class TucsonCompactToTridasDefaults extends TridasMetadataFieldSet implem
 		SERIES_TITLE,
 		RING_COUNT,
 		START_YEAR,
+		PROJECT_COMMENT,
 		DIVFACTOR;
+		
 
 	}
 	
@@ -53,6 +56,7 @@ public class TucsonCompactToTridasDefaults extends TridasMetadataFieldSet implem
 		setDefaultValue(DefaultFields.RING_COUNT, new IntegerDefaultValue());
 		setDefaultValue(DefaultFields.START_YEAR, new IntegerDefaultValue());
 		setDefaultValue(DefaultFields.DIVFACTOR, new IntegerDefaultValue());
+		setDefaultValue(DefaultFields.PROJECT_COMMENT, new StringDefaultValue());
 
 		
 	}
@@ -80,6 +84,16 @@ public class TucsonCompactToTridasDefaults extends TridasMetadataFieldSet implem
 		return series;
 		
 		
+	}
+	
+	protected TridasProject getDefaultTridasProject(){
+		TridasProject project = super.getDefaultTridasProject();
+		
+		if(getStringDefaultValue(DefaultFields.PROJECT_COMMENT).getValue()!=null)
+		{
+			project.setComments(getStringDefaultValue(DefaultFields.PROJECT_COMMENT).getValue());
+		}
+		return project;
 	}
 	
 	public TridasValues getDefaultTridasValues(){
