@@ -29,25 +29,18 @@ import org.tridas.io.exceptions.ConversionWarning.WarningType;
 import org.tridas.io.formats.tucsoncompact.TucsonCompactToTridasDefaults.DefaultFields;
 import org.tridas.io.util.UnitUtils;
 import org.tridas.schema.NormalTridasUnit;
-import org.tridas.schema.NormalTridasVariable;
 import org.tridas.schema.TridasMeasurementSeries;
+import org.tridas.schema.TridasObject;
 import org.tridas.schema.TridasProject;
-import org.tridas.schema.TridasUnit;
 import org.tridas.schema.TridasValue;
 import org.tridas.schema.TridasValues;
-import org.tridas.schema.TridasVariable;
 
 public class TucsonCompactReader extends AbstractDendroFileReader {
 
 	private static final SimpleLogger log = new SimpleLogger(TucsonCompactReader.class);
+	private ArrayList<TucsonCompactSeries> seriesList = new ArrayList<TucsonCompactSeries>();
 	private TucsonCompactToTridasDefaults defaults = null;
 	private int currentLineNumber = -1;
-	
-	Integer cols = null;
-	Integer chars = null;
-	Integer divFactor = null;
-	
-	private ArrayList<TridasValue> dataVals = new ArrayList<TridasValue>();
 
 	public TucsonCompactReader() {
 		super(TucsonCompactToTridasDefaults.class);
@@ -96,7 +89,7 @@ public class TucsonCompactReader extends AbstractDendroFileReader {
 	@Override
 	protected void resetReader() {
 		
-		dataVals.clear();
+		seriesList.clear();
 
 	}
 
@@ -104,15 +97,20 @@ public class TucsonCompactReader extends AbstractDendroFileReader {
 	@Override
 	public TridasProject getProject() {
 		
-		TridasProject project = defaults.getProjectWithDefaults(true);
+		TridasProject project = defaults.getProjectWithDefaults(false);
 		
-		TridasMeasurementSeries ms = project.getObjects().get(0).getElements().get(0).getSamples().get(0).getRadiuses().get(0).getMeasurementSeries().get(0);
-		TridasValues valuesGroup = defaults.getDefaultTridasValues();
-		valuesGroup.setValues(dataVals);
-		ArrayList<TridasValues> valuesList = new ArrayList<TridasValues>();
-		valuesList.add(valuesGroup);
-		ms.setValues(valuesList);
-
+		// Loop through each series 
+		for(TucsonCompactSeries ser : seriesList)
+		{		
+			TridasObject obj = ser.defaults.getObjectWithDefaults(true);
+			TridasMeasurementSeries ms = obj.getElements().get(0).getSamples().get(0).getRadiuses().get(0).getMeasurementSeries().get(0);
+			TridasValues valuesGroup = ser.defaults.getDefaultTridasValues();
+			valuesGroup.setValues(ser.dataVals);
+			ArrayList<TridasValues> valuesList = new ArrayList<TridasValues>();
+			valuesList.add(valuesGroup);
+			ms.setValues(valuesList);
+			project.getObjects().add(obj);
+		}
 		return project;
 		
 	}
@@ -134,25 +132,85 @@ public class TucsonCompactReader extends AbstractDendroFileReader {
 		}
 		argFileString = lines.toArray(new String[0]);
 		
-		checkFileIsValid(argFileString);
-		
-		// Set ring count		
-		if(dataVals!=null)
+		// Loop through file compiling data in series chunks
+		TucsonCompactSeries series = new TucsonCompactSeries((TucsonCompactToTridasDefaults)defaults.clone());
+		currentLineNumber = 0;
+		for (String line: argFileString)
 		{
-			defaults.getIntegerDefaultValue(DefaultFields.RING_COUNT).setValue(dataVals.size());
+			currentLineNumber ++;
+			if(line.endsWith("~"))
+			{
+				// Header line so start a new series and add it to the list
+				series = new TucsonCompactSeries((TucsonCompactToTridasDefaults)defaults.clone());
+				this.seriesList.add(series);
+			}
+			else
+			{
+				// Data line so check there are no chars other than spaces and digits
+				String regex = "[^\\d ]";
+				Pattern p1 = Pattern.compile(regex, Pattern.CASE_INSENSITIVE | Pattern.DOTALL);
+				Matcher m1 = p1.matcher(line);
+				if (m1.find()) {
+					throw new InvalidDendroFileException(I18n.getText("fileio.invalidDataValue"), currentLineNumber);
+				}
+			}
+			
+			// Add line to array 
+			series.lines.add(line);
 		}
 		
-		// Set start year
-		try{
-			Integer startYear = Integer.parseInt(argFileString[0].substring(10, 18).trim());
-			if(startYear!=null)
-			{
-				defaults.getIntegerDefaultValue(DefaultFields.START_YEAR).setValue(startYear);
-			}
-		} catch (Exception e){}
 		
+		// Loop through each series 
+		for(TucsonCompactSeries ser : seriesList)
+		{
+			parseSeries(ser);
+		}
+		
+
+
+	}
+	
+	/**
+	 * Check that the file contains just one double on each line
+	 * 
+	 * @param argFileString
+	 * @throws InvalidDendroFileException
+	 */
+	private void parseSeries(TucsonCompactSeries series) throws InvalidDendroFileException
+	{		
+		// Check first line has fortran formatting string
+		String[] argFileString = series.lines.toArray(new String[0]);
+
+		String fortranFormat = null;
+		Integer cols = null;
+		Integer chars = null;
+		Integer divFactor = null;
+		
+		try{
+			fortranFormat = argFileString[0].substring(argFileString[0].indexOf("(")-2, argFileString[0].indexOf(")"));
+			cols = Integer.parseInt(fortranFormat.substring(3, fortranFormat.indexOf("F")));
+			chars = Integer.parseInt(fortranFormat.substring(fortranFormat.indexOf("F")+1, fortranFormat.indexOf(".")));
+			divFactor = Integer.parseInt(fortranFormat.substring(0, 2));
+			series.defaults.getIntegerDefaultValue(DefaultFields.DIVFACTOR).setValue(divFactor);
+		} catch (Exception e)
+		{
+			throw new InvalidDendroFileException(I18n.getText("tucsoncompact.invalidFortranFormatter"));
+		}
+		
+		// Check first line is terminated with a ~
+		if(!argFileString[0].substring(argFileString[0].length()-1).equals("~"))
+		{
+			throw new InvalidDendroFileException(I18n.getText("tucsoncompact.missingTilde"));
+		}
+				
+		// Check there are two '=' signs at the expected positions
+		if((argFileString[0].indexOf("=")!=8) || (argFileString[0].indexOf("=", 9)!=18))
+		{
+			throw new InvalidDendroFileException(I18n.getText("tucsoncompact.missingEqualsSigns"));
+		}
+					
 		// Set series Title	
-		defaults.getStringDefaultValue(DefaultFields.SERIES_TITLE).setValue(argFileString[0].substring(21,68).trim());
+		series.defaults.getStringDefaultValue(DefaultFields.SERIES_TITLE).setValue(argFileString[0].substring(21,68).trim());
 				
 		// Copy each value into the data array
 		for (int linenum=1; linenum<argFileString.length; linenum++)
@@ -173,7 +231,7 @@ public class TucsonCompactReader extends AbstractDendroFileReader {
 				}		
 				
 				// Convert integer from file to double by using the divFactor
-				Double dblval = intval*Math.pow(10, this.divFactor);
+				Double dblval = intval*Math.pow(10, divFactor);
 				
 				// Convert and set the units to appropriate value based on divFactor
 				if(divFactor.compareTo(-4)<=0)
@@ -185,84 +243,50 @@ public class TucsonCompactReader extends AbstractDendroFileReader {
 					val.setValue(Math.round(UnitUtils.convertDouble(NormalTridasUnit.MILLIMETRES, NormalTridasUnit.HUNDREDTH_MM, dblval))+"");
 				}
 				
-				dataVals.add(val);
+				series.dataVals.add(val);
 			}
 			
 		}	
 		
+		// Set ring count		
+		if(series.dataVals!=null)
+		{
+			series.defaults.getIntegerDefaultValue(DefaultFields.RING_COUNT).setValue(series.dataVals.size());
+		}
+		
+		// Set start year
+		try{
+			Integer startYear = Integer.parseInt(argFileString[0].substring(10, 18).trim());
+			if(startYear!=null)
+			{
+				series.defaults.getIntegerDefaultValue(DefaultFields.START_YEAR).setValue(startYear);
+			}
+		} catch (Exception e){}
+				
 		// Check that the ring count matches what is in the header
 		try{
 			Integer ringcount = Integer.parseInt(argFileString[0].substring(0, 8).trim());
-			if(ringcount!=dataVals.size())
+			if(ringcount!=series.dataVals.size())
 			{
 				addWarning(new ConversionWarning(WarningType.INVALID, 
 						I18n.getText("nottingham.valuesAndRingCountMismatch")));
 			}
 		} catch (Exception e){}
-
-
 	}
 
-	private Double convertDataVal(Integer val)
-	{
-		return Math.pow(val, this.divFactor);
-	}
-	
 	/**
-	 * Check that the file contains just one double on each line
+	 * Class to store the measurement series data
 	 * 
-	 * @param argFileString
-	 * @throws InvalidDendroFileException
+	 * @author peterbrewer
 	 */
-	private void checkFileIsValid(String[] argFileString) throws InvalidDendroFileException
-	{		
-		// Check first line has fortran formatting string
-		String fortranFormat = null;
-		try{
-			fortranFormat = argFileString[0].substring(argFileString[0].indexOf("(")-2, argFileString[0].indexOf(")"));
-		cols = Integer.parseInt(fortranFormat.substring(3, fortranFormat.indexOf("F")));
-		chars = Integer.parseInt(fortranFormat.substring(fortranFormat.indexOf("F")+1, fortranFormat.indexOf(".")));
-		divFactor = Integer.parseInt(fortranFormat.substring(0, 2));
-		defaults.getIntegerDefaultValue(DefaultFields.DIVFACTOR).setValue(divFactor);
-		} catch (Exception e)
-		{
-			throw new InvalidDendroFileException(I18n.getText("tucsoncompact.invalidFortranFormatter"));
-		}
+	private static class TucsonCompactSeries{
+		public TucsonCompactToTridasDefaults defaults;
+		public final ArrayList<TridasValue> dataVals = new ArrayList<TridasValue>();
+		public ArrayList<String> lines = new ArrayList<String>();
 		
-		// Check that the divFactor is 0
-		/*if (divFactor!=0)
+		private TucsonCompactSeries(TucsonCompactToTridasDefaults df)
 		{
-			throw new InvalidDendroFileException(I18n.getText("tucsoncompact.invalidFortranFormatter"));
-		}*/
-		
-		// Check first line is terminated with a ~
-		if(!argFileString[0].substring(argFileString[0].length()-1).equals("~"))
-		{
-			throw new InvalidDendroFileException(I18n.getText("tucsoncompact.missingTilde"));
+			defaults =df;
 		}
-				
-		// Check there are two '=' signs at the expected positions
-		if((argFileString[0].indexOf("=")!=8) || (argFileString[0].indexOf("=", 9)!=18))
-		{
-			throw new InvalidDendroFileException(I18n.getText("tucsoncompact.missingEqualsSigns"));
-		}
-		
-		for (int linenum=1; linenum<argFileString.length; linenum++)
-		{
-			String line = argFileString[linenum];
-			
-			// Check there are no chars other than spaces and digits
-			String regex = "[^\\d ]";
-			Pattern p1 = Pattern.compile(regex, Pattern.CASE_INSENSITIVE | Pattern.DOTALL);
-			Matcher m1 = p1.matcher(line);
-			if (m1.find()) {
-				if(!line.endsWith("~"))
-				{
-					throw new InvalidDendroFileException(I18n.getText("fileio.invalidDataValue"));
-				}
-			}
-		}		
 	}
-
-
 }
