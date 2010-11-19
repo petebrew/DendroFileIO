@@ -52,7 +52,7 @@ import org.tridas.schema.TridasProject;
 public class TestToTridas extends TestCase {
 	
 	private static final SimpleLogger log = new SimpleLogger(TestToTridas.class);
-	private static final String outputLocation = "target/TestOutput";
+	private static final String outputLocation = "TestData/TRiCYCLE-Output-From-Legacy";
 	
 	private String[] getFilesFromFolder(String folder) {
 		File dir = new File(folder);
@@ -73,7 +73,7 @@ public class TestToTridas extends TestCase {
 		}
 		
 		for (String filename : files) {
-			if(!filename.equals("AKK00010.rwl")) { continue; }
+			//if(!filename.equals("AKK00010.rwl")) { continue; }
 			
 			log.info("Test conversion of: " + filename);
 			
@@ -101,7 +101,7 @@ public class TestToTridas extends TestCase {
 			// Extract the TridasProject
 			TridasProject myproject = reader.getProject();
 			TridasWriter writer = new TridasWriter();
-			writer.setNamingConvention(new UUIDNamingConvention());
+			writer.setNamingConvention(new NumericalNamingConvention("Tucson-"+filename));
 			
 			try {
 				writer.loadProject(myproject, new TridasMetadataFieldSet());
@@ -154,7 +154,7 @@ public class TestToTridas extends TestCase {
 			// Extract the TridasProject
 			TridasProject myproject = reader.getProject();
 			TridasWriter writer = new TridasWriter();
-			writer.setNamingConvention(new NumericalNamingConvention());
+			writer.setNamingConvention(new NumericalNamingConvention("Past-"+filename));
 			
 			try {
 				writer.loadProject(myproject, new TridasMetadataFieldSet());
@@ -206,7 +206,7 @@ public class TestToTridas extends TestCase {
 			TridasProject myproject = reader.getProject();
 			
 			TridasWriter writer = new TridasWriter();
-			writer.setNamingConvention(new NumericalNamingConvention());
+			writer.setNamingConvention(new NumericalNamingConvention("Catras-"+filename));
 			
 			try {
 				writer.loadProject(myproject);
@@ -254,7 +254,7 @@ public class TestToTridas extends TestCase {
 			TridasProject myproject = reader.getProject();
 			
 			TridasWriter writer = new TridasWriter();
-			writer.setNamingConvention(new UUIDNamingConvention());
+			writer.setNamingConvention(new NumericalNamingConvention("Heidelberg-"+filename));
 			
 			try {
 				writer.loadProject(myproject);
@@ -262,7 +262,7 @@ public class TestToTridas extends TestCase {
 				fail();
 			} catch (ConversionWarningException e) {
 			} 
-			writer.saveAllToDisk("target/TestOutput/");
+			writer.saveAllToDisk(outputLocation);
 			
 		}
 		
@@ -300,7 +300,7 @@ public class TestToTridas extends TestCase {
 			TridasProject myproject = reader.getProject();
 			
 			TridasWriter writer = new TridasWriter();
-			writer.setNamingConvention(new UUIDNamingConvention());
+			writer.setNamingConvention(new NumericalNamingConvention("Trims-"+filename));
 			
 			try {
 				writer.loadProject(myproject);
@@ -348,8 +348,7 @@ public class TestToTridas extends TestCase {
 			
 			TridasWriter writer = new TridasWriter();
 			try {
-				writer.setNamingConvention(new NumericalNamingConvention(filename.substring(0, filename
-						.lastIndexOf("."))));
+				writer.setNamingConvention(new NumericalNamingConvention("Sheffield-"+filename));
 				writer.loadProject(myproject);
 			} catch (IncompleteTridasDataException e) {
 				fail();
@@ -393,7 +392,7 @@ public class TestToTridas extends TestCase {
 			TridasProject myproject = reader.getProject();
 			
 			TridasWriter writer = new TridasWriter();
-			writer.setNamingConvention(new UUIDNamingConvention());
+			writer.setNamingConvention(new NumericalNamingConvention("BelfastApple-"+filename));
 			
 			try {
 				writer.loadProject(myproject);
@@ -439,7 +438,8 @@ public class TestToTridas extends TestCase {
 			TridasProject myproject = reader.getProject();
 			
 			TridasWriter writer = new TridasWriter();
-			writer.setNamingConvention(new UUIDNamingConvention());
+			writer.setNamingConvention(new NumericalNamingConvention("BelfastArchive-"+filename));
+			
 			
 			try {
 				writer.loadProject(myproject);
@@ -486,7 +486,7 @@ public class TestToTridas extends TestCase {
 			TridasProject myproject = reader.getProject();
 			
 			TridasWriter writer = new TridasWriter();
-			writer.setNamingConvention(new NumericalNamingConvention());
+			writer.setNamingConvention(new NumericalNamingConvention("VFormat-"+filename));
 			
 			try {
 				writer.loadProject(myproject, new TridasMetadataFieldSet());
@@ -537,7 +537,7 @@ public class TestToTridas extends TestCase {
 			TridasProject myproject = reader.getProject();
 			
 			TridasWriter writer = new TridasWriter();
-			NumericalNamingConvention nc = new NumericalNamingConvention("test");
+			NumericalNamingConvention nc = new NumericalNamingConvention("Besancon-"+filename);
 			writer.setNamingConvention(nc);
 			
 			try {
@@ -585,7 +585,7 @@ public class TestToTridas extends TestCase {
 			TridasProject myproject = reader.getProject();
 			
 			TridasWriter writer = new TridasWriter();
-			NumericalNamingConvention nc = new NumericalNamingConvention("test");
+			NumericalNamingConvention nc = new NumericalNamingConvention("WinDendro-"+filename);
 			writer.setNamingConvention(nc);
 			
 			try {
@@ -634,7 +634,7 @@ public class TestToTridas extends TestCase {
 			TridasProject myproject = reader.getProject();
 			
 			TridasWriter writer = new TridasWriter();
-			NumericalNamingConvention nc = new NumericalNamingConvention("test");
+			NumericalNamingConvention nc = new NumericalNamingConvention("Topham-"+filename);
 			writer.setNamingConvention(nc);
 			
 			try {
@@ -682,7 +682,7 @@ public class TestToTridas extends TestCase {
 			TridasProject myproject = reader.getProject();
 			
 			TridasWriter writer = new TridasWriter();
-			NumericalNamingConvention nc = new NumericalNamingConvention("test");
+			NumericalNamingConvention nc = new NumericalNamingConvention("Nottingham-"+filename);
 			writer.setNamingConvention(nc);
 			
 			try {
@@ -730,7 +730,7 @@ public class TestToTridas extends TestCase {
 			TridasProject myproject = reader.getProject();
 			
 			TridasWriter writer = new TridasWriter();
-			NumericalNamingConvention nc = new NumericalNamingConvention("test");
+			NumericalNamingConvention nc = new NumericalNamingConvention("TucsonCompact-"+filename);
 			writer.setNamingConvention(nc);
 			
 			try {
@@ -830,7 +830,7 @@ public class TestToTridas extends TestCase {
 			TridasProject myproject = reader.getProject();
 			
 			TridasWriter writer = new TridasWriter();
-			writer.setNamingConvention(new NumericalNamingConvention());
+			writer.setNamingConvention(new NumericalNamingConvention("CorinaLegacy-"+filename));
 			
 			try {
 				writer.loadProject(myproject);

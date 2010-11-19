@@ -96,7 +96,7 @@ public class TestFromTridas extends TestCase {
 			// Create a new converter based on a TridasProject
 			CSVWriter writer = new CSVWriter();
 			
-			writer.setNamingConvention(new HierarchicalNamingConvention());
+			writer.setNamingConvention(new NumericalNamingConvention("CSV"));
 			try {
 				writer.loadProject(project);
 			} catch (IncompleteTridasDataException e) {
