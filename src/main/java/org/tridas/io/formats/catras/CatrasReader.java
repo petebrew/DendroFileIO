@@ -266,6 +266,12 @@ public class CatrasReader extends AbstractDendroFileReader {
 				// Ignore.  This is a padding value found in files created with older versions
 				// of CATRAS
 			}
+			else if (valueFromFile < -1)
+			{
+				// Missing ring value
+				ringWidthValues.add(0);
+				log.debug("CATRAS negative ring width value is being interpreted as a missing ring");
+			}
 			else {
 				// Handle normal ring width values
 				ringWidthValues.add(valueFromFile);
@@ -285,6 +291,22 @@ public class CatrasReader extends AbstractDendroFileReader {
 				trimmedRingValues.add(ringWidthValues.get(j));
 			}
 			ringWidthValues = trimmedRingValues;
+		}
+	
+		// Check for lead-in and lead-out missing rings.  If present remove
+		// them, updating ring count, start and end dates accordingly.
+		if(ringWidthValues.get(0).equals(0))
+		{
+			int numRingsToDelete = 0;
+			for(Integer val : ringWidthValues)
+			{
+				if(val!=0) break;
+				numRingsToDelete++;
+				ringWidthValues.remove(val);
+			}
+			
+			length = length - numRingsToDelete;
+						
 		}
 		
 		// Check sample depth values count is valid
