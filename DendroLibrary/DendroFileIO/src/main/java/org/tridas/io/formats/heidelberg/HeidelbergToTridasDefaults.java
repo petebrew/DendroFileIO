@@ -586,7 +586,8 @@ public class HeidelbergToTridasDefaults extends TridasMetadataFieldSet {
 		
 		
 		// Temporal coverage
-		if(getStringDefaultValue(DefaultFields.ESTIMATED_TIME_PERIOD).getStringValue()!=null)
+		if((getStringDefaultValue(DefaultFields.ESTIMATED_TIME_PERIOD).getStringValue()!=null) && 
+				(getStringDefaultValue(DefaultFields.ESTIMATED_TIME_PERIOD).getStringValue()!=""))
 		{
 			TridasCoverage coverage = new TridasCoverage();
 			coverage.setCoverageTemporal(getStringDefaultValue(DefaultFields.ESTIMATED_TIME_PERIOD).getStringValue());

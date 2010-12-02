@@ -31,6 +31,7 @@ import org.tridas.io.defaults.values.StringDefaultValue;
 import org.tridas.io.util.DateUtils;
 import org.tridas.io.util.SafeIntYear;
 import org.tridas.schema.DatingSuffix;
+import org.tridas.schema.NormalTridasMeasuringMethod;
 import org.tridas.schema.NormalTridasUnit;
 import org.tridas.schema.NormalTridasVariable;
 import org.tridas.schema.TridasDimensions;
@@ -172,7 +173,7 @@ public class WinDendroToTridasDefaults extends TridasMetadataFieldSet implements
 		
 		// Set measuring method 
 		TridasMeasuringMethod method = new TridasMeasuringMethod();
-		method.setNormal("Image analysis using WinDENDRO");
+		method.setNormalTridas(NormalTridasMeasuringMethod.ONSCREEN_MEASURING);
 		ms.setMeasuringMethod(method);
 		
 		SafeIntYear lastYear = getSafeIntYearDefaultValue(WDDefaultField.LAST_RING_YEAR).getValue();

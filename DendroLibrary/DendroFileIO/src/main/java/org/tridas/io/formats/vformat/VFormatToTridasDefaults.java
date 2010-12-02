@@ -156,7 +156,8 @@ public class VFormatToTridasDefaults extends TridasMetadataFieldSet {
 		TridasElement e = super.getDefaultTridasElement();
 	
 		// Element id
-		if(getStringDefaultValue(DefaultFields.TREE_CODE).getValue()!=null)
+		if((getStringDefaultValue(DefaultFields.TREE_CODE).getValue()!=null) && 
+				(!getStringDefaultValue(DefaultFields.TREE_CODE).getValue().trim().isEmpty()))
 		{
 			TridasIdentifier id = new TridasIdentifier();
 			id.setDomain(getStringDefaultValue(TridasMandatoryField.IDENTIFIER_DOMAIN).getValue());
@@ -166,7 +167,8 @@ public class VFormatToTridasDefaults extends TridasMetadataFieldSet {
 		}
 		
 		// Species
-		if(getStringDefaultValue(DefaultFields.SPECIES).getValue()!=null)
+		if((getStringDefaultValue(DefaultFields.SPECIES).getValue()!=null) && 
+				(!getStringDefaultValue(DefaultFields.SPECIES).getValue().trim().isEmpty()))	
 		{
 			e.setTaxon(ITRDBTaxonConverter.getControlledVocFromCode(getStringDefaultValue(DefaultFields.SPECIES).getValue()));
 		}
@@ -197,7 +199,8 @@ public class VFormatToTridasDefaults extends TridasMetadataFieldSet {
 		TridasSample s = super.getDefaultTridasSample();
 		
 		
-		if(getStringDefaultValue(DefaultFields.HEIGHT_CODE).getValue()!=null)
+		if((getStringDefaultValue(DefaultFields.HEIGHT_CODE).getValue()!=null) &&
+				(!getStringDefaultValue(DefaultFields.HEIGHT_CODE).getValue().trim().isEmpty()))
 		{
 			// Height code: 1=1m, 2=2m ... 9=9m, A=10m, B=11m... S=30cm, T=130cm
 			String map = "0123456789ABCDEFGHIJKLMNOPQRST";	
@@ -242,7 +245,8 @@ public class VFormatToTridasDefaults extends TridasMetadataFieldSet {
 		
 				
 		// Series id
-		if(getStringDefaultValue(DefaultFields.SERIES_ID).getValue()!=null)
+		if((getStringDefaultValue(DefaultFields.SERIES_ID).getValue()!=null) && 
+				(!getStringDefaultValue(DefaultFields.SERIES_ID).getValue().trim().isEmpty()))
 		{
 			TridasIdentifier id = new TridasIdentifier();
 			id.setDomain(getStringDefaultValue(TridasMandatoryField.IDENTIFIER_DOMAIN).getValue());
@@ -251,8 +255,10 @@ public class VFormatToTridasDefaults extends TridasMetadataFieldSet {
 		}
 
 		// Description / label
-		if(getStringDefaultValue(DefaultFields.DESCRIPTION).getValue()!=null)
+		if((getStringDefaultValue(DefaultFields.DESCRIPTION).getValue()!=null) &&
+				(!getStringDefaultValue(DefaultFields.DESCRIPTION).getValue().trim().isEmpty()))
 		{
+			String title = getStringDefaultValue(DefaultFields.DESCRIPTION).getValue();
 			ms.setTitle(getStringDefaultValue(DefaultFields.DESCRIPTION).getValue());
 		}
 	
@@ -283,13 +289,15 @@ public class VFormatToTridasDefaults extends TridasMetadataFieldSet {
 		}
 		
 		// Analyst
-		if(getStringDefaultValue(DefaultFields.ANALYST).getValue()!=null)
+		if((getStringDefaultValue(DefaultFields.ANALYST).getValue()!=null) && 
+				(!getStringDefaultValue(DefaultFields.ANALYST).getValue().trim().isEmpty()))
 		{
 			ms.setAnalyst(getStringDefaultValue(DefaultFields.ANALYST).getValue());
 		}
 		
 		// Free text comments
-		if(getStringDefaultValue(DefaultFields.FREE_TEXT_FIELD).getValue()!=null)
+		if((getStringDefaultValue(DefaultFields.FREE_TEXT_FIELD).getValue()!=null) && 
+				(!getStringDefaultValue(DefaultFields.FREE_TEXT_FIELD).getValue().trim().isEmpty()))
 		{
 			ms.setComments(getStringDefaultValue(DefaultFields.FREE_TEXT_FIELD).getValue());
 		}
@@ -323,7 +331,8 @@ public class VFormatToTridasDefaults extends TridasMetadataFieldSet {
 		TridasDerivedSeries ds = super.getDefaultTridasDerivedSeries();
 		
 		// Series id
-		if(getStringDefaultValue(DefaultFields.SERIES_ID).getValue()!=null)
+		if((getStringDefaultValue(DefaultFields.SERIES_ID).getValue()!=null) &&
+				(!getStringDefaultValue(DefaultFields.SERIES_ID).getValue().trim().isEmpty()))
 		{
 			ds.setTitle(getStringDefaultValue(DefaultFields.SERIES_ID).getValue());
 		}
