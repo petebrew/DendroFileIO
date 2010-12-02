@@ -196,7 +196,7 @@ public class VFormatReader extends AbstractDendroFileReader {
 				log.debug(line.substring(24, 30));
 				} catch (NumberFormatException e)
 				{
-					if(!line.substring(24,30).trim().equals(""))
+					if(!line.substring(24,30).trim().isEmpty())
 					{
 						addWarning(new ConversionWarning(WarningType.IGNORED, I18n.getText(
 								"fileio.unableToParse", "lastYear")));
@@ -204,9 +204,9 @@ public class VFormatReader extends AbstractDendroFileReader {
 				}
 				
 				// Description
-				if(line.substring(30,50).trim()!=null)
+				if((line.substring(30,50)!=null) && (!line.substring(30,50).trim().isEmpty()))
 				{
-					series.defaults.getStringDefaultValue(DefaultFields.DESCRIPTION).setValue(line.substring(30,50));
+					series.defaults.getStringDefaultValue(DefaultFields.DESCRIPTION).setValue(line.substring(30,50).trim());
 					log.debug(line.substring(30, 50));
 				}
 	
