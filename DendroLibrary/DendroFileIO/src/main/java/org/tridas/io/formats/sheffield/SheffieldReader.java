@@ -156,20 +156,20 @@ public class SheffieldReader extends AbstractDendroFileReader {
 				Integer val = 0;
 				try {
 					val = Integer.parseInt(lineString);
+					
+					GenericDefaultValue<SheffieldDataType> dataTypeField = (GenericDefaultValue<SheffieldDataType>) defaults
+							.getDefaultValue(DefaultFields.SHEFFIELD_DATA_TYPE);
+					if (dataTypeField.getValue().equals(SheffieldDataType.ANNUAL_RAW_RING_WIDTH)) {
+						defaults.getIntegerDefaultValue(DefaultFields.SAPWOOD_COUNT).setValue(val);
+					}
+					else {
+						// Field contains number of timbers/chronologies. This is not required
+						// as it can be taken from the 'count' of the value tags
+					}
 				} catch (NumberFormatException e) {
 					addWarning(new ConversionWarning(WarningType.INVALID, I18n.getText("fileio.invalidDataValue"),
 							"Sapwood count"));
 					continue;
-				}
-				
-				GenericDefaultValue<SheffieldDataType> dataTypeField = (GenericDefaultValue<SheffieldDataType>) defaults
-						.getDefaultValue(DefaultFields.SHEFFIELD_DATA_TYPE);
-				if (dataTypeField.getValue().equals(SheffieldDataType.ANNUAL_RAW_RING_WIDTH)) {
-					defaults.getIntegerDefaultValue(DefaultFields.SAPWOOD_COUNT).setValue(val);
-				}
-				else {
-					// Field contains number of timbers/chronologies. This is not required
-					// as it can be taken from the 'count' of the value tags
 				}
 			}
 			

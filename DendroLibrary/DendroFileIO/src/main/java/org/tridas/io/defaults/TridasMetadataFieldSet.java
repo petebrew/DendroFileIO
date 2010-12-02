@@ -107,7 +107,7 @@ public class TridasMetadataFieldSet extends AbstractTridasMetadataFieldSet {
 				.getText("unnamed.series")));
 		
 		TridasMeasuringMethod measurementSeriesMeasuringMethod = new TridasMeasuringMethod();
-		measurementSeriesMeasuringMethod.setNormalTridas(NormalTridasMeasuringMethod.MEASURING___PLATFORM);
+		measurementSeriesMeasuringMethod.setNormalTridas(NormalTridasMeasuringMethod.MEASURING_PLATFORM);
 		setDefaultValue(TridasMandatoryField.MEASUREMENTSERIES_MEASURINGMETHOD,
 				new GenericDefaultValue<TridasMeasuringMethod>(measurementSeriesMeasuringMethod));
 		
