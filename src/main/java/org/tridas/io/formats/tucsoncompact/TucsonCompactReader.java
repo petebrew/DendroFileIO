@@ -205,7 +205,7 @@ public class TucsonCompactReader extends AbstractDendroFileReader {
 			series.defaults.getIntegerDefaultValue(DefaultFields.DIVFACTOR).setValue(divFactor);
 		} catch (Exception e)
 		{
-			throw new InvalidDendroFileException(I18n.getText("tucsoncompact.invalidFortranFormatter"));
+			throw new InvalidDendroFileException(I18n.getText("tucsoncompact.invalidFortranFormatter"), this.currentLineNumber);
 		}
 		
 		// Check first line is terminated with a ~
