@@ -238,7 +238,7 @@ public class TucsonCompactReader extends AbstractDendroFileReader {
 					intval = Integer.parseInt(strval);
 				} catch (NumberFormatException e)
 				{
-					throw new InvalidDendroFileException("Failed to convert data value");
+					throw new InvalidDendroFileException("Failed to convert data value", currentLineNumber);
 				}		
 				
 				// Convert integer from file to double by using the divFactor
