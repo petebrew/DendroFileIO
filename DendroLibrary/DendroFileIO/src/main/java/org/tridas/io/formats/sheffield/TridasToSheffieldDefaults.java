@@ -16,6 +16,7 @@
 package org.tridas.io.formats.sheffield;
 
 import java.math.BigDecimal;
+import java.text.SimpleDateFormat;
 import java.util.List;
 
 import org.apache.commons.lang.WordUtils;
@@ -29,6 +30,7 @@ import org.tridas.io.defaults.values.IntegerDefaultValue;
 import org.tridas.io.defaults.values.SheffieldStringDefaultValue;
 import org.tridas.io.defaults.values.StringDefaultValue;
 import org.tridas.io.formats.heidelberg.HeidelbergToTridasDefaults.DefaultFields;
+import org.tridas.io.util.DateUtils;
 import org.tridas.io.util.ITRDBTaxonConverter;
 import org.tridas.io.util.SafeIntYear;
 import org.tridas.io.util.UnitUtils;
@@ -279,6 +281,10 @@ public class TridasToSheffieldDefaults extends AbstractMetadataFieldSet implemen
 		if(ms.isSetDendrochronologist())
 		{
 			comment+= ms.getDendrochronologist();
+		}
+		if(ms.isSetCreatedTimestamp())
+		{
+			comment+= " "+DateUtils.getFormattedDateTime(ms.getCreatedTimestamp(), new SimpleDateFormat("DD/MM/YYYY"));
 		}
 		if(ms.isSetComments())
 		{

@@ -201,15 +201,16 @@ public class CorinaFile implements IDendroFile {
 		if(series instanceof TridasDerivedSeries)
 		{
 			TridasDerivedSeries dseries = ((TridasDerivedSeries) series);
+			ArrayList<String> elementList = new ArrayList<String>();
 			
-			file.add(";ELEMENTS");
+			
 			if(dseries.isSetLinkSeries())
 			{
 				for(SeriesLink sl : dseries.getLinkSeries().getSeries())
 				{
 					if(sl.isSetIdentifier())
 					{
-						file.add(sl.getIdentifier().getDomain()+":"+sl.getIdentifier().getValue());
+						elementList.add(sl.getIdentifier().getDomain()+":"+sl.getIdentifier().getValue());
 					}
 					else if (sl.isSetIdRef())
 					{
@@ -219,35 +220,39 @@ public class CorinaFile implements IDendroFile {
 							TridasIdentifier id = linkedToSeries.getIdentifier();
 							if(id==null) 
 							{
-								file.add(I18n.getText("unamed.series"));
+								elementList.add(I18n.getText("unamed.series"));
 							}
 							else
 							{
 								if(id.isSetDomain() && id.isSetValue())
 								{
-									file.add(id.getDomain()+":"+id.getValue());
+									elementList.add(id.getDomain()+":"+id.getValue());
 								}
 								else if (linkedToSeries.isSetTitle())
 								{
-									file.add(linkedToSeries.getTitle());
+									elementList.add(linkedToSeries.getTitle());
 								}
 								else
 								{
-									file.add(I18n.getText("unnamed.series"));
+									elementList.add(I18n.getText("unnamed.series"));
 								}
 							}
 						}
 					}
 					else if (sl.isSetXLink())
 					{
-						file.add(sl.getXLink().getHref().toString());
+						elementList.add(sl.getXLink().getHref().toString());
 					}
 				}
 			}
 			
-			saveWeiserjahre(file);
+			if(elementList.size()>0)
+			{
 			
-			
+				file.add(";ELEMENTS");
+				file.addAll(elementList);
+				saveWeiserjahre(file);
+			}
 		}
 		
 		// Final line - username

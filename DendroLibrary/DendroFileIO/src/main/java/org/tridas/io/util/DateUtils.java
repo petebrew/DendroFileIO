@@ -248,6 +248,27 @@ public class DateUtils {
 	}
 	
 	/**
+	 * Converts a DateTime into a string formatted using the provided SimpleDateFormat
+	 *  
+	 * @param date
+	 * @param format SimpleDateFormat
+	 * @return
+	 */
+	public static String getFormattedDateTime(DateTime date, SimpleDateFormat dateFormat) {
+				
+		if(date==null)
+		{
+			Calendar calendar = Calendar.getInstance();	
+			return dateFormat.format(calendar.getTime());
+		}
+		else
+		{
+			return dateFormat.format(date.getValue().toGregorianCalendar().getTime());
+		}
+
+	}
+	
+	/**
 	 * Converts a DateTime into a PAST4 style date string (dd/MM/yyyy h:mm:ss a). If
 	 * the supplied date is null, then it returns the correct string for todays date.
 	 * 
