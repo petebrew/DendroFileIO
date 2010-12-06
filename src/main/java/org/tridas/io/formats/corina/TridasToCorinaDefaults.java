@@ -110,7 +110,7 @@ public class TridasToCorinaDefaults extends AbstractMetadataFieldSet implements
 		// Comments
 		if(argSeries.isSetComments())
 		{
-			getStringDefaultValue(DefaultFields.ID).setValue(argSeries.getComments());
+			getStringDefaultValue(DefaultFields.COMMENTS).setValue(argSeries.getComments());
 		}
 		
 		

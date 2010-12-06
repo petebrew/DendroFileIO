@@ -227,42 +227,44 @@ public class SheffieldReader extends AbstractDendroFileReader {
 			
 			// Line 10 - Lat/Long coords
 			else if (lineNum == 10) {
-				Double northing;
-				Double easting;
-				String[] coords = lineString.split(" ");
-				if (coords.length != 2) {
-					addWarning(new ConversionWarning(WarningType.NOT_STRICT, I18n
-							.getText("sheffield.errorParsingCoords")));
-					continue;
-				}
-				
-				if (lineString.contains("^")) {
-					// Convert old style coordinates
-					try {
-						northing = convertCoordsToDD(coords[0], NorthingEasting.NORTH_SOUTH);
-						easting = convertCoordsToDD(coords[1], NorthingEasting.EAST_WEST);
-					} catch (ConversionWarningException e) {
-						addWarning(e.getWarning());
-						continue;
-					}
-				}
-				else {
-					try {
-						northing = Double.valueOf(coords[0]);
-						easting = Double.valueOf(coords[1]);
-					} catch (NumberFormatException e) {
+				if (!lineString.equals("?")) 
+				{
+					Double northing;
+					Double easting;
+					String[] coords = lineString.split(" ");
+					if (coords.length != 2) {
 						addWarning(new ConversionWarning(WarningType.NOT_STRICT, I18n
 								.getText("sheffield.errorParsingCoords")));
 						continue;
 					}
-				}
-				
-				if (northing != null && easting != null) {
 					
-					defaults.getDoubleDefaultValue(DefaultFields.LATITUDE).setValue(northing);
-					defaults.getDoubleDefaultValue(DefaultFields.LONGITUDE).setValue(easting);
+					if (lineString.contains("^")) {
+						// Convert old style coordinates
+						try {
+							northing = convertCoordsToDD(coords[0], NorthingEasting.NORTH_SOUTH);
+							easting = convertCoordsToDD(coords[1], NorthingEasting.EAST_WEST);
+						} catch (ConversionWarningException e) {
+							addWarning(e.getWarning());
+							continue;
+						}
+					}
+					else {
+						try {
+							northing = Double.valueOf(coords[0]);
+							easting = Double.valueOf(coords[1]);
+						} catch (NumberFormatException e) {
+							addWarning(new ConversionWarning(WarningType.NOT_STRICT, I18n
+									.getText("sheffield.errorParsingCoords")));
+							continue;
+						}
+					}
+					
+					if (northing != null && easting != null) {
+						
+						defaults.getDoubleDefaultValue(DefaultFields.LATITUDE).setValue(northing);
+						defaults.getDoubleDefaultValue(DefaultFields.LONGITUDE).setValue(easting);
+					}
 				}
-				
 			}
 			
 			// Line 11 - Pith
@@ -330,25 +332,41 @@ public class SheffieldReader extends AbstractDendroFileReader {
 			
 			// Line 15 - Unmeasured inner rings
 			else if (lineNum == 15) {
-				try {
-					Integer ringCount = Integer.parseInt(lineString.substring(1));
-					defaults.getIntegerDefaultValue(DefaultFields.UNMEAS_INNER_RINGS).setValue(ringCount);
-				} catch (NumberFormatException e) {
-					addWarning(new ConversionWarning(WarningType.INVALID, I18n.getText("fileio.invalidDataValue"),
-							"Unmeasured inner rings"));
-					continue;
+				Integer ringCount = 0;
+				if((lineString.equalsIgnoreCase("N")))
+				{
+					defaults.getIntegerDefaultValue(DefaultFields.UNMEAS_INNER_RINGS).setValue(0);
+				}
+				else 
+				{
+					try {
+						ringCount = Integer.parseInt(lineString.substring(1));
+						defaults.getIntegerDefaultValue(DefaultFields.UNMEAS_INNER_RINGS).setValue(ringCount);
+					} catch (NumberFormatException e) {
+						addWarning(new ConversionWarning(WarningType.INVALID, I18n.getText("fileio.invalidDataValue"),
+								"Unmeasured inner rings"));
+						continue;
+					}
 				}
 			}
 			
 			// Line 16 - Unmeasured outer rings
 			else if (lineNum == 16) {
-				try {
-					Integer ringCount = Integer.parseInt(lineString.substring(1));
-					defaults.getIntegerDefaultValue(DefaultFields.UNMEAS_OUTER_RINGS).setValue(ringCount);
-				} catch (NumberFormatException e) {
-					addWarning(new ConversionWarning(WarningType.INVALID, I18n.getText("fileio.invalidDataValue"),
-							"Unmeasured outer rings"));
-					continue;
+				Integer ringCount = 0;
+				if((lineString.equalsIgnoreCase("N")))
+				{
+					defaults.getIntegerDefaultValue(DefaultFields.UNMEAS_OUTER_RINGS).setValue(0);
+				}
+				else 
+				{
+					try {
+						ringCount = Integer.parseInt(lineString.substring(1));
+						defaults.getIntegerDefaultValue(DefaultFields.UNMEAS_OUTER_RINGS).setValue(ringCount);
+					} catch (NumberFormatException e) {
+						addWarning(new ConversionWarning(WarningType.INVALID, I18n.getText("fileio.invalidDataValue"),
+								"Unmeasured outer rings"));
+						continue;
+					}
 				}
 			}
 			
@@ -364,7 +382,7 @@ public class SheffieldReader extends AbstractDendroFileReader {
 			
 			// Line 18 - Short title
 			else if (lineNum == 18) {
-				if (lineString.length() >= 8) {
+				if (lineString.length() > 8) {
 					addWarning(new ConversionWarning(WarningType.NOT_STRICT, I18n.getText("sheffield.line18TooBig")));
 				}
 				

@@ -79,7 +79,7 @@ public class TrimsReader extends AbstractDendroFileReader {
 			TridasValue v = new TridasValue();
 			
 			if (argFileString[i].startsWith(" ")) {
-				if (argFileString[i].trim() == "999") {
+				if (argFileString[i].trim().equals("999")) {
 					break;
 				}
 				v.setValue(argFileString[i].trim());
