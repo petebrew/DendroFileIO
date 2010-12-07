@@ -52,6 +52,8 @@ more information on http://www.gnu.org/licenses/lgpl.html
 		<xs:restriction base="xs:string">
 			<xs:enumeration value="Measuring platform"/>
 			<xs:enumeration value="Hand lens and graticule"/>
+			<xs:enumeration value="Onscreen measuring"/>
+			<xs:enumeration value="Visual estimate"/>
 		</xs:restriction>
 	</xs:simpleType>	
 	<!-- TRiDaS controlledVoc for shape-->
@@ -207,6 +209,7 @@ more information on http://www.gnu.org/licenses/lgpl.html
 		<xs:restriction base="xs:string">
 			<xs:enumeration value="present"/>
 			<xs:enumeration value="absent"/>
+			<xs:enumeration value="unknown"/>
 		</xs:restriction>
 	</xs:simpleType>
 	<!-- Complex presence enumeration-->

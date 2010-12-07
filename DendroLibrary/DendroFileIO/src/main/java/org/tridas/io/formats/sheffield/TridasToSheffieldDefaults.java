@@ -284,7 +284,7 @@ public class TridasToSheffieldDefaults extends AbstractMetadataFieldSet implemen
 		}
 		if(ms.isSetCreatedTimestamp())
 		{
-			comment+= " "+DateUtils.getFormattedDateTime(ms.getCreatedTimestamp(), new SimpleDateFormat("DD/MM/YYYY"));
+			comment+= " "+DateUtils.getFormattedDateTime(ms.getCreatedTimestamp(), new SimpleDateFormat("dd/MM/yyyy"));
 		}
 		if(ms.isSetComments())
 		{
