@@ -24,6 +24,8 @@ import org.tridas.io.I18n;
 import org.tridas.io.defaults.IMetadataFieldSet;
 import org.tridas.io.defaults.TridasMetadataFieldSet.TridasMandatoryField;
 import org.tridas.io.defaults.values.GenericDefaultValue;
+import org.tridas.io.exceptions.ConversionWarning;
+import org.tridas.io.exceptions.ConversionWarning.WarningType;
 import org.tridas.io.exceptions.InvalidDendroFileException;
 import org.tridas.io.util.DateUtils;
 import org.tridas.schema.NormalTridasUnit;
@@ -58,9 +60,25 @@ public class BelfastAppleReader extends AbstractDendroFileReader {
 			throws InvalidDendroFileException {
 		defaults = (BelfastAppleToTridasDefaults) argDefaultFields;
 		// Extract 'metadata' ;-)
+		
+		// Remove any white space lines
+		ArrayList<String> lines = new ArrayList<String>();
+		for(int i=0; i<argFileString.length; i++)
+		{
+			if(argFileString[i].trim().length()>0)
+			{
+				lines.add(argFileString[i].trim());
+			}
+			else
+			{
+				this.addWarning(new ConversionWarning(WarningType.NULL_VALUE, "A blank line was found and ignored", i+""));
+			}
+		}
+		argFileString = lines.toArray(new String[0]);
+		
 		objectname = argFileString[0].trim();
 		samplename = argFileString[1].trim();
-		
+				
 		// Extract data
 		ArrayList<TridasValue> ringWidthValues = new ArrayList<TridasValue>();
 		for (int i = 2; i < argFileString.length - 1; i++) {
@@ -78,7 +96,8 @@ public class BelfastAppleReader extends AbstractDendroFileReader {
 		}
 		
 		// Get last line which contains comments
-		String comments = argFileString[argFileString.length - 1].trim();
+		String comments = argFileString[argFileString.length-1].trim();
+		if(comments.startsWith("COMMENT - ")) comments = comments.substring(9).trim();
 		
 		// Now build up our measurementSeries
 		TridasMeasurementSeries series = defaults.getMeasurementSeriesWithDefaults();
