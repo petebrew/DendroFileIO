@@ -292,6 +292,7 @@ public class IOUtils {
 	 */
 
 	public static URL getFileInJarURL(String argFile) {
+		
 		return IOUtils.class.getClassLoader().getResource(argFile);
 	}
 	

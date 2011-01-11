@@ -40,7 +40,7 @@
 						<gml:pos>-28.49175 113.7916</gml:pos>
 					</gml:Point>					
 				</locationGeometry>
-				<locationType>Current location</locationType>
+				<locationType>current location</locationType>
 				<locationPrecision>5</locationPrecision>
 				<locationComment>The Batavia wreck site is located on Morning Reef in the Wallabi Group of the Houtman Abrolhos, - a series of islets and reefs, about 35 km from the mainland of Western Australia.</locationComment>
 			</location>

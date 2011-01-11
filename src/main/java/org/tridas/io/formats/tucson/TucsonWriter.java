@@ -78,7 +78,7 @@ public class TucsonWriter extends AbstractDendroCollectionWriter {
 		try { dsList = p.getDerivedSeries();
 		} catch (NullPointerException e) {}
 				
-		if (dsList.size()>0) 
+		if (dsList!=null && dsList.size()>0) 
 		{
 			/**
 			 * CHRONOLOGY FILE

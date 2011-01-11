@@ -61,20 +61,14 @@ public class BelfastAppleReader extends AbstractDendroFileReader {
 		defaults = (BelfastAppleToTridasDefaults) argDefaultFields;
 		// Extract 'metadata' ;-)
 		
-		// Remove any white space lines
-		ArrayList<String> lines = new ArrayList<String>();
+		// Check for any white space lines
 		for(int i=0; i<argFileString.length; i++)
 		{
-			if(argFileString[i].trim().length()>0)
+			if(argFileString[i].trim().length()==0)
 			{
-				lines.add(argFileString[i].trim());
-			}
-			else
-			{
-				this.addWarning(new ConversionWarning(WarningType.NULL_VALUE, "A blank line was found and ignored", i+""));
+				throw new InvalidDendroFileException(I18n.getText("belfastapple.blankLine"), i+1);
 			}
 		}
-		argFileString = lines.toArray(new String[0]);
 		
 		objectname = argFileString[0].trim();
 		samplename = argFileString[1].trim();
@@ -87,7 +81,7 @@ public class BelfastAppleReader extends AbstractDendroFileReader {
 			try {
 				val = Integer.valueOf(argFileString[i].trim());
 			} catch (NumberFormatException e) {
-				throw new InvalidDendroFileException(I18n.getText("fileio.invalidDataValue"), i);
+				throw new InvalidDendroFileException(I18n.getText("fileio.invalidDataValue"), i+1);
 			}
 			
 			v.setValue(argFileString[i].trim());

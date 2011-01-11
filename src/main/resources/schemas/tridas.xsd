@@ -36,10 +36,10 @@ more information on http://www.gnu.org/licenses/lgpl.html
 			</xs:documentation>
 		</xs:annotation>
 		<xs:restriction base="xs:string">
-			<xs:enumeration value="Absolute"/>
-			<xs:enumeration value="Dated with uncertainty"/>
-			<xs:enumeration value="Relative"/>
-			<xs:enumeration value="Radiocarbon"/>
+			<xs:enumeration value="absolute"/>
+			<xs:enumeration value="dated with uncertainty"/>
+			<xs:enumeration value="relative"/>
+			<xs:enumeration value="radiocarbon"/>
 		</xs:restriction>
 	</xs:simpleType>
 	<!-- TRiDaS controlledVoc for measuringMethod-->
@@ -50,10 +50,11 @@ more information on http://www.gnu.org/licenses/lgpl.html
 			</xs:documentation>
 		</xs:annotation>
 		<xs:restriction base="xs:string">
-			<xs:enumeration value="Measuring platform"/>
-			<xs:enumeration value="Hand lens and graticule"/>
-			<xs:enumeration value="Onscreen measuring"/>
-			<xs:enumeration value="Visual estimate"/>
+			<xs:enumeration value="measuring platform"/>
+			<xs:enumeration value="hand lens and graticule"/>
+			<xs:enumeration value="onscreen measuring"/>
+			<xs:enumeration value="visual estimate"/>
+			<xs:enumeration value="other"/>
 		</xs:restriction>
 	</xs:simpleType>	
 	<!-- TRiDaS controlledVoc for shape-->
@@ -64,25 +65,25 @@ more information on http://www.gnu.org/licenses/lgpl.html
 			</xs:documentation>
 		</xs:annotation>
 		<xs:restriction base="xs:string">
-			<xs:enumeration value="Whole section"/>
-			<xs:enumeration value="Half section"/>
-			<xs:enumeration value="Third section"/>
-			<xs:enumeration value="Quarter section"/>
-			<xs:enumeration value="Wedge where radius is smaller than circumference"/>
-			<xs:enumeration value="Wedge where radius equals the circumference"/>
-			<xs:enumeration value="Wedge where radius is bigger than the circumference"/>
-			<xs:enumeration value="Beam straightened on one side"/>
-			<xs:enumeration value="Squared beam from whole section"/>
-			<xs:enumeration value="Squared beam from half section"/>
-			<xs:enumeration value="Squared beam from quarter section"/>
-			<xs:enumeration value="Plank cut on one side"/>
-			<xs:enumeration value="Radial plank through pith"/>
-			<xs:enumeration value="Radial plank up to pith"/>
-			<xs:enumeration value="Tangential plank not including pith with breadth larger than a quarter section"/>
-			<xs:enumeration value="Plank not including pith with breadth smaller than a quarter section"/>
-			<xs:enumeration value="Small part of section"/>
-			<xs:enumeration value="Part of undetermined section"/>
-			<xs:enumeration value="Unknown"/>
+			<xs:enumeration value="whole section"/>
+			<xs:enumeration value="half section"/>
+			<xs:enumeration value="third section"/>
+			<xs:enumeration value="quarter section"/>
+			<xs:enumeration value="wedge where radius is smaller than circumference"/>
+			<xs:enumeration value="wedge where radius equals the circumference"/>
+			<xs:enumeration value="wedge where radius is bigger than the circumference"/>
+			<xs:enumeration value="beam straightened on one side"/>
+			<xs:enumeration value="squared beam from whole section"/>
+			<xs:enumeration value="squared beam from half section"/>
+			<xs:enumeration value="squared beam from quarter section"/>
+			<xs:enumeration value="plank cut on one side"/>
+			<xs:enumeration value="radial plank through pith"/>
+			<xs:enumeration value="radial plank up to pith"/>
+			<xs:enumeration value="tangential plank not including pith with breadth larger than a quarter section"/>
+			<xs:enumeration value="plank not including pith with breadth smaller than a quarter section"/>
+			<xs:enumeration value="small part of section"/>
+			<xs:enumeration value="part of undetermined section"/>
+			<xs:enumeration value="unknown"/>
 		</xs:restriction>
 	</xs:simpleType>
 <!-- TRiDaS controlledVoc for LocationType-->
@@ -93,11 +94,13 @@ more information on http://www.gnu.org/licenses/lgpl.html
 			</xs:documentation>
 		</xs:annotation>
 		<xs:restriction base="xs:string">
-			<xs:enumeration value="Growth location"/>
-			<xs:enumeration value="Location of use (static)"/>
-			<xs:enumeration value="Location of use (mobile)"/>
-			<xs:enumeration value="Current location"/>
-			<xs:enumeration value="Manufacture location"/>
+			<xs:enumeration value="growth location"/>
+			<xs:enumeration value="location of use (static)"/>
+			<xs:enumeration value="location of use (mobile)"/>
+			<xs:enumeration value="current location"/>
+			<xs:enumeration value="manufacture location"/>
+			<xs:enumeration value="find location"/>
+			<xs:enumeration value="other"/>
 		</xs:restriction>
 	</xs:simpleType>
 	<!-- TRiDaS controlledVoc for Variable-->
@@ -106,14 +109,16 @@ more information on http://www.gnu.org/licenses/lgpl.html
 			<xs:documentation xml:lang="EN">TRiDaS specified controlled vocabulary for the measurementSeries variable</xs:documentation>
 		</xs:annotation>
 		<xs:restriction base="xs:string">
-			<xs:enumeration value="Ring width"/>
-			<xs:enumeration value="Earlywood width"/>
-			<xs:enumeration value="Latewood width"/>
-			<xs:enumeration value="Ring density"/>
-			<xs:enumeration value="Earlywood density"/>
-			<xs:enumeration value="Latewood density"/>
-			<xs:enumeration value="Maximum density"/>
-			<xs:enumeration value="Latewood percent"/>
+			<xs:enumeration value="ring width"/>
+			<xs:enumeration value="earlywood width"/>
+			<xs:enumeration value="latewood width"/>
+			<xs:enumeration value="ring density"/>
+			<xs:enumeration value="earlywood density"/>
+			<xs:enumeration value="latewood density"/>
+			<xs:enumeration value="maximum density"/>
+			<xs:enumeration value="latewood percent"/>
+			<xs:enumeration value="vessel size"/>
+			<xs:enumeration value="other"/>
 		</xs:restriction>
 	</xs:simpleType>
 	<!-- TRiDaS controlledVoc for Units-->
@@ -138,14 +143,25 @@ more information on http://www.gnu.org/licenses/lgpl.html
 			<xs:documentation xml:lang="EN">TRiDaS specified controlled vocabulary for remarks attached to rings</xs:documentation>
 		</xs:annotation>		
 		<xs:restriction base="xs:string">
-			<xs:enumeration value="Fire damage"/>
-			<xs:enumeration value="Frost damage"/>
-			<xs:enumeration value="Crack"/>
-			<xs:enumeration value="False ring(s)"/>
-			<xs:enumeration value="Compression wood"/>
-			<xs:enumeration value="Tension wood"/>
-			<xs:enumeration value="Traumatic ducts"/>
-			<xs:enumeration value="Unspecified injury"/>
+			<xs:enumeration value="fire damage"/>
+			<xs:enumeration value="frost damage"/>
+			<xs:enumeration value="crack"/>
+			<xs:enumeration value="false ring(s)"/>
+			<xs:enumeration value="compression wood"/>
+			<xs:enumeration value="tension wood"/>
+			<xs:enumeration value="traumatic ducts"/>
+			<xs:enumeration value="unspecified injury"/>
+			<xs:enumeration value="single pinned"/>
+			<xs:enumeration value="double pinned"/>
+			<xs:enumeration value="triple pinned"/>
+			<xs:enumeration value="missing ring"/>
+			<xs:enumeration value="radius shift up"/>
+			<xs:enumeration value="radius shift down"/>
+			<xs:enumeration value="moon ring(s)"/>
+			<xs:enumeration value="diffuse latewood"/>
+			<xs:enumeration value="density fluctuation"/>
+			<xs:enumeration value="wide late wood"/>
+			<xs:enumeration value="wide early wood"/>
 		</xs:restriction>
 	</xs:simpleType>
 
