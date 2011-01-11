@@ -109,7 +109,7 @@
                                 <provenance>Possibly from the region of Serres</provenance>
                             </interpretation>
                             <values>
-                                <variable normalTridas="Ring width"/>
+                                <variable normalTridas="ring width"/>
                                 <unit normalTridas="1/100th millimetres"/>
                                 <value value="54"/>
                                 <value value="111"/>
@@ -132,7 +132,7 @@
             </series>
         </linkSeries>
        <values>
-           <variable normalTridas="Ring width"/>
+           <variable normalTridas="ring width"/>
            <unit normalTridas="1/100th millimetres"/>
            <value value="154"/>
            <value value="1111"/>

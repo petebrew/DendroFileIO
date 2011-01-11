@@ -85,7 +85,7 @@
                                 <gml:pos>0</gml:pos>
                         </gml:Point>
                     </locationGeometry>
-                    <locationType>Growth location</locationType>
+                    <locationType>growth location</locationType>
                     <locationPrecision>locationPrecision0</locationPrecision>
                     <locationComment>locationComment0</locationComment>
                     <address>
@@ -115,7 +115,7 @@
                         <file xlink:href="http://www.oxygenxml.com/"/>
                         <file xlink:href="http://www.oxygenxml.com/"/>
                         <taxon normalStd="normalStd11" normalId="normalId11" normal="normal11" lang="en-US">taxon0</taxon>
-                        <shape normalTridas="Whole section" normalStd="normalStd13" normalId="normalId13" normal="normal13" lang="en-US">shape0</shape>
+                        <shape normalTridas="whole section" normalStd="normalStd13" normalId="normalId13" normal="normal13" lang="en-US">shape0</shape>
                         <dimensions>
                             <unit normalTridas="micrometres" normalStd="normalStd15" normalId="normalId15" normal="normal15" lang="en-US">unit0</unit>
                             <height>0</height>
@@ -129,7 +129,7 @@
                                         <gml:pos>0</gml:pos>
                                 </gml:Point>
                             </locationGeometry>
-                            <locationType>Growth location</locationType>
+                            <locationType>growth location</locationType>
                             <locationPrecision>locationPrecision1</locationPrecision>
                             <locationComment>locationComment1</locationComment>
                             <address>
@@ -210,10 +210,10 @@
                                             <measurementSeries id="ID007">
                                                 <title>title6</title>
                                                 <analyst>Brewer, Peter</analyst>
-                                                <measuringMethod normalTridas="Measuring platform" normalStd="normalStd21" normalId="normalId21" normal="normal21" lang="en-US">measuringMethod0</measuringMethod>
+                                                <measuringMethod normalTridas="measuring platform" normalStd="normalStd21" normalId="normalId21" normal="normal21" lang="en-US">measuringMethod0</measuringMethod>
                                                 
                                                 <values>
-                                                    <variable normalTridas="Ring width"/>
+                                                    <variable normalTridas="ring width"/>
                                                     <unit normalTridas="1/100th millimetres"/>
                                                     <value value="123"/>
                                                     <value value="123"/>
@@ -243,9 +243,9 @@
                                             <genericField name="name27" type="xs:string">genericField13</genericField>
                                             <measurementSeries id="ID011">
                                                 <title>title6</title>
-                                                <measuringMethod normalTridas="Measuring platform" normalStd="normalStd21" normalId="normalId21" normal="normal21" lang="en-US">measuringMethod0</measuringMethod>
+                                                <measuringMethod normalTridas="measuring platform" normalStd="normalStd21" normalId="normalId21" normal="normal21" lang="en-US">measuringMethod0</measuringMethod>
                                                 <values>
-                                                    <variable normalTridas="Ring width"/>
+                                                    <variable normalTridas="ring width"/>
                                                     <unit normalTridas="1/100th millimetres"/>
                                                     <value value="123"/>
                                                     <value value="123"/>
@@ -288,7 +288,7 @@
                             <gml:pos>0</gml:pos>
                     </gml:Point>
                 </locationGeometry>
-                <locationType>Growth location</locationType>
+                <locationType>growth location</locationType>
                 <locationPrecision>locationPrecision7</locationPrecision>
                 <locationComment>locationComment7</locationComment>
                 <address>
@@ -303,34 +303,34 @@
             <genericField name="name97" type="xs:string">genericField48</genericField>
             <genericField name="name99" type="xs:string">genericField49</genericField>
             <values>
-                <variable normalTridas="Earlywood density" normalStd="normalStd115" normalId="normalId115" normal="normal115" lang="en-US">variable2</variable>
+                <variable normalTridas="earlywood density" normalStd="normalStd115" normalId="normalId115" normal="normal115" lang="en-US">variable2</variable>
                     <unitless/>
                 <value value="50" count="1">
-                    <remark normalTridas="Fire damage" inheritedCount="0" normalStd="normalStd117" normalId="normalId117" normal="normal117"
+                    <remark normalTridas="fire damage" inheritedCount="0" normalStd="normalStd117" normalId="normalId117" normal="normal117"
                          lang="en-US">remark8</remark>
-                    <remark normalTridas="Fire damage" inheritedCount="0" normalStd="normalStd119" normalId="normalId119" normal="normal119"
+                    <remark normalTridas="fire damage" inheritedCount="0" normalStd="normalStd119" normalId="normalId119" normal="normal119"
                          lang="en-US">remark9</remark>
                 </value>
                 <value value="57" count="2">
-                    <remark normalTridas="Fire damage" inheritedCount="0" normalStd="normalStd121" normalId="normalId121" normal="normal121"
+                    <remark normalTridas="fire damage" inheritedCount="0" normalStd="normalStd121" normalId="normalId121" normal="normal121"
                          lang="en-US">remark10</remark>
-                    <remark normalTridas="Fire damage" inheritedCount="0" normalStd="normalStd123" normalId="normalId123" normal="normal123"
+                    <remark normalTridas="fire damage" inheritedCount="0" normalStd="normalStd123" normalId="normalId123" normal="normal123"
                          lang="en-US">remark11</remark>
                 </value>
             </values>
             <values>
-                <variable normalTridas="Ring width" normalStd="normalStd125" normalId="normalId125" normal="normal125" lang="en-US">variable3</variable>
+                <variable normalTridas="ring width" normalStd="normalStd125" normalId="normalId125" normal="normal125" lang="en-US">variable3</variable>
                     <unit>Wierd units</unit>
                 <value value="96" count="0">
-                    <remark normalTridas="Fire damage" inheritedCount="0" normalStd="normalStd129" normalId="normalId129" normal="normal129"
+                    <remark normalTridas="fire damage" inheritedCount="0" normalStd="normalStd129" normalId="normalId129" normal="normal129"
                          lang="en-US">remark12</remark>
-                    <remark normalTridas="Fire damage" inheritedCount="0" normalStd="normalStd131" normalId="normalId131" normal="normal131"
+                    <remark normalTridas="fire damage" inheritedCount="0" normalStd="normalStd131" normalId="normalId131" normal="normal131"
                          lang="en-US">remark13</remark>
                 </value>
                 <value value="34" count="0">
-                    <remark normalTridas="Fire damage" inheritedCount="0" normalStd="normalStd133" normalId="normalId133" normal="normal133"
+                    <remark normalTridas="fire damage" inheritedCount="0" normalStd="normalStd133" normalId="normalId133" normal="normal133"
                          lang="en-US">remark14</remark>
-                    <remark normalTridas="Fire damage" inheritedCount="0" normalStd="normalStd135" normalId="normalId135" normal="normal135"
+                    <remark normalTridas="fire damage" inheritedCount="0" normalStd="normalStd135" normalId="normalId135" normal="normal135"
                          lang="en-US">remark15</remark>
                 </value>
             </values>

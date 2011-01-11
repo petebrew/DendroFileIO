@@ -129,6 +129,14 @@ public class BelfastArchiveReader extends AbstractDendroFileReader {
 			// Set units to microns
 			units.setNormalTridas(NormalTridasUnit.TENTH_MM);
 		}
+		else if (argFileString[footerStartInd + 3].equals("0.2")) {
+			// Set units to twentieths
+			units.setNormalTridas(NormalTridasUnit.TWENTIETH_MM);
+		}
+		else if (argFileString[footerStartInd + 3].equals("0.5")) {
+			// Set units to fiftieths
+			units.setNormalTridas(NormalTridasUnit.FIFTIETH_MM);
+		}
 		else {
 			units = null;
 		}
