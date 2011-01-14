@@ -19,6 +19,8 @@ import java.io.IOException;
 import java.io.StringReader;
 import java.net.URL;
 import java.util.Iterator;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 
 import com.sun.org.apache.xml.internal.utils.PrefixResolver;
 import com.sun.org.apache.xml.internal.utils.PrefixResolverDefault;
@@ -97,7 +99,24 @@ public class TridasReader extends AbstractDendroFileReader {
 		}
 		else
 		{
-		
+			// First do a string match on the namespace to try to intercept unsupported schema versions
+			// TODO In future we'll need to add an extra stage in here to run XSLT translation for old
+			// TRiDaS files.
+			Integer match = compareTridasVersions(getTridasVersionFromFile(fileString.toString()), getCurrentTridasVersionURI());
+			if(match==null)
+			{
+				addWarning(new ConversionWarning(WarningType.NOT_STRICT, I18n.getText("tridas.schemaParseVersionError")));
+			}
+			else if(match>0)
+			{
+				throw new InvalidDendroFileException(I18n.getText("tridas.versionTooNew"));
+			}
+			else if (match<0)
+			{
+				throw new InvalidDendroFileException(I18n.getText("tridas.versionTooOld", getCurrentTridasVersionNumber()));
+			}
+
+			// Next try to load the schema to validate
 			try {
 				schema = factory.newSchema(file);
 			} catch (Exception e) {
@@ -108,22 +127,17 @@ public class TridasReader extends AbstractDendroFileReader {
 						.getLocalizedMessage())));
 			}
 			
+			// Do the validation
 			Validator validator = schema.newValidator();
 			StreamSource source = new StreamSource();
 			source.setReader(reader);
-			
-			
 			try {
 				validator.validate(source);
-			} catch (SAXException ex) {
-				if(!isTridasNamespaceCorrect(fileString.toString()))
-				{
-					throw new InvalidDendroFileException(I18n.getText("tridas.schemaException", "TRiDaS schema version is either incorrect or missing"));
-				}
+			} catch (SAXException ex) 
+			{
 				throw new InvalidDendroFileException(I18n.getText("tridas.schemaException", ex.getLocalizedMessage()));
-				
 			} catch (IOException e) {
-				throw new InvalidDendroFileException(I18n.getText("tridas.schemaException", e.getLocalizedMessage()));
+				throw new InvalidDendroFileException(I18n.getText("tridas.schemaIOError"));
 			}
 		}
 
@@ -138,6 +152,94 @@ public class TridasReader extends AbstractDendroFileReader {
 			project = (TridasProject) u.unmarshal(reader);
 		} catch (JAXBException e2) {
 			addWarning(new ConversionWarning(WarningType.DEFAULT, I18n.getText("fileio.loadfailed")));
+		}
+	}
+	
+	private Integer compareTridasVersions(String v1, String v2)
+	{
+		if(v1==null || v2==null) return null;
+		
+		String ver1 = null;
+		String ver2 = null;
+		try{
+			ver1 = v1.substring(v1.lastIndexOf("/")+1);
+			ver2 = v2.substring(v2.lastIndexOf("/")+1);
+		} catch (Exception e)
+		{
+			return null;
+		}
+		
+		if(ver1==null || ver2==null || ver1.length()==0 || ver2.length()==0) return null;
+		
+		String[] version1 = ver1.split("\\.");
+		String[] version2 = ver2.split("\\.");
+		
+		return compareStringArrayContents(version1, version2, 0);
+	
+	}
+	
+	private Integer compareStringArrayContents(String[] v1, String[] v2, int depth)
+	{
+		if(v1==null || v1.length==0 || v2==null || v2.length==0) return null;
+		
+		if(v1.length-1<depth || v2.length-1<depth) return 0;
+		
+		try
+		{
+			Integer ver1 = Integer.parseInt(v1[depth]);
+			Integer ver2 = Integer.parseInt(v2[depth]);
+			
+			if(ver1.equals(ver2))
+			{
+				return compareStringArrayContents(v1, v2, depth+1);
+			}
+			else
+			{
+				return ver1.compareTo(ver2);
+			}
+			
+		}
+		catch (Exception e)
+		{
+			return null;
+		}
+		
+	}
+
+	private String getCurrentTridasVersionURI()
+	{
+		return TridasNamespacePrefixMapper.getTridasNamespaceURI();
+	}
+	
+	private String getCurrentTridasVersionNumber()
+	{
+		try{
+			return getCurrentTridasVersionURI().substring(getCurrentTridasVersionURI().lastIndexOf("/")+1);
+		} catch (Exception e)
+		{
+			
+		}
+		
+		return null;
+	}
+	
+	private String getTridasVersionFromFile(String xmlfile)
+	{
+		
+		String regex = null;
+		Pattern p1;
+		Matcher m1;
+		
+		regex = "http://www.tridas.org/[\\d.]*";
+		p1 = Pattern.compile(regex, Pattern.CASE_INSENSITIVE | Pattern.DOTALL);
+		m1 = p1.matcher(xmlfile);
+		if (m1.find()) 
+		{
+			return xmlfile.substring(m1.start(), m1.end());
+		}
+		else
+		{
+			return "";
 		}
 	}
 	
