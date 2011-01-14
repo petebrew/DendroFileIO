@@ -22,10 +22,8 @@ SAPWOOD, PITH, TERMINAL, CONTINUOUS, QUALITY, FORMAT, INDEX_TYPE,
 RECONCILED</p>
 
 On disk, they're stored all-caps; in memory, they're lower-case.
-There also exists one special case: "NAME" on disk is "title" in
-memory.
-
-<p>Actually, I lied; there's a second special case now.  Originally
+There also exists two special cases, the first being "NAME" on disk is "title" in
+memory.  The second second special case if for comments.  Originally
 there was both COMMENTS and COMMENTS2 on-disk and in-memory, but
 eventually people wanted to type more than 2 lines of comments.
 The new semi-backwards-compatible way is: any number of lines of
