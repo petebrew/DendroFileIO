@@ -229,12 +229,12 @@ public class TucsonFile implements IDendroFile {
 				}
 				
 				// chronologies end only after 9cols+eoln
-				if (isChronology && y.compareTo(end) > 0 && y.column() == 9) {
+				if (isChronology && y.toAstronomicalYear().compareTo(end) > 0 && y.toAstronomicalYear().column() == 9) {
 					break;
 				}
 				
 				// eoln
-				if (y.column() == 9) {
+				if (y.toAstronomicalYear().column() == 9) {
 					string.append("\n");
 				}
 				
