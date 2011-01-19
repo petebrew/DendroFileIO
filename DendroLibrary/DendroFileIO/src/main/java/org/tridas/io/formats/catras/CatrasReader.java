@@ -134,11 +134,11 @@ public class CatrasReader extends AbstractDendroFileReader {
 		
 		// Series Title - bytes 1-32
 		defaults.getStringDefaultValue(DefaultFields.SERIES_NAME)
-			.setValue(new String(getSubByteArray(argFileBytes, 0, 31)));
+			.setValue(new String(getSubByteArray(argFileBytes, 0, 31)).trim());
 		
 		// Series code - bytes 33-40
 		defaults.getStringDefaultValue(DefaultFields.SERIES_CODE)
-			.setValue(new String(getSubByteArray(argFileBytes, 32, 39)));
+			.setValue(new String(getSubByteArray(argFileBytes, 32, 39)).trim());
 		
 		// File extension - bytes 41-44
 		defaults.getStringDefaultValue(DefaultFields.FILE_EXTENSION)
@@ -280,7 +280,7 @@ public class CatrasReader extends AbstractDendroFileReader {
 		}
 		
 		// Check length metadata and number of ring width values match
-		if (ringWidthValues.size() != getIntFromBytePair(getSubByteArray(argFileBytes, 44, 45))) {
+		if (ringWidthValues.size() > getIntFromBytePair(getSubByteArray(argFileBytes, 44, 45))) {
 			//addWarning(new ConversionWarning(WarningType.INVALID, I18n.getText("fileio.valueCountMismatch", ringWidthValues.size()+"", length+"")));
 			// Trim off extra ring width values
 			ArrayList<Integer> trimmedRingValues = new ArrayList<Integer>();
@@ -291,6 +291,11 @@ public class CatrasReader extends AbstractDendroFileReader {
 				trimmedRingValues.add(ringWidthValues.get(j));
 			}
 			ringWidthValues = trimmedRingValues;
+		}
+		else if (ringWidthValues.size() < getIntFromBytePair(getSubByteArray(argFileBytes, 44, 45))) 
+		{
+			addWarning(new ConversionWarning(WarningType.INVALID, I18n.getText("fileio.valueCountMismatch", ringWidthValues.size()+"", length+"")));
+			log.warn("Less ring width values in file than there should be according to the length metdata");
 		}
 	
 		// Check for lead-in and lead-out missing rings.  If present remove
