@@ -27,7 +27,7 @@ import org.tridas.schema.Year;
  * integer, but skips the mythical "year 0".
  * </p>
  * <p>
- * In <code>Year</code> math:
+ * In <code>SafeIntYear</code> math:
  * </p>
  * <ul>
  * <li>-1 + 1 = 1</li>
@@ -43,8 +43,8 @@ import org.tridas.schema.Year;
  * @version $Id: Year.java 1671 2009-04-29 22:11:14Z lucasm $
  */
 public final class SafeIntYear implements Comparable {
-	/** The default year: 1001. */
-	public static final SafeIntYear DEFAULT = new SafeIntYear(1001);
+	/** The default year: 1. */
+	public static final SafeIntYear DEFAULT = new SafeIntYear(1);
 	
 	/** Holds the year value as an <code>int</code>. */
 	private final int y;

@@ -28,6 +28,7 @@ import org.tridas.io.defaults.values.IntegerDefaultValue;
 import org.tridas.io.defaults.values.StringDefaultValue;
 import org.tridas.io.formats.sheffield.TridasToSheffieldDefaults.SheffieldChronologyType;
 import org.tridas.io.formats.sheffield.TridasToSheffieldDefaults.SheffieldDataType;
+import org.tridas.io.formats.sheffield.TridasToSheffieldDefaults.SheffieldDateType;
 import org.tridas.io.formats.sheffield.TridasToSheffieldDefaults.SheffieldEdgeCode;
 import org.tridas.io.formats.sheffield.TridasToSheffieldDefaults.SheffieldPeriodCode;
 import org.tridas.io.formats.sheffield.TridasToSheffieldDefaults.SheffieldShapeCode;
@@ -38,6 +39,7 @@ import org.tridas.io.util.SafeIntYear;
 import org.tridas.schema.ComplexPresenceAbsence;
 import org.tridas.schema.ControlledVoc;
 import org.tridas.schema.DatingSuffix;
+import org.tridas.schema.NormalTridasDatingType;
 import org.tridas.schema.NormalTridasShape;
 import org.tridas.schema.NormalTridasUnit;
 import org.tridas.schema.NormalTridasVariable;
@@ -45,6 +47,7 @@ import org.tridas.schema.ObjectFactory;
 import org.tridas.schema.PresenceAbsence;
 import org.tridas.schema.TridasBark;
 import org.tridas.schema.TridasCoverage;
+import org.tridas.schema.TridasDating;
 import org.tridas.schema.TridasDerivedSeries;
 import org.tridas.schema.TridasDimensions;
 import org.tridas.schema.TridasElement;
@@ -68,6 +71,7 @@ public class SheffieldToTridasDefaults extends TridasMetadataFieldSet implements
 		OBJECT_NAME, RING_COUNT, START_YEAR, SERIES_TITLE, SERIES_COMMENT, UK_COORDS, // GENERICFIELD
 		LATITUDE, LONGITUDE, PITH, PITH_DESCRIPTION, // GENERICFIELD
 		SHEFFIELD_DATA_TYPE, // GENERICFIELD
+		SHEFFIELD_DATE_TYPE, // GENERICFIELD 
 		SAPWOOD_COUNT, SHEFFIELD_SHAPE_CODE, MAJOR_DIM, MINOR_DIM, UNMEAS_INNER_RINGS, UNMEAS_OUTER_RINGS, GROUP_PHASE, SHEFFIELD_PERIOD_CODE, TAXON_CODE, INTERPRETATION_NOTES, SHEFFIELD_VARIABLE_TYPE, SHEFFIELD_EDGE_CODE, SHEFFIELD_CHRONOLOGY_TYPE;
 		
 	}
@@ -86,6 +90,8 @@ public class SheffieldToTridasDefaults extends TridasMetadataFieldSet implements
 		setDefaultValue(DefaultFields.PITH, new GenericDefaultValue<ComplexPresenceAbsence>());
 		setDefaultValue(DefaultFields.PITH_DESCRIPTION, new StringDefaultValue());
 		setDefaultValue(DefaultFields.SHEFFIELD_DATA_TYPE, new GenericDefaultValue<SheffieldDataType>());
+		setDefaultValue(DefaultFields.SHEFFIELD_DATE_TYPE, new GenericDefaultValue<SheffieldDateType>());
+
 		setDefaultValue(DefaultFields.SAPWOOD_COUNT, new IntegerDefaultValue());
 		setDefaultValue(DefaultFields.SHEFFIELD_SHAPE_CODE, new GenericDefaultValue<SheffieldShapeCode>());
 		setDefaultValue(DefaultFields.MAJOR_DIM, new DoubleDefaultValue(0.0, Double.MAX_VALUE));
@@ -282,11 +288,25 @@ public class SheffieldToTridasDefaults extends TridasMetadataFieldSet implements
 		ms.setTitle(getStringDefaultValue(DefaultFields.SERIES_TITLE).getStringValue());
 		ms.setComments(getStringDefaultValue(DefaultFields.SERIES_COMMENT).getStringValue());
 		
-		// Start year info
-		try {
-			GenericDefaultValue<SafeIntYear> startYearField = (GenericDefaultValue<SafeIntYear>) getDefaultValue(DefaultFields.START_YEAR);
-			ms.getInterpretation().setFirstYear(startYearField.getValue().toTridasYear(DatingSuffix.AD));
-		} catch (NullPointerException e) {}
+		// Dating type
+		TridasDating dating = new TridasDating();
+		GenericDefaultValue<SheffieldDateType> dateTypeField = (GenericDefaultValue<SheffieldDateType>) getDefaultValue(DefaultFields.SHEFFIELD_DATE_TYPE);
+		if(dateTypeField.getValue().equals(SheffieldDateType.RELATIVE))
+		{
+			dating.setType(NormalTridasDatingType.RELATIVE);
+		}
+		else
+		{
+			dating.setType(NormalTridasDatingType.ABSOLUTE);
+			
+			// Start year info
+			try {
+				GenericDefaultValue<SafeIntYear> startYearField = (GenericDefaultValue<SafeIntYear>) getDefaultValue(DefaultFields.START_YEAR);
+				ms.getInterpretation().setFirstYear(startYearField.getValue().toTridasYear(DatingSuffix.AD));
+			} catch (NullPointerException e) {}
+			
+		}
+		ms.getInterpretation().setDating(dating);
 		
 		// Set pith info
 		if (getDefaultValue(DefaultFields.PITH).getValue() != null) {

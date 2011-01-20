@@ -134,11 +134,11 @@ public class YearRange implements Comparable {
 			lastYear = new SafeIntYear(series.getInterpretation().getLastYear());
 			
 		} catch (NullPointerException e) {
-			// Otherwise set to 1001 relative year and use count of values
+			// Otherwise set to default relative year and use count of values
 			if (firstYear == null) {
-				// First year is null so just use 1001 relative year and count of values
-				firstYear = new SafeIntYear(1001);
-				lastYear = new SafeIntYear(1001 + series.getValues().get(0).getValues().size());
+				// First year is null so just use default relative year and count of values
+				firstYear = new SafeIntYear();
+				lastYear = firstYear.add(series.getValues().get(0).getValues().size());
 			}
 			else if (lastYear == null) {
 				// We have firstYear but not last, so calculate last from count of values

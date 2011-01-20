@@ -35,6 +35,7 @@ import org.tridas.io.util.ITRDBTaxonConverter;
 import org.tridas.io.util.SafeIntYear;
 import org.tridas.io.util.UnitUtils;
 import org.tridas.schema.ComplexPresenceAbsence;
+import org.tridas.schema.NormalTridasDatingType;
 import org.tridas.schema.NormalTridasShape;
 import org.tridas.schema.NormalTridasUnit;
 import org.tridas.schema.NormalTridasVariable;
@@ -328,10 +329,20 @@ public class TridasToSheffieldDefaults extends AbstractMetadataFieldSet implemen
 
 		}
 		
-		// woodcompleteness.interpretation.firstyear = start date
+		// interpretation.firstyear = start date
 		if(ser.isSetInterpretation())
 		{
-			if(ser.getInterpretation().isSetFirstYear())
+			GenericDefaultValue<SheffieldDateType> dateTypeField = (GenericDefaultValue<SheffieldDateType>)getDefaultValue(DefaultFields.DATE_TYPE);
+
+			if(ser.getInterpretation().isSetDating())
+			{
+				
+				if(ser.getInterpretation().getDating().getType().equals(NormalTridasDatingType.RELATIVE))
+				{
+					dateTypeField.setValue(SheffieldDateType.RELATIVE);
+				}
+			}
+			if(ser.getInterpretation().isSetFirstYear() && !dateTypeField.getValue().equals(NormalTridasDatingType.RELATIVE))
 			{
 				SafeIntYear firstYear = new SafeIntYear(ser.getInterpretation().getFirstYear());
 				getIntegerDefaultValue(DefaultFields.START_DATE).setValue(firstYear.toAstronomicalInteger()+10000);

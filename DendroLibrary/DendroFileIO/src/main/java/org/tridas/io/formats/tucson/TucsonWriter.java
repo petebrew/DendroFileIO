@@ -30,6 +30,7 @@ import org.tridas.io.util.SafeIntYear;
 import org.tridas.io.util.TridasUtils;
 import org.tridas.io.util.UnitUtils;
 import org.tridas.io.util.YearRange;
+import org.tridas.schema.NormalTridasDatingType;
 import org.tridas.schema.NormalTridasUnit;
 import org.tridas.schema.NormalTridasVariable;
 import org.tridas.schema.TridasDerivedSeries;
@@ -166,6 +167,18 @@ public class TucsonWriter extends AbstractDendroCollectionWriter {
 								TridasToTucsonDefaults msDefaults = (TridasToTucsonDefaults) elementDefaults
 										.clone();
 								msDefaults.populateFromTridasMeasurementSeries(ms);
+								
+								if(ms.isSetInterpretation())
+								{
+									if(ms.getInterpretation().isSetDating())
+									{
+										if(ms.getInterpretation().getDating().getType().equals(NormalTridasDatingType.RELATIVE))
+										{
+											this.addWarning(new ConversionWarning(WarningType.AMBIGUOUS,
+													I18n.getText("tucson.relativeDates")));
+										}
+									}
+								}
 								
 								for (int i = 0; i < ms.getValues().size(); i++) {
 									TridasValues tvs = ms.getValues().get(i);

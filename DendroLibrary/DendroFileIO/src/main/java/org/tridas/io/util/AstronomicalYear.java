@@ -34,7 +34,7 @@ import org.tridas.schema.Year;
  */
 public final class AstronomicalYear implements Comparable {
 	/** The default year: 1001. */
-	public static final AstronomicalYear DEFAULT = new AstronomicalYear(1001);
+	public static final AstronomicalYear DEFAULT = new AstronomicalYear(1);
 	
 	/** Holds the year value as an <code>int</code>. */
 	private final int y;

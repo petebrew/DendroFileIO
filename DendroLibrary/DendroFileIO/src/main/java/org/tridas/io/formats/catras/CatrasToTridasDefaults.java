@@ -29,9 +29,11 @@ import org.tridas.io.formats.sheffield.SheffieldToTridasDefaults.DefaultFields;
 import org.tridas.io.util.DateUtils;
 import org.tridas.io.util.SafeIntYear;
 import org.tridas.schema.DatingSuffix;
+import org.tridas.schema.NormalTridasDatingType;
 import org.tridas.schema.NormalTridasUnit;
 import org.tridas.schema.NormalTridasVariable;
 import org.tridas.schema.ObjectFactory;
+import org.tridas.schema.TridasDating;
 import org.tridas.schema.TridasElement;
 import org.tridas.schema.TridasGenericField;
 import org.tridas.schema.TridasIdentifier;
@@ -142,18 +144,28 @@ public class CatrasToTridasDefaults extends TridasMetadataFieldSet implements IM
 		// Build interpretation group for series
 		TridasInterpretation interp = new TridasInterpretation();
 		
-		// Start Year
+		// Start and End Years
 		if(getSafeIntYearDefaultValue(DefaultFields.START_YEAR).getValue()!=null)
 		{
-			interp.setFirstYear(getSafeIntYearDefaultValue(DefaultFields.START_YEAR).getValue().toTridasYear(DatingSuffix.AD));
+			TridasDating dating = new TridasDating();
+			if(getSafeIntYearDefaultValue(DefaultFields.START_YEAR).getValue().equals(new SafeIntYear(-1)))
+			{
+				dating.setType(NormalTridasDatingType.RELATIVE);
+			}
+			else
+			{
+				dating.setType(NormalTridasDatingType.ABSOLUTE);
+				interp.setFirstYear(getSafeIntYearDefaultValue(DefaultFields.START_YEAR).getValue().toTridasYear(DatingSuffix.AD));
+				
+				// End Year
+				if(getSafeIntYearDefaultValue(DefaultFields.END_YEAR).getValue()!=null)
+				{
+					interp.setLastYear(getSafeIntYearDefaultValue(DefaultFields.END_YEAR).getValue().toTridasYear(DatingSuffix.AD));
+				}
+			}
+			interp.setDating(dating);
 		}
-		
-		// End Year
-		if(getSafeIntYearDefaultValue(DefaultFields.END_YEAR).getValue()!=null)
-		{
-			interp.setLastYear(getSafeIntYearDefaultValue(DefaultFields.END_YEAR).getValue().toTridasYear(DatingSuffix.AD));
-		}
-		
+	
 		series.setInterpretation(interp);
 		
 		series.setDendrochronologist(getStringDefaultValue(DefaultFields.USER_ID).getStringValue());
