@@ -109,14 +109,16 @@ public class SheffieldReader extends AbstractDendroFileReader {
 			}
 			
 			// Line 3 - Date type
-			// TODO How are we handling relative series?
 			else if (lineNum == 3) {
 				if (!lineString.equalsIgnoreCase("A") && (!lineString.equalsIgnoreCase("R"))) {
 					addWarning(new ConversionWarning(WarningType.INVALID, I18n.getText("sheffield.invalidDateType")));
 					continue;
 				}
-				
 				dateType = SheffieldDateType.fromCode(lineString);
+				GenericDefaultValue<SheffieldDateType> dateTypeField = (GenericDefaultValue<SheffieldDateType>) defaults
+				.getDefaultValue(DefaultFields.SHEFFIELD_DATE_TYPE);
+				dateTypeField.setValue(SheffieldDateType.fromCode(lineString));
+				
 			}
 			
 			// Line 4 - Start date

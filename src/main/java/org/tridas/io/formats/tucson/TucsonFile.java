@@ -26,6 +26,7 @@ import org.tridas.io.defaults.IMetadataFieldSet;
 import org.tridas.io.exceptions.ConversionWarning;
 import org.tridas.io.exceptions.ConversionWarning.WarningType;
 import org.tridas.io.formats.tucson.TridasToTucsonDefaults.TucsonField;
+import org.tridas.io.util.AstronomicalYear;
 import org.tridas.io.util.SafeIntYear;
 import org.tridas.io.util.StringUtils;
 import org.tridas.io.util.YearRange;
@@ -153,7 +154,7 @@ public class TucsonFile implements IDendroFile {
 			try {
 				start = new SafeIntYear(series.getInterpretation().getFirstYear());
 			} catch (Exception e) {
-				start = new SafeIntYear("1001");
+				start = new SafeIntYear();
 			}
 			try {
 				end = start.add(series.getValues().get(0).getValues().size());
@@ -173,7 +174,7 @@ public class TucsonFile implements IDendroFile {
 			for (;;) {
 				
 				// Row header column
-				if (y.column() == 0 || (y.equals(start) && !isChronology)) {
+				if (y.equals(new SafeIntYear(-1))|| y.column() == 0 || (y.equals(start) && !isChronology)) {
 					
 					if(isChronology)
 					{
@@ -234,7 +235,10 @@ public class TucsonFile implements IDendroFile {
 				}
 				
 				// eoln
-				if (y.column() == 9) {
+ 				
+ 				AstronomicalYear y2 = y.toAstronomicalYear();
+ 				
+				if (y2.column() == 9) {
 					string.append("\n");
 				}
 				
@@ -261,17 +265,17 @@ public class TucsonFile implements IDendroFile {
 	 * @throws IOException
 	 */
 	private void writeRowHeader(StringBuilder string, String code, int colWidth, SafeIntYear y) {
-		String prefix; // don't print the decade for the first one
+		String yearMarker; // don't print the decade for the first one
 		if (y.compareTo(allSeriesRange.getStart()) < 0) {
-			prefix = allSeriesRange.getStart().toAstronomicalYear().toString();
+			yearMarker = allSeriesRange.getStart().toAstronomicalYear().toString();
 		}
 		else {
-			prefix = y.toAstronomicalYear().toString();
+			yearMarker = y.toAstronomicalYear().toString();
 		}
 
-		prefix = StringUtils.leftPad(prefix, 4);
+		yearMarker = StringUtils.leftPad(yearMarker, 4);
 		code = StringUtils.rightPad(code, colWidth);
-		string.append(code + prefix);
+		string.append(code + yearMarker);
 	}
 	
 	
@@ -324,7 +328,7 @@ public class TucsonFile implements IDendroFile {
 		}
 		
 		// return range
-		return allSeriesRange.getStart() + " " + allSeriesRange.getEnd();
+		return allSeriesRange.getStart().toAstronomicalYear() + " " + allSeriesRange.getEnd().toAstronomicalYear();
 	}
 	
 	/**
