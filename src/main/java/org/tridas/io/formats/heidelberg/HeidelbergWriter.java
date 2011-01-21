@@ -56,6 +56,7 @@ public class HeidelbergWriter extends AbstractDendroCollectionWriter {
 			throws IncompleteTridasDataException {
 		defaults = (TridasToHeidelbergDefaults) argDefaults;
 		defaults.populateFromTridasProject(argProject);
+		HeidelbergFile file = new HeidelbergFile(defaults);
 		
 		for (TridasObject o : TridasUtils.getObjectList(argProject)) {
 			TridasToHeidelbergDefaults objectDefaults = (TridasToHeidelbergDefaults) defaults.clone();
@@ -126,12 +127,9 @@ public class HeidelbergWriter extends AbstractDendroCollectionWriter {
 								
 								
 								tvDefaults.populateFromTridasValues(tvsgroup);
-								
-								HeidelbergFile file = new HeidelbergFile(tvDefaults);
-								file.setSeries(ms, i);
-								file.setDataValues(tvsgroup);
+
+								file.addSeries(ms, tvsgroup, tvDefaults);
 								naming.registerFile(file, argProject, o, e, s, r, ms);
-								addToFileList(file);
 							}
 							
 						}
@@ -221,14 +219,15 @@ public class HeidelbergWriter extends AbstractDendroCollectionWriter {
 					
 					tvDefaults.populateFromTridasValues(tvsgroup);
 					
-					HeidelbergFile file = new HeidelbergFile(tvDefaults);
-					file.setSeries(ds, i);
-					file.setDataValues(tvsgroup);
+					file.addSeries(ds, tvsgroup, tvDefaults);
+
 					naming.registerFile(file, argProject, ds);
-					addToFileList(file);
+					
 				}
 			}
 		}
+		
+		addToFileList(file);
 	}
 	
 	/**
