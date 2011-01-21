@@ -141,7 +141,9 @@ public class TestFromTridas extends TestCase {
 			
 			// Create a new converter based on a TridasProject
 			TucsonWriter tucsonwriter = new TucsonWriter();
-			tucsonwriter.setNamingConvention(new HierarchicalNamingConvention());
+			NumericalNamingConvention nc = new NumericalNamingConvention();
+			nc.setBaseFilename("TucsonFromTridas");
+			tucsonwriter.setNamingConvention(nc);
 			try {
 				tucsonwriter.loadProject(project);
 			} catch (IncompleteTridasDataException e) {
