@@ -229,7 +229,7 @@ public class TestToTridas extends TestCase {
 		}
 		
 		for (String filename : files) {
-			//if(!filename.equals("SYNTH2.FH")) continue;
+			if(!filename.equals("minimal-reldated.fh")) continue;
 			
 			log.info("Test conversion of: " + filename);
 			

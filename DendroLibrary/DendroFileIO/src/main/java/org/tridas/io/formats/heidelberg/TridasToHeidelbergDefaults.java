@@ -24,6 +24,7 @@ import javax.xml.datatype.XMLGregorianCalendar;
 import org.grlea.log.SimpleLogger;
 import org.tridas.interfaces.ITridasSeries;
 import org.tridas.io.I18n;
+import org.tridas.io.defaults.AbstractDefaultValue;
 import org.tridas.io.defaults.AbstractMetadataFieldSet;
 import org.tridas.io.defaults.IMetadataFieldSet;
 import org.tridas.io.defaults.values.DoubleDefaultValue;
@@ -41,9 +42,11 @@ import org.tridas.io.formats.heidelberg.HeidelbergToTridasDefaults.FHPith;
 import org.tridas.io.formats.heidelberg.HeidelbergToTridasDefaults.FHSeriesType;
 import org.tridas.io.formats.heidelberg.HeidelbergToTridasDefaults.FHStartsOrEndsWith;
 import org.tridas.io.formats.heidelberg.HeidelbergToTridasDefaults.FHWaldKante;
+import org.tridas.io.formats.sheffield.TridasToSheffieldDefaults.SheffieldDateType;
 import org.tridas.io.util.ITRDBTaxonConverter;
 import org.tridas.io.util.SafeIntYear;
 import org.tridas.schema.ComplexPresenceAbsence;
+import org.tridas.schema.NormalTridasDatingType;
 import org.tridas.schema.PresenceAbsence;
 import org.tridas.schema.TridasBark;
 import org.tridas.schema.TridasDerivedSeries;
@@ -247,7 +250,31 @@ public class TridasToHeidelbergDefaults extends AbstractMetadataFieldSet impleme
 	public void populateFromTridasValues(TridasValues argValues) {
 		
 		// Set Length
-		getStringDefaultValue(DefaultFields.LENGTH).setValue(argValues.getValues().size()+"");
+		Integer length = argValues.getValues().size();
+		getStringDefaultValue(DefaultFields.LENGTH).setValue(length+"");
+		
+		// Auto set DateBegin or DateEnd if only one is set
+		SafeIntYear yearBegin = new SafeIntYear(getIntegerDefaultValue(DefaultFields.DATE_BEGIN).getValue());
+		SafeIntYear yearEnd = new SafeIntYear (getIntegerDefaultValue(DefaultFields.DATE_END).getValue());
+		Boolean isSetYearBegin = false;
+		Boolean isSetYearEnd = false;
+		if(getIntegerDefaultValue(DefaultFields.DATE_BEGIN).getValue()!=null)
+		{
+			isSetYearBegin= true;
+		}
+		if(getIntegerDefaultValue(DefaultFields.DATE_END).getValue()!=null)
+		{
+			isSetYearEnd= true;
+		}
+		if(isSetYearBegin==true && isSetYearEnd==false)
+		{
+			getIntegerDefaultValue(DefaultFields.DATE_END).setValue(Integer.parseInt(yearBegin.add(length).toString()));
+		}
+		else if(isSetYearBegin==false && isSetYearEnd==true)
+		{
+			getIntegerDefaultValue(DefaultFields.DATE_BEGIN).setValue(Integer.parseInt(yearEnd.add(0-length).toString()));
+		}
+		
 		
 		GenericDefaultValue<FHDataType> variableField = (GenericDefaultValue<FHDataType>)getDefaultValue(DefaultFields.DATA_TYPE);
 		
@@ -393,9 +420,38 @@ public class TridasToHeidelbergDefaults extends AbstractMetadataFieldSet impleme
 		if (interp != null) {
 			if (interp.isSetFirstYear()) {
 				getIntegerDefaultValue(DefaultFields.DATE_BEGIN).setValue(Integer.parseInt((new SafeIntYear(interp.getFirstYear()).toString())));
+				if (interp.isSetLastYear()) {
+					getIntegerDefaultValue(DefaultFields.DATE_END).setValue(Integer.parseInt((new SafeIntYear(interp.getLastYear()).toString())));
+				}
 			}
 			if (interp.isSetLastYear()) {
 				getIntegerDefaultValue(DefaultFields.DATE_END).setValue(Integer.parseInt((new SafeIntYear(interp.getLastYear()).toString())));
+			}
+			
+			GenericDefaultValue<FHDated> dateTypeField = (GenericDefaultValue<FHDated>) getDefaultValue(DefaultFields.DATED);
+			if(interp.isSetDating())
+			{
+				switch(interp.getDating().getType())
+				{
+				case ABSOLUTE:
+					dateTypeField.setValue(FHDated.Dated);
+					break;
+				case RELATIVE:
+					dateTypeField.setValue(FHDated.RelDated);
+					break;
+				case RADIOCARBON:
+					dateTypeField.setValue(FHDated.Dated);
+					break;
+				case DATED_WITH_UNCERTAINTY:
+					dateTypeField.setValue(FHDated.Dated);
+					break;
+				default:
+					dateTypeField.setValue(FHDated.Undated);
+				}
+			}
+			else
+			{
+				dateTypeField.setValue(FHDated.Undated);
 			}
 		}
 		

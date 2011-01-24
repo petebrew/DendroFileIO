@@ -79,7 +79,7 @@ public class ExcelMatrixFile implements IDendroFile {
 				startYear = new SafeIntYear(ser.getInterpretation().getFirstYear());
 				
 			} catch (NullPointerException e) {
-				startYear = new SafeIntYear("1001");
+				startYear = new SafeIntYear();
 			}
 			
 			YearRange thisrange = new YearRange(startYear, ringcount);

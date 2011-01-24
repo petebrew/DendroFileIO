@@ -17,6 +17,7 @@ package org.tridas.io.formats.belfastapple;
 
 import org.tridas.io.I18n;
 import org.tridas.io.defaults.AbstractMetadataFieldSet;
+import org.tridas.io.defaults.values.IntegerDefaultValue;
 import org.tridas.io.defaults.values.StringDefaultValue;
 
 /**
@@ -25,7 +26,7 @@ import org.tridas.io.defaults.values.StringDefaultValue;
 public class TridasToBelfastAppleDefaults extends AbstractMetadataFieldSet {
 	
 	public enum BelfastAppleField {
-		OBJECT_TITLE, SAMPLE_TITLE;
+		OBJECT_TITLE, SAMPLE_TITLE, RING_COUNT;
 	}
 	
 	/**
@@ -35,7 +36,7 @@ public class TridasToBelfastAppleDefaults extends AbstractMetadataFieldSet {
 	protected void initDefaultValues() {
 		setDefaultValue(BelfastAppleField.OBJECT_TITLE, new StringDefaultValue(I18n.getText("unnamed.object")));
 		setDefaultValue(BelfastAppleField.SAMPLE_TITLE, new StringDefaultValue(I18n.getText("unnamed.sample")));
-		
+		setDefaultValue(BelfastAppleField.RING_COUNT, new IntegerDefaultValue(0));
 	}
 	
 }

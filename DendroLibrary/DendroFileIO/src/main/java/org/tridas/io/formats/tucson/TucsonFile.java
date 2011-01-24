@@ -143,8 +143,14 @@ public class TucsonFile implements IDendroFile {
 					code = StringUtils.rightPadWithTrim(series.getTitle().toString(), 8);
 				} catch (NullPointerException e2) {
 					// That also failed so try site code
-					code = StringUtils.rightPadWithTrim(defaults.getStringDefaultValue(TucsonField.SITE_CODE)
-							.getStringValue(), 8);
+					if(isChronology) 
+					{
+						code = StringUtils.rightPadWithTrim(defaults.getStringDefaultValue(TucsonField.SITE_CODE).getStringValue(), 6);
+					}
+					else
+					{
+						code = StringUtils.rightPadWithTrim(defaults.getStringDefaultValue(TucsonField.SITE_CODE).getStringValue(), 8);
+					}
 				}
 			}
 			
@@ -274,7 +280,7 @@ public class TucsonFile implements IDendroFile {
 		}
 
 		yearMarker = StringUtils.leftPad(yearMarker, 4);
-		code = StringUtils.rightPad(code, colWidth);
+		code = StringUtils.rightPad(code, colWidth).substring(0,6);
 		string.append(code + yearMarker);
 	}
 	

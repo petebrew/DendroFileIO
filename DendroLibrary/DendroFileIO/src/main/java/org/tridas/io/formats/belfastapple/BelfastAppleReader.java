@@ -50,7 +50,7 @@ public class BelfastAppleReader extends AbstractDendroFileReader {
 	private ArrayList<TridasMeasurementSeries> mseriesList = new ArrayList<TridasMeasurementSeries>();
 	String objectname = null;
 	String samplename = null;
-	
+	Integer ringcount = 0;
 	public BelfastAppleReader() {
 		super(BelfastAppleToTridasDefaults.class);
 	}
@@ -72,10 +72,18 @@ public class BelfastAppleReader extends AbstractDendroFileReader {
 		
 		objectname = argFileString[0].trim();
 		samplename = argFileString[1].trim();
-				
+		
+		// Read the ring count from line 3
+		try{
+			ringcount = Integer.parseInt(argFileString[2].trim());
+		} catch (NumberFormatException e)
+		{
+			throw new InvalidDendroFileException(I18n.getText("belfastapple.ringcountinvalid"), 3);
+		}
+		
 		// Extract data
 		ArrayList<TridasValue> ringWidthValues = new ArrayList<TridasValue>();
-		for (int i = 2; i < argFileString.length - 1; i++) {
+		for (int i = 3; i < argFileString.length - 1; i++) {
 			TridasValue v = new TridasValue();
 			int val;
 			try {
