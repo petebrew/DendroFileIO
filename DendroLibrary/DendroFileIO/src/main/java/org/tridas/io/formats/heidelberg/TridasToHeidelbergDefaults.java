@@ -254,8 +254,13 @@ public class TridasToHeidelbergDefaults extends AbstractMetadataFieldSet impleme
 		getStringDefaultValue(DefaultFields.LENGTH).setValue(length+"");
 		
 		// Auto set DateBegin or DateEnd if only one is set
-		SafeIntYear yearBegin = new SafeIntYear(getIntegerDefaultValue(DefaultFields.DATE_BEGIN).getValue());
-		SafeIntYear yearEnd = new SafeIntYear (getIntegerDefaultValue(DefaultFields.DATE_END).getValue());
+		SafeIntYear yearBegin = null;
+		SafeIntYear yearEnd = null;
+		try{
+			yearBegin = new SafeIntYear(getIntegerDefaultValue(DefaultFields.DATE_BEGIN).getValue());
+			yearEnd = new SafeIntYear (getIntegerDefaultValue(DefaultFields.DATE_END).getValue());
+		} catch (Exception e)
+		{}
 		Boolean isSetYearBegin = false;
 		Boolean isSetYearEnd = false;
 		if(getIntegerDefaultValue(DefaultFields.DATE_BEGIN).getValue()!=null)
