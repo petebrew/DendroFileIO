@@ -437,12 +437,39 @@ public class HeidelbergReader extends AbstractDendroFileReader {
 				.getDefaultValue(DefaultFields.DATA_TYPE);
 				dataTypeField.setValue(FHDataType.fromCode(fileMetadata.get("datatype")));
 			}
+						
+			//DATED, new GenericDefaultValue<FHDated>());
+			FHDated dated = FHDated.Undated;
+			if(fileMetadata.containsKey("dated")){
+				dated = FHDated.valueOf(fileMetadata.get("dated"));
+				GenericDefaultValue<FHDated> datedField = (GenericDefaultValue<FHDated>) s.defaults
+				.getDefaultValue(DefaultFields.DATED);
+				datedField.setValue(dated);
+			}
+			else
+			{
+				if((fileMetadata.containsKey("datebegin")) || (fileMetadata.containsKey("dateend")))
+				{
+					// Dated not specified, but begin and/or end date is so set to relatively dated
+					dated = FHDated.RelDated;
+				}
+				else
+				{
+					// Dated not specified, neither is begin or end date, so assume undated
+					dated = FHDated.Undated;
+				}
+				GenericDefaultValue<FHDated> datedField = (GenericDefaultValue<FHDated>) s.defaults
+				.getDefaultValue(DefaultFields.DATED);
+				datedField.setValue(dated);
+			}
+			
+			
 			
 			//DATE_BEGIN, new IntegerDefaultValue());
 			try{
 				if(fileMetadata.containsKey("datebegin")){
 					Integer val = Integer.parseInt(fileMetadata.get("datebegin"));
-					if(val<=0)
+					if(val<=0 && dated==FHDated.Dated)
 					{
 						addWarning(new ConversionWarning(WarningType.AMBIGUOUS, 
 								I18n.getText("general.astronomicalWarning")));
@@ -458,12 +485,7 @@ public class HeidelbergReader extends AbstractDendroFileReader {
 				}
 			}
 			
-			//DATED, new GenericDefaultValue<FHDated>());
-			if(fileMetadata.containsKey("dated")){
-				GenericDefaultValue<FHDated> datedField = (GenericDefaultValue<FHDated>) s.defaults
-				.getDefaultValue(DefaultFields.DATED);
-				datedField.setValue(FHDated.valueOf(fileMetadata.get("dated")));
-			}
+
 			
 			//DATE_END, new IntegerDefaultValue());
 			try{
@@ -479,6 +501,7 @@ public class HeidelbergReader extends AbstractDendroFileReader {
 				}
 			}
 			
+
 			//DATE_OF_SAMPLING, new StringDefaultValue());
 			if(fileMetadata.containsKey("dateofsampling")){
 				s.defaults.getStringDefaultValue(DefaultFields.DATE_OF_SAMPLING).setValue(fileMetadata.get("dateofsampling"));

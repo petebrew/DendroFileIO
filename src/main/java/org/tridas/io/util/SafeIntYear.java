@@ -79,21 +79,40 @@ public final class SafeIntYear implements Comparable {
 	 */
 	public SafeIntYear(Year x) {
 		int val = 0;
+		BigInteger xBigInt = BigInteger.valueOf(x.getValue());
 		switch (x.getSuffix()) {
 			case AD :
 				val = x.getValue().intValue();
-				break;
+				y = (val == 0 ? DEFAULT.y : val);
+				return;
 			case BC :
-				val = x.getValue().negate().intValue();
-				break;
+				val = xBigInt.negate().intValue();
+				y = (val == 0 ? DEFAULT.y : val);
+				return;
 			case BP :
 				SafeIntYear radioCarbonEra = new SafeIntYear(1950);
-				val = Integer.parseInt(radioCarbonEra.add(Integer.parseInt(x.getValue().negate().toString()))
+				val = Integer.parseInt(radioCarbonEra.add(Integer.parseInt(xBigInt.negate().toString()))
 						.toString());
-				break;
+				y = val;
+				return;
+			case RELATIVE:			
+				val = x.getValue().intValue();
+				if(val<=0) 
+				{
+					y = val-1;
+				}
+				else
+				{
+					y = val;
+				}
+				return;
+			default:
+				System.out.println("Error creating SafeIntYear.  Unhandled year suffix.");
+				val = x.getValue().intValue();
+				y = val;
 		}
 		
-		y = (val == 0 ? DEFAULT.y : val);
+		
 	}
 	
 	/**
@@ -180,11 +199,14 @@ public final class SafeIntYear implements Comparable {
 	
 	public Year toTridasYear(DatingSuffix suffix) {
 		
+		BigInteger yBigInt = BigInteger.valueOf(y);
+
 		Year yr = new Year();
-		yr.setCertainty(Certainty.EXACT);
+		
 		
 		if (suffix == DatingSuffix.AD || suffix == DatingSuffix.BC) {
-			yr.setValue(BigInteger.valueOf(y).abs());
+			yr.setCertainty(Certainty.EXACT);
+			yr.setValue(Integer.valueOf(yBigInt.abs().toString()));
 			if (y > 0) {
 				yr.setSuffix(DatingSuffix.AD);
 			}
@@ -193,13 +215,26 @@ public final class SafeIntYear implements Comparable {
 			}
 		}
 		else if (suffix == DatingSuffix.BP) {
+			yr.setCertainty(Certainty.EXACT);
 			yr.setSuffix(DatingSuffix.BP);
 			if (y > 0) {
-				yr.setValue(BigInteger.valueOf(1950 - y));
+				yr.setValue(1950 - y);
 			}
 			if (y < 0) {
-				yr.setValue((BigInteger.valueOf(y).negate()).add((BigInteger.valueOf(1950))));
+				yr.setValue(Integer.valueOf((yBigInt.negate()).add((BigInteger.valueOf(1950))).toString()));
 			}
+		}
+		else if (suffix == DatingSuffix.RELATIVE)
+		{
+			// Year is relative so use astronomical calendar
+			yr.setSuffix(DatingSuffix.RELATIVE);
+			yr.setValue(this.toAstronomicalInteger());
+		}
+		else
+		{
+			System.out.println("Unhandled date suffix type.  Defaulting to 'relative'");
+			yr.setSuffix(DatingSuffix.RELATIVE);
+			yr.setValue(this.toAstronomicalInteger());
 		}
 		
 		return yr;

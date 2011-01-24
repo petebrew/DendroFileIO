@@ -68,16 +68,17 @@ public final class AstronomicalYear implements Comparable {
 	 */
 	public AstronomicalYear(Year x) {
 		int val = 0;
+		BigInteger xBigInt = BigInteger.valueOf(x.getValue());
 		switch (x.getSuffix()) {
 			case AD :
 				val = x.getValue().intValue();
 				break;
 			case BC :
-				val = x.getValue().negate().intValue() +1 ;
+				val = xBigInt.negate().intValue() +1 ;
 				break;
 			case BP :
 				AstronomicalYear radioCarbonEra = new AstronomicalYear(1950);
-				val = Integer.parseInt(radioCarbonEra.add(Integer.parseInt(x.getValue().negate().toString()))
+				val = Integer.parseInt(radioCarbonEra.add(Integer.parseInt(xBigInt.negate().toString()))
 						.toString());
 				break;
 		}

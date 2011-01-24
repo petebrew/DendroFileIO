@@ -26,6 +26,7 @@ import org.tridas.io.exceptions.ConversionWarning;
 import org.tridas.io.exceptions.ConversionWarningException;
 import org.tridas.io.exceptions.ConversionWarning.WarningType;
 import org.tridas.io.util.SafeIntYear;
+import org.tridas.schema.NormalTridasDatingType;
 import org.tridas.schema.TridasValue;
 
 /**
@@ -39,7 +40,8 @@ public class CSVFile implements IDendroFile {
 	
 	private TridasToCSVDefaults defaults;
 	private ArrayList<Integer> data = new ArrayList<Integer>();
-	private SafeIntYear startYear = new SafeIntYear(1001);
+	private SafeIntYear startYear = new SafeIntYear();
+	private Boolean isAstronomical = false;
 	
 	public CSVFile(IMetadataFieldSet argDefaults) {
 		defaults = (TridasToCSVDefaults) argDefaults;
@@ -48,9 +50,43 @@ public class CSVFile implements IDendroFile {
 	public void setSeries(ITridasSeries series) throws ConversionWarningException {
 		
 		// Set start year
-		try {
-			startYear = new SafeIntYear(series.getInterpretation().getFirstYear());
-		} catch (NullPointerException e) {}
+		if(series.isSetInterpretation())
+		{
+			if(series.getInterpretation().isSetDating())
+			{
+				if(series.getInterpretation().getDating().getType().equals(NormalTridasDatingType.RELATIVE))
+				{
+					isAstronomical = true;
+					if(series.getInterpretation().isSetFirstYear())
+					{
+						startYear = new SafeIntYear(series.getInterpretation().getFirstYear().getValue().toString(), true);
+					}
+					else
+					{
+						startYear = new SafeIntYear("1", true);
+					}
+				}
+				else
+				{
+					if(series.getInterpretation().isSetFirstYear())
+					{
+						startYear = new SafeIntYear(series.getInterpretation().getFirstYear());
+					}
+				}
+			}
+			else
+			{
+				if(series.getInterpretation().isSetFirstYear())
+				{
+					startYear = new SafeIntYear(series.getInterpretation().getFirstYear().getValue().toString(), true);
+				}
+				else
+				{
+					startYear = new SafeIntYear("1", true);
+				}
+			}
+		}
+
 		
 		// Extract ring widths from series
 		List<TridasValue> valueList;
@@ -89,11 +125,21 @@ public class CSVFile implements IDendroFile {
 		StringBuilder string = new StringBuilder();
 		
 		SafeIntYear thisYear = startYear;
-		
+
 		string.append("Year,Value\n");
 		
 		for (Integer value : data) {
-			string.append(thisYear.toString() + ",");
+			String yearStr = "";
+			if(isAstronomical)
+			{
+				yearStr = String.valueOf((thisYear.toAstronomicalInteger()));
+			}
+			else
+			{
+				yearStr = thisYear.toString();
+			}
+			
+			string.append(yearStr + ",");
 			string.append(String.valueOf(value) + "\n");
 			thisYear = thisYear.add(1);
 		}

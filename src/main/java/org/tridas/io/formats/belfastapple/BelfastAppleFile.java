@@ -81,6 +81,9 @@ public class BelfastAppleFile implements IDendroFile {
 			throw new ConversionWarningException(new ConversionWarning(WarningType.INVALID, I18n
 					.getText("fileio.invalidDataValue")));
 		}
+		
+		defaults.getIntegerDefaultValue(BelfastAppleField.RING_COUNT).setValue(valueList.size());
+		
 	}
 	
 	@Override
@@ -101,7 +104,7 @@ public class BelfastAppleFile implements IDendroFile {
 		
 		string.append(defaults.getDefaultValue(BelfastAppleField.OBJECT_TITLE).getValue() + "\n");
 		string.append(defaults.getDefaultValue(BelfastAppleField.SAMPLE_TITLE).getValue() + "\n");
-		
+		string.append(defaults.getIntegerDefaultValue(BelfastAppleField.RING_COUNT).getValue() + "\n");
 		for (Integer value : data) {
 			string.append(String.valueOf(value) + "\n");
 		}
