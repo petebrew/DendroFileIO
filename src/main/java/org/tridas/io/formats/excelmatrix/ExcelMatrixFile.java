@@ -62,18 +62,6 @@ public class ExcelMatrixFile implements IDendroFile {
 		// Switch the BP dating if any series are in BP
 		for (ITridasSeries ser : lst) {
 			
-			if(ser.isSetInterpretation())
-			{
-				if(ser.getInterpretation().isSetDating())
-				{
-					if(ser.getInterpretation().getDating().getType().equals(NormalTridasDatingType.RELATIVE))
-					{
-						this.defaults.addConversionWarning(
-								new ConversionWarning(WarningType.UNREPRESENTABLE, ""))
-					}
-				}
-			}
-			
 			if (calendar == DatingSuffix.BP) {
 				break;
 			}
