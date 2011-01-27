@@ -27,10 +27,14 @@ import org.tridas.io.defaults.values.GenericDefaultValue;
 import org.tridas.io.exceptions.InvalidDendroFileException;
 import org.tridas.io.util.DateUtils;
 import org.tridas.io.util.SafeIntYear;
+import org.tridas.schema.DatingSuffix;
+import org.tridas.schema.NormalTridasDatingType;
 import org.tridas.schema.NormalTridasUnit;
 import org.tridas.schema.ObjectFactory;
+import org.tridas.schema.TridasDating;
 import org.tridas.schema.TridasElement;
 import org.tridas.schema.TridasIdentifier;
+import org.tridas.schema.TridasInterpretation;
 import org.tridas.schema.TridasMeasurementSeries;
 import org.tridas.schema.TridasObject;
 import org.tridas.schema.TridasProject;
@@ -41,6 +45,7 @@ import org.tridas.schema.TridasUnitless;
 import org.tridas.schema.TridasValue;
 import org.tridas.schema.TridasValues;
 import org.tridas.schema.TridasVariable;
+import org.tridas.schema.Year;
 
 public class BelfastArchiveReader extends AbstractDendroFileReader {
 	
@@ -111,6 +116,14 @@ public class BelfastArchiveReader extends AbstractDendroFileReader {
 		// Line 1 - Start year
 		try {
 			startYear = new SafeIntYear(Integer.valueOf(argFileString[footerStartInd + 1]));
+			TridasInterpretation interp = new TridasInterpretation();
+			TridasDating dating = new TridasDating();
+			dating.setType(NormalTridasDatingType.ABSOLUTE);
+			interp.setDating(dating);
+			Year firstYear = startYear.toTridasYear(DatingSuffix.AD);
+			interp.setFirstYear(firstYear);
+			series.setInterpretation(interp);
+			
 		} catch (NumberFormatException e) {}
 		
 		// Line 2 - ?

@@ -285,10 +285,11 @@ public class BesanconReader extends AbstractDendroFileReader {
 					}
 					
 					// First Year
-					else if (key.startsWith("ORI")) {
+					else if (key.startsWith("ORI")) {						
 						try {
 							Integer intval = Integer.parseInt(value);
 							series.defaults.getSafeIntYearDefaultValue(DefaultFields.FIRST_YEAR).setValue(intval);
+							series.defaults.getBooleanDefaultValue(DefaultFields.DATED).setValue(true);
 						} catch (Exception e) {
 							addWarning(new ConversionWarning(WarningType.INVALID, I18n
 									.getText("besancon.invalidStartYear"), "Origine"));

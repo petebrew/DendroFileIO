@@ -36,13 +36,14 @@ import org.tridas.interfaces.ITridasSeries;
 import org.tridas.io.I18n;
 import org.tridas.io.IDendroFile;
 import org.tridas.io.defaults.IMetadataFieldSet;
-import org.tridas.io.formats.heidelberg.HeidelbergToTridasDefaults.DefaultFields;
+import org.tridas.io.exceptions.ConversionWarning;
+import org.tridas.io.exceptions.ConversionWarning.WarningType;
 import org.tridas.io.util.SafeIntYear;
 import org.tridas.io.util.YearRange;
 import org.tridas.schema.DatingSuffix;
+import org.tridas.schema.NormalTridasDatingType;
 import org.tridas.schema.TridasGenericField;
 import org.tridas.schema.TridasValue;
-import org.tridas.schema.Year;
 
 public class ExcelMatrixFile implements IDendroFile {
 	
@@ -56,8 +57,23 @@ public class ExcelMatrixFile implements IDendroFile {
 	}
 	
 	public void setSeriesList(ArrayList<ITridasSeries> lst) {
+		
+		
 		// Switch the BP dating if any series are in BP
 		for (ITridasSeries ser : lst) {
+			
+			if(ser.isSetInterpretation())
+			{
+				if(ser.getInterpretation().isSetDating())
+				{
+					if(ser.getInterpretation().getDating().getType().equals(NormalTridasDatingType.RELATIVE))
+					{
+						this.defaults.addConversionWarning(
+								new ConversionWarning(WarningType.UNREPRESENTABLE, ""))
+					}
+				}
+			}
+			
 			if (calendar == DatingSuffix.BP) {
 				break;
 			}
@@ -320,7 +336,7 @@ public class ExcelMatrixFile implements IDendroFile {
 		s.addCell(l);
 		
 		// Calculate which row to start on
-		SafeIntYear thisStartYear = new SafeIntYear(1001);
+		SafeIntYear thisStartYear = new SafeIntYear();
 		try {
 			thisStartYear = new SafeIntYear(series.getInterpretation().getFirstYear());
 		} catch (NullPointerException e) {}

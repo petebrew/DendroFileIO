@@ -42,6 +42,7 @@ public class CSVFile implements IDendroFile {
 	private ArrayList<Integer> data = new ArrayList<Integer>();
 	private SafeIntYear startYear = new SafeIntYear();
 	private Boolean isAstronomical = false;
+	private String datingTypeHeader = null;
 	
 	public CSVFile(IMetadataFieldSet argDefaults) {
 		defaults = (TridasToCSVDefaults) argDefaults;
@@ -54,8 +55,10 @@ public class CSVFile implements IDendroFile {
 		{
 			if(series.getInterpretation().isSetDating())
 			{
-				if(series.getInterpretation().getDating().getType().equals(NormalTridasDatingType.RELATIVE))
+				switch(series.getInterpretation().getDating().getType())
 				{
+				case RELATIVE:
+					datingTypeHeader = "Relative Year";
 					isAstronomical = true;
 					if(series.getInterpretation().isSetFirstYear())
 					{
@@ -65,17 +68,24 @@ public class CSVFile implements IDendroFile {
 					{
 						startYear = new SafeIntYear("1", true);
 					}
-				}
-				else
-				{
+					break;
+				case ABSOLUTE:
+				case DATED_WITH_UNCERTAINTY:
+				case RADIOCARBON:
+					datingTypeHeader = "Year";
 					if(series.getInterpretation().isSetFirstYear())
 					{
 						startYear = new SafeIntYear(series.getInterpretation().getFirstYear());
 					}
+					break;
+				default:
+					datingTypeHeader = "Year";
 				}
+				
 			}
 			else
 			{
+				datingTypeHeader = "Year";
 				if(series.getInterpretation().isSetFirstYear())
 				{
 					startYear = new SafeIntYear(series.getInterpretation().getFirstYear().getValue().toString(), true);
@@ -126,7 +136,7 @@ public class CSVFile implements IDendroFile {
 		
 		SafeIntYear thisYear = startYear;
 
-		string.append("Year,Value\n");
+		string.append(datingTypeHeader+",Value\n");
 		
 		for (Integer value : data) {
 			String yearStr = "";

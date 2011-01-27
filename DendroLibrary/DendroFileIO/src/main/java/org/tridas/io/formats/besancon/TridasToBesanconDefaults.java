@@ -27,11 +27,15 @@ import org.tridas.io.defaults.values.GenericDefaultValue;
 import org.tridas.io.defaults.values.IntegerDefaultValue;
 import org.tridas.io.defaults.values.SafeIntYearDefaultValue;
 import org.tridas.io.defaults.values.StringDefaultValue;
+import org.tridas.io.exceptions.ConversionWarning;
+import org.tridas.io.exceptions.ConversionWarning.WarningType;
 import org.tridas.io.formats.besancon.BesanconToTridasDefaults.BesanconCambiumType;
 import org.tridas.io.formats.besancon.BesanconToTridasDefaults.DefaultFields;
 import org.tridas.io.util.SafeIntYear;
 import org.tridas.schema.ComplexPresenceAbsence;
+import org.tridas.schema.NormalTridasDatingType;
 import org.tridas.schema.PresenceAbsence;
+import org.tridas.schema.TridasDating;
 import org.tridas.schema.TridasDerivedSeries;
 import org.tridas.schema.TridasElement;
 import org.tridas.schema.TridasMeasurementSeries;
@@ -59,6 +63,7 @@ public class TridasToBesanconDefaults extends AbstractMetadataFieldSet
 		setDefaultValue(DefaultFields.FIRST_YEAR, new SafeIntYearDefaultValue());
 		setDefaultValue(DefaultFields.LAST_YEAR, new SafeIntYearDefaultValue());
 		setDefaultValue(DefaultFields.POSITION_IN_MEAN, new IntegerDefaultValue(1));
+		setDefaultValue(DefaultFields.DATED, new BooleanDefaultValue(false));
 
 	}
 
@@ -137,16 +142,35 @@ public class TridasToBesanconDefaults extends AbstractMetadataFieldSet
 			getStringDefaultValue(DefaultFields.DATE).setValue(sdf.format(dt.getTime()));			
 		}
 		
-		// First and Last years
+		// First and Last years and Dating type
 		if(ser.isSetInterpretation())
 		{
-			if(ser.getInterpretation().isSetFirstYear())
+
+			if(ser.getInterpretation().isSetDating())
 			{
-				getSafeIntYearDefaultValue(DefaultFields.FIRST_YEAR).setValue(new SafeIntYear(ser.getInterpretation().getFirstYear()));
-			}
-			if(ser.getInterpretation().isSetLastYear())
-			{
-				getSafeIntYearDefaultValue(DefaultFields.LAST_YEAR).setValue(new SafeIntYear(ser.getInterpretation().getLastYear()));
+				TridasDating dating = ser.getInterpretation().getDating();
+				switch(dating.getType())
+				{
+				case ABSOLUTE:
+				case DATED_WITH_UNCERTAINTY:
+				case RADIOCARBON:
+					if(ser.getInterpretation().isSetFirstYear())
+					{
+						getSafeIntYearDefaultValue(DefaultFields.FIRST_YEAR).setValue(new SafeIntYear(ser.getInterpretation().getFirstYear()));
+					}
+					if(ser.getInterpretation().isSetLastYear())
+					{
+						getSafeIntYearDefaultValue(DefaultFields.LAST_YEAR).setValue(new SafeIntYear(ser.getInterpretation().getLastYear()));
+					}
+					getBooleanDefaultValue(DefaultFields.DATED).setValue(true);
+					break;
+				case RELATIVE:
+					this.addConversionWarning(new ConversionWarning(WarningType.UNREPRESENTABLE, 
+							I18n.getText("general.outputRelativeDatingUnsupported")));
+				default:
+					
+				}
+
 			}
 		}
 	}

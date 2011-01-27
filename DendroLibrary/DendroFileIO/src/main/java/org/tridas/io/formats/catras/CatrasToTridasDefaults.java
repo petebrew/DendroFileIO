@@ -150,7 +150,7 @@ public class CatrasToTridasDefaults extends TridasMetadataFieldSet implements IM
 			TridasDating dating = new TridasDating();
 			if(getSafeIntYearDefaultValue(DefaultFields.START_YEAR).getValue().equals(new SafeIntYear(-1)))
 			{
-				dating.setType(NormalTridasDatingType.RELATIVE);
+				//dating.setType(NormalTridasDatingType.RELATIVE);
 			}
 			else
 			{
@@ -162,8 +162,9 @@ public class CatrasToTridasDefaults extends TridasMetadataFieldSet implements IM
 				{
 					interp.setLastYear(getSafeIntYearDefaultValue(DefaultFields.END_YEAR).getValue().toTridasYear(DatingSuffix.AD));
 				}
+				interp.setDating(dating);
 			}
-			interp.setDating(dating);
+			
 		}
 	
 		series.setInterpretation(interp);

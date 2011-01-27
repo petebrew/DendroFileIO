@@ -17,6 +17,7 @@ package org.tridas.io.formats.corina;
 
 import org.tridas.interfaces.ITridasSeries;
 import org.tridas.io.I18n;
+import org.tridas.io.defaults.AbstractDefaultValue;
 import org.tridas.io.defaults.AbstractMetadataFieldSet;
 import org.tridas.io.defaults.IMetadataFieldSet;
 import org.tridas.io.defaults.values.GenericDefaultValue;
@@ -29,8 +30,10 @@ import org.tridas.io.formats.sheffield.TridasToSheffieldDefaults.SheffieldShapeC
 import org.tridas.io.util.ITRDBTaxonConverter;
 import org.tridas.io.util.SafeIntYear;
 import org.tridas.schema.ComplexPresenceAbsence;
+import org.tridas.schema.NormalTridasDatingType;
 import org.tridas.schema.PresenceAbsence;
 import org.tridas.schema.TridasBark;
+import org.tridas.schema.TridasDating;
 import org.tridas.schema.TridasDerivedSeries;
 import org.tridas.schema.TridasElement;
 import org.tridas.schema.TridasMeasurementSeries;
@@ -48,7 +51,7 @@ public class TridasToCorinaDefaults extends AbstractMetadataFieldSet implements
 
 		setDefaultValue(DefaultFields.ID, new StringDefaultValue(null, 6, 6));
 		setDefaultValue(DefaultFields.NAME, new StringDefaultValue());
-		setDefaultValue(DefaultFields.DATING, new StringDefaultValue());
+		setDefaultValue(DefaultFields.DATING, new GenericDefaultValue<CorinaDatingType>());
 		setDefaultValue(DefaultFields.UNMEAS_PRE, new IntegerDefaultValue());
 		setDefaultValue(DefaultFields.UNMEAS_POST, new IntegerDefaultValue());
 		setDefaultValue(DefaultFields.COMMENTS, new StringDefaultValue());
@@ -76,6 +79,8 @@ public class TridasToCorinaDefaults extends AbstractMetadataFieldSet implements
 		{
 			getStringDefaultValue(DefaultFields.USERNAME).setValue(argSeries.getDendrochronologist());
 		}
+		
+		
 		
 	}
 	
@@ -113,6 +118,26 @@ public class TridasToCorinaDefaults extends AbstractMetadataFieldSet implements
 			getStringDefaultValue(DefaultFields.COMMENTS).setValue(argSeries.getComments());
 		}
 		
+		if(argSeries.isSetInterpretation())
+		{
+			if(argSeries.getInterpretation().isSetDating())
+			{
+				TridasDating dating = argSeries.getInterpretation().getDating();
+				AbstractDefaultValue<CorinaDatingType> datingField = (AbstractDefaultValue<CorinaDatingType>) getDefaultValue(DefaultFields.DATING);
+				switch(dating.getType())
+				{
+				case ABSOLUTE:
+				case DATED_WITH_UNCERTAINTY:
+				case RADIOCARBON:
+					datingField.setValue(CorinaDatingType.ABSOLUTE);
+					break;
+				case RELATIVE:
+					datingField.setValue(CorinaDatingType.RELATIVE);
+					break;
+				default:
+				}
+			}
+		}
 		
 	}
 	

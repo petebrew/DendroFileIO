@@ -28,9 +28,11 @@ import org.tridas.io.util.ITRDBTaxonConverter;
 import org.tridas.schema.ComplexPresenceAbsence;
 import org.tridas.schema.ControlledVoc;
 import org.tridas.schema.DatingSuffix;
+import org.tridas.schema.NormalTridasDatingType;
 import org.tridas.schema.ObjectFactory;
 import org.tridas.schema.PresenceAbsence;
 import org.tridas.schema.TridasBark;
+import org.tridas.schema.TridasDating;
 import org.tridas.schema.TridasElement;
 import org.tridas.schema.TridasHeartwood;
 import org.tridas.schema.TridasLastRingUnderBark;
@@ -55,7 +57,8 @@ public class BesanconToTridasDefaults extends TridasMetadataFieldSet {
 		BARK, // ECO
 		FIRST_YEAR, // ORI
 		LAST_YEAR, // TER
-		POSITION_IN_MEAN; // POS
+		POSITION_IN_MEAN, // POS
+		DATED; // ORI is not null
 	}
 	
 	@Override
@@ -72,7 +75,7 @@ public class BesanconToTridasDefaults extends TridasMetadataFieldSet {
 		setDefaultValue(DefaultFields.FIRST_YEAR, new SafeIntYearDefaultValue());
 		setDefaultValue(DefaultFields.LAST_YEAR, new SafeIntYearDefaultValue());
 		setDefaultValue(DefaultFields.POSITION_IN_MEAN, new IntegerDefaultValue(1));
-		
+		setDefaultValue(DefaultFields.DATED, new BooleanDefaultValue(false));
 	}
 	
 	@Override
@@ -120,11 +123,21 @@ public class BesanconToTridasDefaults extends TridasMetadataFieldSet {
 		// Set series title
 		series.setTitle(getStringDefaultValue(DefaultFields.SERIES_TITLE).getStringValue());
 		
-		// Set first and last years
-		series.getInterpretation().setFirstYear(
-				getSafeIntYearDefaultValue(DefaultFields.FIRST_YEAR).getValue().toTridasYear(DatingSuffix.AD));
-		series.getInterpretation().setLastYear(
-				getSafeIntYearDefaultValue(DefaultFields.LAST_YEAR).getValue().toTridasYear(DatingSuffix.AD));
+		TridasDating dating = new TridasDating();
+		if(getBooleanDefaultValue(DefaultFields.DATED).getValue())
+		{
+			
+			// Set first and last years
+			series.getInterpretation().setFirstYear(
+					getSafeIntYearDefaultValue(DefaultFields.FIRST_YEAR).getValue().toTridasYear(DatingSuffix.AD));
+			series.getInterpretation().setLastYear(
+					getSafeIntYearDefaultValue(DefaultFields.LAST_YEAR).getValue().toTridasYear(DatingSuffix.AD));
+			
+			// Dating Type
+			dating.setType(NormalTridasDatingType.ABSOLUTE);
+			series.getInterpretation().setDating(dating);
+		}
+
 		
 		// Set ring count
 		TridasWoodCompleteness wc = new ObjectFactory().createTridasWoodCompleteness();
