@@ -29,6 +29,7 @@ import org.tridas.io.defaults.values.IntegerDefaultValue;
 import org.tridas.io.defaults.values.SafeIntYearDefaultValue;
 import org.tridas.io.defaults.values.StringDefaultValue;
 import org.tridas.io.formats.corina.CorinaToTridasDefaults.DefaultFields;
+import org.tridas.io.formats.corina.TridasToCorinaDefaults.CorinaDatingType;
 import org.tridas.io.formats.corina.TridasToCorinaDefaults.CorinaSampleType;
 import org.tridas.io.formats.corina.TridasToCorinaDefaults.CorinaTerminalRing;
 import org.tridas.io.formats.sheffield.TridasToSheffieldDefaults.SheffieldPeriodCode;
@@ -115,9 +116,9 @@ public class CorinaFile implements IDendroFile {
 		{
 			line += ";NAME "+defaults.getStringDefaultValue(DefaultFields.NAME).getValue();
 		}
-		if(defaults.getStringDefaultValue(DefaultFields.DATING).getValue()!=null)
+		if(defaults.getDefaultValue(DefaultFields.DATING).getValue()!=null)
 		{
-			line += ";DATING "+defaults.getStringDefaultValue(DefaultFields.DATING).getValue();
+			line += ";DATING "+ ((CorinaDatingType)defaults.getDefaultValue(DefaultFields.DATING).getValue()).toCode();
 		}
 		if(defaults.getIntegerDefaultValue(DefaultFields.UNMEAS_PRE).getValue()!=null)
 		{

@@ -21,14 +21,17 @@ import org.tridas.io.defaults.TridasMetadataFieldSet;
 import org.tridas.io.defaults.values.IntegerDefaultValue;
 import org.tridas.io.defaults.values.SafeIntYearDefaultValue;
 import org.tridas.io.defaults.values.StringDefaultValue;
+import org.tridas.io.formats.corina.TridasToCorinaDefaults.CorinaDatingType;
 import org.tridas.io.util.SafeIntYear;
 import org.tridas.schema.ComplexPresenceAbsence;
 import org.tridas.schema.ControlledVoc;
 import org.tridas.schema.DatingSuffix;
+import org.tridas.schema.NormalTridasDatingType;
 import org.tridas.schema.NormalTridasUnit;
 import org.tridas.schema.NormalTridasVariable;
 import org.tridas.schema.PresenceAbsence;
 import org.tridas.schema.TridasBark;
+import org.tridas.schema.TridasDating;
 import org.tridas.schema.TridasDerivedSeries;
 import org.tridas.schema.TridasElement;
 import org.tridas.schema.TridasGenericField;
@@ -126,27 +129,36 @@ public class CorinaToTridasDefaults extends TridasMetadataFieldSet implements
 		}
 		
 		
+		// Dating type
+		if(getDefaultValue(DefaultFields.DATING).getValue()!=null)
+		{
+			CorinaDatingType dating = (CorinaDatingType) this.getDefaultValue(DefaultFields.DATING).getValue();
+			TridasDating td = new TridasDating();
+			switch (dating)
+			{
+			case ABSOLUTE:
+				td.setType(NormalTridasDatingType.ABSOLUTE);
+				interp.setDating(td);
+				break;
+			case RELATIVE:
+				td.setType(NormalTridasDatingType.RELATIVE);
+				interp.setDating(td);
+				break;
+			default:
+			}
+			
+		}
+		
+		
 		series.setInterpretation(interp);
 		return series;
 	}
 	
-	/**
-	 * @see org.tridas.io.defaults.TridasMetadataFieldSet#getDefaultTridasMeasurementSeries()
-	 */
 	@Override
-	protected TridasMeasurementSeries getDefaultTridasMeasurementSeries() {
-		TridasMeasurementSeries series = super.getDefaultTridasMeasurementSeries();
-		
-		series.setTitle(getStringDefaultValue(DefaultFields.NAME).getValue());
-		
-		if(getStringDefaultValue(DefaultFields.USERNAME).getValue()!=null)
-		{
-			series.setDendrochronologist(getStringDefaultValue(DefaultFields.USERNAME).getValue());
-		}
-		
-		TridasInterpretation interp = new TridasInterpretation();
+	protected TridasWoodCompleteness getDefaultWoodCompleteness()
+	{
 		TridasWoodCompleteness wc = super.getDefaultWoodCompleteness();
-		
+
 		// Unmeasured Pre
 		if(getIntegerDefaultValue(DefaultFields.UNMEAS_PRE).getValue()!=null)
 		{
@@ -202,6 +214,48 @@ public class CorinaToTridasDefaults extends TridasMetadataFieldSet implements
 				bark.setPresence(PresenceAbsence.ABSENT);
 			}
 		}
+			
+		return wc;
+	}
+	
+	/**
+	 * @see org.tridas.io.defaults.TridasMetadataFieldSet#getDefaultTridasMeasurementSeries()
+	 */
+	@Override
+	protected TridasMeasurementSeries getDefaultTridasMeasurementSeries() {
+		TridasMeasurementSeries series = super.getDefaultTridasMeasurementSeries();
+		
+		series.setTitle(getStringDefaultValue(DefaultFields.NAME).getValue());
+		
+		if(getStringDefaultValue(DefaultFields.USERNAME).getValue()!=null)
+		{
+			series.setDendrochronologist(getStringDefaultValue(DefaultFields.USERNAME).getValue());
+		}
+		
+		TridasInterpretation interp = new TridasInterpretation();
+		TridasWoodCompleteness wc = getDefaultWoodCompleteness();
+		
+	
+		// Dating type
+		if(getDefaultValue(DefaultFields.DATING).getValue()!=null)
+		{
+			CorinaDatingType dating = (CorinaDatingType) this.getDefaultValue(DefaultFields.DATING).getValue();
+			TridasDating td = new TridasDating();
+			switch (dating)
+			{
+			case ABSOLUTE:
+				td.setType(NormalTridasDatingType.ABSOLUTE);
+				interp.setDating(td);
+				break;
+			case RELATIVE:
+				td.setType(NormalTridasDatingType.RELATIVE);
+				interp.setDating(td);
+				break;
+			default:
+			}
+			
+		}
+		
 		
 		// Comments
 		if(getStringDefaultValue(DefaultFields.COMMENTS).getValue()!=null)
@@ -225,12 +279,8 @@ public class CorinaToTridasDefaults extends TridasMetadataFieldSet implements
 		
 		series.setInterpretation(interp);
 		series.setWoodCompleteness(wc);
-		
-		
-		
+
 		return series;
-		
-		
 	}
 	
 	

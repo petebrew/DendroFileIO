@@ -146,17 +146,21 @@ public class BesanconFile implements IDendroFile {
 			// Position of series in the mean
 			file.add("   POS "+String.valueOf(dataPair.defaults.getIntegerDefaultValue(DefaultFields.POSITION_IN_MEAN).getValue()));
 			
-			// First year
-			if(dataPair.defaults.getSafeIntYearDefaultValue(DefaultFields.FIRST_YEAR).getValue()!=null)
+			// Only do if the series is dated
+			if(dataPair.defaults.getBooleanDefaultValue(DefaultFields.DATED).getValue())
 			{
-				file.add("   ORI "+dataPair.defaults.getSafeIntYearDefaultValue(DefaultFields.FIRST_YEAR).getValue().toString());
+				// First year
+				if(dataPair.defaults.getSafeIntYearDefaultValue(DefaultFields.FIRST_YEAR).getValue()!=null)
+				{
+					file.add("   ORI "+dataPair.defaults.getSafeIntYearDefaultValue(DefaultFields.FIRST_YEAR).getValue().toString());
+				}
+				
+				// Last year
+				if(dataPair.defaults.getSafeIntYearDefaultValue(DefaultFields.LAST_YEAR).getValue()!=null)
+				{
+					file.add("   TER "+dataPair.defaults.getSafeIntYearDefaultValue(DefaultFields.LAST_YEAR).getValue().toString());
+				}	
 			}
-			
-			// Last year
-			if(dataPair.defaults.getSafeIntYearDefaultValue(DefaultFields.LAST_YEAR).getValue()!=null)
-			{
-				file.add("   TER "+dataPair.defaults.getSafeIntYearDefaultValue(DefaultFields.LAST_YEAR).getValue().toString());
-			}	
 			
 			// Pith
 			if(dataPair.defaults.getBooleanDefaultValue(DefaultFields.PITH).getValue())
