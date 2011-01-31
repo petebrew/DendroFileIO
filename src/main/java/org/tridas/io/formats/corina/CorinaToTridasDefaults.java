@@ -21,6 +21,8 @@ import org.tridas.io.defaults.TridasMetadataFieldSet;
 import org.tridas.io.defaults.values.IntegerDefaultValue;
 import org.tridas.io.defaults.values.SafeIntYearDefaultValue;
 import org.tridas.io.defaults.values.StringDefaultValue;
+import org.tridas.io.exceptions.ConversionWarning;
+import org.tridas.io.exceptions.ConversionWarning.WarningType;
 import org.tridas.io.formats.corina.TridasToCorinaDefaults.CorinaDatingType;
 import org.tridas.io.util.SafeIntYear;
 import org.tridas.schema.ComplexPresenceAbsence;
@@ -132,19 +134,24 @@ public class CorinaToTridasDefaults extends TridasMetadataFieldSet implements
 		// Dating type
 		if(getDefaultValue(DefaultFields.DATING).getValue()!=null)
 		{
-			CorinaDatingType dating = (CorinaDatingType) this.getDefaultValue(DefaultFields.DATING).getValue();
-			TridasDating td = new TridasDating();
-			switch (dating)
+			try{
+				CorinaDatingType dating = CorinaDatingType.valueOf(getStringDefaultValue(DefaultFields.DATING).getValue());
+				TridasDating td = new TridasDating();
+				switch (dating)
+				{
+				case ABSOLUTE:
+					td.setType(NormalTridasDatingType.ABSOLUTE);
+					interp.setDating(td);
+					break;
+				case RELATIVE:
+					td.setType(NormalTridasDatingType.RELATIVE);
+					interp.setDating(td);
+					break;
+				default:
+				}
+			} catch (Exception e)
 			{
-			case ABSOLUTE:
-				td.setType(NormalTridasDatingType.ABSOLUTE);
-				interp.setDating(td);
-				break;
-			case RELATIVE:
-				td.setType(NormalTridasDatingType.RELATIVE);
-				interp.setDating(td);
-				break;
-			default:
+				this.addConversionWarning(new ConversionWarning(WarningType.INVALID, I18n.getText("corina.invalidDatingField")));
 			}
 			
 		}
