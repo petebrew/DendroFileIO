@@ -31,9 +31,11 @@ import org.tridas.io.defaults.values.StringDefaultValue;
 import org.tridas.io.util.DateUtils;
 import org.tridas.io.util.SafeIntYear;
 import org.tridas.schema.DatingSuffix;
+import org.tridas.schema.NormalTridasDatingType;
 import org.tridas.schema.NormalTridasMeasuringMethod;
 import org.tridas.schema.NormalTridasUnit;
 import org.tridas.schema.NormalTridasVariable;
+import org.tridas.schema.TridasDating;
 import org.tridas.schema.TridasDimensions;
 import org.tridas.schema.TridasElement;
 import org.tridas.schema.TridasGenericField;
@@ -179,6 +181,11 @@ public class WinDendroToTridasDefaults extends TridasMetadataFieldSet implements
 		SafeIntYear lastYear = getSafeIntYearDefaultValue(WDDefaultField.LAST_RING_YEAR).getValue();
 		if (lastYear!=null)
 		{
+			// Dating type
+			TridasDating dating = new TridasDating();
+			dating.setType(NormalTridasDatingType.ABSOLUTE);
+			ms.getInterpretation().setDating(dating);
+			
 			// Set year of last ring
 			ms.getInterpretation().setLastYear(lastYear.toTridasYear(DatingSuffix.AD));
 

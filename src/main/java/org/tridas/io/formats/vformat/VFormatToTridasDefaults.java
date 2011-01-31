@@ -26,8 +26,10 @@ import org.tridas.io.defaults.values.StringDefaultValue;
 import org.tridas.io.util.CoordinatesUtils;
 import org.tridas.io.util.ITRDBTaxonConverter;
 import org.tridas.schema.DatingSuffix;
+import org.tridas.schema.NormalTridasDatingType;
 import org.tridas.schema.NormalTridasUnit;
 import org.tridas.schema.NormalTridasVariable;
+import org.tridas.schema.TridasDating;
 import org.tridas.schema.TridasDerivedSeries;
 import org.tridas.schema.TridasElement;
 import org.tridas.schema.TridasIdentifier;
@@ -267,6 +269,11 @@ public class VFormatToTridasDefaults extends TridasMetadataFieldSet {
 		{
 			interp.setLastYear(getSafeIntYearDefaultValue(DefaultFields.LAST_YEAR).getValue()
 					.toTridasYear(DatingSuffix.AD));
+			
+			// Dating type
+			TridasDating dating = new TridasDating();
+			dating.setType(NormalTridasDatingType.ABSOLUTE);
+			interp.setDating(dating);
 		}
 		
 		// First year
@@ -336,6 +343,32 @@ public class VFormatToTridasDefaults extends TridasMetadataFieldSet {
 		{
 			ds.setTitle(getStringDefaultValue(DefaultFields.SERIES_ID).getValue());
 		}
+		
+		TridasInterpretation interp = new TridasInterpretation();
+		
+		// Last Year
+		if(getSafeIntYearDefaultValue(DefaultFields.LAST_YEAR).getValue()!=null)
+		{
+			interp.setLastYear(getSafeIntYearDefaultValue(DefaultFields.LAST_YEAR).getValue()
+					.toTridasYear(DatingSuffix.AD));
+			
+			// Dating type
+			TridasDating dating = new TridasDating();
+			dating.setType(NormalTridasDatingType.ABSOLUTE);
+			interp.setDating(dating);
+		}
+		
+		// First year
+		if(getSafeIntYearDefaultValue(DefaultFields.FIRST_YEAR).getValue()!=null)
+		{
+			interp.setLastYear(getSafeIntYearDefaultValue(DefaultFields.FIRST_YEAR).getValue()
+					.toTridasYear(DatingSuffix.AD));
+		}
+		
+		// Dating type
+		TridasDating dating = new TridasDating();
+		dating.setType(NormalTridasDatingType.ABSOLUTE);
+		ds.getInterpretation().setDating(dating);
 		
 		return ds;
 	}

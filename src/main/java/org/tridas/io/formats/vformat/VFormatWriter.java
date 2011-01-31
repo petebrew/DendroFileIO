@@ -27,6 +27,7 @@ import org.tridas.io.naming.INamingConvention;
 import org.tridas.io.naming.NumericalNamingConvention;
 import org.tridas.io.util.TridasUtils;
 import org.tridas.io.util.UnitUtils;
+import org.tridas.schema.NormalTridasDatingType;
 import org.tridas.schema.NormalTridasUnit;
 import org.tridas.schema.TridasDerivedSeries;
 import org.tridas.schema.TridasElement;
@@ -121,6 +122,27 @@ public class VFormatWriter extends AbstractDendroCollectionWriter {
 						for (TridasMeasurementSeries ms : r.getMeasurementSeries()) {
 							TridasToVFormatDefaults msDefaults = (TridasToVFormatDefaults) radiusDefaults
 									.clone();
+							
+							if(ms.isSetInterpretation())
+							{
+								if (ms.getInterpretation().isSetDating())
+								{
+									switch (ms.getInterpretation().getDating().getType())
+									{
+									case ABSOLUTE:
+									case DATED_WITH_UNCERTAINTY:
+									case RADIOCARBON:
+										break;
+									case RELATIVE:
+										addWarning(new ConversionWarning(WarningType.UNREPRESENTABLE, 
+												I18n.getText("general.outputRelativeDatingUnsupported")));
+										break;
+									default:
+									}
+								}
+							}
+							
+							
 							msDefaults.populateFromTridasMeasurementSeries(ms);
 							msDefaults.populateFromWoodCompleteness(ms, r);
 							
@@ -188,6 +210,25 @@ public class VFormatWriter extends AbstractDendroCollectionWriter {
 		{
 			TridasToVFormatDefaults dsDefaults = (TridasToVFormatDefaults) defaults.clone();
 			dsDefaults.populateFromTridasDerivedSeries(ds);
+			
+			if(ds.isSetInterpretation())
+			{
+				if (ds.getInterpretation().isSetDating())
+				{
+					switch (ds.getInterpretation().getDating().getType())
+					{
+					case ABSOLUTE:
+					case DATED_WITH_UNCERTAINTY:
+					case RADIOCARBON:
+						break;
+					case RELATIVE:
+						addWarning(new ConversionWarning(WarningType.UNREPRESENTABLE, 
+								I18n.getText("general.outputRelativeDatingUnsupported")));
+						break;
+					default:
+					}
+				}
+			}
 			
 			
 			for (int i = 0; i < ds.getValues().size(); i++) {
