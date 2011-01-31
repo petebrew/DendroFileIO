@@ -1,5 +1,4 @@
 /**
- * Copyright 2010 Peter Brewer and Daniel Murphy
  * 
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -16,17 +15,13 @@
 package org.tridas.io.formats.vformat;
 
 import java.util.ArrayList;
-import java.util.HashMap;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
 import org.grlea.log.SimpleLogger;
-import org.tridas.interfaces.ITridasSeries;
 import org.tridas.io.AbstractDendroFileReader;
 import org.tridas.io.I18n;
 import org.tridas.io.defaults.IMetadataFieldSet;
-import org.tridas.io.defaults.TridasMetadataFieldSet;
-import org.tridas.io.defaults.TridasMetadataFieldSet.TridasMandatoryField;
 import org.tridas.io.defaults.values.GenericDefaultValue;
 import org.tridas.io.exceptions.ConversionWarning;
 import org.tridas.io.exceptions.InvalidDendroFileException;
@@ -37,25 +32,14 @@ import org.tridas.io.formats.vformat.VFormatToTridasDefaults.VFormatStatType;
 import org.tridas.io.util.DateUtils;
 import org.tridas.io.util.SafeIntYear;
 import org.tridas.schema.DateTime;
-import org.tridas.schema.DatingSuffix;
-import org.tridas.schema.NormalTridasUnit;
-import org.tridas.schema.NormalTridasVariable;
-import org.tridas.schema.TridasDerivedSeries;
 import org.tridas.schema.TridasElement;
-import org.tridas.schema.TridasGenericField;
-import org.tridas.schema.TridasIdentifier;
-import org.tridas.schema.TridasInterpretation;
-import org.tridas.schema.TridasLocation;
 import org.tridas.schema.TridasMeasurementSeries;
 import org.tridas.schema.TridasObject;
 import org.tridas.schema.TridasProject;
 import org.tridas.schema.TridasRadius;
 import org.tridas.schema.TridasSample;
-import org.tridas.schema.TridasUnit;
 import org.tridas.schema.TridasValue;
 import org.tridas.schema.TridasValues;
-import org.tridas.schema.TridasVariable;
-import org.tridas.schema.TridasWoodCompleteness;
 
 public class VFormatReader extends AbstractDendroFileReader {
 	

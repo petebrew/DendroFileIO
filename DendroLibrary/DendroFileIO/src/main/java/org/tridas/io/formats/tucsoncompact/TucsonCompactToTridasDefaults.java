@@ -25,8 +25,10 @@ import org.tridas.io.defaults.values.StringDefaultValue;
 import org.tridas.io.formats.tucson.TucsonToTridasDefaults;
 import org.tridas.io.util.SafeIntYear;
 import org.tridas.schema.DatingSuffix;
+import org.tridas.schema.NormalTridasDatingType;
 import org.tridas.schema.NormalTridasUnit;
 import org.tridas.schema.NormalTridasVariable;
+import org.tridas.schema.TridasDating;
 import org.tridas.schema.TridasInterpretation;
 import org.tridas.schema.TridasMeasurementSeries;
 import org.tridas.schema.TridasProject;
@@ -77,6 +79,12 @@ public class TucsonCompactToTridasDefaults extends TridasMetadataFieldSet implem
 			TridasInterpretation interp = new TridasInterpretation();
 			SafeIntYear firstYear = new SafeIntYear(getIntegerDefaultValue(DefaultFields.START_YEAR).getValue());
 			interp.setFirstYear(firstYear.toTridasYear(DatingSuffix.AD));
+			
+			// Dating type
+			TridasDating dating = new TridasDating();
+			dating.setType(NormalTridasDatingType.ABSOLUTE);
+			interp.setDating(dating);
+			
 			series.setInterpretation(interp);		
 		}
 		

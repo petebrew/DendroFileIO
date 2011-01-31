@@ -29,8 +29,10 @@ import org.tridas.io.defaults.values.StringDefaultValue;
 import org.tridas.io.util.ITRDBTaxonConverter;
 import org.tridas.schema.ControlledVoc;
 import org.tridas.schema.DatingSuffix;
+import org.tridas.schema.NormalTridasDatingType;
 import org.tridas.schema.NormalTridasUnit;
 import org.tridas.schema.NormalTridasVariable;
+import org.tridas.schema.TridasDating;
 import org.tridas.schema.TridasDerivedSeries;
 import org.tridas.schema.TridasElement;
 import org.tridas.schema.TridasGenericField;
@@ -206,6 +208,11 @@ public class TucsonToTridasDefaults extends TridasMetadataFieldSet implements IM
 		if(getSafeIntYearDefaultValue(TucsonDefaultField.FIRST_YEAR).getValue()!=null)
 		{
 			interp.setFirstYear(getSafeIntYearDefaultValue(TucsonDefaultField.FIRST_YEAR).getValue().toTridasYear(DatingSuffix.AD));
+			
+			// Dating type
+			TridasDating dating = new TridasDating();
+			dating.setType(NormalTridasDatingType.ABSOLUTE);
+			interp.setDating(dating);
 		}
 		ms.setInterpretation(interp);
 		
@@ -227,6 +234,20 @@ public class TucsonToTridasDefaults extends TridasMetadataFieldSet implements IM
 		{
 			ds.setAuthor(getStringDefaultValue(TucsonDefaultField.INVESTIGATOR).getValue().trim());
 		}
+		
+		
+		TridasInterpretation interp = new TridasInterpretation();
+		
+		if(getSafeIntYearDefaultValue(TucsonDefaultField.FIRST_YEAR).getValue()!=null)
+		{
+			interp.setFirstYear(getSafeIntYearDefaultValue(TucsonDefaultField.FIRST_YEAR).getValue().toTridasYear(DatingSuffix.AD));
+			
+			// Dating type
+			TridasDating dating = new TridasDating();
+			dating.setType(NormalTridasDatingType.ABSOLUTE);
+			interp.setDating(dating);
+		}
+		
 		return ds;
 		
 	}

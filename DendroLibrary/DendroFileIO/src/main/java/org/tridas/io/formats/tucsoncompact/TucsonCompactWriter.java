@@ -101,6 +101,26 @@ public class TucsonCompactWriter extends AbstractDendroCollectionWriter {
 					for (TridasRadius r : s.getRadiuses()) {											
 						for (TridasMeasurementSeries ms : r.getMeasurementSeries()) {	
 							defaults.populateFromTridasMeasurementSeries(ms);
+
+							if(ms.isSetInterpretation())
+							{
+								if (ms.getInterpretation().isSetDating())
+								{
+									switch (ms.getInterpretation().getDating().getType())
+									{
+									case ABSOLUTE:
+									case DATED_WITH_UNCERTAINTY:
+									case RADIOCARBON:
+										break;
+									case RELATIVE:
+										addWarning(new ConversionWarning(WarningType.UNREPRESENTABLE, 
+												I18n.getText("general.outputRelativeDatingUnsupported")));
+										break;
+									default:
+									}
+								}
+							}
+							
 							
 							for (int i = 0; i < ms.getValues().size(); i++) {
 								
@@ -172,6 +192,25 @@ public class TucsonCompactWriter extends AbstractDendroCollectionWriter {
 			for (int i = 0; i < ds.getValues().size(); i++) {
 				
 				TridasToTucsonCompactDefaults dsDefaults = (TridasToTucsonCompactDefaults) defaults.clone();
+				
+				if(ds.isSetInterpretation())
+				{
+					if (ds.getInterpretation().isSetDating())
+					{
+						switch (ds.getInterpretation().getDating().getType())
+						{
+						case ABSOLUTE:
+						case DATED_WITH_UNCERTAINTY:
+						case RADIOCARBON:
+							break;
+						case RELATIVE:
+							addWarning(new ConversionWarning(WarningType.UNREPRESENTABLE, 
+									I18n.getText("general.outputRelativeDatingUnsupported")));
+							break;
+						default:
+						}
+					}
+				}
 				
 				boolean skipThisGroup = false;
 
