@@ -46,6 +46,7 @@ import javax.xml.xpath.XPathFactory;
 
 import org.grlea.log.SimpleLogger;
 import org.tridas.io.AbstractDendroFileReader;
+import org.tridas.io.DendroFileFilter;
 import org.tridas.io.I18n;
 import org.tridas.io.TridasNamespacePrefixMapper;
 import org.tridas.io.defaults.IMetadataFieldSet;
@@ -347,5 +348,17 @@ public class TridasReader extends AbstractDendroFileReader {
 	protected void resetReader() {
 		project = null;
 		defaults = null;
+	}
+	
+	/**
+	 * @see org.tridas.io.AbstractDendroFileReader#getDendroFileFilter()
+	 */
+	@Override
+	public DendroFileFilter getDendroFileFilter() {
+
+		String[] exts = new String[] {"xml"};
+		
+		return new DendroFileFilter(exts, getShortName());
+
 	}
 }

@@ -20,6 +20,7 @@ import java.util.ArrayList;
 
 import org.grlea.log.SimpleLogger;
 import org.tridas.io.AbstractDendroFileReader;
+import org.tridas.io.DendroFileFilter;
 import org.tridas.io.I18n;
 import org.tridas.io.defaults.IMetadataFieldSet;
 import org.tridas.io.exceptions.ConversionWarning;
@@ -643,6 +644,18 @@ public class CatrasReader extends AbstractDendroFileReader {
 			log.debug("As String  - Byte pair " + String.valueOf(i)+": "+ new String(byteArray));	
 
 		}
+	}
+	
+	/**
+	 * @see org.tridas.io.AbstractDendroFileReader#getDendroFileFilter()
+	 */
+	@Override
+	public DendroFileFilter getDendroFileFilter() {
+
+		String[] exts = new String[] {"cat"};
+		
+		return new DendroFileFilter(exts, getShortName());
+
 	}
 	
 }

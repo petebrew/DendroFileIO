@@ -23,6 +23,7 @@ import java.util.UUID;
 import org.grlea.log.DebugLevel;
 import org.grlea.log.SimpleLogger;
 import org.tridas.io.AbstractDendroFileReader;
+import org.tridas.io.DendroFileFilter;
 import org.tridas.io.I18n;
 import org.tridas.io.defaults.IMetadataFieldSet;
 import org.tridas.io.defaults.values.GenericDefaultValue;
@@ -1021,5 +1022,17 @@ public class HeidelbergReader extends AbstractDendroFileReader {
 		currentLineNum = -1;
 		defaults = null;
 		series.clear();
+	}
+	
+	/**
+	 * @see org.tridas.io.AbstractDendroFileReader#getDendroFileFilter()
+	 */
+	@Override
+	public DendroFileFilter getDendroFileFilter() {
+
+		String[] exts = new String[] {"fh"};
+		
+		return new DendroFileFilter(exts, getShortName());
+
 	}
 }

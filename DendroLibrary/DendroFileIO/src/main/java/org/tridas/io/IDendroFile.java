@@ -15,6 +15,8 @@
  */
 package org.tridas.io;
 
+import java.io.FileFilter;
+
 import org.tridas.interfaces.ITridasSeries;
 import org.tridas.io.defaults.IMetadataFieldSet;
 
@@ -54,4 +56,6 @@ public interface IDendroFile {
 	 * @return
 	 */
 	public IMetadataFieldSet getDefaults();
+	
+
 }
