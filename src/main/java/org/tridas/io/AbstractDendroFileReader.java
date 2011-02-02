@@ -15,6 +15,7 @@
  */
 package org.tridas.io;
 
+import java.io.FileFilter;
 import java.io.IOException;
 import java.util.ArrayList;
 
@@ -337,4 +338,7 @@ public abstract class AbstractDendroFileReader {
 	 * Gets the parsed project after it's loaded.
 	 */
 	public abstract TridasProject getProject();
+	
+
+	public abstract DendroFileFilter getDendroFileFilter();
 }

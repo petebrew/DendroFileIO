@@ -22,6 +22,7 @@ import java.util.regex.Pattern;
 
 import org.grlea.log.SimpleLogger;
 import org.tridas.io.AbstractDendroFileReader;
+import org.tridas.io.DendroFileFilter;
 import org.tridas.io.I18n;
 import org.tridas.io.defaults.IMetadataFieldSet;
 import org.tridas.io.defaults.values.GenericDefaultValue;
@@ -1270,6 +1271,18 @@ public class TucsonReader extends AbstractDendroFileReader {
 		private TucsonSeries(TucsonToTridasDefaults df) {
 			defaults = df;
 		}
+	}
+	
+	/**
+	 * @see org.tridas.io.AbstractDendroFileReader#getDendroFileFilter()
+	 */
+	@Override
+	public DendroFileFilter getDendroFileFilter() {
+
+		String[] exts = new String[] {"tuc", "rwl", "dec", "crn", "txt"};
+		
+		return new DendroFileFilter(exts, getShortName());
+
 	}
 
 }

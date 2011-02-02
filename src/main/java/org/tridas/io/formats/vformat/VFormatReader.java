@@ -20,6 +20,7 @@ import java.util.regex.Pattern;
 
 import org.grlea.log.SimpleLogger;
 import org.tridas.io.AbstractDendroFileReader;
+import org.tridas.io.DendroFileFilter;
 import org.tridas.io.I18n;
 import org.tridas.io.defaults.IMetadataFieldSet;
 import org.tridas.io.defaults.values.GenericDefaultValue;
@@ -632,5 +633,17 @@ public class VFormatReader extends AbstractDendroFileReader {
 	private static class VFormatSeries {
 		public VFormatToTridasDefaults defaults;
 		public final ArrayList<TridasValue> dataValues = new ArrayList<TridasValue>();
+	}
+	
+	/**
+	 * @see org.tridas.io.AbstractDendroFileReader#getDendroFileFilter()
+	 */
+	@Override
+	public DendroFileFilter getDendroFileFilter() {
+
+		String[] exts = new String[] {"!oj", "!*"};
+		
+		return new DendroFileFilter(exts, getShortName());
+
 	}
 }

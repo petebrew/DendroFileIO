@@ -16,6 +16,7 @@ import javax.xml.parsers.ParserConfigurationException;
 import org.grlea.log.SimpleLogger;
 import org.tridas.interfaces.ITridasSeries;
 import org.tridas.io.AbstractDendroFileReader;
+import org.tridas.io.DendroFileFilter;
 import org.tridas.io.I18n;
 import org.tridas.io.defaults.IMetadataFieldSet;
 import org.tridas.io.exceptions.ConversionWarning;
@@ -804,4 +805,15 @@ public class Past4Reader extends AbstractDendroFileReader {
 		length = 0;
 	}
 
+	/**
+	 * @see org.tridas.io.AbstractDendroFileReader#getDendroFileFilter()
+	 */
+	@Override
+	public DendroFileFilter getDendroFileFilter() {
+
+		String[] exts = new String[] {"p4p"};
+		
+		return new DendroFileFilter(exts, getShortName());
+
+	}
 }

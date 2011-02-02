@@ -21,6 +21,8 @@ import java.nio.charset.UnsupportedCharsetException;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.HashMap;
+import java.util.Iterator;
+import java.util.Map;
 
 import org.grlea.log.DebugLevel;
 import org.grlea.log.SimpleLogger;
@@ -285,6 +287,30 @@ public class TridasIO {
 			log.dbe(DebugLevel.L2_ERROR, e1);
 			return null;
 		}
+	}
+	
+	public synchronized static ArrayList<DendroFileFilter> getFileFilterArray()
+	{
+		ArrayList<DendroFileFilter> arr = new ArrayList<DendroFileFilter>();
+		
+	    Iterator it = converterMap.entrySet().iterator();
+	    while (it.hasNext()) {
+	        Map.Entry pairs = (Map.Entry)it.next();
+	        TridasIOEntry e = (TridasIOEntry) pairs.getValue();
+	        try {
+				AbstractDendroFileReader reader = e.fileReader.newInstance();
+				
+				arr.add((DendroFileFilter) reader.getDendroFileFilter());
+				
+			} catch (Exception e1) {
+				
+			}
+	        
+	    }
+	    
+	    return arr;
+
+		
 	}
 	
 	/**

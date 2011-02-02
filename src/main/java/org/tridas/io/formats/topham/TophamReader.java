@@ -20,6 +20,7 @@ import java.util.ArrayList;
 import org.grlea.log.SimpleLogger;
 import org.tridas.interfaces.ITridasSeries;
 import org.tridas.io.AbstractDendroFileReader;
+import org.tridas.io.DendroFileFilter;
 import org.tridas.io.I18n;
 import org.tridas.io.defaults.IMetadataFieldSet;
 import org.tridas.io.exceptions.InvalidDendroFileException;
@@ -167,5 +168,15 @@ public class TophamReader extends AbstractDendroFileReader {
 		
 	}
 
+	/**
+	 * @see org.tridas.io.AbstractDendroFileReader#getDendroFileFilter()
+	 */
+	@Override
+	public DendroFileFilter getDendroFileFilter() {
 
+		String[] exts = new String[] {"txt"};
+		
+		return new DendroFileFilter(exts, getShortName());
+
+	}
 }
