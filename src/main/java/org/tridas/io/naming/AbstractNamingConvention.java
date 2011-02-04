@@ -18,7 +18,8 @@ package org.tridas.io.naming;
 import java.util.ArrayList;
 import java.util.HashMap;
 
-import org.grlea.log.SimpleLogger;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.tridas.io.I18n;
 import org.tridas.io.IDendroFile;
 import org.tridas.io.util.StringUtils;
@@ -35,7 +36,7 @@ import org.tridas.schema.TridasSample;
  */
 public abstract class AbstractNamingConvention implements INamingConvention {
 	
-	private static final SimpleLogger log = new SimpleLogger(AbstractNamingConvention.class);
+	private static final Logger log = LoggerFactory.getLogger(AbstractNamingConvention.class);
 	public static String DEFAULT_FILENAME = "unknown";
 	
 	private HashMap<String, ArrayList<IDendroFile>> nameMap = new HashMap<String, ArrayList<IDendroFile>>();

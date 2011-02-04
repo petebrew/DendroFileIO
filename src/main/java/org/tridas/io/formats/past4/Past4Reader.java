@@ -13,7 +13,8 @@ import javax.xml.parsers.DocumentBuilder;
 import javax.xml.parsers.DocumentBuilderFactory;
 import javax.xml.parsers.ParserConfigurationException;
 
-import org.grlea.log.SimpleLogger;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.tridas.interfaces.ITridasSeries;
 import org.tridas.io.AbstractDendroFileReader;
 import org.tridas.io.DendroFileFilter;
@@ -45,7 +46,7 @@ import org.xml.sax.InputSource;
 import org.xml.sax.SAXException;
 
 public class Past4Reader extends AbstractDendroFileReader {
-	private static final SimpleLogger log = new SimpleLogger(Past4Reader.class);
+	private static final Logger log = LoggerFactory.getLogger(Past4Reader.class);
 	private Past4ToTridasDefaults defaults = null;
 	private Past4ToTridasDefaults originalDefaults = null;
 	private Integer numOfRecords = 0;

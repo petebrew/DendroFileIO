@@ -18,7 +18,8 @@ package org.tridas.io.formats.sheffield;
 import java.util.ArrayList;
 import java.util.UUID;
 
-import org.grlea.log.SimpleLogger;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.tridas.interfaces.ITridasSeries;
 import org.tridas.io.AbstractDendroFileReader;
 import org.tridas.io.DendroFileFilter;
@@ -62,7 +63,7 @@ import org.tridas.schema.SeriesLink.IdRef;
  * @author peterbrewer
  */
 public class SheffieldReader extends AbstractDendroFileReader {
-	private static final SimpleLogger log = new SimpleLogger(SheffieldReader.class);
+	private static final Logger log = LoggerFactory.getLogger(SheffieldReader.class);
 	private SheffieldToTridasDefaults defaults = null;
 	private ITridasSeries series;
 	

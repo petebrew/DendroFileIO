@@ -44,7 +44,8 @@ import javax.xml.xpath.XPathExpression;
 import javax.xml.xpath.XPathExpressionException;
 import javax.xml.xpath.XPathFactory;
 
-import org.grlea.log.SimpleLogger;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.tridas.io.AbstractDendroFileReader;
 import org.tridas.io.DendroFileFilter;
 import org.tridas.io.I18n;
@@ -70,7 +71,7 @@ import org.xml.sax.SAXException;
 @SuppressWarnings("restriction")
 public class TridasReader extends AbstractDendroFileReader {
 	
-	private static final SimpleLogger log = new SimpleLogger(TridasReader.class);
+	private static final Logger log = LoggerFactory.getLogger(TridasReader.class);
 	
 	private TridasProject project = null;
 	private TridasMetadataFieldSet defaults = null;

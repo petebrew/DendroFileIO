@@ -15,7 +15,8 @@
  */
 package org.tridas.io.defaults.values;
 
-import org.grlea.log.SimpleLogger;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.tridas.io.defaults.AbstractDefaultValue;
 
 /**
@@ -23,7 +24,7 @@ import org.tridas.io.defaults.AbstractDefaultValue;
  */
 public class BooleanDefaultValue extends AbstractDefaultValue<Boolean> {
 	
-	private static final SimpleLogger log = new SimpleLogger(BooleanDefaultValue.class);
+	private static final Logger log = LoggerFactory.getLogger(BooleanDefaultValue.class);
 	
 	protected Boolean value = null;
 	

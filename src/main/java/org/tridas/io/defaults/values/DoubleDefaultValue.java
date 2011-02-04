@@ -16,12 +16,13 @@
 package org.tridas.io.defaults.values;
 
 import org.apache.commons.lang.StringUtils;
-import org.grlea.log.SimpleLogger;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.tridas.io.I18n;
 import org.tridas.io.defaults.AbstractDefaultValue;
 
 public class DoubleDefaultValue extends AbstractDefaultValue<Double> {
-	private static final SimpleLogger log = new SimpleLogger(DoubleDefaultValue.class);
+	private static final Logger log = LoggerFactory.getLogger(DoubleDefaultValue.class);
 	
 	private Double value = null;
 	private double max = Double.MAX_VALUE;

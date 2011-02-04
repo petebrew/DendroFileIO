@@ -19,7 +19,8 @@ import java.io.FileFilter;
 import java.io.IOException;
 import java.util.ArrayList;
 
-import org.grlea.log.SimpleLogger;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.tridas.io.defaults.IMetadataFieldSet;
 import org.tridas.io.exceptions.ConversionWarning;
 import org.tridas.io.exceptions.IncorrectDefaultFieldsException;
@@ -29,7 +30,7 @@ import org.tridas.schema.TridasProject;
 
 
 public abstract class AbstractDendroFileReader {
-	private static final SimpleLogger log = new SimpleLogger(AbstractDendroFileReader.class);
+	private static final Logger log = LoggerFactory.getLogger(AbstractDendroFileReader.class);
 	
 	private ArrayList<ConversionWarning> warnings = new ArrayList<ConversionWarning>();
 	private final Class<? extends IMetadataFieldSet> defaultFieldsClass;

@@ -37,8 +37,8 @@ import java.util.zip.GZIPOutputStream;
 import javax.swing.JFileChooser;
 import javax.swing.JFrame;
 
-import org.grlea.log.DebugLevel;
-import org.grlea.log.SimpleLogger;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 import com.ibm.icu.text.CharsetDetector;
 import com.ibm.icu.text.CharsetMatch;
@@ -50,7 +50,7 @@ import com.ibm.icu.text.CharsetMatch;
  */
 public class IOUtils {
 	
-	private final static SimpleLogger log = new SimpleLogger(IOUtils.class);
+	private final static Logger log = LoggerFactory.getLogger(IOUtils.class);
 	
 	private IOUtils() {}
 	
@@ -205,8 +205,7 @@ public class IOUtils {
 			if (e instanceof UnsupportedEncodingException) {
 				throw (UnsupportedEncodingException) e;
 			}
-			log.error("Couldn't create a reader for " + file.getAbsolutePath());
-			log.dbe(DebugLevel.L2_ERROR, e);
+			log.error("Couldn't create a reader for " + file.getAbsolutePath(), e);
 			throw new RuntimeException("Couldn't create a reader for " + file.getAbsolutePath());
 		}
 	}
@@ -259,8 +258,7 @@ public class IOUtils {
 			if (e instanceof UnsupportedEncodingException) {
 				throw (UnsupportedEncodingException) e;
 			}
-			log.error("Couldn't create a writer for " + file.getAbsolutePath());
-			log.dbe(DebugLevel.L2_ERROR, e);
+			log.error("Couldn't create a writer for " + file.getAbsolutePath(), e);
 			throw new RuntimeException("Couldn't create a writer for " + file.getAbsolutePath());
 		}
 	}
@@ -309,8 +307,7 @@ public class IOUtils {
 			return input;
 			
 		} catch (IOException e) {
-			log.error("Couldn't createInput() for " + file.getAbsolutePath());
-			log.dbe(DebugLevel.L2_ERROR, e);
+			log.error("Couldn't createInput() for " + file.getAbsolutePath(), e);
 			throw new RuntimeException("Couldn't createInput() for " + file.getAbsolutePath());
 		}
 	}
@@ -328,7 +325,7 @@ public class IOUtils {
 			return out.toByteArray();
 			
 		} catch (IOException e) {
-			log.dbe(DebugLevel.L2_ERROR, e);
+			log.error("Could not load bytes", e);
 		}
 		return null;
 	}
@@ -394,7 +391,7 @@ public class IOUtils {
 			if (e instanceof UnsupportedEncodingException) {
 				throw (UnsupportedEncodingException) e;
 			}
-			log.dbe(DebugLevel.L2_ERROR, e);
+			log.error("Could not load strings", e);
 		}
 		return null;
 	}
@@ -410,7 +407,7 @@ public class IOUtils {
 			return new FileOutputStream(file);
 			
 		} catch (IOException e) {
-			log.dbe(DebugLevel.L2_ERROR, e);
+			log.error("Error creating output", e);
 		}
 		return null;
 	}
@@ -443,7 +440,7 @@ public class IOUtils {
 			if (tempFile != null) {
 				tempFile.delete();
 			}
-			log.dbe(DebugLevel.L2_ERROR, e);
+			log.error("Could not save stream", e);
 		}
 	}
 	
@@ -462,8 +459,7 @@ public class IOUtils {
 			output.close();
 			
 		} catch (IOException e) {
-			log.error("error saving bytes to " + file);
-			log.dbe(DebugLevel.L2_ERROR, e);
+			log.error("error saving bytes to " + file, e);
 		}
 	}
 	
@@ -500,7 +496,7 @@ public class IOUtils {
 			if (e instanceof UnsupportedEncodingException) {
 				throw (UnsupportedEncodingException) e;
 			}
-			log.dbe(DebugLevel.L2_ERROR, e);
+			log.error("Error saving strings", e);
 		}
 	}
 	

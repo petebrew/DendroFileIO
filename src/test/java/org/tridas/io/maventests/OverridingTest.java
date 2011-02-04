@@ -19,7 +19,8 @@ import java.io.IOException;
 
 import junit.framework.TestCase;
 
-import org.grlea.log.SimpleLogger;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.tridas.io.exceptions.IncorrectDefaultFieldsException;
 import org.tridas.io.exceptions.InvalidDendroFileException;
 import org.tridas.io.formats.heidelberg.HeidelbergWriter;
@@ -32,7 +33,7 @@ import org.tridas.io.formats.tucson.TridasToTucsonDefaults.TucsonField;
 import org.tridas.schema.TridasProject;
 
 public class OverridingTest extends TestCase {
-	private static final SimpleLogger log = new SimpleLogger(OverridingTest.class);
+	private static final Logger log = LoggerFactory.getLogger(OverridingTest.class);
 		
 	public void testTucsonOverriding() throws IOException, InvalidDendroFileException, IncorrectDefaultFieldsException {
 		// load tridas file

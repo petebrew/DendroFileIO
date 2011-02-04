@@ -35,10 +35,8 @@ import java.io.File;
 import java.io.UnsupportedEncodingException;
 import java.util.ArrayList;
 
-import org.apache.commons.lang.StringUtils;
-import org.codehaus.plexus.util.FileUtils;
-import org.grlea.log.DebugLevel;
-import org.grlea.log.SimpleLogger;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.tridas.io.defaults.IMetadataFieldSet;
 import org.tridas.io.exceptions.ConversionWarning;
 import org.tridas.io.exceptions.ConversionWarningException;
@@ -46,16 +44,15 @@ import org.tridas.io.exceptions.IncompleteTridasDataException;
 import org.tridas.io.exceptions.IncorrectDefaultFieldsException;
 import org.tridas.io.naming.INamingConvention;
 import org.tridas.io.util.FileHelper;
-import org.tridas.io.util.IOUtils;
 import org.tridas.schema.TridasProject;
 
 /**
  * @author Daniel Murphy
  */
 public abstract class AbstractDendroCollectionWriter {
-	
+	private static final Logger log = LoggerFactory.getLogger(AbstractDendroCollectionWriter.class);
+
 	private ArrayList<IDendroFile> fileList = new ArrayList<IDendroFile>();
-	private SimpleLogger log = new SimpleLogger(AbstractDendroCollectionWriter.class);
 	private ArrayList<ConversionWarning> warnings = new ArrayList<ConversionWarning>();
 	private Class<? extends IMetadataFieldSet> defaultFieldsClass;
 	
@@ -262,7 +259,7 @@ public abstract class AbstractDendroCollectionWriter {
 							.getWritingCharset());
 					return;
 				} catch (UnsupportedEncodingException e) {
-					log.dbe(DebugLevel.L2_ERROR, e);
+					log.error("Exception trying to save strings",e);
 				}
 			}
 			helper.saveStrings(argOutputFolder + argFilename + "." + argFile.getExtension(), file);

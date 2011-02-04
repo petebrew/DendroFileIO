@@ -25,8 +25,8 @@ import javax.xml.bind.Marshaller;
 import javax.xml.validation.Schema;
 import javax.xml.validation.SchemaFactory;
 
-import org.grlea.log.DebugLevel;
-import org.grlea.log.SimpleLogger;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.tridas.interfaces.ITridasSeries;
 import org.tridas.io.I18n;
 import org.tridas.io.IDendroFile;
@@ -49,7 +49,7 @@ import org.xml.sax.SAXException;
  */
 public class TridasFile implements IDendroFile {
 	
-	private final static SimpleLogger log = new SimpleLogger(TridasFile.class);
+	private final static Logger log = LoggerFactory.getLogger(TridasFile.class);
 	
 	TridasProject project;
 	
@@ -79,8 +79,7 @@ public class TridasFile implements IDendroFile {
 			try {
 				schema = factory.newSchema(file);
 			} catch (SAXException e) {
-				log.error("Error getting TRiDaS schema for validation, not using.");
-				log.dbe(DebugLevel.L2_ERROR, e);
+				log.error("Error getting TRiDaS schema for validation, not using.", e);
 				defaults.addConversionWarning(new ConversionWarning(WarningType.DEFAULT,
 						I18n.getText("fileio.errorGettingSchema")));
 			}
@@ -99,8 +98,7 @@ public class TridasFile implements IDendroFile {
 			m.marshal(project, swriter);
 
 		} catch (Exception e) {
-			log.error("Jaxb error");
-			log.dbe(DebugLevel.L2_ERROR, e);
+			log.error("Jaxb error", e);
 			defaults.addConversionWarning(new ConversionWarning(WarningType.FILE_IGNORED, I18n.getText("fileio.jaxbError")));
 			return null;
 		}

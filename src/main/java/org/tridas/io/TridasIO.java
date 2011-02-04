@@ -24,8 +24,8 @@ import java.util.HashMap;
 import java.util.Iterator;
 import java.util.Map;
 
-import org.grlea.log.DebugLevel;
-import org.grlea.log.SimpleLogger;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.tridas.io.formats.belfastapple.BelfastAppleReader;
 import org.tridas.io.formats.belfastapple.BelfastAppleWriter;
 import org.tridas.io.formats.belfastarchive.BelfastArchiveReader;
@@ -71,7 +71,7 @@ import org.tridas.io.formats.corina.CorinaReader;
  */
 public class TridasIO {
 	
-	private static final SimpleLogger log = new SimpleLogger(TridasIO.class);
+	private static final Logger log = LoggerFactory.getLogger(TridasIO.class);
 	private static final HashMap<String, TridasIOEntry> converterMap = new HashMap<String, TridasIOEntry>();
 	private static final HashMap<String, String> extensionMap = new HashMap<String, String>();
 	
@@ -149,12 +149,10 @@ public class TridasIO {
 		try {
 			reader = argReader.newInstance();
 		} catch (InstantiationException e) {
-			log.error(I18n.getText("fileio.missingEmptyConstructor", argReader.getName()));
-			log.dbe(DebugLevel.L2_ERROR, e);
+			log.error(I18n.getText("fileio.missingEmptyConstructor", argReader.getName()), e);
 			return;
 		} catch (IllegalAccessException e) {
-			log.error(I18n.getText("fileio.creationError", argReader.getName()));
-			log.dbe(DebugLevel.L2_ERROR, e);
+			log.error(I18n.getText("fileio.creationError", argReader.getName()), e);
 			return;
 		}
 		
@@ -211,12 +209,10 @@ public class TridasIO {
 		try {
 			writer = argWriter.newInstance();
 		} catch (InstantiationException e) {
-			log.error(I18n.getText("fileio.missingEmptyConstructor", argWriter.getName()));
-			log.dbe(DebugLevel.L2_ERROR, e);
+			log.error(I18n.getText("fileio.missingEmptyConstructor", argWriter.getName()), e);
 			return;
 		} catch (IllegalAccessException e) {
-			log.error(I18n.getText("fileio.creationError", argWriter.getName()));
-			log.dbe(DebugLevel.L2_ERROR, e);
+			log.error(I18n.getText("fileio.creationError", argWriter.getName()), e);
 			return;
 		}
 		
@@ -262,8 +258,7 @@ public class TridasIO {
 		try {
 			return e.fileWriter.newInstance();
 		} catch (Exception e1) {
-			log.error(I18n.getText("fileio.creationError", e.fileWriter.getName()));
-			log.dbe(DebugLevel.L2_ERROR, e1);
+			log.error(I18n.getText("fileio.creationError", e.fileWriter.getName()), e1);
 			return null;
 		}
 	}
@@ -283,8 +278,7 @@ public class TridasIO {
 		try {
 			return e.fileReader.newInstance();
 		} catch (Exception e1) {
-			log.error(I18n.getText("fileio.creationError", e.fileReader.getName()));
-			log.dbe(DebugLevel.L2_ERROR, e1);
+			log.error(I18n.getText("fileio.creationError", e.fileReader.getName()), e1);
 			return null;
 		}
 	}

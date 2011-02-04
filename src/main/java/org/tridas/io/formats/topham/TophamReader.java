@@ -17,7 +17,8 @@ package org.tridas.io.formats.topham;
 
 import java.util.ArrayList;
 
-import org.grlea.log.SimpleLogger;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.tridas.interfaces.ITridasSeries;
 import org.tridas.io.AbstractDendroFileReader;
 import org.tridas.io.DendroFileFilter;
@@ -39,7 +40,7 @@ import org.tridas.schema.TridasVariable;
 
 public class TophamReader extends AbstractDendroFileReader {
 
-	private static final SimpleLogger log = new SimpleLogger(TophamReader.class);
+	private static final Logger log = LoggerFactory.getLogger(TophamReader.class);
 	private TophamToTridasDefaults defaults = null;
 	private int currentLineNumber = -1;
 	

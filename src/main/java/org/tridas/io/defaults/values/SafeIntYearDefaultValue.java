@@ -15,7 +15,8 @@
  */
 package org.tridas.io.defaults.values;
 
-import org.grlea.log.SimpleLogger;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.tridas.io.defaults.AbstractDefaultValue;
 import org.tridas.io.util.SafeIntYear;
 
@@ -24,7 +25,7 @@ import org.tridas.io.util.SafeIntYear;
  */
 public class SafeIntYearDefaultValue extends AbstractDefaultValue<SafeIntYear> {
 	
-	private static final SimpleLogger log = new SimpleLogger(SafeIntYearDefaultValue.class);
+	private static final Logger log = LoggerFactory.getLogger(SafeIntYearDefaultValue.class);
 	
 	private SafeIntYear value = new SafeIntYear();
 	

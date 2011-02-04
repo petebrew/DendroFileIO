@@ -15,7 +15,8 @@
  */
 package org.tridas.io.defaults.values;
 
-import org.grlea.log.SimpleLogger;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.jvnet.jaxb2_commons.lang.Copyable;
 import org.tridas.io.defaults.AbstractDefaultValue;
 
@@ -23,7 +24,7 @@ import org.tridas.io.defaults.AbstractDefaultValue;
  * @author daniel
  */
 public class GenericDefaultValue<E> extends AbstractDefaultValue<E> {
-	private static final SimpleLogger log = new SimpleLogger(GenericDefaultValue.class);
+	private static final Logger log = LoggerFactory.getLogger(GenericDefaultValue.class);
 	
 	private E value = null;
 	
