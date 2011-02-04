@@ -19,7 +19,8 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Set;
 
-import org.grlea.log.SimpleLogger;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.tridas.io.defaults.values.BooleanDefaultValue;
 import org.tridas.io.defaults.values.DateTimeDefaultValue;
 import org.tridas.io.defaults.values.DoubleDefaultValue;
@@ -36,7 +37,7 @@ import org.tridas.io.exceptions.ConversionWarning.WarningType;
  */
 public abstract class AbstractMetadataFieldSet implements IMetadataFieldSet {
 	
-	private final static SimpleLogger log = new SimpleLogger(AbstractMetadataFieldSet.class);
+	private final static Logger log = LoggerFactory.getLogger(AbstractMetadataFieldSet.class);
 	
 	private HashMap<Enum<?>, AbstractDefaultValue<?>> valueMap = new HashMap<Enum<?>, AbstractDefaultValue<?>>();
 	private ArrayList<ConversionWarning> warnings = new ArrayList<ConversionWarning>();

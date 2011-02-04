@@ -18,7 +18,8 @@ package org.tridas.io.formats.trims;
 import java.util.ArrayList;
 import java.util.UUID;
 
-import org.grlea.log.SimpleLogger;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.tridas.io.AbstractDendroFileReader;
 import org.tridas.io.DendroFileFilter;
 import org.tridas.io.I18n;
@@ -50,7 +51,7 @@ import org.tridas.schema.TridasVariable;
  */
 public class TrimsReader extends AbstractDendroFileReader {
 	
-	private static final SimpleLogger log = new SimpleLogger(TrimsReader.class);
+	private static final Logger log = LoggerFactory.getLogger(TrimsReader.class);
 	// defaults given by user
 	private TrimsToTridasDefaults defaults = null;
 	private ArrayList<TridasMeasurementSeries> mseriesList = new ArrayList<TridasMeasurementSeries>();

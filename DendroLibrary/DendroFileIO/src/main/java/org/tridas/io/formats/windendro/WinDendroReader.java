@@ -17,7 +17,8 @@ package org.tridas.io.formats.windendro;
 
 import java.util.ArrayList;
 
-import org.grlea.log.SimpleLogger;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.tridas.io.AbstractDendroFileReader;
 import org.tridas.io.DendroFileFilter;
 import org.tridas.io.I18n;
@@ -40,7 +41,7 @@ import org.tridas.schema.TridasValues;
 
 public class WinDendroReader extends AbstractDendroFileReader {
 	
-	private static final SimpleLogger log = new SimpleLogger(WinDendroReader.class);	
+	private static final Logger log = LoggerFactory.getLogger(WinDendroReader.class);	
 	private ArrayList<WinDendroSeries> seriesList = new ArrayList<WinDendroSeries>();
 	
 	private WinDendroToTridasDefaults defaults = null;      // defaults given by user

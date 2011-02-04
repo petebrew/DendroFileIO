@@ -21,7 +21,8 @@ import java.io.IOException;
 
 import junit.framework.TestCase;
 
-import org.grlea.log.SimpleLogger;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.tridas.io.defaults.TridasMetadataFieldSet;
 import org.tridas.io.exceptions.ConversionWarningException;
 import org.tridas.io.exceptions.IncompleteTridasDataException;
@@ -51,7 +52,7 @@ import org.tridas.schema.TridasProject;
 
 public class TestToTridas extends TestCase {
 	
-	private static final SimpleLogger log = new SimpleLogger(TestToTridas.class);
+	private static final Logger log = LoggerFactory.getLogger(TestToTridas.class);
 	private static final String outputLocation = "TestData/TRiCYCLE-Output-From-Legacy";
 	
 	private String[] getFilesFromFolder(String folder) {

@@ -18,7 +18,8 @@ import java.util.ArrayList;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
-import org.grlea.log.SimpleLogger;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.tridas.io.AbstractDendroFileReader;
 import org.tridas.io.DendroFileFilter;
 import org.tridas.io.I18n;
@@ -44,7 +45,7 @@ import org.tridas.schema.TridasValues;
 
 public class VFormatReader extends AbstractDendroFileReader {
 	
-	private static final SimpleLogger log = new SimpleLogger(VFormatReader.class);
+	private static final Logger log = LoggerFactory.getLogger(VFormatReader.class);
 	private VFormatToTridasDefaults defaults = new VFormatToTridasDefaults();
 	private ArrayList<VFormatSeries> seriesList = new ArrayList<VFormatSeries>();
 	private Integer currentLineNumber = 0;

@@ -17,7 +17,8 @@ package org.tridas.io.formats.heidelberg;
 
 import java.util.ArrayList;
 
-import org.grlea.log.SimpleLogger;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.tridas.interfaces.ITridasSeries;
 import org.tridas.io.I18n;
 import org.tridas.io.IDendroFile;
@@ -34,7 +35,7 @@ import org.tridas.schema.TridasValue;
 import org.tridas.schema.TridasValues;
 
 public class HeidelbergFile implements IDendroFile {
-	private static final SimpleLogger log = new SimpleLogger(HeidelbergFile.class);
+	private static final Logger log = LoggerFactory.getLogger(HeidelbergFile.class);
 	
 	
 	

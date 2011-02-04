@@ -20,7 +20,8 @@ import java.util.UUID;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
-import org.grlea.log.SimpleLogger;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.tridas.io.AbstractDendroFileReader;
 import org.tridas.io.DendroFileFilter;
 import org.tridas.io.I18n;
@@ -56,8 +57,8 @@ import org.tridas.schema.SeriesLink.IdRef;
  * @author peterbrewer
  */
 public class TucsonReader extends AbstractDendroFileReader {
-
-	private static final SimpleLogger log = new SimpleLogger(TucsonReader.class);
+	
+	private static final Logger log = LoggerFactory.getLogger(TucsonReader.class);	
 	private ArrayList<TucsonSeries> seriesList = new ArrayList<TucsonSeries>();
 
 	private TucsonToTridasDefaults defaults = null; // defaults given by user

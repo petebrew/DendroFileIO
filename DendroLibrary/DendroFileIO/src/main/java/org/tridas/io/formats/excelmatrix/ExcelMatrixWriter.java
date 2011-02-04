@@ -21,8 +21,8 @@ import java.util.List;
 
 import jxl.write.WriteException;
 
-import org.grlea.log.DebugLevel;
-import org.grlea.log.SimpleLogger;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.tridas.interfaces.ITridasSeries;
 import org.tridas.io.AbstractDendroCollectionWriter;
 import org.tridas.io.I18n;
@@ -39,8 +39,8 @@ import org.tridas.schema.TridasMeasurementSeries;
 import org.tridas.schema.TridasProject;
 
 public class ExcelMatrixWriter extends AbstractDendroCollectionWriter {
+	private static final Logger log = LoggerFactory.getLogger(ExcelMatrixWriter.class);
 	
-	private SimpleLogger log = new SimpleLogger(ExcelMatrixWriter.class);
 	IMetadataFieldSet defaults;
 	INamingConvention naming = new UUIDNamingConvention();
 	
@@ -133,9 +133,9 @@ public class ExcelMatrixWriter extends AbstractDendroCollectionWriter {
 		try {
 			((ExcelMatrixFile) argFile).saveToDisk(helper.createOutput(argFilename + "." + argFile.getExtension()));
 		} catch (WriteException e) {
-			log.dbe(DebugLevel.L2_ERROR, e);
+			log.error("Error saving file to disk", e);
 		} catch (IOException e) {
-			log.dbe(DebugLevel.L2_ERROR, e);
+			log.error("Error saving file to disk", e);
 		}
 	}
 }

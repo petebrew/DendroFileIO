@@ -19,7 +19,8 @@ import java.util.ArrayList;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
-import org.grlea.log.SimpleLogger;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.tridas.interfaces.ITridasSeries;
 import org.tridas.io.AbstractDendroFileReader;
 import org.tridas.io.DendroFileFilter;
@@ -42,7 +43,7 @@ import org.tridas.schema.TridasVariable;
 
 public class NottinghamReader extends AbstractDendroFileReader {
 
-	private static final SimpleLogger log = new SimpleLogger(NottinghamReader.class);
+	private static final Logger log = LoggerFactory.getLogger(NottinghamReader.class);
 	private NottinghamToTridasDefaults defaults = null;
 	private int currentLineNumber = -1;
 	

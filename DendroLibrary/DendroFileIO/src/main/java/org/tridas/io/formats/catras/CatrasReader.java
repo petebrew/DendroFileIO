@@ -18,7 +18,8 @@ package org.tridas.io.formats.catras;
 import java.io.IOException;
 import java.util.ArrayList;
 
-import org.grlea.log.SimpleLogger;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.tridas.io.AbstractDendroFileReader;
 import org.tridas.io.DendroFileFilter;
 import org.tridas.io.I18n;
@@ -46,7 +47,7 @@ import org.tridas.schema.TridasValues;
  */
 public class CatrasReader extends AbstractDendroFileReader {
 	
-	private static final SimpleLogger log = new SimpleLogger(CatrasReader.class);
+	private static final Logger log = LoggerFactory.getLogger(CatrasReader.class);
 	// defaults given by user
 	private CatrasToTridasDefaults defaults = null;
 	

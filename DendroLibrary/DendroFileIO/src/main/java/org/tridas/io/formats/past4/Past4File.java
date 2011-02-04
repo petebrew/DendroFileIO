@@ -2,14 +2,15 @@ package org.tridas.io.formats.past4;
 
 import java.util.ArrayList;
 
-import org.grlea.log.SimpleLogger;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.tridas.interfaces.ITridasSeries;
 import org.tridas.io.IDendroFile;
 import org.tridas.io.defaults.IMetadataFieldSet;
 
 public class Past4File implements IDendroFile {
 
-	private final static SimpleLogger log = new SimpleLogger(Past4File.class);
+	private final static Logger log = LoggerFactory.getLogger(Past4File.class);
 
 	
 	private String project;

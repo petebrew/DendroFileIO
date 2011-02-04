@@ -19,7 +19,8 @@ import java.io.FileFilter;
 import java.util.ArrayList;
 import java.util.UUID;
 
-import org.grlea.log.SimpleLogger;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.tridas.io.AbstractDendroFileReader;
 import org.tridas.io.DendroFileFilter;
 import org.tridas.io.I18n;
@@ -46,7 +47,7 @@ import org.tridas.schema.TridasVariable;
 
 public class BelfastAppleReader extends AbstractDendroFileReader {
 	
-	private static final SimpleLogger log = new SimpleLogger(BelfastAppleReader.class);
+	private static final Logger log = LoggerFactory.getLogger(BelfastAppleReader.class);
 	// defaults given by user
 	private BelfastAppleToTridasDefaults defaults = null;
 	private ArrayList<TridasMeasurementSeries> mseriesList = new ArrayList<TridasMeasurementSeries>();

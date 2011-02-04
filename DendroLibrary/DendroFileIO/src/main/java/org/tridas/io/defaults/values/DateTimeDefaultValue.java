@@ -18,7 +18,8 @@ package org.tridas.io.defaults.values;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 
-import org.grlea.log.SimpleLogger;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.tridas.io.defaults.AbstractDefaultValue;
 import org.tridas.io.util.DateUtils;
 import org.tridas.schema.DateTime;
@@ -28,7 +29,7 @@ import org.tridas.schema.DateTime;
  */
 public class DateTimeDefaultValue extends AbstractDefaultValue<DateTime> {
 	
-	private static final SimpleLogger log = new SimpleLogger(DateTimeDefaultValue.class);
+	private static final Logger log = LoggerFactory.getLogger(DateTimeDefaultValue.class);
 	
 	private DateTime value = null;
 	private SimpleDateFormat sdf = new SimpleDateFormat("dd/MM/yyyy");

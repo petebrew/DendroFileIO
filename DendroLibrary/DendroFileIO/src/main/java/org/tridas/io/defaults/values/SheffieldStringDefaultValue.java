@@ -15,14 +15,15 @@
  */
 package org.tridas.io.defaults.values;
 
-import org.grlea.log.SimpleLogger;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.tridas.io.I18n;
 import org.tridas.io.defaults.AbstractDefaultValue;
 import org.tridas.io.util.StringUtils;
 
 public class SheffieldStringDefaultValue extends AbstractDefaultValue<String> {
 	
-	private static final SimpleLogger log = new SimpleLogger(SheffieldStringDefaultValue.class);
+	private static final Logger log = LoggerFactory.getLogger(SheffieldStringDefaultValue.class);
 	private String value = null;
 	
 	public SheffieldStringDefaultValue() {
@@ -66,7 +67,7 @@ public class SheffieldStringDefaultValue extends AbstractDefaultValue<String> {
 		}
 		argValue = validValue(argValue);
 		if (argValue != null) {
-			log.verbose("string value stored: " + argValue);
+			log.debug("string value stored: " + argValue);
 			value = argValue;
 			return true;
 		}

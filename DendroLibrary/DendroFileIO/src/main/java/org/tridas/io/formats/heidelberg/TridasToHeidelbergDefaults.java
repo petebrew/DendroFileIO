@@ -21,7 +21,8 @@ import java.util.List;
 
 import javax.xml.datatype.XMLGregorianCalendar;
 
-import org.grlea.log.SimpleLogger;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.tridas.interfaces.ITridasSeries;
 import org.tridas.io.I18n;
 import org.tridas.io.defaults.AbstractDefaultValue;
@@ -68,7 +69,7 @@ import org.tridas.schema.TridasWoodCompleteness;
 
 public class TridasToHeidelbergDefaults extends AbstractMetadataFieldSet implements IMetadataFieldSet {
 	
-	private static final SimpleLogger log = new SimpleLogger(TridasToHeidelbergDefaults.class);
+	private static final Logger log = LoggerFactory.getLogger(TridasToHeidelbergDefaults.class);
 	private SimpleDateFormat dateFormat = new SimpleDateFormat("dd/MM/yyyy");
 	
 	@Override

@@ -17,7 +17,8 @@ package org.tridas.io.formats.besancon;
 
 import java.util.ArrayList;
 
-import org.grlea.log.SimpleLogger;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.tridas.io.AbstractDendroFileReader;
 import org.tridas.io.DendroFileFilter;
 import org.tridas.io.I18n;
@@ -45,7 +46,7 @@ import org.tridas.schema.TridasVariable;
 
 public class BesanconReader extends AbstractDendroFileReader {
 	
-	private static final SimpleLogger log = new SimpleLogger(BesanconReader.class);
+	private static final Logger log = LoggerFactory.getLogger(BesanconReader.class);
 	// defaults given by user
 	private BesanconToTridasDefaults defaults = null;
 	private Integer currentLine = 0;

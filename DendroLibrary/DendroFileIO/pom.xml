@@ -13,13 +13,6 @@
 	<description>IO library for converting dendro files to and from the schema from TridasJLib</description>
 	<dependencies>
 		<dependency>
-			<groupId>org.grlea.log</groupId>
-			<artifactId>simple-log</artifactId>
-			<version>2.0.1</version>
-			<type>jar</type>
-			<scope>compile</scope>
-		</dependency>
-		<dependency>
 			<groupId>junit</groupId>
 			<artifactId>junit</artifactId>
 			<version>4.8.1</version>
@@ -56,6 +49,20 @@
 	    	<version>2.6.10</version>
 	    	<type>jar</type>
 	    	<scope>compile</scope>
+	    </dependency>
+	    <dependency>
+	    	<groupId>org.slf4j</groupId>
+	    	<artifactId>slf4j-api</artifactId>
+	    	<version>1.6.1</version>
+	    	<type>jar</type>
+	    	<scope>compile</scope>
+	    </dependency>
+	    <dependency>
+	    	<groupId>org.slf4j</groupId>
+	    	<artifactId>slf4j-log4j12</artifactId>
+	    	<version>1.6.1</version>
+	    	<type>jar</type>
+	    	<scope>test</scope>
 	    </dependency>
 	    <dependency>
 	    	<groupId>org.apache.ws.commons</groupId>

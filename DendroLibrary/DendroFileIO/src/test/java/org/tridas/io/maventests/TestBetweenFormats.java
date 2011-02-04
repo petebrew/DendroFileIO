@@ -21,7 +21,8 @@ import java.io.IOException;
 
 import junit.framework.TestCase;
 
-import org.grlea.log.SimpleLogger;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.tridas.io.exceptions.ConversionWarningException;
 import org.tridas.io.exceptions.IncompleteTridasDataException;
 import org.tridas.io.exceptions.IncorrectDefaultFieldsException;
@@ -34,7 +35,7 @@ import org.tridas.schema.TridasProject;
 
 public class TestBetweenFormats extends TestCase {
 	
-	private static final SimpleLogger log = new SimpleLogger(TestBetweenFormats.class);
+	private static final Logger log = LoggerFactory.getLogger(TestBetweenFormats.class);
 	private static final String outputLocation = "target/TestOutput";
 	
 	private String[] getFilesFromFolder(String folder) {

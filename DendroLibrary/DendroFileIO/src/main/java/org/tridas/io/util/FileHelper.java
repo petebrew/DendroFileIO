@@ -28,8 +28,8 @@ import java.net.MalformedURLException;
 import java.net.URL;
 import java.util.zip.GZIPInputStream;
 
-import org.grlea.log.DebugLevel;
-import org.grlea.log.SimpleLogger;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 import com.ibm.icu.text.CharsetDetector;
 import com.ibm.icu.text.CharsetMatch;
@@ -41,7 +41,7 @@ import com.ibm.icu.text.CharsetMatch;
  */
 public class FileHelper {
 	
-	private final static SimpleLogger log = new SimpleLogger(FileHelper.class);
+	private final static Logger log = LoggerFactory.getLogger(FileHelper.class);
 	
 	public final String envPath;
 	
@@ -113,8 +113,7 @@ public class FileHelper {
 			String all = match.getString();
 			return all.split("\n");
 		} catch (IOException e) {
-			log.error("Error while detecting or decoding charset on file: " + argFilename);
-			log.dbe(DebugLevel.L2_ERROR, e);
+			log.error("Error while detecting or decoding charset on file: " + argFilename, e);
 		}
 		return null;
 	}
@@ -189,7 +188,7 @@ public class FileHelper {
 			// Java 1.5 likes to throw this when URL not available.
 		} catch (IOException e) {
 			// shouldn't be throwing exception
-			log.dbe(DebugLevel.L2_ERROR, e);
+			log.error("Error getting input", e);
 			return null;
 		}
 		
@@ -264,7 +263,7 @@ public class FileHelper {
 			} catch (SecurityException se) {} // online?
 			
 		} catch (Exception e) {
-			log.dbe(DebugLevel.L2_ERROR, e);
+			log.error("Error getting input stream", e);
 		}
 		return null;
 	}
@@ -302,7 +301,7 @@ public class FileHelper {
 			try {
 				return new GZIPInputStream(input);
 			} catch (IOException e) {
-				log.dbe(DebugLevel.L2_ERROR, e);
+				log.error("Error creating input stream", e);
 				return null;
 			}
 		}

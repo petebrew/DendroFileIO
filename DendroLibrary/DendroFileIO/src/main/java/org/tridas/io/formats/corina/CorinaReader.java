@@ -17,7 +17,8 @@ package org.tridas.io.formats.corina;
 
 import java.util.ArrayList;
 
-import org.grlea.log.SimpleLogger;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.tridas.io.AbstractDendroFileReader;
 import org.tridas.io.DendroFileFilter;
 import org.tridas.io.I18n;
@@ -42,7 +43,7 @@ import org.tridas.schema.SeriesLink.XLink;
 
 public class CorinaReader extends AbstractDendroFileReader {
 
-	private static final SimpleLogger log = new SimpleLogger(CorinaReader.class);
+	private static final Logger log = LoggerFactory.getLogger(CorinaReader.class);
 	private CorinaToTridasDefaults defaults = null;
 	private int currentLineNumber = -1;
 	

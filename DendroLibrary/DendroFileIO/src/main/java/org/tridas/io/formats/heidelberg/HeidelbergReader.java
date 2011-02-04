@@ -20,8 +20,8 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.UUID;
 
-import org.grlea.log.DebugLevel;
-import org.grlea.log.SimpleLogger;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.tridas.io.AbstractDendroFileReader;
 import org.tridas.io.DendroFileFilter;
 import org.tridas.io.I18n;
@@ -65,7 +65,7 @@ import org.tridas.schema.SeriesLink.IdRef;
  * @author daniel
  */
 public class HeidelbergReader extends AbstractDendroFileReader {
-	private static final SimpleLogger log = new SimpleLogger(HeidelbergReader.class);
+	private static final Logger log = LoggerFactory.getLogger(HeidelbergReader.class);
 	
 	public static final int DATA_CHARS_PER_NUMBER_REG = 6;
 	public static final int DATA_CHARS_PER_NUMBER_QUAD = 5;
@@ -345,7 +345,7 @@ public class HeidelbergReader extends AbstractDendroFileReader {
 	}
 	
 	private void extractData(String[] argData, HeidelbergMeasurementSeries argSeries) {
-		log.dbo(DebugLevel.L6_VERBOSE, "Data strings", argData);
+		log.debug("Data strings", argData);
 		ArrayList<Integer> ints = new ArrayList<Integer>();
 		switch (argSeries.dataType) {
 			case Chrono :

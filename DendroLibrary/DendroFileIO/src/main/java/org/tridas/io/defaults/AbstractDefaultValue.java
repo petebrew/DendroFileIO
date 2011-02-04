@@ -15,7 +15,8 @@
  */
 package org.tridas.io.defaults;
 
-import org.grlea.log.SimpleLogger;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.tridas.io.I18n;
 import org.tridas.io.util.StringUtils;
 
@@ -23,7 +24,7 @@ import org.tridas.io.util.StringUtils;
  * @author Daniel
  */
 public abstract class AbstractDefaultValue<E extends Object> implements Cloneable {
-	private static final SimpleLogger log = new SimpleLogger(AbstractDefaultValue.class);
+	private static final Logger log = LoggerFactory.getLogger(AbstractDefaultValue.class);
 	
 	private boolean overriding = false;
 	private boolean padRight = true;
