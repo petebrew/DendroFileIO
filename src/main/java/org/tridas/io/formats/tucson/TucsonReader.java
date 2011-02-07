@@ -245,7 +245,7 @@ public class TucsonReader extends AbstractDendroFileReader {
 				TridasInterpretation interp = new TridasInterpretation();
 				interp.setFirstYear(series.firstYear
 						.toTridasYear(DatingSuffix.AD));
-				interp.setLastYear(series.firstYear.add(series.dataInts.size())
+				interp.setLastYear(series.firstYear.add(series.dataInts.size()-1)
 						.toTridasYear(DatingSuffix.AD));
 				ms.setInterpretation(interp);
 
