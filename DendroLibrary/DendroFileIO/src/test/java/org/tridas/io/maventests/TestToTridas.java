@@ -74,7 +74,7 @@ public class TestToTridas extends TestCase {
 		}
 		
 		for (String filename : files) {
-			//if(!filename.equals("AKK00010.rwl")) { continue; }
+			if(!filename.equals("Maris.rwl")) { continue; }
 			
 			log.info("Test conversion of: " + filename);
 			
