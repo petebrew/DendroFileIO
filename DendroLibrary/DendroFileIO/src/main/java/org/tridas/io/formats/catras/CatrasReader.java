@@ -555,7 +555,7 @@ public class CatrasReader extends AbstractDendroFileReader {
 	
 	@Override
 	protected void parseFile(String[] argFileString, IMetadataFieldSet argDefaultFields) {
-		throw new UnsupportedOperationException("Binary file type, cannot load from strings");
+		throw new UnsupportedOperationException(I18n.getText("general.binaryNotText"));
 	}
 	
 	@Override
