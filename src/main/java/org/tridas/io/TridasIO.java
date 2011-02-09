@@ -33,6 +33,7 @@ import org.tridas.io.formats.besancon.BesanconReader;
 import org.tridas.io.formats.besancon.BesanconWriter;
 import org.tridas.io.formats.catras.CatrasReader;
 import org.tridas.io.formats.csv.CSVWriter;
+import org.tridas.io.formats.excelmatrix.ExcelMatrixReader;
 import org.tridas.io.formats.excelmatrix.ExcelMatrixWriter;
 import org.tridas.io.formats.heidelberg.HeidelbergReader;
 import org.tridas.io.formats.heidelberg.HeidelbergWriter;
@@ -86,6 +87,7 @@ public class TridasIO {
 		registerFileReader(BesanconReader.class);
 		registerFileReader(CatrasReader.class);
 		registerFileReader(CorinaReader.class);
+		registerFileReader(ExcelMatrixReader.class);
 		registerFileReader(HeidelbergReader.class);
 		registerFileReader(NottinghamReader.class);
 		registerFileReader(Past4Reader.class);

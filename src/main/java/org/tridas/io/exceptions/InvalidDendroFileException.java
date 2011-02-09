@@ -27,12 +27,12 @@ import org.tridas.io.I18n;
 public class InvalidDendroFileException extends Exception {
 	
 	private static final long serialVersionUID = 4354556879332983450L;
-	private Integer pointerNumber;
+	private String pointerValue;
 	private String reason;
 	private PointerType pointerType = PointerType.LINE;
 	
 	public enum PointerType {
-		LINE, BYTE;
+		LINE, BYTE, CELL;
 		
 		@Override
 		public String toString() {
@@ -41,6 +41,9 @@ public class InvalidDendroFileException extends Exception {
 			}
 			else if (this == PointerType.BYTE) {
 				return I18n.getText("general.byte");
+			}
+			else if (this == PointerType.CELL){
+				return I18n.getText("general.cell");
 			}
 			return null;
 			
@@ -56,7 +59,7 @@ public class InvalidDendroFileException extends Exception {
 	 */
 	public InvalidDendroFileException(String reason) {
 		this.reason = reason;
-		pointerNumber = null;
+		pointerValue = null;
 	}
 	
 	/**
@@ -67,7 +70,7 @@ public class InvalidDendroFileException extends Exception {
 	 * @param linenumber
 	 */
 	public InvalidDendroFileException(String reason, int linenumber) {
-		pointerNumber = linenumber;
+		pointerValue = String.valueOf(linenumber);
 		this.reason = reason;
 	}
 	
@@ -82,7 +85,22 @@ public class InvalidDendroFileException extends Exception {
 	 */
 	public InvalidDendroFileException(String reason, int pointernumber, PointerType type) {
 		pointerType = type;
-		pointerNumber = pointernumber;
+		pointerValue = String.valueOf(pointernumber);
+		this.reason = reason;
+	}
+	
+	/**
+	 * Construct an exception. Requires a reason, a pointer value (line number, cell ref etc) 
+	 * to say whereabouts in the input file the error occurred, and a PointerType
+	 * to say whether the counter is a line, byte or cell reference.
+	 * 
+	 * @param reason
+	 * @param pointervalue
+	 * @param type
+	 */
+	public InvalidDendroFileException(String reason, String pointervalue, PointerType type) {
+		pointerType = type;
+		pointerValue = pointervalue;
 		this.reason = reason;
 	}
 	
@@ -91,8 +109,8 @@ public class InvalidDendroFileException extends Exception {
 	 * 
 	 * @return the pointernumber
 	 */
-	public Integer getPointerNumber() {
-		return pointerNumber;
+	public String getPointerNumber() {
+		return pointerValue;
 	}
 	
 	/**
@@ -113,9 +131,9 @@ public class InvalidDendroFileException extends Exception {
 	
 	@Override
 	public String getLocalizedMessage() {
-		if (pointerNumber != null) {
+		if (pointerValue != null) {
 			return I18n.getText("fileio.fatalError") + ": " + reason + ".  "
-					+ I18n.getText("fileio.errorAt", pointerNumber + "", pointerType.toString().toLowerCase());
+					+ I18n.getText("fileio.errorAt", pointerValue + "", pointerType.toString().toLowerCase());
 		}
 		else {
 			return I18n.getText("fileio.fatalError") + ": " + reason + ".  ";
