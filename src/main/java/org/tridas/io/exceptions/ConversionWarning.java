@@ -150,7 +150,11 @@ public class ConversionWarning {
 		/**
 		 * File was not read or writen to.
 		 */
-		FILE_IGNORED;
+		FILE_IGNORED,
+		/**
+		 * Assumption made about file
+		 */
+		ASSUMPTION;
 		
 		/**
 		 * Get the warning type as an internationalised string
@@ -178,6 +182,8 @@ public class ConversionWarning {
 					return I18n.getText("warningType.defaultValue");
 				case FILE_IGNORED :
 					return I18n.getText("warningType.fileIgnored");
+				case ASSUMPTION:
+					return I18n.getText("warningType.assumption");
 				default :
 					return "";
 			}
