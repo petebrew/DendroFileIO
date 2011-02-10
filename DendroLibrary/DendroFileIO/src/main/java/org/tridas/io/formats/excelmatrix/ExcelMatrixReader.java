@@ -5,6 +5,8 @@ import java.io.IOException;
 import java.util.ArrayList;
 
 import jxl.Cell;
+import jxl.CellType;
+import jxl.NumberCell;
 import jxl.Sheet;
 import jxl.Workbook;
 import jxl.read.biff.BiffException;
@@ -214,7 +216,7 @@ public class ExcelMatrixReader extends AbstractDendroFileReader {
 						getColRef(i)+"1", PointerType.CELL);
 			}
 			
-			// Warn if there is more data than year
+			// Warn if there is more data than years
 			if(datacol.length>yearCol.length)
 			{
 				this.addWarning(new ConversionWarning(WarningType.IGNORED, 
@@ -243,7 +245,23 @@ public class ExcelMatrixReader extends AbstractDendroFileReader {
 				
 				
 				try{ 
-					dataVals.add(Double.parseDouble(datacol[j].getContents()));	
+					if(datacol[j].getType() != CellType.NUMBER)
+					{
+						throw new InvalidDendroFileException(
+								I18n.getText("excelmatrix.invalidDataValue"), 
+								getColRef(i)+String.valueOf(j+1), 
+								PointerType.CELL);
+					}
+					
+					NumberCell nc = (NumberCell) datacol[j];
+					dataVals.add(nc.getValue());
+					
+					if(nc.getValue()>10d)
+					{
+						this.addWarning(new ConversionWarning(WarningType.ASSUMPTION, 
+								I18n.getText("excelmatrix.largeDataValue")));
+					}
+					
 				} catch (NumberFormatException e)
 				{
 					throw new InvalidDendroFileException(
