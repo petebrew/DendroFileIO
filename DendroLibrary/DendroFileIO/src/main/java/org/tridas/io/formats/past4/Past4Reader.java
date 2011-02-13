@@ -3,6 +3,7 @@ package org.tridas.io.formats.past4;
 import java.io.IOException;
 import java.io.StringReader;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.HashMap;
 import java.util.Iterator;
 import java.util.List;
@@ -36,6 +37,7 @@ import org.tridas.schema.TridasProject;
 import org.tridas.schema.TridasRadius;
 import org.tridas.schema.TridasRemark;
 import org.tridas.schema.TridasSample;
+import org.tridas.schema.TridasTridas;
 import org.tridas.schema.TridasValue;
 import org.tridas.schema.TridasValues;
 import org.w3c.dom.CDATASection;
@@ -767,9 +769,7 @@ public class Past4Reader extends AbstractDendroFileReader {
 		return lst;
 	}
 		
-	
-	@Override
-	public TridasProject getProject() {
+	private TridasProject getProject() {
 		
 		// Strip out temporary index genericFields
 		for(TridasObject o : TridasUtils.getObjectList(project))
@@ -816,5 +816,25 @@ public class Past4Reader extends AbstractDendroFileReader {
 		
 		return new DendroFileFilter(exts, getShortName());
 
+	}
+	
+	/**
+	 * @see org.tridas.io.AbstractDendroFileReader#getProjects()
+	 */
+	@Override
+	public TridasProject[] getProjects() {
+		TridasProject projects[] = new TridasProject[1];
+		projects[0] = this.getProject();
+		return projects;
+	}
+
+	/**
+	 * @see org.tridas.io.AbstractDendroFileReader#getTridasContainer()
+	 */
+	public TridasTridas getTridasContainer() {
+		TridasTridas container = new TridasTridas();
+		List<TridasProject> list = Arrays.asList(getProjects());
+		container.setProjects(list);
+		return container;
 	}
 }

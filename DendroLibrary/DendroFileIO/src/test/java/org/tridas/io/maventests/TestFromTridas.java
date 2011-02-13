@@ -44,6 +44,7 @@ import org.tridas.io.formats.vformat.VFormatWriter;
 import org.tridas.io.naming.HierarchicalNamingConvention;
 import org.tridas.io.naming.NumericalNamingConvention;
 import org.tridas.schema.TridasProject;
+import org.tridas.schema.TridasTridas;
 
 public class TestFromTridas extends TestCase {
 	
@@ -76,7 +77,7 @@ public class TestFromTridas extends TestCase {
 			
 			log.info("Test conversion of: " + filename);
 			
-			TridasProject project = null;
+			TridasTridas container = null;
 			
 			TridasReader reader = new TridasReader();
 			try {
@@ -92,14 +93,14 @@ public class TestFromTridas extends TestCase {
 			}
 			
 			// Extract the TridasProject
-			project = reader.getProject();
+			container = reader.getTridasContainer();
 			
 			// Create a new converter based on a TridasProject
 			CSVWriter writer = new CSVWriter();
 			
 			writer.setNamingConvention(new NumericalNamingConvention("CSV"));
 			try {
-				writer.loadProject(project);
+				writer.load(container);
 			} catch (IncompleteTridasDataException e) {
 				log.info("Failed Writing - " + e.getLocalizedMessage());
 				// fail();
@@ -124,7 +125,7 @@ public class TestFromTridas extends TestCase {
 		for (String filename : files) {		
 			log.info("Test conversion of: " + filename);
 			
-			TridasProject project = null;
+			TridasTridas container = null;
 			
 			TridasReader reader = new TridasReader();
 			try {
@@ -138,7 +139,7 @@ public class TestFromTridas extends TestCase {
 			}
 			
 			// Extract the TridasProject
-			project = reader.getProject();
+			container = reader.getTridasContainer();
 			
 			// Create a new converter based on a TridasProject
 			TucsonWriter tucsonwriter = new TucsonWriter();
@@ -146,7 +147,7 @@ public class TestFromTridas extends TestCase {
 			nc.setBaseFilename("TucsonFromTridas");
 			tucsonwriter.setNamingConvention(nc);
 			try {
-				tucsonwriter.loadProject(project);
+				tucsonwriter.load(container);
 			} catch (IncompleteTridasDataException e) {
 				e.printStackTrace();
 			} catch (ConversionWarningException e) {
@@ -168,7 +169,7 @@ public class TestFromTridas extends TestCase {
 		for (String filename : files) {
 			log.info("Test conversion of: " + filename);
 			
-			TridasProject project = null;
+			TridasTridas container = null;
 			
 			TridasReader reader = new TridasReader();
 			try {
@@ -182,13 +183,13 @@ public class TestFromTridas extends TestCase {
 			}
 			
 			// Extract the TridasProject
-			project = reader.getProject();
+			container = reader.getTridasContainer();
 			
 			// Create a new converter based on a TridasProject
 			TophamWriter writer = new TophamWriter();
 			writer.setNamingConvention(new NumericalNamingConvention());
 			try {
-				writer.loadProject(project);
+				writer.load(container);
 			} catch (IncompleteTridasDataException e) {
 				e.printStackTrace();
 			} catch (ConversionWarningException e) {
@@ -216,7 +217,7 @@ public class TestFromTridas extends TestCase {
 			
 			log.info("Test conversion of: " + filename);
 			
-			TridasProject project = null;
+			TridasTridas container = null;
 			
 			TridasReader reader = new TridasReader();
 			try {
@@ -230,13 +231,13 @@ public class TestFromTridas extends TestCase {
 			}
 			
 			// Extract the TridasProject
-			project = reader.getProject();
+			container = reader.getTridasContainer();
 			
 			// Create a new converter based on a TridasProject
 			HeidelbergWriter writer = new HeidelbergWriter();
 			writer.setNamingConvention(new HierarchicalNamingConvention());
 			try {
-				writer.loadProject(project);
+				writer.load(container);
 			} catch (IncompleteTridasDataException e) {
 				e.printStackTrace();
 			} catch (ConversionWarningException e) {
@@ -259,7 +260,7 @@ public class TestFromTridas extends TestCase {
 			if(filename.equals("StringRingValues.xml")) continue;
 			log.info("Test conversion of: " + filename);
 			
-			TridasProject project = null;
+			TridasTridas project = null;
 			
 			TridasReader reader = new TridasReader();
 			try {
@@ -273,13 +274,13 @@ public class TestFromTridas extends TestCase {
 			}
 			
 			// Extract the TridasProject
-			project = reader.getProject();
+			project = reader.getTridasContainer();
 			
 			// Create a new converter based on a TridasProject
 			TrimsWriter writer = new TrimsWriter();
 			writer.setNamingConvention(new HierarchicalNamingConvention());
 			try {
-				writer.loadProject(project);
+				writer.load(project);
 			} catch (IncompleteTridasDataException e) {
 				e.printStackTrace();
 			} catch (ConversionWarningException e) {
@@ -301,7 +302,7 @@ public class TestFromTridas extends TestCase {
 		for (String filename : files) {
 			log.info("Test conversion of: " + filename);
 			
-			TridasProject project = null;
+			TridasTridas container = null;
 			
 			TridasReader reader = new TridasReader();
 			try {
@@ -315,13 +316,13 @@ public class TestFromTridas extends TestCase {
 			}
 			
 			// Extract the TridasProject
-			project = reader.getProject();
+			container = reader.getTridasContainer();
 			
 			// Create a new converter based on a TridasProject
 			BelfastAppleWriter writer = new BelfastAppleWriter();
-			writer.setNamingConvention(new HierarchicalNamingConvention());
+			writer.setNamingConvention(new NumericalNamingConvention(filename));
 			try {
-				writer.loadProject(project);
+				writer.load(container);
 			} catch (IncompleteTridasDataException e) {
 				e.printStackTrace();
 			} catch (ConversionWarningException e) {
@@ -344,7 +345,7 @@ public class TestFromTridas extends TestCase {
 			
 			log.info("Test conversion of: " + filename);
 			
-			TridasProject project = null;
+			TridasTridas container = null;
 			
 			TridasReader reader = new TridasReader();
 			try {
@@ -358,7 +359,7 @@ public class TestFromTridas extends TestCase {
 			}
 			
 			// Extract the TridasProject
-			project = reader.getProject();
+			container = reader.getTridasContainer();
 			
 			// Create a new converter based on a TridasProject
 			ExcelMatrixWriter writer = new ExcelMatrixWriter();
@@ -367,7 +368,7 @@ public class TestFromTridas extends TestCase {
 			try {
 				writer.setNamingConvention(new NumericalNamingConvention(filename.substring(0, filename
 						.lastIndexOf("."))));
-				writer.loadProject(project);
+				writer.load(container);
 			} catch (IncompleteTridasDataException e) {
 				e.printStackTrace();
 			} catch (ConversionWarningException e) {
@@ -391,7 +392,7 @@ public class TestFromTridas extends TestCase {
 			if(!filename.equals("TridasMultiVars.xml")) continue;
 			log.info("Test conversion of: " + filename);
 			
-			TridasProject project = null;
+			TridasTridas container = null;
 			
 			TridasReader reader = new TridasReader();
 			try {
@@ -405,13 +406,13 @@ public class TestFromTridas extends TestCase {
 			}
 			
 			// Extract the TridasProject
-			project = reader.getProject();
+			container = reader.getTridasContainer();
 			
 			// Create a new converter based on a TridasProject
 			SheffieldWriter writer = new SheffieldWriter();
 			writer.setNamingConvention(new NumericalNamingConvention());
 			try {
-				writer.loadProject(project);
+				writer.load(container);
 			} catch (IncompleteTridasDataException e) {
 				e.printStackTrace();
 			} catch (ConversionWarningException e) {
@@ -435,7 +436,7 @@ public class TestFromTridas extends TestCase {
 			//if(!filename.equals("TridasMultiVars.xml")) continue;
 			log.info("Test conversion of: " + filename);
 			
-			TridasProject project = null;
+			TridasTridas container = null;
 			
 			TridasReader reader = new TridasReader();
 			try {
@@ -449,13 +450,13 @@ public class TestFromTridas extends TestCase {
 			}
 			
 			// Extract the TridasProject
-			project = reader.getProject();
+			container = reader.getTridasContainer();
 			
 			// Create a new converter based on a TridasProject
 			NottinghamWriter writer = new NottinghamWriter();
 			writer.setNamingConvention(new NumericalNamingConvention());
 			try {
-				writer.loadProject(project);
+				writer.load(container);
 			} catch (IncompleteTridasDataException e) {
 				e.printStackTrace();
 			} catch (ConversionWarningException e) {
@@ -480,7 +481,7 @@ public class TestFromTridas extends TestCase {
 			//if(!filename.equals("TridasMultiVars.xml")) continue;
 			log.info("Test conversion of: " + filename);
 			
-			TridasProject project = null;
+			TridasTridas container = null;
 			
 			TridasReader reader = new TridasReader();
 			try {
@@ -494,13 +495,13 @@ public class TestFromTridas extends TestCase {
 			}
 			
 			// Extract the TridasProject
-			project = reader.getProject();
+			container = reader.getTridasContainer();
 			
 			// Create a new converter based on a TridasProject
 			TucsonCompactWriter writer = new TucsonCompactWriter();
 			writer.setNamingConvention(new NumericalNamingConvention());
 			try {
-				writer.loadProject(project);
+				writer.load(container);
 			} catch (IncompleteTridasDataException e) {
 				e.printStackTrace();
 			} catch (ConversionWarningException e) {
@@ -524,7 +525,7 @@ public class TestFromTridas extends TestCase {
 			//if(!filename.equals("TridasMultiVars.xml")) continue;
 			log.info("Test conversion of: " + filename);
 			
-			TridasProject project = null;
+			TridasTridas container = null;
 			
 			TridasReader reader = new TridasReader();
 			try {
@@ -538,13 +539,13 @@ public class TestFromTridas extends TestCase {
 			}
 			
 			// Extract the TridasProject
-			project = reader.getProject();
+			container = reader.getTridasContainer();
 			
 			// Create a new converter based on a TridasProject
 			CorinaWriter writer = new CorinaWriter();
 			writer.setNamingConvention(new NumericalNamingConvention());
 			try {
-				writer.loadProject(project);
+				writer.load(container);
 			} catch (IncompleteTridasDataException e) {
 				e.printStackTrace();
 			} catch (ConversionWarningException e) {
@@ -568,7 +569,7 @@ public class TestFromTridas extends TestCase {
 			//if(!filename.equals("TridasMultiVars.xml")) continue;
 			log.info("Test conversion of: " + filename);
 			
-			TridasProject project = null;
+			TridasTridas container = null;
 			
 			TridasReader reader = new TridasReader();
 			try {
@@ -582,13 +583,13 @@ public class TestFromTridas extends TestCase {
 			}
 			
 			// Extract the TridasProject
-			project = reader.getProject();
+			container = reader.getTridasContainer();
 			
 			// Create a new converter based on a TridasProject
 			BesanconWriter writer = new BesanconWriter();
 			writer.setNamingConvention(new NumericalNamingConvention());
 			try {
-				writer.loadProject(project);
+				writer.load(container);
 			} catch (IncompleteTridasDataException e) {
 				e.printStackTrace();
 			} catch (ConversionWarningException e) {
@@ -612,7 +613,7 @@ public class TestFromTridas extends TestCase {
 			//if(!filename.equals("TridasMultiVars.xml")) continue;
 			log.info("Test conversion of: " + filename);
 			
-			TridasProject project = null;
+			TridasTridas container = null;
 			
 			TridasReader reader = new TridasReader();
 			try {
@@ -626,13 +627,13 @@ public class TestFromTridas extends TestCase {
 			}
 			
 			// Extract the TridasProject
-			project = reader.getProject();
+			container = reader.getTridasContainer();
 			
 			// Create a new converter based on a TridasProject
 			VFormatWriter writer = new VFormatWriter();
 			writer.setNamingConvention(new NumericalNamingConvention());
 			try {
-				writer.loadProject(project);
+				writer.load(container);
 			} catch (IncompleteTridasDataException e) {
 				e.printStackTrace();
 			} catch (ConversionWarningException e) {
@@ -656,7 +657,7 @@ public class TestFromTridas extends TestCase {
 			//if(!filename.equals("TridasMultiVars.xml")) continue;
 			log.info("Test conversion of: " + filename);
 			
-			TridasProject project = null;
+			TridasTridas container = null;
 			
 			TridasReader reader = new TridasReader();
 			try {
@@ -670,13 +671,13 @@ public class TestFromTridas extends TestCase {
 			}
 			
 			// Extract the TridasProject
-			project = reader.getProject();
+			container = reader.getTridasContainer();
 			
 			// Create a new converter based on a TridasProject
 			Past4Writer writer = new Past4Writer();
 			writer.setNamingConvention(new NumericalNamingConvention());
 			try {
-				writer.loadProject(project);
+				writer.load(container);
 			} catch (IncompleteTridasDataException e) {
 				e.printStackTrace();
 			} catch (ConversionWarningException e) {

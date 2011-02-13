@@ -34,6 +34,7 @@ import org.tridas.schema.TridasObject;
 import org.tridas.schema.TridasProject;
 import org.tridas.schema.TridasRadius;
 import org.tridas.schema.TridasSample;
+import org.tridas.schema.TridasTridas;
 
 public class TrimsWriter extends AbstractDendroCollectionWriter {
 	
@@ -184,6 +185,20 @@ public class TrimsWriter extends AbstractDendroCollectionWriter {
 	@Override
 	public void setNamingConvention(INamingConvention argConvension) {
 		naming = argConvension;
+	}
+	
+	/**
+	 * @see org.tridas.io.IDendroCollectionWriter#parseTridasContainer()
+	 */
+	@Override
+	protected void parseTridasContainer(TridasTridas argContainer,
+			IMetadataFieldSet argDefaults)
+			throws IncompleteTridasDataException, ConversionWarningException {
+	
+		for(TridasProject project : argContainer.getProjects())
+		{
+			parseTridasProject(project, argDefaults);
+		}	
 	}
 	
 }

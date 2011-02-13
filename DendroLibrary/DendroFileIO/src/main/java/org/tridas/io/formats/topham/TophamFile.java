@@ -70,9 +70,12 @@ public class TophamFile implements IDendroFile {
 		
 		ArrayList<String> file = new ArrayList<String>();
 		
-		for (TridasValue val : dataValues.getValues())
-		{
-			file.add(val.getValue().toString());
+		if(dataValues!=null && dataValues.isSetValues())
+		{		
+			for (TridasValue val : dataValues.getValues())
+			{
+				file.add(val.getValue().toString());
+			}
 		}
 				
 		return file.toArray(new String[0]);

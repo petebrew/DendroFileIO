@@ -38,6 +38,7 @@ import org.tridas.io.formats.tridas.TridasWriter;
 import org.tridas.io.formats.tucson.TridasToTucsonDefaults;
 import org.tridas.io.formats.tucson.TucsonWriter;
 import org.tridas.schema.TridasProject;
+import org.tridas.schema.TridasTridas;
 
 public class UnitTest extends TestCase {
 	public UnitTest(String name) {
@@ -46,14 +47,14 @@ public class UnitTest extends TestCase {
 	
 	public void testTridasRoundTrip() {
 		
-		TridasProject project = null;
+		TridasTridas container = null;
 		TridasReader reader = new TridasReader();
 		TridasWriter writer = new TridasWriter();
 		
 		// Load and extract project from XML file
 		try {
 			reader.loadFile("TestData/TRiDaS/", "Tridas2.xml");
-			project = reader.getProject();
+			container = reader.getTridasContainer();
 		} catch (IOException e) {
 			System.out.println(e.getLocalizedMessage());
 			fail();
@@ -63,8 +64,8 @@ public class UnitTest extends TestCase {
 		
 		// Write project classes out to a temp file
 		try {
-			writer.loadProject(project, new TridasMetadataFieldSet());
-			writer.saveAllToDisk("target/testOutput");
+			writer.load(container, new TridasMetadataFieldSet());
+			writer.saveAllToDisk("target/TestOutput");
 			
 		} catch (IncompleteTridasDataException e) {
 			e.printStackTrace();
@@ -90,13 +91,13 @@ public class UnitTest extends TestCase {
 		 * TridasRadius r = new TridasRadius();
 		 * TridasMeasurementSeries ser = new TridasMeasurementSeries();
 		 */
-		TridasProject project = null;
+		TridasTridas container = null;
 		JAXBContext jc;
 		try {
 			jc = JAXBContext.newInstance("org.tridas.schema");
 			Unmarshaller u = jc.createUnmarshaller();
-			File xmlFile = new File("TestData/TRiDaS/Tridas1.xml");
-			project = (TridasProject) u.unmarshal(xmlFile);
+			File xmlFile = new File("TestData/TRiDaS/Utrecht.xml");
+			container = (TridasTridas) u.unmarshal(xmlFile);
 			
 		} catch (JAXBException e2) {
 			e2.printStackTrace();
@@ -113,7 +114,7 @@ public class UnitTest extends TestCase {
 		// Create a new converter based on a TridasProject
 		TucsonWriter tucsonwriter = new TucsonWriter();
 		try {
-			tucsonwriter.loadProject(project, new TridasToTucsonDefaults());
+			tucsonwriter.load(container, new TridasToTucsonDefaults());
 		} catch (IncompleteTridasDataException e) {
 			e.printStackTrace();
 		} catch (ConversionWarningException e) {

@@ -15,6 +15,8 @@
 package org.tridas.io.formats.vformat;
 
 import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.List;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
@@ -40,6 +42,7 @@ import org.tridas.schema.TridasObject;
 import org.tridas.schema.TridasProject;
 import org.tridas.schema.TridasRadius;
 import org.tridas.schema.TridasSample;
+import org.tridas.schema.TridasTridas;
 import org.tridas.schema.TridasValue;
 import org.tridas.schema.TridasValues;
 
@@ -531,8 +534,7 @@ public class VFormatReader extends AbstractDendroFileReader {
 		return fileExtensions.toArray(new String[0]);
 	}
 	
-	@Override
-	public TridasProject getProject() {
+	private TridasProject getProject() {
 		TridasProject project = defaults.getProjectWithDefaults();
 		ArrayList<TridasObject> oList = new ArrayList<TridasObject>();
 		
@@ -646,5 +648,25 @@ public class VFormatReader extends AbstractDendroFileReader {
 		
 		return new DendroFileFilter(exts, getShortName());
 
+	}
+	
+	/**
+	 * @see org.tridas.io.AbstractDendroFileReader#getProjects()
+	 */
+	@Override
+	public TridasProject[] getProjects() {
+		TridasProject projects[] = new TridasProject[1];
+		projects[0] = this.getProject();
+		return projects;
+	}
+
+	/**
+	 * @see org.tridas.io.AbstractDendroFileReader#getTridasContainer()
+	 */
+	public TridasTridas getTridasContainer() {
+		TridasTridas container = new TridasTridas();
+		List<TridasProject> list = Arrays.asList(getProjects());
+		container.setProjects(list);
+		return container;
 	}
 }

@@ -30,7 +30,7 @@ public class TucsonCompactFile implements IDendroFile {
 	private TridasToTucsonCompactDefaults defaults;
 	private TridasValues dataValues;
 	private Integer cols = null;
-	private Integer charsPerVal = 0;
+	private Integer charsPerVal = 1;
 	private Integer impliedDecimalPlaces = 0;
 	private Integer expFactor = -2;
 	

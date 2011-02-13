@@ -34,6 +34,7 @@ import org.tridas.schema.TridasObject;
 import org.tridas.schema.TridasProject;
 import org.tridas.schema.TridasRadius;
 import org.tridas.schema.TridasSample;
+import org.tridas.schema.TridasTridas;
 
 public class BelfastAppleWriter extends AbstractDendroCollectionWriter {
 	
@@ -42,6 +43,20 @@ public class BelfastAppleWriter extends AbstractDendroCollectionWriter {
 	
 	public BelfastAppleWriter() {
 		super(TridasToBelfastAppleDefaults.class);
+	}
+	
+	/**
+	 * @see org.tridas.io.IDendroCollectionWriter#parseTridasContainer()
+	 */
+	@Override
+	protected void parseTridasContainer(TridasTridas argContainer,
+			IMetadataFieldSet argDefaults)
+			throws IncompleteTridasDataException, ConversionWarningException {
+	
+		for(TridasProject project : argContainer.getProjects())
+		{
+			parseTridasProject(project, argDefaults);
+		}	
 	}
 	
 	@Override
@@ -127,7 +142,7 @@ public class BelfastAppleWriter extends AbstractDendroCollectionWriter {
 						} catch (NullPointerException e) {}
 						
 						if (serList != null) {
-							for (TridasMeasurementSeries ser : serList) {
+							for (TridasMeasurementSeries ser : serList) {								
 								// Create a belfastappleFile for each and add to file list
 								BelfastAppleFile file = new BelfastAppleFile(defaults, this);
 								naming.registerFile(file, argProject, obj, el, s, r, ser);
@@ -196,5 +211,7 @@ public class BelfastAppleWriter extends AbstractDendroCollectionWriter {
 	public void setNamingConvention(INamingConvention argConvension) {
 		naming = argConvension;
 	}
+
+
 	
 }

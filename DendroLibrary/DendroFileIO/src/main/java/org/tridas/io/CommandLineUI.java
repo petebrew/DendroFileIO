@@ -34,6 +34,7 @@ import org.tridas.io.util.FileHelper;
 import org.tridas.io.util.IOUtils;
 import org.tridas.io.util.StringUtils;
 import org.tridas.schema.TridasProject;
+import org.tridas.schema.TridasTridas;
 
 public class CommandLineUI {
 	
@@ -148,7 +149,7 @@ public class CommandLineUI {
 		else {
 			String[] files = getFilesFromFolder(inputfilename);
 			for (String file : files) {
-				TridasProject project;
+				TridasTridas container;
 				AbstractDendroFileReader reader;
 				
 				if (inputFormat != null) {
@@ -164,7 +165,7 @@ public class CommandLineUI {
 				
 				try {
 					reader.loadFile(inputfilename + File.separator + file);
-					project = reader.getProject();
+					container = reader.getTridasContainer();
 				} catch (IOException e1) {
 					System.out.println(e1.toString());
 					e1.printStackTrace();
@@ -209,7 +210,7 @@ public class CommandLineUI {
 			// Write out project
 			try {
 				writer.setNamingConvention(namingConvention);
-				writer.loadProject(s.reader.getProject());
+				writer.load(s.reader.getTridasContainer());
 				writer.saveAllToDisk(outputFolder);
 			} catch (IncompleteTridasDataException e) {
 				System.out.println(e.toString());
