@@ -38,6 +38,7 @@ import org.tridas.schema.TridasObject;
 import org.tridas.schema.TridasProject;
 import org.tridas.schema.TridasRadius;
 import org.tridas.schema.TridasSample;
+import org.tridas.schema.TridasTridas;
 import org.tridas.schema.TridasValue;
 import org.tridas.schema.TridasValues;
 
@@ -283,6 +284,20 @@ public class TucsonCompactWriter extends AbstractDendroCollectionWriter {
 	@Override
 	public void setNamingConvention(INamingConvention argConvension) {
 		naming = argConvension;
+	}
+	
+	/**
+	 * @see org.tridas.io.IDendroCollectionWriter#parseTridasContainer()
+	 */
+	@Override
+	protected void parseTridasContainer(TridasTridas argContainer,
+			IMetadataFieldSet argDefaults)
+			throws IncompleteTridasDataException, ConversionWarningException {
+	
+		for(TridasProject project : argContainer.getProjects())
+		{
+			parseTridasProject(project, argDefaults);
+		}	
 	}
 
 }

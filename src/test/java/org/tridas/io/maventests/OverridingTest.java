@@ -31,6 +31,7 @@ import org.tridas.io.formats.tucson.TridasToTucsonDefaults;
 import org.tridas.io.formats.tucson.TucsonWriter;
 import org.tridas.io.formats.tucson.TridasToTucsonDefaults.TucsonField;
 import org.tridas.schema.TridasProject;
+import org.tridas.schema.TridasTridas;
 
 public class OverridingTest extends TestCase {
 	private static final Logger log = LoggerFactory.getLogger(OverridingTest.class);
@@ -39,7 +40,7 @@ public class OverridingTest extends TestCase {
 		// load tridas file
 		TridasReader reader = new TridasReader();
 		reader.loadFile("TestData/TRiDaS/Tridas4.xml");
-		TridasProject project = reader.getProject();
+		TridasTridas container = reader.getTridasContainer();
 		
 		// ok we got our project, lets set defaults stuff
 		TridasToTucsonDefaults defaults = new TridasToTucsonDefaults();
@@ -48,7 +49,7 @@ public class OverridingTest extends TestCase {
 		defaults.getStringDefaultValue(TucsonField.INVESTIGATOR).setOverridingValue("Test");
 		
 		TucsonWriter writer = new TucsonWriter();
-		writer.loadProject(project, defaults);
+		writer.load(container, defaults);
 		
 		boolean siteNameFound = false;
 		boolean investigatorFound = false;
@@ -70,7 +71,7 @@ public class OverridingTest extends TestCase {
 		defaults.getStringDefaultValue(TucsonField.INVESTIGATOR).setOverriding(false);
 		defaults.getStringDefaultValue(TucsonField.INVESTIGATOR).setOverridingValue("Test2");
 
-		writer.loadProject(project, defaults);
+		writer.load(container, defaults);
 		
 		siteNameFound = false;
 		boolean investigatorChanged = false;

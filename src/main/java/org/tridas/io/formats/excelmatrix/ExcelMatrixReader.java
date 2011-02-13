@@ -3,6 +3,8 @@ package org.tridas.io.formats.excelmatrix;
 import java.io.File;
 import java.io.IOException;
 import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.List;
 
 import jxl.Cell;
 import jxl.CellType;
@@ -33,6 +35,7 @@ import org.tridas.schema.TridasObject;
 import org.tridas.schema.TridasProject;
 import org.tridas.schema.TridasRadius;
 import org.tridas.schema.TridasSample;
+import org.tridas.schema.TridasTridas;
 import org.tridas.schema.TridasUnit;
 import org.tridas.schema.TridasValue;
 import org.tridas.schema.TridasValues;
@@ -340,9 +343,8 @@ public class ExcelMatrixReader extends AbstractDendroFileReader {
 	public IMetadataFieldSet getDefaults() {
 		return defaults;
 	}
-	
-	@Override
-	public TridasProject getProject() {
+
+	private TridasProject getProject() {
 		TridasProject project = defaults.getProjectWithDefaults();
 		
 		for (ExcelDendroSeries eds : series)
@@ -390,6 +392,26 @@ public class ExcelMatrixReader extends AbstractDendroFileReader {
 		public String label;
 		public ArrayList<Double> dataVals = new ArrayList<Double>();
 		
+	}
+	
+	/**
+	 * @see org.tridas.io.AbstractDendroFileReader#getProjects()
+	 */
+	@Override
+	public TridasProject[] getProjects() {
+		TridasProject projects[] = new TridasProject[1];
+		projects[0] = this.getProject();
+		return projects;
+	}
+
+	/**
+	 * @see org.tridas.io.AbstractDendroFileReader#getTridasContainer()
+	 */
+	public TridasTridas getTridasContainer() {
+		TridasTridas container = new TridasTridas();
+		List<TridasProject> list = Arrays.asList(getProjects());
+		container.setProjects(list);
+		return container;
 	}
 
 }

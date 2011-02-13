@@ -32,6 +32,7 @@ import org.tridas.io.formats.tucson.TucsonReader;
 import org.tridas.io.formats.tucson.TucsonToTridasDefaults;
 import org.tridas.io.naming.UUIDNamingConvention;
 import org.tridas.schema.TridasProject;
+import org.tridas.schema.TridasTridas;
 
 public class TestBetweenFormats extends TestCase {
 	
@@ -81,12 +82,12 @@ public class TestBetweenFormats extends TestCase {
 			}
 			
 			// Extract the TridasProject
-			TridasProject myproject = reader.getProject();
+			TridasTridas container = reader.getTridasContainer();
 			TrimsWriter writer = new TrimsWriter();
 			writer.setNamingConvention(new UUIDNamingConvention());
 			
 			try {
-				writer.loadProject(myproject);
+				writer.load(container);
 			} catch (IncompleteTridasDataException e) {
 				fail();
 			} catch (ConversionWarningException e) {

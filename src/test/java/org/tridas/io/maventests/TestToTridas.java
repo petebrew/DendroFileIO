@@ -50,6 +50,7 @@ import org.tridas.io.formats.windendro.WinDendroReader;
 import org.tridas.io.naming.NumericalNamingConvention;
 import org.tridas.io.naming.UUIDNamingConvention;
 import org.tridas.schema.TridasProject;
+import org.tridas.schema.TridasTridas;
 
 public class TestToTridas extends TestCase {
 	
@@ -101,12 +102,12 @@ public class TestToTridas extends TestCase {
 			}
 			
 			// Extract the TridasProject
-			TridasProject myproject = reader.getProject();
+			TridasTridas container = reader.getTridasContainer();
 			TridasWriter writer = new TridasWriter();
 			writer.setNamingConvention(new NumericalNamingConvention("Tucson-"+filename));
 			
 			try {
-				writer.loadProject(myproject, new TridasMetadataFieldSet());
+				writer.load(container, new TridasMetadataFieldSet());
 			} catch (IncompleteTridasDataException e) {
 				fail();
 			} catch (ConversionWarningException e) {} catch (IncorrectDefaultFieldsException e) {
@@ -154,12 +155,12 @@ public class TestToTridas extends TestCase {
 			}
 			
 			// Extract the TridasProject
-			TridasProject myproject = reader.getProject();
+			TridasTridas container = reader.getTridasContainer();
 			TridasWriter writer = new TridasWriter();
 			writer.setNamingConvention(new NumericalNamingConvention("Past-"+filename));
 			
 			try {
-				writer.loadProject(myproject, new TridasMetadataFieldSet());
+				writer.load(container, new TridasMetadataFieldSet());
 			} catch (IncompleteTridasDataException e) {
 				fail();
 			} catch (ConversionWarningException e) {} catch (IncorrectDefaultFieldsException e) {
@@ -205,13 +206,13 @@ public class TestToTridas extends TestCase {
 			}
 			
 			// Extract the TridasProject
-			TridasProject myproject = reader.getProject();
+			TridasTridas container = reader.getTridasContainer();
 			
 			TridasWriter writer = new TridasWriter();
 			writer.setNamingConvention(new NumericalNamingConvention("Catras-"+filename));
 			
 			try {
-				writer.loadProject(myproject);
+				writer.load(container);
 			} catch (IncompleteTridasDataException e) {
 				fail();
 			} catch (ConversionWarningException e) {
@@ -253,13 +254,13 @@ public class TestToTridas extends TestCase {
 			}
 			
 			// Extract the TridasProject
-			TridasProject myproject = reader.getProject();
+			TridasTridas container = reader.getTridasContainer();
 			
 			TridasWriter writer = new TridasWriter();
 			writer.setNamingConvention(new NumericalNamingConvention("Heidelberg-"+filename));
 			
 			try {
-				writer.loadProject(myproject);
+				writer.load(container);
 			} catch (IncompleteTridasDataException e) {
 				fail();
 			} catch (ConversionWarningException e) {
@@ -299,13 +300,13 @@ public class TestToTridas extends TestCase {
 			}
 			
 			// Extract the TridasProject
-			TridasProject myproject = reader.getProject();
+			TridasTridas container = reader.getTridasContainer();
 			
 			TridasWriter writer = new TridasWriter();
 			writer.setNamingConvention(new NumericalNamingConvention("Trims-"+filename));
 			
 			try {
-				writer.loadProject(myproject);
+				writer.load(container);
 			} catch (IncompleteTridasDataException e) {
 				fail();
 			} catch (ConversionWarningException e) {
@@ -346,12 +347,12 @@ public class TestToTridas extends TestCase {
 			}
 			
 			// Extract the TridasProject
-			TridasProject myproject = reader.getProject();
+			TridasTridas container = reader.getTridasContainer();
 			
 			TridasWriter writer = new TridasWriter();
 			try {
 				writer.setNamingConvention(new NumericalNamingConvention("Sheffield-"+filename));
-				writer.loadProject(myproject);
+				writer.load(container);
 			} catch (IncompleteTridasDataException e) {
 				fail();
 			} catch (ConversionWarningException e) {
@@ -391,13 +392,13 @@ public class TestToTridas extends TestCase {
 			}
 			
 			// Extract the TridasProject
-			TridasProject myproject = reader.getProject();
+			TridasTridas container = reader.getTridasContainer();
 			
 			TridasWriter writer = new TridasWriter();
 			writer.setNamingConvention(new NumericalNamingConvention("BelfastApple-"+filename));
 			
 			try {
-				writer.loadProject(myproject);
+				writer.load(container);
 			} catch (IncompleteTridasDataException e) {
 				fail();
 			} catch (ConversionWarningException e) {
@@ -437,14 +438,14 @@ public class TestToTridas extends TestCase {
 			}
 			
 			// Extract the TridasProject
-			TridasProject myproject = reader.getProject();
+			TridasTridas container = reader.getTridasContainer();
 			
 			TridasWriter writer = new TridasWriter();
 			writer.setNamingConvention(new NumericalNamingConvention("BelfastArchive-"+filename));
 			
 			
 			try {
-				writer.loadProject(myproject);
+				writer.load(container);
 			} catch (IncompleteTridasDataException e) {
 				fail();
 			} catch (ConversionWarningException e) {
@@ -485,13 +486,13 @@ public class TestToTridas extends TestCase {
 			}
 			
 			// Extract the TridasProject
-			TridasProject myproject = reader.getProject();
+			TridasTridas container = reader.getTridasContainer();
 			
 			TridasWriter writer = new TridasWriter();
 			writer.setNamingConvention(new NumericalNamingConvention("VFormat-"+filename));
 			
 			try {
-				writer.loadProject(myproject, new TridasMetadataFieldSet());
+				writer.load(container, new TridasMetadataFieldSet());
 			} catch (IncompleteTridasDataException e) {
 				fail();
 			} catch (ConversionWarningException e) {} catch (IncorrectDefaultFieldsException e) {
@@ -536,14 +537,14 @@ public class TestToTridas extends TestCase {
 			}
 			
 			// Extract the TridasProject
-			TridasProject myproject = reader.getProject();
+			TridasTridas container = reader.getTridasContainer();
 			
 			TridasWriter writer = new TridasWriter();
 			NumericalNamingConvention nc = new NumericalNamingConvention("Besancon-"+filename);
 			writer.setNamingConvention(nc);
 			
 			try {
-				writer.loadProject(myproject, new TridasMetadataFieldSet());
+				writer.load(container, new TridasMetadataFieldSet());
 			} catch (IncompleteTridasDataException e) {
 				fail();
 			} catch (ConversionWarningException e) {} catch (IncorrectDefaultFieldsException e) {
@@ -584,14 +585,14 @@ public class TestToTridas extends TestCase {
 			}
 			
 			// Extract the TridasProject
-			TridasProject myproject = reader.getProject();
+			TridasTridas container = reader.getTridasContainer();
 			
 			TridasWriter writer = new TridasWriter();
 			NumericalNamingConvention nc = new NumericalNamingConvention("WinDendro-"+filename);
 			writer.setNamingConvention(nc);
 			
 			try {
-				writer.loadProject(myproject, new TridasMetadataFieldSet());
+				writer.load(container, new TridasMetadataFieldSet());
 			} catch (IncompleteTridasDataException e) {
 				fail();
 			} catch (ConversionWarningException e) {} catch (IncorrectDefaultFieldsException e) {
@@ -633,14 +634,14 @@ public class TestToTridas extends TestCase {
 			}
 			
 			// Extract the TridasProject
-			TridasProject myproject = reader.getProject();
+			TridasTridas container = reader.getTridasContainer();
 			
 			TridasWriter writer = new TridasWriter();
 			NumericalNamingConvention nc = new NumericalNamingConvention("Topham-"+filename);
 			writer.setNamingConvention(nc);
 			
 			try {
-				writer.loadProject(myproject, new TridasMetadataFieldSet());
+				writer.load(container, new TridasMetadataFieldSet());
 			} catch (IncompleteTridasDataException e) {
 				fail();
 			} catch (ConversionWarningException e) {} catch (IncorrectDefaultFieldsException e) {
@@ -681,14 +682,14 @@ public class TestToTridas extends TestCase {
 			}
 			
 			// Extract the TridasProject
-			TridasProject myproject = reader.getProject();
+			TridasTridas container = reader.getTridasContainer();
 			
 			TridasWriter writer = new TridasWriter();
 			NumericalNamingConvention nc = new NumericalNamingConvention("Nottingham-"+filename);
 			writer.setNamingConvention(nc);
 			
 			try {
-				writer.loadProject(myproject, new TridasMetadataFieldSet());
+				writer.load(container, new TridasMetadataFieldSet());
 			} catch (IncompleteTridasDataException e) {
 				fail();
 			} catch (ConversionWarningException e) {} catch (IncorrectDefaultFieldsException e) {
@@ -729,14 +730,14 @@ public class TestToTridas extends TestCase {
 			}
 			
 			// Extract the TridasProject
-			TridasProject myproject = reader.getProject();
+			TridasTridas container = reader.getTridasContainer();
 			
 			TridasWriter writer = new TridasWriter();
 			NumericalNamingConvention nc = new NumericalNamingConvention("TucsonCompact-"+filename);
 			writer.setNamingConvention(nc);
 			
 			try {
-				writer.loadProject(myproject, new TridasMetadataFieldSet());
+				writer.load(container, new TridasMetadataFieldSet());
 			} catch (IncompleteTridasDataException e) {
 				fail();
 			} catch (ConversionWarningException e) {} catch (IncorrectDefaultFieldsException e) {
@@ -829,13 +830,13 @@ public class TestToTridas extends TestCase {
 			}
 			
 			// Extract the TridasProject
-			TridasProject myproject = reader.getProject();
+			TridasTridas container = reader.getTridasContainer();
 			
 			TridasWriter writer = new TridasWriter();
 			writer.setNamingConvention(new NumericalNamingConvention("CorinaLegacy-"+filename));
 			
 			try {
-				writer.loadProject(myproject);
+				writer.load(container);
 			} catch (IncompleteTridasDataException e) {
 				fail();
 			} catch (ConversionWarningException e) {
@@ -876,14 +877,14 @@ public class TestToTridas extends TestCase {
 				return;
 			}
 			
-			// Extract the TridasProject
-			TridasProject myproject = reader.getProject();
+			// Extract 
+			TridasTridas container = reader.getTridasContainer();
 			
 			TridasWriter writer = new TridasWriter();
 			writer.setNamingConvention(new NumericalNamingConvention("Excel-"+filename));
 			
 			try {
-				writer.loadProject(myproject);
+				writer.load(container);
 			} catch (IncompleteTridasDataException e) {
 				fail();
 			} catch (ConversionWarningException e) {

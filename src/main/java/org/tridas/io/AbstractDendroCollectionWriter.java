@@ -45,6 +45,7 @@ import org.tridas.io.exceptions.IncorrectDefaultFieldsException;
 import org.tridas.io.naming.INamingConvention;
 import org.tridas.io.util.FileHelper;
 import org.tridas.schema.TridasProject;
+import org.tridas.schema.TridasTridas;
 
 /**
  * @author Daniel Murphy
@@ -80,15 +81,15 @@ public abstract class AbstractDendroCollectionWriter {
 	}
 	
 	/**
-	 * Loads a project to convert into a legacy format, using the default metadata set
+	 * Loads a tridas container to convert into a legacy format, using the default metadata set
 	 * 
 	 * @param argProject
 	 * @throws IncompleteTridasDataException
 	 * @throws ConversionWarningException
 	 */
-	public void loadProject(TridasProject argProject) throws IncompleteTridasDataException, ConversionWarningException {
+	public void load(TridasTridas argContainer) throws IncompleteTridasDataException, ConversionWarningException {
 		IMetadataFieldSet defaults = constructDefaultMetadata();
-		parseTridasProject(argProject, defaults);
+		parseTridasContainer(argContainer, defaults);
 	}
 	
 	/**
@@ -109,23 +110,23 @@ public abstract class AbstractDendroCollectionWriter {
 	}
 	
 	/**
-	 * Loads a project to convert into a legacy format, using the given metadata set
+	 * Loads a container to convert into a legacy format, using the given metadata set
 	 * 
-	 * @param argProject
+	 * @param argContainer
 	 * @param argDefaults
 	 * @throws IncompleteTridasDataException
 	 * @throws ConversionWarningException
 	 * @throws IncorrectDefaultFieldsException
 	 */
-	public void loadProject(TridasProject argProject, IMetadataFieldSet argDefaults)
+	public void load(TridasTridas argContainer, IMetadataFieldSet argDefaults)
 			throws IncompleteTridasDataException, ConversionWarningException, IncorrectDefaultFieldsException {
 		if(argDefaults == null){
-			loadProject(argProject);
+			load(argContainer);
 		}
 		if (!argDefaults.getClass().equals(defaultFieldsClass)) {
 			throw new IncorrectDefaultFieldsException(defaultFieldsClass);
 		}
-		parseTridasProject(argProject, argDefaults);
+		parseTridasContainer(argContainer, argDefaults);
 	}
 	
 	/**
@@ -138,6 +139,18 @@ public abstract class AbstractDendroCollectionWriter {
 	 */
 	protected abstract void parseTridasProject(TridasProject argProject, IMetadataFieldSet argDefaults)
 			throws IncompleteTridasDataException, ConversionWarningException;
+	
+	/**
+	 * Parse the TRiDaS container with the given defaults
+	 * 
+	 * @param argContainer
+	 * @param argDefaults
+	 * @throws IncompleteTridasDataException
+	 * @throws ConversionWarningException
+	 */
+	protected abstract void parseTridasContainer(TridasTridas argContainer, IMetadataFieldSet argDefaults)
+		throws IncompleteTridasDataException, ConversionWarningException;
+	
 	
 	/**
 	 * Get the list of DendroFiles that are associated

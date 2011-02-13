@@ -17,6 +17,9 @@ package org.tridas.io.formats.tridas;
 
 import java.io.StringWriter;
 import java.net.URL;
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.List;
 
 import javax.xml.XMLConstants;
 import javax.xml.bind.JAXBContext;
@@ -36,6 +39,7 @@ import org.tridas.io.exceptions.ConversionWarning;
 import org.tridas.io.exceptions.ConversionWarning.WarningType;
 import org.tridas.io.util.IOUtils;
 import org.tridas.schema.TridasProject;
+import org.tridas.schema.TridasTridas;
 import org.xml.sax.SAXException;
 
 /**
@@ -51,7 +55,7 @@ public class TridasFile implements IDendroFile {
 	
 	private final static Logger log = LoggerFactory.getLogger(TridasFile.class);
 	
-	TridasProject project;
+	private ArrayList<TridasProject> projects = new ArrayList<TridasProject>();
 	
 	private IMetadataFieldSet defaults;
 	
@@ -59,13 +63,25 @@ public class TridasFile implements IDendroFile {
 		defaults = argDefaults;
 	}
 	
-	public void setProject(TridasProject p) {
-		project = p;
+	public void addTridasProject(TridasProject p) {
+		projects.add(p);
+	}
+	
+	public void clearTridasProjects()
+	{
+		projects = new ArrayList<TridasProject>();
+	}
+	
+	public TridasTridas getTridasContainer()
+	{
+		TridasTridas container = new TridasTridas();
+		container.setProjects(projects);
+		return container;
 	}
 	
 	@Override
 	public String[] saveToString() {
-		if (project == null) {
+		if (projects == null) {
 			return null;
 		}
 		Schema schema = null;
@@ -95,7 +111,7 @@ public class TridasFile implements IDendroFile {
 			if (schema != null) {
 				m.setSchema(schema);
 			}
-			m.marshal(project, swriter);
+			m.marshal(getTridasContainer(), swriter);
 
 		} catch (Exception e) {
 			log.error("Jaxb error", e);

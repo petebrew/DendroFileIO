@@ -18,7 +18,10 @@ package org.tridas.io.formats.tridas;
 import java.io.IOException;
 import java.io.StringReader;
 import java.net.URL;
+import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.Iterator;
+import java.util.List;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
@@ -57,6 +60,7 @@ import org.tridas.io.exceptions.InvalidDendroFileException;
 import org.tridas.io.exceptions.ConversionWarning.WarningType;
 import org.tridas.io.util.IOUtils;
 import org.tridas.schema.TridasProject;
+import org.tridas.schema.TridasTridas;
 import org.w3c.dom.Document;
 import org.w3c.dom.NodeList;
 import org.xml.sax.SAXException;
@@ -73,7 +77,7 @@ public class TridasReader extends AbstractDendroFileReader {
 	
 	private static final Logger log = LoggerFactory.getLogger(TridasReader.class);
 	
-	private TridasProject project = null;
+	private List<TridasProject> projects = null;
 	private TridasMetadataFieldSet defaults = null;
 	
 	public TridasReader() {
@@ -151,7 +155,23 @@ public class TridasReader extends AbstractDendroFileReader {
 			jc = JAXBContext.newInstance("org.tridas.schema");
 			Unmarshaller u = jc.createUnmarshaller();
 			// Read the file into the project
-			project = (TridasProject) u.unmarshal(reader);
+			
+			Object root = u.unmarshal(reader);
+			
+			if(root instanceof TridasProject)
+			{
+				projects = new ArrayList<TridasProject>();
+				projects.add((TridasProject) root);
+			}
+			else if (root instanceof TridasTridas)
+			{
+				projects = ((TridasTridas) root).getProjects();
+			}
+			else
+			{
+				addWarning(new ConversionWarning(WarningType.DEFAULT, I18n.getText("fileio.loadfailed")));
+			}
+			
 		} catch (JAXBException e2) {
 			addWarning(new ConversionWarning(WarningType.DEFAULT, I18n.getText("fileio.loadfailed")));
 		}
@@ -295,15 +315,7 @@ public class TridasReader extends AbstractDendroFileReader {
 	public String[] getFileExtensions() {
 		return new String[]{"xml"};
 	}
-	
-	/**
-	 * @see org.tridas.io.IDendroFileReader#getProject()
-	 */
-	@Override
-	public TridasProject getProject() {
-		return project;
-	}
-	
+		
 	/**
 	 * @see org.tridas.io.IDendroFileReader#getDefaults()
 	 */
@@ -347,7 +359,7 @@ public class TridasReader extends AbstractDendroFileReader {
 	 */
 	@Override
 	protected void resetReader() {
-		project = null;
+		projects = null;
 		defaults = null;
 	}
 	
@@ -361,5 +373,23 @@ public class TridasReader extends AbstractDendroFileReader {
 		
 		return new DendroFileFilter(exts, getShortName());
 
+	}
+
+	/**
+	 * @see org.tridas.io.AbstractDendroFileReader#getProjects()
+	 */
+	@Override
+	public TridasProject[] getProjects() {
+		return projects.toArray(new TridasProject[0]);
+	}
+
+	/**
+	 * @see org.tridas.io.AbstractDendroFileReader#getTridasContainer()
+	 */
+	public TridasTridas getTridasContainer() {
+		TridasTridas container = new TridasTridas();
+		List<TridasProject> list = Arrays.asList(getProjects());
+		container.setProjects(list);
+		return container;
 	}
 }

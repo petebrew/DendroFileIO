@@ -27,6 +27,7 @@ import org.tridas.io.exceptions.IncorrectDefaultFieldsException;
 import org.tridas.io.exceptions.InvalidDendroFileException;
 import org.tridas.io.util.FileHelper;
 import org.tridas.schema.TridasProject;
+import org.tridas.schema.TridasTridas;
 
 
 public abstract class AbstractDendroFileReader {
@@ -336,10 +337,12 @@ public abstract class AbstractDendroFileReader {
 	public abstract IMetadataFieldSet getDefaults();
 	
 	/**
-	 * Gets the parsed project after it's loaded.
+	 * Gets the parsed projects after they are loaded.
 	 */
-	public abstract TridasProject getProject();
+	public abstract TridasProject[] getProjects();
 	
+	
+	public abstract TridasTridas getTridasContainer();
 
 	public abstract DendroFileFilter getDendroFileFilter();
 }

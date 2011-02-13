@@ -32,6 +32,7 @@ import org.tridas.schema.TridasObject;
 import org.tridas.schema.TridasProject;
 import org.tridas.schema.TridasRadius;
 import org.tridas.schema.TridasSample;
+import org.tridas.schema.TridasTridas;
 
 /**
  * Writer for the TRiDaS file format. This is little more than a
@@ -63,7 +64,7 @@ public class TridasWriter extends AbstractDendroCollectionWriter {
 		
 		TridasFile file = new TridasFile(argDefaults);
 		
-		file.setProject(p);
+		file.addTridasProject(p);
 		TridasProject project = p;
 		TridasObject object = null;
 		TridasElement element = null;
@@ -142,5 +143,19 @@ public class TridasWriter extends AbstractDendroCollectionWriter {
 	@Override
 	public String getShortName() {
 		return I18n.getText("tridas.about.shortName");
+	}
+	
+	/**
+	 * @see org.tridas.io.IDendroCollectionWriter#parseTridasContainer()
+	 */
+	@Override
+	protected void parseTridasContainer(TridasTridas argContainer,
+			IMetadataFieldSet argDefaults)
+			throws IncompleteTridasDataException, ConversionWarningException {
+	
+		for(TridasProject project : argContainer.getProjects())
+		{
+			parseTridasProject(project, argDefaults);
+		}	
 	}
 }

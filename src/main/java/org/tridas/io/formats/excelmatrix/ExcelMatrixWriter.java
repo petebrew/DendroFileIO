@@ -37,6 +37,7 @@ import org.tridas.io.util.TridasUtils;
 import org.tridas.schema.TridasDerivedSeries;
 import org.tridas.schema.TridasMeasurementSeries;
 import org.tridas.schema.TridasProject;
+import org.tridas.schema.TridasTridas;
 
 public class ExcelMatrixWriter extends AbstractDendroCollectionWriter {
 	private static final Logger log = LoggerFactory.getLogger(ExcelMatrixWriter.class);
@@ -137,5 +138,19 @@ public class ExcelMatrixWriter extends AbstractDendroCollectionWriter {
 		} catch (IOException e) {
 			log.error("Error saving file to disk", e);
 		}
+	}
+	
+	/**
+	 * @see org.tridas.io.IDendroCollectionWriter#parseTridasContainer()
+	 */
+	@Override
+	protected void parseTridasContainer(TridasTridas argContainer,
+			IMetadataFieldSet argDefaults)
+			throws IncompleteTridasDataException, ConversionWarningException {
+	
+		for(TridasProject project : argContainer.getProjects())
+		{
+			parseTridasProject(project, argDefaults);
+		}	
 	}
 }

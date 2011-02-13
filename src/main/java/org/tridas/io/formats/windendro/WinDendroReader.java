@@ -16,6 +16,8 @@
 package org.tridas.io.formats.windendro;
 
 import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.List;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -36,6 +38,7 @@ import org.tridas.schema.TridasObject;
 import org.tridas.schema.TridasProject;
 import org.tridas.schema.TridasRadius;
 import org.tridas.schema.TridasSample;
+import org.tridas.schema.TridasTridas;
 import org.tridas.schema.TridasValue;
 import org.tridas.schema.TridasValues;
 
@@ -76,8 +79,7 @@ public class WinDendroReader extends AbstractDendroFileReader {
 		return I18n.getText("windendro.about.fullName");
 	}
 
-	@Override
-	public TridasProject getProject() {
+	private TridasProject getProject() {
 		TridasProject project = defaults.getProjectWithDefaults(false);
 		ArrayList<TridasObject> olist = new ArrayList<TridasObject>();
 		
@@ -449,5 +451,25 @@ public class WinDendroReader extends AbstractDendroFileReader {
 		
 		return new DendroFileFilter(exts, getShortName());
 
+	}
+	
+	/**
+	 * @see org.tridas.io.AbstractDendroFileReader#getProjects()
+	 */
+	@Override
+	public TridasProject[] getProjects() {
+		TridasProject projects[] = new TridasProject[1];
+		projects[0] = this.getProject();
+		return projects;
+	}
+
+	/**
+	 * @see org.tridas.io.AbstractDendroFileReader#getTridasContainer()
+	 */
+	public TridasTridas getTridasContainer() {
+		TridasTridas container = new TridasTridas();
+		List<TridasProject> list = Arrays.asList(getProjects());
+		container.setProjects(list);
+		return container;
 	}
 }
