@@ -30,6 +30,7 @@ import org.tridas.io.exceptions.ConversionWarning;
 import org.tridas.io.exceptions.IncorrectDefaultFieldsException;
 import org.tridas.io.exceptions.InvalidDendroFileException;
 import org.tridas.io.exceptions.ConversionWarning.WarningType;
+import org.tridas.io.exceptions.InvalidDendroFileException.PointerType;
 import org.tridas.io.formats.catras.CatrasToTridasDefaults.DefaultFields;
 import org.tridas.io.util.DateUtils;
 import org.tridas.io.util.FileHelper;
@@ -114,10 +115,28 @@ public class CatrasReader extends AbstractDendroFileReader {
 	
 		// Check there are at least 128 bytes
 		if (argFileBytes == null) {
-			throw new InvalidDendroFileException(I18n.getText("fileio.tooShort"), 1);
+			throw new InvalidDendroFileException(I18n.getText("fileio.tooShort"), 
+					1, PointerType.BYTE );
 		}
 		else if (argFileBytes.length < 128) {
-			throw new InvalidDendroFileException(I18n.getText("fileio.tooShort"), 1);
+			throw new InvalidDendroFileException(I18n.getText("fileio.tooShort"), 
+					argFileBytes.length, PointerType.BYTE );
+		}
+		
+		// Count number of new line characters in file
+		byte[] newline = System.getProperty("line.separator").getBytes();
+		System.out.println("Checking that file is CATRAS format...");
+		int n = 0;
+		int count = 0;
+		for(byte b : argFileBytes)
+		{
+			n++;
+			if (b== System.getProperty("line.separator").getBytes()[0])	count++;
+		}
+		if(count > 5)
+		{
+			log.debug("File contains "+ count + " newline chars");
+			throw new InvalidDendroFileException("Too many new line characters in file to be binary" );
 		}
 	}
 	
@@ -132,10 +151,11 @@ public class CatrasReader extends AbstractDendroFileReader {
 		
 		checkFile(argFileBytes);
 		
+		/**  Print debug info */
+		//this.debugAsIntSingleByte(0, 128, argFileBytes);
+		//this.debugAsIntBytePairs(0, 128, argFileBytes);
+		//this.debugAsStringBytePairs(0, 128, argFileBytes);
 		
-		this.debugAsIntSingleByte(0, 128, argFileBytes);
-		this.debugAsIntBytePairs(0, 128, argFileBytes);
-		this.debugAsStringBytePairs(0, 128, argFileBytes);
 		
 		// Series Title - bytes 1-32
 		defaults.getStringDefaultValue(DefaultFields.SERIES_NAME)
@@ -263,7 +283,7 @@ public class CatrasReader extends AbstractDendroFileReader {
 				}
 				else {
 					sampleDepthValues.add(valueFromFile);
-					log.debug("sample depth as int = " + String.valueOf(getIntFromBytePairByPos(theData, i)));
+					//log.debug("sample depth as int = " + String.valueOf(getIntFromBytePairByPos(theData, i)));
 				}
 			}
 			else if (valueFromFile == -1)
@@ -280,7 +300,7 @@ public class CatrasReader extends AbstractDendroFileReader {
 			else {
 				// Handle normal ring width values
 				ringWidthValues.add(valueFromFile);
-				log.debug("value = " + String.valueOf(valueFromFile));
+				//log.debug("value = " + String.valueOf(valueFromFile));
 			}
 		}
 		

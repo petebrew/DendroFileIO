@@ -92,7 +92,7 @@ public class TestFromTridas extends TestCase {
 				continue;
 			}
 			
-			// Extract the TridasProject
+			// Extract container
 			container = reader.getTridasContainer();
 			
 			// Create a new converter based on a TridasProject
