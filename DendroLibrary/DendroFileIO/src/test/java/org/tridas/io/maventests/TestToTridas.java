@@ -183,7 +183,7 @@ public class TestToTridas extends TestCase {
 		}
 		
 		for (String filename : files) {
-			if(!filename.equals("AKK00010.CAT")) continue;
+			//if(!filename.equals("AKK00010.CAT")) continue;
 			log.info("Test conversion of: " + filename);
 			
 			// Create a new converter

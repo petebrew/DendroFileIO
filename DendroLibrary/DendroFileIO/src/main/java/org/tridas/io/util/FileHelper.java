@@ -401,4 +401,19 @@ public class FileHelper {
 	public File saveFile(String where) {
 		return new File(savePath(where));
 	}
+	
+	
+	/**
+	 * Determine whether a file contains non-printable characters,
+	 * suggesting that its a binary file.
+	 * 
+	 * @param argLines
+	 * @return
+	 */
+	public static Boolean isBinary(String[] argLines)
+	{
+		
+		return false;
+	}
+	
 }
