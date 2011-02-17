@@ -130,6 +130,65 @@ public abstract class AbstractDendroCollectionWriter {
 	}
 	
 	/**
+	 * Loads a TRiDaS project to convert into a legacy format, using the given metadata set
+	 * 
+	 * @param argProject
+	 * @param argDefaults
+	 * @throws IncompleteTridasDataException
+	 * @throws ConversionWarningException
+	 * @throws IncorrectDefaultFieldsException
+	 */
+	public void load(TridasProject argProject, IMetadataFieldSet argDefaults)
+			throws IncompleteTridasDataException, ConversionWarningException, IncorrectDefaultFieldsException {
+		if(argDefaults == null){
+			load(argProject);
+		}
+		if (!argDefaults.getClass().equals(defaultFieldsClass)) {
+			throw new IncorrectDefaultFieldsException(defaultFieldsClass);
+		}
+		parseTridasProject(argProject, argDefaults);
+	}
+	
+	/**
+	 * Synonym for load(TridasProject argProject, IMetadataFieldSet argDefaults)
+	 * 
+	 * 
+	 * @param argProject
+	 * @param argDefaults
+	 * @throws IncompleteTridasDataException
+	 * @throws ConversionWarningException
+	 * @throws IncorrectDefaultFieldsException
+	 */
+	public void loadProject(TridasProject argProject, IMetadataFieldSet argDefaults)
+	throws IncompleteTridasDataException, ConversionWarningException, IncorrectDefaultFieldsException {
+	}
+	
+	
+	/**
+	 * Loads a TRiDaS project to convert into a legacy format, using the default metadata set
+	 * 
+	 * @param argProject
+	 * @throws IncompleteTridasDataException
+	 * @throws ConversionWarningException
+	 */
+	public void load(TridasProject argProject) throws IncompleteTridasDataException, ConversionWarningException {
+		IMetadataFieldSet defaults = constructDefaultMetadata();
+		parseTridasProject(argProject, defaults);
+	}
+	
+	/**
+	 * Synonym for load(TridasProject)
+	 * 
+	 * @param argProject
+	 * @throws IncompleteTridasDataException
+	 * @throws ConversionWarningException
+	 */
+	public void loadProject(TridasProject argProject) throws IncompleteTridasDataException, ConversionWarningException {
+		load(argProject);
+	}
+	
+	
+	/**
 	 * Parse the project with the given defaults
 	 * 
 	 * @param argProject
@@ -148,9 +207,15 @@ public abstract class AbstractDendroCollectionWriter {
 	 * @throws IncompleteTridasDataException
 	 * @throws ConversionWarningException
 	 */
-	protected abstract void parseTridasContainer(TridasTridas argContainer, IMetadataFieldSet argDefaults)
-		throws IncompleteTridasDataException, ConversionWarningException;
+	protected void parseTridasContainer(TridasTridas argContainer,
+			IMetadataFieldSet argDefaults)
+			throws IncompleteTridasDataException, ConversionWarningException {
 	
+		for(TridasProject project : argContainer.getProjects())
+		{
+			parseTridasProject(project, argDefaults);
+		}	
+	}
 	
 	/**
 	 * Get the list of DendroFiles that are associated
