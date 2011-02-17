@@ -382,18 +382,4 @@ public class Past4Writer extends AbstractDendroCollectionWriter {
 		
 		return record;
 	}
-	
-	/**
-	 * @see org.tridas.io.IDendroCollectionWriter#parseTridasContainer()
-	 */
-	@Override
-	protected void parseTridasContainer(TridasTridas argContainer,
-			IMetadataFieldSet argDefaults)
-			throws IncompleteTridasDataException, ConversionWarningException {
-	
-		for(TridasProject project : argContainer.getProjects())
-		{
-			parseTridasProject(project, argDefaults);
-		}	
-	}
 }

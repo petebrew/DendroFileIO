@@ -314,18 +314,4 @@ public class TucsonWriter extends AbstractDendroCollectionWriter {
 	public String getShortName() {
 		return I18n.getText("tucson.about.shortName");
 	}
-	
-	/**
-	 * @see org.tridas.io.IDendroCollectionWriter#parseTridasContainer()
-	 */
-	@Override
-	protected void parseTridasContainer(TridasTridas argContainer,
-			IMetadataFieldSet argDefaults)
-			throws IncompleteTridasDataException, ConversionWarningException {
-	
-		for(TridasProject project : argContainer.getProjects())
-		{
-			parseTridasProject(project, argDefaults);
-		}	
-	}
 }

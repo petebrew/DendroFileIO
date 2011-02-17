@@ -44,29 +44,13 @@ public class BelfastAppleWriter extends AbstractDendroCollectionWriter {
 	public BelfastAppleWriter() {
 		super(TridasToBelfastAppleDefaults.class);
 	}
-	
-	/**
-	 * @see org.tridas.io.IDendroCollectionWriter#parseTridasContainer()
-	 */
-	@Override
-	protected void parseTridasContainer(TridasTridas argContainer,
-			IMetadataFieldSet argDefaults)
-			throws IncompleteTridasDataException, ConversionWarningException {
-	
-		for(TridasProject project : argContainer.getProjects())
-		{
-			parseTridasProject(project, argDefaults);
-		}	
-	}
-	
+		
 	@Override
 	protected void parseTridasProject(TridasProject argProject, IMetadataFieldSet argDefaults)
 			throws IncompleteTridasDataException, ConversionWarningException {
 		defaults = argDefaults;
 		String objecttitle = "";
 		String sampletitle = "";
-		
-		ArrayList<ITridasSeries> seriesList = new ArrayList<ITridasSeries>();
 		
 		// Grab all derivedSeries from project
 		try {

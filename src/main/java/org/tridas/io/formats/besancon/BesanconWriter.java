@@ -235,24 +235,6 @@ public class BesanconWriter extends AbstractDendroCollectionWriter {
 				// Add file to list
 				addToFileList(file);
 			}
-			
 		}
-		
 	}
-
-	/**
-	 * @see org.tridas.io.IDendroCollectionWriter#parseTridasContainer()
-	 */
-	@Override
-	protected void parseTridasContainer(TridasTridas argContainer,
-			IMetadataFieldSet argDefaults)
-			throws IncompleteTridasDataException, ConversionWarningException {
-	
-		for(TridasProject project : argContainer.getProjects())
-		{
-			parseTridasProject(project, argDefaults);
-		}	
-	}
-
-
 }

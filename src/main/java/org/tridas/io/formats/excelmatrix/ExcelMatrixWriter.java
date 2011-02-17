@@ -139,18 +139,4 @@ public class ExcelMatrixWriter extends AbstractDendroCollectionWriter {
 			log.error("Error saving file to disk", e);
 		}
 	}
-	
-	/**
-	 * @see org.tridas.io.IDendroCollectionWriter#parseTridasContainer()
-	 */
-	@Override
-	protected void parseTridasContainer(TridasTridas argContainer,
-			IMetadataFieldSet argDefaults)
-			throws IncompleteTridasDataException, ConversionWarningException {
-	
-		for(TridasProject project : argContainer.getProjects())
-		{
-			parseTridasProject(project, argDefaults);
-		}	
-	}
 }
