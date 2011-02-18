@@ -124,7 +124,13 @@ public class OxfordWriter extends AbstractDendroCollectionWriter {
 							TridasToOxfordDefaults msDefaults = (TridasToOxfordDefaults) radiusDefaults
 									.clone();
 														
-							msDefaults.populateFromTridasSeries(ms);		
+							try{
+								msDefaults.populateFromTridasSeries(ms);		
+							} catch (ConversionWarningException ex)
+							{
+								addWarning(ex.getWarning());
+								continue;
+							}
 							
 							try{
 								OxfordFile file = createFileForValuesGroup(ms, msDefaults);
@@ -143,7 +149,13 @@ public class OxfordWriter extends AbstractDendroCollectionWriter {
 			TridasToOxfordDefaults dsDefaults = (TridasToOxfordDefaults) argDefaults
 					.clone();
 										
-			dsDefaults.populateFromTridasSeries(ds);		
+			try{
+				dsDefaults.populateFromTridasSeries(ds);		
+			} catch (ConversionWarningException ex)
+			{
+				addWarning(ex.getWarning());
+				continue;
+			}
 			
 			try{
 				OxfordFile file = createFileForValuesGroup(ds, dsDefaults);

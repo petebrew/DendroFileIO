@@ -25,6 +25,9 @@ import org.tridas.io.defaults.AbstractMetadataFieldSet;
 import org.tridas.io.defaults.IMetadataFieldSet;
 import org.tridas.io.defaults.values.IntegerDefaultValue;
 import org.tridas.io.defaults.values.StringDefaultValue;
+import org.tridas.io.exceptions.ConversionWarning;
+import org.tridas.io.exceptions.ConversionWarningException;
+import org.tridas.io.exceptions.ConversionWarning.WarningType;
 import org.tridas.io.formats.oxford.OxfordToTridasDefaults.OxDefaultFields;
 import org.tridas.io.util.SafeIntYear;
 import org.tridas.schema.TridasElement;
@@ -88,7 +91,7 @@ public class TridasToOxfordDefaults extends AbstractMetadataFieldSet implements
 		
 	}
 	
-	public void populateFromTridasSeries(ITridasSeries argSeries)
+	public void populateFromTridasSeries(ITridasSeries argSeries) throws ConversionWarningException
 	{
 		getStringDefaultValue(OxDefaultFields.SERIESCODE).setValue(argSeries.getTitle());
 		
@@ -97,12 +100,24 @@ public class TridasToOxfordDefaults extends AbstractMetadataFieldSet implements
 			if(argSeries.getInterpretation().isSetFirstYear())
 			{
 				SafeIntYear firstYear = new SafeIntYear(argSeries.getInterpretation().getFirstYear());
+				
+				if(firstYear.compareTo(new SafeIntYear(1))<0)
+				{
+					throw new ConversionWarningException(new ConversionWarning(WarningType.UNREPRESENTABLE,
+							I18n.getText("oxford.noBCDates")));
+				}
 				getIntegerDefaultValue(OxDefaultFields.FIRSTYEAR).setValue(Integer.parseInt(firstYear.toString()));
 				getIntegerDefaultValue(OxDefaultFields.STARTYEAR).setValue(Integer.parseInt(firstYear.toString()));
 			}
 			if(argSeries.getInterpretation().isSetLastYear())
 			{
 				SafeIntYear lastYear = new SafeIntYear(argSeries.getInterpretation().getLastYear());
+
+				if(lastYear.compareTo(new SafeIntYear(getCurrentYear()))>0)
+				{
+					throw new ConversionWarningException(new ConversionWarning(WarningType.UNREPRESENTABLE,
+							I18n.getText("oxford.noFutureDates")));
+				}
 				getIntegerDefaultValue(OxDefaultFields.LASTYEAR).setValue(Integer.parseInt(lastYear.toString()));
 			}
 		}
