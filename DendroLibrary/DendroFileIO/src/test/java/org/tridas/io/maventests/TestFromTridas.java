@@ -33,6 +33,7 @@ import org.tridas.io.formats.csv.CSVWriter;
 import org.tridas.io.formats.excelmatrix.ExcelMatrixWriter;
 import org.tridas.io.formats.heidelberg.HeidelbergWriter;
 import org.tridas.io.formats.nottingham.NottinghamWriter;
+import org.tridas.io.formats.oxford.OxfordWriter;
 import org.tridas.io.formats.past4.Past4Writer;
 import org.tridas.io.formats.sheffield.SheffieldWriter;
 import org.tridas.io.formats.topham.TophamWriter;
@@ -467,6 +468,52 @@ public class TestFromTridas extends TestCase {
 		}
 	}
 	
+	public void testTridasToOxford() {
+		String folder = "TestData/TRiDaS";
+		String[] files = getFilesFromFolder(folder);
+		
+		if (files.length == 0) {
+			fail();
+		}
+		
+		for (String filename : files) {
+				
+			if(!filename.equals("Utrecht.xml")) continue;
+			log.info("Test conversion of: " + filename);
+			
+			TridasTridas container = null;
+			
+			TridasReader reader = new TridasReader();
+			try {
+				reader.loadFile(folder, filename);
+			} catch (IOException e) {
+				log.info(e.getLocalizedMessage());
+				fail();
+			} catch (InvalidDendroFileException e) {
+				e.printStackTrace();
+				fail();
+			}
+			
+			// Extract the TridasProject
+			container = reader.getTridasContainer();
+			
+			// Create a new converter based on a TridasProject
+			OxfordWriter writer = new OxfordWriter();
+			writer.setNamingConvention(new NumericalNamingConvention());
+			try {
+				writer.load(container);
+			} catch (IncompleteTridasDataException e) {
+				e.printStackTrace();
+				fail();
+			} catch (ConversionWarningException e) {
+				e.printStackTrace();
+				fail();
+			} 
+			
+			// Actually save file(s) to disk
+			writer.saveAllToDisk(outputLocation);
+		}
+	}
 	
 	public void testTridasToTucsonCompact() {
 		String folder = "TestData/TRiDaS";

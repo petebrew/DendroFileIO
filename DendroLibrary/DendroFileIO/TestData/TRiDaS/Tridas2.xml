@@ -214,9 +214,9 @@
 							<values>
 								<variable>total ring width</variable>
 								<unit normalTridas="micrometres"/>
-								<value value="98"/>
-								<value value="98"/>
-								<value value="91"/>
+								<value value="94"/>
+								<value value="32"/>
+								<value value="54"/>
 							</values>
 						</measurementSeries>
 					</radius>
