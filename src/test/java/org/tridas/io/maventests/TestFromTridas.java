@@ -657,7 +657,7 @@ public class TestFromTridas extends TestCase {
 		
 		for (String filename : files) {
 				
-			//if(!filename.equals("TridasMultiVars.xml")) continue;
+			if(!filename.equals("othervar.xml")) continue;
 			log.info("Test conversion of: " + filename);
 			
 			TridasTridas container = null;
@@ -684,6 +684,7 @@ public class TestFromTridas extends TestCase {
 			} catch (IncompleteTridasDataException e) {
 				e.printStackTrace();
 			} catch (ConversionWarningException e) {
+				e.printStackTrace();
 			} 
 			
 			// Actually save file(s) to disk

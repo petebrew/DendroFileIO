@@ -180,8 +180,10 @@ public class OxfordWriter extends AbstractDendroCollectionWriter {
 					if(!valuesGroup.getVariable().getNormalTridas().equals(NormalTridasVariable.RING_WIDTH))
 					{
 						addWarning(new ConversionWarning(WarningType.UNREPRESENTABLE, 
-										I18n.getText("oxford.ringWidthsOnly")));
+								I18n.getText("fileio.unsupportedVariable", 
+										valuesGroup.getVariable().getNormalTridas().value())));
 						continue;
+						
 					}
 				}
 				else
