@@ -36,6 +36,7 @@ import org.tridas.io.formats.corina.CorinaReader;
 import org.tridas.io.formats.excelmatrix.ExcelMatrixReader;
 import org.tridas.io.formats.heidelberg.HeidelbergReader;
 import org.tridas.io.formats.nottingham.NottinghamReader;
+import org.tridas.io.formats.oxford.OxfordReader;
 import org.tridas.io.formats.past4.Past4Reader;
 import org.tridas.io.formats.past4.Past4ToTridasDefaults;
 import org.tridas.io.formats.sheffield.SheffieldReader;
@@ -686,6 +687,54 @@ public class TestToTridas extends TestCase {
 			
 			TridasWriter writer = new TridasWriter();
 			NumericalNamingConvention nc = new NumericalNamingConvention("Nottingham-"+filename);
+			writer.setNamingConvention(nc);
+			
+			try {
+				writer.load(container, new TridasMetadataFieldSet());
+			} catch (IncompleteTridasDataException e) {
+				fail();
+			} catch (ConversionWarningException e) {} catch (IncorrectDefaultFieldsException e) {
+				fail();
+			} 
+			writer.saveAllToDisk(outputLocation);
+			
+		}
+		
+	}
+	
+	public void testOxfordToTridas() {
+		String folder = "TestData/Oxford";
+		String[] files = getFilesFromFolder(folder);
+		
+		if (files.length == 0) {
+			fail();
+		}
+		
+		for (String filename : files) {
+			//if (!filename.equals("denh2-1.dan")) continue;
+			log.info("Test conversion of: " + filename);
+			
+			// Create a new converter
+			OxfordReader reader = new OxfordReader();
+			
+			// Parse the legacy data file
+			try {
+				reader.loadFile(folder, filename);
+			} catch (IOException e) {
+				// Standard IO Exception
+				log.info(e.getLocalizedMessage());
+				return;
+			} catch (InvalidDendroFileException e) {
+				// Fatal error interpreting file
+				log.info(e.getLocalizedMessage());
+				return;
+			}
+			
+			// Extract the TridasProject
+			TridasTridas container = reader.getTridasContainer();
+			
+			TridasWriter writer = new TridasWriter();
+			NumericalNamingConvention nc = new NumericalNamingConvention("Oxford-"+filename);
 			writer.setNamingConvention(nc);
 			
 			try {

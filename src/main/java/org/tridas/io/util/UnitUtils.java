@@ -374,4 +374,33 @@ public class UnitUtils {
 		
 		return tv;
 	}
+	
+	public static TridasValues convertTridasValuesWithMaxDigits(NormalTridasUnit outputunits, TridasValues tv, 
+			Boolean outputAsIntegers, Integer maxDigits) 
+	throws NumberFormatException, ConversionWarningException
+	{
+		TridasValues values = convertTridasValues(outputunits, tv, outputAsIntegers);
+		
+		if(!checkValuesFitInFields(values, maxDigits))
+		{
+			throw new ConversionWarningException(new ConversionWarning(WarningType.UNREPRESENTABLE,
+					I18n.getText("oxford.valueTooLarge")));
+		}
+
+		return values;
+	}
+	
+	public static Boolean checkValuesFitInFields(TridasValues tv, Integer maxDigits)
+	{
+		for (TridasValue val : tv.getValues())
+		{
+			if(val.getValue().toString().length()>maxDigits)
+			{
+				return false;
+			}
+		}
+		
+		return true;
+	}
+	
 }
