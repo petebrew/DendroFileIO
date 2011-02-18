@@ -288,7 +288,10 @@ public class VFormatWriter extends AbstractDendroCollectionWriter {
 			
 		}
 		
-		// Add file to list
-		addToFileList(file);
+		// Add file to list, but only if it has series in it!
+		if(file.getSeries()!=null)
+		{
+			addToFileList(file);
+		}
 	}
 }
