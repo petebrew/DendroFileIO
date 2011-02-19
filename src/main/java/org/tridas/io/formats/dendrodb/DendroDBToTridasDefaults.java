@@ -176,19 +176,36 @@ public class DendroDBToTridasDefaults extends TridasMetadataFieldSet implements
 		
 		TridasValues valuesGroup = new TridasValues();
 		
-		TridasUnit unit = new TridasUnit();
-		unit.setNormalTridas(NormalTridasUnit.MICROMETRES);
-		valuesGroup.setUnit(unit);
-
 		if(getDefaultValue(DDBDefaultFields.PARAMETER).getValue()!=null)
 		{
 			GenericDefaultValue<DendroDBParameter> dateTypeField = (GenericDefaultValue<DendroDBParameter>) getDefaultValue(DDBDefaultFields.PARAMETER);
 			TridasVariable var = dateTypeField.getValue().toTridasVariable();
 			
 			valuesGroup.setVariable(var);
+			
+			TridasUnit unit = new TridasUnit();
+			if(dateTypeField.getValue().toString().toLowerCase().contains("density"))
+			{
+				unit.setValue("Unknown");
+			}
+			else if(dateTypeField.getValue().toString().toLowerCase().contains("width"))
+			{
+				unit.setNormalTridas(NormalTridasUnit.MICROMETRES);
+			}
+			else
+			{
+				unit.setValue("Unknown");
+			}
+
+			valuesGroup.setUnit(unit);
 		}
 		else
 		{
+			
+			TridasUnit unit = new TridasUnit();
+			unit.setValue("Unknown");
+			valuesGroup.setUnit(unit);
+			
 			TridasVariable var = new TridasVariable();
 			var.setValue("Unknown");
 			valuesGroup.setVariable(var);
