@@ -60,6 +60,7 @@ import org.tridas.io.formats.past4.Past4Reader;
 import org.tridas.io.formats.past4.Past4Writer;
 import org.tridas.io.formats.corina.CorinaWriter;
 import org.tridas.io.formats.corina.CorinaReader;
+import org.tridas.io.formats.dendrodb.DendroDBReader;
 
 
 
@@ -89,6 +90,7 @@ public class TridasIO {
 		registerFileReader(BesanconReader.class);
 		registerFileReader(CatrasReader.class);
 		registerFileReader(CorinaReader.class);
+		registerFileReader(DendroDBReader.class);
 		registerFileReader(ExcelMatrixReader.class);
 		registerFileReader(HeidelbergReader.class);
 		registerFileReader(NottinghamReader.class);

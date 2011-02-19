@@ -33,6 +33,7 @@ import org.tridas.io.formats.belfastarchive.BelfastArchiveReader;
 import org.tridas.io.formats.besancon.BesanconReader;
 import org.tridas.io.formats.catras.CatrasReader;
 import org.tridas.io.formats.corina.CorinaReader;
+import org.tridas.io.formats.dendrodb.DendroDBReader;
 import org.tridas.io.formats.excelmatrix.ExcelMatrixReader;
 import org.tridas.io.formats.heidelberg.HeidelbergReader;
 import org.tridas.io.formats.nottingham.NottinghamReader;
@@ -211,6 +212,54 @@ public class TestToTridas extends TestCase {
 			
 			TridasWriter writer = new TridasWriter();
 			writer.setNamingConvention(new NumericalNamingConvention("Catras-"+filename));
+			
+			try {
+				writer.load(container);
+			} catch (IncompleteTridasDataException e) {
+				fail();
+			} catch (ConversionWarningException e) {
+			} 
+			writer.saveAllToDisk(outputLocation);
+			
+		}
+	}
+	
+	public void testDendroDBToTridas() {
+		String folder = "TestData/DendroDB";
+		String[] files = getFilesFromFolder(folder);
+		
+		if (files.length == 0) {
+			fail();
+		}
+		
+		for (String filename : files) {
+			if(!filename.equals("0567_25278.dat")) continue;
+			log.info("Test conversion of: " + filename);
+			
+			// Create a new converter
+			DendroDBReader reader = new DendroDBReader();
+			
+			// Parse the legacy data file
+			try {
+				// TridasEntitiesFromDefaults def = new TridasEntitiesFromDefaults();
+				reader.loadFile(folder, filename);
+			} catch (IOException e) {
+				// Standard IO Exception
+				log.info(e.getLocalizedMessage());
+				fail();
+				return;
+			} catch (InvalidDendroFileException e) {
+				// Fatal error interpreting file
+				log.info(e.getLocalizedMessage());
+				fail();
+				return;
+			}
+			
+			// Extract the TridasProject
+			TridasTridas container = reader.getTridasContainer();
+			
+			TridasWriter writer = new TridasWriter();
+			writer.setNamingConvention(new NumericalNamingConvention("DendroDB-"+filename));
 			
 			try {
 				writer.load(container);
