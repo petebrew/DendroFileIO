@@ -280,7 +280,7 @@ public class TucsonFile implements IDendroFile {
 		}
 
 		yearMarker = StringUtils.leftPad(yearMarker, 4);
-		code = StringUtils.rightPad(code, colWidth).substring(0,6);
+		code = StringUtils.rightPad(code, colWidth).substring(0,8);
 		string.append(code + yearMarker);
 	}
 	
