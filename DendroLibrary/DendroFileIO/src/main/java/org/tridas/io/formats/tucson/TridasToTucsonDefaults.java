@@ -54,8 +54,7 @@ public class TridasToTucsonDefaults extends AbstractMetadataFieldSet {
 	 */
 	@Override
 	protected void initDefaultValues() {
-		setDefaultValue(TucsonField.SITE_CODE, new StringDefaultValue(UUID.randomUUID().toString().substring(0, 6), 6,
-				6));
+		setDefaultValue(TucsonField.SITE_CODE, new StringDefaultValue(UUID.randomUUID().toString().substring(0, 8), 8, 8));
 		setDefaultValue(TucsonField.SITE_NAME, new StringDefaultValue(I18n.getText("unnamed.object"), 52, 52));
 		setDefaultValue(TucsonField.SPECIES_CODE, new StringDefaultValue("UNKN", 4, 4));
 		setDefaultValue(TucsonField.SPECIES_NAME, new StringDefaultValue("Plantae", 18, 18));
