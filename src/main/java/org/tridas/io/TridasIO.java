@@ -54,6 +54,8 @@ import org.tridas.io.formats.topham.TophamReader;
 import org.tridas.io.formats.topham.TophamWriter;
 import org.tridas.io.formats.nottingham.NottinghamReader;
 import org.tridas.io.formats.nottingham.NottinghamWriter;
+import org.tridas.io.formats.odfmatrix.ODFMatrixReader;
+import org.tridas.io.formats.odfmatrix.ODFMatrixWriter;
 import org.tridas.io.formats.oxford.OxfordReader;
 import org.tridas.io.formats.oxford.OxfordWriter;
 import org.tridas.io.formats.past4.Past4Reader;
@@ -94,6 +96,7 @@ public class TridasIO {
 		registerFileReader(ExcelMatrixReader.class);
 		registerFileReader(HeidelbergReader.class);
 		registerFileReader(NottinghamReader.class);
+		registerFileReader(ODFMatrixReader.class);
 		registerFileReader(OxfordReader.class);
 		registerFileReader(Past4Reader.class);
 		registerFileReader(SheffieldReader.class);
@@ -112,6 +115,7 @@ public class TridasIO {
 		registerFileWriter(ExcelMatrixWriter.class);
 		registerFileWriter(HeidelbergWriter.class);
 		registerFileWriter(NottinghamWriter.class);
+		registerFileWriter(ODFMatrixWriter.class);
 		registerFileWriter(OxfordWriter.class);
 		registerFileWriter(SheffieldWriter.class);
 		registerFileWriter(TophamWriter.class);

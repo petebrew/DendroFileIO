@@ -28,6 +28,9 @@ import jxl.Sheet;
 import jxl.Workbook;
 import jxl.read.biff.BiffException;
 
+import org.odftoolkit.odfdom.doc.OdfSpreadsheetDocument;
+import org.odftoolkit.odfdom.doc.table.OdfTable;
+import org.odftoolkit.odfdom.doc.table.OdfTableColumn;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.tridas.io.AbstractDendroFileReader;
@@ -60,9 +63,9 @@ public class ODFMatrixReader extends AbstractDendroFileReader {
 
 	private static final Logger log = LoggerFactory.getLogger(ODFMatrixReader.class);
 	private ODFMatrixToTridasDefaults defaults;
-	private Sheet sheet;
+	private OdfTable sheet;
 	private Cell[] yearCol;
-	private ArrayList<ExcelDendroSeries> series = new ArrayList<ExcelDendroSeries>();
+	private ArrayList<ODFDendroSeries> series = new ArrayList<ODFDendroSeries>();
 	
 	public ODFMatrixReader()
 	{
@@ -126,10 +129,10 @@ public class ODFMatrixReader extends AbstractDendroFileReader {
 		File file = new File(argFilename);
 		
 		try {
-			Workbook wb = Workbook.getWorkbook(file);
-			parseFile(wb);
-		} catch (BiffException e) {
-			throw new InvalidDendroFileException(e.getMessage());
+			OdfSpreadsheetDocument doc = OdfSpreadsheetDocument.loadDocument(file);
+			parseFile(doc);
+		} catch (Exception e) {
+			throw new InvalidDendroFileException(e.getLocalizedMessage());
 		}
 
 	}
@@ -143,42 +146,49 @@ public class ODFMatrixReader extends AbstractDendroFileReader {
 		File file = new File(argPath + File.separatorChar + argFilename);
 		
 		try {
-			Workbook wb = Workbook.getWorkbook(file);
-			parseFile(wb);
-		} catch (BiffException e) {
-			throw new InvalidDendroFileException(e.getMessage());
+			OdfSpreadsheetDocument doc = OdfSpreadsheetDocument.loadDocument(file);
+			parseFile(doc);
+		} catch (Exception e) {
+			throw new InvalidDendroFileException(e.getLocalizedMessage());
 		}
 
 	}
 		
 	/**
-	 * Check this is a valid Excel file
+	 * Check this is a valid ODF file
 	 * 
 	 * @param argFileBytes
 	 * @throws InvalidDendroFileException
 	 */
-	protected void parseFile(Workbook wb) throws InvalidDendroFileException{
+	protected void parseFile(OdfSpreadsheetDocument doc) throws InvalidDendroFileException{
 	
-		if(wb==null) throw new InvalidDendroFileException(I18n.getText("excelmatrix.workbookError"));
+		if(doc==null) throw new InvalidDendroFileException(I18n.getText("excelmatrix.workbookError"));
 		
-		if(wb.getSheets().length>1)
+		if(doc.getTableList().size()>1)
 		{
 			this.addWarning(new ConversionWarning(WarningType.IGNORED, 
 					I18n.getText("excelmatrix.ignoringWorksheetsExcept",
-							wb.getSheet(0).getName())));
+							doc.getTableList().get(0).getTableName())));
 		}
 		
-		sheet = wb.getSheet(0);
+		sheet = doc.getTableList().get(0);
 
 		// Check year column is valid
-		Cell[] yearCol = sheet.getColumn(0);
+		OdfTableColumn yearCol = sheet.getColumnByIndex(0);
 		Integer lastval = null;
 		Integer thisval = null;
-		for (int i=1; i < yearCol.length; i++)
+		System.out.println("Cell count : "+yearCol.getCellCount());
+		for (int i=1; i < (yearCol.getCellCount()); i++)
 		{
+			if(sheet.getCellByPosition(0, i).getStringValue().equals(""))
+			{
+				break;
+			}
+			
 			// Check cell is an integer
 			try{
-				thisval = Integer.parseInt(sheet.getCell(0, i).getContents());
+				thisval = Integer.parseInt(sheet.getCellByPosition(0, i).getStringValue());
+				//System.out.println("Row "+ (i+1) +" = "+thisval);
 				
 				if(thisval.equals(0))
 				{
@@ -221,13 +231,13 @@ public class ODFMatrixReader extends AbstractDendroFileReader {
 		}
 		
 		// Loop through data columns
-		for(int i=1; i < sheet.getColumns(); i++)
+		for(int i=1; i < sheet.getColumnCount(); i++)
 		{
-			Cell[] datacol = sheet.getColumn(i);
-			ExcelDendroSeries edc = new ExcelDendroSeries();
+			OdfTableColumn datacol = sheet.getColumnByIndex(i);
+			ODFDendroSeries edc = new ODFDendroSeries();
 			
 			// Throw a wobbly if header is empty
-			if(datacol[0].getContents().equals("")) 
+			if(datacol.getCellByIndex(0).getStringValue().equals("")) 
 			{
 				throw new InvalidDendroFileException(
 						I18n.getText("excelmatrix.emptyHeader"), 
@@ -235,7 +245,7 @@ public class ODFMatrixReader extends AbstractDendroFileReader {
 			}
 			
 			// Warn if there is more data than years
-			if(datacol.length>yearCol.length)
+			if(datacol.getCellCount()>yearCol.getCellCount())
 			{
 				this.addWarning(new ConversionWarning(WarningType.IGNORED, 
 						I18n.getText("excelmatrix.moreDataThanYears",
@@ -245,9 +255,9 @@ public class ODFMatrixReader extends AbstractDendroFileReader {
 			// Compile a list of the data values
 			ArrayList<Double> dataVals = new ArrayList<Double>();
 			Boolean atStartOfData =false;
-			for(int j=1; j<datacol.length; j++)
+			for(int j=1; j<datacol.getCellCount(); j++)
 			{
-				if(atStartOfData== false && datacol[j].getContents().equals(""))
+				if(atStartOfData== false && datacol.getCellByIndex(j).getStringValue().equals(""))
 				{
 					continue;
 				}
@@ -256,29 +266,30 @@ public class ODFMatrixReader extends AbstractDendroFileReader {
 					atStartOfData = true;
 					edc.startYear = this.getYearForRow(j);
 				}
-				else if(atStartOfData== true && datacol[j].getContents().equals(""))
+				else if(atStartOfData== true && datacol.getCellByIndex(j).getStringValue().equals(""))
 				{
 					break;
 				}
 				
 				
 				try{ 
-					if(datacol[j].getType() != CellType.NUMBER)
+					if(!datacol.getCellByIndex(j).getValueType().equals("float"))
 					{
 						throw new InvalidDendroFileException(
 								I18n.getText("excelmatrix.invalidDataValue"), 
 								getColRef(i)+String.valueOf(j+1), 
 								PointerType.CELL);
 					}
+						
+					dataVals.add(datacol.getCellByIndex(j).getDoubleValue());
 					
-					NumberCell nc = (NumberCell) datacol[j];
-					dataVals.add(nc.getValue());
-					
-					if(nc.getValue()>10d)
+					if(datacol.getCellByIndex(j).getDoubleValue()>10d)
 					{
 						this.addWarning(new ConversionWarning(WarningType.ASSUMPTION, 
 								I18n.getText("excelmatrix.largeDataValue")));
 					}
+					
+					
 					
 				} catch (NumberFormatException e)
 				{
@@ -289,7 +300,7 @@ public class ODFMatrixReader extends AbstractDendroFileReader {
 				}
 			}
 			
-			edc.label = datacol[0].getContents();
+			edc.label = datacol.getCellByIndex(0).getStringValue();
 			edc.defaults = defaults;
 			edc.dataVals = dataVals;
 			series.add(edc);
@@ -304,8 +315,7 @@ public class ODFMatrixReader extends AbstractDendroFileReader {
 	private SafeIntYear getYearForRow(int row)
 	{
 		try{
-			Cell cell = sheet.getCell(0, row);
-			return new SafeIntYear(cell.getContents());
+			return new SafeIntYear(sheet.getCellByPosition(0, row).getStringValue());
 		} catch (NumberFormatException e)
 		{
 			return null;
@@ -313,7 +323,7 @@ public class ODFMatrixReader extends AbstractDendroFileReader {
 	}
 	
 	/**
-	 * Get the Excel column reference for a column number 
+	 * Get the column reference for a column number 
 	 * 
 	 * @param col <= 676
 	 * @return
@@ -362,7 +372,7 @@ public class ODFMatrixReader extends AbstractDendroFileReader {
 	private TridasProject getProject() {
 		TridasProject project = defaults.getProjectWithDefaults();
 		
-		for (ExcelDendroSeries eds : series)
+		for (ODFDendroSeries eds : series)
 		{
 			TridasObject o = eds.defaults.getObjectWithDefaults(true);
 			TridasMeasurementSeries ms = o.getElements().get(0).getSamples().get(0).getRadiuses().get(0).getMeasurementSeries().get(0);
@@ -401,7 +411,7 @@ public class ODFMatrixReader extends AbstractDendroFileReader {
 		return project;
 	}
 
-	private static class ExcelDendroSeries {
+	private static class ODFDendroSeries {
 		public ODFMatrixToTridasDefaults defaults;
 		public SafeIntYear startYear;
 		public String label;

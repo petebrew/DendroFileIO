@@ -162,8 +162,6 @@ public class ODFMatrixWriter extends AbstractDendroCollectionWriter {
 		
 		try {
 			((ODFMatrixFile) argFile).saveToDisk(helper.createOutput(argFilename + "." + argFile.getExtension()));
-		} catch (WriteException e) {
-			log.error("Error saving file to disk", e);
 		} catch (IOException e) {
 			log.error("Error saving file to disk", e);
 		}
