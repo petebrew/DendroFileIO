@@ -20,41 +20,17 @@ import java.io.OutputStream;
 import java.util.ArrayList;
 import java.util.List;
 
-import jxl.CellView;
-import jxl.Workbook;
-import jxl.format.Colour;
-import jxl.write.Label;
-import jxl.write.Number;
-import jxl.write.WritableCellFormat;
-import jxl.write.WritableFont;
-import jxl.write.WritableSheet;
-import jxl.write.WritableWorkbook;
-import jxl.write.WriteException;
-import jxl.write.biff.RowsExceededException;
-
-import org.odftoolkit.odfdom.doc.OdfDocument;
 import org.odftoolkit.odfdom.doc.OdfSpreadsheetDocument;
 import org.odftoolkit.odfdom.doc.table.OdfTable;
-import org.odftoolkit.odfdom.doc.table.OdfTableCell;
-import org.odftoolkit.odfdom.doc.table.OdfTableColumn;
-import org.odftoolkit.odfdom.doc.table.OdfTableRow;
-import org.odftoolkit.odfdom.dom.element.office.OfficeSpreadsheetElement;
-import org.odftoolkit.odfdom.incubator.doc.office.OdfOfficeAutomaticStyles;
-import org.odftoolkit.odfdom.incubator.doc.office.OdfOfficeStyles;
-import org.odftoolkit.odfdom.pkg.OdfFileDom;
 import org.tridas.interfaces.ITridasSeries;
 import org.tridas.io.I18n;
 import org.tridas.io.IDendroFile;
 import org.tridas.io.defaults.IMetadataFieldSet;
-import org.tridas.io.exceptions.ConversionWarningException;
 import org.tridas.io.util.SafeIntYear;
-import org.tridas.io.util.UnitUtils;
 import org.tridas.io.util.YearRange;
 import org.tridas.schema.DatingSuffix;
-import org.tridas.schema.NormalTridasUnit;
 import org.tridas.schema.TridasGenericField;
 import org.tridas.schema.TridasValue;
-import org.tridas.schema.TridasValues;
 
 public class ODFMatrixFile implements IDendroFile {
 	
@@ -136,33 +112,12 @@ public class ODFMatrixFile implements IDendroFile {
 	 * 
 	 * @param os
 	 * @throws IOException
-	 * @throws WriteException
 	 */
-	public void saveToDisk(OutputStream os) throws IOException, WriteException {
-		String inputFileName; 
-		String outputFileName; 
+	public void saveToDisk(OutputStream os) throws IOException {
 		OdfSpreadsheetDocument outputDocument;
 
-		OdfFileDom contentDom; // the document object model for content.xml 
-		OdfFileDom stylesDom; // the document object model for styles.xml 
-		OdfOfficeAutomaticStyles contentAutoStyles;
-		OdfOfficeStyles stylesOfficeStyles;
-		String columnStyleName; 
-		String rowStyleName; 
-		String headingStyleName; 
-		String noaaTimeStyleName; 
-		String noaaDateStyleName; 
-		String noaaTempStyleName;
-		OfficeSpreadsheetElement officeSpreadsheet;
-		
-		
 		try {
 			outputDocument = OdfSpreadsheetDocument.newSpreadsheetDocument();
-			contentDom = outputDocument.getContentDom(); 
-			stylesDom = outputDocument.getStylesDom(); 
-			contentAutoStyles = contentDom.getOrCreateAutomaticStyles(); 
-			stylesOfficeStyles = outputDocument.getOrCreateDocumentStyles(); 
-			officeSpreadsheet = outputDocument.getContentRoot(); 
 			
 			OdfTable table; 
 			
@@ -176,7 +131,6 @@ public class ODFMatrixFile implements IDendroFile {
 			int col = 1;
 			for (ITridasSeries series : seriesList) {
 				writeRingWidthColumn(table, col, series);
-				// writeMetadataColumn(metadataSheet, col, series);
 				col++;
 			}
 			
@@ -185,57 +139,18 @@ public class ODFMatrixFile implements IDendroFile {
 			
 			
 		} catch (Exception e) {
-			// TODO Auto-generated catch block
-			throw new IOException("Problem creating spreadsheet");
+
+			throw new IOException(e.getLocalizedMessage());
 		}
 		
 	}
 	
-	/**
-	 * Get the format for the standard header
-	 * 
-	 * @return
-	 */
-	private static WritableCellFormat getHeaderFormat() {
-		// Create the Header Format
-		WritableFont headerFont = new WritableFont(WritableFont.ARIAL, 12, WritableFont.BOLD);
-		WritableCellFormat headerFormat = new WritableCellFormat(headerFont);
-		try {
-			headerFormat.setWrap(false);
-			headerFormat.setBackground(Colour.PALE_BLUE);
-		} catch (WriteException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		}
-		
-		return headerFormat;
-	}
-	
-	/**
-	 * Get the format for the standard data cell
-	 * 
-	 * @return
-	 */
-	private static WritableCellFormat getDataFormat() {
-		// Create the Data Format
-		WritableFont dataFont = new WritableFont(WritableFont.ARIAL, 12, WritableFont.NO_BOLD);
-		WritableCellFormat dataFormat = new WritableCellFormat(dataFont);
-		try {
-			dataFormat.setWrap(false);
-		} catch (WriteException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		}
-		return dataFormat;
-	}
-		
 	/**
 	 * Write the range of years in the first column of the worksheet
 	 * 
 	 * @param table
-	 * @throws WriteException
 	 */
-	private void writeYearHeaderCol(OdfTable table) throws WriteException {
+	private void writeYearHeaderCol(OdfTable table) {
 		if (yrRange == null) {
 			return;
 		}
@@ -275,44 +190,15 @@ public class ODFMatrixFile implements IDendroFile {
 		
 	}
 	
-	private void writeMetadataColumn(WritableSheet s, Integer col, ITridasSeries series) throws RowsExceededException,
-			WriteException {
-		// Creates year label
-		Label l;
-		String keycode = null;
-		if(series.isSetGenericFields())
-		{
-			for(TridasGenericField gf : series.getGenericFields())
-			{
-				if(gf.getName().toLowerCase().equals("keycode"))
-				{
-					keycode = gf.getValue();
-				}
-			}
-		}
-		if(keycode!=null)
-		{
-			l = new Label(col, 0, keycode, getHeaderFormat());
-		}
-		else
-		{
-			l = new Label(col, 0, series.getTitle(), getHeaderFormat());
-		}
-		s.addCell(l);
-		
-	}
-	
+
 	/**
 	 * Write the ring widths for the provided series in the specified column
 	 * 
 	 * @param table
 	 * @param col
 	 * @param series
-	 * @throws RowsExceededException
-	 * @throws WriteException
 	 */
-	private void writeRingWidthColumn(OdfTable table, Integer col, ITridasSeries series) throws RowsExceededException,
-			WriteException {
+	private void writeRingWidthColumn(OdfTable table, Integer col, ITridasSeries series)  {
 		List<TridasValue> values = series.getValues().get(0).getValues();
 		
 		// Creates year label
