@@ -13,27 +13,16 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package org.tridas.io.formats.csv;
+package org.tridas.io.formats.csvmatrix;
 
 import org.tridas.io.defaults.AbstractMetadataFieldSet;
 
-/**
- * Place to hold and change default fields for the TRIMS filetype
- * 
- * @see org.tridas.io.formats.tucson
- * @author peterbrewer
- * @deprecated use CSVMatrix instead
- */
-public class TridasToCSVDefaults extends AbstractMetadataFieldSet {
+public class TridasToCSVMatrixDefaults extends AbstractMetadataFieldSet {
 	
-	public enum CSVField {}
-	
-	/**
-	 * @see org.tridas.io.defaults.AbstractMetadataFieldSet#initDefaultValues()
-	 */
 	@Override
 	protected void initDefaultValues() {
-
+	// TODO Auto-generated method stub
+	
 	}
 	
 }

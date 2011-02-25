@@ -35,6 +35,7 @@ import org.tridas.schema.TridasValue;
  * 
  * @todo add ring remarks column
  * @author peterbrewer
+ * @deprecated use CSVMatrix instead
  */
 public class CSVFile implements IDendroFile {
 	

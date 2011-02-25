@@ -30,6 +30,7 @@ import org.tridas.io.formats.belfastapple.BelfastAppleWriter;
 import org.tridas.io.formats.besancon.BesanconWriter;
 import org.tridas.io.formats.corina.CorinaWriter;
 import org.tridas.io.formats.csv.CSVWriter;
+import org.tridas.io.formats.csvmatrix.CSVMatrixWriter;
 import org.tridas.io.formats.excelmatrix.ExcelMatrixWriter;
 import org.tridas.io.formats.heidelberg.HeidelbergWriter;
 import org.tridas.io.formats.nottingham.NottinghamWriter;
@@ -97,9 +98,9 @@ public class TestFromTridas extends TestCase {
 			container = reader.getTridasContainer();
 			
 			// Create a new converter based on a TridasProject
-			CSVWriter writer = new CSVWriter();
+			CSVMatrixWriter writer = new CSVMatrixWriter();
 			
-			writer.setNamingConvention(new NumericalNamingConvention("CSV"));
+			writer.setNamingConvention(new NumericalNamingConvention("CSVMatrix"));
 			try {
 				writer.load(container);
 			} catch (IncompleteTridasDataException e) {

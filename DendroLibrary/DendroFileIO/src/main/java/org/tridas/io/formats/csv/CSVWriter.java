@@ -40,6 +40,7 @@ import org.tridas.schema.TridasTridas;
  * Writer for Comma Separated Values spreadsheet format.
  * 
  * @author peterbrewer
+ * @deprecated use CSVMatrix instead
  */
 public class CSVWriter extends AbstractDendroCollectionWriter {
 	
