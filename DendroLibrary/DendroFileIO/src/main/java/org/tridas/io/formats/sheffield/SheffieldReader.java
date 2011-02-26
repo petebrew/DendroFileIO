@@ -86,7 +86,7 @@ public class SheffieldReader extends AbstractDendroFileReader {
 		checkFile(argFileString);
 		
 		ArrayList<TridasValue> ringWidthValues = new ArrayList<TridasValue>();
-		
+		SafeIntYear startYear = null;
 		for (int lineNum = 1; lineNum <= 22; lineNum++) {
 			String lineString = argFileString[lineNum - 1];
 			
@@ -130,7 +130,6 @@ public class SheffieldReader extends AbstractDendroFileReader {
 			else if (lineNum == 4) {
 				try {
 					int yearNum = Integer.valueOf(lineString.trim());
-					SafeIntYear startYear;
 					
 					// Handle offset for absolute dates
 					if (dateType == SheffieldDateType.ABSOLUTE) {
@@ -144,7 +143,8 @@ public class SheffieldReader extends AbstractDendroFileReader {
 					
 					GenericDefaultValue<SafeIntYear> startYearField = (GenericDefaultValue<SafeIntYear>) defaults
 							.getDefaultValue(DefaultFields.START_YEAR);
-					startYearField.setValue(new SafeIntYear(yearNum));
+					startYear = new SafeIntYear(yearNum);
+					startYearField.setValue(startYear);
 					
 				} catch (NumberFormatException e) {
 					addWarning(new ConversionWarning(WarningType.INVALID, I18n.getText("fileio.invalidStartYear")));
@@ -393,7 +393,7 @@ public class SheffieldReader extends AbstractDendroFileReader {
 					addWarning(new ConversionWarning(WarningType.NOT_STRICT, I18n.getText("sheffield.line18TooBig")));
 				}
 				
-				defaults.getStringDefaultValue(DefaultFields.OBJECT_NAME).setValue(lineString);
+				defaults.getStringDefaultValue(DefaultFields.SHORT_TITLE).setValue(lineString);
 			}
 			
 			// Line 19 - Period
@@ -491,6 +491,15 @@ public class SheffieldReader extends AbstractDendroFileReader {
 			}
 		}
 		
+		// Set last year
+		if(startYear!=null)
+		{
+			SafeIntYear endYear = startYear.add(ringWidthValues.size()-1);
+			GenericDefaultValue<SafeIntYear> endYearField = (GenericDefaultValue<SafeIntYear>) defaults
+				.getDefaultValue(DefaultFields.END_YEAR);
+			endYearField.setValue(endYear);
+		}
+		
 		// See if we can get counts
 		if (argFileString[lineNum - 1].trim().equals("H")) {
 			for (int i = lineNum; i < argFileString.length; i++) {
@@ -550,7 +559,7 @@ public class SheffieldReader extends AbstractDendroFileReader {
 		}
 		else {
 			// Now build up our measurementSeries
-			TridasDerivedSeries series = defaults.getDerivedSeriesWithDefaults();
+			TridasDerivedSeries series = defaults.getDefaultTridasDerivedSeries();
 			
 			// Add values to nested value(s) tags
 			TridasValues valuesGroup = defaults.getTridasValuesWithDefaults();
@@ -646,7 +655,7 @@ public class SheffieldReader extends AbstractDendroFileReader {
 			project.setObjects(objList);
 			
 			// Do Link to sample
-			SeriesLink link = new ObjectFactory().createSeriesLink();
+			/*SeriesLink link = new ObjectFactory().createSeriesLink();
 			IdRef ref = new ObjectFactory().createSeriesLinkIdRef();
 			ArrayList<SeriesLink> linkList = new ArrayList<SeriesLink>();
 			ref.setRef(s);
@@ -655,6 +664,7 @@ public class SheffieldReader extends AbstractDendroFileReader {
 			SeriesLinks linkseries = new SeriesLinks();
 			linkseries.setSeries(linkList);
 			((TridasDerivedSeries) series).setLinkSeries(linkseries);
+			*/
 			
 			ArrayList<TridasDerivedSeries> dseriesList = new ArrayList<TridasDerivedSeries>();
 			dseriesList.add((TridasDerivedSeries) series);

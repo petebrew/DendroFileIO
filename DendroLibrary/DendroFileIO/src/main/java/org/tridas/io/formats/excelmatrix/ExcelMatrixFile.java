@@ -36,12 +36,9 @@ import org.tridas.interfaces.ITridasSeries;
 import org.tridas.io.I18n;
 import org.tridas.io.IDendroFile;
 import org.tridas.io.defaults.IMetadataFieldSet;
-import org.tridas.io.exceptions.ConversionWarning;
-import org.tridas.io.exceptions.ConversionWarning.WarningType;
 import org.tridas.io.util.SafeIntYear;
 import org.tridas.io.util.YearRange;
 import org.tridas.schema.DatingSuffix;
-import org.tridas.schema.NormalTridasDatingType;
 import org.tridas.schema.TridasGenericField;
 import org.tridas.schema.TridasValue;
 
@@ -106,8 +103,8 @@ public class ExcelMatrixFile implements IDendroFile {
 	
 	@Override
 	public ITridasSeries[] getSeries() {
-		// TODO Auto-generated method stub
-		return null;
+		return seriesList.toArray(new ITridasSeries[0]);
+
 	}
 	
 	@Override

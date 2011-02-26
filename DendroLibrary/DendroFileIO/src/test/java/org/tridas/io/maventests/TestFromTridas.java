@@ -34,6 +34,7 @@ import org.tridas.io.formats.csvmatrix.CSVMatrixWriter;
 import org.tridas.io.formats.excelmatrix.ExcelMatrixWriter;
 import org.tridas.io.formats.heidelberg.HeidelbergWriter;
 import org.tridas.io.formats.nottingham.NottinghamWriter;
+import org.tridas.io.formats.odfmatrix.ODFMatrixWriter;
 import org.tridas.io.formats.oxford.OxfordWriter;
 import org.tridas.io.formats.past4.Past4Writer;
 import org.tridas.io.formats.sheffield.SheffieldWriter;
@@ -462,6 +463,53 @@ public class TestFromTridas extends TestCase {
 			} catch (IncompleteTridasDataException e) {
 				e.printStackTrace();
 			} catch (ConversionWarningException e) {
+			} 
+			
+			// Actually save file(s) to disk
+			writer.saveAllToDisk(outputLocation);
+		}
+	}
+	
+	public void testTridasToODFMatrix() {
+		String folder = "TestData/TRiDaS";
+		String[] files = getFilesFromFolder(folder);
+		
+		if (files.length == 0) {
+			fail();
+		}
+		
+		for (String filename : files) {
+				
+			if(!filename.equals("Tridas1.xml")) continue;
+			log.info("Test conversion of: " + filename);
+			
+			TridasTridas container = null;
+			
+			TridasReader reader = new TridasReader();
+			try {
+				reader.loadFile(folder, filename);
+			} catch (IOException e) {
+				log.info(e.getLocalizedMessage());
+				fail();
+			} catch (InvalidDendroFileException e) {
+				e.printStackTrace();
+				fail();
+			}
+			
+			// Extract the TridasProject
+			container = reader.getTridasContainer();
+			
+			// Create a new converter based on a TridasProject
+			ODFMatrixWriter writer = new ODFMatrixWriter();
+			writer.setNamingConvention(new NumericalNamingConvention());
+			try {
+				writer.load(container);
+			} catch (IncompleteTridasDataException e) {
+				e.printStackTrace();
+				fail();
+			} catch (ConversionWarningException e) {
+				e.printStackTrace();
+				fail();
 			} 
 			
 			// Actually save file(s) to disk

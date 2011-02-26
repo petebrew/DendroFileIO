@@ -61,7 +61,7 @@ public class OxfordFile implements IDendroFile {
 		ArrayList<String> file = new ArrayList<String>();
 		
 		String line = "'" + defaults.getStringDefaultValue(OxDefaultFields.SERIESCODE).getStringValue();
-		line += " <" + defaults.getIntegerDefaultValue(OxDefaultFields.FIRSTYEAR).getStringValue();
+		line += "  <" + defaults.getIntegerDefaultValue(OxDefaultFields.FIRSTYEAR).getStringValue();
 		line += "-" + defaults.getIntegerDefaultValue(OxDefaultFields.LASTYEAR).getStringValue() + "> ";
 		line += defaults.getStringDefaultValue(OxDefaultFields.DESCRIPTION).getStringValue() + "'";
 		
