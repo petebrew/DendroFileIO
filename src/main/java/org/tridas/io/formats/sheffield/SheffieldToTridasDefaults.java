@@ -52,6 +52,7 @@ import org.tridas.schema.TridasDerivedSeries;
 import org.tridas.schema.TridasDimensions;
 import org.tridas.schema.TridasElement;
 import org.tridas.schema.TridasGenericField;
+import org.tridas.schema.TridasInterpretation;
 import org.tridas.schema.TridasLastRingUnderBark;
 import org.tridas.schema.TridasLocation;
 import org.tridas.schema.TridasLocationGeometry;
@@ -68,20 +69,24 @@ import org.tridas.schema.TridasWoodCompleteness;
 public class SheffieldToTridasDefaults extends TridasMetadataFieldSet implements IMetadataFieldSet {
 	
 	public static enum DefaultFields {
-		OBJECT_NAME, RING_COUNT, START_YEAR, SERIES_TITLE, SERIES_COMMENT, UK_COORDS, // GENERICFIELD
+		SHORT_TITLE, RING_COUNT, START_YEAR, END_YEAR, SERIES_TITLE, SERIES_COMMENT, UK_COORDS, // GENERICFIELD
 		LATITUDE, LONGITUDE, PITH, PITH_DESCRIPTION, // GENERICFIELD
 		SHEFFIELD_DATA_TYPE, // GENERICFIELD
 		SHEFFIELD_DATE_TYPE, // GENERICFIELD 
-		SAPWOOD_COUNT, SHEFFIELD_SHAPE_CODE, MAJOR_DIM, MINOR_DIM, UNMEAS_INNER_RINGS, UNMEAS_OUTER_RINGS, GROUP_PHASE, SHEFFIELD_PERIOD_CODE, TAXON_CODE, INTERPRETATION_NOTES, SHEFFIELD_VARIABLE_TYPE, SHEFFIELD_EDGE_CODE, SHEFFIELD_CHRONOLOGY_TYPE;
+		SAPWOOD_COUNT, SHEFFIELD_SHAPE_CODE, MAJOR_DIM, MINOR_DIM, 
+		UNMEAS_INNER_RINGS, UNMEAS_OUTER_RINGS, GROUP_PHASE, SHEFFIELD_PERIOD_CODE, 
+		TAXON_CODE, INTERPRETATION_NOTES, SHEFFIELD_VARIABLE_TYPE, SHEFFIELD_EDGE_CODE, 
+		SHEFFIELD_CHRONOLOGY_TYPE;
 		
 	}
 	
 	@Override
 	public void initDefaultValues() {
 		super.initDefaultValues();
-		setDefaultValue(DefaultFields.OBJECT_NAME, new StringDefaultValue(I18n.getText("unnamed.object")));
+		setDefaultValue(DefaultFields.SHORT_TITLE, new StringDefaultValue(I18n.getText("unnamed.object")));
 		setDefaultValue(DefaultFields.RING_COUNT, new IntegerDefaultValue());
 		setDefaultValue(DefaultFields.START_YEAR, new GenericDefaultValue<SafeIntYear>());
+		setDefaultValue(DefaultFields.END_YEAR, new GenericDefaultValue<SafeIntYear>());
 		setDefaultValue(DefaultFields.SERIES_TITLE, new StringDefaultValue(I18n.getText("unnamed.series")));
 		setDefaultValue(DefaultFields.SERIES_COMMENT, new StringDefaultValue());
 		setDefaultValue(DefaultFields.UK_COORDS, new StringDefaultValue());
@@ -114,7 +119,7 @@ public class SheffieldToTridasDefaults extends TridasMetadataFieldSet implements
 	protected TridasObject getDefaultTridasObject() {
 		TridasObject o = super.getDefaultTridasObject();
 		
-		o.setTitle(getStringDefaultValue(DefaultFields.OBJECT_NAME).getStringValue());
+		o.setTitle(getStringDefaultValue(DefaultFields.SHORT_TITLE).getStringValue());
 		
 		// If Lat Long is available use it
 		if (getDefaultValue(DefaultFields.LATITUDE).getValue() != null
@@ -287,7 +292,7 @@ public class SheffieldToTridasDefaults extends TridasMetadataFieldSet implements
 		TridasWoodCompleteness wc = super.getDefaultWoodCompleteness();
 		ms.setTitle(getStringDefaultValue(DefaultFields.SERIES_TITLE).getStringValue());
 		ms.setComments(getStringDefaultValue(DefaultFields.SERIES_COMMENT).getStringValue());
-		
+				
 		// Dating type
 		TridasDating dating = new TridasDating();
 		GenericDefaultValue<SheffieldDateType> dateTypeField = (GenericDefaultValue<SheffieldDateType>) getDefaultValue(DefaultFields.SHEFFIELD_DATE_TYPE);
@@ -303,6 +308,11 @@ public class SheffieldToTridasDefaults extends TridasMetadataFieldSet implements
 			try {
 				GenericDefaultValue<SafeIntYear> startYearField = (GenericDefaultValue<SafeIntYear>) getDefaultValue(DefaultFields.START_YEAR);
 				ms.getInterpretation().setFirstYear(startYearField.getValue().toTridasYear(DatingSuffix.AD));
+			} catch (NullPointerException e) {}
+			
+			try {
+				GenericDefaultValue<SafeIntYear> endYearField = (GenericDefaultValue<SafeIntYear>) getDefaultValue(DefaultFields.END_YEAR);
+				ms.getInterpretation().setLastYear(endYearField.getValue().toTridasYear(DatingSuffix.AD));
 			} catch (NullPointerException e) {}
 			
 		}
@@ -387,11 +397,33 @@ public class SheffieldToTridasDefaults extends TridasMetadataFieldSet implements
 		ds.setTitle(getStringDefaultValue(DefaultFields.SERIES_TITLE).getStringValue());
 		ds.setComments(getStringDefaultValue(DefaultFields.SERIES_COMMENT).getStringValue());
 		
-		// Start year info
-		try {
-			GenericDefaultValue<SafeIntYear> startYearField = (GenericDefaultValue<SafeIntYear>) getDefaultValue(DefaultFields.START_YEAR);
-			ds.getInterpretation().setFirstYear(startYearField.getValue().toTridasYear(DatingSuffix.AD));
-		} catch (NullPointerException e) {}
+		// Dating type
+		TridasDating dating = new TridasDating();
+		TridasInterpretation interp = new TridasInterpretation();
+		GenericDefaultValue<SheffieldDateType> dateTypeField = (GenericDefaultValue<SheffieldDateType>) getDefaultValue(DefaultFields.SHEFFIELD_DATE_TYPE);
+		if(dateTypeField.getValue().equals(SheffieldDateType.RELATIVE))
+		{
+			dating.setType(NormalTridasDatingType.RELATIVE);
+		}
+		else
+		{
+			dating.setType(NormalTridasDatingType.ABSOLUTE);
+			
+			// Start year info
+			try {
+				GenericDefaultValue<SafeIntYear> startYearField = (GenericDefaultValue<SafeIntYear>) getDefaultValue(DefaultFields.START_YEAR);
+				interp.setFirstYear(startYearField.getValue().toTridasYear(DatingSuffix.AD));
+			} catch (NullPointerException e) {}
+			
+			try {
+				GenericDefaultValue<SafeIntYear> endYearField = (GenericDefaultValue<SafeIntYear>) getDefaultValue(DefaultFields.END_YEAR);
+				interp.setLastYear(endYearField.getValue().toTridasYear(DatingSuffix.AD));
+			} catch (NullPointerException e) {}
+			
+		}
+		interp.setDating(dating);
+		ds.setInterpretation(interp);
+		
 		
 		// Get any generic fields
 		if (getDerivedSeriesGenericFields().size() > 0) {
@@ -508,6 +540,14 @@ public class SheffieldToTridasDefaults extends TridasMetadataFieldSet implements
 			genFields.add(gf);
 		}
 		
+		if (getDefaultValue(DefaultFields.SHORT_TITLE).getValue() != null) {
+			TridasGenericField gf = new ObjectFactory().createTridasGenericField();
+			gf.setName("keycode");
+			gf.setType("xs:string");
+			gf.setValue(getDefaultValue(DefaultFields.SHORT_TITLE).getValue().toString());
+			genFields.add(gf);
+		}
+		
 		return genFields;
 		
 	}
@@ -529,6 +569,14 @@ public class SheffieldToTridasDefaults extends TridasMetadataFieldSet implements
 			gf.setName("sheffield.interpretationAndAnatomyNotes");
 			gf.setType("xs:string");
 			gf.setValue(getDefaultValue(DefaultFields.INTERPRETATION_NOTES).getValue().toString());
+			genFields.add(gf);
+		}
+		
+		if (getDefaultValue(DefaultFields.SHORT_TITLE).getValue() != null) {
+			TridasGenericField gf = new ObjectFactory().createTridasGenericField();
+			gf.setName("keycode");
+			gf.setType("xs:string");
+			gf.setValue(getDefaultValue(DefaultFields.SHORT_TITLE).getValue().toString());
 			genFields.add(gf);
 		}
 		

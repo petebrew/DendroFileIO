@@ -103,12 +103,12 @@ public class OxfordWriter extends AbstractDendroCollectionWriter {
 	
 		defaults = (TridasToOxfordDefaults) argDefaults;
 
-		for (TridasObject o : TridasUtils.getObjectList(argProject)) 
+		for (TridasObject o : argProject.getObjects()) 
 		{
 			TridasToOxfordDefaults objectDefaults = (TridasToOxfordDefaults) defaults.clone();
 			objectDefaults.populateFromTridasObject(o);
 			
-			for (TridasElement e : o.getElements()) {
+			for (TridasElement e : TridasUtils.getElementList(o)) {
 				TridasToOxfordDefaults elementDefaults = (TridasToOxfordDefaults) objectDefaults.clone();
 				elementDefaults.populateFromTridasElement(e);
 				

@@ -61,6 +61,7 @@ public class OxfordToTridasDefaults extends TridasMetadataFieldSet implements IM
 		setDefaultValue(OxDefaultFields.STARTYEAR, new SafeIntYearDefaultValue(new SafeIntYear(-999)));
 		setDefaultValue(OxDefaultFields.COMMENTS, new StringDefaultValue());
 
+
 	}
 	
 	private ITridasSeries populateSeriesDetails(ITridasSeries ser)
