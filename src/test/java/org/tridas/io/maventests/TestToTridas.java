@@ -39,6 +39,7 @@ import org.tridas.io.formats.excelmatrix.ExcelMatrixReader;
 import org.tridas.io.formats.heidelberg.HeidelbergReader;
 import org.tridas.io.formats.nottingham.NottinghamReader;
 import org.tridas.io.formats.odfmatrix.ODFMatrixReader;
+import org.tridas.io.formats.ooxml.OOXMLReader;
 import org.tridas.io.formats.oxford.OxfordReader;
 import org.tridas.io.formats.past4.Past4Reader;
 import org.tridas.io.formats.past4.Past4ToTridasDefaults;
@@ -786,6 +787,54 @@ public class TestToTridas extends TestCase {
 			
 			TridasWriter writer = new TridasWriter();
 			NumericalNamingConvention nc = new NumericalNamingConvention("OODFMatrix-"+filename);
+			writer.setNamingConvention(nc);
+			
+			try {
+				writer.load(container, new TridasMetadataFieldSet());
+			} catch (IncompleteTridasDataException e) {
+				fail();
+			} catch (ConversionWarningException e) {} catch (IncorrectDefaultFieldsException e) {
+				fail();
+			} 
+			writer.saveAllToDisk(outputLocation);
+			
+		}
+		
+	}
+	
+	public void testOOXMLToTridas() {
+		String folder = "TestData/OOXML";
+		String[] files = getFilesFromFolder(folder);
+		
+		if (files.length == 0) {
+			fail();
+		}
+		
+		for (String filename : files) {
+			//if (!filename.equals("denh2-1.dan")) continue;
+			log.info("Test conversion of: " + filename);
+			
+			// Create a new converter
+			OOXMLReader reader = new OOXMLReader();
+			
+			// Parse the legacy data file
+			try {
+				reader.loadFile(folder, filename);
+			} catch (IOException e) {
+				// Standard IO Exception
+				log.info(e.getLocalizedMessage());
+				return;
+			} catch (InvalidDendroFileException e) {
+				// Fatal error interpreting file
+				log.info(e.getLocalizedMessage());
+				return;
+			}
+			
+			// Extract the TridasProject
+			TridasTridas container = reader.getTridasContainer();
+			
+			TridasWriter writer = new TridasWriter();
+			NumericalNamingConvention nc = new NumericalNamingConvention("OOXML-"+filename);
 			writer.setNamingConvention(nc);
 			
 			try {
