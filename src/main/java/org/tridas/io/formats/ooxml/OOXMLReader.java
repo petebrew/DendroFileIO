@@ -24,10 +24,13 @@ import java.util.Arrays;
 import java.util.List;
 
 import org.apache.poi.ss.usermodel.Cell;
+import org.apache.poi.ss.usermodel.FormulaEvaluator;
 import org.apache.poi.ss.usermodel.Row;
 import org.apache.poi.ss.usermodel.Sheet;
 import org.apache.poi.ss.usermodel.Workbook;
 import org.apache.poi.ss.usermodel.WorkbookFactory;
+import org.apache.poi.xssf.usermodel.XSSFFormulaEvaluator;
+import org.apache.poi.xssf.usermodel.XSSFWorkbook;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.tridas.io.AbstractDendroFileReader;
@@ -40,6 +43,7 @@ import org.tridas.io.exceptions.InvalidDendroFileException;
 import org.tridas.io.exceptions.ConversionWarning.WarningType;
 import org.tridas.io.exceptions.InvalidDendroFileException.PointerType;
 import org.tridas.io.util.SafeIntYear;
+import org.tridas.io.util.StringUtils;
 import org.tridas.schema.DatingSuffix;
 import org.tridas.schema.NormalTridasUnit;
 import org.tridas.schema.NormalTridasVariable;
@@ -59,6 +63,7 @@ public class OOXMLReader extends AbstractDendroFileReader {
 	private OOXMLToTridasDefaults defaults;
 	private Sheet sheet;
 	private Cell[] yearCol;
+	private Workbook wb;
 	private ArrayList<ExcelDendroSeries> series = new ArrayList<ExcelDendroSeries>();
 	
 	public OOXMLReader()
@@ -123,7 +128,7 @@ public class OOXMLReader extends AbstractDendroFileReader {
 		InputStream file = new FileInputStream(argFilename);
 		
 		try {
-			Workbook wb = WorkbookFactory.create(file);
+			wb = WorkbookFactory.create(file);
 			parseFile(wb);
 		} catch (InvalidDendroFileException e) {
 			throw e;
@@ -143,7 +148,7 @@ public class OOXMLReader extends AbstractDendroFileReader {
 		InputStream file = new FileInputStream(argPath + File.separatorChar + argFilename);
 		
 		try {
-			Workbook wb = WorkbookFactory.create(file);
+			wb = WorkbookFactory.create(file);
 			parseFile(wb);
 		} catch (InvalidDendroFileException e) {
 			throw e;
@@ -154,6 +159,50 @@ public class OOXMLReader extends AbstractDendroFileReader {
 
 	}
 		
+	private Double getCellValueAsDouble(Cell cell)
+	{
+		
+		if(cell.getCellType() == Cell.CELL_TYPE_BLANK)
+		{
+			return null;
+		}
+		else if (cell.getCellType() == Cell.CELL_TYPE_BOOLEAN)
+		{
+			return null;
+		}
+		else if (cell.getCellType() == Cell.CELL_TYPE_ERROR)
+		{
+			return null;
+		}
+		else if (cell.getCellType() == Cell.CELL_TYPE_FORMULA)
+		{
+			try
+			{	
+				XSSFFormulaEvaluator evaluator = new XSSFFormulaEvaluator((XSSFWorkbook) wb);
+				return evaluator.evaluate(cell).getNumberValue();				
+			} catch (Exception e)
+			{
+				return null;
+			}
+		}
+		else if (cell.getCellType() == Cell.CELL_TYPE_NUMERIC)
+		{
+			return cell.getNumericCellValue();
+		}
+		else if (cell.getCellType() == Cell.CELL_TYPE_STRING)
+		{
+			try{
+				Double dbl = Double.valueOf(cell.getStringCellValue());
+				return dbl;
+			} catch (NumberFormatException e){
+				return null;
+			}
+		}
+		
+		
+		return null;
+		
+	}
 	private String getCellValueAsString(Cell cell)
 	{
 		if(cell.getCellType() == Cell.CELL_TYPE_BLANK)
@@ -235,7 +284,27 @@ public class OOXMLReader extends AbstractDendroFileReader {
 			
 			// Check cell is an integer
 			try{
-				thisval = (int) sheet.getRow(row).getCell(0).getNumericCellValue();
+				Double dblval = getCellValueAsDouble(sheet.getRow(row).getCell(0));
+				if(dblval==null)
+				{
+					throw new InvalidDendroFileException(
+							I18n.getText("excelmatrix.yearsNotGregorian"), 
+							"A"+String.valueOf(row+1), PointerType.CELL);
+				}
+				
+				// Check value is not a decimal
+				long iPart = (long) ((double)dblval);
+				double fPart = ((double)dblval) - iPart;
+				if(fPart>0)
+				{
+					throw new InvalidDendroFileException(
+							I18n.getText("excelmatrix.yearsNotGregorian"), 
+							"A"+String.valueOf(row+1), PointerType.CELL);
+				}
+				
+				thisval = dblval.intValue();
+				
+				// Check value is not zero
 				if(thisval.equals(0))
 				{
 					throw new InvalidDendroFileException(
@@ -305,7 +374,9 @@ public class OOXMLReader extends AbstractDendroFileReader {
 				}
 				
 				try{ 
-					if(row.getCell(col).getCellType() != Cell.CELL_TYPE_NUMERIC)
+					 					
+					Double nc = getCellValueAsDouble(row.getCell(col));
+					if(nc==null)
 					{
 						throw new InvalidDendroFileException(
 								I18n.getText("excelmatrix.invalidDataValue"), 
@@ -313,15 +384,8 @@ public class OOXMLReader extends AbstractDendroFileReader {
 								PointerType.CELL);
 					}
 					
-					Double nc = row.getCell(col).getNumericCellValue();
 					dataVals.add(nc);
-					
-					if(nc>10d)
-					{
-						this.addWarning(new ConversionWarning(WarningType.ASSUMPTION, 
-								I18n.getText("excelmatrix.largeDataValue")));
-					}
-					
+										
 				} catch (NumberFormatException e)
 				{
 					throw new InvalidDendroFileException(
@@ -431,7 +495,16 @@ public class OOXMLReader extends AbstractDendroFileReader {
 			for(Double dbl : eds.dataVals)
 			{
 				TridasValue val = new TridasValue();
-				val.setValue(dbl.toString());
+				if(StringUtils.isStringWholeInteger(dbl.toString()))
+				{
+					Integer intval = dbl.intValue();
+					val.setValue(intval.toString());
+				}
+				else
+				{
+					val.setValue(dbl.toString());
+				}
+				
 				valuesList.add(val);
 			}
 			
@@ -439,7 +512,7 @@ public class OOXMLReader extends AbstractDendroFileReader {
 			TridasVariable variable = new TridasVariable();
 			variable.setNormalTridas(NormalTridasVariable.RING_WIDTH);
 			TridasUnit units = new TridasUnit();
-			units.setNormalTridas(NormalTridasUnit.MILLIMETRES);
+			units.setValue(I18n.getText("Unknown"));
 			
 			valuesGroup.setVariable(variable);
 			valuesGroup.setUnit(units);

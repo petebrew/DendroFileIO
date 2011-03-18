@@ -17,6 +17,9 @@ package org.tridas.io.util;
 
 import java.util.StringTokenizer;
 
+import org.tridas.io.I18n;
+import org.tridas.io.exceptions.IncompleteTridasDataException;
+
 
 /**
  * Some handy string utilities. <h2>Left to do</h2>
@@ -425,6 +428,38 @@ public class StringUtils {
 			// Just return first two letters instead but leave case alone
 			return fullName.substring(0,2);
 		}
+	}
+	
+	/**
+	 * Returns true if string can be interpreted as a whole number integer.  If
+	 * string includes a decimal place it will still return true as long as the 
+	 * decimal portion is zero.
+	 * 
+	 * "130"   = TRUE
+	 * "130.0" = TRUE
+	 * "130.4" = FALSE
+	 * "blah"  = FALSE
+	 * 
+	 * @param str
+	 * @return
+	 */
+	public static Boolean isStringWholeInteger(String str)
+	{
+		try {
+			Double dbl = Double.valueOf(str);	
+			long iPart = (long) ((double)dbl);
+			double fPart = dbl - iPart;
+			
+			if(fPart > 0)
+			{
+				return false;
+			}
+			
+		} catch (NumberFormatException e2) {
+			return false;
+		}
+		
+		return true;
 	}
 	
 }

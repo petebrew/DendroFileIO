@@ -349,7 +349,13 @@ public class UnitUtils {
 		NormalTridasUnit inputunits = null;
 		
 		try{
+			 if(!tv.getUnit().isSetNormalTridas())
+			 {
+				 throw new ConversionWarningException(new ConversionWarning(WarningType.AMBIGUOUS, I18n.getText("fileio.convertsOnlyTridasUnits")));
+			 }
+			
 			 inputunits = tv.getUnit().getNormalTridas();
+			 
 		} catch (Exception e)
 		{
 			throw new ConversionWarningException(new ConversionWarning(WarningType.AMBIGUOUS, I18n.getText("fileio.convertsOnlyTridasUnits")));

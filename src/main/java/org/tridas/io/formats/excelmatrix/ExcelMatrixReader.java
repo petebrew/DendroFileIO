@@ -40,6 +40,7 @@ import org.tridas.io.exceptions.InvalidDendroFileException;
 import org.tridas.io.exceptions.ConversionWarning.WarningType;
 import org.tridas.io.exceptions.InvalidDendroFileException.PointerType;
 import org.tridas.io.util.SafeIntYear;
+import org.tridas.io.util.StringUtils;
 import org.tridas.schema.DatingSuffix;
 import org.tridas.schema.NormalTridasUnit;
 import org.tridas.schema.NormalTridasVariable;
@@ -262,8 +263,10 @@ public class ExcelMatrixReader extends AbstractDendroFileReader {
 				}
 				
 				
-				try{ 
-					if(datacol[j].getType() != CellType.NUMBER)
+				try{
+					
+					if(( datacol[j].getType() != CellType.NUMBER) && 
+					   ( datacol[j].getType() != CellType.NUMBER_FORMULA) )
 					{
 						throw new InvalidDendroFileException(
 								I18n.getText("excelmatrix.invalidDataValue"), 
@@ -271,14 +274,10 @@ public class ExcelMatrixReader extends AbstractDendroFileReader {
 								PointerType.CELL);
 					}
 					
-					NumberCell nc = (NumberCell) datacol[j];
-					dataVals.add(nc.getValue());
+					Double val = null;
+					val = Double.valueOf(datacol[j].getContents());			
+					dataVals.add(val);
 					
-					if(nc.getValue()>10d)
-					{
-						this.addWarning(new ConversionWarning(WarningType.ASSUMPTION, 
-								I18n.getText("excelmatrix.largeDataValue")));
-					}
 					
 				} catch (NumberFormatException e)
 				{
@@ -377,7 +376,16 @@ public class ExcelMatrixReader extends AbstractDendroFileReader {
 			for(Double dbl : eds.dataVals)
 			{
 				TridasValue val = new TridasValue();
-				val.setValue(dbl.toString());
+				if(StringUtils.isStringWholeInteger(dbl.toString()))
+				{
+					Integer intval = dbl.intValue();
+					val.setValue(intval.toString());
+				}
+				else
+				{
+					val.setValue(dbl.toString());
+				}
+				
 				valuesList.add(val);
 			}
 			
@@ -385,7 +393,7 @@ public class ExcelMatrixReader extends AbstractDendroFileReader {
 			TridasVariable variable = new TridasVariable();
 			variable.setNormalTridas(NormalTridasVariable.RING_WIDTH);
 			TridasUnit units = new TridasUnit();
-			units.setNormalTridas(NormalTridasUnit.MILLIMETRES);
+			units.setValue(I18n.getText("unknown"));
 			
 			valuesGroup.setVariable(variable);
 			valuesGroup.setUnit(units);

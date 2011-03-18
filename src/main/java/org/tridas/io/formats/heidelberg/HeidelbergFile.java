@@ -247,7 +247,8 @@ public class HeidelbergFile implements IDendroFile {
 			for (TridasValue v : dataValues.getValues()) {
 				
 				try{
-				ints.add(Integer.parseInt(v.getValue()));
+					Double dbl = Double.valueOf(v.getValue());
+					ints.add(dbl.intValue());
 				} catch (NumberFormatException e)
 				{
 					defaults.addConversionWarning(new ConversionWarning(WarningType.INVALID, I18n.getText(
