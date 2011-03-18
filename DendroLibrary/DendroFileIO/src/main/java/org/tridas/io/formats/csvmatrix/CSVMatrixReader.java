@@ -45,6 +45,7 @@ import org.tridas.io.exceptions.ConversionWarning.WarningType;
 import org.tridas.io.exceptions.InvalidDendroFileException.PointerType;
 import org.tridas.io.formats.corina.CorinaToTridasDefaults;
 import org.tridas.io.util.SafeIntYear;
+import org.tridas.io.util.StringUtils;
 import org.tridas.schema.DatingSuffix;
 import org.tridas.schema.NormalTridasUnit;
 import org.tridas.schema.NormalTridasVariable;
@@ -287,13 +288,7 @@ public class CSVMatrixReader extends AbstractDendroFileReader {
 					}
 						
 					dataVals.add(datacol.getCellByIndex(j).getDoubleValue());
-					
-					if(datacol.getCellByIndex(j).getDoubleValue()>10d)
-					{
-						this.addWarning(new ConversionWarning(WarningType.ASSUMPTION, 
-								I18n.getText("excelmatrix.largeDataValue")));
-					}
-					
+						
 					
 					
 				} catch (NumberFormatException e)
@@ -392,7 +387,16 @@ public class CSVMatrixReader extends AbstractDendroFileReader {
 			for(Double dbl : eds.dataVals)
 			{
 				TridasValue val = new TridasValue();
-				val.setValue(dbl.toString());
+				if(StringUtils.isStringWholeInteger(dbl.toString()))
+				{
+					Integer intval = dbl.intValue();
+					val.setValue(intval.toString());
+				}
+				else
+				{
+					val.setValue(dbl.toString());
+				}
+				
 				valuesList.add(val);
 			}
 			
@@ -400,7 +404,7 @@ public class CSVMatrixReader extends AbstractDendroFileReader {
 			TridasVariable variable = new TridasVariable();
 			variable.setNormalTridas(NormalTridasVariable.RING_WIDTH);
 			TridasUnit units = new TridasUnit();
-			units.setNormalTridas(NormalTridasUnit.MILLIMETRES);
+			units.setValue(I18n.getText("Unknown"));
 			
 			valuesGroup.setVariable(variable);
 			valuesGroup.setUnit(units);

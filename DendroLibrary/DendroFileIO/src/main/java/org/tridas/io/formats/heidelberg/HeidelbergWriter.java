@@ -25,6 +25,7 @@ import org.tridas.io.exceptions.ConversionWarning.WarningType;
 import org.tridas.io.formats.sheffield.TridasToSheffieldDefaults.SheffieldVariableCode;
 import org.tridas.io.naming.HierarchicalNamingConvention;
 import org.tridas.io.naming.INamingConvention;
+import org.tridas.io.util.StringUtils;
 import org.tridas.io.util.TridasUtils;
 import org.tridas.schema.TridasDerivedSeries;
 import org.tridas.schema.TridasElement;
@@ -117,12 +118,12 @@ public class HeidelbergWriter extends AbstractDendroCollectionWriter {
 								if(skipThisGroup) continue;
 								
 								// Check there are no non-number values
-								for (TridasValue v : tvsgroup.getValues()) {
-									try {
-										Integer.parseInt(v.getValue());
-									} catch (NumberFormatException e2) {
+								for (TridasValue v : tvsgroup.getValues()) 
+								{
+									if(!StringUtils.isStringWholeInteger(v.getValue()))
+									{
 										throw new IncompleteTridasDataException(
-												"One or more data values are not numbers!  This is technically acceptable in TRiDaS but not supported in this library.");
+												I18n.getText("general.ringValuesNotWholeNumbers"));
 									}
 								}
 								

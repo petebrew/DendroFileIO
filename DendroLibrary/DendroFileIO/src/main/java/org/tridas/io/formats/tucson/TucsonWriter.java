@@ -92,25 +92,6 @@ public class TucsonWriter extends AbstractDendroCollectionWriter {
 			for (TridasDerivedSeries ds : dsList) 
 			{
 				TridasValues tvs = ds.getValues().get(0);
-				NormalTridasUnit inputunit = null;			
-				if(tvs.getVariable().getNormalTridas()!=null)
-				{
-					switch (ds.getValues().get(0).getVariable().getNormalTridas())
-					{
-					case RING_WIDTH:
-					case LATEWOOD_WIDTH:
-					case EARLYWOOD_WIDTH:
-						if(ds.getValues().get(0).getUnit() != null &&
-							ds.getValues().get(0).getUnit().getNormalTridas()!=null)
-						{
-							inputunit =  ds.getValues().get(0).getUnit().getNormalTridas();
-						}
-						break;
-					default: 
-						break;
-						
-					}
-				}
 				
 				try {
 					ds.getValues().set(0, UnitUtils.convertTridasValues(getOutputUnits(tvs), ds.getValues().get(0), true));
