@@ -85,18 +85,7 @@ public class ODFMatrixWriter extends AbstractDendroCollectionWriter {
 		try {
 			List<TridasMeasurementSeries> lst = TridasUtils.getMeasurementSeriesFromTridasProject(argProject);
 			for (TridasMeasurementSeries ser : lst) {
-				
-				// Convert units
-				for(TridasValues tv : ser.getValues())
-				{
-					try {
-						UnitUtils.convertTridasValues(NormalTridasUnit.MILLIMETRES, tv, false);
-					} catch (NumberFormatException e) {
-						throw new ConversionWarningException(new ConversionWarning(
-								WarningType.AMBIGUOUS, "Trouble converting units"));
-					} 
-				}
-				
+								
 				// add to list
 				seriesList.add(ser);
 			}
