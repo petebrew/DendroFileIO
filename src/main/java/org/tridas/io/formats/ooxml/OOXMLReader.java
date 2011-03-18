@@ -512,7 +512,7 @@ public class OOXMLReader extends AbstractDendroFileReader {
 			TridasVariable variable = new TridasVariable();
 			variable.setNormalTridas(NormalTridasVariable.RING_WIDTH);
 			TridasUnit units = new TridasUnit();
-			units.setValue(I18n.getText("Unknown"));
+			units.setValue(I18n.getText("unknown"));
 			
 			valuesGroup.setVariable(variable);
 			valuesGroup.setUnit(units);
