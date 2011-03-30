@@ -229,7 +229,11 @@ public class HeidelbergWriter extends AbstractDendroCollectionWriter {
 			}
 		}
 		
-		addToFileList(file);
+				
+		if(file.getSeries().length>0)
+		{
+			addToFileList(file);
+		}
 	}
 	
 	/**
