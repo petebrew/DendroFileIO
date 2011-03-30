@@ -79,8 +79,7 @@ public class HeidelbergFile implements IDendroFile {
 			series.add(ser.series);
 		}
 		
-		ITridasSeries[] seriesArray;
-		return seriesArray = (ITridasSeries[]) series.toArray();
+		return series.toArray(new ITridasSeries[0]);
 	}
 	
 	@Override
