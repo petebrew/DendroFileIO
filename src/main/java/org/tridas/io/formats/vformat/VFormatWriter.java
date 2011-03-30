@@ -120,7 +120,8 @@ public class VFormatWriter extends AbstractDendroCollectionWriter {
 						TridasToVFormatDefaults radiusDefaults = (TridasToVFormatDefaults) sampleDefaults.clone();
 						radiusDefaults.populateFromTridasRadius(r);
 												
-						for (TridasMeasurementSeries ms : r.getMeasurementSeries()) {
+						for (TridasMeasurementSeries ms : r.getMeasurementSeries()) 
+						{
 							TridasToVFormatDefaults msDefaults = (TridasToVFormatDefaults) radiusDefaults
 									.clone();
 							
@@ -147,7 +148,8 @@ public class VFormatWriter extends AbstractDendroCollectionWriter {
 							msDefaults.populateFromTridasMeasurementSeries(ms);
 							msDefaults.populateFromWoodCompleteness(ms, r);
 							
-							for (int i = 0; i < ms.getValues().size(); i++) {
+							for (int i = 0; i < ms.getValues().size(); i++) 
+							{
 								boolean skipThisGroup = false;
 
 								TridasValues tvsgroup = ms.getValues().get(i);
@@ -195,7 +197,7 @@ public class VFormatWriter extends AbstractDendroCollectionWriter {
 					
 								
 								// Add series to file
-								file.addSeries(tvsgroup, tvDefaults);
+								file.addSeries(ms, tvsgroup, tvDefaults);
 								
 								// Set naming convention
 								naming.registerFile(file, argProject, o, e, s, r, ms);
@@ -279,7 +281,7 @@ public class VFormatWriter extends AbstractDendroCollectionWriter {
 				tvDefaults.populateFromTridasValues(tvsgroup);
 			
 				// Add series to file
-				file.addSeries(tvsgroup, tvDefaults);
+				file.addSeries(ds, tvsgroup, tvDefaults);
 								
 				// Set naming convention
 				naming.registerFile(file, argProject, ds);

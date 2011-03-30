@@ -23,11 +23,12 @@ import org.tridas.io.defaults.IMetadataFieldSet;
 import org.tridas.io.util.StringUtils;
 import org.tridas.schema.TridasValue;
 import org.tridas.schema.TridasValues;
-import org.tridas.io.formats.vformat.DefaultFields;
+import org.tridas.io.formats.vformat.VFormatToTridasDefaults;
 
 public class VFormatFile implements IDendroFile {
 
-	private ArrayList<VFormatDataDefaultsPair> dataPairList = new ArrayList<VFormatDataDefaultsPair>();
+	private ArrayList<VFormatContainer> dataPairList = new ArrayList<VFormatContainer>();
+	private ArrayList<ITridasSeries> seriesList = new ArrayList<ITridasSeries>();
 	
 	public VFormatFile() {
 	
@@ -63,10 +64,11 @@ public class VFormatFile implements IDendroFile {
 	}
 	
 	
-	public void addSeries(TridasValues tv, TridasToVFormatDefaults defaults){
+	public void addSeries(ITridasSeries ser, TridasValues tv, TridasToVFormatDefaults defaults){
 		
-		VFormatDataDefaultsPair dataPair = new VFormatDataDefaultsPair(tv, defaults);
+		VFormatContainer dataPair = new VFormatContainer(tv, defaults);
 		dataPairList.add(dataPair);
+		seriesList.add(ser);
 		
 	}
 	
@@ -76,7 +78,8 @@ public class VFormatFile implements IDendroFile {
 	@Override
 	public ITridasSeries[] getSeries() {
 		
-		return null;
+		return seriesList.toArray(new ITridasSeries[0]);
+
 	}
 		
 	/**
@@ -100,7 +103,7 @@ public class VFormatFile implements IDendroFile {
 	public String[] saveToString() {
 		ArrayList<String> file = new ArrayList<String>();
 		
-		for (VFormatDataDefaultsPair dataPair : dataPairList)
+		for (VFormatContainer dataPair : dataPairList)
 		{
 			// Header line 1
 			String line = "";
@@ -169,11 +172,11 @@ public class VFormatFile implements IDendroFile {
 		return file.toArray(new String[0]);
 	}
 	
-	protected static class VFormatDataDefaultsPair {
+	protected static class VFormatContainer {
 		public TridasValues dataValues;
 		public TridasToVFormatDefaults defaults;
 		
-		protected VFormatDataDefaultsPair(TridasValues dv, TridasToVFormatDefaults def)
+		protected VFormatContainer(TridasValues dv, TridasToVFormatDefaults def)
 		{
 			dataValues = dv;
 			defaults = def;
