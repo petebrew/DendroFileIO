@@ -15,8 +15,6 @@
  */
 package org.tridas.io.formats.corina;
 
-import java.io.BufferedWriter;
-import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -25,17 +23,12 @@ import org.tridas.interfaces.ITridasSeries;
 import org.tridas.io.I18n;
 import org.tridas.io.IDendroFile;
 import org.tridas.io.defaults.IMetadataFieldSet;
-import org.tridas.io.defaults.values.IntegerDefaultValue;
-import org.tridas.io.defaults.values.SafeIntYearDefaultValue;
-import org.tridas.io.defaults.values.StringDefaultValue;
 import org.tridas.io.formats.corina.CorinaToTridasDefaults.DefaultFields;
 import org.tridas.io.formats.corina.TridasToCorinaDefaults.CorinaDatingType;
 import org.tridas.io.formats.corina.TridasToCorinaDefaults.CorinaSampleType;
 import org.tridas.io.formats.corina.TridasToCorinaDefaults.CorinaTerminalRing;
-import org.tridas.io.formats.sheffield.TridasToSheffieldDefaults.SheffieldPeriodCode;
 import org.tridas.io.util.SafeIntYear;
 import org.tridas.io.util.YearRange;
-import org.tridas.schema.DatingSuffix;
 import org.tridas.schema.SeriesLink;
 import org.tridas.schema.TridasDerivedSeries;
 import org.tridas.schema.TridasIdentifier;
@@ -419,8 +412,6 @@ public class CorinaFile implements IDendroFile {
 			// year: "%5d"
 			if (y.equals(startYear))
 				line +=StringUtils.leftPad(y.toString(), 5);
-
-			int i = y.diff(startYear) + 1; // first is 0/0, so add 1 to index
 
 			// always use '/' in corina files			
 			line+=StringUtils.leftPad(data.get(y.diff(range.getStart()))

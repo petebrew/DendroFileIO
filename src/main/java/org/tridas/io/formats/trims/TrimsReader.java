@@ -63,6 +63,7 @@ public class TrimsReader extends AbstractDendroFileReader {
 		super(TrimsToTridasDefaults.class);
 	}
 	
+	@SuppressWarnings("unchecked")
 	@Override
 	protected void parseFile(String[] argFileString, IMetadataFieldSet argDefaultFields)
 			throws InvalidDendroFileException {
@@ -71,7 +72,6 @@ public class TrimsReader extends AbstractDendroFileReader {
 		// the user may have specified his own metadata
 		// Extract 'metadata' ;-)
 		String userid = argFileString[0].trim();
-		String createdTimestamp = argFileString[1].trim();
 		SafeIntYear startYear = null;
 		
 		try {

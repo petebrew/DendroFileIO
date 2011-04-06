@@ -301,6 +301,7 @@ public class TridasIO {
 		}
 	}
 	
+	@SuppressWarnings("unchecked")
 	public synchronized static ArrayList<DendroFileFilter> getFileFilterArray()
 	{
 		ArrayList<DendroFileFilter> arr = new ArrayList<DendroFileFilter>();

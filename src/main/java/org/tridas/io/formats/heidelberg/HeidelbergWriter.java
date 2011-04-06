@@ -19,10 +19,8 @@ import org.tridas.io.AbstractDendroCollectionWriter;
 import org.tridas.io.I18n;
 import org.tridas.io.defaults.IMetadataFieldSet;
 import org.tridas.io.exceptions.ConversionWarning;
-import org.tridas.io.exceptions.ConversionWarningException;
 import org.tridas.io.exceptions.IncompleteTridasDataException;
 import org.tridas.io.exceptions.ConversionWarning.WarningType;
-import org.tridas.io.formats.sheffield.TridasToSheffieldDefaults.SheffieldVariableCode;
 import org.tridas.io.naming.HierarchicalNamingConvention;
 import org.tridas.io.naming.INamingConvention;
 import org.tridas.io.util.StringUtils;
@@ -34,7 +32,6 @@ import org.tridas.schema.TridasObject;
 import org.tridas.schema.TridasProject;
 import org.tridas.schema.TridasRadius;
 import org.tridas.schema.TridasSample;
-import org.tridas.schema.TridasTridas;
 import org.tridas.schema.TridasValue;
 import org.tridas.schema.TridasValues;
 

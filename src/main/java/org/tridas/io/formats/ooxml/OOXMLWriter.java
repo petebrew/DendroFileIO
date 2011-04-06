@@ -19,8 +19,6 @@ import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 
-import jxl.write.WriteException;
-
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.tridas.interfaces.ITridasSeries;
@@ -37,7 +35,6 @@ import org.tridas.io.util.TridasUtils;
 import org.tridas.schema.TridasDerivedSeries;
 import org.tridas.schema.TridasMeasurementSeries;
 import org.tridas.schema.TridasProject;
-import org.tridas.schema.TridasTridas;
 
 public class OOXMLWriter extends AbstractDendroCollectionWriter {
 	private static final Logger log = LoggerFactory.getLogger(OOXMLWriter.class);

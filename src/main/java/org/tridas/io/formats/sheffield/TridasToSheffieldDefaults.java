@@ -24,23 +24,18 @@ import org.tridas.interfaces.ITridasSeries;
 import org.tridas.io.I18n;
 import org.tridas.io.defaults.AbstractMetadataFieldSet;
 import org.tridas.io.defaults.IMetadataFieldSet;
-import org.tridas.io.defaults.TridasMetadataFieldSet;
 import org.tridas.io.defaults.values.GenericDefaultValue;
 import org.tridas.io.defaults.values.IntegerDefaultValue;
 import org.tridas.io.defaults.values.SheffieldStringDefaultValue;
 import org.tridas.io.defaults.values.StringDefaultValue;
-import org.tridas.io.formats.heidelberg.HeidelbergToTridasDefaults.DefaultFields;
 import org.tridas.io.util.DateUtils;
 import org.tridas.io.util.ITRDBTaxonConverter;
 import org.tridas.io.util.SafeIntYear;
 import org.tridas.io.util.UnitUtils;
 import org.tridas.schema.ComplexPresenceAbsence;
 import org.tridas.schema.NormalTridasDatingType;
-import org.tridas.schema.NormalTridasShape;
 import org.tridas.schema.NormalTridasUnit;
-import org.tridas.schema.NormalTridasVariable;
 import org.tridas.schema.PresenceAbsence;
-import org.tridas.schema.TridasBark;
 import org.tridas.schema.TridasDerivedSeries;
 import org.tridas.schema.TridasElement;
 import org.tridas.schema.TridasLocation;
@@ -50,8 +45,6 @@ import org.tridas.schema.TridasPith;
 import org.tridas.schema.TridasProject;
 import org.tridas.schema.TridasRadius;
 import org.tridas.schema.TridasSample;
-import org.tridas.schema.TridasSapwood;
-import org.tridas.schema.TridasUnit;
 import org.tridas.schema.TridasValues;
 import org.tridas.schema.TridasWoodCompleteness;
 
@@ -320,6 +313,7 @@ public class TridasToSheffieldDefaults extends AbstractMetadataFieldSet implemen
 		getSheffieldStringDefaultValue(DefaultFields.COMMENT).setValue(comment);
 	}
 	
+	@SuppressWarnings("unchecked")
 	private void populateFromTridasSeries(ITridasSeries ser)
 	{
 		// series.title = Short title
@@ -403,8 +397,6 @@ public class TridasToSheffieldDefaults extends AbstractMetadataFieldSet implemen
 	public void populateFromWoodCompleteness(TridasMeasurementSeries ms, TridasRadius r)
 	{
 		TridasWoodCompleteness wc = null;
-		TridasSapwood sapwood = null;
-		TridasBark bark = null;
 		
 		// Get the wood completeness from the series if possible, if not then try the radius
 		if (ms.isSetWoodCompleteness())

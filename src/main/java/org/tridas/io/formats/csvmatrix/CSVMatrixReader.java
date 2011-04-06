@@ -16,46 +16,31 @@
 package org.tridas.io.formats.csvmatrix;
 
 import java.io.File;
-import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
-
-import jxl.Cell;
-import jxl.CellType;
-import jxl.NumberCell;
-import jxl.Sheet;
-import jxl.Workbook;
-import jxl.read.biff.BiffException;
 
 import org.odftoolkit.odfdom.doc.OdfSpreadsheetDocument;
 import org.odftoolkit.odfdom.doc.table.OdfTable;
 import org.odftoolkit.odfdom.doc.table.OdfTableColumn;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import org.tridas.interfaces.ITridasSeries;
 import org.tridas.io.AbstractDendroFileReader;
 import org.tridas.io.DendroFileFilter;
 import org.tridas.io.I18n;
 import org.tridas.io.defaults.IMetadataFieldSet;
 import org.tridas.io.exceptions.ConversionWarning;
-import org.tridas.io.exceptions.IncorrectDefaultFieldsException;
 import org.tridas.io.exceptions.InvalidDendroFileException;
 import org.tridas.io.exceptions.ConversionWarning.WarningType;
 import org.tridas.io.exceptions.InvalidDendroFileException.PointerType;
-import org.tridas.io.formats.corina.CorinaToTridasDefaults;
 import org.tridas.io.util.SafeIntYear;
 import org.tridas.io.util.StringUtils;
 import org.tridas.schema.DatingSuffix;
-import org.tridas.schema.NormalTridasUnit;
 import org.tridas.schema.NormalTridasVariable;
-import org.tridas.schema.TridasElement;
 import org.tridas.schema.TridasInterpretation;
 import org.tridas.schema.TridasMeasurementSeries;
 import org.tridas.schema.TridasObject;
 import org.tridas.schema.TridasProject;
-import org.tridas.schema.TridasRadius;
-import org.tridas.schema.TridasSample;
 import org.tridas.schema.TridasTridas;
 import org.tridas.schema.TridasUnit;
 import org.tridas.schema.TridasValue;
@@ -67,7 +52,6 @@ public class CSVMatrixReader extends AbstractDendroFileReader {
 	private static final Logger log = LoggerFactory.getLogger(CSVMatrixReader.class);
 	private CSVMatrixToTridasDefaults defaults;
 	private OdfTable sheet;
-	private Cell[] yearCol;
 	private ArrayList<ODFDendroSeries> series = new ArrayList<ODFDendroSeries>();
 	
 	public CSVMatrixReader()
@@ -321,40 +305,11 @@ public class CSVMatrixReader extends AbstractDendroFileReader {
 			return null;
 		}
 	}
-	
-	/**
-	 * Get the column reference for a column number 
-	 * 
-	 * @param col <= 676
-	 * @return
-	 */
-	private String getColRef(int col)
-	{
-		String colcodes = "ABCDEFGHIJKLMNOPQRSTUVWXYZ";
-				
-		if(col<0) return null;
-		
-		if(col > 676)
-		{
-			System.out.println("Error.  getColRef called with number out of range");
-			return "??";
-		}
-		else if (col < 26)
-		{
-			return String.valueOf(colcodes.charAt(col));
-		}
-		else
-		{
-			int quotient = col / 26;
-			int remainder = col % 26;
-			return String.valueOf(colcodes.charAt(quotient-1)) + String.valueOf(colcodes.charAt(remainder));
-		}		
-	}
+
 	
 	@Override
 	protected void resetReader() {
 		sheet = null;
-		yearCol = null;
 		defaults = null;
 
 	}

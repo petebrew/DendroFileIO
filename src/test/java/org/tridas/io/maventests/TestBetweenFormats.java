@@ -31,7 +31,6 @@ import org.tridas.io.formats.trims.TrimsWriter;
 import org.tridas.io.formats.tucson.TucsonReader;
 import org.tridas.io.formats.tucson.TucsonToTridasDefaults;
 import org.tridas.io.naming.UUIDNamingConvention;
-import org.tridas.schema.TridasProject;
 import org.tridas.schema.TridasTridas;
 
 public class TestBetweenFormats extends TestCase {

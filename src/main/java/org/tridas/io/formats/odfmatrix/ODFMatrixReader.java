@@ -21,13 +21,6 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 
-import jxl.Cell;
-import jxl.CellType;
-import jxl.NumberCell;
-import jxl.Sheet;
-import jxl.Workbook;
-import jxl.read.biff.BiffException;
-
 import org.odftoolkit.odfdom.doc.OdfSpreadsheetDocument;
 import org.odftoolkit.odfdom.doc.table.OdfTable;
 import org.odftoolkit.odfdom.doc.table.OdfTableColumn;
@@ -46,13 +39,10 @@ import org.tridas.io.util.SafeIntYear;
 import org.tridas.schema.DatingSuffix;
 import org.tridas.schema.NormalTridasUnit;
 import org.tridas.schema.NormalTridasVariable;
-import org.tridas.schema.TridasElement;
 import org.tridas.schema.TridasInterpretation;
 import org.tridas.schema.TridasMeasurementSeries;
 import org.tridas.schema.TridasObject;
 import org.tridas.schema.TridasProject;
-import org.tridas.schema.TridasRadius;
-import org.tridas.schema.TridasSample;
 import org.tridas.schema.TridasTridas;
 import org.tridas.schema.TridasUnit;
 import org.tridas.schema.TridasValue;
@@ -64,7 +54,6 @@ public class ODFMatrixReader extends AbstractDendroFileReader {
 	private static final Logger log = LoggerFactory.getLogger(ODFMatrixReader.class);
 	private ODFMatrixToTridasDefaults defaults;
 	private OdfTable sheet;
-	private Cell[] yearCol;
 	private ArrayList<ODFDendroSeries> series = new ArrayList<ODFDendroSeries>();
 	
 	public ODFMatrixReader()
@@ -354,9 +343,7 @@ public class ODFMatrixReader extends AbstractDendroFileReader {
 	@Override
 	protected void resetReader() {
 		sheet = null;
-		yearCol = null;
 		defaults = null;
-
 	}
 	
 	@Override

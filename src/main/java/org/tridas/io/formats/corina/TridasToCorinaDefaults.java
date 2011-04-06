@@ -25,12 +25,8 @@ import org.tridas.io.defaults.values.IntegerDefaultValue;
 import org.tridas.io.defaults.values.SafeIntYearDefaultValue;
 import org.tridas.io.defaults.values.StringDefaultValue;
 import org.tridas.io.formats.corina.CorinaToTridasDefaults.DefaultFields;
-import org.tridas.io.formats.sheffield.TridasToSheffieldDefaults.SheffieldDataType;
-import org.tridas.io.formats.sheffield.TridasToSheffieldDefaults.SheffieldShapeCode;
-import org.tridas.io.util.ITRDBTaxonConverter;
 import org.tridas.io.util.SafeIntYear;
 import org.tridas.schema.ComplexPresenceAbsence;
-import org.tridas.schema.NormalTridasDatingType;
 import org.tridas.schema.PresenceAbsence;
 import org.tridas.schema.TridasBark;
 import org.tridas.schema.TridasDating;
@@ -95,6 +91,7 @@ public class TridasToCorinaDefaults extends AbstractMetadataFieldSet implements
 		
 	}
 	
+	@SuppressWarnings("unchecked")
 	private void populateFromTridasSeries(ITridasSeries argSeries)
 	{
 		// Name

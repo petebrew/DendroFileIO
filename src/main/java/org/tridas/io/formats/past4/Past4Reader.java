@@ -65,7 +65,6 @@ import org.xml.sax.SAXException;
 public class Past4Reader extends AbstractDendroFileReader {
 	private static final Logger log = LoggerFactory.getLogger(Past4Reader.class);
 	private Past4ToTridasDefaults defaults = null;
-	private Past4ToTridasDefaults originalDefaults = null;
 	private Integer numOfRecords = 0;
 	private Integer numOfGroups = 0;
 	private Integer length = 0;
@@ -167,7 +166,6 @@ public class Past4Reader extends AbstractDendroFileReader {
 		
 		log.debug("Parsing: " + argFileString);
 		defaults = (Past4ToTridasDefaults) argDefaultFields;
-		originalDefaults = defaults;
 		
 		Document doc = getDocument(argFileString); 
 
@@ -600,7 +598,6 @@ public class Past4Reader extends AbstractDendroFileReader {
 			
 			// Set series depending on whether it's a mean or not
 			ITridasSeries series;
-			List<TridasValues> originalValues;
 			if(isDerivedSeries!=null)
 			{
 				if(isDerivedSeries)
@@ -815,7 +812,6 @@ public class Past4Reader extends AbstractDendroFileReader {
 	protected void resetReader() {
 		project = null;
 		defaults = null;
-		originalDefaults = null;
 		numOfRecords = 0;
 		numOfGroups = 0;
 		length = 0;

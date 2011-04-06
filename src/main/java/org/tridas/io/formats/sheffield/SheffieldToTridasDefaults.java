@@ -115,6 +115,7 @@ public class SheffieldToTridasDefaults extends TridasMetadataFieldSet implements
 	/**
 	 * @see org.tridas.io.defaults.TridasMetadataFieldSet#getDefaultTridasObject()
 	 */
+	@SuppressWarnings("unchecked")
 	@Override
 	protected TridasObject getDefaultTridasObject() {
 		TridasObject o = super.getDefaultTridasObject();
@@ -390,6 +391,7 @@ public class SheffieldToTridasDefaults extends TridasMetadataFieldSet implements
 	/**
 	 * @see org.tridas.io.defaults.TridasMetadataFieldSet#getDefaultTridasDerivedSeries()
 	 */
+	@SuppressWarnings("unchecked")
 	@Override
 	protected TridasDerivedSeries getDefaultTridasDerivedSeries() {
 		TridasDerivedSeries ds = super.getDefaultTridasDerivedSeries();

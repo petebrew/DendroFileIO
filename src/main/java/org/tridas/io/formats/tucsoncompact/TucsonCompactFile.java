@@ -92,7 +92,6 @@ public class TucsonCompactFile implements IDendroFile {
 		// Find the maximum number of characters required for values
 		for(TridasValue val : dataValues.getValues())
 		{
-			Integer s = val.getValue().toString().length();
 			if(val.toString().length()>charsPerVal) charsPerVal=val.getValue().toString().length();
 		}
 		

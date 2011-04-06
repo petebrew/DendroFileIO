@@ -37,7 +37,6 @@ import org.tridas.io.util.TridasUtils;
 import org.tridas.schema.TridasDerivedSeries;
 import org.tridas.schema.TridasMeasurementSeries;
 import org.tridas.schema.TridasProject;
-import org.tridas.schema.TridasTridas;
 
 public class ExcelMatrixWriter extends AbstractDendroCollectionWriter {
 	private static final Logger log = LoggerFactory.getLogger(ExcelMatrixWriter.class);

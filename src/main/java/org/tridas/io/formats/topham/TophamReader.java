@@ -21,18 +21,13 @@ import java.util.List;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import org.tridas.interfaces.ITridasSeries;
 import org.tridas.io.AbstractDendroFileReader;
 import org.tridas.io.DendroFileFilter;
 import org.tridas.io.I18n;
 import org.tridas.io.defaults.IMetadataFieldSet;
 import org.tridas.io.exceptions.InvalidDendroFileException;
-import org.tridas.io.formats.catras.CatrasReader;
-import org.tridas.io.formats.catras.CatrasToTridasDefaults;
-import org.tridas.io.formats.heidelberg.HeidelbergToTridasDefaults;
 import org.tridas.schema.NormalTridasUnit;
 import org.tridas.schema.NormalTridasVariable;
-import org.tridas.schema.TridasDerivedSeries;
 import org.tridas.schema.TridasMeasurementSeries;
 import org.tridas.schema.TridasProject;
 import org.tridas.schema.TridasTridas;

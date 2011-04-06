@@ -18,12 +18,9 @@ package org.tridas.io.formats.tridas;
 import java.io.StringWriter;
 import java.net.URL;
 import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.List;
 
 import javax.xml.XMLConstants;
 import javax.xml.bind.JAXBContext;
-import javax.xml.bind.JAXBException;
 import javax.xml.bind.Marshaller;
 import javax.xml.validation.Schema;
 import javax.xml.validation.SchemaFactory;

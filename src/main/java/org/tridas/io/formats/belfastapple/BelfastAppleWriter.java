@@ -18,7 +18,6 @@ package org.tridas.io.formats.belfastapple;
 import java.util.ArrayList;
 import java.util.List;
 
-import org.tridas.interfaces.ITridasSeries;
 import org.tridas.io.AbstractDendroCollectionWriter;
 import org.tridas.io.I18n;
 import org.tridas.io.defaults.IMetadataFieldSet;
@@ -34,7 +33,6 @@ import org.tridas.schema.TridasObject;
 import org.tridas.schema.TridasProject;
 import org.tridas.schema.TridasRadius;
 import org.tridas.schema.TridasSample;
-import org.tridas.schema.TridasTridas;
 
 public class BelfastAppleWriter extends AbstractDendroCollectionWriter {
 	

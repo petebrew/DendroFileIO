@@ -15,14 +15,11 @@
  */
 package org.tridas.io.formats.tucsoncompact;
 
-import java.util.ArrayList;
-
 import org.tridas.io.I18n;
 import org.tridas.io.defaults.IMetadataFieldSet;
 import org.tridas.io.defaults.TridasMetadataFieldSet;
 import org.tridas.io.defaults.values.IntegerDefaultValue;
 import org.tridas.io.defaults.values.StringDefaultValue;
-import org.tridas.io.formats.tucson.TucsonToTridasDefaults;
 import org.tridas.io.util.SafeIntYear;
 import org.tridas.schema.DatingSuffix;
 import org.tridas.schema.NormalTridasDatingType;

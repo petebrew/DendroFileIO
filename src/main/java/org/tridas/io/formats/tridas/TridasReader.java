@@ -20,20 +20,14 @@ import java.io.StringReader;
 import java.net.URL;
 import java.util.ArrayList;
 import java.util.Arrays;
-import java.util.Iterator;
 import java.util.List;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
-import com.sun.org.apache.xml.internal.utils.PrefixResolver;
-import com.sun.org.apache.xml.internal.utils.PrefixResolverDefault;
-import com.sun.xml.bind.v2.runtime.output.NamespaceContextImpl;
- 
 import javax.xml.XMLConstants;
 import javax.xml.bind.JAXBContext;
 import javax.xml.bind.JAXBException;
 import javax.xml.bind.Unmarshaller;
-import javax.xml.namespace.NamespaceContext;
 import javax.xml.parsers.DocumentBuilder;
 import javax.xml.parsers.DocumentBuilderFactory;
 import javax.xml.parsers.ParserConfigurationException;
@@ -72,7 +66,6 @@ import org.xml.sax.SAXException;
  * @see org.tridas.io.formats.tridas
  * @author peterbrewer
  */
-@SuppressWarnings("restriction")
 public class TridasReader extends AbstractDendroFileReader {
 	
 	private static final Logger log = LoggerFactory.getLogger(TridasReader.class);
@@ -272,6 +265,7 @@ public class TridasReader extends AbstractDendroFileReader {
 	 * @param xmlfile
 	 * @return
 	 */
+	@SuppressWarnings("unused")
 	private Boolean isTridasNamespaceCorrect(String xmlfile)
 	{
 		try{

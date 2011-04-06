@@ -25,6 +25,7 @@ import org.tridas.io.defaults.IMetadataFieldSet;
 
 public class Past4File implements IDendroFile {
 
+	@SuppressWarnings("unused")
 	private final static Logger log = LoggerFactory.getLogger(Past4File.class);
 
 	

@@ -17,7 +17,6 @@ package org.tridas.io.formats.windendro;
 
 import java.math.BigDecimal;
 import java.util.ArrayList;
-import java.util.UUID;
 
 import org.tridas.io.I18n;
 import org.tridas.io.defaults.IMetadataFieldSet;

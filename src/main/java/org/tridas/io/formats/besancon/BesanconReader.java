@@ -52,7 +52,7 @@ public class BesanconReader extends AbstractDendroFileReader {
 	private static final Logger log = LoggerFactory.getLogger(BesanconReader.class);
 	// defaults given by user
 	private BesanconToTridasDefaults defaults = null;
-	private Integer currentLine = 0;
+
 	
 	private ArrayList<BesanconMeasurementSeries> seriesList = new ArrayList<BesanconMeasurementSeries>();
 	private DateTime fileLastUpdated;
@@ -459,7 +459,7 @@ public class BesanconReader extends AbstractDendroFileReader {
 	 */
 	@Override
 	protected void resetReader() {
-		currentLine = -1;
+
 		defaults = null;
 		fileLastUpdated = null;
 		seriesList.clear();

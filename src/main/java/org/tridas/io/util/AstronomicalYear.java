@@ -17,7 +17,6 @@ package org.tridas.io.util;
 
 import java.math.BigInteger;
 
-import org.tridas.schema.Certainty;
 import org.tridas.schema.DatingSuffix;
 import org.tridas.schema.Year;
 
@@ -32,6 +31,7 @@ import org.tridas.schema.Year;
  * reason for them to be).
  * </p>
  */
+@SuppressWarnings("unchecked")
 public final class AstronomicalYear implements Comparable {
 	/** The default year: 1001. */
 	public static final AstronomicalYear DEFAULT = new AstronomicalYear(1);

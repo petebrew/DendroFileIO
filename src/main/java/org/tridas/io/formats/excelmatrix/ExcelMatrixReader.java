@@ -23,7 +23,6 @@ import java.util.List;
 
 import jxl.Cell;
 import jxl.CellType;
-import jxl.NumberCell;
 import jxl.Sheet;
 import jxl.Workbook;
 import jxl.read.biff.BiffException;
@@ -42,15 +41,11 @@ import org.tridas.io.exceptions.InvalidDendroFileException.PointerType;
 import org.tridas.io.util.SafeIntYear;
 import org.tridas.io.util.StringUtils;
 import org.tridas.schema.DatingSuffix;
-import org.tridas.schema.NormalTridasUnit;
 import org.tridas.schema.NormalTridasVariable;
-import org.tridas.schema.TridasElement;
 import org.tridas.schema.TridasInterpretation;
 import org.tridas.schema.TridasMeasurementSeries;
 import org.tridas.schema.TridasObject;
 import org.tridas.schema.TridasProject;
-import org.tridas.schema.TridasRadius;
-import org.tridas.schema.TridasSample;
 import org.tridas.schema.TridasTridas;
 import org.tridas.schema.TridasUnit;
 import org.tridas.schema.TridasValue;
@@ -62,7 +57,6 @@ public class ExcelMatrixReader extends AbstractDendroFileReader {
 	private static final Logger log = LoggerFactory.getLogger(ExcelMatrixReader.class);
 	private ExcelMatrixToTridasDefaults defaults;
 	private Sheet sheet;
-	private Cell[] yearCol;
 	private ArrayList<ExcelDendroSeries> series = new ArrayList<ExcelDendroSeries>();
 	
 	public ExcelMatrixReader()
@@ -343,9 +337,7 @@ public class ExcelMatrixReader extends AbstractDendroFileReader {
 	@Override
 	protected void resetReader() {
 		sheet = null;
-		yearCol = null;
 		defaults = null;
-
 	}
 	
 	@Override

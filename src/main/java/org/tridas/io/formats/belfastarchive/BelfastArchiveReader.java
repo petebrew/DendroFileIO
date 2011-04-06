@@ -66,6 +66,7 @@ public class BelfastArchiveReader extends AbstractDendroFileReader {
 		super(BelfastArchiveToTridasDefaults.class);
 	}
 	
+	@SuppressWarnings("unchecked")
 	@Override
 	protected void parseFile(String[] argFileString, IMetadataFieldSet argDefaultFields)
 			throws InvalidDendroFileException {
@@ -82,7 +83,6 @@ public class BelfastArchiveReader extends AbstractDendroFileReader {
 		int footerStartInd = 0;
 		for (int i = 2; i < argFileString.length; i++) {
 			TridasValue v = new TridasValue();
-			int val;
 			
 			if (argFileString[i].contains("[[ARCHIVE")) {
 				// Reached footer block
@@ -91,7 +91,7 @@ public class BelfastArchiveReader extends AbstractDendroFileReader {
 			}
 			
 			try {
-				val = Integer.valueOf(argFileString[i].trim());
+				Integer.valueOf(argFileString[i].trim());
 			} catch (NumberFormatException e) {
 				throw new InvalidDendroFileException(I18n.getText("fileio.invalidDataValue"), i);
 			}

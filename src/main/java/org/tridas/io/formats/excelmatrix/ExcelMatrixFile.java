@@ -192,6 +192,7 @@ public class ExcelMatrixFile implements IDendroFile {
 		return dataFormat;
 	}
 	
+	@SuppressWarnings("unused")
 	private void writeMetadataHeaderCol(WritableSheet s) throws WriteException {
 		
 		Label l = new Label(0, 0, "Metadata Field", getHeaderFormat());
@@ -257,6 +258,7 @@ public class ExcelMatrixFile implements IDendroFile {
 		
 	}
 	
+	@SuppressWarnings("unused")
 	private void writeMetadataColumn(WritableSheet s, Integer col, ITridasSeries series) throws RowsExceededException,
 			WriteException {
 		// Creates year label

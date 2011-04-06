@@ -26,9 +26,6 @@ import javax.xml.datatype.DatatypeConfigurationException;
 import javax.xml.datatype.DatatypeFactory;
 import javax.xml.datatype.XMLGregorianCalendar;
 
-import org.tridas.io.I18n;
-import org.tridas.io.exceptions.ConversionWarning;
-import org.tridas.io.exceptions.ConversionWarning.WarningType;
 import org.tridas.schema.DateTime;
 
 public class DateUtils {

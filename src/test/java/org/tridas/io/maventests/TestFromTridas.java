@@ -29,7 +29,6 @@ import org.tridas.io.exceptions.InvalidDendroFileException;
 import org.tridas.io.formats.belfastapple.BelfastAppleWriter;
 import org.tridas.io.formats.besancon.BesanconWriter;
 import org.tridas.io.formats.corina.CorinaWriter;
-import org.tridas.io.formats.csv.CSVWriter;
 import org.tridas.io.formats.csvmatrix.CSVMatrixWriter;
 import org.tridas.io.formats.excelmatrix.ExcelMatrixWriter;
 import org.tridas.io.formats.heidelberg.HeidelbergWriter;
@@ -46,7 +45,6 @@ import org.tridas.io.formats.tucsoncompact.TucsonCompactWriter;
 import org.tridas.io.formats.vformat.VFormatWriter;
 import org.tridas.io.naming.HierarchicalNamingConvention;
 import org.tridas.io.naming.NumericalNamingConvention;
-import org.tridas.schema.TridasProject;
 import org.tridas.schema.TridasTridas;
 
 public class TestFromTridas extends TestCase {

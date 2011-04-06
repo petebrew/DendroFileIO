@@ -24,6 +24,7 @@ import org.tridas.io.defaults.AbstractDefaultValue;
  */
 public class BooleanDefaultValue extends AbstractDefaultValue<Boolean> {
 	
+	@SuppressWarnings("unused")
 	private static final Logger log = LoggerFactory.getLogger(BooleanDefaultValue.class);
 	
 	protected Boolean value = null;

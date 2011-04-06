@@ -15,13 +15,11 @@
  */
 package org.tridas.io.formats.belfastapple;
 
-import java.io.FileFilter;
 import java.util.ArrayList;
 import java.util.List;
 
 import org.tridas.interfaces.ITridasSeries;
 import org.tridas.io.AbstractDendroCollectionWriter;
-import org.tridas.io.DendroFileFilter;
 import org.tridas.io.I18n;
 import org.tridas.io.IDendroFile;
 import org.tridas.io.defaults.IMetadataFieldSet;

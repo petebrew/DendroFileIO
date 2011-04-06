@@ -342,7 +342,6 @@ public class CorinaToTridasDefaults extends TridasMetadataFieldSet implements
 		
 	}
 	
-	@SuppressWarnings("unchecked")
 	public TridasValues getTridasValuesWithDefaults() {
 		TridasValues valuesGroup = new TridasValues();
 		

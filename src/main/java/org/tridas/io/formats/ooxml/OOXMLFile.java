@@ -20,15 +20,14 @@ import java.io.OutputStream;
 import java.util.ArrayList;
 import java.util.List;
 
-import org.apache.poi.hssf.usermodel.HSSFWorkbook;
-import org.apache.poi.ss.usermodel.Cell;
+import jxl.write.WriteException;
+import jxl.write.biff.RowsExceededException;
+
 import org.apache.poi.ss.usermodel.CreationHelper;
 import org.apache.poi.ss.usermodel.Row;
 import org.apache.poi.ss.usermodel.Sheet;
 import org.apache.poi.ss.usermodel.Workbook;
-import org.apache.poi.ss.util.WorkbookUtil;
 import org.apache.poi.xssf.usermodel.XSSFWorkbook;
-
 import org.tridas.interfaces.ITridasSeries;
 import org.tridas.io.I18n;
 import org.tridas.io.IDendroFile;

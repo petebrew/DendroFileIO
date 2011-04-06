@@ -24,7 +24,6 @@ import java.util.Arrays;
 import java.util.List;
 
 import org.apache.poi.ss.usermodel.Cell;
-import org.apache.poi.ss.usermodel.FormulaEvaluator;
 import org.apache.poi.ss.usermodel.Row;
 import org.apache.poi.ss.usermodel.Sheet;
 import org.apache.poi.ss.usermodel.Workbook;
@@ -45,7 +44,6 @@ import org.tridas.io.exceptions.InvalidDendroFileException.PointerType;
 import org.tridas.io.util.SafeIntYear;
 import org.tridas.io.util.StringUtils;
 import org.tridas.schema.DatingSuffix;
-import org.tridas.schema.NormalTridasUnit;
 import org.tridas.schema.NormalTridasVariable;
 import org.tridas.schema.TridasInterpretation;
 import org.tridas.schema.TridasMeasurementSeries;
@@ -62,7 +60,6 @@ public class OOXMLReader extends AbstractDendroFileReader {
 	private static final Logger log = LoggerFactory.getLogger(OOXMLReader.class);
 	private OOXMLToTridasDefaults defaults;
 	private Sheet sheet;
-	private Cell[] yearCol;
 	private Workbook wb;
 	private ArrayList<ExcelDendroSeries> series = new ArrayList<ExcelDendroSeries>();
 	
@@ -462,9 +459,7 @@ public class OOXMLReader extends AbstractDendroFileReader {
 	@Override
 	protected void resetReader() {
 		sheet = null;
-		yearCol = null;
 		defaults = null;
-
 	}
 	
 	@Override
