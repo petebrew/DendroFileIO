@@ -26,7 +26,6 @@ import org.tridas.io.exceptions.ConversionWarning;
 import org.tridas.io.exceptions.ConversionWarningException;
 import org.tridas.io.exceptions.ConversionWarning.WarningType;
 import org.tridas.io.util.SafeIntYear;
-import org.tridas.schema.NormalTridasDatingType;
 import org.tridas.schema.TridasValue;
 
 /**

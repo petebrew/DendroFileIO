@@ -34,7 +34,6 @@ import org.tridas.schema.TridasObject;
 import org.tridas.schema.TridasProject;
 import org.tridas.schema.TridasRadius;
 import org.tridas.schema.TridasSample;
-import org.tridas.schema.TridasTridas;
 import org.tridas.schema.TridasValue;
 import org.tridas.schema.TridasValues;
 

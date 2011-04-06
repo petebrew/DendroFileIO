@@ -23,17 +23,14 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.tridas.io.exceptions.IncorrectDefaultFieldsException;
 import org.tridas.io.exceptions.InvalidDendroFileException;
-import org.tridas.io.formats.heidelberg.HeidelbergWriter;
-import org.tridas.io.formats.heidelberg.TridasToHeidelbergDefaults;
-import org.tridas.io.formats.heidelberg.HeidelbergToTridasDefaults.DefaultFields;
 import org.tridas.io.formats.tridas.TridasReader;
 import org.tridas.io.formats.tucson.TridasToTucsonDefaults;
 import org.tridas.io.formats.tucson.TucsonWriter;
 import org.tridas.io.formats.tucson.TridasToTucsonDefaults.TucsonField;
-import org.tridas.schema.TridasProject;
 import org.tridas.schema.TridasTridas;
 
 public class OverridingTest extends TestCase {
+	@SuppressWarnings("unused")
 	private static final Logger log = LoggerFactory.getLogger(OverridingTest.class);
 		
 	public void testTucsonOverriding() throws IOException, InvalidDendroFileException, IncorrectDefaultFieldsException {

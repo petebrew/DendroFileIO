@@ -27,6 +27,7 @@ import org.tridas.interfaces.ITridasSeries;
  * @see TreeRingData
  * @author Ken Harris
  */
+@SuppressWarnings("unchecked")
 public class YearRange implements Comparable {
 	
 	/** Starting year of the Range. */

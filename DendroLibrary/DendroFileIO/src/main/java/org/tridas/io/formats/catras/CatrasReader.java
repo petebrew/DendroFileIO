@@ -124,7 +124,6 @@ public class CatrasReader extends AbstractDendroFileReader {
 		}
 		
 		// Count number of new line characters in file
-		byte[] newline = System.getProperty("line.separator").getBytes();
 		System.out.println("Checking that file is CATRAS format...");
 		int n = 0;
 		int count = 0;
@@ -563,14 +562,6 @@ public class CatrasReader extends AbstractDendroFileReader {
 		
 	}
 	
-	private char[] byteArr2CharArr(byte[] byteArr) {
-		
-		char[] charArr = new char[byteArr.length];
-		String str = new String(byteArr);
-		charArr = str.toCharArray();
-		
-		return charArr;
-	}
 	
 	// *******************************
 	// NOT SUPPORTED - BINARY FORMAT
@@ -640,6 +631,7 @@ public class CatrasReader extends AbstractDendroFileReader {
 	}
 	
 	
+	@SuppressWarnings("unused")
 	private void debugAsIntSingleByte(int first, int last, byte[] argFileBytes)
 	{
 		for (int i=first; i<=last; i++)
@@ -650,6 +642,7 @@ public class CatrasReader extends AbstractDendroFileReader {
 		}
 	}
 	
+	@SuppressWarnings("unused")
 	private void debugAsIntBytePairs(int first, int last, byte[] argFileBytes)
 	{
 		for (int i=first; i<=last; i++)
@@ -660,6 +653,7 @@ public class CatrasReader extends AbstractDendroFileReader {
 		}
 	}
 	
+	@SuppressWarnings("unused")
 	private void debugAsStringBytePairs(int first, int last, byte[] argFileBytes)
 	{
 		for (int i=first; i<=last; i++)

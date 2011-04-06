@@ -18,7 +18,6 @@ package org.tridas.io.formats.csv;
 import java.util.ArrayList;
 import java.util.List;
 
-import org.tridas.interfaces.ITridasSeries;
 import org.tridas.io.AbstractDendroCollectionWriter;
 import org.tridas.io.I18n;
 import org.tridas.io.defaults.IMetadataFieldSet;
@@ -34,7 +33,6 @@ import org.tridas.schema.TridasObject;
 import org.tridas.schema.TridasProject;
 import org.tridas.schema.TridasRadius;
 import org.tridas.schema.TridasSample;
-import org.tridas.schema.TridasTridas;
 
 /**
  * Writer for Comma Separated Values spreadsheet format.
@@ -55,9 +53,7 @@ public class CSVWriter extends AbstractDendroCollectionWriter {
 	protected void parseTridasProject(TridasProject argProject, IMetadataFieldSet argDefaults)
 			throws IncompleteTridasDataException, ConversionWarningException {
 		defaults = argDefaults;
-		
-		ArrayList<ITridasSeries> seriesList = new ArrayList<ITridasSeries>();
-		
+				
 		// Grab all derivedSeries from project
 		try {
 			List<TridasDerivedSeries> lst = argProject.getDerivedSeries();

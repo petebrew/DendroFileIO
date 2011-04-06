@@ -25,7 +25,6 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.tridas.interfaces.ITridasSeries;
 import org.tridas.io.I18n;
-import org.tridas.io.defaults.AbstractDefaultValue;
 import org.tridas.io.defaults.AbstractMetadataFieldSet;
 import org.tridas.io.defaults.IMetadataFieldSet;
 import org.tridas.io.defaults.values.DoubleDefaultValue;
@@ -43,11 +42,9 @@ import org.tridas.io.formats.heidelberg.HeidelbergToTridasDefaults.FHPith;
 import org.tridas.io.formats.heidelberg.HeidelbergToTridasDefaults.FHSeriesType;
 import org.tridas.io.formats.heidelberg.HeidelbergToTridasDefaults.FHStartsOrEndsWith;
 import org.tridas.io.formats.heidelberg.HeidelbergToTridasDefaults.FHWaldKante;
-import org.tridas.io.formats.sheffield.TridasToSheffieldDefaults.SheffieldDateType;
 import org.tridas.io.util.ITRDBTaxonConverter;
 import org.tridas.io.util.SafeIntYear;
 import org.tridas.schema.ComplexPresenceAbsence;
-import org.tridas.schema.NormalTridasDatingType;
 import org.tridas.schema.PresenceAbsence;
 import org.tridas.schema.TridasBark;
 import org.tridas.schema.TridasDerivedSeries;
@@ -69,6 +66,7 @@ import org.tridas.schema.TridasWoodCompleteness;
 
 public class TridasToHeidelbergDefaults extends AbstractMetadataFieldSet implements IMetadataFieldSet {
 	
+	@SuppressWarnings("unused")
 	private static final Logger log = LoggerFactory.getLogger(TridasToHeidelbergDefaults.class);
 	private SimpleDateFormat dateFormat = new SimpleDateFormat("dd/MM/yyyy");
 	
@@ -391,6 +389,7 @@ public class TridasToHeidelbergDefaults extends AbstractMetadataFieldSet impleme
 		}
 	}
 	
+	@SuppressWarnings("unchecked")
 	private void populateFromSeries(ITridasSeries argSeries) {
 		
 		TridasIdentifier id = argSeries.getIdentifier();
@@ -582,7 +581,6 @@ public class TridasToHeidelbergDefaults extends AbstractMetadataFieldSet impleme
 		
 	}
 	
-	@SuppressWarnings("unchecked") 
 	public void populateFromWoodCompleteness(TridasMeasurementSeries series, TridasRadius radius)
 	{
 		TridasWoodCompleteness wc = null;

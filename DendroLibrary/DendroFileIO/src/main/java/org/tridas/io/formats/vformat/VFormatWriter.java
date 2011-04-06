@@ -22,12 +22,10 @@ import org.tridas.io.exceptions.ConversionWarning;
 import org.tridas.io.exceptions.ConversionWarningException;
 import org.tridas.io.exceptions.IncompleteTridasDataException;
 import org.tridas.io.exceptions.ConversionWarning.WarningType;
-import org.tridas.io.formats.vformat.VFormatToTridasDefaults.VFormatParameter;
 import org.tridas.io.naming.INamingConvention;
 import org.tridas.io.naming.NumericalNamingConvention;
 import org.tridas.io.util.TridasUtils;
 import org.tridas.io.util.UnitUtils;
-import org.tridas.schema.NormalTridasDatingType;
 import org.tridas.schema.NormalTridasUnit;
 import org.tridas.schema.TridasDerivedSeries;
 import org.tridas.schema.TridasElement;
@@ -36,7 +34,6 @@ import org.tridas.schema.TridasObject;
 import org.tridas.schema.TridasProject;
 import org.tridas.schema.TridasRadius;
 import org.tridas.schema.TridasSample;
-import org.tridas.schema.TridasTridas;
 import org.tridas.schema.TridasValues;
 
 public class VFormatWriter extends AbstractDendroCollectionWriter {

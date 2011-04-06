@@ -17,9 +17,6 @@ package org.tridas.io.util;
 
 import java.util.StringTokenizer;
 
-import org.tridas.io.I18n;
-import org.tridas.io.exceptions.IncompleteTridasDataException;
-
 
 /**
  * Some handy string utilities. <h2>Left to do</h2>

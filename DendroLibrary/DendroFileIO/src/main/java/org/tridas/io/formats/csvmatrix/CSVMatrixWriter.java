@@ -15,36 +15,26 @@
  */
 package org.tridas.io.formats.csvmatrix;
 
-import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
-
-import jxl.write.WriteException;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.tridas.interfaces.ITridasSeries;
 import org.tridas.io.AbstractDendroCollectionWriter;
 import org.tridas.io.I18n;
-import org.tridas.io.IDendroFile;
 import org.tridas.io.defaults.IMetadataFieldSet;
-import org.tridas.io.exceptions.ConversionWarning;
 import org.tridas.io.exceptions.ConversionWarningException;
 import org.tridas.io.exceptions.IncompleteTridasDataException;
-import org.tridas.io.exceptions.ConversionWarning.WarningType;
 import org.tridas.io.naming.INamingConvention;
 import org.tridas.io.naming.UUIDNamingConvention;
-import org.tridas.io.util.FileHelper;
 import org.tridas.io.util.TridasUtils;
-import org.tridas.io.util.UnitUtils;
-import org.tridas.schema.NormalTridasUnit;
 import org.tridas.schema.TridasDerivedSeries;
 import org.tridas.schema.TridasMeasurementSeries;
 import org.tridas.schema.TridasProject;
-import org.tridas.schema.TridasTridas;
-import org.tridas.schema.TridasValues;
 
 public class CSVMatrixWriter extends AbstractDendroCollectionWriter {
+	@SuppressWarnings("unused")
 	private static final Logger log = LoggerFactory.getLogger(CSVMatrixWriter.class);
 	
 	IMetadataFieldSet defaults;

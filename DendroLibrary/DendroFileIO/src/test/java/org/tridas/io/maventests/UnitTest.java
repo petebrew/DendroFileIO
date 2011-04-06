@@ -37,7 +37,6 @@ import org.tridas.io.formats.tridas.TridasReader;
 import org.tridas.io.formats.tridas.TridasWriter;
 import org.tridas.io.formats.tucson.TridasToTucsonDefaults;
 import org.tridas.io.formats.tucson.TucsonWriter;
-import org.tridas.schema.TridasProject;
 import org.tridas.schema.TridasTridas;
 
 public class UnitTest extends TestCase {

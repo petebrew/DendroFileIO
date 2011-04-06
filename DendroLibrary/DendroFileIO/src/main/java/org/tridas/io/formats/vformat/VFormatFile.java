@@ -23,7 +23,6 @@ import org.tridas.io.defaults.IMetadataFieldSet;
 import org.tridas.io.util.StringUtils;
 import org.tridas.schema.TridasValue;
 import org.tridas.schema.TridasValues;
-import org.tridas.io.formats.vformat.VFormatToTridasDefaults;
 
 public class VFormatFile implements IDendroFile {
 

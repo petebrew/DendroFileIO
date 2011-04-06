@@ -260,7 +260,6 @@ public class VFormatToTridasDefaults extends TridasMetadataFieldSet {
 		if((getStringDefaultValue(DefaultFields.DESCRIPTION).getValue()!=null) &&
 				(!getStringDefaultValue(DefaultFields.DESCRIPTION).getValue().trim().isEmpty()))
 		{
-			String title = getStringDefaultValue(DefaultFields.DESCRIPTION).getValue();
 			ms.setTitle(getStringDefaultValue(DefaultFields.DESCRIPTION).getValue());
 		}
 	
@@ -438,10 +437,7 @@ public class VFormatToTridasDefaults extends TridasMetadataFieldSet {
 	public enum ParamMeasured {
 		MEAN_DENSITY("D"), EARLYWOOD_WIDTH("F"), MAX_DENSITY("G"), RING_WIDTH("J"), MIN_DENSITY("K");
 		
-		private String code;
-		
 		ParamMeasured(String code) {
-			this.code = code;
 		}
 		
 	}

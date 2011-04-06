@@ -18,7 +18,6 @@ package org.tridas.io.formats.sheffield;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
-import java.util.UUID;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -44,9 +43,6 @@ import org.tridas.io.formats.sheffield.TridasToSheffieldDefaults.SheffieldVariab
 import org.tridas.io.util.CoordinatesUtils;
 import org.tridas.io.util.SafeIntYear;
 import org.tridas.schema.ComplexPresenceAbsence;
-import org.tridas.schema.ObjectFactory;
-import org.tridas.schema.SeriesLink;
-import org.tridas.schema.SeriesLinks;
 import org.tridas.schema.TridasDerivedSeries;
 import org.tridas.schema.TridasElement;
 import org.tridas.schema.TridasMeasurementSeries;
@@ -57,7 +53,6 @@ import org.tridas.schema.TridasSample;
 import org.tridas.schema.TridasTridas;
 import org.tridas.schema.TridasValue;
 import org.tridas.schema.TridasValues;
-import org.tridas.schema.SeriesLink.IdRef;
 
 /**
  * Reader for the file format produced by Ian Tyers'
@@ -442,7 +437,7 @@ public class SheffieldReader extends AbstractDendroFileReader {
 					
 					for (int i = 1; i < notesArray.length; i = i + 3) {
 						try {
-							Integer val = Integer.parseInt(notesArray[i]);
+							Integer.parseInt(notesArray[i]);
 						} catch (NumberFormatException e) {
 							// The second field of each note must be a year or ring number
 							addWarning(new ConversionWarning(WarningType.INVALID, I18n

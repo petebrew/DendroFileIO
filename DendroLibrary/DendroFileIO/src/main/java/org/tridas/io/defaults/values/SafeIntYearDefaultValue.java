@@ -25,6 +25,7 @@ import org.tridas.io.util.SafeIntYear;
  */
 public class SafeIntYearDefaultValue extends AbstractDefaultValue<SafeIntYear> {
 	
+	@SuppressWarnings("unused")
 	private static final Logger log = LoggerFactory.getLogger(SafeIntYearDefaultValue.class);
 	
 	private SafeIntYear value = new SafeIntYear();

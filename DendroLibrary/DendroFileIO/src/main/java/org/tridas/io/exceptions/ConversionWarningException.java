@@ -53,6 +53,7 @@ public class ConversionWarningException extends IOException {
 	/**
 	 * Write the warning to System.out
 	 */
+	@SuppressWarnings("unused")
 	private void toSystemOut() {
 		System.out.println("**Conversion Warning**\n" + "Type    : " + warning.getWarningType() + "\n" + "Message : "
 				+ warning.getMessage() + "\n" + "Field   : " + warning.getField() + "\n");

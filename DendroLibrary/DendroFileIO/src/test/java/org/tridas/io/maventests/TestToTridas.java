@@ -53,8 +53,6 @@ import org.tridas.io.formats.tucsoncompact.TucsonCompactReader;
 import org.tridas.io.formats.vformat.VFormatReader;
 import org.tridas.io.formats.windendro.WinDendroReader;
 import org.tridas.io.naming.NumericalNamingConvention;
-import org.tridas.io.naming.UUIDNamingConvention;
-import org.tridas.schema.TridasProject;
 import org.tridas.schema.TridasTridas;
 
 public class TestToTridas extends TestCase {

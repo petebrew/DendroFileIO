@@ -18,16 +18,12 @@ package org.tridas.io.formats.heidelberg;
 import java.util.ArrayList;
 
 import org.apache.commons.lang.WordUtils;
-import org.tridas.interfaces.ITridasSeries;
 import org.tridas.io.I18n;
 import org.tridas.io.defaults.TridasMetadataFieldSet;
-import org.tridas.io.defaults.TridasMetadataFieldSet.TridasMandatoryField;
 import org.tridas.io.defaults.values.DoubleDefaultValue;
 import org.tridas.io.defaults.values.GenericDefaultValue;
 import org.tridas.io.defaults.values.IntegerDefaultValue;
 import org.tridas.io.defaults.values.StringDefaultValue;
-import org.tridas.io.formats.besancon.BesanconToTridasDefaults.BesanconCambiumType;
-import org.tridas.io.formats.besancon.BesanconToTridasDefaults.DefaultFields;
 import org.tridas.io.util.CoordinatesUtils;
 import org.tridas.io.util.DateUtils;
 import org.tridas.io.util.SafeIntYear;
@@ -35,17 +31,14 @@ import org.tridas.schema.ControlledVoc;
 import org.tridas.schema.DatingSuffix;
 import org.tridas.schema.NormalTridasDatingType;
 import org.tridas.schema.ObjectFactory;
-import org.tridas.schema.PresenceAbsence;
 import org.tridas.schema.TridasAddress;
 import org.tridas.schema.TridasCoverage;
 import org.tridas.schema.TridasDating;
 import org.tridas.schema.TridasDerivedSeries;
-import org.tridas.schema.TridasDimensions;
 import org.tridas.schema.TridasElement;
 import org.tridas.schema.TridasGenericField;
 import org.tridas.schema.TridasIdentifier;
 import org.tridas.schema.TridasInterpretation;
-import org.tridas.schema.TridasLaboratory;
 import org.tridas.schema.TridasLocation;
 import org.tridas.schema.TridasLocationGeometry;
 import org.tridas.schema.TridasMeasurementSeries;
@@ -268,6 +261,7 @@ public class HeidelbergToTridasDefaults extends TridasMetadataFieldSet {
 	/**
 	 * @see org.tridas.io.defaults.TridasMetadataFieldSet#getDefaultTridasDerivedSeries()
 	 */
+	@SuppressWarnings("unchecked")
 	@Override
 	protected TridasDerivedSeries getDefaultTridasDerivedSeries() {
 		TridasDerivedSeries series = super.getDefaultTridasDerivedSeries();
@@ -350,6 +344,7 @@ public class HeidelbergToTridasDefaults extends TridasMetadataFieldSet {
 	/**
 	 * @see org.tridas.io.defaults.TridasMetadataFieldSet#getDefaultTridasMeasurementSeries()
 	 */
+	@SuppressWarnings("unchecked")
 	@Override
 	protected TridasMeasurementSeries getDefaultTridasMeasurementSeries() {
 		TridasMeasurementSeries series = super.getDefaultTridasMeasurementSeries();

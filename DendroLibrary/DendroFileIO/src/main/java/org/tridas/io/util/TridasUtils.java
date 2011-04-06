@@ -20,7 +20,6 @@ import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
 
-import org.tridas.schema.ControlledVoc;
 import org.tridas.schema.NormalTridasRemark;
 import org.tridas.schema.TridasElement;
 import org.tridas.schema.TridasMeasurementSeries;
@@ -38,7 +37,6 @@ public class TridasUtils {
 
 	}
 	
-	@SuppressWarnings("unchecked")
 	public static ArrayList<TridasMeasurementSeries> getMeasurementSeriesFromTridasProject(TridasProject p) {
 		ArrayList<TridasMeasurementSeries> serlist = new ArrayList<TridasMeasurementSeries>();
 		

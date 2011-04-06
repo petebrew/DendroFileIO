@@ -27,8 +27,6 @@ import org.tridas.io.exceptions.ConversionWarning.WarningType;
 import org.tridas.io.formats.past4.TridasToPast4Defaults.DefaultFields;
 import org.tridas.io.naming.INamingConvention;
 import org.tridas.io.naming.NumericalNamingConvention;
-import org.tridas.io.util.UnitUtils;
-import org.tridas.schema.NormalTridasUnit;
 import org.tridas.schema.TridasDerivedSeries;
 import org.tridas.schema.TridasElement;
 import org.tridas.schema.TridasMeasurementSeries;
@@ -37,7 +35,6 @@ import org.tridas.schema.TridasProject;
 import org.tridas.schema.TridasRadius;
 import org.tridas.schema.TridasRemark;
 import org.tridas.schema.TridasSample;
-import org.tridas.schema.TridasTridas;
 import org.tridas.schema.TridasValue;
 import org.tridas.schema.TridasValues;
 

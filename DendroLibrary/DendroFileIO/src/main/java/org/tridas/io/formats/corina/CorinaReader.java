@@ -370,7 +370,6 @@ public class CorinaReader extends AbstractDendroFileReader {
 		return null;
 	}
 	
-	@SuppressWarnings("unchecked")
 	private void readData(String[] argFileString, Integer dataStartIndex) throws InvalidDendroFileException
 	{
 		defaults.getSafeIntYearDefaultValue(DefaultFields.START_YEAR).setValue(
@@ -465,6 +464,7 @@ public class CorinaReader extends AbstractDendroFileReader {
 		
 	}
 	
+	@SuppressWarnings("unused")
 	private void readWJ(String[] argFileString, Integer dataStartIndex) throws InvalidDendroFileException
 	{
 		for (int i=dataStartIndex; i<argFileString.length; i++)

@@ -34,7 +34,6 @@ import org.tridas.io.util.SafeIntYear;
 import org.tridas.schema.TridasElement;
 import org.tridas.schema.TridasGenericField;
 import org.tridas.schema.TridasHeartwood;
-import org.tridas.schema.TridasInterpretation;
 import org.tridas.schema.TridasMeasurementSeries;
 import org.tridas.schema.TridasObject;
 import org.tridas.schema.TridasProject;

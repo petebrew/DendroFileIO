@@ -22,15 +22,11 @@ import org.tridas.io.exceptions.ConversionWarning;
 import org.tridas.io.exceptions.ConversionWarningException;
 import org.tridas.io.exceptions.IncompleteTridasDataException;
 import org.tridas.io.exceptions.ConversionWarning.WarningType;
-import org.tridas.io.formats.heidelberg.HeidelbergFile;
-import org.tridas.io.formats.topham.TridasToTophamDefaults;
-import org.tridas.io.naming.HierarchicalNamingConvention;
 import org.tridas.io.naming.INamingConvention;
 import org.tridas.io.naming.NumericalNamingConvention;
 import org.tridas.io.util.TridasUtils;
 import org.tridas.io.util.UnitUtils;
 import org.tridas.schema.NormalTridasUnit;
-import org.tridas.schema.NormalTridasVariable;
 import org.tridas.schema.TridasDerivedSeries;
 import org.tridas.schema.TridasElement;
 import org.tridas.schema.TridasMeasurementSeries;
@@ -38,8 +34,6 @@ import org.tridas.schema.TridasObject;
 import org.tridas.schema.TridasProject;
 import org.tridas.schema.TridasRadius;
 import org.tridas.schema.TridasSample;
-import org.tridas.schema.TridasTridas;
-import org.tridas.schema.TridasValue;
 import org.tridas.schema.TridasValues;
 
 public class NottinghamWriter extends AbstractDendroCollectionWriter {

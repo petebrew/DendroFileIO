@@ -32,7 +32,6 @@ import org.tridas.io.util.UnitUtils;
 import org.tridas.io.util.YearRange;
 import org.tridas.schema.NormalTridasDatingType;
 import org.tridas.schema.NormalTridasUnit;
-import org.tridas.schema.NormalTridasVariable;
 import org.tridas.schema.TridasDerivedSeries;
 import org.tridas.schema.TridasElement;
 import org.tridas.schema.TridasMeasurementSeries;
@@ -40,11 +39,7 @@ import org.tridas.schema.TridasObject;
 import org.tridas.schema.TridasProject;
 import org.tridas.schema.TridasRadius;
 import org.tridas.schema.TridasSample;
-import org.tridas.schema.TridasTridas;
-import org.tridas.schema.TridasUnit;
-import org.tridas.schema.TridasValue;
 import org.tridas.schema.TridasValues;
-import org.tridas.schema.TridasVariable;
 
 /**
  * Writer for the Tucson file format.
@@ -213,7 +208,6 @@ public class TucsonWriter extends AbstractDendroCollectionWriter {
 	 */
 	private NormalTridasUnit getOutputUnits(TridasValues tvs)
 	{
-		NormalTridasUnit inputunit = null;			
 		if(tvs.getVariable().getNormalTridas()!=null)
 		{
 			switch (tvs.getVariable().getNormalTridas())

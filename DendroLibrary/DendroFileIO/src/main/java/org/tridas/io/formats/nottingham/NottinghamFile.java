@@ -21,9 +21,7 @@ import org.apache.commons.lang.StringUtils;
 import org.tridas.interfaces.ITridasSeries;
 import org.tridas.io.IDendroFile;
 import org.tridas.io.defaults.IMetadataFieldSet;
-import org.tridas.io.formats.heidelberg.TridasToHeidelbergDefaults;
 import org.tridas.io.formats.nottingham.NottinghamToTridasDefaults.DefaultFields;
-import org.tridas.schema.TridasDerivedSeries;
 import org.tridas.schema.TridasValue;
 import org.tridas.schema.TridasValues;
 

@@ -16,8 +16,6 @@
 package org.tridas.io.formats.tucson;
 
 import java.text.DecimalFormat;
-import java.text.SimpleDateFormat;
-import java.util.Calendar;
 import java.util.List;
 import java.util.UUID;
 

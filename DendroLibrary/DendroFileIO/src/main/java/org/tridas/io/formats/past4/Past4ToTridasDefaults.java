@@ -40,7 +40,6 @@ import org.tridas.schema.TridasRadius;
 import org.tridas.schema.TridasSample;
 import org.tridas.schema.TridasSapwood;
 import org.tridas.schema.TridasUnit;
-import org.tridas.schema.TridasUnitless;
 import org.tridas.schema.TridasValues;
 import org.tridas.schema.TridasVariable;
 import org.tridas.schema.TridasWoodCompleteness;

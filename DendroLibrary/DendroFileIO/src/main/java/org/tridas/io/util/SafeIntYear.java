@@ -42,6 +42,7 @@ import org.tridas.schema.Year;
  *         style="color: gray">dot</i> edu&gt;
  * @version $Id: Year.java 1671 2009-04-29 22:11:14Z lucasm $
  */
+@SuppressWarnings("unchecked")
 public final class SafeIntYear implements Comparable {
 	/** The default year: 1. */
 	public static final SafeIntYear DEFAULT = new SafeIntYear(1);

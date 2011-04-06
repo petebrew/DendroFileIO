@@ -33,10 +33,8 @@ import org.tridas.io.formats.besancon.BesanconToTridasDefaults.BesanconCambiumTy
 import org.tridas.io.formats.besancon.BesanconToTridasDefaults.DefaultFields;
 import org.tridas.io.util.SafeIntYear;
 import org.tridas.schema.ComplexPresenceAbsence;
-import org.tridas.schema.NormalTridasDatingType;
 import org.tridas.schema.PresenceAbsence;
 import org.tridas.schema.TridasDating;
-import org.tridas.schema.TridasDerivedSeries;
 import org.tridas.schema.TridasElement;
 import org.tridas.schema.TridasMeasurementSeries;
 import org.tridas.schema.TridasObject;

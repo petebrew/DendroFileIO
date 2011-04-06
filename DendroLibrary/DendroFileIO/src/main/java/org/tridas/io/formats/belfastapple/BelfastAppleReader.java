@@ -15,7 +15,6 @@
  */
 package org.tridas.io.formats.belfastapple;
 
-import java.io.FileFilter;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
@@ -29,8 +28,6 @@ import org.tridas.io.I18n;
 import org.tridas.io.defaults.IMetadataFieldSet;
 import org.tridas.io.defaults.TridasMetadataFieldSet.TridasMandatoryField;
 import org.tridas.io.defaults.values.GenericDefaultValue;
-import org.tridas.io.exceptions.ConversionWarning;
-import org.tridas.io.exceptions.ConversionWarning.WarningType;
 import org.tridas.io.exceptions.InvalidDendroFileException;
 import org.tridas.io.util.DateUtils;
 import org.tridas.schema.NormalTridasUnit;
@@ -61,6 +58,7 @@ public class BelfastAppleReader extends AbstractDendroFileReader {
 		super(BelfastAppleToTridasDefaults.class);
 	}
 	
+	@SuppressWarnings("unchecked")
 	@Override
 	protected void parseFile(String[] argFileString, IMetadataFieldSet argDefaultFields)
 			throws InvalidDendroFileException {
@@ -91,9 +89,9 @@ public class BelfastAppleReader extends AbstractDendroFileReader {
 		ArrayList<TridasValue> ringWidthValues = new ArrayList<TridasValue>();
 		for (int i = 3; i < argFileString.length - 1; i++) {
 			TridasValue v = new TridasValue();
-			int val;
+
 			try {
-				val = Integer.valueOf(argFileString[i].trim());
+				Integer.valueOf(argFileString[i].trim());
 			} catch (NumberFormatException e) {
 				throw new InvalidDendroFileException(I18n.getText("fileio.invalidDataValue"), i+1);
 			}

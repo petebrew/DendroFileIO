@@ -29,6 +29,7 @@ import org.tridas.schema.DateTime;
  */
 public class DateTimeDefaultValue extends AbstractDefaultValue<DateTime> {
 	
+	@SuppressWarnings("unused")
 	private static final Logger log = LoggerFactory.getLogger(DateTimeDefaultValue.class);
 	
 	private DateTime value = null;

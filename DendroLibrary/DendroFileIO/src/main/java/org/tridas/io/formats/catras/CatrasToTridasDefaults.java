@@ -19,14 +19,10 @@ import java.util.ArrayList;
 
 import org.tridas.io.defaults.IMetadataFieldSet;
 import org.tridas.io.defaults.TridasMetadataFieldSet;
-import org.tridas.io.defaults.TridasMetadataFieldSet.TridasMandatoryField;
 import org.tridas.io.defaults.values.DateTimeDefaultValue;
-import org.tridas.io.defaults.values.GenericDefaultValue;
 import org.tridas.io.defaults.values.IntegerDefaultValue;
 import org.tridas.io.defaults.values.SafeIntYearDefaultValue;
 import org.tridas.io.defaults.values.StringDefaultValue;
-import org.tridas.io.formats.sheffield.SheffieldToTridasDefaults.DefaultFields;
-import org.tridas.io.util.DateUtils;
 import org.tridas.io.util.SafeIntYear;
 import org.tridas.schema.DatingSuffix;
 import org.tridas.schema.NormalTridasDatingType;
@@ -40,7 +36,6 @@ import org.tridas.schema.TridasIdentifier;
 import org.tridas.schema.TridasInterpretation;
 import org.tridas.schema.TridasMeasurementSeries;
 import org.tridas.schema.TridasUnit;
-import org.tridas.schema.TridasUnitless;
 import org.tridas.schema.TridasValues;
 import org.tridas.schema.TridasVariable;
 
@@ -111,7 +106,6 @@ public class CatrasToTridasDefaults extends TridasMetadataFieldSet implements IM
 	/**
 	 * @see org.tridas.io.defaults.TridasMetadataFieldSet#getDefaultTridasMeasurementSeries()
 	 */
-	@SuppressWarnings("unchecked")
 	@Override
 	protected TridasMeasurementSeries getDefaultTridasMeasurementSeries() {
 		
@@ -174,7 +168,6 @@ public class CatrasToTridasDefaults extends TridasMetadataFieldSet implements IM
 		return series;
 	}
 	
-	@SuppressWarnings("unchecked")
 	public TridasValues getTridasValuesWithDefaults() {
 		TridasValues valuesGroup = new TridasValues();
 		

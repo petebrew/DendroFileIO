@@ -18,7 +18,6 @@ package org.tridas.io.formats.tucson;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
-import java.util.UUID;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
@@ -84,7 +83,6 @@ public class TucsonReader extends AbstractDendroFileReader {
 	 * so we need to be able to turn Astronomical dating on and off.
 	 */
 	private Boolean usingAstronomicalDates = true;
-	private Boolean isAstronomicalDatingOverriden = false;
 
 	public TucsonReader() {
 		super(TucsonToTridasDefaults.class);
@@ -794,9 +792,6 @@ public class TucsonReader extends AbstractDendroFileReader {
 	 */
 	private void loadCRNDataFromDataLine(String line, TucsonSeries series)
 			throws InvalidDendroFileException {
-
-		ArrayList<Integer> dataValues = new ArrayList<Integer>();
-		ArrayList<Integer> countValues = new ArrayList<Integer>();
 
 		ArrayList<Integer> vals = new ArrayList<Integer>();
 		ArrayList<Integer> counts = new ArrayList<Integer>();

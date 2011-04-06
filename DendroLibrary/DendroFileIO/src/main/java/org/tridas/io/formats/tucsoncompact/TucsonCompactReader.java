@@ -119,6 +119,7 @@ public class TucsonCompactReader extends AbstractDendroFileReader {
 	}
 
 
+	@SuppressWarnings("unchecked")
 	@Override
 	protected void parseFile(String[] argFileString,
 			IMetadataFieldSet argDefaultFields)
@@ -196,13 +197,11 @@ public class TucsonCompactReader extends AbstractDendroFileReader {
 		String[] argFileString = series.lines.toArray(new String[0]);
 
 		String fortranFormat = null;
-		Integer cols = null;
 		Integer chars = null;
 		Integer divFactor = null;
 		
 		try{
 			fortranFormat = argFileString[0].substring(argFileString[0].indexOf("(")-2, argFileString[0].indexOf(")"));
-			cols = Integer.parseInt(fortranFormat.substring(3, fortranFormat.indexOf("F")));
 			chars = Integer.parseInt(fortranFormat.substring(fortranFormat.indexOf("F")+1, fortranFormat.indexOf(".")));
 			divFactor = Integer.parseInt(fortranFormat.substring(0, 2));
 			series.defaults.getIntegerDefaultValue(DefaultFields.DIVFACTOR).setValue(divFactor);

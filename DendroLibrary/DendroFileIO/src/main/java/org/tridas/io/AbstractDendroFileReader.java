@@ -15,7 +15,6 @@
  */
 package org.tridas.io;
 
-import java.io.FileFilter;
 import java.io.IOException;
 import java.util.ArrayList;
 

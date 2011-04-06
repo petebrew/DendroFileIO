@@ -21,7 +21,6 @@ import java.util.Calendar;
 import org.tridas.io.defaults.AbstractMetadataFieldSet;
 import org.tridas.io.defaults.values.IntegerDefaultValue;
 import org.tridas.io.defaults.values.StringDefaultValue;
-import org.tridas.io.formats.tucson.TridasToTucsonDefaults.TucsonField;
 import org.tridas.io.util.StringUtils;
 import org.tridas.schema.TridasDerivedSeries;
 import org.tridas.schema.TridasMeasurementSeries;
