@@ -455,8 +455,7 @@ public class TucsonReader extends AbstractDendroFileReader {
 					lastYearMarker = getYearMarkerFromLine(line);
 
 					// Set the first year for this series
-					currentSeries.firstYear = new SafeIntYear(String
-							.valueOf(getYearMarkerFromLine(line)), true);
+					currentSeries.firstYear = getYearMarkerFromLine(line);
 
 					// Store series code
 					currentSeriesCode = getSeriesCodeFromLine(line);

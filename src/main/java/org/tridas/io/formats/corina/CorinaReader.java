@@ -510,10 +510,13 @@ public class CorinaReader extends AbstractDendroFileReader {
 	 */
 	private void checkFileIsValid(String[] argFileString) throws InvalidDendroFileException
 	{
-		if(!argFileString[2].startsWith(";"))
+		if(argFileString.length<3){
+			throw new InvalidDendroFileException("File too short to be a valid Corina file", argFileString.length);
+		}
+		/*if(!argFileString[2].startsWith(";"))
 		{
 			throw new InvalidDendroFileException("Line 3 should begin with a ;", 3);
-		}
+		}*/
 		if(!argFileString[argFileString.length-1].startsWith("~"))
 		{
 			throw new InvalidDendroFileException("Last line is missing author tag", argFileString.length);
