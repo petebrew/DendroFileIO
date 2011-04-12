@@ -249,8 +249,10 @@ public class TridasToPast4Defaults extends AbstractMetadataFieldSet implements
 		// Keycode
 		if(series.isSetIdentifier())
 		{
-			if (series.getIdentifier().isSetValue())
+			if (series.getIdentifier().isSetValue() && series.getIdentifier().getValue().length()<=10)
 			{
+				// Use ID field as keycode if it does not have more than 10 chars, otherwise it is likely
+				// to be a machine-readable code
 				getStringDefaultValue(DefaultFields.KEYCODE).setValue(series.getIdentifier().getValue());
 			}
 			else if (series.isSetTitle())

@@ -749,7 +749,7 @@ public class TestFromTridas extends TestCase {
 		
 		for (String filename : files) {
 				
-			//if(!filename.equals("TridasMultiVars.xml")) continue;
+			if(!filename.equals("AMO Roman cedar.xml")) continue;
 			log.info("Test conversion of: " + filename);
 			
 			TridasTridas container = null;

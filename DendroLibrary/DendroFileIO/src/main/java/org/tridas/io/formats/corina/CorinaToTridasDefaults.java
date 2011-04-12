@@ -246,21 +246,24 @@ public class CorinaToTridasDefaults extends TridasMetadataFieldSet implements
 		// Dating type
 		if(getDefaultValue(DefaultFields.DATING).getValue()!=null)
 		{
-			CorinaDatingType dating = (CorinaDatingType) this.getDefaultValue(DefaultFields.DATING).getValue();
-			TridasDating td = new TridasDating();
-			switch (dating)
-			{
-			case ABSOLUTE:
-				td.setType(NormalTridasDatingType.ABSOLUTE);
-				interp.setDating(td);
-				break;
-			case RELATIVE:
-				td.setType(NormalTridasDatingType.RELATIVE);
-				interp.setDating(td);
-				break;
-			default:
-			}
-			
+			try{
+				CorinaDatingType dating = CorinaDatingType.valueOf(getStringDefaultValue(DefaultFields.DATING).getValue());
+				TridasDating td = new TridasDating();
+				switch (dating)
+				{
+				case ABSOLUTE:
+					td.setType(NormalTridasDatingType.ABSOLUTE);
+					interp.setDating(td);
+					break;
+				case RELATIVE:
+					td.setType(NormalTridasDatingType.RELATIVE);
+					interp.setDating(td);
+					break;
+				default:
+				}
+			} catch (Exception e){
+				System.out.println("Unknown dating type'"+getStringDefaultValue(DefaultFields.DATING).getValue()+"'");
+			}		
 		}
 		
 		
