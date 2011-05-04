@@ -200,6 +200,14 @@ public class HeidelbergFile implements IDendroFile {
 		
 		private Integer[] dataInts;
 		
+		/**
+		 * Standard constructor.  Assumes the data is not QUAD format.
+		 * 
+		 * @param series
+		 * @param dataValues
+		 * @param defaults
+		 * @param chrono
+		 */
 		public HeidelbergSeries(ITridasSeries series, TridasValues dataValues, 
 				TridasToHeidelbergDefaults defaults, Boolean chrono)
 		{
@@ -207,7 +215,7 @@ public class HeidelbergFile implements IDendroFile {
 				this.dataValues = dataValues;
 				this.defaults = defaults;
 				this.chrono = chrono;
-				dataCharsPerNumber = 5;
+				dataCharsPerNumber = 6;
 				
 				extractData();
 				verifyData(false);	
