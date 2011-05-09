@@ -32,6 +32,7 @@ import org.tridas.io.formats.belfastarchive.BelfastArchiveReader;
 import org.tridas.io.formats.besancon.BesanconReader;
 import org.tridas.io.formats.besancon.BesanconWriter;
 import org.tridas.io.formats.catras.CatrasReader;
+import org.tridas.io.formats.catras.CatrasWriter;
 import org.tridas.io.formats.csvmatrix.CSVMatrixReader;
 import org.tridas.io.formats.csvmatrix.CSVMatrixWriter;
 import org.tridas.io.formats.excelmatrix.ExcelMatrixReader;
@@ -115,6 +116,7 @@ public class TridasIO {
 		
 		registerFileWriter(BelfastAppleWriter.class);
 		registerFileWriter(BesanconWriter.class);
+		//registerFileWriter(CatrasWriter.class);
 		registerFileWriter(CorinaWriter.class);
 		registerFileWriter(CSVMatrixWriter.class);
 		registerFileWriter(ExcelMatrixWriter.class);
