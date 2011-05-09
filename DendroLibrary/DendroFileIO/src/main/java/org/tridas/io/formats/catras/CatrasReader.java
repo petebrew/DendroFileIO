@@ -26,11 +26,18 @@ import org.tridas.io.AbstractDendroFileReader;
 import org.tridas.io.DendroFileFilter;
 import org.tridas.io.I18n;
 import org.tridas.io.defaults.IMetadataFieldSet;
+import org.tridas.io.defaults.values.GenericDefaultValue;
 import org.tridas.io.exceptions.ConversionWarning;
 import org.tridas.io.exceptions.IncorrectDefaultFieldsException;
 import org.tridas.io.exceptions.InvalidDendroFileException;
 import org.tridas.io.exceptions.ConversionWarning.WarningType;
 import org.tridas.io.exceptions.InvalidDendroFileException.PointerType;
+import org.tridas.io.formats.catras.CatrasToTridasDefaults.CATRASCompletion;
+import org.tridas.io.formats.catras.CatrasToTridasDefaults.CATRASFileType;
+import org.tridas.io.formats.catras.CatrasToTridasDefaults.CATRASLastRing;
+import org.tridas.io.formats.catras.CatrasToTridasDefaults.CATRASProtection;
+import org.tridas.io.formats.catras.CatrasToTridasDefaults.CATRASSource;
+import org.tridas.io.formats.catras.CatrasToTridasDefaults.CATRASVariableType;
 import org.tridas.io.formats.catras.CatrasToTridasDefaults.DefaultFields;
 import org.tridas.io.util.DateUtils;
 import org.tridas.io.util.FileHelper;
@@ -143,6 +150,7 @@ public class CatrasReader extends AbstractDendroFileReader {
 	 * @param argFileBytes
 	 * @param argDefaultFields
 	 */
+	@SuppressWarnings("unchecked")
 	protected void parseFile(byte[] argFileBytes, IMetadataFieldSet argDefaultFields) throws InvalidDendroFileException {
 		
 		defaults = (CatrasToTridasDefaults) argDefaultFields;
@@ -178,35 +186,53 @@ public class CatrasReader extends AbstractDendroFileReader {
 			.setValue(getIntFromBytePair(getSubByteArray(argFileBytes, 46, 47)));
 		
 		// 49-50 valid start
+		defaults.getIntegerDefaultValue(DefaultFields.FIRST_VALID_YEAR)
+		.setValue(getIntFromBytePair(getSubByteArray(argFileBytes, 48, 49)));
+		
 		// 51-52 valid end
+		defaults.getIntegerDefaultValue(DefaultFields.LAST_VALID_YEAR)
+		.setValue(getIntFromBytePair(getSubByteArray(argFileBytes, 50, 51)));		
+		
 		// 53 1=pith 2=waldkante 3=pith to waldkante
+		CATRASCompletion comp = CATRASCompletion.fromCode(getIntFromByte(argFileBytes[52]));
+		if(comp!=null)
+		{
+			GenericDefaultValue<CATRASCompletion> compField = (GenericDefaultValue<CATRASCompletion>) defaults
+				.getDefaultValue(DefaultFields.COMPLETION);
+			compField.setValue(comp);
+		}
+		
 		// 54 1 = ew only last ring
+		CATRASLastRing lastring = CATRASLastRing.fromCode(getIntFromByte(argFileBytes[53]));
+		if(lastring!=null)
+		{
+			GenericDefaultValue<CATRASLastRing> compField = (GenericDefaultValue<CATRASLastRing>) defaults
+				.getDefaultValue(DefaultFields.LAST_RING);
+			compField.setValue(lastring);
+		}
 		
 		// Start year- bytes 55-56
 		defaults.getSafeIntYearDefaultValue(DefaultFields.START_YEAR)
 			.setValue(new SafeIntYear(String.valueOf(getIntFromBytePairByPos(argFileBytes, 54)), true));
 		
-		// 57-58 Unknown
+		// Number of characters in series name - byte 57
+		defaults.getIntegerDefaultValue(DefaultFields.NUMBER_OF_CHARS_IN_TITLE)
+		.setValue(getIntFromBytePairByPos(argFileBytes, 56));	
 		
-		// Species code - byte 54  **** Not convinced this is the correct byte - not sure how to check
-		//defaults.getStringDefaultValue(DefaultFields.SPECIES_CODE)
-		//	.setValue(String.valueOf(getIntFromBytePairByPos(argFileBytes, 53)));
+		// Quality code - byte 58
+		defaults.getIntegerDefaultValue(DefaultFields.QUALITY_CODE)
+		.setValue(getIntFromBytePairByPos(argFileBytes, 57));	
+		
+		// Species code - byte 59 - 60  (not much use without associated dictionary file)
+		defaults.getIntegerDefaultValue(DefaultFields.SPECIES_CODE)
+		.setValue(getIntFromBytePair(getSubByteArray(argFileBytes, 58, 59)));
 		
 		// 61, 62, 63 creation date- dd, mm, yy respectively
 		try{
 			Integer day   = getIntFromByte(argFileBytes[60]);
 			Integer month = getIntFromByte(argFileBytes[61]);
-			Integer year  = getIntFromByte(argFileBytes[62]);
-			
-			// Year is only two digit style so if after 70 presume 19xx
-			// Obviously this will break if someone is still using CATRAS
-			// in 2070 but then they deserve it! ;-) 
-			if(year>70) {
-				year = year+1900;
-			} else {
-				year = year+2000;
-			}
-			
+			Integer year  = getIntFromByte(argFileBytes[62])+1900;
+						
 			defaults.getDateTimeDefaultValue(DefaultFields.CREATION_DATE)
 				.setValue(DateUtils.getDateTime(day, month, year));
 		} catch (Exception e)
@@ -219,48 +245,71 @@ public class CatrasReader extends AbstractDendroFileReader {
 		try{
 			Integer day   = getIntFromByte(argFileBytes[63]);
 			Integer month = getIntFromByte(argFileBytes[64]);
-			Integer year  = getIntFromByte(argFileBytes[65]);
-			
-			// Year is only two digit style so if after 70 presume 19xx
-			// Obviously this will break if someone is still using CATRAS
-			// in 2070 but then they deserve it! ;-) 
-			if(year>70) {
-				year = year+1900;
-			} else {
-				year = year+2000;
-			}
-			
+			Integer year  = getIntFromByte(argFileBytes[65])+1900;
+						
 			defaults.getDateTimeDefaultValue(DefaultFields.UPDATED_DATE)
 				.setValue(DateUtils.getDateTime(day, month, year));
 		} catch (Exception e)
 		{
 			addWarning(new ConversionWarning(WarningType.INVALID, I18n.getText("catras.updatedDateInvalid")));
-
 		}
 	
+		// 67 Real number format 
+		// Always 1 = IEEE
 		
-		// String sapwood = new String(getSubByteArray(argFileBytes, 66, 67)); //67
-		// 67-68 1=valid stats
-		// 69-83 Unknown
-		// 84 0=raw 1=treecurve 2=chronology
-		// String dated = new String(getSubByteArray(argFileBytes, 68, 74)); //69-75
+		// 68 - Series type
+		CATRASVariableType vartype = CATRASVariableType.fromCode(getIntFromByte(argFileBytes[67]));
+		if(vartype!=null)
+		{
+			GenericDefaultValue<CATRASVariableType> field = (GenericDefaultValue<CATRASVariableType>) defaults
+				.getDefaultValue(DefaultFields.VARIABLE_TYPE);
+			field.setValue(vartype);
+		}
 		
-		// Userid - bytes 85-86
+		// 69-81 Not used
+		
+		// 82 - Source
+		CATRASSource source = CATRASSource.fromCode(String.valueOf(getIntFromBytePairByPos(argFileBytes, 81)));
+		if(source!=null)
+		{
+			GenericDefaultValue<CATRASSource> field = (GenericDefaultValue<CATRASSource>) defaults
+				.getDefaultValue(DefaultFields.SOURCE);
+			field.setValue(source);
+		}
+		
+		// 83 - Protection
+		CATRASProtection protection = CATRASProtection.fromCode(getIntFromByte(argFileBytes[82]));
+		if(protection!=null)
+		{
+			GenericDefaultValue<CATRASProtection> field = (GenericDefaultValue<CATRASProtection>) defaults
+				.getDefaultValue(DefaultFields.PROTECTION);
+			field.setValue(protection);
+		}		
+		
+		// 84 - File type
+		CATRASFileType filetype = CATRASFileType.fromCode(getIntFromByte(argFileBytes[83]));
+		Boolean isChronology = false;
+		if(filetype!=null)
+		{
+			GenericDefaultValue<CATRASFileType> field = (GenericDefaultValue<CATRASFileType>) defaults
+				.getDefaultValue(DefaultFields.FILE_TYPE);
+			field.setValue(filetype);
+			if(filetype!=CATRASFileType.RAW) isChronology = true;
+		}		
+		
+		// Userid - bytes 85-88
 		defaults.getStringDefaultValue(DefaultFields.USER_ID)
 			.setValue(new String(getSubByteArray(argFileBytes, 84, 87)).trim());
 		
-		// 89-92 Float av width
-		// 93-95 Float std dev
-		// 96-100 Foat autocorr
-		// 101-104 Float sens
-		// 105-128 Unknown
+		// 89-128 Statistics - 
+		// Ignored
 				
 		// Extract the data
-		byte[] theData = getSubByteArray(argFileBytes, 127, argFileBytes.length - 1);
-		boolean reachedStopMarker = false;
+		byte[] theData = getSubByteArray(argFileBytes, 127, 127+length);
+		//boolean reachedStopMarker = false;
 		for (int i = 1; i < theData.length; i = i + 2) {
 			int valueFromFile = getIntFromBytePairByPos(theData, i);
-			if (valueFromFile == 999) {
+			/*if (valueFromFile == 999) {
 				// Stop marker found
 				// There are 32 bytes (inclusive) after the data and before
 				// possible sample depth values, but we have
@@ -284,8 +333,8 @@ public class CatrasReader extends AbstractDendroFileReader {
 					sampleDepthValues.add(valueFromFile);
 					//log.debug("sample depth as int = " + String.valueOf(getIntFromBytePairByPos(theData, i)));
 				}
-			}
-			else if (valueFromFile == -1)
+			}*/
+			if (valueFromFile == -1)
 			{
 				// Ignore.  This is a padding value found in files created with older versions
 				// of CATRAS
@@ -303,8 +352,18 @@ public class CatrasReader extends AbstractDendroFileReader {
 			}
 		}
 		
+		if(isChronology)
+		{
+			theData = getSubByteArray(argFileBytes, 127+length+1, 127+length+length);
+			for (int i = 1; i < theData.length; i = i + 2) {
+				int valueFromFile = getIntFromBytePairByPos(theData, i);
+				sampleDepthValues.add(valueFromFile);
+			}
+		}
+		
+		
 		// Check length metadata and number of ring width values match
-		if (ringWidthValues.size() > getIntFromBytePair(getSubByteArray(argFileBytes, 44, 45))) {
+		/*if (ringWidthValues.size() > getIntFromBytePair(getSubByteArray(argFileBytes, 44, 45))) {
 			//addWarning(new ConversionWarning(WarningType.INVALID, I18n.getText("fileio.valueCountMismatch", ringWidthValues.size()+"", length+"")));
 			// Trim off extra ring width values
 			ArrayList<Integer> trimmedRingValues = new ArrayList<Integer>();
@@ -315,8 +374,10 @@ public class CatrasReader extends AbstractDendroFileReader {
 				trimmedRingValues.add(ringWidthValues.get(j));
 			}
 			ringWidthValues = trimmedRingValues;
-		}
-		else if (ringWidthValues.size() < getIntFromBytePair(getSubByteArray(argFileBytes, 44, 45))) 
+		}*/
+		
+		
+		if (ringWidthValues.size() < getIntFromBytePair(getSubByteArray(argFileBytes, 44, 45))) 
 		{
 			addWarning(new ConversionWarning(WarningType.INVALID, I18n.getText("fileio.valueCountMismatch", ringWidthValues.size()+"", length+"")));
 			log.warn("Less ring width values in file than there should be according to the length metdata");

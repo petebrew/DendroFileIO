@@ -17,9 +17,11 @@ package org.tridas.io.formats.catras;
 
 import java.util.ArrayList;
 
+import org.apache.commons.lang.WordUtils;
 import org.tridas.io.defaults.IMetadataFieldSet;
 import org.tridas.io.defaults.TridasMetadataFieldSet;
 import org.tridas.io.defaults.values.DateTimeDefaultValue;
+import org.tridas.io.defaults.values.GenericDefaultValue;
 import org.tridas.io.defaults.values.IntegerDefaultValue;
 import org.tridas.io.defaults.values.SafeIntYearDefaultValue;
 import org.tridas.io.defaults.values.StringDefaultValue;
@@ -47,6 +49,13 @@ public class CatrasToTridasDefaults extends TridasMetadataFieldSet implements IM
 	    FILE_EXTENSION,
 		SERIES_LENGTH,
 		SAPWOOD_LENGTH,
+		FIRST_VALID_YEAR,
+		LAST_VALID_YEAR,
+		COMPLETION,
+		LAST_RING,
+		NUMBER_OF_CHARS_IN_TITLE,
+		QUALITY_CODE,
+		
 		START_YEAR,
 		END_YEAR,
 		SPECIES_CODE,
@@ -54,8 +63,11 @@ public class CatrasToTridasDefaults extends TridasMetadataFieldSet implements IM
 		UPDATED_DATE,
 		SAPWOOD,
 		DATED,
-		TYPE,
-		USER_ID;
+		FILE_TYPE,
+		USER_ID,
+		VARIABLE_TYPE,
+		SOURCE,
+		PROTECTION;
 	}
 	
 	@Override
@@ -66,15 +78,26 @@ public class CatrasToTridasDefaults extends TridasMetadataFieldSet implements IM
 		setDefaultValue(DefaultFields.FILE_EXTENSION, new StringDefaultValue());
 		setDefaultValue(DefaultFields.SERIES_LENGTH, new IntegerDefaultValue());
 		setDefaultValue(DefaultFields.SAPWOOD_LENGTH, new IntegerDefaultValue());
+		setDefaultValue(DefaultFields.FIRST_VALID_YEAR, new IntegerDefaultValue());
+		setDefaultValue(DefaultFields.LAST_VALID_YEAR, new IntegerDefaultValue());
+		setDefaultValue(DefaultFields.COMPLETION, new GenericDefaultValue<CATRASCompletion>());
+		setDefaultValue(DefaultFields.LAST_RING, new GenericDefaultValue<CATRASLastRing>());
+		setDefaultValue(DefaultFields.NUMBER_OF_CHARS_IN_TITLE, new IntegerDefaultValue());
+		setDefaultValue(DefaultFields.QUALITY_CODE, new IntegerDefaultValue());
+				
 		setDefaultValue(DefaultFields.START_YEAR, new SafeIntYearDefaultValue(null));
 		setDefaultValue(DefaultFields.END_YEAR, new SafeIntYearDefaultValue(null));
-		setDefaultValue(DefaultFields.SPECIES_CODE, new StringDefaultValue());
+		setDefaultValue(DefaultFields.SPECIES_CODE, new IntegerDefaultValue());
 		setDefaultValue(DefaultFields.CREATION_DATE, new DateTimeDefaultValue());
 		setDefaultValue(DefaultFields.UPDATED_DATE, new DateTimeDefaultValue());
 		setDefaultValue(DefaultFields.SAPWOOD, new StringDefaultValue());
 		setDefaultValue(DefaultFields.DATED, new StringDefaultValue());
-		setDefaultValue(DefaultFields.TYPE, new StringDefaultValue());
+		setDefaultValue(DefaultFields.FILE_TYPE, new GenericDefaultValue<CATRASFileType>());
 		setDefaultValue(DefaultFields.USER_ID, new StringDefaultValue());
+		setDefaultValue(DefaultFields.VARIABLE_TYPE, new GenericDefaultValue<CATRASVariableType>());
+		setDefaultValue(DefaultFields.SOURCE, new GenericDefaultValue<CATRASSource>());
+		setDefaultValue(DefaultFields.PROTECTION, new GenericDefaultValue<CATRASProtection>());
+
 
 		
 	}
@@ -87,12 +110,12 @@ public class CatrasToTridasDefaults extends TridasMetadataFieldSet implements IM
 	protected TridasElement getDefaultTridasElement() {
 		TridasElement e = super.getDefaultTridasElement();
 		
-		if(getStringDefaultValue(DefaultFields.SPECIES_CODE).getValue()!=null)
+		if(getIntegerDefaultValue(DefaultFields.SPECIES_CODE).getValue()!=null)
 		{
 			TridasGenericField gf = new TridasGenericField();
 			gf.setName("catras.labSpecificSpeciesCode");
-			gf.setType("xs:string");
-			gf.setValue(getStringDefaultValue(DefaultFields.SPECIES_CODE).getValue());
+			gf.setType("xs:int");
+			gf.setValue(String.valueOf(getIntegerDefaultValue(DefaultFields.SPECIES_CODE).getValue()));
 			ArrayList<TridasGenericField> gfList = new ArrayList<TridasGenericField>();
 			gfList.add(gf);
 			e.setGenericFields(gfList);
@@ -184,4 +207,189 @@ public class CatrasToTridasDefaults extends TridasMetadataFieldSet implements IM
 
 		return valuesGroup;
 	}
+	
+
+	public enum CATRASCompletion {
+		PITH(1), 
+		WALDKANTE(2), 
+		PITH_TO_WALDKANTE(3), 
+		BARK(4),
+		PITH_TO_BARK(5);		
+		
+		private Integer code;
+		
+		CATRASCompletion(Integer c) {
+			code = c;
+		}
+		
+		@Override
+		public final String toString() {
+			return WordUtils.capitalize(name().toLowerCase());
+		}
+		
+		public final Integer toCode() {
+			return code;
+		}
+		
+		public static CATRASCompletion fromCode(Integer code) {
+			for (CATRASCompletion val : CATRASCompletion.values()) {
+				if (val.toCode().equals(code)) {
+					return val;
+				}
+			}
+			return null;
+		}
+	}
+	
+	public enum CATRASLastRing {
+		COMPLETE(0), 
+		EARLYWOOD(1);	
+		
+		private Integer code;
+		
+		CATRASLastRing(Integer c) {
+			code = c;
+		}
+		
+		@Override
+		public final String toString() {
+			return WordUtils.capitalize(name().toLowerCase());
+		}
+		
+		public final Integer toCode() {
+			return code;
+		}
+		
+		public static CATRASLastRing fromCode(Integer code) {
+			for (CATRASLastRing val : CATRASLastRing.values()) {
+				if (val.toCode().equals(code)) {
+					return val;
+				}
+			}
+			return null;
+		}
+	}
+	
+	public enum CATRASVariableType {
+		RINGWIDTH(0), 
+		EARLYWOODWIDTH(1),
+		LATEWOODWIDTH(2);
+		
+		private Integer code;
+		
+		CATRASVariableType(Integer c) {
+			code = c;
+		}
+		
+		@Override
+		public final String toString() {
+			return WordUtils.capitalize(name().toLowerCase());
+		}
+		
+		public final Integer toCode() {
+			return code;
+		}
+		
+		public static CATRASVariableType fromCode(Integer code) {
+			for (CATRASVariableType val : CATRASVariableType.values()) {
+				if (val.toCode().equals(code)) {
+					return val;
+				}
+			}
+			return null;
+		}
+	}
+	
+	public enum CATRASSource {
+		AVERAGED("A"), 
+		DIGITIZED("D"),
+		EXTERNAL("E"),
+		MANUAL("H");
+		
+		private String code;
+		
+		CATRASSource(String c) {
+			code = c;
+		}
+		
+		@Override
+		public final String toString() {
+			return WordUtils.capitalize(name().toLowerCase());
+		}
+		
+		public final String toCode() {
+			return code;
+		}
+		
+		public static CATRASSource fromCode(String code) {
+			for (CATRASSource val : CATRASSource.values()) {
+				if (val.toCode().equalsIgnoreCase(code)) {
+					return val;
+				}
+			}
+			return null;
+		}
+	}
+	
+	public enum CATRASProtection {
+		NONE(0), 
+		NOT_TO_BE_DELETED(1),
+		NOT_TO_BE_AMENDED(2);
+		
+		private Integer code;
+		
+		CATRASProtection(Integer c) {
+			code = c;
+		}
+		
+		@Override
+		public final String toString() {
+			return WordUtils.capitalize(name().toLowerCase());
+		}
+		
+		public final Integer toCode() {
+			return code;
+		}
+		
+		public static CATRASProtection fromCode(Integer code) {
+			for (CATRASProtection val : CATRASProtection.values()) {
+				if (val.toCode().equals(code)) {
+					return val;
+				}
+			}
+			return null;
+		}
+	}
+	
+	public enum CATRASFileType {
+		RAW(0), 
+		TREE_CURVE(1),
+		CHRONOLOGY(2);
+		
+		private Integer code;
+		
+		CATRASFileType(Integer c) {
+			code = c;
+		}
+		
+		@Override
+		public final String toString() {
+			return WordUtils.capitalize(name().toLowerCase());
+		}
+		
+		public final Integer toCode() {
+			return code;
+		}
+		
+		public static CATRASFileType fromCode(Integer code) {
+			for (CATRASFileType val : CATRASFileType.values()) {
+				if (val.toCode().equals(code)) {
+					return val;
+				}
+			}
+			return null;
+		}
+	}
+	
+	
 }
