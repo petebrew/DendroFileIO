@@ -28,6 +28,8 @@ import org.tridas.io.exceptions.IncompleteTridasDataException;
 import org.tridas.io.exceptions.InvalidDendroFileException;
 import org.tridas.io.formats.belfastapple.BelfastAppleWriter;
 import org.tridas.io.formats.besancon.BesanconWriter;
+import org.tridas.io.formats.catras.CatrasFile;
+import org.tridas.io.formats.catras.CatrasReader;
 import org.tridas.io.formats.catras.CatrasWriter;
 import org.tridas.io.formats.corina.CorinaWriter;
 import org.tridas.io.formats.csvmatrix.CSVMatrixWriter;
@@ -695,6 +697,37 @@ public class TestFromTridas extends TestCase {
 				writer.saveAllToDisk(outputLocation);
 			}
 		}
+	
+	public void testBytesRoundTrip()
+	{
+		Integer i = 12345;
+		
+		byte[] arr = CatrasFile.getIntAsBytePair(i, true);
+		Integer i2 = CatrasReader.getIntFromBytePair(arr, true);
+		
+		System.out.println("Integer        :"+i);
+		System.out.println("As byte pair   :"+arr);
+		System.out.println("Converted back :"+i2);
+		
+		if(!i.equals(i2)) fail();
+		
+	}
+	
+	public void testFileSizeCalc()
+	{
+
+		int i = 128;
+
+		Integer ringcount =0;
+		Integer filesize = ((ringcount / i) * i);
+		
+		if(ringcount % i >0)
+		{
+			filesize = filesize + i;
+		}
+
+		System.out.println("file size =" + filesize);
+	}
 	
 	public void testTridasToBesancon() {
 		String folder = "TestData/TRiDaS";
