@@ -18,6 +18,7 @@ package org.tridas.io.formats.catras;
 import java.util.ArrayList;
 
 import org.apache.commons.lang.WordUtils;
+import org.tridas.io.defaults.AbstractDefaultValue;
 import org.tridas.io.defaults.IMetadataFieldSet;
 import org.tridas.io.defaults.TridasMetadataFieldSet;
 import org.tridas.io.defaults.values.DateTimeDefaultValue;
@@ -26,20 +27,29 @@ import org.tridas.io.defaults.values.IntegerDefaultValue;
 import org.tridas.io.defaults.values.SafeIntYearDefaultValue;
 import org.tridas.io.defaults.values.StringDefaultValue;
 import org.tridas.io.util.SafeIntYear;
+import org.tridas.schema.ComplexPresenceAbsence;
 import org.tridas.schema.DatingSuffix;
 import org.tridas.schema.NormalTridasDatingType;
 import org.tridas.schema.NormalTridasUnit;
 import org.tridas.schema.NormalTridasVariable;
 import org.tridas.schema.ObjectFactory;
+import org.tridas.schema.PresenceAbsence;
+import org.tridas.schema.TridasBark;
 import org.tridas.schema.TridasDating;
 import org.tridas.schema.TridasElement;
 import org.tridas.schema.TridasGenericField;
+import org.tridas.schema.TridasHeartwood;
 import org.tridas.schema.TridasIdentifier;
 import org.tridas.schema.TridasInterpretation;
+import org.tridas.schema.TridasLastRingUnderBark;
 import org.tridas.schema.TridasMeasurementSeries;
+import org.tridas.schema.TridasMeasuringMethod;
+import org.tridas.schema.TridasPith;
+import org.tridas.schema.TridasSapwood;
 import org.tridas.schema.TridasUnit;
 import org.tridas.schema.TridasValues;
 import org.tridas.schema.TridasVariable;
+import org.tridas.schema.TridasWoodCompleteness;
 
 public class CatrasToTridasDefaults extends TridasMetadataFieldSet implements IMetadataFieldSet {
 
@@ -51,7 +61,7 @@ public class CatrasToTridasDefaults extends TridasMetadataFieldSet implements IM
 		SAPWOOD_LENGTH,
 		FIRST_VALID_YEAR,
 		LAST_VALID_YEAR,
-		COMPLETION,
+		SCOPE,
 		LAST_RING,
 		NUMBER_OF_CHARS_IN_TITLE,
 		QUALITY_CODE,
@@ -80,7 +90,7 @@ public class CatrasToTridasDefaults extends TridasMetadataFieldSet implements IM
 		setDefaultValue(DefaultFields.SAPWOOD_LENGTH, new IntegerDefaultValue());
 		setDefaultValue(DefaultFields.FIRST_VALID_YEAR, new IntegerDefaultValue());
 		setDefaultValue(DefaultFields.LAST_VALID_YEAR, new IntegerDefaultValue());
-		setDefaultValue(DefaultFields.COMPLETION, new GenericDefaultValue<CATRASCompletion>());
+		setDefaultValue(DefaultFields.SCOPE, new GenericDefaultValue<CATRASScope>(CATRASScope.UNSPECIFIED));
 		setDefaultValue(DefaultFields.LAST_RING, new GenericDefaultValue<CATRASLastRing>());
 		setDefaultValue(DefaultFields.NUMBER_OF_CHARS_IN_TITLE, new IntegerDefaultValue());
 		setDefaultValue(DefaultFields.QUALITY_CODE, new IntegerDefaultValue());
@@ -129,6 +139,7 @@ public class CatrasToTridasDefaults extends TridasMetadataFieldSet implements IM
 	/**
 	 * @see org.tridas.io.defaults.TridasMetadataFieldSet#getDefaultTridasMeasurementSeries()
 	 */
+	@SuppressWarnings("unchecked")
 	@Override
 	protected TridasMeasurementSeries getDefaultTridasMeasurementSeries() {
 		
@@ -188,6 +199,155 @@ public class CatrasToTridasDefaults extends TridasMetadataFieldSet implements IM
 		
 		series.setDendrochronologist(getStringDefaultValue(DefaultFields.USER_ID).getStringValue());
 		
+		TridasWoodCompleteness wc = new TridasWoodCompleteness();
+		TridasSapwood sap = new TridasSapwood();
+		sap.setPresence(ComplexPresenceAbsence.UNKNOWN);
+		TridasHeartwood hw = new TridasHeartwood();
+		hw.setPresence(ComplexPresenceAbsence.UNKNOWN);
+		TridasPith pith = new TridasPith();
+		pith.setPresence(ComplexPresenceAbsence.UNKNOWN);
+		TridasBark bark = new TridasBark();
+		bark.setPresence(PresenceAbsence.UNKNOWN);
+		
+		GenericDefaultValue<CATRASScope> scopeField = (GenericDefaultValue<CATRASScope>) getDefaultValue(DefaultFields.SCOPE);
+		if(scopeField.getValue()!=null)
+		{
+			if(scopeField.getValue().equals(CATRASScope.BARK))
+			{
+				bark.setPresence(PresenceAbsence.PRESENT);
+				pith.setPresence(ComplexPresenceAbsence.UNKNOWN);
+				sap.setPresence(ComplexPresenceAbsence.COMPLETE);
+				hw.setPresence(ComplexPresenceAbsence.UNKNOWN);
+			}
+			else if(scopeField.getValue().equals(CATRASScope.PITH))
+			{
+				bark.setPresence(PresenceAbsence.ABSENT);
+				pith.setPresence(ComplexPresenceAbsence.COMPLETE);
+				sap.setPresence(ComplexPresenceAbsence.UNKNOWN);
+				hw.setPresence(ComplexPresenceAbsence.UNKNOWN);
+			}
+			else if(scopeField.getValue().equals(CATRASScope.PITH_TO_BARK))
+			{
+				bark.setPresence(PresenceAbsence.PRESENT);
+				pith.setPresence(ComplexPresenceAbsence.COMPLETE);
+				sap.setPresence(ComplexPresenceAbsence.COMPLETE);
+				hw.setPresence(ComplexPresenceAbsence.COMPLETE);
+			}
+			else if(scopeField.getValue().equals(CATRASScope.PITH_TO_WALDKANTE))
+			{
+				bark.setPresence(PresenceAbsence.ABSENT);
+				pith.setPresence(ComplexPresenceAbsence.COMPLETE);
+				sap.setPresence(ComplexPresenceAbsence.COMPLETE);
+				hw.setPresence(ComplexPresenceAbsence.COMPLETE);
+			}
+			else if(scopeField.getValue().equals(CATRASScope.UNSPECIFIED))
+			{
+				bark.setPresence(PresenceAbsence.UNKNOWN);
+				pith.setPresence(ComplexPresenceAbsence.UNKNOWN);
+				sap.setPresence(ComplexPresenceAbsence.UNKNOWN);
+				hw.setPresence(ComplexPresenceAbsence.UNKNOWN);
+			}
+			else if(scopeField.getValue().equals(CATRASScope.WALDKANTE))
+			{
+				bark.setPresence(PresenceAbsence.ABSENT);
+				pith.setPresence(ComplexPresenceAbsence.UNKNOWN);
+				sap.setPresence(ComplexPresenceAbsence.COMPLETE);
+				hw.setPresence(ComplexPresenceAbsence.UNKNOWN);
+			}
+		}
+		
+		if(getIntegerDefaultValue(DefaultFields.SAPWOOD_LENGTH).getValue()!=null)
+		{
+			sap.setNrOfSapwoodRings(getIntegerDefaultValue(DefaultFields.SAPWOOD_LENGTH).getValue());
+		}
+		
+		GenericDefaultValue<CATRASLastRing> lastRingField = (GenericDefaultValue<CATRASLastRing>) getDefaultValue(DefaultFields.LAST_RING);
+		if(lastRingField.getValue()!=null)
+		{
+			
+			TridasLastRingUnderBark lrub = new TridasLastRingUnderBark();
+			lrub.setPresence(PresenceAbsence.PRESENT);
+			sap.setLastRingUnderBark(lrub);
+			sap.setPresence(ComplexPresenceAbsence.COMPLETE);
+			
+			if (lastRingField.equals(CATRASLastRing.EARLYWOOD))
+			{
+				lrub.setContent("earlywood");
+			}
+			else
+			{
+				lrub.setContent("complete");
+			}
+		}
+		else
+		{
+			series.getWoodCompleteness().getSapwood().getLastRingUnderBark().setContent("Unknown");
+		}
+		
+		wc.setSapwood(sap);
+		wc.setHeartwood(hw);
+		wc.setPith(pith);
+		wc.setBark(bark);
+		
+		
+		series.setWoodCompleteness(wc);
+		
+		
+		GenericDefaultValue<CATRASSource> sourceField = (GenericDefaultValue<CATRASSource>) getDefaultValue(DefaultFields.SOURCE);
+		if(sourceField.getValue()!=null)
+		{
+			if(sourceField.getValue().equals(CATRASSource.MANUAL) || sourceField.getValue().equals(CATRASSource.EXTERNAL))
+			{
+				TridasMeasuringMethod mm = series.getMeasuringMethod();
+				mm.setNormalTridas(null);
+				mm.setNormalStd("CATRAS");
+				mm.setNormalId(sourceField.getValue().toCode());
+				mm.setNormal(sourceField.getValue().toString());
+				mm.setValue(sourceField.getValue().toString());
+			}
+		}
+		
+		
+		TridasGenericField gf = new TridasGenericField();
+		gf.setName("CATRAS.LastRing");
+		gf.setType("xs:string");
+		gf.setValue(lastRingField.getStringValue());
+		series.getGenericFields().add(gf);
+		
+		GenericDefaultValue<CATRASProtection> protectionField = (GenericDefaultValue<CATRASProtection>) getDefaultValue(DefaultFields.PROTECTION);
+		TridasGenericField gf2 = new TridasGenericField();
+		gf2.setName("CATRAS.Protection");
+		gf2.setType("xs:string");
+		gf2.setValue(protectionField.getStringValue());
+		series.getGenericFields().add(gf2);
+		
+		if(getIntegerDefaultValue(DefaultFields.FIRST_VALID_YEAR).getValue()>0)
+		{
+			TridasGenericField gf3 = new TridasGenericField();
+			gf3.setName("CATRAS.FirstValidRing");
+			gf3.setType("xs:int");
+			gf3.setValue(getIntegerDefaultValue(DefaultFields.FIRST_VALID_YEAR).getStringValue());
+			series.getGenericFields().add(gf3);
+		}
+		
+		if(getIntegerDefaultValue(DefaultFields.LAST_VALID_YEAR).getValue()>0)
+		{
+			TridasGenericField gf4 = new TridasGenericField();
+			gf4.setName("CATRAS.LastValidRing");
+			gf4.setType("xs:int");
+			gf4.setValue(getIntegerDefaultValue(DefaultFields.LAST_VALID_YEAR).getStringValue());
+			series.getGenericFields().add(gf4);		
+		}
+		
+		if(getIntegerDefaultValue(DefaultFields.QUALITY_CODE).getValue()!=null)
+		{
+			TridasGenericField gf5 = new TridasGenericField();
+			gf5.setName("CATRAS.QualityCode");
+			gf5.setType("xs:int");
+			gf5.setValue(getIntegerDefaultValue(DefaultFields.QUALITY_CODE).getStringValue());
+			series.getGenericFields().add(gf5);
+		}
+		
 		return series;
 	}
 	
@@ -201,7 +361,22 @@ public class CatrasToTridasDefaults extends TridasMetadataFieldSet implements IM
 		
 		// Set variable to ringwidth.  Is this always the case?
 		TridasVariable variable = new TridasVariable();
-		variable.setNormalTridas(NormalTridasVariable.RING_WIDTH);
+		
+		GenericDefaultValue<CATRASVariableType> varField = (GenericDefaultValue<CATRASVariableType>) getDefaultValue(DefaultFields.VARIABLE_TYPE);
+		if(varField.getValue().equals(CATRASVariableType.RINGWIDTH))
+		{
+			variable.setNormalTridas(NormalTridasVariable.RING_WIDTH);
+		}
+		else if (varField.getValue().equals(CATRASVariableType.EARLYWOODWIDTH))
+		{
+			variable.setNormalTridas(NormalTridasVariable.EARLYWOOD_WIDTH);
+		}
+		else if (varField.getValue().equals(CATRASVariableType.LATEWOODWIDTH))
+		{
+			variable.setNormalTridas(NormalTridasVariable.LATEWOOD_WIDTH);
+		}
+		
+		
 		valuesGroup.setVariable(variable);
 		
 
@@ -209,7 +384,8 @@ public class CatrasToTridasDefaults extends TridasMetadataFieldSet implements IM
 	}
 	
 
-	public enum CATRASCompletion {
+	public enum CATRASScope {
+		UNSPECIFIED(0),
 		PITH(1), 
 		WALDKANTE(2), 
 		PITH_TO_WALDKANTE(3), 
@@ -218,7 +394,7 @@ public class CatrasToTridasDefaults extends TridasMetadataFieldSet implements IM
 		
 		private Integer code;
 		
-		CATRASCompletion(Integer c) {
+		CATRASScope(Integer c) {
 			code = c;
 		}
 		
@@ -231,8 +407,8 @@ public class CatrasToTridasDefaults extends TridasMetadataFieldSet implements IM
 			return code;
 		}
 		
-		public static CATRASCompletion fromCode(Integer code) {
-			for (CATRASCompletion val : CATRASCompletion.values()) {
+		public static CATRASScope fromCode(Integer code) {
+			for (CATRASScope val : CATRASScope.values()) {
 				if (val.toCode().equals(code)) {
 					return val;
 				}

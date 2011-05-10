@@ -32,7 +32,7 @@ import org.tridas.io.exceptions.IncorrectDefaultFieldsException;
 import org.tridas.io.exceptions.InvalidDendroFileException;
 import org.tridas.io.exceptions.ConversionWarning.WarningType;
 import org.tridas.io.exceptions.InvalidDendroFileException.PointerType;
-import org.tridas.io.formats.catras.CatrasToTridasDefaults.CATRASCompletion;
+import org.tridas.io.formats.catras.CatrasToTridasDefaults.CATRASScope;
 import org.tridas.io.formats.catras.CatrasToTridasDefaults.CATRASFileType;
 import org.tridas.io.formats.catras.CatrasToTridasDefaults.CATRASLastRing;
 import org.tridas.io.formats.catras.CatrasToTridasDefaults.CATRASProtection;
@@ -194,11 +194,11 @@ public class CatrasReader extends AbstractDendroFileReader {
 		.setValue(getIntFromBytePair(getSubByteArray(argFileBytes, 50, 51)));		
 		
 		// 53 1=pith 2=waldkante 3=pith to waldkante
-		CATRASCompletion comp = CATRASCompletion.fromCode(getIntFromByte(argFileBytes[52]));
+		CATRASScope comp = CATRASScope.fromCode(getIntFromByte(argFileBytes[52]));
 		if(comp!=null)
 		{
-			GenericDefaultValue<CATRASCompletion> compField = (GenericDefaultValue<CATRASCompletion>) defaults
-				.getDefaultValue(DefaultFields.COMPLETION);
+			GenericDefaultValue<CATRASScope> compField = (GenericDefaultValue<CATRASScope>) defaults
+				.getDefaultValue(DefaultFields.SCOPE);
 			compField.setValue(comp);
 		}
 		
@@ -232,9 +232,10 @@ public class CatrasReader extends AbstractDendroFileReader {
 			Integer day   = getIntFromByte(argFileBytes[60]);
 			Integer month = getIntFromByte(argFileBytes[61]);
 			Integer year  = getIntFromByte(argFileBytes[62])+1900;
-						
-			defaults.getDateTimeDefaultValue(DefaultFields.CREATION_DATE)
+			
+			if(year>1900){ defaults.getDateTimeDefaultValue(DefaultFields.CREATION_DATE)
 				.setValue(DateUtils.getDateTime(day, month, year));
+			}
 		} catch (Exception e)
 		{
 			addWarning(new ConversionWarning(WarningType.INVALID, I18n.getText("catras.creationDateInvalid")));
@@ -246,9 +247,11 @@ public class CatrasReader extends AbstractDendroFileReader {
 			Integer day   = getIntFromByte(argFileBytes[63]);
 			Integer month = getIntFromByte(argFileBytes[64]);
 			Integer year  = getIntFromByte(argFileBytes[65])+1900;
-						
-			defaults.getDateTimeDefaultValue(DefaultFields.UPDATED_DATE)
+			
+			if(year>1900){ defaults.getDateTimeDefaultValue(DefaultFields.UPDATED_DATE)
 				.setValue(DateUtils.getDateTime(day, month, year));
+			}
+			
 		} catch (Exception e)
 		{
 			addWarning(new ConversionWarning(WarningType.INVALID, I18n.getText("catras.updatedDateInvalid")));
@@ -496,7 +499,7 @@ public class CatrasReader extends AbstractDendroFileReader {
 	 *            use little-endian?
 	 * @return
 	 */
-	private int getIntFromBytePair(byte[] wBytes, Boolean littleEndian) {
+	public static int getIntFromBytePair(byte[] wBytes, Boolean littleEndian) {
 		
 		int lsb; // least significant byte
 		int msb; // most significant byte

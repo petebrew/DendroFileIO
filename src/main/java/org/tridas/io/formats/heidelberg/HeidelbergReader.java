@@ -867,11 +867,12 @@ public class HeidelbergReader extends AbstractDendroFileReader {
 					valuesGroup.setValues(tridasValues);
 					
 					// link series to sample
-					IdRef idref = new IdRef();
-					idref.setRef(sample);
+					//TODO Fix link series problem
+					/*IdRef idref = new IdRef();
+					idref.setRef(sample.get);
 					SeriesLink link = new SeriesLink();
 					link.setIdRef(idref);
-					series.getLinkSeries().getSeries().add(link);
+					series.getLinkSeries().getSeries().add(link);*/
 					series.getValues().add(valuesGroup);
 					
 					int numDataInts = s.dataInts.size();
