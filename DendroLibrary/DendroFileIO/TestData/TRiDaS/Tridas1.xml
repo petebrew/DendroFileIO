@@ -100,7 +100,7 @@
                                 <dendrochronologist>Kuniholm, Peter I</dendrochronologist>
                                 <measuringMethod normalStd="Corina Dictionary" normalId="1">Measuring platform</measuringMethod>
                                 <interpretation>
-                                    <firstYear suffix="BC">500</firstYear>
+                                    <firstYear suffix="BC">5</firstYear>
                                     <statFoundation>
                                         <statValue>8.3</statValue>
                                         <type>t-score</type>

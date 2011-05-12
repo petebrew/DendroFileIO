@@ -7,6 +7,7 @@ import org.tridas.io.defaults.IMetadataFieldSet;
 import org.tridas.io.defaults.values.DateTimeDefaultValue;
 import org.tridas.io.defaults.values.GenericDefaultValue;
 import org.tridas.io.defaults.values.IntegerDefaultValue;
+import org.tridas.io.defaults.values.SafeIntYearDefaultValue;
 import org.tridas.io.defaults.values.StringDefaultValue;
 import org.tridas.io.formats.catras.CatrasToTridasDefaults.CATRASFileType;
 import org.tridas.io.formats.catras.CatrasToTridasDefaults.CATRASLastRing;
@@ -54,7 +55,7 @@ public class TridasToCatrasDefaults extends AbstractMetadataFieldSet implements
 		setDefaultValue(DefaultFields.QUALITY_CODE, new IntegerDefaultValue(0, 0, 5));
 		setDefaultValue(DefaultFields.NUMBER_FORMAT, new IntegerDefaultValue(1, 1, 1));
 
-		setDefaultValue(DefaultFields.START_YEAR, new IntegerDefaultValue(0));
+		setDefaultValue(DefaultFields.START_YEAR, new SafeIntYearDefaultValue(new SafeIntYear()));
 		setDefaultValue(DefaultFields.END_YEAR, new IntegerDefaultValue(0));
 		setDefaultValue(DefaultFields.SPECIES_CODE, new IntegerDefaultValue(0, 0, 32767));
 		setDefaultValue(DefaultFields.CREATION_DATE, new DateTimeDefaultValue());
@@ -147,8 +148,7 @@ public class TridasToCatrasDefaults extends AbstractMetadataFieldSet implements
 			if(ser.getInterpretation().isSetFirstYear())
 			{
 				SafeIntYear firstYear = new SafeIntYear(ser.getInterpretation().getFirstYear());
-				Integer startyearval = Integer.parseInt(firstYear.toString());
-				getIntegerDefaultValue(DefaultFields.START_YEAR).setValue(startyearval);
+				getSafeIntYearDefaultValue(DefaultFields.START_YEAR).setValue(firstYear);
 			}
 		}
 		

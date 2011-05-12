@@ -781,7 +781,7 @@ public class TestFromTridas extends TestCase {
 	
 	public void testBytesRoundTrip()
 	{
-		Integer i = -500;
+		Integer i = -5;
 		
 		byte[] arr = CatrasFile.getIntAsBytePair(i, true);
 		Integer i2 = CatrasReader.getIntFromBytePair(arr, true);
