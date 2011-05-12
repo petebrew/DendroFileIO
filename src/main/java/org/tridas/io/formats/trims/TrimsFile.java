@@ -30,6 +30,7 @@ import org.tridas.io.exceptions.ConversionWarningException;
 import org.tridas.io.exceptions.ConversionWarning.WarningType;
 import org.tridas.io.formats.trims.TridasToTrimsDefaults.TrimsField;
 import org.tridas.io.util.SafeIntYear;
+import org.tridas.io.util.StringUtils;
 import org.tridas.schema.TridasDerivedSeries;
 import org.tridas.schema.TridasMeasurementSeries;
 import org.tridas.schema.TridasValue;
@@ -170,7 +171,7 @@ public class TrimsFile implements IDendroFile {
 		
 		StringBuilder string = new StringBuilder();
 		
-		string.append(defaults.getDefaultValue(TrimsField.AUTHOR).getValue() + "\n");
+		string.append(StringUtils.getIntialsFromName(defaults.getStringDefaultValue(TrimsField.AUTHOR).getValue(), 2) + "\n");
 		string.append(defaults.getDefaultValue(TrimsField.MEASURING_DATE).getValue() + "\n");
 		string.append(defaults.getDefaultValue(TrimsField.START_YEAR).getValue() + "\n");
 		

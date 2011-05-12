@@ -7,20 +7,25 @@ import org.tridas.io.defaults.IMetadataFieldSet;
 import org.tridas.io.defaults.values.DateTimeDefaultValue;
 import org.tridas.io.defaults.values.GenericDefaultValue;
 import org.tridas.io.defaults.values.IntegerDefaultValue;
-import org.tridas.io.defaults.values.SafeIntYearDefaultValue;
 import org.tridas.io.defaults.values.StringDefaultValue;
-import org.tridas.io.formats.catras.CatrasToTridasDefaults.CATRASScope;
 import org.tridas.io.formats.catras.CatrasToTridasDefaults.CATRASFileType;
 import org.tridas.io.formats.catras.CatrasToTridasDefaults.CATRASLastRing;
 import org.tridas.io.formats.catras.CatrasToTridasDefaults.CATRASProtection;
+import org.tridas.io.formats.catras.CatrasToTridasDefaults.CATRASScope;
 import org.tridas.io.formats.catras.CatrasToTridasDefaults.CATRASSource;
 import org.tridas.io.formats.catras.CatrasToTridasDefaults.CATRASVariableType;
 import org.tridas.io.formats.catras.CatrasToTridasDefaults.DefaultFields;
+import org.tridas.io.util.SafeIntYear;
+import org.tridas.io.util.StringUtils;
+import org.tridas.schema.ComplexPresenceAbsence;
+import org.tridas.schema.NormalTridasVariable;
+import org.tridas.schema.PresenceAbsence;
 import org.tridas.schema.TridasBark;
 import org.tridas.schema.TridasDerivedSeries;
 import org.tridas.schema.TridasElement;
 import org.tridas.schema.TridasMeasurementSeries;
 import org.tridas.schema.TridasObject;
+import org.tridas.schema.TridasPith;
 import org.tridas.schema.TridasProject;
 import org.tridas.schema.TridasRadius;
 import org.tridas.schema.TridasSample;
@@ -41,24 +46,25 @@ public class TridasToCatrasDefaults extends AbstractMetadataFieldSet implements
 		getDefaultValue(DefaultFields.SERIES_LENGTH).setMinLength(2);
 		
 		setDefaultValue(DefaultFields.SAPWOOD_LENGTH, new IntegerDefaultValue(null, 0, 32767));
-		setDefaultValue(DefaultFields.FIRST_VALID_YEAR, new IntegerDefaultValue(null, 0, 32767));
-		setDefaultValue(DefaultFields.LAST_VALID_YEAR, new IntegerDefaultValue(null, 0, 32767));
+		setDefaultValue(DefaultFields.FIRST_VALID_YEAR, new IntegerDefaultValue(0, 0, 32767));
+		setDefaultValue(DefaultFields.LAST_VALID_YEAR, new IntegerDefaultValue(0, 0, 32767));
 		setDefaultValue(DefaultFields.SCOPE, new GenericDefaultValue<CATRASScope>(CATRASScope.UNSPECIFIED));
 		setDefaultValue(DefaultFields.LAST_RING, new GenericDefaultValue<CATRASLastRing>(CATRASLastRing.COMPLETE));
-		setDefaultValue(DefaultFields.NUMBER_OF_CHARS_IN_TITLE, new IntegerDefaultValue(null, 0, 32767));
-		setDefaultValue(DefaultFields.QUALITY_CODE, new IntegerDefaultValue(null, 0, 32767));
-				
-		setDefaultValue(DefaultFields.START_YEAR, new SafeIntYearDefaultValue(null));
-		setDefaultValue(DefaultFields.END_YEAR, new SafeIntYearDefaultValue(null));
+		setDefaultValue(DefaultFields.NUMBER_OF_CHARS_IN_TITLE, new IntegerDefaultValue(null, 0, 32));
+		setDefaultValue(DefaultFields.QUALITY_CODE, new IntegerDefaultValue(0, 0, 5));
+		setDefaultValue(DefaultFields.NUMBER_FORMAT, new IntegerDefaultValue(1, 1, 1));
+
+		setDefaultValue(DefaultFields.START_YEAR, new IntegerDefaultValue(0));
+		setDefaultValue(DefaultFields.END_YEAR, new IntegerDefaultValue(0));
 		setDefaultValue(DefaultFields.SPECIES_CODE, new IntegerDefaultValue(0, 0, 32767));
 		setDefaultValue(DefaultFields.CREATION_DATE, new DateTimeDefaultValue());
 		setDefaultValue(DefaultFields.UPDATED_DATE, new DateTimeDefaultValue());
 		setDefaultValue(DefaultFields.SAPWOOD, new StringDefaultValue());
 		setDefaultValue(DefaultFields.DATED, new StringDefaultValue());
 		setDefaultValue(DefaultFields.FILE_TYPE, new GenericDefaultValue<CATRASFileType>(CATRASFileType.RAW));
-		setDefaultValue(DefaultFields.USER_ID, new StringDefaultValue(null, 4, 4));
+		setDefaultValue(DefaultFields.USER_ID, new StringDefaultValue("----", 4, 4));
 		setDefaultValue(DefaultFields.VARIABLE_TYPE, new GenericDefaultValue<CATRASVariableType>(CATRASVariableType.RINGWIDTH));
-		setDefaultValue(DefaultFields.SOURCE, new GenericDefaultValue<CATRASSource>());
+		setDefaultValue(DefaultFields.SOURCE, new GenericDefaultValue<CATRASSource>(CATRASSource.DIGITIZED));
 		setDefaultValue(DefaultFields.PROTECTION, new GenericDefaultValue<CATRASProtection>(CATRASProtection.NONE));
 	}
 	
@@ -88,14 +94,31 @@ public class TridasToCatrasDefaults extends AbstractMetadataFieldSet implements
 
 	}
 	
+	@SuppressWarnings("unchecked")
 	public void populateFromTridasMeasurementSeries(TridasMeasurementSeries ms) {
 		populateFromTridasSeries(ms);
 		
+		GenericDefaultValue<CATRASFileType> fileTypeField = (GenericDefaultValue<CATRASFileType>) getDefaultValue(DefaultFields.FILE_TYPE);
+		fileTypeField.setValue(CATRASFileType.RAW);
+		
+		if(ms.isSetDendrochronologist())
+		{
+			getStringDefaultValue(DefaultFields.USER_ID).setValue(StringUtils.getIntialsFromName(ms.getDendrochronologist(), 4));
+		}
+
 	}
 	
+	@SuppressWarnings("unchecked")
 	public void populateFromTridasDerivedSeries(TridasDerivedSeries ds) {
 		
 		populateFromTridasSeries(ds);
+		GenericDefaultValue<CATRASFileType> fileTypeField = (GenericDefaultValue<CATRASFileType>) getDefaultValue(DefaultFields.FILE_TYPE);
+		fileTypeField.setValue(CATRASFileType.CHRONOLOGY);
+		
+		if(ds.isSetAuthor())
+		{
+			getStringDefaultValue(DefaultFields.USER_ID).setValue(StringUtils.getIntialsFromName(ds.getAuthor(), 4));
+		}
 	}
 	
 
@@ -118,21 +141,72 @@ public class TridasToCatrasDefaults extends AbstractMetadataFieldSet implements
 			getStringDefaultValue(DefaultFields.SERIES_CODE).setValue(ser.getTitle());
 		}
 		
+		// Default to zero = undated
+		if(ser.isSetInterpretation())
+		{
+			if(ser.getInterpretation().isSetFirstYear())
+			{
+				SafeIntYear firstYear = new SafeIntYear(ser.getInterpretation().getFirstYear());
+				Integer startyearval = Integer.parseInt(firstYear.toString());
+				getIntegerDefaultValue(DefaultFields.START_YEAR).setValue(startyearval);
+			}
+		}
+		
+		if(ser.isSetCreatedTimestamp())
+		{			
+			getDateTimeDefaultValue(DefaultFields.CREATION_DATE).setValue(ser.getCreatedTimestamp());		
+		}
+		
+		if(ser.isSetLastModifiedTimestamp())
+		{
+			getDateTimeDefaultValue(DefaultFields.UPDATED_DATE).setValue(ser.getLastModifiedTimestamp());
+		}
+		
 	}
 	
 
 	
-	public void populateFromTridasValues(TridasValues argValues) {
+	@SuppressWarnings("unchecked")
+	public void populateFromTridasValues(TridasValues argValues){
 		
 		getIntegerDefaultValue(DefaultFields.SERIES_LENGTH).setValue(argValues.getValues().size());
 		
+		GenericDefaultValue<CATRASVariableType> varField = (GenericDefaultValue<CATRASVariableType>) getDefaultValue(DefaultFields.VARIABLE_TYPE);
+		varField.setValue(CATRASVariableType.RINGWIDTH);
+		if(argValues.isSetVariable())
+		{
+			if(argValues.getVariable().isSetNormalTridas())
+			{
+				if(argValues.getVariable().getNormalTridas().equals(NormalTridasVariable.EARLYWOOD_WIDTH))
+				{
+					varField.setValue(CATRASVariableType.EARLYWOODWIDTH);
+				}
+				else if(argValues.getVariable().getNormalTridas().equals(NormalTridasVariable.LATEWOOD_WIDTH))
+				{
+					varField.setValue(CATRASVariableType.LATEWOODWIDTH);
+				}
+				else if(argValues.getVariable().getNormalTridas().equals(NormalTridasVariable.RING_WIDTH))
+				{
+					varField.setValue(CATRASVariableType.RINGWIDTH);
+				}
+				else
+				{
+					// Shouldn't get here
+					System.out.println("Unsupported variable type in TridasToCatrasDefaults");
+				}
+			}
+		}
+		
+		
 	}
 	
+	@SuppressWarnings("unchecked")
 	public void populateFromWoodCompleteness(TridasMeasurementSeries series, TridasRadius radius){
 	
 		TridasWoodCompleteness wc = null;
-		TridasSapwood sapwood = null;
-		TridasBark bark = null;
+		TridasSapwood sapwood = new TridasSapwood();
+		TridasBark bark = new TridasBark();
+		TridasPith pith = new TridasPith();
 		
 		// Get the wood completeness from the series if possible, if not then try the radius
 		if (series.isSetWoodCompleteness())
@@ -146,11 +220,54 @@ public class TridasToCatrasDefaults extends AbstractMetadataFieldSet implements
 		
 		if(wc.isSetSapwood())
 		{
-			if(wc.getSapwood().isSetNrOfSapwoodRings())
+			sapwood =wc.getSapwood();
+			if(sapwood.isSetNrOfSapwoodRings())
 			{
 				getIntegerDefaultValue(DefaultFields.SAPWOOD_LENGTH).setValue(wc.getSapwood().getNrOfSapwoodRings());
 			}
 		}
+		
+		if(wc.isSetBark())
+		{
+			bark = wc.getBark();
+			
+		}
+	
+		
+		GenericDefaultValue<CATRASScope> scopeField = (GenericDefaultValue<CATRASScope>) getDefaultValue(DefaultFields.SCOPE);
+		if(wc.isSetPith())
+		{
+			pith = wc.getPith();
+			
+			if(pith.getPresence().equals(ComplexPresenceAbsence.COMPLETE) || 
+					pith.getPresence().equals(ComplexPresenceAbsence.INCOMPLETE))
+			{
+
+				if(bark.getPresence().equals(PresenceAbsence.PRESENT))
+				{
+					scopeField.setValue(CATRASScope.PITH_TO_BARK);
+				}
+				else if (sapwood.getPresence().equals(ComplexPresenceAbsence.COMPLETE) )
+				{
+					scopeField.setValue(CATRASScope.PITH_TO_WALDKANTE);
+				}
+				else
+				{
+					scopeField.setValue(CATRASScope.PITH);
+				}
+			}
+			else if (bark.getPresence().equals(PresenceAbsence.PRESENT))
+			{
+				scopeField.setValue(CATRASScope.BARK);
+			}
+			else if (sapwood.getPresence().equals(ComplexPresenceAbsence.COMPLETE))
+			{
+				scopeField.setValue(CATRASScope.WALDKANTE);
+			}
+			
+		}
+		
+		
 		
 		
 	}
