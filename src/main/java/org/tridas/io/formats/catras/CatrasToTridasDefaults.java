@@ -349,7 +349,7 @@ public class CatrasToTridasDefaults extends TridasMetadataFieldSet implements IM
 		if(getSafeIntYearDefaultValue(DefaultFields.START_YEAR).getValue()!=null)
 		{
 			TridasDating dating = new TridasDating();
-			if(getSafeIntYearDefaultValue(DefaultFields.START_YEAR).getValue().equals(new SafeIntYear(-1)))
+			if(getSafeIntYearDefaultValue(DefaultFields.START_YEAR).getValue().equals(new SafeIntYear(0)))
 			{
 				//dating.setType(NormalTridasDatingType.RELATIVE);
 			}
