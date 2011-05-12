@@ -42,6 +42,7 @@ import org.tridas.io.formats.past4.Past4Writer;
 import org.tridas.io.formats.sheffield.SheffieldWriter;
 import org.tridas.io.formats.topham.TophamWriter;
 import org.tridas.io.formats.tridas.TridasReader;
+import org.tridas.io.formats.tridas.TridasWriter;
 import org.tridas.io.formats.trims.TrimsWriter;
 import org.tridas.io.formats.tucson.TucsonWriter;
 import org.tridas.io.formats.tucsoncompact.TucsonCompactWriter;
@@ -698,20 +699,117 @@ public class TestFromTridas extends TestCase {
 			}
 		}
 	
+	public void testTridasToCatrasToTridas() {
+		String folder = "TestData/TRiDaS";
+		String[] files = getFilesFromFolder(folder);
+		
+		if (files.length == 0) {
+			fail();
+		}
+		
+		for (String filename : files) {
+			if(!filename.equals("Tridas1.xml")) continue;
+			
+			log.info("Test conversion of: " + filename);
+			
+			TridasTridas container = null;
+			
+			TridasReader reader = new TridasReader();
+			try {
+				reader.loadFile(folder, filename);
+			} catch (IOException e) {
+				log.info(e.getLocalizedMessage());
+				fail();
+			} catch (InvalidDendroFileException e) {
+				e.printStackTrace();
+				fail();
+			}
+			
+			// Extract the TridasProject
+			container = reader.getTridasContainer();
+			
+			// Create a new converter based on a TridasProject
+			CatrasWriter writer = new CatrasWriter();
+			
+			try {
+				writer.setNamingConvention(new NumericalNamingConvention("CatrasFirst"));
+				writer.load(container);
+			} catch (IncompleteTridasDataException e) {
+				e.printStackTrace();
+			} catch (ConversionWarningException e) {
+			} 
+			
+			
+			// Actually save file(s) to disk
+			writer.saveAllToDisk(outputLocation);
+			
+		}
+		
+		TridasTridas container = null;
+		
+		CatrasReader reader = new CatrasReader();
+		try {
+			reader.loadFile(outputLocation, "CatrasFirst(1).CAT");
+		} catch (IOException e) {
+			log.info(e.getLocalizedMessage());
+			fail();
+		} catch (InvalidDendroFileException e) {
+			e.printStackTrace();
+			fail();
+		}
+		
+		// Extract the TridasProject
+		container = reader.getTridasContainer();
+		
+		// Create a new converter based on a TridasProject
+		TridasWriter writer = new TridasWriter();
+		
+		try {
+			writer.setNamingConvention(new NumericalNamingConvention("CatrasSecond"));
+			writer.load(container);
+		} catch (IncompleteTridasDataException e) {
+			e.printStackTrace();
+		} catch (ConversionWarningException e) {
+		} 
+		
+		
+		// Actually save file(s) to disk
+		writer.saveAllToDisk(outputLocation);
+		
+	}
+
+	
 	public void testBytesRoundTrip()
 	{
-		Integer i = 12345;
+		Integer i = -500;
 		
 		byte[] arr = CatrasFile.getIntAsBytePair(i, true);
 		Integer i2 = CatrasReader.getIntFromBytePair(arr, true);
 		
 		System.out.println("Integer        :"+i);
+		System.out.println("Byte 1         :"+arr[0]);
+		System.out.println("Byte 2         :"+arr[1]);
 		System.out.println("As byte pair   :"+arr);
 		System.out.println("Converted back :"+i2);
 		
 		if(!i.equals(i2)) fail();
 		
 	}
+	
+	public void testByteRoundTrip()
+	{
+		Integer i = 10;
+
+		byte[] arr = CatrasFile.getIntAsByteArray(i);
+		Integer i2 = CatrasReader.getIntFromByte(arr[0]);
+		
+		System.out.println("Integer        :"+i);
+		System.out.println("Converted back :"+i2);
+		
+		if(!i.equals(i2)) fail();
+		
+	}
+	
 	
 	public void testFileSizeCalc()
 	{

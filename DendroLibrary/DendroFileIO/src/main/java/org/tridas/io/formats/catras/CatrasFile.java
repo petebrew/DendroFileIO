@@ -11,9 +11,13 @@ import org.tridas.io.IDendroFile;
 import org.tridas.io.defaults.IMetadataFieldSet;
 import org.tridas.io.defaults.values.GenericDefaultValue;
 import org.tridas.io.formats.catras.CatrasToTridasDefaults.CATRASLastRing;
+import org.tridas.io.formats.catras.CatrasToTridasDefaults.CATRASProtection;
 import org.tridas.io.formats.catras.CatrasToTridasDefaults.CATRASScope;
 import org.tridas.io.formats.catras.CatrasToTridasDefaults.CATRASFileType;
+import org.tridas.io.formats.catras.CatrasToTridasDefaults.CATRASSource;
+import org.tridas.io.formats.catras.CatrasToTridasDefaults.CATRASVariableType;
 import org.tridas.io.formats.catras.CatrasToTridasDefaults.DefaultFields;
+import org.tridas.schema.DateTime;
 import org.tridas.schema.TridasValue;
 import org.tridas.schema.TridasValues;
 
@@ -38,7 +42,7 @@ public class CatrasFile implements IDendroFile {
 
 	@Override
 	public String getExtension() {
-		return "cat";
+		return "CAT";
 	}
 
 	/**
@@ -68,13 +72,15 @@ public class CatrasFile implements IDendroFile {
 		dataValues = vals;
 	}
 	
-	private byte[] getDataAsArray() throws IOException
+	private byte[] getDataAsByteArray() throws IOException
 	{
 		byte[] dataArr = new byte[getSizeOfFileInBytes()-128];
 		int i = 0;
 		for(TridasValue val : dataValues.getValues())
 		{
-			insertIntoArray(dataArr, CatrasFile.getIntAsBytePair(Integer.parseInt(val.getValue()), true), i, null);
+			String intval = val.getValue();
+			byte[] bytePair = CatrasFile.getIntAsBytePair(Integer.parseInt(intval), true);
+			insertIntoArray(dataArr, bytePair, i, i+1);
 			i = i+2;
 		}
 		
@@ -124,7 +130,7 @@ public class CatrasFile implements IDendroFile {
 			defaults.getStringDefaultValue(DefaultFields.SERIES_NAME).getValue().getBytes(),
 			0, 31);
 		insertIntoArray(file,
-			defaults.getStringDefaultValue(DefaultFields.SERIES_CODE).getValue().getBytes(),
+			defaults.getStringDefaultValue(DefaultFields.SERIES_CODE).getValue().toUpperCase().getBytes(),
 			32, 39);
 		insertIntoArray(file,
 			defaults.getStringDefaultValue(DefaultFields.FILE_EXTENSION).getValue().getBytes(),
@@ -136,28 +142,77 @@ public class CatrasFile implements IDendroFile {
 			CatrasFile.getIntAsBytePair(defaults.getIntegerDefaultValue(DefaultFields.SAPWOOD_LENGTH).getValue()),
 			46, 47);
 		insertIntoArray(file,
-			defaults.getDefaultValue(DefaultFields.FIRST_VALID_YEAR).getStringValue().getBytes(),
+			CatrasFile.getIntAsBytePair(defaults.getIntegerDefaultValue(DefaultFields.FIRST_VALID_YEAR).getValue()),
 			48, 49);
 		insertIntoArray(file,
-			defaults.getDefaultValue(DefaultFields.LAST_VALID_YEAR).getStringValue().getBytes(),
+			CatrasFile.getIntAsBytePair(defaults.getIntegerDefaultValue(DefaultFields.LAST_VALID_YEAR).getValue()),
 			50, 51);	
 		insertIntoArray(file, 
-			((GenericDefaultValue<CATRASScope>) defaults.getDefaultValue(DefaultFields.SCOPE)).getValue().toCode().toString().getBytes(),
+			CatrasFile.getIntAsByteArray(((GenericDefaultValue<CATRASScope>) defaults.getDefaultValue(DefaultFields.SCOPE)).getValue().toCode()),
 			52, 52);
 		insertIntoArray(file, 
-			((GenericDefaultValue<CATRASLastRing>) defaults.getDefaultValue(DefaultFields.LAST_RING)).getValue().toCode().toString().getBytes(),
+			CatrasFile.getIntAsByteArray(((GenericDefaultValue<CATRASLastRing>) defaults.getDefaultValue(DefaultFields.LAST_RING)).getValue().toCode()),
 			53, 53);
-		
+		insertIntoArray(file,
+			CatrasFile.getIntAsBytePair(defaults.getIntegerDefaultValue(DefaultFields.START_YEAR).getValue()),
+			54, 55);
+		insertIntoArray(file,				
+			CatrasFile.getIntAsByteArray(defaults.getIntegerDefaultValue(DefaultFields.NUMBER_OF_CHARS_IN_TITLE).getValue()),
+			56, 56);
+		insertIntoArray(file,				
+			CatrasFile.getIntAsByteArray(defaults.getIntegerDefaultValue(DefaultFields.QUALITY_CODE).getValue()),
+			57, 57);
+		insertIntoArray(file,
+			CatrasFile.getIntAsBytePair(defaults.getIntegerDefaultValue(DefaultFields.SPECIES_CODE).getValue()),
+			58, 59);
+		insertIntoArray(file,
+			getDateTimeAsBytes(defaults.getDateTimeDefaultValue(DefaultFields.CREATION_DATE).getValue()),
+			60, 62);
+		insertIntoArray(file,
+			getDateTimeAsBytes(defaults.getDateTimeDefaultValue(DefaultFields.UPDATED_DATE).getValue()),
+			63, 65);		
+		insertIntoArray(file, 
+			CatrasFile.getIntAsByteArray(defaults.getIntegerDefaultValue(DefaultFields.NUMBER_FORMAT).getValue()),
+			66, 66);
+		insertIntoArray(file, 
+			CatrasFile.getIntAsByteArray(((GenericDefaultValue<CATRASVariableType>) defaults.getDefaultValue(DefaultFields.VARIABLE_TYPE)).getValue().toCode()),
+			67, 67);		
+		insertIntoArray(file,
+			((GenericDefaultValue<CATRASSource>) defaults.getDefaultValue(DefaultFields.SOURCE)).getValue().toCode().getBytes(),
+			81, 81);
+		insertIntoArray(file, 
+			CatrasFile.getIntAsByteArray(((GenericDefaultValue<CATRASProtection>) defaults.getDefaultValue(DefaultFields.PROTECTION)).getValue().toCode()),
+			82, 82);
+		insertIntoArray(file, 
+			CatrasFile.getIntAsByteArray(((GenericDefaultValue<CATRASFileType>) defaults.getDefaultValue(DefaultFields.FILE_TYPE)).getValue().toCode()),
+			83, 83);	
+		insertIntoArray(file, 
+			defaults.getStringDefaultValue(DefaultFields.USER_ID).getValue().getBytes(),
+			84, 87);
 		
 		// Data
-		insertIntoArray(file,
-				this.getDataAsArray(),
-				127, null);
+		insertIntoArray(file, getDataAsByteArray(), 128, 128+getDataAsByteArray().length-1);
 			
 
 
 		return file;
 
+		
+	}
+	
+	
+	private byte[] getDateTimeAsBytes(DateTime dt)
+	{
+		int day = dt.getValue().getDay();
+		int month = dt.getValue().getMonth();
+		int year = dt.getValue().getYear()-1900;
+		
+		byte[] rawBytes = new byte[3];
+		rawBytes[0] = getIntAsByte(day);
+		rawBytes[1] = getIntAsByte(month);
+		rawBytes[2] = getIntAsByte(year);
+		
+		return rawBytes;
 		
 	}
 	
@@ -167,7 +222,7 @@ public class CatrasFile implements IDendroFile {
 		
 		int i = 128;
 		
-		Integer ringcount = dataValues.getValues().size();
+		Integer ringcount = dataValues.getValues().size()*2;
 				
 		Integer datasize = ((ringcount / i) * i);
 		
@@ -235,6 +290,30 @@ public class CatrasFile implements IDendroFile {
         
         return rawBytes;
 		
+	}
+	
+	public static byte[] getIntAsByteArray(Integer value)
+	{
+		byte[] rawBytes = new byte[1];
+		
+		if(value==null)
+		{
+			return rawBytes;
+		}
+		
+		rawBytes[0] = getIntAsByte(value);
+		return rawBytes;
+	}
+	
+	public static byte getIntAsByte(Integer value)
+	{
+		
+		if(value > 255 || value <0)
+		{
+			throw new NumberFormatException("Unable to represent integer as byte.  Value "+value+" not within range (0-255)");
+		}
+		
+		return (byte) ((value & 0x000000FFL));
 	}
 	
 

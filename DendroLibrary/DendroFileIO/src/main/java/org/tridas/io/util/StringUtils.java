@@ -459,4 +459,76 @@ public class StringUtils {
 		return true;
 	}
 	
+	/**
+	 * Takes a full name and returns the initials.  If name contains a comma
+	 * then it is treated as "Lastname, Firstname".  If name is equal or shorter
+	 * than charLimit then it is returned as is.
+	 * 
+	 * @param name
+	 * @param charLimitGuide = 2
+	 * @return
+	 */
+	public static String getIntialsFromName(String name, Integer charLimitGuide)
+	{
+		if(name==null || name.length()==0)
+		{
+			return null;
+		}
+	
+		name = name.trim();
+		
+		// If name is already shorter than the number of chars allowed,
+		// or the name doesn't contain spaces then simply return.
+		if(charLimitGuide==null) charLimitGuide = 2;
+		if(name.length()<=charLimitGuide || !name.contains(" ")) return StringUtils.rightPadWithTrim(name, charLimitGuide).trim();
+		
+		// if name is 3 or fewer characters and they are all upper case
+		// presume they are already initials
+		if(name.length()<=3)
+		{
+			Boolean isUpperCase = true;
+			for(int i =0; i<name.length(); i++)
+			{
+				char ch = name.charAt(i);
+				if(!Character.isUpperCase(ch))
+				{
+					isUpperCase = false;
+					break;
+				}
+			}
+			if(isUpperCase) return StringUtils.rightPadWithTrim(name, charLimitGuide).trim();
+		}
+		
+		
+		// Try and grab initials 
+		StringBuilder sbInitials = new StringBuilder();
+		String[] nameParts = name.split(" ");	
+		
+		if(name.contains(","))
+		{
+			name = name.replace(",", " ");
+			nameParts = name.split("\\s");	
+			
+			// Name contains a comma so treat names as "Lastname, Firstname"
+			for (int i = 1; i<nameParts.length; i++)
+			{
+				String part = nameParts[i];
+				part = part.trim();
+				if(part.length()>0) sbInitials.append(part.charAt(0));
+			}
+			sbInitials.append(name.charAt(0));
+			return StringUtils.rightPadWithTrim(sbInitials.toString().toUpperCase(), charLimitGuide).trim();
+		}
+		else
+		{
+			for (String part : nameParts)
+			{
+				String part2 = part.trim();
+				if(part2.length()>0) sbInitials.append(part2.charAt(0));
+			}
+			return StringUtils.rightPadWithTrim(sbInitials.toString().toUpperCase(), charLimitGuide).trim();
+		}
+
+	}
+	
 }

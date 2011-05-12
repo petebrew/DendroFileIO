@@ -120,7 +120,7 @@ public class CatrasReader extends AbstractDendroFileReader {
 	 */
 	protected void checkFile(byte[] argFileBytes) throws InvalidDendroFileException{
 	
-		// Check there are at least 128 bytes
+		// Check there are at least 128 bytes and that the number of bytes is divisible by 128
 		if (argFileBytes == null) {
 			throw new InvalidDendroFileException(I18n.getText("fileio.tooShort"), 
 					1, PointerType.BYTE );
@@ -129,21 +129,18 @@ public class CatrasReader extends AbstractDendroFileReader {
 			throw new InvalidDendroFileException(I18n.getText("fileio.tooShort"), 
 					argFileBytes.length, PointerType.BYTE );
 		}
+		else if (argFileBytes.length % 128!=0)
+		{
+			throw new InvalidDendroFileException(I18n.getText("catras.invalidFileSize"), 
+					argFileBytes.length, PointerType.BYTE );
+		}
 		
-		// Count number of new line characters in file
-		System.out.println("Checking that file is CATRAS format...");
-		int n = 0;
-		int count = 0;
-		for(byte b : argFileBytes)
+		if(CatrasReader.getIntFromByte(argFileBytes[66])!=1)
 		{
-			n++;
-			if (b== System.getProperty("line.separator").getBytes()[0])	count++;
+			throw new InvalidDendroFileException(I18n.getText("catras.invalidNumberFormat"), 
+					67, PointerType.BYTE );
 		}
-		if(count > 5)
-		{
-			log.debug("File contains "+ count + " newline chars");
-			throw new InvalidDendroFileException("Too many new line characters in file to be binary" );
-		}
+		
 	}
 	
 	/**
@@ -217,15 +214,15 @@ public class CatrasReader extends AbstractDendroFileReader {
 		
 		// Number of characters in series name - byte 57
 		defaults.getIntegerDefaultValue(DefaultFields.NUMBER_OF_CHARS_IN_TITLE)
-		.setValue(getIntFromBytePairByPos(argFileBytes, 56));	
+			.setValue(getIntFromByte(argFileBytes[56]));
 		
 		// Quality code - byte 58
 		defaults.getIntegerDefaultValue(DefaultFields.QUALITY_CODE)
-		.setValue(getIntFromBytePairByPos(argFileBytes, 57));	
+			.setValue(getIntFromByte(argFileBytes[57]));	
 		
 		// Species code - byte 59 - 60  (not much use without associated dictionary file)
 		defaults.getIntegerDefaultValue(DefaultFields.SPECIES_CODE)
-		.setValue(getIntFromBytePair(getSubByteArray(argFileBytes, 58, 59)));
+			.setValue(getIntFromBytePair(getSubByteArray(argFileBytes, 58, 59)));
 		
 		// 61, 62, 63 creation date- dd, mm, yy respectively
 		try{
@@ -308,7 +305,7 @@ public class CatrasReader extends AbstractDendroFileReader {
 		// Ignored
 				
 		// Extract the data
-		byte[] theData = getSubByteArray(argFileBytes, 127, 127+length);
+		byte[] theData = getSubByteArray(argFileBytes, 127, 127+(length*2));
 		//boolean reachedStopMarker = false;
 		for (int i = 1; i < theData.length; i = i + 2) {
 			int valueFromFile = getIntFromBytePairByPos(theData, i);
@@ -380,10 +377,11 @@ public class CatrasReader extends AbstractDendroFileReader {
 		}*/
 		
 		
-		if (ringWidthValues.size() < getIntFromBytePair(getSubByteArray(argFileBytes, 44, 45))) 
+		if (ringWidthValues.size() < length) 
 		{
 			addWarning(new ConversionWarning(WarningType.INVALID, I18n.getText("fileio.valueCountMismatch", ringWidthValues.size()+"", length+"")));
-			log.warn("Less ring width values in file than there should be according to the length metdata");
+			log.warn("Less ring width values in file than there should be according to the length metadata ("+
+					ringWidthValues.size() + " not " + length+")");
 		}
 	
 		// Check for lead-in and lead-out missing rings.  If present remove
@@ -546,7 +544,7 @@ public class CatrasReader extends AbstractDendroFileReader {
 	 *            use little-endian?
 	 * @return
 	 */
-	private int getIntFromByte(byte argByte) {
+	public static int getIntFromByte(byte argByte) {
 		
 		return (0x000000FF & (argByte));
 		
@@ -565,7 +563,7 @@ public class CatrasReader extends AbstractDendroFileReader {
 	private int getIntFromBytePairByPos(byte[] wBytes, int pos) {
 		return getIntFromBytePair(getBytePairByPos(wBytes, pos));
 	}
-	
+		
 	@Override
 	public String[] getFileExtensions() {
 		return new String[]{"cat"};

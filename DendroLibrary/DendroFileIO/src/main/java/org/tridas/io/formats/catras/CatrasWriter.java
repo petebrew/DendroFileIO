@@ -27,7 +27,6 @@ import org.tridas.schema.TridasObject;
 import org.tridas.schema.TridasProject;
 import org.tridas.schema.TridasRadius;
 import org.tridas.schema.TridasSample;
-import org.tridas.schema.TridasValue;
 import org.tridas.schema.TridasValues;
 
 public class CatrasWriter extends AbstractDendroCollectionWriter {
@@ -129,7 +128,6 @@ public class CatrasWriter extends AbstractDendroCollectionWriter {
 										case RING_WIDTH:
 										case EARLYWOOD_WIDTH:
 										case LATEWOOD_WIDTH:
-										case MAXIMUM_DENSITY:
 											// All handled ok
 											break;
 										default:
@@ -163,30 +161,6 @@ public class CatrasWriter extends AbstractDendroCollectionWriter {
 									theValues = tvsgroup;
 								}
 						
-								// Intercept missing rings and replace with 1's as Sheffield can't cope otherwise
-								for(TridasValue val : theValues.getValues())
-								{
-									try
-									{
-										Double dblval = Double.parseDouble(val.getValue());
-										if(dblval.equals(0.0))
-										{
-											val.setValue("1");
-											this.addWarning(new ConversionWarning(WarningType.UNREPRESENTABLE, 
-													I18n.getText("sheffield.missingRingHandling")));
-										}
-										else if (dblval.compareTo(0.0)<0)
-										{
-											val.setValue("1");
-											this.addWarning(new ConversionWarning(WarningType.UNREPRESENTABLE, 
-													I18n.getText("sheffield.negativeRingHandling")));
-										}
-									}
-									catch (Exception e2)
-									{
-										throw new IncompleteTridasDataException(I18n.getText("general.ringValuesNotNumbers"));
-									}
-								}
 								file.setDataValues(theValues);
 								
 								// Set naming convention
@@ -251,6 +225,7 @@ public class CatrasWriter extends AbstractDendroCollectionWriter {
 				try {
 					file.setDataValues(UnitUtils.convertTridasValues(NormalTridasUnit.HUNDREDTH_MM, tvsgroup, true));
 				} catch (NumberFormatException e) {
+					throw new IncompleteTridasDataException(I18n.getText("general.ringValuesNotNumbers"));
 				} catch (ConversionWarningException e) {
 					this.addWarning(e.getWarning());
 				}

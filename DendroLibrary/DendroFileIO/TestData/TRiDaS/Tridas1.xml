@@ -97,7 +97,7 @@
                                 <createdTimestamp certainty="exact">1997-02-01T14:13:51.0Z</createdTimestamp>
                                 <lastModifiedTimestamp certainty="exact">1997-02-01T14:13:51.0Z</lastModifiedTimestamp>
                                 <analyst>Laura Steele</analyst>
-                                <dendrochronologist>Peter I Kuniholm</dendrochronologist>
+                                <dendrochronologist>Kuniholm, Peter I</dendrochronologist>
                                 <measuringMethod normalStd="Corina Dictionary" normalId="1">Measuring platform</measuringMethod>
                                 <interpretation>
                                     <firstYear suffix="BC">500</firstYear>
@@ -112,16 +112,56 @@
                                 <values>
                                     <variable normalTridas="ring width"/>
                                     <unit normalTridas="1/100th millimetres"/>
-                                    <value value="54"/>
-                                    <value value="111"/>
-                                    <value value="71"/>
+                                    <value value="10"/>
+                                    <value value="20"/>
+                                    <value value="30"/>
                                     <value value="40"/>
-                                    <value value="56"/>
-                                    <value value="56"/>
-                                    <value value="56"/>
-                                    <value value="56"/>
-                                    <value value="56"/>
-                                    <value value="56"/>
+                                    <value value="50"/>
+                                    <value value="60"/>
+                                    <value value="70"/>
+                                    <value value="80"/>
+                                    <value value="90"/>
+                                    <value value="100"/>
+                                    <value value="110"/>
+                                    <value value="120"/>
+                                    <value value="130"/>
+                                    <value value="140"/>
+                                    <value value="150"/>
+                                    <value value="160"/>
+                                    <value value="170"/>
+                                    <value value="180"/>
+                                    <value value="190"/>
+                                    <value value="200"/>
+                                    <value value="210"/>
+                                    <value value="220"/>
+                                    <value value="230"/>
+                                    <value value="240"/>
+                                    <value value="250"/>
+                                    <value value="260"/>
+                                    <value value="270"/>
+                                    <value value="280"/>
+                                    <value value="290"/>
+                                    <value value="300"/>
+                                    <value value="310"/>
+                                    <value value="320"/>
+                                    <value value="330"/>
+                                    <value value="340"/>
+                                    <value value="350"/>
+                                    <value value="360"/>
+                                    <value value="370"/>
+                                    <value value="380"/>
+                                    <value value="390"/>
+                                    <value value="400"/>
+                                    <value value="410"/>
+                                    <value value="420"/>
+                                    <value value="430"/>
+                                    <value value="440"/>
+                                    <value value="450"/>
+                                    <value value="460"/>
+                                    <value value="470"/>
+                                    <value value="480"/>
+                                    <value value="490"/>
+                                    <value value="6600"/>
                                 </values>
                             </measurementSeries>
                             <measurementSeries>

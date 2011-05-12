@@ -18,7 +18,7 @@ package org.tridas.io.formats.catras;
 import java.util.ArrayList;
 
 import org.apache.commons.lang.WordUtils;
-import org.tridas.io.defaults.AbstractDefaultValue;
+import org.tridas.interfaces.ITridasSeries;
 import org.tridas.io.defaults.IMetadataFieldSet;
 import org.tridas.io.defaults.TridasMetadataFieldSet;
 import org.tridas.io.defaults.values.DateTimeDefaultValue;
@@ -36,6 +36,7 @@ import org.tridas.schema.ObjectFactory;
 import org.tridas.schema.PresenceAbsence;
 import org.tridas.schema.TridasBark;
 import org.tridas.schema.TridasDating;
+import org.tridas.schema.TridasDerivedSeries;
 import org.tridas.schema.TridasElement;
 import org.tridas.schema.TridasGenericField;
 import org.tridas.schema.TridasHeartwood;
@@ -65,7 +66,7 @@ public class CatrasToTridasDefaults extends TridasMetadataFieldSet implements IM
 		LAST_RING,
 		NUMBER_OF_CHARS_IN_TITLE,
 		QUALITY_CODE,
-		
+		NUMBER_FORMAT,
 		START_YEAR,
 		END_YEAR,
 		SPECIES_CODE,
@@ -100,6 +101,8 @@ public class CatrasToTridasDefaults extends TridasMetadataFieldSet implements IM
 		setDefaultValue(DefaultFields.SPECIES_CODE, new IntegerDefaultValue());
 		setDefaultValue(DefaultFields.CREATION_DATE, new DateTimeDefaultValue());
 		setDefaultValue(DefaultFields.UPDATED_DATE, new DateTimeDefaultValue());
+		setDefaultValue(DefaultFields.NUMBER_FORMAT, new IntegerDefaultValue(1, 1, 1));
+
 		setDefaultValue(DefaultFields.SAPWOOD, new StringDefaultValue());
 		setDefaultValue(DefaultFields.DATED, new StringDefaultValue());
 		setDefaultValue(DefaultFields.FILE_TYPE, new GenericDefaultValue<CATRASFileType>());
@@ -144,58 +147,7 @@ public class CatrasToTridasDefaults extends TridasMetadataFieldSet implements IM
 	protected TridasMeasurementSeries getDefaultTridasMeasurementSeries() {
 		
 		TridasMeasurementSeries series = super.getDefaultTridasMeasurementSeries();
-
-		// Build identifier for series
-		TridasIdentifier seriesId = new ObjectFactory().createTridasIdentifier();
-		seriesId.setValue(getStringDefaultValue(DefaultFields.SERIES_CODE).getStringValue());
-		seriesId.setDomain(super.getDefaultValue(TridasMandatoryField.IDENTIFIER_DOMAIN).getStringValue());
-		series.setIdentifier(seriesId);
-		
-		// Title 
-		if(getStringDefaultValue(DefaultFields.SERIES_NAME).getStringValue()!=null)
-		{
-			series.setTitle(getStringDefaultValue(DefaultFields.SERIES_NAME).getStringValue());
-		}
-		
-		// Creation date
-		if(getDateTimeDefaultValue(DefaultFields.CREATION_DATE).getValue()!=null)
-		{
-			series.setCreatedTimestamp(getDateTimeDefaultValue(DefaultFields.CREATION_DATE).getValue());
-		}
-		
-		// Last modified date
-		if(getDateTimeDefaultValue(DefaultFields.UPDATED_DATE).getValue()!=null)
-		{
-			series.setLastModifiedTimestamp(getDateTimeDefaultValue(DefaultFields.UPDATED_DATE).getValue());
-		}
-		
-		// Build interpretation group for series
-		TridasInterpretation interp = new TridasInterpretation();
-		
-		// Start and End Years
-		if(getSafeIntYearDefaultValue(DefaultFields.START_YEAR).getValue()!=null)
-		{
-			TridasDating dating = new TridasDating();
-			if(getSafeIntYearDefaultValue(DefaultFields.START_YEAR).getValue().equals(new SafeIntYear(-1)))
-			{
-				//dating.setType(NormalTridasDatingType.RELATIVE);
-			}
-			else
-			{
-				dating.setType(NormalTridasDatingType.ABSOLUTE);
-				interp.setFirstYear(getSafeIntYearDefaultValue(DefaultFields.START_YEAR).getValue().toTridasYear(DatingSuffix.AD));
-				
-				// End Year
-				if(getSafeIntYearDefaultValue(DefaultFields.END_YEAR).getValue()!=null)
-				{
-					interp.setLastYear(getSafeIntYearDefaultValue(DefaultFields.END_YEAR).getValue().toTridasYear(DatingSuffix.AD));
-				}
-				interp.setDating(dating);
-			}
-			
-		}
-	
-		series.setInterpretation(interp);
+		populateTridasSeries(series);
 		
 		series.setDendrochronologist(getStringDefaultValue(DefaultFields.USER_ID).getStringValue());
 		
@@ -292,7 +244,6 @@ public class CatrasToTridasDefaults extends TridasMetadataFieldSet implements IM
 		
 		series.setWoodCompleteness(wc);
 		
-		
 		GenericDefaultValue<CATRASSource> sourceField = (GenericDefaultValue<CATRASSource>) getDefaultValue(DefaultFields.SOURCE);
 		if(sourceField.getValue()!=null)
 		{
@@ -313,6 +264,111 @@ public class CatrasToTridasDefaults extends TridasMetadataFieldSet implements IM
 		gf.setType("xs:string");
 		gf.setValue(lastRingField.getStringValue());
 		series.getGenericFields().add(gf);
+		
+		return series;
+	}
+	
+	@SuppressWarnings("unchecked")
+	public TridasValues getTridasValuesWithDefaults() {
+		TridasValues valuesGroup = new TridasValues();
+		
+		// Set units to 1/100th mm. Is this always the case?
+		TridasUnit units = new TridasUnit();
+		units.setNormalTridas(NormalTridasUnit.HUNDREDTH_MM);
+		valuesGroup.setUnit(units);
+		
+		// Set variable to ringwidth.  Is this always the case?
+		TridasVariable variable = new TridasVariable();
+		
+		GenericDefaultValue<CATRASVariableType> varField = (GenericDefaultValue<CATRASVariableType>) getDefaultValue(DefaultFields.VARIABLE_TYPE);
+		if(varField.getValue().equals(CATRASVariableType.RINGWIDTH))
+		{
+			variable.setNormalTridas(NormalTridasVariable.RING_WIDTH);
+		}
+		else if (varField.getValue().equals(CATRASVariableType.EARLYWOODWIDTH))
+		{
+			variable.setNormalTridas(NormalTridasVariable.EARLYWOOD_WIDTH);
+		}
+		else if (varField.getValue().equals(CATRASVariableType.LATEWOODWIDTH))
+		{
+			variable.setNormalTridas(NormalTridasVariable.LATEWOOD_WIDTH);
+		}
+		
+		
+		valuesGroup.setVariable(variable);
+		
+
+		return valuesGroup;
+	}
+	
+	/**
+	 * @see org.tridas.io.defaults.TridasMetadataFieldSet#getDefaultTridasDerivedSeries()
+	 */
+	@Override
+	protected TridasDerivedSeries getDefaultTridasDerivedSeries() {
+	
+		TridasDerivedSeries series = super.getDefaultTridasDerivedSeries();
+		
+		populateTridasSeries(series);
+		
+		
+		return series;
+	}
+	
+	@SuppressWarnings("unchecked")
+	private ITridasSeries populateTridasSeries(ITridasSeries series)
+	{
+		// Build identifier for series
+		TridasIdentifier seriesId = new ObjectFactory().createTridasIdentifier();
+		seriesId.setValue(getStringDefaultValue(DefaultFields.SERIES_CODE).getStringValue());
+		seriesId.setDomain(super.getDefaultValue(TridasMandatoryField.IDENTIFIER_DOMAIN).getStringValue());
+		series.setIdentifier(seriesId);
+		
+		// Title 
+		if(getStringDefaultValue(DefaultFields.SERIES_NAME).getStringValue()!=null)
+		{
+			series.setTitle(getStringDefaultValue(DefaultFields.SERIES_NAME).getStringValue());
+		}
+		
+		// Creation date
+		if(getDateTimeDefaultValue(DefaultFields.CREATION_DATE).getValue()!=null)
+		{
+			series.setCreatedTimestamp(getDateTimeDefaultValue(DefaultFields.CREATION_DATE).getValue());
+		}
+		
+		// Last modified date
+		if(getDateTimeDefaultValue(DefaultFields.UPDATED_DATE).getValue()!=null)
+		{
+			series.setLastModifiedTimestamp(getDateTimeDefaultValue(DefaultFields.UPDATED_DATE).getValue());
+		}
+		
+		// Build interpretation group for series
+		TridasInterpretation interp = new TridasInterpretation();
+		
+		// Start and End Years
+		if(getSafeIntYearDefaultValue(DefaultFields.START_YEAR).getValue()!=null)
+		{
+			TridasDating dating = new TridasDating();
+			if(getSafeIntYearDefaultValue(DefaultFields.START_YEAR).getValue().equals(new SafeIntYear(-1)))
+			{
+				//dating.setType(NormalTridasDatingType.RELATIVE);
+			}
+			else
+			{
+				dating.setType(NormalTridasDatingType.ABSOLUTE);
+				interp.setFirstYear(getSafeIntYearDefaultValue(DefaultFields.START_YEAR).getValue().toTridasYear(DatingSuffix.AD));
+				
+				// End Year
+				if(getSafeIntYearDefaultValue(DefaultFields.END_YEAR).getValue()!=null)
+				{
+					interp.setLastYear(getSafeIntYearDefaultValue(DefaultFields.END_YEAR).getValue().toTridasYear(DatingSuffix.AD));
+				}
+				interp.setDating(dating);
+			}
+			
+		}
+	
+		series.setInterpretation(interp);
 		
 		GenericDefaultValue<CATRASProtection> protectionField = (GenericDefaultValue<CATRASProtection>) getDefaultValue(DefaultFields.PROTECTION);
 		TridasGenericField gf2 = new TridasGenericField();
@@ -347,42 +403,10 @@ public class CatrasToTridasDefaults extends TridasMetadataFieldSet implements IM
 			gf5.setValue(getIntegerDefaultValue(DefaultFields.QUALITY_CODE).getStringValue());
 			series.getGenericFields().add(gf5);
 		}
-		
+				
 		return series;
 	}
-	
-	public TridasValues getTridasValuesWithDefaults() {
-		TridasValues valuesGroup = new TridasValues();
-		
-		// Set units to 1/100th mm. Is this always the case?
-		TridasUnit units = new TridasUnit();
-		units.setNormalTridas(NormalTridasUnit.HUNDREDTH_MM);
-		valuesGroup.setUnit(units);
-		
-		// Set variable to ringwidth.  Is this always the case?
-		TridasVariable variable = new TridasVariable();
-		
-		GenericDefaultValue<CATRASVariableType> varField = (GenericDefaultValue<CATRASVariableType>) getDefaultValue(DefaultFields.VARIABLE_TYPE);
-		if(varField.getValue().equals(CATRASVariableType.RINGWIDTH))
-		{
-			variable.setNormalTridas(NormalTridasVariable.RING_WIDTH);
-		}
-		else if (varField.getValue().equals(CATRASVariableType.EARLYWOODWIDTH))
-		{
-			variable.setNormalTridas(NormalTridasVariable.EARLYWOOD_WIDTH);
-		}
-		else if (varField.getValue().equals(CATRASVariableType.LATEWOODWIDTH))
-		{
-			variable.setNormalTridas(NormalTridasVariable.LATEWOOD_WIDTH);
-		}
-		
-		
-		valuesGroup.setVariable(variable);
-		
 
-		return valuesGroup;
-	}
-	
 
 	public enum CATRASScope {
 		UNSPECIFIED(0),
