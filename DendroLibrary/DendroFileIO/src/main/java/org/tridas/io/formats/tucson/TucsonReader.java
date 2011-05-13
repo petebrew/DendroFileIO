@@ -37,9 +37,7 @@ import org.tridas.io.util.SafeIntYear;
 import org.tridas.io.util.YearRange;
 import org.tridas.schema.DatingSuffix;
 import org.tridas.schema.NormalTridasUnit;
-import org.tridas.schema.ObjectFactory;
 import org.tridas.schema.SeriesLink;
-import org.tridas.schema.SeriesLinks;
 import org.tridas.schema.TridasDerivedSeries;
 import org.tridas.schema.TridasElement;
 import org.tridas.schema.TridasInterpretation;
@@ -51,7 +49,6 @@ import org.tridas.schema.TridasSample;
 import org.tridas.schema.TridasTridas;
 import org.tridas.schema.TridasValue;
 import org.tridas.schema.TridasValues;
-import org.tridas.schema.SeriesLink.IdRef;
 
 /**
  * Reader for the Tucson file format.
@@ -200,7 +197,7 @@ public class TucsonReader extends AbstractDendroFileReader {
 				olist.add(o);
 
 				// Do Link to measurementSeriesPlaceholder
-				SeriesLink link = new ObjectFactory().createSeriesLink();
+				/*SeriesLink link = new ObjectFactory().createSeriesLink();
 				IdRef ref = new ObjectFactory().createSeriesLinkIdRef();
 				ArrayList<SeriesLink> linkList = new ArrayList<SeriesLink>();
 				ref.setRef(s);
@@ -208,7 +205,12 @@ public class TucsonReader extends AbstractDendroFileReader {
 				linkList.add(link);
 				SeriesLinks linkseries = new SeriesLinks();
 				linkseries.setSeries(linkList);
-				ds.setLinkSeries(linkseries);
+				ds.setLinkSeries(linkseries);*/
+				
+				// link series to sample					
+				SeriesLink link = new SeriesLink();					
+				link.setIdentifier(s.getIdentifier());
+				ds.getLinkSeries().getSeries().add(link);
 
 				TridasInterpretation interp = new TridasInterpretation();
 				interp.setFirstYear(series.firstYear

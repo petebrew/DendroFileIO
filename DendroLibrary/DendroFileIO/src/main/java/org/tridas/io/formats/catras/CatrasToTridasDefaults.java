@@ -16,9 +16,11 @@
 package org.tridas.io.formats.catras;
 
 import java.util.ArrayList;
+import java.util.UUID;
 
 import org.apache.commons.lang.WordUtils;
 import org.tridas.interfaces.ITridasSeries;
+import org.tridas.io.I18n;
 import org.tridas.io.defaults.IMetadataFieldSet;
 import org.tridas.io.defaults.TridasMetadataFieldSet;
 import org.tridas.io.defaults.values.DateTimeDefaultValue;
@@ -46,6 +48,7 @@ import org.tridas.schema.TridasLastRingUnderBark;
 import org.tridas.schema.TridasMeasurementSeries;
 import org.tridas.schema.TridasMeasuringMethod;
 import org.tridas.schema.TridasPith;
+import org.tridas.schema.TridasSample;
 import org.tridas.schema.TridasSapwood;
 import org.tridas.schema.TridasUnit;
 import org.tridas.schema.TridasValues;
@@ -115,6 +118,31 @@ public class CatrasToTridasDefaults extends TridasMetadataFieldSet implements IM
 		
 	}
 	
+	/**
+	 * @see org.tridas.io.defaults.TridasMetadataFieldSet#getDefaultTridasSample()
+	 */
+	@Override
+	protected TridasSample getDefaultTridasSample() {
+		
+		TridasSample sample = super.getDefaultTridasSample();
+		TridasIdentifier id = new TridasIdentifier();
+		
+		if(sample.isSetIdentifier())
+		{
+			id = sample.getIdentifier();
+		}
+		else
+		{
+			id.setDomain(I18n.getText("domain.value"));
+			id.setValue(UUID.randomUUID().toString());
+		}
+		
+		sample.setIdentifier(id);
+		
+		
+		return sample;
+		
+	}
 	
 	/**
 	 * @see org.tridas.io.defaults.TridasMetadataFieldSet#getDefaultTridasElement()

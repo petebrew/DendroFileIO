@@ -43,6 +43,7 @@ import org.tridas.io.formats.sheffield.TridasToSheffieldDefaults.SheffieldVariab
 import org.tridas.io.util.CoordinatesUtils;
 import org.tridas.io.util.SafeIntYear;
 import org.tridas.schema.ComplexPresenceAbsence;
+import org.tridas.schema.SeriesLink;
 import org.tridas.schema.TridasDerivedSeries;
 import org.tridas.schema.TridasElement;
 import org.tridas.schema.TridasMeasurementSeries;
@@ -648,18 +649,11 @@ public class SheffieldReader extends AbstractDendroFileReader {
 			ArrayList<TridasObject> objList = new ArrayList<TridasObject>();
 			objList.add(o);
 			project.setObjects(objList);
-			
-			// Do Link to sample
-			/*SeriesLink link = new ObjectFactory().createSeriesLink();
-			IdRef ref = new ObjectFactory().createSeriesLinkIdRef();
-			ArrayList<SeriesLink> linkList = new ArrayList<SeriesLink>();
-			ref.setRef(s);
-			link.setIdRef(ref);
-			linkList.add(link);
-			SeriesLinks linkseries = new SeriesLinks();
-			linkseries.setSeries(linkList);
-			((TridasDerivedSeries) series).setLinkSeries(linkseries);
-			*/
+						
+			// link series to sample					
+			SeriesLink link = new SeriesLink();					
+			link.setIdentifier(s.getIdentifier());
+			((TridasDerivedSeries) series).getLinkSeries().getSeries().add(link);
 			
 			ArrayList<TridasDerivedSeries> dseriesList = new ArrayList<TridasDerivedSeries>();
 			dseriesList.add((TridasDerivedSeries) series);

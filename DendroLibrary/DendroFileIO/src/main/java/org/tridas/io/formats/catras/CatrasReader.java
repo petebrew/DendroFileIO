@@ -22,6 +22,7 @@ import java.util.List;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.tridas.interfaces.ITridasSeries;
 import org.tridas.io.AbstractDendroFileReader;
 import org.tridas.io.DendroFileFilter;
 import org.tridas.io.I18n;
@@ -42,8 +43,10 @@ import org.tridas.io.formats.catras.CatrasToTridasDefaults.DefaultFields;
 import org.tridas.io.util.DateUtils;
 import org.tridas.io.util.FileHelper;
 import org.tridas.io.util.SafeIntYear;
+import org.tridas.schema.SeriesLink;
 import org.tridas.schema.TridasDerivedSeries;
 import org.tridas.schema.TridasElement;
+import org.tridas.schema.TridasIdentifier;
 import org.tridas.schema.TridasMeasurementSeries;
 import org.tridas.schema.TridasObject;
 import org.tridas.schema.TridasProject;
@@ -578,6 +581,7 @@ public class CatrasReader extends AbstractDendroFileReader {
 	}
 	
 	
+	@SuppressWarnings("unchecked")
 	private TridasProject getProject() {
 		
 		// Create entities
@@ -586,9 +590,8 @@ public class CatrasReader extends AbstractDendroFileReader {
 		TridasElement e = defaults.getElementWithDefaults();
 		TridasSample s = defaults.getSampleWithDefaults();
 		TridasRadius r = defaults.getRadiusWithDefaults(false);
-				
-		// Now build up our measurementSeries
-		TridasMeasurementSeries series = defaults.getMeasurementSeriesWithDefaults();
+		
+		ITridasSeries series;
 		
 		// Compile TridasValues array
 		ArrayList<TridasValue> tridasValues = new ArrayList<TridasValue>();
@@ -602,19 +605,8 @@ public class CatrasReader extends AbstractDendroFileReader {
 		}
 		TridasValues valuesGroup = defaults.getTridasValuesWithDefaults();
 		valuesGroup.setValues(tridasValues);
-
-		// Compile project
 		ArrayList<TridasValues> vlist = new ArrayList<TridasValues>();
 		vlist.add(valuesGroup);
-		series.setValues(vlist);
-		
-		ArrayList<TridasMeasurementSeries> seriesList = new ArrayList<TridasMeasurementSeries>();
-		seriesList.add(series);
-		r.setMeasurementSeries(seriesList);
-	
-		ArrayList<TridasRadius> rList = new ArrayList<TridasRadius>();
-		rList.add(r);
-		s.setRadiuses(rList);
 		
 		ArrayList<TridasSample> sList = new ArrayList<TridasSample>();
 		sList.add(s);
@@ -627,6 +619,46 @@ public class CatrasReader extends AbstractDendroFileReader {
 		ArrayList<TridasObject> oList = new ArrayList<TridasObject>();
 		oList.add(o);		
 		p.setObjects(oList);
+		
+		GenericDefaultValue<CATRASFileType> typeField = (GenericDefaultValue<CATRASFileType>) defaults.getDefaultValue(DefaultFields.VARIABLE_TYPE);
+		if(typeField.equals(CATRASFileType.RAW))
+		{
+			// Now build up our measurementSeries
+			series = defaults.getMeasurementSeriesWithDefaults();
+
+			// Compile project
+			series.setValues(vlist);
+			
+			ArrayList<TridasMeasurementSeries> seriesList = new ArrayList<TridasMeasurementSeries>();
+			seriesList.add((TridasMeasurementSeries) series);
+			r.setMeasurementSeries(seriesList);
+		
+			ArrayList<TridasRadius> rList = new ArrayList<TridasRadius>();
+			rList.add(r);
+			s.setRadiuses(rList);
+	
+		}
+		else
+		{
+			// Derived Series
+			series = defaults.getDerivedSeriesWithDefaults();
+
+			// Link to sample
+			SeriesLink link = new SeriesLink();		
+			TridasIdentifier id = s.getIdentifier();
+			link.setIdentifier(id);
+			((TridasDerivedSeries)series).getLinkSeries().getSeries().add(link);
+
+			
+			// Compile project
+			series.setValues(vlist);
+			
+			ArrayList<TridasDerivedSeries> seriesList = new ArrayList<TridasDerivedSeries>();
+			seriesList.add((TridasDerivedSeries) series);
+			p.setDerivedSeries(seriesList);
+		
+			
+		}
 		
 		return p;
 		

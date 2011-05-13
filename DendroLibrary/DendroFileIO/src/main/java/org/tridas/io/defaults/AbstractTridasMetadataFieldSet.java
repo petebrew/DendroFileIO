@@ -110,7 +110,7 @@ public abstract class AbstractTridasMetadataFieldSet extends AbstractMetadataFie
 	
 	public TridasSample getSampleWithDefaults(boolean argCascade) {
 		TridasSample s = getDefaultTridasSample();
-		
+				
 		if (argCascade) {
 			ArrayList<TridasRadius> radii = new ArrayList<TridasRadius>();
 			radii.add(getRadiusWithDefaults(argCascade));

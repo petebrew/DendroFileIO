@@ -116,7 +116,7 @@ public class BesanconFile implements IDendroFile {
 						{
 							file.add("##   - "+link.getIdentifier().getDomain()+":"+link.getIdentifier().getValue());
 						}
-						else if (link.isSetIdRef())
+						/*else if (link.isSetIdRef())
 						{
 							try{
 							ITridasSeries linkedSeries = ((ITridasSeries)link.getIdRef().getRef());
@@ -125,7 +125,7 @@ public class BesanconFile implements IDendroFile {
 							{
 								file.add("##   - "+I18n.getText("unnamed.series"));
 							}
-						}
+						}*/
 					}
 				}
 			}

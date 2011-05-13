@@ -128,7 +128,7 @@
         <type>Blah</type>
         <linkSeries>
             <series>
-                <idRef ref="ref1"/>
+                <identifier domain="dendro.cornell.edu">8c50234e-8eda-41bb-b578-01cc881d1ea1</identifier>
             </series>
         </linkSeries>
        <values>
