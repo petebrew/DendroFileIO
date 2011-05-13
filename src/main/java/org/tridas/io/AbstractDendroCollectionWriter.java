@@ -372,7 +372,7 @@ public abstract class AbstractDendroCollectionWriter {
 	}
 	
 	/**
-	 * Set the naming convention
+	 * Set the naming convention.  
 	 * 
 	 * @param argConvension
 	 */

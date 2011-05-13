@@ -38,6 +38,7 @@ public abstract class AbstractNamingConvention implements INamingConvention {
 	
 	private static final Logger log = LoggerFactory.getLogger(AbstractNamingConvention.class);
 	public static String DEFAULT_FILENAME = "unknown";
+	protected Boolean addSequenceNumbersForUniqueness = true;
 	
 	private HashMap<String, ArrayList<IDendroFile>> nameMap = new HashMap<String, ArrayList<IDendroFile>>();
 	private HashMap<IDendroFile, String> fileMap = new HashMap<IDendroFile, String>();
@@ -117,7 +118,7 @@ public abstract class AbstractNamingConvention implements INamingConvention {
 			log.error(I18n.getText("fileio.fileNotRegistered"));
 		}
 		
-		if (files.size() == 1) {
+		if (files.size() == 1 || addSequenceNumbersForUniqueness==false) {
 			return baseFilename;
 		}
 		
@@ -143,6 +144,19 @@ public abstract class AbstractNamingConvention implements INamingConvention {
 	public void setFilename(IDendroFile argFile, String argFilename) {
 		unregisterFile(argFile);
 		registerFile(argFile, argFilename);
+	}
+	
+	/**
+	 * Set whether sequential numbers should be added to the filenames if
+	 * there is more than one file.  
+	 * 
+	 * Default is TRUE.
+	 * 
+	 * @param b
+	 */
+	public void setAddSequenceNumbersForUniqueness(Boolean b)
+	{
+		addSequenceNumbersForUniqueness = b;
 	}
 	
 	protected static class DendoFileInfo {

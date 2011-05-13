@@ -29,7 +29,7 @@ import org.tridas.io.defaults.IMetadataFieldSet;
 import org.tridas.io.exceptions.ConversionWarningException;
 import org.tridas.io.exceptions.IncompleteTridasDataException;
 import org.tridas.io.naming.INamingConvention;
-import org.tridas.io.naming.UUIDNamingConvention;
+import org.tridas.io.naming.NumericalNamingConvention;
 import org.tridas.io.util.FileHelper;
 import org.tridas.io.util.TridasUtils;
 import org.tridas.schema.TridasDerivedSeries;
@@ -40,7 +40,7 @@ public class OOXMLWriter extends AbstractDendroCollectionWriter {
 	private static final Logger log = LoggerFactory.getLogger(OOXMLWriter.class);
 	
 	IMetadataFieldSet defaults;
-	INamingConvention naming = new UUIDNamingConvention();
+	INamingConvention naming = new NumericalNamingConvention();
 	
 	public OOXMLWriter() {
 		super(TridasToOOXMLDefaults.class);

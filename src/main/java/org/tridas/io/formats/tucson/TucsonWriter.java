@@ -24,8 +24,8 @@ import org.tridas.io.exceptions.ConversionWarning;
 import org.tridas.io.exceptions.ConversionWarningException;
 import org.tridas.io.exceptions.IncompleteTridasDataException;
 import org.tridas.io.exceptions.ConversionWarning.WarningType;
-import org.tridas.io.naming.HierarchicalNamingConvention;
 import org.tridas.io.naming.INamingConvention;
+import org.tridas.io.naming.NumericalNamingConvention;
 import org.tridas.io.util.SafeIntYear;
 import org.tridas.io.util.TridasUtils;
 import org.tridas.io.util.UnitUtils;
@@ -50,7 +50,7 @@ import org.tridas.schema.TridasValues;
 public class TucsonWriter extends AbstractDendroCollectionWriter {
 	
 	TridasToTucsonDefaults defaults;
-	INamingConvention naming = new HierarchicalNamingConvention();
+	INamingConvention naming = new NumericalNamingConvention();
 	
 	/**
 	 * Standard constructor

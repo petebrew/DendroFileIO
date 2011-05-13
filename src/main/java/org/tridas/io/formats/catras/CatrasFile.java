@@ -5,6 +5,8 @@ import java.io.OutputStream;
 
 import jxl.write.WriteException;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.tridas.interfaces.ITridasSeries;
 import org.tridas.io.I18n;
 import org.tridas.io.IDendroFile;
@@ -22,6 +24,8 @@ import org.tridas.schema.TridasValue;
 import org.tridas.schema.TridasValues;
 
 public class CatrasFile implements IDendroFile {
+
+	private static final Logger log = LoggerFactory.getLogger(CatrasFile.class);
 
 	private TridasToCatrasDefaults defaults;
 	private ITridasSeries series;
@@ -154,6 +158,7 @@ public class CatrasFile implements IDendroFile {
 			CatrasFile.getIntAsByteArray(((GenericDefaultValue<CATRASLastRing>) defaults.getDefaultValue(DefaultFields.LAST_RING)).getValue().toCode()),
 			53, 53);
 		Integer startyear = Integer.parseInt(defaults.getSafeIntYearDefaultValue(DefaultFields.START_YEAR).getValue().toString());
+		log.debug("Writing year to CATRAS file as "+startyear);
 		insertIntoArray(file,
 			CatrasFile.getIntAsBytePair(startyear),
 			54, 55);

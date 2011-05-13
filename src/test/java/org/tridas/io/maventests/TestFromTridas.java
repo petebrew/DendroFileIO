@@ -49,6 +49,9 @@ import org.tridas.io.formats.tucsoncompact.TucsonCompactWriter;
 import org.tridas.io.formats.vformat.VFormatWriter;
 import org.tridas.io.naming.HierarchicalNamingConvention;
 import org.tridas.io.naming.NumericalNamingConvention;
+import org.tridas.io.naming.SeriesCode8CharNamingConvention;
+import org.tridas.io.naming.SeriesCodeNamingConvention;
+import org.tridas.io.naming.SeriesNamingConvention;
 import org.tridas.schema.TridasTridas;
 
 public class TestFromTridas extends TestCase {
@@ -687,15 +690,17 @@ public class TestFromTridas extends TestCase {
 				CatrasWriter writer = new CatrasWriter();
 				
 				try {
-					writer.setNamingConvention(new NumericalNamingConvention("Catras"));
+					writer.setNamingConvention(new SeriesCode8CharNamingConvention());
 					writer.load(container);
 				} catch (IncompleteTridasDataException e) {
 					e.printStackTrace();
 				} catch (ConversionWarningException e) {
 				} 
 				
+				
+				
 				// Actually save file(s) to disk
-				writer.saveAllToDisk(outputLocation);
+				writer.saveAllToDisk("/tmp/out/");
 			}
 		}
 	
