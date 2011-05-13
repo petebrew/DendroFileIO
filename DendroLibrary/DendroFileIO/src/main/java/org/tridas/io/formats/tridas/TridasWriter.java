@@ -23,8 +23,8 @@ import org.tridas.io.defaults.IMetadataFieldSet;
 import org.tridas.io.defaults.TridasMetadataFieldSet;
 import org.tridas.io.exceptions.ConversionWarningException;
 import org.tridas.io.exceptions.IncompleteTridasDataException;
-import org.tridas.io.naming.HierarchicalNamingConvention;
 import org.tridas.io.naming.INamingConvention;
+import org.tridas.io.naming.NumericalNamingConvention;
 import org.tridas.io.util.TridasUtils;
 import org.tridas.schema.TridasElement;
 import org.tridas.schema.TridasMeasurementSeries;
@@ -42,7 +42,7 @@ import org.tridas.schema.TridasSample;
  */
 public class TridasWriter extends AbstractDendroCollectionWriter {
 	
-	private INamingConvention naming = new HierarchicalNamingConvention();
+	private INamingConvention naming = new NumericalNamingConvention();
 	
 	/**
 	 * Constructor for the writer that creates TRiDaS XML files from

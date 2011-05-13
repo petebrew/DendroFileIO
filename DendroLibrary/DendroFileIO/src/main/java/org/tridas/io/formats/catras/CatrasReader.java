@@ -210,8 +210,15 @@ public class CatrasReader extends AbstractDendroFileReader {
 		
 		// Start year- bytes 55-56
 		Integer startYear = getIntFromBytePairByPos(argFileBytes, 54);
+		byte[] bp = getBytePairByPos(argFileBytes, 54);
+		System.out.println("Start year read from CATRAS as Integer = "+startYear);
+		System.out.println("First byte from pair = "+bp[0]);
+		System.out.println("Second byte from pair = "+bp[1]);
+		System.out.println("Byte pair = "+bp);
+		
 		defaults.getSafeIntYearDefaultValue(DefaultFields.START_YEAR)
 			.setValue(new SafeIntYear(startYear));
+		System.out.println("Start year converted to safeintyear = "+new SafeIntYear(startYear).toString());
 		
 		// Number of characters in series name - byte 57
 		defaults.getIntegerDefaultValue(DefaultFields.NUMBER_OF_CHARS_IN_TITLE)

@@ -31,7 +31,7 @@ import org.tridas.io.exceptions.ConversionWarningException;
 import org.tridas.io.exceptions.IncompleteTridasDataException;
 import org.tridas.io.exceptions.ConversionWarning.WarningType;
 import org.tridas.io.naming.INamingConvention;
-import org.tridas.io.naming.UUIDNamingConvention;
+import org.tridas.io.naming.NumericalNamingConvention;
 import org.tridas.io.util.FileHelper;
 import org.tridas.io.util.TridasUtils;
 import org.tridas.io.util.UnitUtils;
@@ -45,7 +45,7 @@ public class ODFMatrixWriter extends AbstractDendroCollectionWriter {
 	private static final Logger log = LoggerFactory.getLogger(ODFMatrixWriter.class);
 	
 	IMetadataFieldSet defaults;
-	INamingConvention naming = new UUIDNamingConvention();
+	INamingConvention naming = new NumericalNamingConvention();
 	
 	public ODFMatrixWriter() {
 		super(TridasToODFMatrixDefaults.class);

@@ -16,6 +16,7 @@ import org.tridas.io.exceptions.IncompleteTridasDataException;
 import org.tridas.io.exceptions.ConversionWarning.WarningType;
 import org.tridas.io.naming.HierarchicalNamingConvention;
 import org.tridas.io.naming.INamingConvention;
+import org.tridas.io.naming.SeriesCode8CharNamingConvention;
 import org.tridas.io.util.FileHelper;
 import org.tridas.io.util.TridasUtils;
 import org.tridas.io.util.UnitUtils;
@@ -33,7 +34,7 @@ public class CatrasWriter extends AbstractDendroCollectionWriter {
 
 	private static final Logger log = LoggerFactory.getLogger(CatrasWriter.class);
 	private TridasToCatrasDefaults defaults;
-	private INamingConvention naming = new HierarchicalNamingConvention();
+	private INamingConvention naming = new SeriesCode8CharNamingConvention();
 	
 	public CatrasWriter() {
 		super(TridasToCatrasDefaults.class);
@@ -245,8 +246,16 @@ public class CatrasWriter extends AbstractDendroCollectionWriter {
 	 * @see org.tridas.io.IDendroCollectionWriter#setNamingConvention(org.tridas.io.naming.INamingConvention)
 	 */
 	@Override
-	public void setNamingConvention(INamingConvention argConvention) {
-		naming = argConvention;
+	public void setNamingConvention(INamingConvention argConvention) {	
+		if(argConvention instanceof SeriesCode8CharNamingConvention)
+		{
+			naming = argConvention;
+		}
+		else
+		{
+			log.debug("CATRAS must use the SeriesCode naming convention.  Requested naming convention ignored.");		
+			naming = new SeriesCode8CharNamingConvention();
+		}		
 	}
 	
 	@Override

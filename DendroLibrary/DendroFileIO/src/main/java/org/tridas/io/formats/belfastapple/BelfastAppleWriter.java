@@ -24,7 +24,7 @@ import org.tridas.io.defaults.IMetadataFieldSet;
 import org.tridas.io.exceptions.ConversionWarningException;
 import org.tridas.io.exceptions.IncompleteTridasDataException;
 import org.tridas.io.naming.INamingConvention;
-import org.tridas.io.naming.UUIDNamingConvention;
+import org.tridas.io.naming.NumericalNamingConvention;
 import org.tridas.io.util.TridasUtils;
 import org.tridas.schema.TridasDerivedSeries;
 import org.tridas.schema.TridasElement;
@@ -37,7 +37,7 @@ import org.tridas.schema.TridasSample;
 public class BelfastAppleWriter extends AbstractDendroCollectionWriter {
 	
 	IMetadataFieldSet defaults;
-	INamingConvention naming = new UUIDNamingConvention();
+	INamingConvention naming = new NumericalNamingConvention();
 	
 	public BelfastAppleWriter() {
 		super(TridasToBelfastAppleDefaults.class);

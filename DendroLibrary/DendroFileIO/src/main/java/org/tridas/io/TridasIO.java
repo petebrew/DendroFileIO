@@ -116,7 +116,7 @@ public class TridasIO {
 		
 		registerFileWriter(BelfastAppleWriter.class);
 		registerFileWriter(BesanconWriter.class);
-		//registerFileWriter(CatrasWriter.class);
+		registerFileWriter(CatrasWriter.class);
 		registerFileWriter(CorinaWriter.class);
 		registerFileWriter(CSVMatrixWriter.class);
 		registerFileWriter(ExcelMatrixWriter.class);
