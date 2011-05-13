@@ -45,6 +45,7 @@ import org.tridas.io.util.SafeIntYear;
 import org.tridas.io.util.StringUtils;
 import org.tridas.io.util.UnitUtils;
 import org.tridas.schema.ControlledVoc;
+import org.tridas.schema.SeriesLink;
 import org.tridas.schema.TridasDerivedSeries;
 import org.tridas.schema.TridasElement;
 import org.tridas.schema.TridasMeasurementSeries;
@@ -69,7 +70,7 @@ public class HeidelbergReader extends AbstractDendroFileReader {
 	public static final int DATA_NUMS_PER_LINE_REG = 10;
 	
 	private HeidelbergToTridasDefaults defaults = null;
-	private ArrayList<HeidelbergMeasurementSeries> series = new ArrayList<HeidelbergMeasurementSeries>();
+	private ArrayList<HeidelbergSeries> series = new ArrayList<HeidelbergSeries>();
 	
 	private int currentLineNum = 0;
 	
@@ -89,7 +90,7 @@ public class HeidelbergReader extends AbstractDendroFileReader {
 		checkFile(argFileString);
 		int fileLength = argFileString.length;
 		int lineNum = 0;
-		HeidelbergMeasurementSeries currSeries = null;
+		HeidelbergSeries currSeries = null;
 		
 		while (lineNum < fileLength) {
 			currentLineNum = lineNum; // update line num
@@ -106,7 +107,7 @@ public class HeidelbergReader extends AbstractDendroFileReader {
 					currentLineNum = ++lineNum; // update line num
 					line = argFileString[lineNum];
 				}
-				currSeries = new HeidelbergMeasurementSeries();
+				currSeries = new HeidelbergSeries();
 				extractHeader(header.toArray(new String[0]), currSeries);
 			}
 			else if (line.startsWith("DATA:")) {
@@ -126,7 +127,7 @@ public class HeidelbergReader extends AbstractDendroFileReader {
 					currentLineNum = ++lineNum; // update line num
 				}
 				if (currSeries == null) {
-					currSeries = new HeidelbergMeasurementSeries();
+					currSeries = new HeidelbergSeries();
 				}
 				currSeries.dataType = dataType;
 				extractData(data.toArray(new String[0]), currSeries);
@@ -144,13 +145,12 @@ public class HeidelbergReader extends AbstractDendroFileReader {
 		
 
 		// Loop through all the series to check dates are logical
-		for (HeidelbergMeasurementSeries thisSeries : series)
+		for (HeidelbergSeries thisSeries : series)
 		{
 			SafeIntYear startYear = null;
 			SafeIntYear endYear = null;
 			Integer yearCount = thisSeries.dataInts.size();
 			Integer length = null;
-			
 			
 			if(thisSeries.defaults.getStringDefaultValue(DefaultFields.LENGTH).getValue()!=null)
 			{
@@ -166,10 +166,6 @@ public class HeidelbergReader extends AbstractDendroFileReader {
 				length = yearCount;
 			}
 			
-			
-			
-			
-
 			// Check that DateBegin, DateEnd and number of values agree
 			if(thisSeries.defaults.getIntegerDefaultValue(DefaultFields.DATE_BEGIN).getValue()!=null)
 			{
@@ -326,7 +322,7 @@ public class HeidelbergReader extends AbstractDendroFileReader {
 		}
 	}
 	
-	private void extractHeader(String[] argHeader, HeidelbergMeasurementSeries argSeries) {
+	private void extractHeader(String[] argHeader, HeidelbergSeries argSeries) {
 		for (int i = 0; i < argHeader.length; i++) {
 			String s = argHeader[i];
 			currentLineNum = i + 1; // +1 because of the HEADER line
@@ -340,7 +336,7 @@ public class HeidelbergReader extends AbstractDendroFileReader {
 		}
 	}
 	
-	private void extractData(String[] argData, HeidelbergMeasurementSeries argSeries) {
+	private void extractData(String[] argData, HeidelbergSeries argSeries) {
 		log.debug("Data strings", argData);
 		ArrayList<Integer> ints = new ArrayList<Integer>();
 		switch (argSeries.dataType) {
@@ -401,7 +397,7 @@ public class HeidelbergReader extends AbstractDendroFileReader {
 	private void populateHeaderInformation() {
 		// clone a new default for each series, and add corresponding metadata from that
 		// series to it's defaults
-		for (HeidelbergMeasurementSeries s : series) {
+		for (HeidelbergSeries s : series) {
 			s.defaults = (HeidelbergToTridasDefaults) defaults.clone();
 			HashMap<String, String> fileMetadata = s.fileMetadata;
 			
@@ -840,7 +836,7 @@ public class HeidelbergReader extends AbstractDendroFileReader {
 		// element for each series in the file
 		ArrayList<TridasElement> elements = new ArrayList<TridasElement>();
 		
-		for (HeidelbergMeasurementSeries s : series) {
+		for (HeidelbergSeries s : series) {
 			TridasElement element = s.defaults.getDefaultTridasElement();
 			TridasSample sample = s.defaults.getDefaultTridasSample();
 			
@@ -864,13 +860,11 @@ public class HeidelbergReader extends AbstractDendroFileReader {
 					TridasValues valuesGroup = s.defaults.getTridasValuesWithDefaults();
 					valuesGroup.setValues(tridasValues);
 					
-					// link series to sample
-					//TODO Fix link series problem
-					/*IdRef idref = new IdRef();
-					idref.setRef(sample.get);
-					SeriesLink link = new SeriesLink();
-					link.setIdRef(idref);
-					series.getLinkSeries().getSeries().add(link);*/
+					// link series to sample					
+					SeriesLink link = new SeriesLink();					
+					link.setIdentifier(sample.getIdentifier());
+					series.getLinkSeries().getSeries().add(link);
+					
 					series.getValues().add(valuesGroup);
 					
 					int numDataInts = s.dataInts.size();
@@ -1003,7 +997,7 @@ public class HeidelbergReader extends AbstractDendroFileReader {
 	 * 
 	 * @author daniel
 	 */
-	private static class HeidelbergMeasurementSeries {
+	private static class HeidelbergSeries {
 		public FHDataFormat dataType;
 		public HeidelbergToTridasDefaults defaults;
 		public final HashMap<String, String> fileMetadata = new HashMap<String, String>();

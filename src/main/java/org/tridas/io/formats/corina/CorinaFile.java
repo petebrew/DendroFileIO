@@ -20,7 +20,6 @@ import java.util.List;
 
 import org.apache.commons.lang.StringUtils;
 import org.tridas.interfaces.ITridasSeries;
-import org.tridas.io.I18n;
 import org.tridas.io.IDendroFile;
 import org.tridas.io.defaults.IMetadataFieldSet;
 import org.tridas.io.formats.corina.CorinaToTridasDefaults.DefaultFields;
@@ -31,7 +30,6 @@ import org.tridas.io.util.SafeIntYear;
 import org.tridas.io.util.YearRange;
 import org.tridas.schema.SeriesLink;
 import org.tridas.schema.TridasDerivedSeries;
-import org.tridas.schema.TridasIdentifier;
 import org.tridas.schema.TridasMeasurementSeries;
 import org.tridas.schema.TridasValue;
 import org.tridas.schema.TridasValues;
@@ -206,7 +204,7 @@ public class CorinaFile implements IDendroFile {
 					{
 						elementList.add(sl.getIdentifier().getDomain()+":"+sl.getIdentifier().getValue());
 					}
-					else if (sl.isSetIdRef())
+					/*else if (sl.isSetIdRef())
 					{
 						if(sl.getIdRef().getRef() instanceof ITridasSeries)
 						{
@@ -232,7 +230,7 @@ public class CorinaFile implements IDendroFile {
 								}
 							}
 						}
-					}
+					}*/
 					else if (sl.isSetXLink())
 					{
 						elementList.add(sl.getXLink().getHref().toString());

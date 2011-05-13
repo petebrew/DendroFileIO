@@ -50,8 +50,6 @@ import org.tridas.io.formats.vformat.VFormatWriter;
 import org.tridas.io.naming.HierarchicalNamingConvention;
 import org.tridas.io.naming.NumericalNamingConvention;
 import org.tridas.io.naming.SeriesCode8CharNamingConvention;
-import org.tridas.io.naming.SeriesCodeNamingConvention;
-import org.tridas.io.naming.SeriesNamingConvention;
 import org.tridas.schema.TridasTridas;
 
 public class TestFromTridas extends TestCase {

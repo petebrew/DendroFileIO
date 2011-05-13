@@ -16,6 +16,7 @@
 package org.tridas.io.formats.heidelberg;
 
 import java.util.ArrayList;
+import java.util.UUID;
 
 import org.apache.commons.lang.WordUtils;
 import org.tridas.io.I18n;
@@ -471,26 +472,31 @@ public class HeidelbergToTridasDefaults extends TridasMetadataFieldSet {
 	@Override
 	protected TridasSample getDefaultTridasSample() {
 		TridasSample s = super.getDefaultTridasSample();
-				
+		TridasIdentifier id = new ObjectFactory().createTridasIdentifier();;
+		
 		// Identifier
 		if((getStringDefaultValue(DefaultFields.CORE_NUMBER).getStringValue()!=null) &&
 			(getStringDefaultValue(DefaultFields.CORE_NUMBER).getStringValue()!=""))
 		{
 			s.setTitle(getStringDefaultValue(DefaultFields.CORE_NUMBER).getStringValue());
-			TridasIdentifier id = new ObjectFactory().createTridasIdentifier();
 			id.setDomain(super.getDefaultValue(TridasMandatoryField.IDENTIFIER_DOMAIN).getStringValue());
 			id.setValue(getStringDefaultValue(DefaultFields.CORE_NUMBER).getStringValue());
-			s.setIdentifier(id);
 		}
 		else if((getStringDefaultValue(DefaultFields.STEM_DISK_NUMBER).getStringValue()!=null) &&
 			(getStringDefaultValue(DefaultFields.STEM_DISK_NUMBER).getStringValue()!=""))
 		{
 			s.setTitle(getStringDefaultValue(DefaultFields.STEM_DISK_NUMBER).getStringValue());
-			TridasIdentifier id = new ObjectFactory().createTridasIdentifier();
 			id.setDomain(super.getDefaultValue(TridasMandatoryField.IDENTIFIER_DOMAIN).getStringValue());
 			id.setValue(getStringDefaultValue(DefaultFields.STEM_DISK_NUMBER).getStringValue());
-			s.setIdentifier(id);
 		}
+		else
+		{
+			// Default to random UUID
+			id.setDomain(I18n.getText("domain.value"));
+			id.setValue(UUID.randomUUID().toString());
+		}
+		s.setIdentifier(id);
+	
 		
 		// Sampling height
 		if(getStringDefaultValue(DefaultFields.SAMPLING_HEIGHT).getStringValue()!=null)
