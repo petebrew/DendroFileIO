@@ -17,6 +17,9 @@ package org.tridas.io.exceptions;
 
 import java.io.IOException;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+
 /**
  * This exception is thrown when a Tridas entity is not complete. This
  * typically happens when an entity with no child entities is passed e.g.
@@ -26,6 +29,7 @@ import java.io.IOException;
  */
 public class IncompleteTridasDataException extends IOException {
 	
+	private static final Logger log = LoggerFactory.getLogger(IncompleteTridasDataException.class);
 	private static final long serialVersionUID = 1L;
 	
 	/**
@@ -44,6 +48,6 @@ public class IncompleteTridasDataException extends IOException {
 	public IncompleteTridasDataException(String s) {
 		// For now, just dump debug info
 		super(s);
-		System.out.println("Incomplete TRiDaS Data: " + s);
+		log.error("Incomplete TRiDaS Data: " + s);
 	}
 }

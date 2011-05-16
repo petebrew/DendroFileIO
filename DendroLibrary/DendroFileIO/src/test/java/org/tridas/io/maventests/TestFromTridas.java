@@ -782,53 +782,6 @@ public class TestFromTridas extends TestCase {
 	}
 
 	
-	public void testBytesRoundTrip()
-	{
-		Integer i = -5;
-		
-		byte[] arr = CatrasFile.getIntAsBytePair(i, true);
-		Integer i2 = CatrasReader.getIntFromBytePair(arr, true);
-		
-		System.out.println("Integer        :"+i);
-		System.out.println("Byte 1         :"+arr[0]);
-		System.out.println("Byte 2         :"+arr[1]);
-		System.out.println("As byte pair   :"+arr);
-		System.out.println("Converted back :"+i2);
-		
-		if(!i.equals(i2)) fail();
-		
-	}
-	
-	public void testByteRoundTrip()
-	{
-		Integer i = 10;
-
-		byte[] arr = CatrasFile.getIntAsByteArray(i);
-		Integer i2 = CatrasReader.getIntFromByte(arr[0]);
-		
-		System.out.println("Integer        :"+i);
-		System.out.println("Converted back :"+i2);
-		
-		if(!i.equals(i2)) fail();
-		
-	}
-	
-	
-	public void testFileSizeCalc()
-	{
-
-		int i = 128;
-
-		Integer ringcount =0;
-		Integer filesize = ((ringcount / i) * i);
-		
-		if(ringcount % i >0)
-		{
-			filesize = filesize + i;
-		}
-
-		System.out.println("file size =" + filesize);
-	}
 	
 	public void testTridasToBesancon() {
 		String folder = "TestData/TRiDaS";

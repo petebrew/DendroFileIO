@@ -20,6 +20,8 @@ import java.util.List;
 
 import org.odftoolkit.odfdom.doc.OdfSpreadsheetDocument;
 import org.odftoolkit.odfdom.doc.table.OdfTable;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.tridas.interfaces.ITridasSeries;
 import org.tridas.io.I18n;
 import org.tridas.io.IDendroFile;
@@ -31,7 +33,8 @@ import org.tridas.schema.TridasGenericField;
 import org.tridas.schema.TridasValue;
 
 public class CSVMatrixFile implements IDendroFile {
-	
+	private static final Logger log = LoggerFactory.getLogger(CSVMatrixFile.class);
+
 	private ArrayList<ITridasSeries> seriesList = new ArrayList<ITridasSeries>();
 	private YearRange yrRange;
 	private DatingSuffix calendar = DatingSuffix.AD;
@@ -132,7 +135,7 @@ public class CSVMatrixFile implements IDendroFile {
 			
 		} catch (Exception e) {
 
-			System.out.println("Failed to write to file");
+			log.warn("Failed to write to file");
 			e.printStackTrace();
 			return null;
 		}

@@ -279,13 +279,6 @@ public class CatrasFile implements IDendroFile {
 			throw new NumberFormatException("Number out of range");
 		}
 		
-
-        
-        if(value<=0)
-        {
-        	value--;
-        }
-
         if (littleEndian) {
             rawBytes[++index] = (byte) ((value & 0x000000FFL));
             rawBytes[++index] = (byte) ((value & 0x0000FF00L) >> 8);
@@ -318,7 +311,7 @@ public class CatrasFile implements IDendroFile {
 		{
 			throw new NumberFormatException("Unable to represent integer as byte.  Value "+value+" not within range (0-255)");
 		}
-		
+		value.byteValue();
 		return (byte) ((value & 0x000000FFL));
 	}
 	

@@ -214,14 +214,21 @@ public class CatrasReader extends AbstractDendroFileReader {
 		// Start year- bytes 55-56
 		Integer startYear = getIntFromBytePairByPos(argFileBytes, 54);
 		byte[] bp = getBytePairByPos(argFileBytes, 54);
-		System.out.println("Start year read from CATRAS as Integer = "+startYear);
-		System.out.println("First byte from pair = "+bp[0]);
-		System.out.println("Second byte from pair = "+bp[1]);
-		System.out.println("Byte pair = "+bp);
+		log.debug("Start year read from CATRAS as Integer = "+startYear);
+		Byte byteOne = new Byte(bp[0]);
+		Byte byteTwo = new Byte(bp[1]);
+		log.debug("Hex value of first byte = "+Integer.toHexString(byteOne.intValue()));
+		log.debug("Hex value of second byte = "+Integer.toHexString(byteTwo.intValue()));
+		log.debug("Int value of second byte = "+byteOne.intValue());
+		log.debug("Int value of second byte = "+byteTwo.intValue());
+
+		log.debug("First byte from pair = "+bp[0]);
+		log.debug("Second byte from pair = "+bp[1]);
+		log.debug("Byte pair = "+bp);
 		
 		defaults.getSafeIntYearDefaultValue(DefaultFields.START_YEAR)
 			.setValue(new SafeIntYear(startYear));
-		System.out.println("Start year converted to safeintyear = "+new SafeIntYear(startYear).toString());
+		log.debug("Start year converted to safeintyear = "+new SafeIntYear(startYear).toString());
 		
 		// Number of characters in series name - byte 57
 		defaults.getIntegerDefaultValue(DefaultFields.NUMBER_OF_CHARS_IN_TITLE)
@@ -510,32 +517,39 @@ public class CatrasReader extends AbstractDendroFileReader {
 	 */
 	public static int getIntFromBytePair(byte[] wBytes, Boolean littleEndian) {
 		
-		int lsb; // least significant byte
-		int msb; // most significant byte
+		short lsb = 0; // least significant byte
+		short msb = 0; // most significant byte
 		int w = -1; // actual value
-		
 		// Depending on endian, extract bytes in correct order. Java is always
 		// big endian, but Windoze i386 are always (?) little endian. As CATRAS
 		// is the only (?) program that writes CATRAS files then they should
 		// always be little endian I think!
 		if (littleEndian) {
-			lsb = (0x000000FF & (wBytes[0])); // least significant byte
-			msb = (0x000000FF & (wBytes[1])); // most significant byte
+			lsb = (short)((wBytes[0]) & 0xff); 
+			msb = (short)((wBytes[1]) & 0xff); 
+	
+			//lsb = (0x000000FF & (wBytes[0])); // least significant byte
+			//msb = (0x000000FF & (wBytes[1])); // most significant byte
+			//lsb = ((Byte)wBytes[0]).intValue();
+			//msb = ((Byte)wBytes[1]).intValue();
 		}
 		else {
-			lsb = (0x000000FF & (wBytes[1])); // least significant byte
-			msb = (0x000000FF & (wBytes[0])); // most significant byte
+			lsb = (short)((wBytes[1]) & 0xff); 
+			msb = (short)((wBytes[0]) & 0xff); 
+			//	lsb = (0x000000FF & (wBytes[1])); // least significant byte
+			//	msb = (0x000000FF & (wBytes[0])); // most significant byte
 		}
 		
-		// log.debug("LSB = "+String.valueOf(lsb)+"  MSB = "+String.valueOf(lsb));
+		//log.debug("LSB value of "+ wBytes[0] + " = "+String.valueOf(lsb));
+		//log.debug("MSB value of "+ wBytes[1] + " = "+String.valueOf(msb));
 		
-
+		
 		if (msb>128)
 		{
 			// Large MSB values appear to indicate negative values.  
 			// Explaining what this means is too hard, I hope you 
 			// can understand from the code!  
-			w = 0-((255-lsb)+(256*(255-msb)));
+			w = (-1-((255-lsb)+(256*(255-msb))));
 		}
 		else if (msb<128)
 		{

@@ -1,5 +1,7 @@
 package org.tridas.io.formats.catras;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.tridas.interfaces.ITridasSeries;
 import org.tridas.io.I18n;
 import org.tridas.io.defaults.AbstractMetadataFieldSet;
@@ -36,7 +38,8 @@ import org.tridas.schema.TridasWoodCompleteness;
 
 public class TridasToCatrasDefaults extends AbstractMetadataFieldSet implements
 		IMetadataFieldSet {
-
+	private static final Logger log = LoggerFactory.getLogger(TridasToCatrasDefaults.class);
+	
 	@Override
 	public void initDefaultValues() {
 		setDefaultValue(DefaultFields.SERIES_NAME, new StringDefaultValue(I18n.getText("unnamed.series"), 32, 32));
@@ -192,7 +195,7 @@ public class TridasToCatrasDefaults extends AbstractMetadataFieldSet implements
 				else
 				{
 					// Shouldn't get here
-					System.out.println("Unsupported variable type in TridasToCatrasDefaults");
+					log.warn("Unsupported variable type in TridasToCatrasDefaults");
 				}
 			}
 		}

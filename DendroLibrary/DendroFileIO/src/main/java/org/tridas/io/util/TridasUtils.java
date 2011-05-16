@@ -20,8 +20,11 @@ import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
 
+import org.tridas.interfaces.ITridas;
 import org.tridas.schema.NormalTridasRemark;
+import org.tridas.schema.TridasDerivedSeries;
 import org.tridas.schema.TridasElement;
+import org.tridas.schema.TridasIdentifier;
 import org.tridas.schema.TridasMeasurementSeries;
 import org.tridas.schema.TridasObject;
 import org.tridas.schema.TridasProject;
@@ -154,6 +157,12 @@ public class TridasUtils {
 		return els;
 	}
 	
+	/**
+	 * Get a list of TridasObjects from a project recursively
+	 * 
+	 * @param p
+	 * @return
+	 */
 	public static ArrayList<TridasObject> getObjectList(TridasProject p) {
 		ArrayList<TridasObject> ols = new ArrayList<TridasObject>();
 		
@@ -293,6 +302,83 @@ public class TridasUtils {
 		remark.setValue(str);
 		
 		return remark;
+	}
+	
+	/**
+	 * Get the entity from this project that matches the specified identifier.
+	 *  
+	 * @param p
+	 * @param id
+	 * @return
+	 */
+	public static ITridas getEntityByIdentifier(TridasProject p, TridasIdentifier id)
+	{
+		if(p==null || id==null) return null;
+		
+		// First check the project!
+		if (TridasUtils.doesEntityMatchIdentifier(p, id))
+		{
+			return p;
+		}
+		
+		ArrayList<TridasObject> objects = getObjectList(p);
+		
+		for (TridasObject o : objects)
+		{
+			if (TridasUtils.doesEntityMatchIdentifier(o, id)) return o;
+			for(TridasElement e : o.getElements())
+			{
+				if (TridasUtils.doesEntityMatchIdentifier(e, id)) return e;
+				for(TridasSample s : e.getSamples())
+				{
+					if (TridasUtils.doesEntityMatchIdentifier(s, id)) return s;
+					for(TridasRadius r : s.getRadiuses())
+					{
+						if (TridasUtils.doesEntityMatchIdentifier(r, id)) return r;
+						for(TridasMeasurementSeries ser : r.getMeasurementSeries())
+						{
+							if (TridasUtils.doesEntityMatchIdentifier(ser, id)) return ser;
+						}
+					}
+				}
+			}	
+		}
+		
+		for (TridasDerivedSeries ds : p.getDerivedSeries())
+		{
+			if (TridasUtils.doesEntityMatchIdentifier(ds, id)) return ds;
+		}
+		
+		return null;
+	}
+	
+	/**
+	 * Returns true if the TRiDaS entities identifier matches the one specified
+	 * 
+	 * @param entity
+	 * @param id
+	 * @return
+	 */
+	public static Boolean doesEntityMatchIdentifier(ITridas entity, TridasIdentifier id)
+	{
+		if(entity==null || id==null) return null;
+		
+		if(entity.isSetIdentifier())
+		{
+			if(entity.getIdentifier().getDomain().equals(id.getDomain()) && 
+			   entity.getIdentifier().getValue().equals(id.getValue()))
+			{
+				return true;
+			}
+			else
+			{
+				return false;
+			}
+		}
+		else
+		{
+			return false;
+		}
 	}
 
 	public enum TridasValueDataType{

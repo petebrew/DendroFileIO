@@ -319,7 +319,7 @@ public class ExcelMatrixReader extends AbstractDendroFileReader {
 		
 		if(col > 676)
 		{
-			System.out.println("Error.  getColRef called with number out of range");
+			log.error("getColRef called with number out of range");
 			return "??";
 		}
 		else if (col < 26)
