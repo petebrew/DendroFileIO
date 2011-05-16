@@ -58,9 +58,9 @@ public class TridasToCatrasDefaults extends AbstractMetadataFieldSet implements
 		setDefaultValue(DefaultFields.QUALITY_CODE, new IntegerDefaultValue(0, 0, 5));
 		setDefaultValue(DefaultFields.NUMBER_FORMAT, new IntegerDefaultValue(1, 1, 1));
 
-		setDefaultValue(DefaultFields.START_YEAR, new SafeIntYearDefaultValue(new SafeIntYear(-5)));
+		setDefaultValue(DefaultFields.START_YEAR, new SafeIntYearDefaultValue());
 		setDefaultValue(DefaultFields.END_YEAR, new IntegerDefaultValue(0));
-		setDefaultValue(DefaultFields.SPECIES_CODE, new IntegerDefaultValue(32767, 0, 32767));
+		setDefaultValue(DefaultFields.SPECIES_CODE, new IntegerDefaultValue(0, 0, 32767));
 		setDefaultValue(DefaultFields.CREATION_DATE, new DateTimeDefaultValue());
 		setDefaultValue(DefaultFields.UPDATED_DATE, new DateTimeDefaultValue());
 		setDefaultValue(DefaultFields.SAPWOOD, new StringDefaultValue());
@@ -146,14 +146,14 @@ public class TridasToCatrasDefaults extends AbstractMetadataFieldSet implements
 		}
 		
 		// Default to zero = undated
-		/*if(ser.isSetInterpretation())
+		if(ser.isSetInterpretation())
 		{
 			if(ser.getInterpretation().isSetFirstYear())
 			{
 				SafeIntYear firstYear = new SafeIntYear(ser.getInterpretation().getFirstYear());
 				getSafeIntYearDefaultValue(DefaultFields.START_YEAR).setValue(firstYear);
 			}
-		}*/
+		}
 		
 		if(ser.isSetCreatedTimestamp())
 		{			

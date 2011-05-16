@@ -73,10 +73,10 @@
                     </dimensions>
                     <authenticity>Original</authenticity>
                     <sample>
-                        <title>C-TWT-65-A</title>
+                        <title>C-TWT-65-B</title>
                         <identifier domain="dendro.cornell.edu">ff688357-b2d4-4394-a21a-90696cd4558c</identifier>
-                        <createdTimestamp certainty="exact">1997-02-01T14:13:51.0Z</createdTimestamp>
-                        <lastModifiedTimestamp certainty="exact">1997-02-01T14:13:51.0Z</lastModifiedTimestamp>
+                        <createdTimestamp certainty="exact">1998-02-01T14:13:51.0Z</createdTimestamp>
+                        <lastModifiedTimestamp certainty="exact">1997-02-28T14:13:51.0Z</lastModifiedTimestamp>
                         <type normal="Corina Dictionary" normalId="1" normalStd="Section">Section</type>
                         <samplingDate certainty="exact">1981-07-25</samplingDate>
                         <state>Dry</state>
@@ -93,9 +93,9 @@
                             </woodCompleteness>
                             <measurementSeries>
                                 <title>C-TWT-65-A-B-A</title>
-                                <identifier domain="dendro.cornell.edu">8c50234e-8eda-41bb-b578-01cc881d1ea1</identifier>
+                                <identifier domain="dendro.cornell.edu">TWT65ABA</identifier>
                                 <createdTimestamp certainty="exact">1997-02-01T14:13:51.0Z</createdTimestamp>
-                                <lastModifiedTimestamp certainty="exact">1997-02-01T14:13:51.0Z</lastModifiedTimestamp>
+                                <lastModifiedTimestamp certainty="exact">1997-02-28T14:13:51.0Z</lastModifiedTimestamp>
                                 <analyst>Laura Steele</analyst>
                                 <dendrochronologist>Kuniholm, Peter I</dendrochronologist>
                                 <measuringMethod normalStd="Corina Dictionary" normalId="1">Measuring platform</measuringMethod>
@@ -106,7 +106,6 @@
                                         <type>t-score</type>
                                         <usedSoftware>Corina 2.10</usedSoftware>
                                     </statFoundation>
-                                    <deathYear suffix="AD">1535</deathYear>
                                     <provenance>Possibly from the region of Serres</provenance>
                                 </interpretation>
                                 <values>
@@ -115,58 +114,58 @@
                                     <value value="10"/>
                                     <value value="20"/>
                                     <value value="30"/>
-                                    <value value="40"/>
+									<value value="40"/>
                                     <value value="50"/>
                                     <value value="60"/>
                                     <value value="70"/>
-                                    <value value="80"/>
+									<value value="80"/>
                                     <value value="90"/>
                                     <value value="100"/>
                                     <value value="110"/>
                                     <value value="120"/>
                                     <value value="130"/>
-                                    <value value="140"/>
+									<value value="140"/>
                                     <value value="150"/>
                                     <value value="160"/>
                                     <value value="170"/>
-                                    <value value="180"/>
+									<value value="180"/>
                                     <value value="190"/>
                                     <value value="200"/>
                                     <value value="210"/>
                                     <value value="220"/>
                                     <value value="230"/>
-                                    <value value="240"/>
+									<value value="240"/>
                                     <value value="250"/>
                                     <value value="260"/>
                                     <value value="270"/>
-                                    <value value="280"/>
+									<value value="280"/>
                                     <value value="290"/>
-                                    <value value="300"/>
+                                    <value value="300"/>   
                                     <value value="310"/>
                                     <value value="320"/>
                                     <value value="330"/>
-                                    <value value="340"/>
+									<value value="340"/>
                                     <value value="350"/>
                                     <value value="360"/>
                                     <value value="370"/>
-                                    <value value="380"/>
+									<value value="380"/>
                                     <value value="390"/>
-                                    <value value="400"/>
+                                    <value value="400"/>  
                                     <value value="410"/>
                                     <value value="420"/>
                                     <value value="430"/>
-                                    <value value="440"/>
+									<value value="440"/>
                                     <value value="450"/>
                                     <value value="460"/>
                                     <value value="470"/>
-                                    <value value="480"/>
+									<value value="480"/>
                                     <value value="490"/>
-                                    <value value="6600"/>
+                                    <value value="500"/>                                                                                                                   								                                    
                                 </values>
                             </measurementSeries>
                             <measurementSeries>
                                 <title>test2</title>
-                                <identifier domain="dendro.cornell.edu">8c50234e-8eda-41bb-b578-01cc881d1ea1</identifier>
+                                <identifier domain="dendro.cornell.edu">9c50234e-8eda-41bb-b578-01cc881d1ea1</identifier>
                                 <createdTimestamp certainty="exact">1997-02-01T14:13:51.0Z</createdTimestamp>
                                 <lastModifiedTimestamp certainty="exact">1997-02-01T14:13:51.0Z</lastModifiedTimestamp>
                                 <analyst>Laura Steele</analyst>
@@ -194,7 +193,7 @@
                             </measurementSeries>
                          <measurementSeries>
                                 <title>C-TWT-65-A-B-A</title>
-                                <identifier domain="dendro.cornell.edu">8c50234e-8eda-41bb-b578-01cc881d1ea1</identifier>
+                                <identifier domain="dendro.cornell.edu">7c50234e-8eda-41bb-b578-01cc881d1ea1</identifier>
                                 <createdTimestamp certainty="exact">1997-02-01T14:13:51.0Z</createdTimestamp>
                                 <lastModifiedTimestamp certainty="exact">1997-02-01T14:13:51.0Z</lastModifiedTimestamp>
                                 <analyst>Laura Steele</analyst>
