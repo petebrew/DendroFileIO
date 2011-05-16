@@ -33,6 +33,8 @@ import org.tridas.io.exceptions.ConversionWarningException;
 import org.tridas.io.exceptions.IncompleteTridasDataException;
 import org.tridas.io.exceptions.IncorrectDefaultFieldsException;
 import org.tridas.io.exceptions.InvalidDendroFileException;
+import org.tridas.io.formats.catras.CatrasFile;
+import org.tridas.io.formats.catras.CatrasReader;
 import org.tridas.io.formats.tridas.TridasReader;
 import org.tridas.io.formats.tridas.TridasWriter;
 import org.tridas.io.formats.tucson.TridasToTucsonDefaults;
@@ -76,6 +78,35 @@ public class UnitTest extends TestCase {
 			e.printStackTrace();
 		} 
 		
+	}
+	
+	public void testBytesRoundTrip()
+	{
+
+		for (Integer i = -32000; i <=32000; i++)
+		{
+			byte[] arr = CatrasFile.getIntAsBytePair(i, true);
+			Integer i2 = CatrasReader.getIntFromBytePair(arr, true);
+			//System.out.println("In: "+i+ "  -  Out: "+i2);
+			if(!i.equals(i2)) fail();
+		}
+	}
+
+	
+	public void testFileSizeCalc()
+	{
+
+		int i = 128;
+
+		Integer ringcount =0;
+		Integer filesize = ((ringcount / i) * i);
+		
+		if(ringcount % i >0)
+		{
+			filesize = filesize + i;
+		}
+
+		System.out.println("file size =" + filesize);
 	}
 	
 	public void testTucson() {

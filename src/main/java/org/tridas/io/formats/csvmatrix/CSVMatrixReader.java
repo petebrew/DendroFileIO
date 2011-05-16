@@ -167,7 +167,7 @@ public class CSVMatrixReader extends AbstractDendroFileReader {
 		OdfTableColumn yearCol = sheet.getColumnByIndex(0);
 		Integer lastval = null;
 		Integer thisval = null;
-		System.out.println("Cell count : "+yearCol.getCellCount());
+		log.debug("Cell count : "+yearCol.getCellCount());
 		for (int i=1; i < (yearCol.getCellCount()); i++)
 		{
 			if(sheet.getCellByPosition(0, i).getStringValue().equals(""))
@@ -178,7 +178,7 @@ public class CSVMatrixReader extends AbstractDendroFileReader {
 			// Check cell is an integer
 			try{
 				thisval = Integer.parseInt(sheet.getCellByPosition(0, i).getStringValue());
-				//System.out.println("Row "+ (i+1) +" = "+thisval);
+				//log.debug("Row "+ (i+1) +" = "+thisval);
 				
 				if(thisval.equals(0))
 				{

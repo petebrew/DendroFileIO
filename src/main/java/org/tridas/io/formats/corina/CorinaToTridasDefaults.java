@@ -15,6 +15,8 @@
  */
 package org.tridas.io.formats.corina;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.tridas.io.I18n;
 import org.tridas.io.defaults.IMetadataFieldSet;
 import org.tridas.io.defaults.TridasMetadataFieldSet;
@@ -49,7 +51,8 @@ import org.tridas.schema.TridasWoodCompleteness;
 
 public class CorinaToTridasDefaults extends TridasMetadataFieldSet implements
 		IMetadataFieldSet {
-
+	
+	private static final Logger log = LoggerFactory.getLogger(CorinaToTridasDefaults.class);
 	
 	public static enum DefaultFields {
 		
@@ -262,7 +265,7 @@ public class CorinaToTridasDefaults extends TridasMetadataFieldSet implements
 				default:
 				}
 			} catch (Exception e){
-				System.out.println("Unknown dating type'"+getStringDefaultValue(DefaultFields.DATING).getValue()+"'");
+				log.warn("Unknown dating type'"+getStringDefaultValue(DefaultFields.DATING).getValue()+"'");
 			}		
 		}
 		

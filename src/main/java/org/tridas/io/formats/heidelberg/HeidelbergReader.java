@@ -547,7 +547,6 @@ public class HeidelbergReader extends AbstractDendroFileReader {
 			
 			//KEYCODE, new StringDefaultValue());
 			if(fileMetadata.containsKey("keycode")){
-				System.out.println(fileMetadata.get("keycode"));
 				s.defaults.getStringDefaultValue(DefaultFields.KEYCODE).setValue(fileMetadata.get("keycode"));
 			}
 			

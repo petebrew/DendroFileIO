@@ -17,6 +17,8 @@ package org.tridas.io.util;
 
 import java.math.BigInteger;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.tridas.schema.Certainty;
 import org.tridas.schema.DatingSuffix;
 import org.tridas.schema.Year;
@@ -44,6 +46,8 @@ import org.tridas.schema.Year;
  */
 @SuppressWarnings("unchecked")
 public final class SafeIntYear implements Comparable {
+	private static final Logger log = LoggerFactory.getLogger(SafeIntYear.class);
+
 	/** The default year: 1. */
 	public static final SafeIntYear DEFAULT = new SafeIntYear(1);
 	
@@ -108,7 +112,7 @@ public final class SafeIntYear implements Comparable {
 				}
 				return;
 			default:
-				System.out.println("Error creating SafeIntYear.  Unhandled year suffix.");
+				log.error("Error creating SafeIntYear.  Unhandled year suffix.");
 				val = x.getValue().intValue();
 				y = val;
 		}
@@ -233,7 +237,7 @@ public final class SafeIntYear implements Comparable {
 		}
 		else
 		{
-			System.out.println("Unhandled date suffix type.  Defaulting to 'relative'");
+			log.error("Unhandled date suffix type.  Defaulting to 'relative'");
 			yr.setSuffix(DatingSuffix.RELATIVE);
 			yr.setValue(this.toAstronomicalInteger());
 		}
