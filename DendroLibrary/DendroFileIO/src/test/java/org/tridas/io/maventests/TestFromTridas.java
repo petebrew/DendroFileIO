@@ -28,7 +28,6 @@ import org.tridas.io.exceptions.IncompleteTridasDataException;
 import org.tridas.io.exceptions.InvalidDendroFileException;
 import org.tridas.io.formats.belfastapple.BelfastAppleWriter;
 import org.tridas.io.formats.besancon.BesanconWriter;
-import org.tridas.io.formats.catras.CatrasFile;
 import org.tridas.io.formats.catras.CatrasReader;
 import org.tridas.io.formats.catras.CatrasWriter;
 import org.tridas.io.formats.corina.CorinaWriter;
@@ -698,7 +697,7 @@ public class TestFromTridas extends TestCase {
 				
 				
 				// Actually save file(s) to disk
-				writer.saveAllToDisk("/tmp/out/");
+				writer.saveAllToDisk(outputLocation);
 			}
 		}
 	
