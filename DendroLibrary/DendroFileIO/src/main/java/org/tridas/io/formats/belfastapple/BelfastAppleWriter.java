@@ -18,7 +18,6 @@ package org.tridas.io.formats.belfastapple;
 import java.util.ArrayList;
 import java.util.List;
 
-import org.tridas.interfaces.ITridas;
 import org.tridas.io.AbstractDendroCollectionWriter;
 import org.tridas.io.I18n;
 import org.tridas.io.defaults.IMetadataFieldSet;
