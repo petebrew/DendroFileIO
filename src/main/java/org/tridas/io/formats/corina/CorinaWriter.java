@@ -29,6 +29,7 @@ import org.tridas.io.util.UnitUtils;
 import org.tridas.schema.NormalTridasUnit;
 import org.tridas.schema.TridasDerivedSeries;
 import org.tridas.schema.TridasElement;
+import org.tridas.schema.TridasIdentifier;
 import org.tridas.schema.TridasMeasurementSeries;
 import org.tridas.schema.TridasObject;
 import org.tridas.schema.TridasProject;
@@ -226,6 +227,28 @@ public class CorinaWriter extends AbstractDendroCollectionWriter {
 				
 				dsDefaults.populateFromTridasValues(tvsgroup);
 				dsDefaults.populateFromTridasDerivedSeries(ds);
+				
+				
+				// Try and grab element and sample info from linked series
+				if(ds.isSetLinkSeries())
+				{
+					// TODO what happens if there are links to multiple different entities?
+					// For now just go with the first link
+					if(ds.getLinkSeries().getSeries().size()>1) break;
+					TridasIdentifier id = ds.getLinkSeries().getSeries().get(0).getIdentifier();
+					TridasElement parentElement = (TridasElement) TridasUtils.getEntityByIdentifier(argProject, id, TridasElement.class);
+					if(parentElement!=null)
+					{
+						dsDefaults.populateFromTridasElement(parentElement);
+					}
+					TridasSample parentSample = (TridasSample) TridasUtils.getEntityByIdentifier(argProject, id, TridasSample.class);
+					if(parentSample!=null)
+					{
+						dsDefaults.populateFromTridasSample(parentSample);
+					}
+				}
+				
+				
 				CorinaFile file = new CorinaFile(dsDefaults);
 				file.setDataValues(tvsgroup);
 				file.setSeries(ds);

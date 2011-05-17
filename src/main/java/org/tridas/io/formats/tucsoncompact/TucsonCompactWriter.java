@@ -29,6 +29,7 @@ import org.tridas.io.util.UnitUtils;
 import org.tridas.schema.NormalTridasUnit;
 import org.tridas.schema.TridasDerivedSeries;
 import org.tridas.schema.TridasElement;
+import org.tridas.schema.TridasIdentifier;
 import org.tridas.schema.TridasMeasurementSeries;
 import org.tridas.schema.TridasObject;
 import org.tridas.schema.TridasProject;
@@ -251,11 +252,11 @@ public class TucsonCompactWriter extends AbstractDendroCollectionWriter {
 					this.addWarning(ex.getWarning());
 				}
 				
-				
 				// Dodgy variable so skip
 				if(skipThisGroup) continue;
 				
 				dsDefaults.populateFromTridasValues(tvsgroup);
+								
 				TucsonCompactFile file = new TucsonCompactFile(dsDefaults);
 				file.setDataValues(tvsgroup);
 
@@ -265,9 +266,6 @@ public class TucsonCompactWriter extends AbstractDendroCollectionWriter {
 				// Add file to list
 				addToFileList(file);
 			}
-
-			
-			
 		}
 
 	}

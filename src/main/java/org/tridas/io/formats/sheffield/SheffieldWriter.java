@@ -29,6 +29,7 @@ import org.tridas.io.util.UnitUtils;
 import org.tridas.schema.NormalTridasUnit;
 import org.tridas.schema.TridasDerivedSeries;
 import org.tridas.schema.TridasElement;
+import org.tridas.schema.TridasIdentifier;
 import org.tridas.schema.TridasMeasurementSeries;
 import org.tridas.schema.TridasObject;
 import org.tridas.schema.TridasProject;
@@ -256,6 +257,39 @@ public class SheffieldWriter extends AbstractDendroCollectionWriter {
 				
 				TridasToSheffieldDefaults tvDefaults = (TridasToSheffieldDefaults) dsDefaults.clone();
 				tvDefaults.populateFromTridasValues(tvsgroup);
+				
+				// Try and grab object, element, sample and radius info from linked series
+				if(ds.isSetLinkSeries())
+				{
+					// TODO what happens if there are links to multiple different entities?
+					// For now just go with the first link
+					if(ds.getLinkSeries().getSeries().size()>1) break;
+					TridasIdentifier id = ds.getLinkSeries().getSeries().get(0).getIdentifier();
+					
+					TridasObject parentObject = (TridasObject) TridasUtils.getEntityByIdentifier(argProject, id, TridasObject.class);
+					if(parentObject!=null)
+					{
+						tvDefaults.populateFromTridasObject(parentObject);
+					}
+
+					TridasElement parentElement = (TridasElement) TridasUtils.getEntityByIdentifier(argProject, id, TridasElement.class);
+					if(parentElement!=null)
+					{
+						tvDefaults.populateFromTridasElement(parentElement);
+					}
+					
+					TridasSample parentSample = (TridasSample) TridasUtils.getEntityByIdentifier(argProject, id, TridasSample.class);
+					if(parentSample!=null)
+					{
+						tvDefaults.populateFromTridasSample(parentSample);
+					}
+					
+					TridasRadius parentRadius = (TridasRadius) TridasUtils.getEntityByIdentifier(argProject, id, TridasRadius.class);
+					if(parentRadius!=null)
+					{
+						tvDefaults.populateFromTridasRadius(parentRadius);
+					}
+				}
 				
 				SheffieldFile file = new SheffieldFile(tvDefaults);
 				

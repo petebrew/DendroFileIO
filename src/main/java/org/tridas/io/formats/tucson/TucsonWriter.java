@@ -34,6 +34,7 @@ import org.tridas.schema.NormalTridasDatingType;
 import org.tridas.schema.NormalTridasUnit;
 import org.tridas.schema.TridasDerivedSeries;
 import org.tridas.schema.TridasElement;
+import org.tridas.schema.TridasIdentifier;
 import org.tridas.schema.TridasMeasurementSeries;
 import org.tridas.schema.TridasObject;
 import org.tridas.schema.TridasProject;
@@ -107,6 +108,29 @@ public class TucsonWriter extends AbstractDendroCollectionWriter {
 				else
 				{
 					// Range ok so create file and add series
+					
+					// Try and grab object, element, sample and radius info from linked series
+					if(ds.isSetLinkSeries())
+					{
+						// TODO what happens if there are links to multiple different entities?
+						// For now just go with the first link
+						if(ds.getLinkSeries().getSeries().size()>1) break;
+						TridasIdentifier id = ds.getLinkSeries().getSeries().get(0).getIdentifier();
+						
+						TridasObject parentObject = (TridasObject) TridasUtils.getEntityByIdentifier(p, id, TridasObject.class);
+						if(parentObject!=null)
+						{
+							defaults.populateFromTridasObject(parentObject);
+						}
+
+						TridasElement parentElement = (TridasElement) TridasUtils.getEntityByIdentifier(p, id, TridasElement.class);
+						if(parentElement!=null)
+						{
+							defaults.populateFromTridasElement(parentElement);
+						}
+
+					}
+					
 					TucsonFile file = new TucsonFile(defaults);
 					file.addSeries(ds);
 					naming.registerFile(file, p, ds);

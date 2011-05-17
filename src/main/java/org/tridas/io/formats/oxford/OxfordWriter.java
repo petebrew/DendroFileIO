@@ -32,6 +32,7 @@ import org.tridas.schema.NormalTridasUnit;
 import org.tridas.schema.NormalTridasVariable;
 import org.tridas.schema.TridasDerivedSeries;
 import org.tridas.schema.TridasElement;
+import org.tridas.schema.TridasIdentifier;
 import org.tridas.schema.TridasMeasurementSeries;
 import org.tridas.schema.TridasObject;
 import org.tridas.schema.TridasProject;
@@ -156,6 +157,41 @@ public class OxfordWriter extends AbstractDendroCollectionWriter {
 				addWarning(ex.getWarning());
 				continue;
 			}
+			
+			// Try and grab object, element, sample and radius info from linked series
+			if(ds.isSetLinkSeries())
+			{
+				// TODO what happens if there are links to multiple different entities?
+				// For now just go with the first link
+				if(ds.getLinkSeries().getSeries().size()>1) break;
+				TridasIdentifier id = ds.getLinkSeries().getSeries().get(0).getIdentifier();
+				
+				TridasObject parentObject = (TridasObject) TridasUtils.getEntityByIdentifier(argProject, id, TridasObject.class);
+				if(parentObject!=null)
+				{
+					dsDefaults.populateFromTridasObject(parentObject);
+				}
+
+				TridasElement parentElement = (TridasElement) TridasUtils.getEntityByIdentifier(argProject, id, TridasElement.class);
+				if(parentElement!=null)
+				{
+					dsDefaults.populateFromTridasElement(parentElement);
+				}
+				
+				TridasSample parentSample = (TridasSample) TridasUtils.getEntityByIdentifier(argProject, id, TridasSample.class);
+				if(parentSample!=null)
+				{
+					dsDefaults.populateFromTridasSample(parentSample);
+				}
+				
+				TridasRadius parentRadius = (TridasRadius) TridasUtils.getEntityByIdentifier(argProject, id, TridasRadius.class);
+				if(parentRadius!=null)
+				{
+					dsDefaults.populateFromTridasRadius(parentRadius);
+				}
+			}
+			
+			
 			
 			try{
 				OxfordFile file = createFileForValuesGroup(ds, dsDefaults);

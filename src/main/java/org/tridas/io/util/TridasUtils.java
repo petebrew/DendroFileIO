@@ -15,12 +15,23 @@
  */
 package org.tridas.io.util;
 
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
 
+import javax.xml.parsers.DocumentBuilder;
+import javax.xml.parsers.DocumentBuilderFactory;
+import javax.xml.parsers.ParserConfigurationException;
+import javax.xml.xpath.XPath;
+import javax.xml.xpath.XPathConstants;
+import javax.xml.xpath.XPathExpression;
+import javax.xml.xpath.XPathExpressionException;
+import javax.xml.xpath.XPathFactory;
+
 import org.tridas.interfaces.ITridas;
+import org.tridas.io.TridasNamespacePrefixMapper;
 import org.tridas.schema.NormalTridasRemark;
 import org.tridas.schema.TridasDerivedSeries;
 import org.tridas.schema.TridasElement;
@@ -33,6 +44,9 @@ import org.tridas.schema.TridasRemark;
 import org.tridas.schema.TridasSample;
 import org.tridas.schema.TridasValue;
 import org.tridas.schema.TridasValues;
+import org.w3c.dom.Document;
+import org.w3c.dom.NodeList;
+import org.xml.sax.SAXException;
 
 public class TridasUtils {
 	
@@ -305,39 +319,62 @@ public class TridasUtils {
 	}
 	
 	/**
-	 * Get the entity from this project that matches the specified identifier.
-	 *  
+	 * Get the entity from this project that matches the specified identifier.  If parentEntityClass is specified
+	 * then the parent entity of the class type entered is returned (e.g. perhaps the object of a sample).  If the
+	 * identifier matches a derivedSeries, then this function is called recursively to try and locate the correct
+	 * entity.  If no match is found, then null is returned.
+	 * 
 	 * @param p
 	 * @param id
+	 * @param parentEntityClass
 	 * @return
 	 */
-	public static ITridas getEntityByIdentifier(TridasProject p, TridasIdentifier id)
+	public static ITridas getEntityByIdentifier(TridasProject p, TridasIdentifier id, Class<? extends ITridas> parentEntityClass)
 	{
 		if(p==null || id==null) return null;
 		
+		ITridas returningEntity = null;
+		/*
+		// Would be nice to do this with XPATH.
+		String domain = "";
+		String idstr = "";
+		String xpath = "identifier[@domain='"+domain+"' and .='"+idstr+"']/..";
+		*/
+				
 		// First check the project!
-		if (TridasUtils.doesEntityMatchIdentifier(p, id))
+		if (TridasUtils.doesEntityMatchIdentifier(p, id) || 
+			(parentEntityClass==null || parentEntityClass.equals(TridasProject.class)))
 		{
 			return p;
 		}
+		
 		
 		ArrayList<TridasObject> objects = getObjectList(p);
 		
 		for (TridasObject o : objects)
 		{
-			if (TridasUtils.doesEntityMatchIdentifier(o, id)) return o;
+			if(parentEntityClass==null || parentEntityClass.equals(TridasObject.class)) returningEntity = o;
+			if (TridasUtils.doesEntityMatchIdentifier(o, id)) return returningEntity;
+			
 			for(TridasElement e : o.getElements())
 			{
-				if (TridasUtils.doesEntityMatchIdentifier(e, id)) return e;
+				if(parentEntityClass==null || parentEntityClass.equals(TridasElement.class)) returningEntity = e;
+				if (TridasUtils.doesEntityMatchIdentifier(e, id)) return returningEntity;
+								
 				for(TridasSample s : e.getSamples())
 				{
-					if (TridasUtils.doesEntityMatchIdentifier(s, id)) return s;
+					if(parentEntityClass==null || parentEntityClass.equals(TridasSample.class)) returningEntity = s;
+					if (TridasUtils.doesEntityMatchIdentifier(s, id)) return returningEntity;
+					
 					for(TridasRadius r : s.getRadiuses())
 					{
-						if (TridasUtils.doesEntityMatchIdentifier(r, id)) return r;
+						if(parentEntityClass==null || parentEntityClass.equals(TridasRadius.class)) returningEntity = r;
+						if (TridasUtils.doesEntityMatchIdentifier(r, id)) return returningEntity;
+						
 						for(TridasMeasurementSeries ser : r.getMeasurementSeries())
 						{
-							if (TridasUtils.doesEntityMatchIdentifier(ser, id)) return ser;
+							if(parentEntityClass==null || parentEntityClass.equals(TridasMeasurementSeries.class) || parentEntityClass.equals(ITridas.class)) returningEntity = ser;
+							if (TridasUtils.doesEntityMatchIdentifier(ser, id)) return returningEntity;
 						}
 					}
 				}
@@ -346,7 +383,24 @@ public class TridasUtils {
 		
 		for (TridasDerivedSeries ds : p.getDerivedSeries())
 		{
-			if (TridasUtils.doesEntityMatchIdentifier(ds, id)) return ds;
+			if (TridasUtils.doesEntityMatchIdentifier(ds, id)) 
+			{
+				if(parentEntityClass==null || parentEntityClass.equals(TridasDerivedSeries.class) || parentEntityClass.equals(ITridas.class))
+				{
+					return ds;
+				}
+				else if (ds.isSetLinkSeries())
+				{
+					if(ds.getLinkSeries().isSetSeries())
+					{
+						if(ds.getLinkSeries().getSeries().get(0).isSetIdentifier())
+						{
+							return TridasUtils.getEntityByIdentifier(p, ds.getLinkSeries().getSeries().get(0).getIdentifier(), parentEntityClass);
+						}
+					}
+					
+				}
+			}
 		}
 		
 		return null;
