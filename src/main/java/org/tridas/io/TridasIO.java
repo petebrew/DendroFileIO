@@ -198,7 +198,7 @@ public class TridasIO {
 				entry.fileReader = argReader;
 			}
 			else {
-				log.warn(I18n.getText("fileio.replaceReader", name));
+				log.debug(I18n.getText("fileio.replaceReader", name));
 				// throw new RuntimeException("Cannot register another reader for "
 				// don't throw an exception, just use new reader
 				entry.fileReader = argReader;
@@ -213,7 +213,7 @@ public class TridasIO {
 		for (String filetype : filetypes) {
 			String old = extensionMap.put(filetype.toLowerCase(), name);
 			if (old != null && !name.equals(old)) {
-				log.warn("Extension " + filetype + " already mapped to " + old + ".  Replacing with " + name);
+				//log.debug("Extension " + filetype + " already mapped to " + old + ".  Replacing with " + name);
 			}
 		}
 	}
