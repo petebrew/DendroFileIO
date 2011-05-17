@@ -369,8 +369,9 @@ public class TestFromTridas extends TestCase {
 			// TucsonWriter writer = new TucsonWriter();
 			
 			try {
-				writer.setNamingConvention(new NumericalNamingConvention(filename.substring(0, filename
-						.lastIndexOf("."))));
+				//writer.setNamingConvention(new NumericalNamingConvention(filename.substring(0, filename
+				//		.lastIndexOf("."))));
+				writer.setNamingConvention(new NumericalNamingConvention());
 				writer.load(container);
 			} catch (IncompleteTridasDataException e) {
 				e.printStackTrace();
@@ -698,87 +699,7 @@ public class TestFromTridas extends TestCase {
 				writer.saveAllToDisk(outputLocation);
 			}
 		}
-	
-	public void testTridasToCatrasToTridas() {
-		String folder = "TestData/TRiDaS";
-		String[] files = getFilesFromFolder(folder);
 		
-		if (files.length == 0) {
-			fail();
-		}
-		
-		for (String filename : files) {
-			if(!filename.equals("Tridas1.xml")) continue;
-			
-			log.info("Test conversion of: " + filename);
-			
-			TridasTridas container = null;
-			
-			TridasReader reader = new TridasReader();
-			try {
-				reader.loadFile(folder, filename);
-			} catch (IOException e) {
-				log.info(e.getLocalizedMessage());
-				fail();
-			} catch (InvalidDendroFileException e) {
-				e.printStackTrace();
-				fail();
-			}
-			
-			// Extract the TridasProject
-			container = reader.getTridasContainer();
-			
-			// Create a new converter based on a TridasProject
-			CatrasWriter writer = new CatrasWriter();
-			
-			try {
-				writer.setNamingConvention(new NumericalNamingConvention("CatrasFirst"));
-				writer.load(container);
-			} catch (IncompleteTridasDataException e) {
-				e.printStackTrace();
-			} catch (ConversionWarningException e) {
-			} 
-			
-			
-			// Actually save file(s) to disk
-			writer.saveAllToDisk(outputLocation);
-			
-		}
-		
-		TridasTridas container = null;
-		
-		CatrasReader reader = new CatrasReader();
-		try {
-			reader.loadFile(outputLocation, "CatrasFirst(1).CAT");
-		} catch (IOException e) {
-			log.info(e.getLocalizedMessage());
-			fail();
-		} catch (InvalidDendroFileException e) {
-			e.printStackTrace();
-			fail();
-		}
-		
-		// Extract the TridasProject
-		container = reader.getTridasContainer();
-		
-		// Create a new converter based on a TridasProject
-		TridasWriter writer = new TridasWriter();
-		
-		try {
-			writer.setNamingConvention(new NumericalNamingConvention("CatrasSecond"));
-			writer.load(container);
-		} catch (IncompleteTridasDataException e) {
-			e.printStackTrace();
-		} catch (ConversionWarningException e) {
-		} 
-		
-		
-		// Actually save file(s) to disk
-		writer.saveAllToDisk(outputLocation);
-		
-	}
-
-	
 	
 	public void testTridasToBesancon() {
 		String folder = "TestData/TRiDaS";
