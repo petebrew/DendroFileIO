@@ -18,6 +18,7 @@ package org.tridas.io.formats.belfastapple;
 import java.util.ArrayList;
 import java.util.List;
 
+import org.tridas.interfaces.ITridas;
 import org.tridas.io.AbstractDendroCollectionWriter;
 import org.tridas.io.I18n;
 import org.tridas.io.defaults.IMetadataFieldSet;
@@ -28,6 +29,7 @@ import org.tridas.io.naming.NumericalNamingConvention;
 import org.tridas.io.util.TridasUtils;
 import org.tridas.schema.TridasDerivedSeries;
 import org.tridas.schema.TridasElement;
+import org.tridas.schema.TridasIdentifier;
 import org.tridas.schema.TridasMeasurementSeries;
 import org.tridas.schema.TridasObject;
 import org.tridas.schema.TridasProject;
@@ -58,11 +60,37 @@ public class BelfastAppleWriter extends AbstractDendroCollectionWriter {
 				BelfastAppleFile file = new BelfastAppleFile(defaults, this);
 				naming.registerFile(file, argProject, ds);
 				file.setSeries(ds);
-				file.setObjectTitle(ds.getTitle());
-				file.setSampleTitle(ds.getTitle());
+				
+				// Try and grab object and sample titles from linked series
+				if(ds.isSetLinkSeries())
+				{
+					// TODO what happens if there are links to multiple different entities?
+					// For now just go with the first link
+					if(ds.getLinkSeries().getSeries().size()>1) break;
+					TridasIdentifier id = ds.getLinkSeries().getSeries().get(0).getIdentifier();
+					TridasObject parentObject = (TridasObject) TridasUtils.getEntityByIdentifier(argProject, id, TridasObject.class);
+					if(parentObject!=null)
+					{
+						if(parentObject.isSetTitle())
+						{
+							file.setObjectTitle(parentObject.getTitle());
+						}
+					}
+					TridasSample parentSample = (TridasSample) TridasUtils.getEntityByIdentifier(argProject, id, TridasSample.class);
+					if(parentSample!=null)
+					{
+						if(parentSample.isSetTitle())
+						{
+							file.setSampleTitle(parentSample.getTitle());
+						}
+					}
+				}
+
 				addToFileList(file);
 			}
-		} catch (NullPointerException e) {}
+		} catch (NullPointerException e) {
+			System.out.println("blah");
+		}
 		
 		// Loop through Objects
 		List<TridasObject> obList;
@@ -81,7 +109,8 @@ public class BelfastAppleWriter extends AbstractDendroCollectionWriter {
 			try {
 				elList = TridasUtils.getElementList(obj);
 			} catch (NullPointerException e) {
-				throw new IncompleteTridasDataException(I18n.getText("fileio.elementMissing"));
+				break;
+				//throw new IncompleteTridasDataException(I18n.getText("fileio.elementMissing"));
 			}
 			
 			for (TridasElement el : elList) {
@@ -90,30 +119,22 @@ public class BelfastAppleWriter extends AbstractDendroCollectionWriter {
 				try {
 					sList = el.getSamples();
 				} catch (NullPointerException e) {
-					throw new IncompleteTridasDataException(I18n.getText("fileio.sampleMissing"));
+					break;
+					//throw new IncompleteTridasDataException(I18n.getText("fileio.sampleMissing"));
 				}
 				
 				for (TridasSample s : sList) {
 					if (s.getTitle() != null) {
 						sampletitle = s.getTitle();
 					}
-					
-					// Check this isn't a placeholder
-					/*TridasRadiusPlaceholder rph = null;
-					try {
-						rph = s.getRadiusPlaceholder();
-					} catch (NullPointerException e) {}
-					
-					if (rph != null) {
-						continue;
-					}*/
-					
+										
 					// Loop through radii
 					List<TridasRadius> rList;
 					try {
 						rList = s.getRadiuses();
 					} catch (NullPointerException e) {
-						throw new IncompleteTridasDataException(I18n.getText("fileio.radiusMissing"));
+						break;
+						//throw new IncompleteTridasDataException(I18n.getText("fileio.radiusMissing"));
 					}
 					
 					for (TridasRadius r : rList) {
@@ -121,7 +142,9 @@ public class BelfastAppleWriter extends AbstractDendroCollectionWriter {
 						List<TridasMeasurementSeries> serList = null;
 						try {
 							serList = r.getMeasurementSeries();
-						} catch (NullPointerException e) {}
+						} catch (NullPointerException e) {
+							break;
+						}
 						
 						if (serList != null) {
 							for (TridasMeasurementSeries ser : serList) {								

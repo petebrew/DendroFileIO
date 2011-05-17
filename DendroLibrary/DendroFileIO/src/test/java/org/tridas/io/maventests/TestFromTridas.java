@@ -148,8 +148,7 @@ public class TestFromTridas extends TestCase {
 			
 			// Create a new converter based on a TridasProject
 			TucsonWriter tucsonwriter = new TucsonWriter();
-			NumericalNamingConvention nc = new NumericalNamingConvention();
-			nc.setBaseFilename("TucsonFromTridas");
+			NumericalNamingConvention nc = new NumericalNamingConvention("Tucson-"+filename);
 			tucsonwriter.setNamingConvention(nc);
 			try {
 				tucsonwriter.load(container);
@@ -159,7 +158,7 @@ public class TestFromTridas extends TestCase {
 			} 
 			
 			// Actually save file(s) to disk
-			tucsonwriter.saveAllToDisk("target/TestOutput");
+			tucsonwriter.saveAllToDisk(outputLocation);
 		}
 	}
 	
@@ -216,9 +215,7 @@ public class TestFromTridas extends TestCase {
 		
 		for (String filename : files) {
 			
-			if (!filename.equals("Tridas4.xml")) {
-				continue;
-			}
+			//if (!filename.equals("Tridas4.xml")) {continue;	}
 			
 			log.info("Test conversion of: " + filename);
 			
@@ -240,7 +237,7 @@ public class TestFromTridas extends TestCase {
 			
 			// Create a new converter based on a TridasProject
 			HeidelbergWriter writer = new HeidelbergWriter();
-			writer.setNamingConvention(new HierarchicalNamingConvention());
+			writer.setNamingConvention(new NumericalNamingConvention("Heidelberg-"+filename));
 			try {
 				writer.load(container);
 			} catch (IncompleteTridasDataException e) {
@@ -305,6 +302,7 @@ public class TestFromTridas extends TestCase {
 		}
 		
 		for (String filename : files) {
+			//if(!filename.equals("DerivedSeriesLinkedToDSeries.xml")) continue;
 			log.info("Test conversion of: " + filename);
 			
 			TridasTridas container = null;
@@ -325,7 +323,7 @@ public class TestFromTridas extends TestCase {
 			
 			// Create a new converter based on a TridasProject
 			BelfastAppleWriter writer = new BelfastAppleWriter();
-			writer.setNamingConvention(new NumericalNamingConvention(filename));
+			writer.setNamingConvention(new NumericalNamingConvention("BelfastTestOut-"+filename));
 			try {
 				writer.load(container);
 			} catch (IncompleteTridasDataException e) {
@@ -792,7 +790,7 @@ public class TestFromTridas extends TestCase {
 		
 		for (String filename : files) {
 				
-			//if(!filename.equals("TridasMultiVars.xml")) continue;
+			if(!filename.equals("DerivedSeriesLinkedToDSeries.xml")) continue;
 			log.info("Test conversion of: " + filename);
 			
 			TridasTridas container = null;
@@ -813,7 +811,7 @@ public class TestFromTridas extends TestCase {
 			
 			// Create a new converter based on a TridasProject
 			BesanconWriter writer = new BesanconWriter();
-			writer.setNamingConvention(new NumericalNamingConvention());
+			writer.setNamingConvention(new NumericalNamingConvention("Bescancon-"+filename));
 			try {
 				writer.load(container);
 			} catch (IncompleteTridasDataException e) {

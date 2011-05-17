@@ -29,6 +29,7 @@ import org.tridas.io.util.UnitUtils;
 import org.tridas.schema.NormalTridasUnit;
 import org.tridas.schema.TridasDerivedSeries;
 import org.tridas.schema.TridasElement;
+import org.tridas.schema.TridasIdentifier;
 import org.tridas.schema.TridasMeasurementSeries;
 import org.tridas.schema.TridasObject;
 import org.tridas.schema.TridasProject;
@@ -38,6 +39,7 @@ import org.tridas.schema.TridasValues;
 
 public class BesanconWriter extends AbstractDendroCollectionWriter {
 
+	//private static final Logger log = LoggerFactory.getLogger(BesanconWriter.class);
 	private TridasToBesanconDefaults defaults;
 	private INamingConvention naming = new NumericalNamingConvention();
 	
@@ -223,6 +225,21 @@ public class BesanconWriter extends AbstractDendroCollectionWriter {
 				TridasToBesanconDefaults tvDefaults = (TridasToBesanconDefaults) dsDefaults.clone();
 				tvDefaults.populateFromTridasValuesAndSeries(tvsgroup, ds);
 				
+
+				// Try and grab element info from linked series
+				if(ds.isSetLinkSeries())
+				{
+					// TODO what happens if there are links to multiple different entities?
+					// For now just go with the first link
+					if(ds.getLinkSeries().getSeries().size()>1) break;
+					TridasIdentifier id = ds.getLinkSeries().getSeries().get(0).getIdentifier();
+					TridasElement parentElement = (TridasElement) TridasUtils.getEntityByIdentifier(argProject, id, TridasElement.class);
+					if(parentElement!=null)
+					{
+						tvDefaults.populateFromTridasElement(parentElement);
+					}
+				}
+
 				BesanconFile file = new BesanconFile();
 				
 				// Add series to file	

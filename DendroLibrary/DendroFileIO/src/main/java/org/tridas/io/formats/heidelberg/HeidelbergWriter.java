@@ -27,6 +27,7 @@ import org.tridas.io.util.StringUtils;
 import org.tridas.io.util.TridasUtils;
 import org.tridas.schema.TridasDerivedSeries;
 import org.tridas.schema.TridasElement;
+import org.tridas.schema.TridasIdentifier;
 import org.tridas.schema.TridasMeasurementSeries;
 import org.tridas.schema.TridasObject;
 import org.tridas.schema.TridasProject;
@@ -133,35 +134,6 @@ public class HeidelbergWriter extends AbstractDendroCollectionWriter {
 							
 						}
 					}
-					
-					/*
-					 * if( s.isSetRadiusPlaceholder()){
-					 * // we have to search through all derived series to find the one
-					 * matching our placeholder id
-					 * for(TridasDerivedSeries ds : argProject.getDerivedSeries()){
-					 * if(ds.getId() == null){
-					 * throw new
-					 * IncompleteTridasDataException("Id in derived series was null");
-					 * }
-					 * if(ds.getId().equals(s.getRadiusPlaceholder().
-					 * getMeasurementSeriesPlaceholder().getId())){
-					 * TridasToHeidelbergDefaults dsDefaults =
-					 * (TridasToHeidelbergDefaults) elementDefaults.clone();
-					 * dsDefaults.populateFromDerivedSeries(ds);
-					 * for(int i=0; i< ds.getValues().size(); i++){
-					 * TridasValues tvs = ds.getValues().get(i);
-					 * TridasToHeidelbergDefaults tvDefaults =
-					 * (TridasToHeidelbergDefaults) dsDefaults.clone();
-					 * tvDefaults.populateFromTridasValues(tvs);
-					 * HeidelbergFile file = new HeidelbergFile(this, tvDefaults);
-					 * file.setSeries(ds, i);
-					 * naming.registerFile(file, argProject, ds);
-					 * addToFileList(file);
-					 * }
-					 * }
-					 * }
-					 * }
-					 */
 				}
 			}
 		}
@@ -217,6 +189,41 @@ public class HeidelbergWriter extends AbstractDendroCollectionWriter {
 					}
 					
 					tvDefaults.populateFromTridasValues(tvsgroup);
+					
+					// Try and grab object, element, sample and radius info from linked series
+					if(ds.isSetLinkSeries())
+					{
+						// TODO what happens if there are links to multiple different entities?
+						// For now just go with the first link
+						if(ds.getLinkSeries().getSeries().size()>1) break;
+						TridasIdentifier id = ds.getLinkSeries().getSeries().get(0).getIdentifier();
+						
+						TridasObject parentObject = (TridasObject) TridasUtils.getEntityByIdentifier(argProject, id, TridasObject.class);
+						if(parentObject!=null)
+						{
+							tvDefaults.populateFromTridasObject(parentObject);
+						}
+
+						TridasElement parentElement = (TridasElement) TridasUtils.getEntityByIdentifier(argProject, id, TridasElement.class);
+						if(parentElement!=null)
+						{
+							tvDefaults.populateFromTridasElement(parentElement);
+						}
+						
+						TridasSample parentSample = (TridasSample) TridasUtils.getEntityByIdentifier(argProject, id, TridasSample.class);
+						if(parentSample!=null)
+						{
+							tvDefaults.populateFromTridasSample(parentSample);
+						}
+						
+						TridasRadius parentRadius = (TridasRadius) TridasUtils.getEntityByIdentifier(argProject, id, TridasRadius.class);
+						if(parentRadius!=null)
+						{
+							tvDefaults.populateFromTridasRadius(parentRadius);
+						}
+					}
+					
+					
 					
 					file.addSeries(ds, tvsgroup, tvDefaults);
 

@@ -68,7 +68,7 @@ public class TridasToCatrasDefaults extends AbstractMetadataFieldSet implements
 		setDefaultValue(DefaultFields.FILE_TYPE, new GenericDefaultValue<CATRASFileType>(CATRASFileType.RAW));
 		setDefaultValue(DefaultFields.USER_ID, new StringDefaultValue("----", 4, 4));
 		setDefaultValue(DefaultFields.VARIABLE_TYPE, new GenericDefaultValue<CATRASVariableType>(CATRASVariableType.RINGWIDTH));
-		setDefaultValue(DefaultFields.SOURCE, new GenericDefaultValue<CATRASSource>(CATRASSource.DIGITIZED));
+		setDefaultValue(DefaultFields.SOURCE, new GenericDefaultValue<CATRASSource>(CATRASSource.EXTERNAL));
 		setDefaultValue(DefaultFields.PROTECTION, new GenericDefaultValue<CATRASProtection>(CATRASProtection.NONE));
 	}
 	
