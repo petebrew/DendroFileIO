@@ -163,8 +163,7 @@ public class SheffieldWriter extends AbstractDendroCollectionWriter {
 								
 								SheffieldFile file = new SheffieldFile(tvDefaults);
 								
-								// Add series to file
-								file.setSeries(ms);
+
 								
 								// Convert units and add data to file
 								TridasValues theValues = null;
@@ -202,7 +201,8 @@ public class SheffieldWriter extends AbstractDendroCollectionWriter {
 										throw new IncompleteTridasDataException(I18n.getText("general.ringValuesNotNumbers"));
 									}
 								}
-								file.setDataValues(theValues);
+								// Add series to file
+								file.setSeries(ms, theValues);
 								
 								// Set naming convention
 								naming.registerFile(file, argProject, o, e, s, r, ms);
@@ -293,12 +293,10 @@ public class SheffieldWriter extends AbstractDendroCollectionWriter {
 				
 				SheffieldFile file = new SheffieldFile(tvDefaults);
 				
-				// Add series to file
-				file.setSeries(ds);
 				
 				// Convert units and add data to file
 				try {
-					file.setDataValues(UnitUtils.convertTridasValues(NormalTridasUnit.HUNDREDTH_MM, tvsgroup, true));
+					file.setSeries(ds, UnitUtils.convertTridasValues(NormalTridasUnit.HUNDREDTH_MM, tvsgroup, true));
 				} catch (NumberFormatException e) {
 				} catch (ConversionWarningException e) {
 					this.addWarning(e.getWarning());
