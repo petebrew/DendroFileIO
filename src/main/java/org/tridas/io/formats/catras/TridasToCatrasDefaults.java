@@ -120,7 +120,7 @@ public class TridasToCatrasDefaults extends AbstractMetadataFieldSet implements
 		GenericDefaultValue<CATRASFileType> fileTypeField = (GenericDefaultValue<CATRASFileType>) getDefaultValue(DefaultFields.FILE_TYPE);
 		fileTypeField.setValue(CATRASFileType.RAW);
 		
-		if(ms.isSetDendrochronologist())
+		if(ms.isSetDendrochronologist() && StringUtils.getIntialsFromName(ms.getDendrochronologist(), 4)!=null)
 		{
 			getStringDefaultValue(DefaultFields.USER_ID).setValue(StringUtils.getIntialsFromName(ms.getDendrochronologist(), 4));
 		}
@@ -134,7 +134,7 @@ public class TridasToCatrasDefaults extends AbstractMetadataFieldSet implements
 		GenericDefaultValue<CATRASFileType> fileTypeField = (GenericDefaultValue<CATRASFileType>) getDefaultValue(DefaultFields.FILE_TYPE);
 		fileTypeField.setValue(CATRASFileType.CHRONOLOGY);
 		
-		if(ds.isSetAuthor())
+		if(ds.isSetAuthor() && StringUtils.getIntialsFromName(ds.getAuthor(), 4)!=null)
 		{
 			getStringDefaultValue(DefaultFields.USER_ID).setValue(StringUtils.getIntialsFromName(ds.getAuthor(), 4));
 		}

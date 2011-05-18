@@ -224,6 +224,7 @@ public class CatrasFile implements IDendroFile {
 	
 	private byte[] getDateTimeAsBytes(DateTime dt)
 	{
+		if(dt==null) return null;
 		int day = dt.getValue().getDay();
 		int month = dt.getValue().getMonth();
 		int year = dt.getValue().getYear()-1900;
