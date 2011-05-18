@@ -31,6 +31,7 @@ import org.tridas.schema.TridasLocationGeometry;
  */
 public class CoordinatesUtils {
 	
+	public static String WGS84 = "urn:ogc:def:crs:EPSG:6.6:4326";
 
 	
 	/**
@@ -191,6 +192,7 @@ public class CoordinatesUtils {
 	public static TridasLocationGeometry getLocationGeometry(Pos pos) {
 		TridasLocationGeometry geometry = new TridasLocationGeometry();
 		PointType point = new PointType();
+		point.setSrsName(CoordinatesUtils.WGS84);
 		point.setPos(pos);
 		geometry.setPoint(point);
 		return geometry;
