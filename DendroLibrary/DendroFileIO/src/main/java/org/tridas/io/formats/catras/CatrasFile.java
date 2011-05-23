@@ -238,13 +238,15 @@ public class CatrasFile implements IDendroFile {
 		
 	}
 	
-	@SuppressWarnings("unchecked")
-	private int getSizeOfFileInBytes()
+	/**
+	 * Takes an integer and rounds it to the nearest multiple of 128
+	 * 
+	 * @param ringcount
+	 * @return
+	 */
+	public static Integer roundToNext128(Integer ringcount)
 	{
-		
 		int i = 128;
-		
-		Integer ringcount = dataValues.getValues().size()*2;
 				
 		Integer datasize = ((ringcount / i) * i);
 		
@@ -252,6 +254,16 @@ public class CatrasFile implements IDendroFile {
 		{
 			datasize = datasize + i;
 		}
+		
+		return datasize;
+	}
+	
+	
+	@SuppressWarnings("unchecked")
+	private int getSizeOfFileInBytes()
+	{
+						
+		Integer datasize = roundToNext128(dataValues.getValues().size()*2);
 		
 		GenericDefaultValue<CATRASFileType> fileTypeField = (GenericDefaultValue<CATRASFileType>) defaults
 		.getDefaultValue(DefaultFields.FILE_TYPE);
