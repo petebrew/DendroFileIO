@@ -213,7 +213,7 @@ public class CatrasReader extends AbstractDendroFileReader {
 		
 		// Start year- bytes 55-56
 		Integer startYear = getIntFromBytePairByPos(argFileBytes, 54);
-		byte[] bp = getBytePairByPos(argFileBytes, 54);
+		/*byte[] bp = getBytePairByPos(argFileBytes, 54);
 		log.debug("Start year read from CATRAS as Integer = "+startYear);
 		Byte byteOne = new Byte(bp[0]);
 		Byte byteTwo = new Byte(bp[1]);
@@ -224,7 +224,7 @@ public class CatrasReader extends AbstractDendroFileReader {
 
 		log.debug("First byte from pair = "+bp[0]);
 		log.debug("Second byte from pair = "+bp[1]);
-		log.debug("Byte pair = "+bp);
+		log.debug("Byte pair = "+bp);*/
 		
 		defaults.getSafeIntYearDefaultValue(DefaultFields.START_YEAR)
 			.setValue(new SafeIntYear(startYear));
@@ -312,7 +312,7 @@ public class CatrasReader extends AbstractDendroFileReader {
 			GenericDefaultValue<CATRASFileType> field = (GenericDefaultValue<CATRASFileType>) defaults
 				.getDefaultValue(DefaultFields.FILE_TYPE);
 			field.setValue(filetype);
-			if(filetype!=CATRASFileType.RAW) isChronology = true;
+			if(!filetype.equals(CATRASFileType.RAW)) isChronology = true;
 		}		
 		
 		// Userid - bytes 85-88
@@ -372,10 +372,48 @@ public class CatrasReader extends AbstractDendroFileReader {
 		
 		if(isChronology)
 		{
-			theData = getSubByteArray(argFileBytes, 127+length+1, 127+length+length);
-			for (int i = 1; i < theData.length; i = i + 2) {
-				int valueFromFile = getIntFromBytePairByPos(theData, i);
-				sampleDepthValues.add(valueFromFile);
+			int fileBytes = argFileBytes.length;
+			int fileSizeDataOnly = CatrasFile.roundToNext128(length*2)+128;
+			if(fileBytes == fileSizeDataOnly)
+			{
+				log.debug("No count info in file");
+				
+				// Set the sample depth values to 1
+				for (int i = 0; i < ringWidthValues.size(); i++) {
+					sampleDepthValues.add(1);
+				}
+			}
+			else
+			{
+				try{
+					int firstDataByte = 128;
+					int lengthOfDataInBytes = CatrasFile.roundToNext128(length*2);
+					int firstCountByte = firstDataByte + lengthOfDataInBytes;
+					int lastCountByte = firstCountByte+(length*2)-1;
+				    
+				    log.debug("Number of rings         = "+length);
+				    log.debug("Number of bytes (rings) = "+lengthOfDataInBytes);
+				    log.debug("Length of file in bytes = "+argFileBytes.length);
+				    log.debug("Remaining size in bytes = "+(argFileBytes.length-firstDataByte-lengthOfDataInBytes));
+				    log.debug("Data starts at byte     = "+firstDataByte);
+				    log.debug("First count byte is at  = "+firstCountByte);
+				    log.debug("Last count byte is at   = "+lastCountByte);
+				    
+					byte[] theDepths = getSubByteArray(argFileBytes, firstCountByte, lastCountByte);
+					
+					log.debug("Size of depths array    = "+theDepths.length);
+					
+					for (int i = 0; i < theDepths.length; i = i + 2) {
+						int valueFromFile = getIntFromBytePairByPos(theDepths, i);
+						log.debug("Byte 1 ["+i+"]: "+theDepths[i]);
+						log.debug("Byte 2 ["+(i+1)+"]: "+theDepths[i+1]);
+						log.debug("Value : "+valueFromFile);
+						sampleDepthValues.add(valueFromFile);
+					}
+				} catch (Exception ex)
+				{
+					log.error("Failed to get count data");
+				}
 			}
 		}
 		
@@ -634,25 +672,15 @@ public class CatrasReader extends AbstractDendroFileReader {
 		oList.add(o);		
 		p.setObjects(oList);
 		
-		GenericDefaultValue<CATRASFileType> typeField = (GenericDefaultValue<CATRASFileType>) defaults.getDefaultValue(DefaultFields.VARIABLE_TYPE);
-		if(typeField.equals(CATRASFileType.RAW))
-		{
-			// Now build up our measurementSeries
-			series = defaults.getMeasurementSeriesWithDefaults();
-
-			// Compile project
-			series.setValues(vlist);
+		GenericDefaultValue<CATRASFileType> typeField = (GenericDefaultValue<CATRASFileType>) defaults.getDefaultValue(DefaultFields.FILE_TYPE);
+		CATRASFileType typeValue = CATRASFileType.RAW;
+		try{
+			typeValue = typeField.getValue();
+			typeField.getValue();
 			
-			ArrayList<TridasMeasurementSeries> seriesList = new ArrayList<TridasMeasurementSeries>();
-			seriesList.add((TridasMeasurementSeries) series);
-			r.setMeasurementSeries(seriesList);
+		} catch (Exception e2){}
 		
-			ArrayList<TridasRadius> rList = new ArrayList<TridasRadius>();
-			rList.add(r);
-			s.setRadiuses(rList);
-	
-		}
-		else
+		if(typeValue.equals(CATRASFileType.CHRONOLOGY) || typeValue.equals(CATRASFileType.TREE_CURVE))
 		{
 			// Derived Series
 			series = defaults.getDerivedSeriesWithDefaults();
@@ -673,6 +701,26 @@ public class CatrasReader extends AbstractDendroFileReader {
 		
 			
 		}
+		else
+		{
+			log.debug("CATRAS data type is :" + typeValue);
+			
+			// Now build up our measurementSeries
+			series = defaults.getMeasurementSeriesWithDefaults();
+
+			// Compile project
+			series.setValues(vlist);
+			
+			ArrayList<TridasMeasurementSeries> seriesList = new ArrayList<TridasMeasurementSeries>();
+			seriesList.add((TridasMeasurementSeries) series);
+			r.setMeasurementSeries(seriesList);
+		
+			ArrayList<TridasRadius> rList = new ArrayList<TridasRadius>();
+			rList.add(r);
+			s.setRadiuses(rList);
+	
+		}
+
 		
 		return p;
 		
