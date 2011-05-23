@@ -30,6 +30,7 @@ import org.tridas.io.defaults.values.SafeIntYearDefaultValue;
 import org.tridas.io.defaults.values.StringDefaultValue;
 import org.tridas.io.util.SafeIntYear;
 import org.tridas.schema.ComplexPresenceAbsence;
+import org.tridas.schema.ControlledVoc;
 import org.tridas.schema.DatingSuffix;
 import org.tridas.schema.NormalTridasDatingType;
 import org.tridas.schema.NormalTridasUnit;
@@ -332,12 +333,25 @@ public class CatrasToTridasDefaults extends TridasMetadataFieldSet implements IM
 	/**
 	 * @see org.tridas.io.defaults.TridasMetadataFieldSet#getDefaultTridasDerivedSeries()
 	 */
+	@SuppressWarnings("unchecked")
 	@Override
 	protected TridasDerivedSeries getDefaultTridasDerivedSeries() {
 	
 		TridasDerivedSeries series = super.getDefaultTridasDerivedSeries();
 		
 		populateTridasSeries(series);
+		
+		// Try to determine what sort of series this is
+		GenericDefaultValue<CATRASFileType> fileTypeField = (GenericDefaultValue<CATRASFileType>) getDefaultValue(DefaultFields.FILE_TYPE);
+		if(fileTypeField.getValue()!=null)
+		{
+			ControlledVoc chronotype = new ControlledVoc();
+			chronotype.setLang("en");
+			chronotype.setNormal(fileTypeField.getValue().toString().replace("_", " "));
+			chronotype.setNormalId(fileTypeField.getValue().toCode().toString());
+			chronotype.setNormalStd("CATRAS");
+			series.setType(chronotype);
+		}
 		
 		
 		return series;
