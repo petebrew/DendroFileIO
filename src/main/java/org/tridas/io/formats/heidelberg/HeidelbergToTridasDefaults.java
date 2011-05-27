@@ -16,11 +16,16 @@
 package org.tridas.io.formats.heidelberg;
 
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.UUID;
 
+import javax.xml.datatype.XMLGregorianCalendar;
+
 import org.apache.commons.lang.WordUtils;
+import org.tridas.interfaces.ITridasSeries;
 import org.tridas.io.I18n;
 import org.tridas.io.defaults.TridasMetadataFieldSet;
+import org.tridas.io.defaults.values.DateTimeDefaultValue;
 import org.tridas.io.defaults.values.DoubleDefaultValue;
 import org.tridas.io.defaults.values.GenericDefaultValue;
 import org.tridas.io.defaults.values.IntegerDefaultValue;
@@ -28,31 +33,40 @@ import org.tridas.io.defaults.values.StringDefaultValue;
 import org.tridas.io.util.CoordinatesUtils;
 import org.tridas.io.util.DateUtils;
 import org.tridas.io.util.SafeIntYear;
+import org.tridas.schema.Certainty;
+import org.tridas.schema.ComplexPresenceAbsence;
 import org.tridas.schema.ControlledVoc;
+import org.tridas.schema.DateTime;
 import org.tridas.schema.DatingSuffix;
 import org.tridas.schema.NormalTridasDatingType;
 import org.tridas.schema.ObjectFactory;
+import org.tridas.schema.PresenceAbsence;
 import org.tridas.schema.TridasAddress;
+import org.tridas.schema.TridasBark;
 import org.tridas.schema.TridasCoverage;
 import org.tridas.schema.TridasDating;
 import org.tridas.schema.TridasDerivedSeries;
 import org.tridas.schema.TridasElement;
 import org.tridas.schema.TridasGenericField;
+import org.tridas.schema.TridasHeartwood;
 import org.tridas.schema.TridasIdentifier;
 import org.tridas.schema.TridasInterpretation;
 import org.tridas.schema.TridasLocation;
 import org.tridas.schema.TridasLocationGeometry;
 import org.tridas.schema.TridasMeasurementSeries;
 import org.tridas.schema.TridasObject;
+import org.tridas.schema.TridasPith;
 import org.tridas.schema.TridasProject;
 import org.tridas.schema.TridasRadius;
 import org.tridas.schema.TridasSample;
+import org.tridas.schema.TridasSapwood;
 import org.tridas.schema.TridasShape;
 import org.tridas.schema.TridasSoil;
 import org.tridas.schema.TridasUnit;
 import org.tridas.schema.TridasUnitless;
 import org.tridas.schema.TridasValues;
 import org.tridas.schema.TridasVariable;
+import org.tridas.schema.TridasWoodCompleteness;
 
 public class HeidelbergToTridasDefaults extends TridasMetadataFieldSet {
 	
@@ -63,7 +77,7 @@ public class HeidelbergToTridasDefaults extends TridasMetadataFieldSet {
 		ACCEPT_DATE,					
 		//AGE,							//CALCULABLE
 		//AUTOCORRELATION,				//USED FOR TUCSON
-		BARK,							//***
+		BARK,							//***						
 		BHD,
 		//Bibliography[n]
 		//BibliographyCount
@@ -83,7 +97,7 @@ public class HeidelbergToTridasDefaults extends TridasMetadataFieldSet {
 		COUNTRY,						//***
 		//CREATION_DATE,				//DEPRECATED
 		DATA_FORMAT,
-		DATA_TYPE,						//***
+		DATA_TYPE,						
 		DATE_BEGIN,						//***
 		DATED,							//***
 		DATE_END,						//***
@@ -111,7 +125,7 @@ public class HeidelbergToTridasDefaults extends TridasMetadataFieldSet {
 		EXPOSITION,
 		FIELD_NO,
 		//FilmNo					  	//USED FOR BIREMSDORF
-		FIRST_MEASUREMENT_DATE,			//***
+		FIRST_MEASUREMENT_DATE,			
 		FIRST_MEASUREMENT_PERS_ID,
 		//FromSeedToDateBegin			//DEPRECATED
 		//GlobalMathComment[n]
@@ -131,13 +145,13 @@ public class HeidelbergToTridasDefaults extends TridasMetadataFieldSet {
 		JUVENILE_WOOD,
 		KEYCODE,						//***
 		KEY_NUMBER,
-		LAB_CODE,						//***
-		LAST_REVISION_DATE,				//***
-		LAST_REVISION_PERS_ID,			//***
+		LAB_CODE,						
+		LAST_REVISION_DATE,				
+		LAST_REVISION_PERS_ID,			
 		LATITUDE,						//***
 		LEAVE_LOSS,
 		LENGTH,							//***
-		LOCATION,						//***
+		LOCATION,						
 		LOCATION_CHARACTERISTICS,		//***
 		LONGITUDE,						//***
 		// MAJOR_DIMENSION,			    //USED FOR SHEFFIELD
@@ -146,8 +160,8 @@ public class HeidelbergToTridasDefaults extends TridasMetadataFieldSet {
 		//MathCommentCount
 		//MeanSensitivity				//USED FOR TUCSON
 		//MinorDimension				//USED FOR SHEFFIELD
-		MISSING_RINGS_AFTER,			//***
-		MISSING_RINGS_BEFORE,			//***
+		MISSING_RINGS_AFTER,			
+		MISSING_RINGS_BEFORE,			
 		//NumberOfSamplesInChrono		//DEPRECATED
 		//NumberOfTreesInChrono			//DEPRECATED
 		PERS_ID,
@@ -165,8 +179,8 @@ public class HeidelbergToTridasDefaults extends TridasMetadataFieldSet {
 		SAMPLING_POINT,
 		SAPWOOD_RINGS,					//***
 		SEQUENCE,
-		SERIES_END,						//***
-		SERIES_START,					//***
+		SERIES_END,						
+		SERIES_START,					
 		SERIES_TYPE,					//***
 		SHAPE_OF_SAMPLE,				//***
 		//SITE,							//USED FOR INRA
@@ -208,21 +222,22 @@ public class HeidelbergToTridasDefaults extends TridasMetadataFieldSet {
 		setDefaultValue(DefaultFields.BARK, new GenericDefaultValue<FHBarkType>());
 		setDefaultValue(DefaultFields.CORE_NUMBER, new StringDefaultValue());
 		setDefaultValue(DefaultFields.COUNTRY, new StringDefaultValue());
+		setDefaultValue(DefaultFields.CLIENT, new StringDefaultValue());
 		setDefaultValue(DefaultFields.DATA_FORMAT, new GenericDefaultValue<FHDataFormat>());
 		setDefaultValue(DefaultFields.DATA_TYPE, new GenericDefaultValue<FHDataType>());
 		setDefaultValue(DefaultFields.DATE_BEGIN, new IntegerDefaultValue());
 		setDefaultValue(DefaultFields.DATED, new GenericDefaultValue<FHDated>());
 		setDefaultValue(DefaultFields.DATE_END, new IntegerDefaultValue());
-		setDefaultValue(DefaultFields.DATE_OF_SAMPLING, new StringDefaultValue());
+		setDefaultValue(DefaultFields.DATE_OF_SAMPLING, new DateTimeDefaultValue());
 		setDefaultValue(DefaultFields.DISTRICT, new StringDefaultValue());
 		setDefaultValue(DefaultFields.ELEVATION, new DoubleDefaultValue(null, -418.0, 8850.0)); // Heights of Dead Sea and Everest! ;-)
 		setDefaultValue(DefaultFields.ESTIMATED_TIME_PERIOD, new StringDefaultValue());
-		setDefaultValue(DefaultFields.FIRST_MEASUREMENT_DATE, new StringDefaultValue());
+		setDefaultValue(DefaultFields.FIRST_MEASUREMENT_DATE, new DateTimeDefaultValue());
 		setDefaultValue(DefaultFields.HOUSE_NAME, new StringDefaultValue());
 		setDefaultValue(DefaultFields.HOUSE_NUMBER, new StringDefaultValue());	
 		setDefaultValue(DefaultFields.KEYCODE, new StringDefaultValue());
 		setDefaultValue(DefaultFields.LAB_CODE, new StringDefaultValue());
-		setDefaultValue(DefaultFields.LAST_REVISION_DATE, new StringDefaultValue());
+		setDefaultValue(DefaultFields.LAST_REVISION_DATE, new DateTimeDefaultValue());
 		setDefaultValue(DefaultFields.LAST_REVISION_PERS_ID, new StringDefaultValue());
 		setDefaultValue(DefaultFields.LATITUDE, new DoubleDefaultValue(null, -90.0, 90.0));
 		setDefaultValue(DefaultFields.LENGTH, new StringDefaultValue());
@@ -266,59 +281,8 @@ public class HeidelbergToTridasDefaults extends TridasMetadataFieldSet {
 	@Override
 	protected TridasDerivedSeries getDefaultTridasDerivedSeries() {
 		TridasDerivedSeries series = super.getDefaultTridasDerivedSeries();
-		
-		TridasIdentifier id = new TridasIdentifier();
-		id.setValue(getStringDefaultValue(DefaultFields.KEYCODE).getStringValue());
-		id.setDomain(getDefaultValue(TridasMandatoryField.IDENTIFIER_DOMAIN).getStringValue());
-		series.setIdentifier(id);
-		
-		//TITLE
-		if((getStringDefaultValue(DefaultFields.KEYCODE).getStringValue()!=null) &&
-				(getStringDefaultValue(DefaultFields.KEYCODE).getStringValue()!=""))
-		{
-			series.setTitle(getStringDefaultValue(DefaultFields.KEYCODE).getStringValue());
-		}
-				
-		//INTERPRETATION			
-		GenericDefaultValue<FHDated> dated = (GenericDefaultValue<FHDated>) getDefaultValue(DefaultFields.DATED);
-		if(dated!=null && dated.getValue()!=null)
-		{
-			TridasInterpretation interp = new TridasInterpretation();
-			TridasDating dating = new TridasDating();
-			
-			if (dated.getValue().equals(FHDated.Dated)) {
-				if (getIntegerDefaultValue(DefaultFields.DATE_BEGIN).getValue() != null) {
-					SafeIntYear startYear = new SafeIntYear(getIntegerDefaultValue(DefaultFields.DATE_BEGIN).getValue());
-					interp.setFirstYear(startYear.toTridasYear(DatingSuffix.AD));
-				}
-				if (getIntegerDefaultValue(DefaultFields.DATE_END).getValue() != null) {
-					SafeIntYear endYear = new SafeIntYear(getIntegerDefaultValue(DefaultFields.DATE_END).getValue());
-					interp.setLastYear(endYear.toTridasYear(DatingSuffix.AD));
-				}
-				dating.setType(NormalTridasDatingType.ABSOLUTE);
-				interp.setDating(dating);
-				series.setInterpretation(interp);
-			}
-			else if (dated.getValue().equals(FHDated.RelDated))
-			{
-				if (getIntegerDefaultValue(DefaultFields.DATE_BEGIN).getValue() != null) {
-					SafeIntYear startYear = new SafeIntYear(getIntegerDefaultValue(DefaultFields.DATE_BEGIN).getValue().toString(), true);
-					interp.setFirstYear(startYear.toTridasYear(DatingSuffix.RELATIVE));
-				}
-				if (getIntegerDefaultValue(DefaultFields.DATE_END).getValue() != null) {
-					SafeIntYear endYear = new SafeIntYear(getIntegerDefaultValue(DefaultFields.DATE_END).getValue().toString(), true);
-					interp.setLastYear(endYear.toTridasYear(DatingSuffix.RELATIVE));
-				}
-				dating.setType(NormalTridasDatingType.RELATIVE);
-				interp.setDating(dating);
-				series.setInterpretation(interp);
-			}
-			else if (dated.getValue().equals(FHDated.Undated))
-			{
-				// Don't include if series is undated
-			}
-		}
-		series.setLastModifiedTimestamp(DateUtils.getTodaysDateTime());
+	
+		series = (TridasDerivedSeries) populateSeriesFields(series);
 		
 		series.setStandardizingMethod(getDefaultValue(DefaultFields.SERIES_TYPE).getStringValue());
 		
@@ -342,25 +306,22 @@ public class HeidelbergToTridasDefaults extends TridasMetadataFieldSet {
 		return series;
 	}
 		
-	/**
-	 * @see org.tridas.io.defaults.TridasMetadataFieldSet#getDefaultTridasMeasurementSeries()
-	 */
-	@SuppressWarnings("unchecked")
-	@Override
-	protected TridasMeasurementSeries getDefaultTridasMeasurementSeries() {
-		TridasMeasurementSeries series = super.getDefaultTridasMeasurementSeries();
-		
-		TridasIdentifier id = new TridasIdentifier();
-		id.setValue(getStringDefaultValue(DefaultFields.KEYCODE).getStringValue());
-		id.setDomain(getDefaultValue(TridasMandatoryField.IDENTIFIER_DOMAIN).getStringValue());
-		series.setIdentifier(id);
-		
-		//TITLE
+	
+	private ITridasSeries populateSeriesFields(ITridasSeries series)
+	{
+	
+		// TITLE
 		if((getStringDefaultValue(DefaultFields.KEYCODE).getStringValue()!=null) &&
 				(getStringDefaultValue(DefaultFields.KEYCODE).getStringValue()!=""))
 		{
 			series.setTitle(getStringDefaultValue(DefaultFields.KEYCODE).getStringValue());
 		}
+		
+		// IDENTIFIER
+		TridasIdentifier id = new TridasIdentifier();
+		id.setValue(getStringDefaultValue(DefaultFields.KEYCODE).getStringValue());
+		id.setDomain(getDefaultValue(TridasMandatoryField.IDENTIFIER_DOMAIN).getStringValue());
+		series.setIdentifier(id);
 		
 		//INTERPRETATION			
 		GenericDefaultValue<FHDated> dated = (GenericDefaultValue<FHDated>) getDefaultValue(DefaultFields.DATED);
@@ -401,8 +362,36 @@ public class HeidelbergToTridasDefaults extends TridasMetadataFieldSet {
 				// Don't include if series is undated
 			}
 		}
-		series.setLastModifiedTimestamp(DateUtils.getTodaysDateTime());
+	
 		
+		// Created
+		if(getDateTimeDefaultValue(DefaultFields.FIRST_MEASUREMENT_DATE).getValue()!=null)
+		{
+			series.setCreatedTimestamp(getDateTimeDefaultValue(DefaultFields.FIRST_MEASUREMENT_DATE).getValue());
+		}
+		
+		// Last modified
+		if(getDateTimeDefaultValue(DefaultFields.LAST_REVISION_DATE).getValue()!=null)
+		{
+			series.setLastModifiedTimestamp(getDateTimeDefaultValue(DefaultFields.LAST_REVISION_DATE).getValue());
+		}
+
+		
+		return series;
+	}
+	
+	/**
+	 * @see org.tridas.io.defaults.TridasMetadataFieldSet#getDefaultTridasMeasurementSeries()
+	 */
+	@SuppressWarnings("unchecked")
+	@Override
+	protected TridasMeasurementSeries getDefaultTridasMeasurementSeries() {
+		TridasMeasurementSeries series = super.getDefaultTridasMeasurementSeries();
+		
+		series = (TridasMeasurementSeries) populateSeriesFields(series);
+		
+		
+
 		if(getStringDefaultValue(DefaultFields.PERS_ID).getStringValue()!=null)
 		{
 			series.setAnalyst(getStringDefaultValue(DefaultFields.PERS_ID).getStringValue());
@@ -418,6 +407,59 @@ public class HeidelbergToTridasDefaults extends TridasMetadataFieldSet {
 			gflist.add(gf);
 			series.setGenericFields(gflist);
 		}
+
+		
+
+		
+		// Woodcompleteness
+		
+		TridasWoodCompleteness wc = new TridasWoodCompleteness();
+		TridasPith pith = new TridasPith();
+		TridasHeartwood hw = new TridasHeartwood();
+		TridasSapwood sw = new TridasSapwood();
+		TridasBark bark = new TridasBark();
+		
+		pith.setPresence(ComplexPresenceAbsence.UNKNOWN);
+		hw.setPresence(ComplexPresenceAbsence.UNKNOWN);
+		sw.setPresence(ComplexPresenceAbsence.UNKNOWN);
+		bark.setPresence(PresenceAbsence.UNKNOWN);
+		
+		wc.setPith(pith);
+		wc.setHeartwood(hw);
+		wc.setSapwood(sw);
+		wc.setBark(bark);
+		
+		GenericDefaultValue<FHPith> pithField = (GenericDefaultValue<FHPith>) getDefaultValue(DefaultFields.PITH);
+		if(pithField!=null && pithField.getValue()!=null)
+		{
+			if(pithField.getValue().equals(FHPith.PRESENT))
+			{
+				pith.setPresence(ComplexPresenceAbsence.COMPLETE);
+			}
+			else if(pithField.getValue().equals(FHPith.ABSENT))
+			{
+				pith.setPresence(ComplexPresenceAbsence.ABSENT);
+			}
+		}
+		
+		if (getIntegerDefaultValue(DefaultFields.SAPWOOD_RINGS).getValue() != null) {
+			sw.setNrOfSapwoodRings(getIntegerDefaultValue(DefaultFields.SAPWOOD_RINGS).getValue());
+		}
+
+		GenericDefaultValue<FHBarkType> barkField = (GenericDefaultValue<FHBarkType>) getDefaultValue(DefaultFields.BARK);
+		if(barkField!=null && barkField.getValue()!=null)
+		{
+			if(barkField.getValue().equals(FHBarkType.AVAILABLE))
+			{
+				bark.setPresence(PresenceAbsence.PRESENT);
+			}
+			else if(barkField.getValue().equals(FHBarkType.UNAVAILABLE))
+			{
+				bark.setPresence(PresenceAbsence.ABSENT);
+			}
+		}
+		
+		series.setWoodCompleteness(wc);
 		
 		return series;
 	}
@@ -504,6 +546,13 @@ public class HeidelbergToTridasDefaults extends TridasMetadataFieldSet {
 			s.setPosition(getStringDefaultValue(DefaultFields.SAMPLING_HEIGHT).getStringValue());
 		}
 		
+		// Sampling date
+		if(getDateTimeDefaultValue(DefaultFields.DATE_OF_SAMPLING).getValue()!=null)
+		{
+			s.setSamplingDate(DateUtils.dateTimeToDate(
+					getDateTimeDefaultValue(DefaultFields.DATE_OF_SAMPLING).getValue()));
+		}
+		
 		
 
 		return s;
@@ -545,46 +594,86 @@ public class HeidelbergToTridasDefaults extends TridasMetadataFieldSet {
 		e.setTaxon(v);
 		
 		// Location
-		TridasLocation location = null;
-		TridasLocationGeometry geometry;
-		TridasAddress address = null;
-		
-		if(getDefaultValue(DefaultFields.LATITUDE).getValue()!=null &&
+		if((getDefaultValue(DefaultFields.LATITUDE).getValue()!=null &&
 		   getDefaultValue(DefaultFields.LONGITUDE).getValue()!=null)
+		   || getStringDefaultValue(DefaultFields.COUNTRY).getValue()!=null
+		   || getStringDefaultValue(DefaultFields.TOWN).getValue()!=null
+		   || getStringDefaultValue(DefaultFields.TOWN_ZIP_CODE).getValue()!=null
+		   || getStringDefaultValue(DefaultFields.STATE).getValue()!=null
+		   || getStringDefaultValue(DefaultFields.PROVINCE).getValue()!=null)
 		{
-			location = new ObjectFactory().createTridasLocation();
+			TridasLocation location = new ObjectFactory().createTridasLocation();
+			TridasLocationGeometry geometry;
+			TridasAddress address = null;
 			
 			// Geometry
-			geometry = CoordinatesUtils.getLocationGeometry(getDoubleDefaultValue(DefaultFields.LATITUDE).getValue(), 
-					getDoubleDefaultValue(DefaultFields.LONGITUDE).getValue());
+			if(getDefaultValue(DefaultFields.LATITUDE).getValue()!=null &&
+					   getDefaultValue(DefaultFields.LONGITUDE).getValue()!=null)
+			{	   
+				geometry = CoordinatesUtils.getLocationGeometry(getDoubleDefaultValue(DefaultFields.LATITUDE).getValue(), 
+						getDoubleDefaultValue(DefaultFields.LONGITUDE).getValue());
+				location.setLocationGeometry(geometry);
+			}
 		
 			// Address
-			address = new ObjectFactory().createTridasAddress();
-			address.setCountry(getStringDefaultValue(DefaultFields.COUNTRY).getValue());
-			address.setCityOrTown(getStringDefaultValue(DefaultFields.TOWN).getValue());
-			address.setPostalCode(getStringDefaultValue(DefaultFields.TOWN_ZIP_CODE).getValue());
-			if(getStringDefaultValue(DefaultFields.STATE).getValue()!=null)
-			{
-				address.setStateProvinceRegion(getStringDefaultValue(DefaultFields.STATE).getValue());
-			}
-			else if(getStringDefaultValue(DefaultFields.PROVINCE).getValue()!=null)
-			{
-				address.setStateProvinceRegion(getStringDefaultValue(DefaultFields.PROVINCE).getValue());
-			}
-
-			String addressline1 = "";
-			addressline1 += getStringDefaultValue(DefaultFields.HOUSE_NAME).getValue()+" ";
-			addressline1 += getStringDefaultValue(DefaultFields.HOUSE_NUMBER).getValue()+" ";
-			address.setAddressLine1(addressline1);	
-			
-			String addressline2 = "";
-			addressline2 += getStringDefaultValue(DefaultFields.STREET).getValue()+ " ";
-			addressline2 += getStringDefaultValue(DefaultFields.DISTRICT).getValue()+ " ";
-			address.setAddressLine2(addressline2);	
+			if(getStringDefaultValue(DefaultFields.COUNTRY).getValue()!=null
+		   || getStringDefaultValue(DefaultFields.TOWN).getValue()!=null
+		   || getStringDefaultValue(DefaultFields.TOWN_ZIP_CODE).getValue()!=null
+		   || getStringDefaultValue(DefaultFields.STATE).getValue()!=null
+		   || getStringDefaultValue(DefaultFields.PROVINCE).getValue()!=null)
+		   {
+				address = new ObjectFactory().createTridasAddress();
+				if(getStringDefaultValue(DefaultFields.COUNTRY).getValue()!=null)
+				{
+					address.setCountry(getStringDefaultValue(DefaultFields.COUNTRY).getValue());
+				}
+				if(getStringDefaultValue(DefaultFields.TOWN).getValue()!=null)
+				{
+					address.setCityOrTown(getStringDefaultValue(DefaultFields.TOWN).getValue());
+				}
+				if(getStringDefaultValue(DefaultFields.TOWN_ZIP_CODE).getValue()!=null)
+				{
+					address.setPostalCode(getStringDefaultValue(DefaultFields.TOWN_ZIP_CODE).getValue());
+				}
+				if(getStringDefaultValue(DefaultFields.STATE).getValue()!=null)
+				{
+					address.setStateProvinceRegion(getStringDefaultValue(DefaultFields.STATE).getValue());
+				}
+				else if(getStringDefaultValue(DefaultFields.PROVINCE).getValue()!=null)
+				{
+					address.setStateProvinceRegion(getStringDefaultValue(DefaultFields.PROVINCE).getValue());
+				}
+	
+				String addressline1 = "";
+				if(getStringDefaultValue(DefaultFields.HOUSE_NAME).getValue()!=null)
+				{
+					addressline1 += getStringDefaultValue(DefaultFields.HOUSE_NAME).getValue()+" ";
+				}
+				if(getStringDefaultValue(DefaultFields.HOUSE_NUMBER).getValue()!=null)
+				{
+					addressline1 += getStringDefaultValue(DefaultFields.HOUSE_NUMBER).getValue()+" ";
+				}
+				address.setAddressLine1(addressline1.trim());	
 				
-			location.setAddress(address);
-			location.setLocationGeometry(geometry);
-			location.setLocationComment(getStringDefaultValue(DefaultFields.LOCATION_CHARACTERISTICS).getValue());
+				String addressline2 = "";
+				if(getStringDefaultValue(DefaultFields.STREET).getValue()!=null)
+				{
+					addressline2 += getStringDefaultValue(DefaultFields.STREET).getValue()+ " ";
+				}
+				if(getStringDefaultValue(DefaultFields.DISTRICT).getValue()!=null)
+				{
+					addressline2 += getStringDefaultValue(DefaultFields.DISTRICT).getValue()+ " ";
+				}
+				address.setAddressLine2(addressline2.trim());	
+					
+				location.setAddress(address);
+		   }
+			
+			if(getStringDefaultValue(DefaultFields.LOCATION_CHARACTERISTICS).getValue()!=null)
+			{
+				location.setLocationComment(getStringDefaultValue(DefaultFields.LOCATION_CHARACTERISTICS).getValue());
+			}
+			
 			e.setLocation(location);
 		}
 		
@@ -664,6 +753,13 @@ public class HeidelbergToTridasDefaults extends TridasMetadataFieldSet {
 		{
 			p.setTitle(getStringDefaultValue(DefaultFields.PROJECT).getStringValue());
 		}
+		
+		if((getStringDefaultValue(DefaultFields.CLIENT).getValue()!=null) &&
+				   (getStringDefaultValue(DefaultFields.CLIENT).getStringValue())!="")
+		{
+			p.setCommissioner(getStringDefaultValue(DefaultFields.CLIENT).getStringValue());
+		}
+		
 		return p;
 	}
 	
