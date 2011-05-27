@@ -23,10 +23,12 @@ import org.tridas.io.I18n;
 import org.tridas.io.defaults.AbstractMetadataFieldSet;
 import org.tridas.io.defaults.values.DoubleDefaultValue;
 import org.tridas.io.defaults.values.StringDefaultValue;
+import org.tridas.io.formats.heidelberg.HeidelbergToTridasDefaults.DefaultFields;
 import org.tridas.io.util.DateUtils;
 import org.tridas.io.util.StringUtils;
 import org.tridas.schema.TridasDerivedSeries;
 import org.tridas.schema.TridasElement;
+import org.tridas.schema.TridasGenericField;
 import org.tridas.schema.TridasLocationGeometry;
 import org.tridas.schema.TridasMeasurementSeries;
 import org.tridas.schema.TridasObject;
@@ -44,7 +46,7 @@ import org.tridas.schema.TridasValues;
 public class TridasToTucsonDefaults extends AbstractMetadataFieldSet {
 
 	public enum TucsonField {
-		SITE_CODE, SITE_NAME, SPECIES_CODE, SPECIES_NAME, INVESTIGATOR, ELEVATION, LATLONG, STATE_COUNTRY, COMP_DATE, RANGE;
+		SITE_CODE, KEY_CODE, SITE_NAME, SPECIES_CODE, SPECIES_NAME, INVESTIGATOR, ELEVATION, LATLONG, STATE_COUNTRY, COMP_DATE, RANGE;
 	}
 	
 	/**
@@ -53,6 +55,7 @@ public class TridasToTucsonDefaults extends AbstractMetadataFieldSet {
 	@Override
 	protected void initDefaultValues() {
 		setDefaultValue(TucsonField.SITE_CODE, new StringDefaultValue(UUID.randomUUID().toString().substring(0, 8), 8, 8));
+		setDefaultValue(TucsonField.KEY_CODE, new StringDefaultValue(UUID.randomUUID().toString().substring(0, 8), 8, 8));
 		setDefaultValue(TucsonField.SITE_NAME, new StringDefaultValue(I18n.getText("unnamed.object"), 52, 52));
 		setDefaultValue(TucsonField.SPECIES_CODE, new StringDefaultValue("UNKN", 4, 4));
 		setDefaultValue(TucsonField.SPECIES_NAME, new StringDefaultValue("Plantae", 18, 18));
@@ -129,6 +132,34 @@ public class TridasToTucsonDefaults extends AbstractMetadataFieldSet {
 	
 	protected void populateFromTridasMeasurementSeries(TridasMeasurementSeries ms)
 	{
+				
+		// KEYCODE
+		String keycode = null;
+		if(ms.isSetGenericFields())
+		{
+			for(TridasGenericField gf : ms.getGenericFields())
+			{
+				if(gf.getName().toLowerCase().equals("keycode"))
+				{
+					keycode = gf.getValue();
+				}
+			}
+		}
+		if(keycode!=null)
+		{
+			getStringDefaultValue(TucsonField.KEY_CODE).setValue(keycode);
+		}
+		else if (ms.isSetTitle())
+		{
+			getStringDefaultValue(TucsonField.KEY_CODE).setValue(ms.getTitle());
+		}
+		else if (ms.getIdentifier() != null) {
+			if (ms.getIdentifier().isSetValue()) {
+				getStringDefaultValue(TucsonField.KEY_CODE).setValue(ms.getIdentifier().getValue());
+			}
+		}
+		
+		
 		if(ms.isSetAnalyst())
 		{
 			getStringDefaultValue(TucsonField.INVESTIGATOR).setValue(StringUtils.parseInitials(ms.getAnalyst()));
@@ -152,6 +183,34 @@ public class TridasToTucsonDefaults extends AbstractMetadataFieldSet {
 	
 	protected void populateFromTridasDerivedSeries(TridasDerivedSeries ds)
 	{
+		
+		// KEYCODE
+		String keycode = null;
+		if(ds.isSetGenericFields())
+		{
+			for(TridasGenericField gf : ds.getGenericFields())
+			{
+				if(gf.getName().toLowerCase().equals("keycode"))
+				{
+					keycode = gf.getValue();
+				}
+			}
+		}
+		if(keycode!=null)
+		{
+			getStringDefaultValue(TucsonField.KEY_CODE).setValue(keycode);
+		}
+		else if (ds.isSetTitle())
+		{
+			getStringDefaultValue(TucsonField.KEY_CODE).setValue(ds.getTitle());
+		}
+		else if (ds.isSetIdentifier()) {
+			if (ds.getIdentifier().isSetValue()) {
+				getStringDefaultValue(TucsonField.KEY_CODE).setValue(ds.getIdentifier().getValue());
+			}
+		}
+		
+		
 		if(ds.isSetAuthor())
 		{
 			getStringDefaultValue(TucsonField.INVESTIGATOR).setValue(StringUtils.parseInitials(ds.getAuthor()));

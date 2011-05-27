@@ -410,14 +410,14 @@ public class TridasToHeidelbergDefaults extends AbstractMetadataFieldSet impleme
 		{
 			getStringDefaultValue(DefaultFields.KEYCODE).setValue(keycode);
 		}
+		else if (argSeries.isSetTitle())
+		{
+			getStringDefaultValue(DefaultFields.KEYCODE).setValue(argSeries.getTitle());
+		}
 		else if (id != null) {
 			if (id.isSetValue()) {
 				getStringDefaultValue(DefaultFields.KEYCODE).setValue(id.getValue());
 			}
-		}
-		else if (argSeries.isSetTitle())
-		{
-			getStringDefaultValue(DefaultFields.KEYCODE).setValue(argSeries.getTitle());
 		}
 		
 		// Dates begin and end

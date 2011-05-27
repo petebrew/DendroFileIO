@@ -105,7 +105,7 @@ public class TucsonFile implements IDendroFile {
 	 */
 	private void writeSeriesData(StringBuilder string) {
 		// Default the series identifier to the same as the site code
-		String code = defaults.getStringDefaultValue(TucsonField.SITE_CODE).getStringValue();
+		String code = defaults.getStringDefaultValue(TucsonField.KEY_CODE).getStringValue();
 		
 		// Loop through each series in our list
 		for (ITridasSeries series : seriesList) {
@@ -134,7 +134,7 @@ public class TucsonFile implements IDendroFile {
 				eofMarker = "9990  0";
 			}
 			
-			try {
+			/*try {
 				// Try and get the unique identifier
 				code = StringUtils.rightPadWithTrim(series.getIdentifier().getValue().toString(), 8);
 			} catch (NullPointerException e) {
@@ -145,14 +145,14 @@ public class TucsonFile implements IDendroFile {
 					// That also failed so try site code
 					if(isChronology) 
 					{
-						code = StringUtils.rightPadWithTrim(defaults.getStringDefaultValue(TucsonField.SITE_CODE).getStringValue(), 6);
+						code = StringUtils.rightPadWithTrim(defaults.getStringDefaultValue(TucsonField.KEY_CODE).getStringValue(), 6);
 					}
 					else
 					{
-						code = StringUtils.rightPadWithTrim(defaults.getStringDefaultValue(TucsonField.SITE_CODE).getStringValue(), 8);
+						code = StringUtils.rightPadWithTrim(defaults.getStringDefaultValue(TucsonField.KEY_CODE).getStringValue(), 8);
 					}
 				}
-			}
+			}*/
 			
 			// Calculate start and end years
 			SafeIntYear start;

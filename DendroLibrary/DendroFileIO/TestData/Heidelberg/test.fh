@@ -1,0 +1,37 @@
+HEADER:
+KeyCode=UAKK0530
+DataFormat=HalfChrono
+SeriesType=Mean curve
+Length=105
+DateBegin=987
+DateEnd=1091
+Dated=Dated
+Location=Akkerman  53 ABCD
+Species=QUSP
+GlobalMathCommentCount=0
+ImageCount=0
+CommentCount=0
+BibliographyCount=0
+DateOfSampling=13 Jul 2010
+DATA:Double
+   125     1   125     2   264     2   206     2   115     2
+   111     2   188     2   308     2   197     2   419     2
+   238     2   227     2   279     2   293     2   271     2
+   309     2   170     2   204     2   163     2   175     2
+   164     2   211     2   134     2   141     2   107     2
+    72     2    74     2    91     2   110     2    47     2
+    87     2    87     2    35     2    47     2    80     2
+    66     2    38     2    82     2    78     2    65     2
+    63     2    76     2    67     2    91     2    73     3
+    39     3    41     3    78     3    57     3    54     3
+    41     3    39     3    52     3    53     3    43     3
+    48     3    32     3    32     3    48     3    59     3
+    60     3    45     3    37     3    22     3    23     3
+    22     3    21     3    25     3    25     4    34     4
+    50     4    56     4    41     4    20     4    29     4
+    26     4    32     4    42     4    35     3    33     3
+    50     3    39     3    49     2    51     2    46     2
+    38     2    46     2    35     2    52     2    43     2
+    59     2    37     2    46     2    45     2    52     2
+    39     2    50     2    34     2    45     2    36     2
+    50     2    64     2    58     2    38     2    46     2

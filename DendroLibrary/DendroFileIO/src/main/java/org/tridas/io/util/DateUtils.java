@@ -16,9 +16,12 @@
 package org.tridas.io.util;
 
 import java.text.SimpleDateFormat;
+import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Date;
 import java.util.GregorianCalendar;
+import java.util.List;
+import java.util.Map;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
@@ -26,7 +29,12 @@ import javax.xml.datatype.DatatypeConfigurationException;
 import javax.xml.datatype.DatatypeFactory;
 import javax.xml.datatype.XMLGregorianCalendar;
 
+import org.tridas.io.formats.heidelberg.HeidelbergToTridasDefaults.DefaultFields;
+import org.tridas.schema.Certainty;
 import org.tridas.schema.DateTime;
+
+import com.joestelmach.natty.DateGroup;
+import com.joestelmach.natty.Parser;
 
 public class DateUtils {
 	
@@ -365,4 +373,69 @@ public class DateUtils {
 		
 	}
 	
+	
+	/**
+	 * Attempt to parse a DateTime from a natural language string using the 
+	 * Natty library.  This has various limitations including being English
+	 * specific.
+	 * 
+	 * @param str
+	 * @return
+	 */
+	public static DateTime parseDateTimeFromNaturalString(String str)
+	{
+		Parser parser = new Parser();
+		ArrayList<DateGroup> groups = (ArrayList<DateGroup>) parser.parse(str);
+		
+		if(groups==null) return null;
+		if(groups.size()==0) return null;
+		
+		DateGroup group = groups.get(0);
+		if(group==null) return null;
+		
+		Date dt = group.getDates().get(0);
+		
+		if(dt==null) return null;
+		
+		Calendar cal = Calendar.getInstance();
+		cal.setTime(dt);
+		
+		DateTime datetime = DateUtils.getDateTime(cal.get(Calendar.DAY_OF_MONTH), 
+				cal.get(Calendar.MONTH), 
+				cal.get(Calendar.YEAR));
+		
+		if(datetime== null) return null;
+		
+		if(groups.size()>1 || group.getDates().size()>1)
+		{
+			datetime.setCertainty(Certainty.APPROXIMATELY);
+		}
+		else
+		{
+			datetime.setCertainty(Certainty.EXACT);
+		}
+		
+		return datetime;
+
+	}
+	
+	/**
+	 * Convert from org.tridas.schema.DateTime 
+	 * to org.tridas.schema.Date
+	 * 
+	 * @param dt
+	 * @return
+	 */
+	public static org.tridas.schema.Date dateTimeToDate(DateTime dt)
+	{
+		if(dt==null) return null;
+		
+		XMLGregorianCalendar xcal = dt.getValue();
+		org.tridas.schema.Date d = new org.tridas.schema.Date();
+		d.setValue(xcal);
+		d.setCertainty(dt.getCertainty());
+		
+		return d;
+
+	}
 }

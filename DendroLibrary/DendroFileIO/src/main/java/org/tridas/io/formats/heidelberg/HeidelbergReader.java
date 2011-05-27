@@ -40,6 +40,7 @@ import org.tridas.io.formats.heidelberg.HeidelbergToTridasDefaults.FHSeriesType;
 import org.tridas.io.formats.heidelberg.HeidelbergToTridasDefaults.FHStartsOrEndsWith;
 import org.tridas.io.formats.heidelberg.HeidelbergToTridasDefaults.FHWaldKante;
 import org.tridas.io.util.CoordinatesUtils;
+import org.tridas.io.util.DateUtils;
 import org.tridas.io.util.ITRDBTaxonConverter;
 import org.tridas.io.util.SafeIntYear;
 import org.tridas.io.util.StringUtils;
@@ -613,10 +614,16 @@ public class HeidelbergReader extends AbstractDendroFileReader {
 				}
 			}
 			
+			//CLIENT, new StringDefaultValue());
+			if(fileMetadata.containsKey("client")){
+				s.defaults.getStringDefaultValue(DefaultFields.CLIENT).setValue(fileMetadata.get("client"));
+			}
 
 			//DATE_OF_SAMPLING, new StringDefaultValue());
 			if(fileMetadata.containsKey("dateofsampling")){
-				s.defaults.getStringDefaultValue(DefaultFields.DATE_OF_SAMPLING).setValue(fileMetadata.get("dateofsampling"));
+				s.defaults.getDateTimeDefaultValue(DefaultFields.DATE_OF_SAMPLING).setValue(
+						DateUtils.parseDateTimeFromNaturalString(
+								fileMetadata.get("dateofsampling")));
 			}
 			
 			//DISTRICT, new StringDefaultValue());
@@ -651,7 +658,9 @@ public class HeidelbergReader extends AbstractDendroFileReader {
 			
 			//FIRST_MEASUREMENT_DATE, new StringDefaultValue());
 			if(fileMetadata.containsKey("firstmeasurementdate")){
-				s.defaults.getStringDefaultValue(DefaultFields.FIRST_MEASUREMENT_DATE).setValue(fileMetadata.get("firstmeasurementdate"));
+				s.defaults.getDateTimeDefaultValue(DefaultFields.FIRST_MEASUREMENT_DATE).setValue(
+						DateUtils.parseDateTimeFromNaturalString(
+								fileMetadata.get("firstmeasurementdate")));
 			}
 			
 			//HOUSE_NAME, new StringDefaultValue());
@@ -677,7 +686,9 @@ public class HeidelbergReader extends AbstractDendroFileReader {
 			
 			//LAST_REVISION_DATE, new StringDefaultValue());
 			if(fileMetadata.containsKey("lastrevisiondate")){
-				s.defaults.getStringDefaultValue(DefaultFields.LAST_REVISION_DATE).setValue(fileMetadata.get("lastrevisiondate"));
+				s.defaults.getDateTimeDefaultValue(DefaultFields.LAST_REVISION_DATE).setValue(
+						DateUtils.parseDateTimeFromNaturalString(
+						fileMetadata.get("lastrevisiondate")));
 			}
 			
 			//LAST_REVISION_PERS_ID, new StringDefaultValue());
@@ -955,6 +966,7 @@ public class HeidelbergReader extends AbstractDendroFileReader {
 		ArrayList<TridasElement> elements = new ArrayList<TridasElement>();
 		
 		for (HeidelbergSeries s : series) {
+			project= s.defaults.getDefaultTridasProject();
 			TridasElement element = s.defaults.getDefaultTridasElement();
 			TridasSample sample = s.defaults.getDefaultTridasSample();
 			

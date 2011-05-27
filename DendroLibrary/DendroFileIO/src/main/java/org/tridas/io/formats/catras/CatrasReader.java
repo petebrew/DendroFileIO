@@ -680,7 +680,12 @@ public class CatrasReader extends AbstractDendroFileReader {
 			
 		} catch (Exception e2){}
 		
-		if(typeValue.equals(CATRASFileType.CHRONOLOGY) || typeValue.equals(CATRASFileType.TREE_CURVE))
+		
+		// TODO Esther requested that TREE_CURVE be treated as measurementSeries.  I
+		// Is this correct?
+		if(   typeValue.equals(CATRASFileType.CHRONOLOGY) 
+		   || typeValue.equals(CATRASFileType.TREE_CURVE)
+			)
 		{
 			// Derived Series
 			series = defaults.getDerivedSeriesWithDefaults();
