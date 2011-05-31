@@ -511,6 +511,8 @@ public class HeidelbergReader extends AbstractDendroFileReader {
 		}
 		
 		argSeries.dataInts.addAll(ints);
+		argSeries.defaults.getIntegerDefaultValue(DefaultFields.RING_COUNT).setValue(argSeries.dataInts.size());
+		
 	}
 	
 	@SuppressWarnings("unchecked")
@@ -997,11 +999,11 @@ public class HeidelbergReader extends AbstractDendroFileReader {
 					
 					series.getValues().add(valuesGroup);
 					
-					int numDataInts = s.dataInts.size();
 					String slength = s.fileMetadata.get("Length");
 					if (slength != null) {
 						try {
-							numDataInts = Integer.parseInt(slength) * 2; // count, value
+							@SuppressWarnings("unused")
+							int numDataInts = Integer.parseInt(slength) * 2; // count, value
 						} catch (Exception e) {}
 					}
 					/*for (int i = 0; i < numDataInts; i += 2) {

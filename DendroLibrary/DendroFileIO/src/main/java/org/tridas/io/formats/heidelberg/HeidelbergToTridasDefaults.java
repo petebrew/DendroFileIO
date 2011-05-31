@@ -16,10 +16,7 @@
 package org.tridas.io.formats.heidelberg;
 
 import java.util.ArrayList;
-import java.util.Date;
 import java.util.UUID;
-
-import javax.xml.datatype.XMLGregorianCalendar;
 
 import org.apache.commons.lang.WordUtils;
 import org.tridas.interfaces.ITridasSeries;
@@ -33,10 +30,8 @@ import org.tridas.io.defaults.values.StringDefaultValue;
 import org.tridas.io.util.CoordinatesUtils;
 import org.tridas.io.util.DateUtils;
 import org.tridas.io.util.SafeIntYear;
-import org.tridas.schema.Certainty;
 import org.tridas.schema.ComplexPresenceAbsence;
 import org.tridas.schema.ControlledVoc;
-import org.tridas.schema.DateTime;
 import org.tridas.schema.DatingSuffix;
 import org.tridas.schema.NormalTridasDatingType;
 import org.tridas.schema.ObjectFactory;
@@ -213,7 +208,8 @@ public class HeidelbergToTridasDefaults extends TridasMetadataFieldSet {
 		//UNMEASURED_OUTER_RINGS,		//USED FOR SHEFFIELD
 		WALDKANTE,						//***
 		WOOD_MATERIAL_TYPE,
-		WORK_TRACES
+		WORK_TRACES,
+		RING_COUNT
 	}
 	
 	@Override
@@ -272,12 +268,13 @@ public class HeidelbergToTridasDefaults extends TridasMetadataFieldSet {
 		setDefaultValue(DefaultFields.TREE_NUMBER, new StringDefaultValue());
 		setDefaultValue(DefaultFields.UNIT, new GenericDefaultValue<TridasUnit>());	
 		setDefaultValue(DefaultFields.WALDKANTE, new GenericDefaultValue<FHWaldKante>());
+		setDefaultValue(DefaultFields.RING_COUNT, new IntegerDefaultValue());
+
 	}
 		
 	/**
 	 * @see org.tridas.io.defaults.TridasMetadataFieldSet#getDefaultTridasDerivedSeries()
 	 */
-	@SuppressWarnings("unchecked")
 	@Override
 	protected TridasDerivedSeries getDefaultTridasDerivedSeries() {
 		TridasDerivedSeries series = super.getDefaultTridasDerivedSeries();
@@ -307,6 +304,7 @@ public class HeidelbergToTridasDefaults extends TridasMetadataFieldSet {
 	}
 		
 	
+	@SuppressWarnings("unchecked")
 	private ITridasSeries populateSeriesFields(ITridasSeries series)
 	{
 	
@@ -429,6 +427,11 @@ public class HeidelbergToTridasDefaults extends TridasMetadataFieldSet {
 		wc.setSapwood(sw);
 		wc.setBark(bark);
 		
+		if(getIntegerDefaultValue(DefaultFields.RING_COUNT).getValue()!=null)
+		{
+			wc.setRingCount(getIntegerDefaultValue(DefaultFields.RING_COUNT).getValue());
+		}
+		
 		GenericDefaultValue<FHPith> pithField = (GenericDefaultValue<FHPith>) getDefaultValue(DefaultFields.PITH);
 		if(pithField!=null && pithField.getValue()!=null)
 		{
@@ -444,8 +447,35 @@ public class HeidelbergToTridasDefaults extends TridasMetadataFieldSet {
 		
 		if (getIntegerDefaultValue(DefaultFields.SAPWOOD_RINGS).getValue() != null) {
 			sw.setNrOfSapwoodRings(getIntegerDefaultValue(DefaultFields.SAPWOOD_RINGS).getValue());
+			if(getIntegerDefaultValue(DefaultFields.SAPWOOD_RINGS).getValue()==0)
+			{
+				sw.setPresence(ComplexPresenceAbsence.ABSENT);
+			}
 		}
 
+		if ((getIntegerDefaultValue(DefaultFields.SAPWOOD_RINGS).getValue() != null) && 
+			pithField.getValue().equals(FHPith.PRESENT))
+		{
+			if(getIntegerDefaultValue(DefaultFields.SAPWOOD_RINGS).getValue()>0)
+			{
+				hw.setPresence(ComplexPresenceAbsence.COMPLETE);
+			}
+		}
+		else if((pithField.getValue().equals(FHPith.ABSENT)) && 
+				(getIntegerDefaultValue(DefaultFields.SAPWOOD_RINGS).getValue() == null))
+		{
+			hw.setPresence(ComplexPresenceAbsence.INCOMPLETE);
+		}
+		else if((pithField.getValue().equals(FHPith.ABSENT)) && 
+				(getIntegerDefaultValue(DefaultFields.SAPWOOD_RINGS).getValue() != null))
+		{
+			if(getIntegerDefaultValue(DefaultFields.SAPWOOD_RINGS).getValue()==0)
+			{
+				hw.setPresence(ComplexPresenceAbsence.INCOMPLETE);
+			}
+		}
+		
+		
 		GenericDefaultValue<FHBarkType> barkField = (GenericDefaultValue<FHBarkType>) getDefaultValue(DefaultFields.BARK);
 		if(barkField!=null && barkField.getValue()!=null)
 		{
