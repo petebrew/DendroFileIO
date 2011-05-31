@@ -23,7 +23,7 @@
 	</parent>
 	<groupId>org.tridas.io</groupId>
 	<artifactId>DendroFileIO</artifactId>
-	<version>0.1.2</version>
+	<version>0.1.3</version>
 	<name>DendroFileIO</name>
 	<description>IO library for converting dendro files to and from the schema from TridasJLib</description>
 	<dependencies>
