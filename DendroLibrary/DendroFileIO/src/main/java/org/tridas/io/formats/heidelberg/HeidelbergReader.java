@@ -220,7 +220,7 @@ public class HeidelbergReader extends AbstractDendroFileReader {
 			throw new InvalidDendroFileException(I18n.getText("heidelberg.firstLineWrong"), 1);
 		}
 		
-		FHDataFormat dataFormat = null;
+		
 		boolean inHeader = true;
 
 		for (int i = 0; i < argStrings.length; i++) {
@@ -234,7 +234,7 @@ public class HeidelbergReader extends AbstractDendroFileReader {
 				inHeader = false;
 				String dataTypeString = s.substring(s.indexOf(":") + 1).trim();
 				try {
-					dataFormat = FHDataFormat.valueOf(dataTypeString);
+					FHDataFormat.valueOf(dataTypeString);
 				} catch (Exception e) {
 					log.error(I18n.getText("heidelberg.failedToInterpretDataTypeString", dataTypeString));
 					throw new InvalidDendroFileException(I18n.getText("heidelberg.failedToInterpretDataTypeString",
@@ -251,7 +251,7 @@ public class HeidelbergReader extends AbstractDendroFileReader {
 				continue;
 			}
 			
-			String[] nums; // out here so we don't get compile errors
+			//String[] nums; // out here so we don't get compile errors
 			if (inHeader) {
 				// in header!
 				if (!s.contains("=")) {
@@ -376,36 +376,7 @@ public class HeidelbergReader extends AbstractDendroFileReader {
 			
 		}
 	}
-	
-	/**
-	 * Try and determine the number of characters used per data value 
-	 * 
-	 * @param s
-	 * @return
-	 * @throws InvalidDendroFileException
-	 */
-	private Integer getColWidth(String s) throws InvalidDendroFileException
-	{
-		for(int i=5; i<s.length(); i=i+6)
-		{
-			String st = s.substring(i,i+1);
-			if(st.equals(" "))
-			{
-				for(int j=4; j<s.length(); j=j+5)
-				{
-					String st2 = s.substring(j,j+1);
-					if(st2.equals(" "))
-					{
-						throw new InvalidDendroFileException("Unable to determine if data are split into 5 or 6 character columns");
-					}
-				}
-				return 5;
-			}
-		}
 		
-		return 6;
-	}
-	
 	private void extractHeader(String[] argHeader, HeidelbergSeries argSeries) {
 		for (int i = 0; i < argHeader.length; i++) {
 			String s = argHeader[i];
