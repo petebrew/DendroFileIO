@@ -1,0 +1,19 @@
+HEADER:
+DateEnd=2098
+KeyCode=Scheibe_fr1_1
+Unit=1/100 mm
+Length=4
+Location=
+Species=
+Project=
+DataType=Ringwidth
+SeriesType=Single curve
+Data:Double
+250;Flags;Comment
+2
+313;ABGF;Bad Ring
+2
+212;BSHAS
+2
+207;;Only Comment
+3

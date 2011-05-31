@@ -43,7 +43,6 @@ import org.tridas.io.util.CoordinatesUtils;
 import org.tridas.io.util.DateUtils;
 import org.tridas.io.util.ITRDBTaxonConverter;
 import org.tridas.io.util.SafeIntYear;
-import org.tridas.io.util.StringUtils;
 import org.tridas.io.util.UnitUtils;
 import org.tridas.schema.ControlledVoc;
 import org.tridas.schema.SeriesLink;
@@ -104,7 +103,7 @@ public class HeidelbergReader extends AbstractDendroFileReader {
 				line = argFileString[lineNum];
 				
 				ArrayList<String> header = new ArrayList<String>();
-				while (!line.startsWith("DATA")) {
+				while (!line.toUpperCase().startsWith("DATA:")) {
 					header.add(line);
 					currentLineNum = ++lineNum; // update line num
 					line = argFileString[lineNum];
@@ -112,7 +111,7 @@ public class HeidelbergReader extends AbstractDendroFileReader {
 				currSeries = new HeidelbergSeries();
 				extractHeader(header.toArray(new String[0]), currSeries);
 			}
-			else if (line.startsWith("DATA:")) {
+			else if (line.toUpperCase().startsWith("DATA:")) {
 				// see what kind of data is here
 				FHDataFormat dataType = FHDataFormat.valueOf(line.substring(line.indexOf(":") + 1));
 				lineNum++;
@@ -151,7 +150,7 @@ public class HeidelbergReader extends AbstractDendroFileReader {
 		{
 			SafeIntYear startYear = null;
 			SafeIntYear endYear = null;
-			Integer yearCount = thisSeries.dataInts.size();
+			Integer yearCount = thisSeries.dataVals.size();
 			Integer length = null;
 			
 			if(thisSeries.defaults.getStringDefaultValue(DefaultFields.LENGTH).getValue()!=null)
@@ -231,7 +230,7 @@ public class HeidelbergReader extends AbstractDendroFileReader {
 				inHeader = true;
 				continue;
 			}
-			else if (s.startsWith("DATA")) {
+			else if (s.toUpperCase().startsWith("DATA:")) {
 				inHeader = false;
 				String dataTypeString = s.substring(s.indexOf(":") + 1).trim();
 				try {
@@ -268,7 +267,7 @@ public class HeidelbergReader extends AbstractDendroFileReader {
 				// it is likely to be a TSAP-DOS file with each value taking up just 5
 				// characters rather than the typical 6.
 
-				DATA_CHARS_PER_NUMBER_REG = getColWidth(s);
+				/*DATA_CHARS_PER_NUMBER_REG = getColWidth(s);
 	
 				switch (dataFormat) {
 					case Chrono :
@@ -337,7 +336,44 @@ public class HeidelbergReader extends AbstractDendroFileReader {
 						}
 						break;
 				}
+				*/
+				
+				if(s.contains(";"))
+				{
+					String[] values = s.split(";");
+					
+					if(values.length>3)
+					{
+						log.error(I18n.getText("fileio.invalidDataValue"));
+						throw new InvalidDendroFileException(I18n.getText("fileio.invalidDataValue"), i + 1);					
+					}
+					
+					try {
+						Integer.parseInt(values[0].trim());
+					} catch (NumberFormatException e) {
+						log.error(I18n.getText("fileio.invalidDataValue"));
+						throw new InvalidDendroFileException(I18n.getText("fileio.invalidDataValue"), i + 1);
+					}
+					
+				}
+				else
+				{
+					String[] values = s.trim().split("[\\s]+");
+					
+					for(String val : values)
+					{
+						try {							
+							Integer.parseInt(val.trim());
+						} catch (NumberFormatException e) {
+							log.error(I18n.getText("fileio.invalidDataValue"));
+							throw new InvalidDendroFileException(I18n.getText("fileio.invalidDataValue"), i + 1);
+						}
+					}
+				}
+				
+				
 			}
+			
 		}
 	}
 	
@@ -385,7 +421,7 @@ public class HeidelbergReader extends AbstractDendroFileReader {
 	}
 	
 	private void extractData(String[] argData, HeidelbergSeries argSeries) {
-		log.debug("Data strings", argData);
+		//log.debug("Data strings", argData);
 		ArrayList<TridasValue> ints = new ArrayList<TridasValue>();
 		switch (argSeries.dataType) {
 			case Chrono :
@@ -393,25 +429,72 @@ public class HeidelbergReader extends AbstractDendroFileReader {
 				for (int i = 0; i < argData.length; i++) {
 					String line = argData[i];
 					currentLineNum++;
-					try {
-						DATA_CHARS_PER_NUMBER_REG = getColWidth(line);
-					} catch (InvalidDendroFileException e) {
-					}
-				
-					String[] s = StringUtils.chopString(line, DATA_CHARS_PER_NUMBER_QUAD);
-					for (int j = 0; j < s.length; j=j+4) {
-						
-						Integer firstval = Integer.parseInt(s[j].trim());
-						Integer secondval = Integer.parseInt(s[j+1].trim());
-						
-						// Ignoring weiserjahre for now
-						//Integer thirdval = Integer.parseInt(s[j+2].trim());
-						//Integer fourthval = Integer.parseInt(s[j+3].trim());
-						
+
+					if(line.contains(";"))
+					{
+						// Contains comments and or flags so four values are 
+						// spread over four lines.
+						Integer intval = null;
+						String[] parts = line.split(";");
 						TridasValue val = new TridasValue();
-						val.setValue(firstval.toString());
-						val.setCount(secondval);
+						
+						// Extract remarks
+						ArrayList<TridasRemark> remarks = (ArrayList<TridasRemark>) val.getRemarks();
+						
+						if(parts.length==0)	continue;
+						
+						if(parts.length>=1)
+						{
+							intval = Integer.parseInt(parts[0].trim());
+							val.setValue(intval.toString());
+						}
+						
+						if(parts.length>=2)
+						{
+							for(int k=0; k<parts[1].length(); k++)
+							{
+								String flag = parts[1].substring(k, k+1);
+								TridasRemark remark = new TridasRemark();
+								remark.setNormalStd("HeidelbergFlag");
+								remark.setNormalId(flag);
+								remark.setNormal(flag);
+								remarks.add(remark);
+							}
+						}
+						if(parts.length>=3)
+						{
+							TridasRemark remark = new TridasRemark();
+							remark.setValue(parts[2]);
+							remarks.add(remark);
+							
+						}
+						
+						// Add count value
+						Integer countval = Integer.parseInt(argData[i+1].trim());
+						val.setCount(countval);
 						ints.add(val);
+						
+						// Skip over other values 
+						i=i+3;
+						currentLineNum = currentLineNum+3;
+					}
+					else
+					{
+						String[] s = line.trim().split("[\\s]+");
+						for (int j = 0; j < s.length; j=j+4) {
+							
+							Integer firstval = Integer.parseInt(s[j].trim());
+							Integer secondval = Integer.parseInt(s[j+1].trim());
+							
+							// Ignoring weiserjahre for now
+							//Integer thirdval = Integer.parseInt(s[j+2].trim());
+							//Integer fourthval = Integer.parseInt(s[j+3].trim());
+							
+							TridasValue val = new TridasValue();
+							val.setValue(firstval.toString());
+							val.setCount(secondval);
+							ints.add(val);
+						}
 					}
 				}
 				break;
@@ -420,20 +503,68 @@ public class HeidelbergReader extends AbstractDendroFileReader {
 				for (int i = 0; i < argData.length; i++) {
 					String line = argData[i];
 					currentLineNum++;
-					try {
-						DATA_CHARS_PER_NUMBER_REG = getColWidth(line);
-					} catch (InvalidDendroFileException e) {
-					}
 					
-					String[] s = StringUtils.chopString(line, DATA_CHARS_PER_NUMBER_REG);
-					for (int j = 0; j < s.length; j=j+2) {
-						Integer firstval = Integer.parseInt(s[j].trim());
-						Integer secondval = Integer.parseInt(s[j+1].trim());
-						
+					
+					if(line.contains(";"))
+					{
+						// Contains comments and or flags so values are 
+						// spread over two lines.
+						Integer intval = null;
+						String[] parts = line.split(";");
 						TridasValue val = new TridasValue();
-						val.setValue(firstval.toString());
-						val.setCount(secondval);
+						
+						// Extract remarks
+						ArrayList<TridasRemark> remarks = (ArrayList<TridasRemark>) val.getRemarks();
+						
+						if(parts.length==0)	continue;
+						
+						if(parts.length>=1)
+						{
+							intval = Integer.parseInt(parts[0].trim());
+							val.setValue(intval.toString());
+						}
+						
+						if(parts.length>=2)
+						{
+							for(int k=0; k<parts[1].length(); k++)
+							{
+								String flag = parts[1].substring(k, k+1);
+								TridasRemark remark = new TridasRemark();
+								remark.setNormalStd("HeidelbergFlag");
+								remark.setNormalId(flag);
+								remark.setNormal(flag);
+								remarks.add(remark);
+							}
+						}
+						if(parts.length>=3)
+						{
+							TridasRemark remark = new TridasRemark();
+							remark.setValue(parts[2]);
+							remarks.add(remark);
+							
+						}
+						
+						// Add count value
+						Integer countval = Integer.parseInt(argData[i+1].trim());
+						val.setCount(countval);
 						ints.add(val);
+						
+						// Jump line pointer forward
+						i++;
+						currentLineNum++;
+					}
+					else
+					{
+						String[] s = line.trim().split("[\\s]+");
+						for (int j = 0; j < s.length; j=j+2) {
+							Integer firstval = Integer.parseInt(s[j].trim());
+							Integer secondval = Integer.parseInt(s[j+1].trim());
+							
+							TridasValue val = new TridasValue();
+							val.setValue(firstval.toString());
+							val.setCount(secondval);
+							ints.add(val);
+						}
 					}
 				}
 				break;
@@ -443,11 +574,6 @@ public class HeidelbergReader extends AbstractDendroFileReader {
 					{
 						String line = argData[i];
 						currentLineNum++;
-						
-						try {
-							DATA_CHARS_PER_NUMBER_REG = getColWidth(line);
-						} catch (InvalidDendroFileException e) {
-						}
 						
 						if(line.contains(";"))
 						{
@@ -469,10 +595,11 @@ public class HeidelbergReader extends AbstractDendroFileReader {
 							{
 								for(int k=0; k<parts[1].length(); k++)
 								{
+									String flag = parts[1].substring(k, k+1);
 									TridasRemark remark = new TridasRemark();
 									remark.setNormalStd("HeidelbergFlag");
-									remark.setNormalId(parts[1].substring(k, k));
-									remark.setNormal(parts[1].substring(k, k));
+									remark.setNormalId(flag);
+									remark.setNormal(flag);
 									remarks.add(remark);
 								}
 							}
@@ -486,11 +613,12 @@ public class HeidelbergReader extends AbstractDendroFileReader {
 							
 							ints.add(val);
 						}
-						else if (line.length() >= 6 && line.contains(" ")) 
+						else 
 						{
 							// we are in multi-column format
 							
-							String[] s = StringUtils.chopString(line, DATA_CHARS_PER_NUMBER_REG);
+							//String[] s = StringUtils.chopString(line, DATA_CHARS_PER_NUMBER_REG);
+							String[] s = line.trim().split("[\\s]+");
 							for (int j = 0; j < s.length; j++) {
 								TridasValue val = new TridasValue();
 								Integer intval = Integer.parseInt(s[j].trim());
@@ -498,21 +626,12 @@ public class HeidelbergReader extends AbstractDendroFileReader {
 								ints.add(val);
 							}
 						}
-						else
-						{
-							// Single column, no remarks
-							TridasValue val = new TridasValue();
-							Integer intval = Integer.parseInt(line.trim());
-							val.setValue(intval.toString());
-							ints.add(val);
-						}
 					}
 					break;
 		}
 		
-		argSeries.dataInts.addAll(ints);
-		argSeries.defaults.getIntegerDefaultValue(DefaultFields.RING_COUNT).setValue(argSeries.dataInts.size());
-		
+		argSeries.dataVals.addAll(ints);
+	
 	}
 	
 	@SuppressWarnings("unchecked")
@@ -956,11 +1075,47 @@ public class HeidelbergReader extends AbstractDendroFileReader {
 		}
 	}
 	
-	private void populateDataInformation() {
-	// nothing to populate with
+	private void populateDataInformation() throws InvalidDendroFileException {
+		for (HeidelbergSeries s : series) {
+			
+			// Remove trailing zero data values
+			for(int i=s.dataVals.size()-1; i>0; i-- )
+			{
+				TridasValue v = s.dataVals.get(i);
+				
+				if(v.getValue().equals("0"))
+				{
+					s.dataVals.remove(i);
+				}
+			}
+			
+			
+			Integer dataRingCount = s.dataVals.size();
+			
+			if(s.defaults.getStringDefaultValue(DefaultFields.LENGTH)!=null)
+			{
+				try{
+					Integer headerRingCount = Integer.parseInt(s.defaults.getStringDefaultValue(DefaultFields.LENGTH).getValue());
+					if(!dataRingCount.equals(headerRingCount))
+					{
+						throw new InvalidDendroFileException(I18n.getText("fileio.valueCountMismatchNoTrim", 
+								dataRingCount+"",
+								headerRingCount+""), 1);
+						
+					}
+				} catch (NumberFormatException e)
+				{
+					
+				}
+				
+
+			}
+			
+			s.defaults.getIntegerDefaultValue(DefaultFields.RING_COUNT).setValue(dataRingCount);
+		}
 	}
 	
-	private TridasProject createProject() {
+	private TridasProject getProject() {
 		TridasProject project = defaults.getDefaultTridasProject();
 		TridasObject object = defaults.getDefaultTridasObject();
 		// the defaults populate from the element downward, so I make a new
@@ -985,8 +1140,8 @@ public class HeidelbergReader extends AbstractDendroFileReader {
 					radius.setMeasurementSeriesPlaceholder(ms);
 					ms.setId(uuidKey);*/
 					
-					TridasDerivedSeries series = s.defaults.getDefaultTridasDerivedSeries();
-					ArrayList<TridasValue> tridasValues = new ArrayList<TridasValue>();
+					TridasDerivedSeries ds = s.defaults.getDefaultTridasDerivedSeries();
+					ArrayList<TridasValue> tridasValues = s.dataVals;
 					
 					// Add values to nested value(s) tags
 					TridasValues valuesGroup = s.defaults.getTridasValuesWithDefaults();
@@ -995,9 +1150,9 @@ public class HeidelbergReader extends AbstractDendroFileReader {
 					// link series to sample					
 					SeriesLink link = new SeriesLink();					
 					link.setIdentifier(sample.getIdentifier());
-					series.getLinkSeries().getSeries().add(link);
+					ds.getLinkSeries().getSeries().add(link);
 					
-					series.getValues().add(valuesGroup);
+					ds.getValues().add(valuesGroup);
 					
 					String slength = s.fileMetadata.get("Length");
 					if (slength != null) {
@@ -1017,7 +1172,7 @@ public class HeidelbergReader extends AbstractDendroFileReader {
 					
 					//sample.setRadiusPlaceholder(radius);
 					sample.setRadiuses(null);
-					project.getDerivedSeries().add(series);
+					project.getDerivedSeries().add(ds);
 				}
 					break;
 				case Single :
@@ -1026,19 +1181,19 @@ public class HeidelbergReader extends AbstractDendroFileReader {
 					TridasMeasurementSeries series = s.defaults.getDefaultTridasMeasurementSeries();
 					
 					TridasValues valuesGroup = s.defaults.getTridasValuesWithDefaults();
-					valuesGroup.setValues(s.dataInts);
+					valuesGroup.setValues(s.dataVals);
 					
-					int numDataInts = s.dataInts.size();
+					int numDataInts = s.dataVals.size();
 					String slength = s.fileMetadata.get("length");
 					if (slength != null) {
 						try {
 							numDataInts = Integer.parseInt(slength); // value
 						} catch (Exception e) {}
 					}
-					if (numDataInts > s.dataInts.size()) {
+					if (numDataInts > s.dataVals.size()) {
 						log.error("Incorrect length: " + numDataInts);
 						// throw ConversionWarning()
-						numDataInts = s.dataInts.size();
+						numDataInts = s.dataVals.size();
 					}
 					
 					/*for (int i = 0; i < numDataInts; i++) {
@@ -1083,11 +1238,7 @@ public class HeidelbergReader extends AbstractDendroFileReader {
 	public String[] getFileExtensions() {
 		return new String[]{"fh"};
 	}
-	
-	private TridasProject getProject() {
-		return createProject();
-	}
-	
+		
 	/**
 	 * @see org.tridas.io.IDendroFileReader#getDefaults()
 	 */
@@ -1134,7 +1285,7 @@ public class HeidelbergReader extends AbstractDendroFileReader {
 		public FHDataFormat dataType;
 		public HeidelbergToTridasDefaults defaults;
 		public final HashMap<String, String> fileMetadata = new HashMap<String, String>();
-		public final ArrayList<TridasValue> dataInts = new ArrayList<TridasValue>();
+		public final ArrayList<TridasValue> dataVals = new ArrayList<TridasValue>();
 	}
 	
 	/**
