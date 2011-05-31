@@ -1,59 +1,52 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<project xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
- xsi:schemaLocation="http://www.tridas.org/1.2.2 ../../../../java/XMLSchema/1.2.2/tridas-1.2.2.xsd"
+<tridas:tridas xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+ xsi:schemaLocation="http://www.tridas.org/1.2.2. ../../../../java/XMLSchema/1.2.2/tridas-1.2.2.xsd"
  xmlns="http://www.tridas.org/1.2.2"
- xmlns:xlink="http://www.w3.org/1999/xlink">
-    <title>Aegean Dendrochronology Project</title>
-    <identifier domain="dendro.cornell.edu">C</identifier>
-    <createdTimestamp certainty="exact">1997-02-01T14:13:51.0Z</createdTimestamp>
-    <lastModifiedTimestamp certainty="exact">1997-02-01T14:13:51.0Z</lastModifiedTimestamp>
-    <type>Dating</type>
-    <description>Our key long-range goal is to build long multi-millennial scale tree-ring
-        chronologies in the Aegean and Near East that will extend from the present to the early
-        Holocene to cover, broadly speaking, the last 10,000 years of human and environmental
-        history. Our raison d'être is to provide a dating method for the study of history and
-        prehistory in the Aegean that is accurate to the year. This kind of precision has, up to
-        now, been lacking in ancient studies of this area. Indeed, few archaeological problems
-        stimulate as much rancor as chronology, especially that of the Eastern Mediterranean.
-        The work of the Aegean and Near Eastern Dendrochronology Project aims to help to bring
-        some kind of rational and neutral order to Aegean and Near Eastern chronology from the
-        Neolithic to the present. </description>
-    <laboratory>
-        <name>Malcolm and Carolyn Weiner Laboratory for Aegean and Near Eastern Dendrochronology</name>
-        <address>
-            <addressLine1>B48 Goldwin Smith Hall</addressLine1>
-            <addressLine2>Cornell University</addressLine2>
-            <cityOrTown>Ithaca</cityOrTown>
-            <stateProvinceRegion>NY</stateProvinceRegion>
-            <postalCode>14853</postalCode>
-            <country>USA</country>
-        </address>
-    </laboratory>
-    <category>Archaeology</category>
-    <investigator>Peter I Kuniholm</investigator>
-    <period>1976-present</period>
-    <reference>reference1</reference>
-    <object>
-        <title>First Object</title>
-        <identifier domain="dendro.cornell.edu">28acb483-f337-412f-a063-59d911c37594</identifier>
-        <createdTimestamp certainty="exact">1997-02-01T14:13:51.0Z</createdTimestamp>
-        <lastModifiedTimestamp certainty="exact">1997-02-01T14:13:51.0Z</lastModifiedTimestamp>
-        <type normalStd="Corina Dictionary" normalId="4" normal="Building">Building</type>
-        <description>The White Tower of Thessaloniki was originally constructed by the Ottomans
-            to fortify the city's harbour.</description>
-        <coverage>
+ xmlns:xlink="http://www.w3.org/1999/xlink"
+ xmlns:tridas="http://www.tridas.org/1.2.2">
+<tridas:project >
+    <tridas:title>Aegean Dendrochronology Project</tridas:title>
+    <tridas:identifier domain="dendro.cornell.edu">C</tridas:identifier>
+    <tridas:createdTimestamp certainty="exact">1997-02-01T14:13:51.0Z</tridas:createdTimestamp>
+    <tridas:lastModifiedTimestamp certainty="exact">1997-02-01T14:13:51.0Z</tridas:lastModifiedTimestamp>
+    <tridas:type>Dating</tridas:type>
+    <tridas:description>Our  </tridas:description>
+    <tridas:laboratory>
+        <tridas:name>Cornell</tridas:name>
+        <tridas:address>
+            <tridas:addressLine1>B48 Goldwin Smith Hall</tridas:addressLine1>
+            <tridas:addressLine2>Cornell University</tridas:addressLine2>
+            <tridas:cityOrTown>Ithaca</tridas:cityOrTown>
+            <tridas:stateProvinceRegion>NY</tridas:stateProvinceRegion>
+            <tridas:postalCode>14853</tridas:postalCode>
+            <tridas:country>USA</tridas:country>
+        </tridas:address>
+    </tridas:laboratory>
+    <tridas:category>Archaeology</tridas:category>
+    <tridas:investigator>PIK</tridas:investigator>
+    <tridas:period>1976-present</tridas:period>
+    <tridas:reference>reference1</tridas:reference>
+    <tridas:object>
+        <tridas:title>First Object</tridas:title>
+        <tridas:identifier domain="dendro.cornell.edu">28acb483-f337-412f-a063-59d911c37594</tridas:identifier>
+        <tridas:createdTimestamp certainty="exact">1997-02-01T14:13:51.0Z</tridas:createdTimestamp>
+        <tridas:lastModifiedTimestamp certainty="exact">1997-02-01T14:13:51.0Z</tridas:lastModifiedTimestamp>
+        <tridas:type normalStd="Corina Dictionary" normalId="4" normal="Building">Building</tridas:type>
+        <tridas:description>The White Tower of Thessaloniki was originally constructed by the Ottomans
+            to fortify the city's harbour.</tridas:description>
+        <tridas:coverage>
             <coverageTemporal>Ottoman</coverageTemporal>
             <coverageTemporalFoundation>Stylistic</coverageTemporalFoundation>
-        </coverage>
-        <location>
-            <locationGeometry xmlns:gml="http://www.opengis.net/gml">
+        </tridas:coverage>
+        <tridas:location>
+            <tridas:locationGeometry xmlns:gml="http://www.opengis.net/gml">
                 <gml:Point srsName="urn:ogc:def:crs:EPSG:6.6:4326">
                     <gml:pos>40.6263 22.9485</gml:pos>
                 </gml:Point>
-            </locationGeometry>
-            <locationPrecision>20</locationPrecision>
-            <locationComment>Thessaloniki, Greece</locationComment>
-        </location>
+            </tridas:locationGeometry>
+            <tridas:locationPrecision>20</tridas:locationPrecision>
+            <tridas:locationComment>Thessaloniki, Greece</tridas:locationComment>
+        </tridas:location>
         <element>
             <title>ElementForObj1</title>
             <identifier domain="dendro.cornell.edu">89dbd409-03a3-42a0-9391-62c6be7009ad</identifier>
@@ -91,7 +84,7 @@
                 </radius>
             </sample>
         </element>
-    </object>
+    </tridas:object>
     <object>
         <title>Second Object</title>
         <identifier domain="dendro.cornell.edu">18acb483-f337-412f-a063-59d911c37594</identifier>
@@ -133,4 +126,5 @@
        </values>
     </derivedSeries>
     
-</project>
+</tridas:project>
+</tridas:tridas>

@@ -23,7 +23,6 @@ import org.tridas.io.I18n;
 import org.tridas.io.defaults.AbstractMetadataFieldSet;
 import org.tridas.io.defaults.values.DoubleDefaultValue;
 import org.tridas.io.defaults.values.StringDefaultValue;
-import org.tridas.io.formats.heidelberg.HeidelbergToTridasDefaults.DefaultFields;
 import org.tridas.io.util.DateUtils;
 import org.tridas.io.util.StringUtils;
 import org.tridas.schema.TridasDerivedSeries;
