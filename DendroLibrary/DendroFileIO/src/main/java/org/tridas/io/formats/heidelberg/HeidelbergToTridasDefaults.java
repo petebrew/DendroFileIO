@@ -453,27 +453,29 @@ public class HeidelbergToTridasDefaults extends TridasMetadataFieldSet {
 			}
 		}
 
-		if ((getIntegerDefaultValue(DefaultFields.SAPWOOD_RINGS).getValue() != null) && 
-			pithField.getValue().equals(FHPith.PRESENT))
-		{
-			if(getIntegerDefaultValue(DefaultFields.SAPWOOD_RINGS).getValue()>0)
+		try{
+			if ((getIntegerDefaultValue(DefaultFields.SAPWOOD_RINGS).getValue() != null) && 
+				pithField.getValue().equals(FHPith.PRESENT))
 			{
-				hw.setPresence(ComplexPresenceAbsence.COMPLETE);
+				if(getIntegerDefaultValue(DefaultFields.SAPWOOD_RINGS).getValue()>0)
+				{
+					hw.setPresence(ComplexPresenceAbsence.COMPLETE);
+				}
 			}
-		}
-		else if((pithField.getValue().equals(FHPith.ABSENT)) && 
-				(getIntegerDefaultValue(DefaultFields.SAPWOOD_RINGS).getValue() == null))
-		{
-			hw.setPresence(ComplexPresenceAbsence.INCOMPLETE);
-		}
-		else if((pithField.getValue().equals(FHPith.ABSENT)) && 
-				(getIntegerDefaultValue(DefaultFields.SAPWOOD_RINGS).getValue() != null))
-		{
-			if(getIntegerDefaultValue(DefaultFields.SAPWOOD_RINGS).getValue()==0)
+			else if((pithField.getValue().equals(FHPith.ABSENT)) && 
+					(getIntegerDefaultValue(DefaultFields.SAPWOOD_RINGS).getValue() == null))
 			{
 				hw.setPresence(ComplexPresenceAbsence.INCOMPLETE);
 			}
-		}
+			else if((pithField.getValue().equals(FHPith.ABSENT)) && 
+					(getIntegerDefaultValue(DefaultFields.SAPWOOD_RINGS).getValue() != null))
+			{
+				if(getIntegerDefaultValue(DefaultFields.SAPWOOD_RINGS).getValue()==0)
+				{
+					hw.setPresence(ComplexPresenceAbsence.INCOMPLETE);
+				}
+			}
+		} catch (NullPointerException ex){ }
 		
 		
 		GenericDefaultValue<FHBarkType> barkField = (GenericDefaultValue<FHBarkType>) getDefaultValue(DefaultFields.BARK);

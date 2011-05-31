@@ -283,7 +283,7 @@ public class TestToTridas extends TestCase {
 		}
 		
 		for (String filename : files) {
-			if(!filename.equals("minimal-reldated.fh")) continue;
+			//if(!filename.equals("SET03.FH")) continue;
 			
 			log.info("Test conversion of: " + filename);
 			
