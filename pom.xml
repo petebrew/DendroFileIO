@@ -19,7 +19,7 @@
 	<parent>
 		<artifactId>DendroLibrary</artifactId>
 		<groupId>org.tridas</groupId>
-		<version>0.0.1-SNAPSHOT</version>
+		<version>0.1</version>
 	</parent>
 	<groupId>org.tridas.io</groupId>
 	<artifactId>DendroFileIO</artifactId>
