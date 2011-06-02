@@ -1101,8 +1101,10 @@ public class HeidelbergReader extends AbstractDendroFileReader {
 			FHDataFormat dataType = s.dataType;
 			switch (dataType) {
 				case Chrono :
-				case Double :
-				case HalfChrono :
+				//TODO START ESTHER SPECIAL
+				//case Double :
+				//case HalfChrono :
+				//TODO STOP ESTHER SPECIAL
 				case Quadro : {
 					// derived series
 					/*String uuidKey = "XREF-" + UUID.randomUUID();
@@ -1146,6 +1148,10 @@ public class HeidelbergReader extends AbstractDendroFileReader {
 					project.getDerivedSeries().add(ds);
 				}
 					break;
+				//TODO START ESTHER SPECIAL
+				case Double:
+				case HalfChrono:
+				//TODO STOP ESTHER SPECIAL	
 				case Single :
 				case Tree : {
 					TridasRadius radius = s.defaults.getDefaultTridasRadius();
