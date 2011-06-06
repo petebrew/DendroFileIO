@@ -46,15 +46,17 @@ public class TrimsWriter extends AbstractDendroCollectionWriter {
 	@Override
 	protected void parseTridasProject(TridasProject argProject, IMetadataFieldSet argDefaults)
 			throws IncompleteTridasDataException, ConversionWarningException {
-		defaults = (TridasToTrimsDefaults) argDefaults;
+		defaults =  (TridasToTrimsDefaults) argDefaults;
 			
 		// Grab all derivedSeries from project
 		try {
 			List<TridasDerivedSeries> lst = argProject.getDerivedSeries();
 			for (TridasDerivedSeries ds : lst) {
-				defaults.populateFromTridasDerivedSeries(ds);
+				
+				TridasToTrimsDefaults def = (TridasToTrimsDefaults) defaults.clone();
+				def.populateFromTridasDerivedSeries(ds);
 				// Create a TrimsFile for each and add to file list
-				TrimsFile file = new TrimsFile(defaults);
+				TrimsFile file = new TrimsFile(def);
 				naming.registerFile(file, argProject, ds);
 				file.setSeries(ds);
 				addToFileList(file);
@@ -115,9 +117,11 @@ public class TrimsWriter extends AbstractDendroCollectionWriter {
 						
 						if (serList != null) {
 							for (TridasMeasurementSeries ser : serList) {
-								defaults.populateFromTridasMeasurementSeries(ser);
+								TridasToTrimsDefaults def = (TridasToTrimsDefaults) defaults.clone();
+
+								def.populateFromTridasMeasurementSeries(ser);
 								// Create a TrimsFile for each and add to file list
-								TrimsFile file = new TrimsFile(defaults);
+								TrimsFile file = new TrimsFile(def);
 								naming.registerFile(file, argProject, obj, el, s, r, ser);
 								file.setSeries(ser);
 								addToFileList(file);

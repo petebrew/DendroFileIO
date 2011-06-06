@@ -187,7 +187,7 @@
 		     
 		     
 		     <!--  Uncomment this plugin to include *all* dependencies into this jar -->
-		    <!--  <plugin>
+		      <plugin>
 			    <groupId>org.apache.maven.plugins</groupId>
 			    <artifactId>maven-dependency-plugin</artifactId>
 			    <executions>
@@ -199,7 +199,7 @@
 			      </goals>
 			     </execution>
 			    </executions>
-			   </plugin>-->
+			   </plugin>
 			
 		</plugins>
 		
