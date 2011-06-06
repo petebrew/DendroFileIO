@@ -15,12 +15,11 @@
  */
 package org.tridas.io.formats.trims;
 
-import java.text.SimpleDateFormat;
-import java.util.Calendar;
-
-import org.tridas.io.defaults.AbstractMetadataFieldSet;
+import org.tridas.io.defaults.TridasMetadataFieldSet;
 import org.tridas.io.defaults.values.IntegerDefaultValue;
 import org.tridas.io.defaults.values.StringDefaultValue;
+import org.tridas.io.util.DateUtils;
+import org.tridas.io.util.SafeIntYear;
 import org.tridas.io.util.StringUtils;
 import org.tridas.schema.TridasDerivedSeries;
 import org.tridas.schema.TridasMeasurementSeries;
@@ -31,22 +30,21 @@ import org.tridas.schema.TridasMeasurementSeries;
  * @see org.tridas.io.formats.tucson
  * @author peterbrewer
  */
-public class TridasToTrimsDefaults extends AbstractMetadataFieldSet {
-	
+public class TridasToTrimsDefaults extends TridasMetadataFieldSet {
+
 	public enum TrimsField {
 		MEASURING_DATE, AUTHOR, START_YEAR;
 	}
-	
-	/**
-	 * @see org.tridas.io.defaults.AbstractMetadataFieldSet#initDefaultValues()
-	 */
-	@Override
+
+
 	protected void initDefaultValues() {
-		setDefaultValue(TrimsField.MEASURING_DATE, new StringDefaultValue(getTodaysDateTrimsStyle()));
+		super.initDefaultValues();
+		setDefaultValue(TrimsField.MEASURING_DATE, new StringDefaultValue(
+				DateUtils.getDateTimeTRIMSStyle(null)));
 		setDefaultValue(TrimsField.AUTHOR, new StringDefaultValue("XX", 2, 2));
 		setDefaultValue(TrimsField.START_YEAR, new IntegerDefaultValue(1001));
 	}
-	
+
 	protected void populateFromTridasMeasurementSeries(TridasMeasurementSeries ms)
 	{
 		if(ms.isSetAnalyst())
@@ -58,21 +56,53 @@ public class TridasToTrimsDefaults extends AbstractMetadataFieldSet {
 			getStringDefaultValue(TrimsField.AUTHOR).setValue(ms.getDendrochronologist());
 		}
 
-	}
-	
-	private String getTodaysDateTrimsStyle() {
-		Calendar calendar = Calendar.getInstance();
-		SimpleDateFormat dateFormat = new SimpleDateFormat("dd/MM/yyyy");
-		return dateFormat.format(calendar.getTime());
-	}
-
-	protected void populateFromTridasDerivedSeries(TridasDerivedSeries ds) {
-		
-		if(ds.isSetAuthor())
+		if(ms.isSetMeasuringDate())
 		{
-			getStringDefaultValue(TrimsField.AUTHOR).setValue(StringUtils.parseInitials(ds.getAuthor()));
+			
+			getStringDefaultValue(TrimsField.MEASURING_DATE)
+					.setValue(DateUtils.getDateTimeTRIMSStyle(
+							ms.getMeasuringDate().getValue().toGregorianCalendar().getTime()));
+		}
+		
+		if(ms.isSetInterpretation())
+		{
+			if(ms.getInterpretation().isSetFirstYear())
+			{
+				SafeIntYear startyear = new SafeIntYear(ms.getInterpretation().getFirstYear());
+				getIntegerDefaultValue(TrimsField.START_YEAR).setValue(Integer.parseInt(startyear.toString()));
+				
+			}
 		}
 		
 	}
-	
+
+
+
+	protected void populateFromTridasDerivedSeries(TridasDerivedSeries ds) {
+
+		if (ds.isSetAuthor()) {
+			getStringDefaultValue(TrimsField.AUTHOR).setValue(
+					StringUtils.parseInitials(ds.getAuthor()));
+		}
+		
+		if(ds.isSetCreatedTimestamp())
+		{
+			
+			getStringDefaultValue(TrimsField.MEASURING_DATE)
+					.setValue(DateUtils.getDateTimeTRIMSStyle(
+							ds.getCreatedTimestamp().getValue().toGregorianCalendar().getTime()));
+		}
+
+		if(ds.isSetInterpretation())
+		{
+			if(ds.getInterpretation().isSetFirstYear())
+			{
+				SafeIntYear startyear = new SafeIntYear(ds.getInterpretation().getFirstYear());
+				getIntegerDefaultValue(TrimsField.START_YEAR).setValue(Integer.parseInt(startyear.toString()));
+				
+			}
+		}
+		
+	}
+
 }

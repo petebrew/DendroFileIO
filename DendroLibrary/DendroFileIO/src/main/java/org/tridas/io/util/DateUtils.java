@@ -294,6 +294,29 @@ public class DateUtils {
 	}
 	
 	/**
+	 * Converts a DateTime into a TRIMS style date string (dd/MM/yyyy). If
+	 * the supplied date is null, then it returns the correct string for todays date.
+	 * 
+	 * @param date
+	 * @return
+	 */
+	public static String getDateTimeTRIMSStyle(Date date) {
+		
+		SimpleDateFormat dateFormat = new SimpleDateFormat("dd/MM/yyyy");
+		
+		if(date==null)
+		{
+			Calendar calendar = Calendar.getInstance();	
+			return dateFormat.format(calendar.getTime());
+		}
+		else
+		{
+			return dateFormat.format(date);
+		}
+
+	}
+	
+	/**
 	 * Parse a DateTime from a PAST4 format string (dd/MM/yyyy hh:mm)
 	 * @param date
 	 * @return
