@@ -17,7 +17,7 @@ package org.tridas.io.defaults.values;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import org.jvnet.jaxb2_commons.lang.Copyable;
+import org.jvnet.jaxb2_commons.lang.CopyTo;
 import org.tridas.io.defaults.AbstractDefaultValue;
 
 /**
@@ -63,7 +63,7 @@ public class GenericDefaultValue<E> extends AbstractDefaultValue<E> {
 		GenericDefaultValue<E> o = (GenericDefaultValue<E>) super.clone();
 		
 		// jaxb copyable
-		if (value instanceof Copyable) {
+		if (value instanceof CopyTo) {
 			E val;
 			try {
 				val = (E) value.getClass().newInstance();
@@ -72,7 +72,7 @@ public class GenericDefaultValue<E> extends AbstractDefaultValue<E> {
 				return o;
 			}
 			
-			((Copyable) value).copyTo(val);
+			((CopyTo) value).copyTo(val);
 			// log.debug("Copied value from '"+value+"' to '"+val+"'");// TODO locale
 			o.setValue(val);
 			return o;
