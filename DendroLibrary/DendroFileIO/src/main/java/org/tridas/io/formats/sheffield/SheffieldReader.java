@@ -225,6 +225,13 @@ public class SheffieldReader extends AbstractDendroFileReader {
 				// For now just add as genericField
 				if (!lineString.equals("?")) {
 					defaults.getStringDefaultValue(DefaultFields.UK_COORDS).setValue(lineString);
+					try{
+						CoordinatesUtils.getLocationGeometryFromBNG(lineString);
+					} catch (NumberFormatException e)
+					{
+						addWarning(new ConversionWarning(WarningType.INVALID, "British National Grid coordinates invalid",
+								String.valueOf(lineString.length())));
+					}
 				}
 			}
 			

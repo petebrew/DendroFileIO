@@ -39,11 +39,20 @@ import org.tridas.io.formats.tridas.TridasReader;
 import org.tridas.io.formats.tridas.TridasWriter;
 import org.tridas.io.formats.tucson.TridasToTucsonDefaults;
 import org.tridas.io.formats.tucson.TucsonWriter;
+import org.tridas.io.util.CoordinatesUtils;
+import org.tridas.schema.TridasLocation;
 import org.tridas.schema.TridasTridas;
 
 public class UnitTest extends TestCase {
 	public UnitTest(String name) {
 		super(name);
+	}
+	
+	public void testProjection(){
+		
+		TridasLocation loc = CoordinatesUtils.getLocationGeometryFromBNG("NN 166 712");
+		
+		System.out.println("Long / Lat = " + loc.getLocationGeometry().getPoint().getPos().getValues());
 	}
 	
 	public void testTridasRoundTrip() {

@@ -15,6 +15,7 @@
  */
 package org.tridas.io.util;
 
+import java.awt.geom.Point2D;
 import java.util.ArrayList;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
@@ -22,7 +23,14 @@ import java.util.regex.Pattern;
 import net.opengis.gml.schema.PointType;
 import net.opengis.gml.schema.Pos;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+import org.tridas.io.formats.tucson.TucsonReader;
+import org.tridas.schema.TridasLocation;
 import org.tridas.schema.TridasLocationGeometry;
+
+import com.jhlabs.map.proj.Projection;
+import com.jhlabs.map.proj.ProjectionFactory;
 
 /**
  * Various static helper functions for working with coordinates
@@ -31,6 +39,8 @@ import org.tridas.schema.TridasLocationGeometry;
  */
 public class CoordinatesUtils {
 	
+	private static final Logger log = LoggerFactory.getLogger(CoordinatesUtils.class);	
+
 	public static String WGS84 = "urn:ogc:def:crs:EPSG:6.6:4326";
 
 	
@@ -183,8 +193,193 @@ public class CoordinatesUtils {
 		
 	}
 	
+	public static Projection getBritishNationalGrid()
+	{
+		return ProjectionFactory.fromPROJ4Specification(
+				new String[] {	
+						"+proj=tmerc",
+						"+lat_0=49",
+						"+lon_0=-2",
+						"+k=0.9996012717",
+						"+x_0=400000",
+						"+y_0=-100000",
+						"+ellps=airy",
+						"+datum=OSGB36",
+						"+units=m +no_defs" 	
+				}
+			);
+	}
+	
+
+	
 	/**
-	 * Create a TridasLocationGeoemtry from a GML pos
+	 * Converts a British Nationa Grid coordinate into EPSG:4326 
+	 * lat long coordinates
+	 * 
+	 * @param bngStr
+	 * @return
+	 */
+	public static TridasLocation getLocationGeometryFromBNG(String bngStr)
+	{
+
+
+		Projection  projBNG = getBritishNationalGrid();
+		
+		Point2D.Double pnt = BNGLetterReftoBNGNumberRef(bngStr);
+		Point2D.Double des = new Point2D.Double();
+		projBNG.inverseTransform(pnt, des);
+
+		
+		TridasLocationGeometry geom = getLocationGeometry(des.getY(), des.getX());
+		TridasLocation loc = new TridasLocation();
+		loc.setLocationGeometry(geom);
+		
+		// Set precision using number of digits in BNG ref
+		switch(bngStr.length())
+		{
+			case 14: loc.setLocationPrecision("0.1"); break;
+			case 12: loc.setLocationPrecision("1"); break;
+			case 10: loc.setLocationPrecision("10"); break;
+			case 8: loc.setLocationPrecision("100"); break;
+			case 6: loc.setLocationPrecision("1000"); break;
+			case 4: loc.setLocationPrecision("10000"); break;
+		}
+				
+		return loc;
+	}
+	
+	/**
+	 * Convert a British National Grid number reference to standard
+	 * letter+number reference.
+	 * 
+	 * @param e - easting
+	 * @param n - nothing
+	 * @param digits - number of digits to use
+	 * @return
+	 */
+	public static String BNGNumRefToBNGLetRef(Double e, Double n, Integer digits) {
+		  // get the 100km-grid indices
+		  Double e100k = Math.floor(e/100000), n100k = Math.floor(n/100000);
+		  
+		  if (e100k<0 || e100k>6 || n100k<0 || n100k>12) 
+		  {
+			  throw new NumberFormatException("Coordinates outside bounds of British National Grid");
+		  }
+
+		  // translate those into numeric equivalents of the grid letters
+		  Double d1 = (19-n100k) - (19-n100k)%5 + Math.floor((e100k+10)/5);
+		  Double d2 = (19-n100k)*5%25 + e100k%5;
+		  
+		  int l1 = d1.intValue();
+		  int l2 = d2.intValue();
+
+		  // compensate for skipped 'I' and build grid letter-pairs
+		  if (l1 > 7) l1++;
+		  if (l2 < 7) l2++;
+		  		  
+		  String.valueOf((char) l1);
+		  
+		  //String letPair = String.fromCharCode(l1+"A".charCodeAt(0), l2+'A'.charCodeAt(0));
+		  String letPair = String.valueOf((char)l1)+String.valueOf((char)l1);
+		  
+		  // strip 100km-grid indices from easting &amp; northing, and reduce precision
+		  e = Math.floor((e%100000)/Math.pow(10,5-digits/2));
+		  n = Math.floor((n%100000)/Math.pow(10,5-digits/2));
+
+		  String gridRef = letPair + StringUtils.leftPad(e+"", digits/2) + StringUtils.leftPad(n+"", digits/2);
+
+		  return gridRef;
+		}
+	
+	public static Point2D.Double BNGLetterReftoBNGNumberRef(String gridref) {
+		
+		gridref = gridref.trim();
+		
+		if(gridref==null) return null;
+		
+		gridref = gridref.replace(" ", "");
+		
+		if(gridref==null) return null;
+		
+		if(gridref.length()<4)
+		{
+			throw new NumberFormatException("Unable to extract coordinates from string.  String must be 4 or more characters");
+		}
+		if(gridref.length()>14)
+		{
+			throw new NumberFormatException("Unable to extract coordinates from string.  String must be 14 or less characters");
+		}
+		if(!gridref.matches("([A-Za-z]){2}([0-9])+"))
+		{
+			throw new NumberFormatException("String does not match the British National Grid coordinate style");
+		}
+
+		
+		
+		// get numeric values of letter references
+		String letters = "ABCDEFGHJKLMNOPQRSTUVWXYZ";
+		String firstlet = gridref.substring(0,1).toUpperCase();
+		String secondlet = gridref.substring(1,2).toUpperCase();
+		int l1 = letters.indexOf(firstlet);
+		int l2 = letters.indexOf(secondlet);
+		
+		// convert grid letters into 100km-square indexes from false origin (grid square SV):
+		Integer e = (((l1-2)%5)*5 + (l2%5)) * 100000;
+		Integer n =  ((int) ((19-Math.floor(l1/5)*5) - Math.floor(l2/5))) * 100000;
+		
+		
+		String eastnumstr = gridref.substring(2,(gridref.length()/2)+1);
+		String northnumstr = gridref.substring((gridref.length()/2)+1);
+		
+		Integer eastnum = Integer.parseInt(eastnumstr);
+		Integer northnum = Integer.parseInt(northnumstr);
+		
+		
+		
+		  // normalise to 1m grid, rounding up to centre of grid square:
+		  switch (gridref.length()) {
+		    case 4: 
+		    	eastnum = eastnum*1000;
+		    	eastnum += 500; 
+		    	northnum = northnum*1000;
+		    	northnum += 500; 
+		    	break;
+		    case 6: 
+		    	eastnum = eastnum*1000;
+		    	eastnum += 500; 
+		    	northnum = northnum*1000;
+		    	northnum += 500; 
+		    	break;
+		    case 8: 
+		    	eastnum = eastnum*100;
+		    	eastnum += 50; 
+		    	northnum = northnum*100;
+		    	northnum += 50; 
+		    	break;
+		    case 10: 
+		    	eastnum = eastnum*10;
+		    	eastnum += 5; 
+		    	northnum = northnum*10;
+		    	northnum += 5; 
+		    	break;
+		    // 12-digit refs are already 1m
+		  }
+		
+		  eastnum = eastnum+e;
+		  northnum = northnum+n;
+		  
+		  Point2D.Double point = new Point2D.Double();
+		  point.x = eastnum.doubleValue();
+		  point.y = northnum.doubleValue();
+		  
+		  return point;
+	}
+	
+	
+	
+	/**
+	 * Create a TridasLocationGeoemtry from a GML pos.  Assumes 
+	 * coordinates are WGS84.
 	 * 
 	 * @param pos
 	 * @return
