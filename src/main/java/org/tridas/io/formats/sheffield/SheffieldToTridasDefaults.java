@@ -26,6 +26,8 @@ import org.tridas.io.defaults.values.DoubleDefaultValue;
 import org.tridas.io.defaults.values.GenericDefaultValue;
 import org.tridas.io.defaults.values.IntegerDefaultValue;
 import org.tridas.io.defaults.values.StringDefaultValue;
+import org.tridas.io.exceptions.ConversionWarning;
+import org.tridas.io.exceptions.ConversionWarning.WarningType;
 import org.tridas.io.formats.sheffield.TridasToSheffieldDefaults.SheffieldChronologyType;
 import org.tridas.io.formats.sheffield.TridasToSheffieldDefaults.SheffieldDataType;
 import org.tridas.io.formats.sheffield.TridasToSheffieldDefaults.SheffieldDateType;
@@ -69,7 +71,8 @@ import org.tridas.schema.TridasWoodCompleteness;
 public class SheffieldToTridasDefaults extends TridasMetadataFieldSet implements IMetadataFieldSet {
 	
 	public static enum DefaultFields {
-		SHORT_TITLE, RING_COUNT, START_YEAR, END_YEAR, SERIES_TITLE, SERIES_COMMENT, UK_COORDS, // GENERICFIELD
+		SHORT_TITLE, RING_COUNT, START_YEAR, END_YEAR, SERIES_TITLE, SERIES_COMMENT, 
+		UK_COORDS, // GENERICFIELD
 		LATITUDE, LONGITUDE, PITH, PITH_DESCRIPTION, // GENERICFIELD
 		SHEFFIELD_DATA_TYPE, // GENERICFIELD
 		SHEFFIELD_DATE_TYPE, // GENERICFIELD 
@@ -131,9 +134,16 @@ public class SheffieldToTridasDefaults extends TridasMetadataFieldSet implements
 			location.setLocationGeometry(geometry);
 			o.setLocation(location);
 		}
+		else if (getStringDefaultValue(DefaultFields.UK_COORDS).getValue() != null) 
+		{
+			// Convert UK coords and use these 
+			try{
+				o.setLocation(CoordinatesUtils.getLocationGeometryFromBNG(getStringDefaultValue(DefaultFields.UK_COORDS).getValue()));
+			} catch (NumberFormatException e){ }
+		}
 		
-		// Add UK Coords as a generic field
 		if (getStringDefaultValue(DefaultFields.UK_COORDS).getValue() != null) {
+			// Add UK Coords as a generic field
 			TridasGenericField coords = new TridasGenericField();
 			coords.setName("sheffield.UKCoords");
 			coords.setType("xs:string");
