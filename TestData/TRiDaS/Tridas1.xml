@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
     <project xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
- xsi:schemaLocation="http://www.tridas.org/1.2.2 ../../../../sourceforge/tridas/XMLSchema/1.2.2/tridas-1.2.2.xsd"
+ xsi:schemaLocation="http://www.tridas.org/1.2.2 ../../../../java/XMLSchema/1.2.2/tridas-1.2.2.xsd"
  xmlns="http://www.tridas.org/1.2.2"
  xmlns:xlink="http://www.w3.org/1999/xlink">
         <title>Aegean Dendrochronology Project</title>
@@ -47,7 +47,7 @@
             </coverage>
             <location>
                 <locationGeometry xmlns:gml="http://www.opengis.net/gml">
-                    <gml:Point srsName="urn:ogc:def:crs:EPSG:6.6:4326">
+                    <gml:Point srsName="EPSG:4326">
                         <gml:pos>40.6263 22.9485</gml:pos>
                     </gml:Point>
                 </locationGeometry>
