@@ -29,8 +29,10 @@ import org.tridas.io.defaults.values.StringDefaultValue;
 import org.tridas.io.exceptions.ConversionWarning;
 import org.tridas.io.exceptions.ConversionWarningException;
 import org.tridas.io.exceptions.ConversionWarning.WarningType;
+import org.tridas.io.formats.heidelberg.HeidelbergToTridasDefaults.DefaultFields;
 import org.tridas.io.formats.oxford.OxfordToTridasDefaults.OxDefaultFields;
 import org.tridas.io.util.SafeIntYear;
+import org.tridas.io.util.TridasPointProjectionHandler;
 import org.tridas.schema.TridasElement;
 import org.tridas.schema.TridasGenericField;
 import org.tridas.schema.TridasHeartwood;
@@ -87,8 +89,10 @@ public class TridasToOxfordDefaults extends AbstractMetadataFieldSet implements
 				{
 					if (argObject.getLocation().getLocationGeometry().isSetPoint())
 					{
-						List<Double> coords = argObject.getLocation().getLocationGeometry().getPoint().getPos().getValues();
-						addToComments("Coordinates: "+coords.get(0)+ ", "+coords.get(1));
+						TridasPointProjectionHandler tph = new TridasPointProjectionHandler(argObject.getLocation().getLocationGeometry().getPoint());
+						getDoubleDefaultValue(DefaultFields.LATITUDE).setValue(tph.getWGS84LatCoord());
+						getDoubleDefaultValue(DefaultFields.LONGITUDE).setValue(tph.getWGS84LongCoord());
+						addToComments("Coordinates: "+tph.getWGS84LongCoord()+ ", "+tph.getWGS84LatCoord());
 					}
 				}
 			}

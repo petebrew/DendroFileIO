@@ -38,6 +38,7 @@ import org.tridas.io.util.DateUtils;
 import org.tridas.io.util.ITRDBTaxonConverter;
 import org.tridas.io.util.SafeIntYear;
 import org.tridas.io.util.StringUtils;
+import org.tridas.io.util.TridasPointProjectionHandler;
 import org.tridas.io.util.UnitUtils;
 import org.tridas.schema.NormalTridasUnit;
 import org.tridas.schema.TridasDerivedSeries;
@@ -103,6 +104,21 @@ public class TridasToVFormatDefaults extends AbstractMetadataFieldSet implements
 		if(o.isSetTitle())
 		{
 				getStringDefaultValue(DefaultFields.OBJECT_CODE).setValue(o.getTitle());
+		}
+		
+		// Set coordinates using the projection handler to make sure we're reading correctly
+		if(o.isSetLocation())
+		{
+			if(o.getLocation().isSetLocationGeometry())
+			{
+				if(o.getLocation().getLocationGeometry().isSetPoint())
+				{
+					TridasPointProjectionHandler tph = new TridasPointProjectionHandler(o.getLocation().getLocationGeometry().getPoint());
+					getDoubleDefaultValue(DefaultFields.LONGITUDE).setValue(tph.getWGS84LongCoord());
+					getDoubleDefaultValue(DefaultFields.LATITUDE).setValue(tph.getWGS84LatCoord());
+
+				}
+			}
 		}
 	}
 	

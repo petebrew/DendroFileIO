@@ -26,7 +26,12 @@ import java.awt.geom.*;
 
 public class AitoffProjection extends ModifiedAzimuthalProjection {
 
-    public AitoffProjection() {
+    /**
+	 * 
+	 */
+	private static final long serialVersionUID = -301437598789577385L;
+
+	public AitoffProjection() {
     }
 
     public Point2D.Double project(double lplam, double lpphi, Point2D.Double out) {

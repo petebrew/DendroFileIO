@@ -44,6 +44,7 @@ import org.tridas.io.formats.heidelberg.HeidelbergToTridasDefaults.FHStartsOrEnd
 import org.tridas.io.formats.heidelberg.HeidelbergToTridasDefaults.FHWaldKante;
 import org.tridas.io.util.ITRDBTaxonConverter;
 import org.tridas.io.util.SafeIntYear;
+import org.tridas.io.util.TridasPointProjectionHandler;
 import org.tridas.schema.ComplexPresenceAbsence;
 import org.tridas.schema.PresenceAbsence;
 import org.tridas.schema.TridasBark;
@@ -493,6 +494,20 @@ public class TridasToHeidelbergDefaults extends AbstractMetadataFieldSet impleme
 			if (o.getCoverage().isSetCoverageTemporal())
 			{
 				getStringDefaultValue(DefaultFields.ESTIMATED_TIME_PERIOD).setValue(o.getCoverage().getCoverageTemporal());
+			}
+		}
+		
+		// Set coordinates using the projection handler to make sure we're reading correctly
+		if(o.isSetLocation())
+		{
+			if(o.getLocation().isSetLocationGeometry())
+			{
+				if(o.getLocation().getLocationGeometry().isSetPoint())
+				{
+					TridasPointProjectionHandler tph = new TridasPointProjectionHandler(o.getLocation().getLocationGeometry().getPoint());
+					getDoubleDefaultValue(DefaultFields.LATITUDE).setValue(tph.getWGS84LatCoord());
+					getDoubleDefaultValue(DefaultFields.LONGITUDE).setValue(tph.getWGS84LongCoord());
+				}
 			}
 		}
 	}

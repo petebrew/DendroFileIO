@@ -26,6 +26,10 @@ import com.jhlabs.map.*;
 
 public class AiryProjection extends AzimuthalProjection {
 
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = -4816018746322482101L;
 	private double p_halfpi;
 	private double sinph0;
 	private double cosph0;

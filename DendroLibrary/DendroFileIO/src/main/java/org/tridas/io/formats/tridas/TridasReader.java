@@ -41,6 +41,8 @@ import javax.xml.xpath.XPathExpression;
 import javax.xml.xpath.XPathExpressionException;
 import javax.xml.xpath.XPathFactory;
 
+import net.opengis.gml.schema.PointType;
+
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.tridas.io.AbstractDendroFileReader;
@@ -52,12 +54,18 @@ import org.tridas.io.defaults.TridasMetadataFieldSet;
 import org.tridas.io.exceptions.ConversionWarning;
 import org.tridas.io.exceptions.InvalidDendroFileException;
 import org.tridas.io.exceptions.ConversionWarning.WarningType;
+import org.tridas.io.util.CoordinatesUtils;
 import org.tridas.io.util.IOUtils;
+import org.tridas.io.util.TridasPointProjectionHandler;
+import org.tridas.io.util.TridasUtils;
+import org.tridas.schema.TridasObject;
 import org.tridas.schema.TridasProject;
 import org.tridas.schema.TridasTridas;
 import org.w3c.dom.Document;
 import org.w3c.dom.NodeList;
 import org.xml.sax.SAXException;
+
+import com.jhlabs.map.proj.ProjectionException;
 
 /**
  * Reader for the TRiDaS file format. This is little more than a
@@ -168,6 +176,52 @@ public class TridasReader extends AbstractDendroFileReader {
 		} catch (JAXBException e2) {
 			addWarning(new ConversionWarning(WarningType.DEFAULT, I18n.getText("fileio.loadfailed")));
 		}
+		
+		// Now check to see if there are any coordinates in the file and
+		// convert to WGS84 if possible
+		for(TridasProject p : projects)
+		{
+			for(TridasObject o: TridasUtils.getObjectList(p))
+			{
+				if(o.isSetLocation())
+				{
+					if(o.getLocation().isSetLocationGeometry())
+					{
+						if(o.getLocation().getLocationGeometry().isSetPoint())
+						{
+							PointType point = o.getLocation().getLocationGeometry().getPoint();
+							if(!point.isSetSrsName())
+							{
+								o.getLocation().getLocationGeometry().getPoint().setSrsName(CoordinatesUtils.WGS84);
+								addWarning(new ConversionWarning(WarningType.ASSUMPTION, 
+										I18n.getText("srsname.noneSpecifiedAssumingWGS84")));
+								continue;
+							}
+							else
+							{
+								try{
+									TridasPointProjectionHandler tph = new TridasPointProjectionHandler(point);
+									o.getLocation().getLocationGeometry().setPoint(tph.getAsWGS84PointType());
+									if(tph.hasSpecificProjection())
+									{
+										addWarning(new ConversionWarning(WarningType.INFORMATION, 
+												I18n.getText("srsname.projectedToWGS84")));
+									}
+								}
+								catch (ProjectionException ex)
+								{
+									o.getLocation().getLocationGeometry().getPoint().setSrsName(CoordinatesUtils.WGS84);
+									addWarning(new ConversionWarning(WarningType.ASSUMPTION, 
+											I18n.getText("srsname.notSupportedAssumingWGS84")));
+								}
+							}
+						}
+					}
+				}				
+			}
+		}
+		
+		
 	}
 	
 	private Integer compareTridasVersions(String v1, String v2)

@@ -24,7 +24,9 @@ import org.tridas.io.DendroFileFilter;
 import org.tridas.io.I18n;
 import org.tridas.io.defaults.IMetadataFieldSet;
 import org.tridas.io.defaults.values.GenericDefaultValue;
+import org.tridas.io.exceptions.ConversionWarning;
 import org.tridas.io.exceptions.InvalidDendroFileException;
+import org.tridas.io.exceptions.ConversionWarning.WarningType;
 import org.tridas.io.formats.dendrodb.DendroDBToTridasDefaults.DDBDefaultFields;
 import org.tridas.io.formats.dendrodb.DendroDBToTridasDefaults.DendroDBParameter;
 import org.tridas.io.util.SafeIntYear;
@@ -117,12 +119,16 @@ public class DendroDBReader extends AbstractDendroFileReader {
 		try{
 			defaults.getDoubleDefaultValue(DDBDefaultFields.LATITUDE).setValue(
 				Double.parseDouble(argFileString[5].substring(argFileString[5].indexOf(":")+2)));
+			addWarning(new ConversionWarning(WarningType.AMBIGUOUS, 
+					I18n.getText("srsname.noneSpecifiedAssumingWGS84")));
 		} catch (NumberFormatException e)
 		{
 			throw new InvalidDendroFileException(I18n.getText("fileio.unableToParse", "Latitude"), 6);
 		}
 		try{
 			defaults.getDoubleDefaultValue(DDBDefaultFields.LONGITUDE).setValue(Double.parseDouble(argFileString[6].substring(argFileString[6].indexOf(":")+2)));
+			addWarning(new ConversionWarning(WarningType.AMBIGUOUS, 
+					I18n.getText("srsname.noneSpecifiedAssumingWGS84")));
 		} catch (NumberFormatException e)
 		{
 			throw new InvalidDendroFileException(I18n.getText("fileio.unableToParse", "Longitude"), 7);

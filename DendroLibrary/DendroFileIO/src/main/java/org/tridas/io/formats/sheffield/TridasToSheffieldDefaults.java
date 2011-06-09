@@ -28,9 +28,11 @@ import org.tridas.io.defaults.values.GenericDefaultValue;
 import org.tridas.io.defaults.values.IntegerDefaultValue;
 import org.tridas.io.defaults.values.SheffieldStringDefaultValue;
 import org.tridas.io.defaults.values.StringDefaultValue;
+import org.tridas.io.formats.heidelberg.HeidelbergToTridasDefaults.DefaultFields;
 import org.tridas.io.util.DateUtils;
 import org.tridas.io.util.ITRDBTaxonConverter;
 import org.tridas.io.util.SafeIntYear;
+import org.tridas.io.util.TridasPointProjectionHandler;
 import org.tridas.io.util.UnitUtils;
 import org.tridas.schema.ComplexPresenceAbsence;
 import org.tridas.schema.NormalTridasDatingType;
@@ -93,7 +95,18 @@ public class TridasToSheffieldDefaults extends AbstractMetadataFieldSet implemen
 	
 	public void populateFromTridasObject(TridasObject o) {
 
-
+		// Set coordinates using the projection handler to make sure we're reading correctly
+		if(o.isSetLocation())
+		{
+			if(o.getLocation().isSetLocationGeometry())
+			{
+				if(o.getLocation().getLocationGeometry().isSetPoint())
+				{
+					TridasPointProjectionHandler tph = new TridasPointProjectionHandler(o.getLocation().getLocationGeometry().getPoint());
+					getStringDefaultValue(DefaultFields.LAT_LONG).setValue(tph.getWGS84LatCoord().toString()+ ";" + tph.getWGS84LongCoord().toString());
+				}
+			}
+		}
 	}
 	
 	@SuppressWarnings("unchecked")

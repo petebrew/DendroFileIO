@@ -299,7 +299,10 @@ public class VFormatReader extends AbstractDendroFileReader {
 				// Latitude and Longitude
 				try {		
 					series.defaults.getDoubleDefaultValue(DefaultFields.LATITUDE).setValue(Double.parseDouble(line.substring(10, 20)));
-					series.defaults.getDoubleDefaultValue(DefaultFields.LONGITUDE).setValue(Double.parseDouble(line.substring(0, 10)));						
+					series.defaults.getDoubleDefaultValue(DefaultFields.LONGITUDE).setValue(Double.parseDouble(line.substring(0, 10)));
+					addWarning(new ConversionWarning(WarningType.AMBIGUOUS, 
+							I18n.getText("srsname.noneSpecifiedAssumingWGS84")));
+					
 				} catch (NumberFormatException e) 
 				{
 					if(!line.substring(0,20).trim().equals(""))

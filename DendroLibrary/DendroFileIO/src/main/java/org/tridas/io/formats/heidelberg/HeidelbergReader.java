@@ -798,6 +798,11 @@ public class HeidelbergReader extends AbstractDendroFileReader {
 								I18n.getText("location.latitude.invalid", fileMetadata.get("latitude")),
 								"Latitude"));
 					}
+					else
+					{
+						addWarning(new ConversionWarning(WarningType.AMBIGUOUS, 
+								I18n.getText("srsname.noneSpecifiedAssumingWGS84")));
+					}
 				} catch (NumberFormatException e)
 				{
 					addWarning(new ConversionWarning(WarningType.INVALID,
@@ -834,6 +839,11 @@ public class HeidelbergReader extends AbstractDendroFileReader {
 						addWarning(new ConversionWarning(WarningType.INVALID, 
 								I18n.getText("location.longitude.invalid", fileMetadata.get("longitude")),
 								"Longitude"));
+					}
+					else
+					{
+						addWarning(new ConversionWarning(WarningType.AMBIGUOUS, 
+								I18n.getText("srsname.noneSpecifiedAssumingWGS84")));
 					}
 				}catch (NumberFormatException e)
 				{
