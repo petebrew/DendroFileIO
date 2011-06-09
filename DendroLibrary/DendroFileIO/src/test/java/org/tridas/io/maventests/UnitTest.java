@@ -20,6 +20,7 @@ package org.tridas.io.maventests;
 //import edu.cornell.dendro.corina.util.StringUtils;
 
 import java.io.File;
+import java.io.FilenameFilter;
 import java.io.IOException;
 
 import javax.xml.bind.JAXBContext;
@@ -28,6 +29,8 @@ import javax.xml.bind.Unmarshaller;
 
 import junit.framework.TestCase;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.tridas.io.defaults.TridasMetadataFieldSet;
 import org.tridas.io.exceptions.ConversionWarningException;
 import org.tridas.io.exceptions.IncompleteTridasDataException;
@@ -39,21 +42,82 @@ import org.tridas.io.formats.tridas.TridasReader;
 import org.tridas.io.formats.tridas.TridasWriter;
 import org.tridas.io.formats.tucson.TridasToTucsonDefaults;
 import org.tridas.io.formats.tucson.TucsonWriter;
-import org.tridas.io.util.CoordinatesUtils;
-import org.tridas.schema.TridasLocation;
+import org.tridas.io.util.TridasPointProjectionHandler;
+import org.tridas.schema.TridasObject;
 import org.tridas.schema.TridasTridas;
 
+import com.jhlabs.map.proj.ProjectionException;
+
 public class UnitTest extends TestCase {
+	
+	private static final Logger log = LoggerFactory.getLogger(UnitTest.class);
+	
 	public UnitTest(String name) {
 		super(name);
 	}
 	
-	public void testProjection(){
-		
-		TridasLocation loc = CoordinatesUtils.getLocationGeometryFromBNG("NN 166 712");
-		
-		System.out.println("Long / Lat = " + loc.getLocationGeometry().getPoint().getPos().getValues());
+	private String[] getFilesFromFolder(String folder) {
+		File dir = new File(folder);
+		FilenameFilter filter = new FilenameFilter() {
+			public boolean accept(File dir, String name) {
+				return !name.startsWith(".");
+			}
+		};
+		return dir.list(filter);
 	}
+	
+	public void testProjection() {
+		String folder = "TestData/TRiDaS";
+		String[] files = getFilesFromFolder(folder);
+		
+		if (files.length == 0) {
+			fail();
+		}
+		
+		for (String filename : files) {
+			if (!filename.equals("TridasUK.xml")) {
+				continue;
+			}
+			
+			log.info("Test conversion of: " + filename);
+			
+			TridasTridas container = null;
+			
+			TridasReader reader = new TridasReader();
+			try {
+				reader.loadFile(folder, filename);
+			} catch (IOException e) {
+				log.info("Failed reading - file not found/readable");
+				// fail();
+				continue;
+			} catch (InvalidDendroFileException e) {
+				log.info("Failed reading - " + e.getLocalizedMessage());
+				// fail();
+				continue;
+			}
+			
+			// Extract container
+			container = reader.getTridasContainer();
+			
+			TridasObject o = container.getProjects().get(0).getObjects().get(0);
+			
+			TridasPointProjectionHandler projectionHandler = null;
+			try {
+				projectionHandler = new TridasPointProjectionHandler(o.getLocation().getLocationGeometry().getPoint());
+				
+			} catch (ProjectionException e) {
+				System.out.println(e.getLocalizedMessage());
+				fail();
+			}
+			
+			System.out.println("Projection name = "+projectionHandler.getProjectionName());
+			System.out.println("Projection description = "+projectionHandler.getProjectionDescription());
+			System.out.println("EPSG Code = "+projectionHandler.getEPSGCode());
+			System.out.println("Longitude = "+projectionHandler.getWGS84LongCoord());
+			System.out.println("Latitude  = "+projectionHandler.getWGS84LatCoord());
+		}
+	}
+	
 	
 	public void testTridasRoundTrip() {
 		
