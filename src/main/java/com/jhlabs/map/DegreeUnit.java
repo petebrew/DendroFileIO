@@ -16,7 +16,6 @@ limitations under the License.
 
 package com.jhlabs.map;
 
-import java.text.*;
 
 public class DegreeUnit extends Unit {
 	

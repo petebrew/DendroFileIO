@@ -25,7 +25,6 @@ import net.opengis.gml.schema.Pos;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import org.tridas.io.formats.tucson.TucsonReader;
 import org.tridas.schema.TridasLocation;
 import org.tridas.schema.TridasLocationGeometry;
 
@@ -41,7 +40,11 @@ public class CoordinatesUtils {
 	
 	private static final Logger log = LoggerFactory.getLogger(CoordinatesUtils.class);	
 
-	public static String WGS84 = "urn:ogc:def:crs:EPSG:6.6:4326";
+	//public static String WGS84 = "urn:ogc:def:crs:EPSG:6.6:4326";
+	// Dumb down for now - remember to check all uses of this when changing back to
+	// the correct URN style
+	public static String WGS84 = "EPSG:4326";
+	
 
 	
 	/**

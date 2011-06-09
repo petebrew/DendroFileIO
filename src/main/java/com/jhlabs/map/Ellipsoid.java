@@ -15,7 +15,7 @@ limitations under the License.
  */
 package com.jhlabs.map;
 
-import java.io.*;
+import java.io.Serializable;
 
 /**
  * A class representing a geographic ellipsoid.
@@ -23,7 +23,8 @@ import java.io.*;
  */
 public class Ellipsoid implements Cloneable, Serializable {
 
-    public String name;
+	private static final long serialVersionUID = 1L;
+	public String name;
     public String shortName;
     public double equatorRadius = 1.0;
     public double poleRadius = 1.0;

@@ -152,6 +152,10 @@ public class ConversionWarning {
 		 */
 		FILE_IGNORED,
 		/**
+		 * Used to inform about possible quirks
+		 */
+		INFORMATION,
+		/**
 		 * Assumption made about file
 		 */
 		ASSUMPTION;
@@ -184,6 +188,8 @@ public class ConversionWarning {
 					return I18n.getText("warningType.fileIgnored");
 				case ASSUMPTION:
 					return I18n.getText("warningType.assumption");
+				case INFORMATION:
+					return I18n.getText("warningType.information");
 				default :
 					return "";
 			}

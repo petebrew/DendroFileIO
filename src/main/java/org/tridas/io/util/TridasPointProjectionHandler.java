@@ -1,10 +1,12 @@
 package org.tridas.io.util;
 
 import java.awt.geom.Point2D;
+import java.util.ArrayList;
 
 import org.tridas.io.I18n;
 
 import net.opengis.gml.schema.PointType;
+import net.opengis.gml.schema.Pos;
 
 import com.jhlabs.map.proj.Projection;
 import com.jhlabs.map.proj.ProjectionException;
@@ -81,7 +83,14 @@ public class TridasPointProjectionHandler  {
 	 */
 	public Boolean hasSpecificProjection()
 	{
-		return proj!=null;
+		if(proj==null)
+		{
+			return false;
+		}
+		else
+		{
+			return true;
+		}
 	}
 	
 	/**
@@ -193,7 +202,10 @@ public class TridasPointProjectionHandler  {
 				// This means we're looking at another EPSG crs so try looking it up
 				try{
 					proj = ProjectionFactory.getNamedPROJ4CoordinateSystem(urnparts[4]+":"+urnparts[6]);
-					return;
+					if(proj==null)
+					{
+						throw new ProjectionException(I18n.getText("srsname.notsupported"));
+					}
 				} catch (ProjectionException e)
 				{
 					throw new ProjectionException(I18n.getText("srsname.notsupported"));
@@ -271,6 +283,23 @@ public class TridasPointProjectionHandler  {
 		
 	}
 	
+	/**
+	 * Get this point with the correct WGS84 srsName
+	 * 
+	 * @return
+	 */
+	public PointType getAsWGS84PointType()
+	{
+		PointType pt = new PointType();
+		pt.setSrsName(CoordinatesUtils.WGS84);
+		Pos pos = new Pos();
+		ArrayList<Double> coords = new ArrayList<Double>();
+		coords.add(projectedpoint.getX());
+		coords.add(projectedpoint.getY());
+		pos.setValues(coords);
+		pt.setPos(pos);		
+		return pt;
+	}
 
 
 }
