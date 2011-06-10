@@ -27,7 +27,6 @@ import org.tridas.io.defaults.values.DoubleDefaultValue;
 import org.tridas.io.defaults.values.GenericDefaultValue;
 import org.tridas.io.defaults.values.IntegerDefaultValue;
 import org.tridas.io.defaults.values.StringDefaultValue;
-import org.tridas.io.util.CoordinatesUtils;
 import org.tridas.io.util.DateUtils;
 import org.tridas.io.util.SafeIntYear;
 import org.tridas.schema.ComplexPresenceAbsence;
@@ -62,6 +61,7 @@ import org.tridas.schema.TridasUnitless;
 import org.tridas.schema.TridasValues;
 import org.tridas.schema.TridasVariable;
 import org.tridas.schema.TridasWoodCompleteness;
+import org.tridas.spatial.SpatialUtils;
 
 public class HeidelbergToTridasDefaults extends TridasMetadataFieldSet {
 	
@@ -86,6 +86,7 @@ public class HeidelbergToTridasDefaults extends TridasMetadataFieldSet {
 		CLIENT_NO,
 		COLLECTOR,
 		//Comment[n]
+		COMMENTS,
 		//CommentCount
 		CONTINENT,				
 		CORE_NUMBER,					//***
@@ -217,6 +218,7 @@ public class HeidelbergToTridasDefaults extends TridasMetadataFieldSet {
 		super.initDefaultValues();
 		setDefaultValue(DefaultFields.BARK, new GenericDefaultValue<FHBarkType>());
 		setDefaultValue(DefaultFields.CORE_NUMBER, new StringDefaultValue());
+		setDefaultValue(DefaultFields.COMMENTS, new StringDefaultValue());
 		setDefaultValue(DefaultFields.COUNTRY, new StringDefaultValue());
 		setDefaultValue(DefaultFields.CLIENT, new StringDefaultValue());
 		setDefaultValue(DefaultFields.DATA_FORMAT, new GenericDefaultValue<FHDataFormat>());
@@ -300,6 +302,7 @@ public class HeidelbergToTridasDefaults extends TridasMetadataFieldSet {
 			series.setGenericFields(gflist);
 		}
 		
+
 		return series;
 	}
 		
@@ -374,6 +377,11 @@ public class HeidelbergToTridasDefaults extends TridasMetadataFieldSet {
 			series.setLastModifiedTimestamp(getDateTimeDefaultValue(DefaultFields.LAST_REVISION_DATE).getValue());
 		}
 
+		// Comments
+		if(getStringDefaultValue(DefaultFields.COMMENTS).getStringValue()!=null)
+		{
+			series.setComments(getStringDefaultValue(DefaultFields.COMMENTS).getStringValue());
+		}
 		
 		return series;
 	}
@@ -642,7 +650,7 @@ public class HeidelbergToTridasDefaults extends TridasMetadataFieldSet {
 			if(getDefaultValue(DefaultFields.LATITUDE).getValue()!=null &&
 					   getDefaultValue(DefaultFields.LONGITUDE).getValue()!=null)
 			{	   
-				geometry = CoordinatesUtils.getLocationGeometry(getDoubleDefaultValue(DefaultFields.LATITUDE).getValue(), 
+				geometry = SpatialUtils.getLocationGeometry(getDoubleDefaultValue(DefaultFields.LATITUDE).getValue(), 
 						getDoubleDefaultValue(DefaultFields.LONGITUDE).getValue());
 				location.setLocationGeometry(geometry);
 			}

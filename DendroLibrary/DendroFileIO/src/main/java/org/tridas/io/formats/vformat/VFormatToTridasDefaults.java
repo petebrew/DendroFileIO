@@ -23,7 +23,6 @@ import org.tridas.io.defaults.values.GenericDefaultValue;
 import org.tridas.io.defaults.values.IntegerDefaultValue;
 import org.tridas.io.defaults.values.SafeIntYearDefaultValue;
 import org.tridas.io.defaults.values.StringDefaultValue;
-import org.tridas.io.util.CoordinatesUtils;
 import org.tridas.io.util.ITRDBTaxonConverter;
 import org.tridas.schema.DatingSuffix;
 import org.tridas.schema.NormalTridasDatingType;
@@ -44,6 +43,7 @@ import org.tridas.schema.TridasUnit;
 import org.tridas.schema.TridasValues;
 import org.tridas.schema.TridasVariable;
 import org.tridas.schema.TridasWoodCompleteness;
+import org.tridas.spatial.SpatialUtils;
 
 	enum DefaultFields{
 		SERIES_ID,
@@ -180,7 +180,7 @@ public class VFormatToTridasDefaults extends TridasMetadataFieldSet {
 		   getDoubleDefaultValue(DefaultFields.LONGITUDE).getValue()!=null)
 		{
 			TridasLocation location = new TridasLocation();
-			location.setLocationGeometry(CoordinatesUtils.getLocationGeometry(
+			location.setLocationGeometry(SpatialUtils.getLocationGeometry(
 					getDoubleDefaultValue(DefaultFields.LATITUDE).getValue(), 
 					getDoubleDefaultValue(DefaultFields.LONGITUDE).getValue()));
 			e.setLocation(location);

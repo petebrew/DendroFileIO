@@ -15,6 +15,10 @@
  */
 package org.tridas.io;
 
+import java.io.BufferedReader;
+import java.io.DataInputStream;
+import java.io.FileInputStream;
+import java.io.InputStreamReader;
 import java.nio.charset.Charset;
 import java.nio.charset.IllegalCharsetNameException;
 import java.nio.charset.UnsupportedCharsetException;
@@ -23,6 +27,7 @@ import java.util.Collections;
 import java.util.HashMap;
 import java.util.Iterator;
 import java.util.Map;
+import java.util.TreeMap;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -33,27 +38,15 @@ import org.tridas.io.formats.besancon.BesanconReader;
 import org.tridas.io.formats.besancon.BesanconWriter;
 import org.tridas.io.formats.catras.CatrasReader;
 import org.tridas.io.formats.catras.CatrasWriter;
+import org.tridas.io.formats.corina.CorinaReader;
+import org.tridas.io.formats.corina.CorinaWriter;
 import org.tridas.io.formats.csvmatrix.CSVMatrixReader;
 import org.tridas.io.formats.csvmatrix.CSVMatrixWriter;
+import org.tridas.io.formats.dendrodb.DendroDBReader;
 import org.tridas.io.formats.excelmatrix.ExcelMatrixReader;
 import org.tridas.io.formats.excelmatrix.ExcelMatrixWriter;
 import org.tridas.io.formats.heidelberg.HeidelbergReader;
 import org.tridas.io.formats.heidelberg.HeidelbergWriter;
-import org.tridas.io.formats.sheffield.SheffieldReader;
-import org.tridas.io.formats.sheffield.SheffieldWriter;
-import org.tridas.io.formats.windendro.WinDendroReader;
-import org.tridas.io.formats.tridas.TridasReader;
-import org.tridas.io.formats.tridas.TridasWriter;
-import org.tridas.io.formats.trims.TrimsReader;
-import org.tridas.io.formats.trims.TrimsWriter;
-import org.tridas.io.formats.tucson.TucsonReader;
-import org.tridas.io.formats.tucson.TucsonWriter;
-import org.tridas.io.formats.tucsoncompact.TucsonCompactReader;
-import org.tridas.io.formats.tucsoncompact.TucsonCompactWriter;
-import org.tridas.io.formats.vformat.VFormatReader;
-import org.tridas.io.formats.vformat.VFormatWriter;
-import org.tridas.io.formats.topham.TophamReader;
-import org.tridas.io.formats.topham.TophamWriter;
 import org.tridas.io.formats.nottingham.NottinghamReader;
 import org.tridas.io.formats.nottingham.NottinghamWriter;
 import org.tridas.io.formats.odfmatrix.ODFMatrixReader;
@@ -64,9 +57,23 @@ import org.tridas.io.formats.oxford.OxfordReader;
 import org.tridas.io.formats.oxford.OxfordWriter;
 import org.tridas.io.formats.past4.Past4Reader;
 import org.tridas.io.formats.past4.Past4Writer;
-import org.tridas.io.formats.corina.CorinaWriter;
-import org.tridas.io.formats.corina.CorinaReader;
-import org.tridas.io.formats.dendrodb.DendroDBReader;
+import org.tridas.io.formats.sheffield.SheffieldReader;
+import org.tridas.io.formats.sheffield.SheffieldWriter;
+import org.tridas.io.formats.topham.TophamReader;
+import org.tridas.io.formats.topham.TophamWriter;
+import org.tridas.io.formats.tridas.TridasReader;
+import org.tridas.io.formats.tridas.TridasWriter;
+import org.tridas.io.formats.trims.TrimsReader;
+import org.tridas.io.formats.trims.TrimsWriter;
+import org.tridas.io.formats.tucson.TucsonReader;
+import org.tridas.io.formats.tucson.TucsonWriter;
+import org.tridas.io.formats.tucsoncompact.TucsonCompactReader;
+import org.tridas.io.formats.tucsoncompact.TucsonCompactWriter;
+import org.tridas.io.formats.vformat.VFormatReader;
+import org.tridas.io.formats.vformat.VFormatWriter;
+import org.tridas.io.formats.windendro.WinDendroReader;
+import org.tridas.spatial.CoordinateReferenceSystem;
+import org.tridas.spatial.GMLPointSRSHandler.AxisOrder;
 
 
 
@@ -88,6 +95,8 @@ public class TridasIO {
 	private static String readingCharset = Charset.defaultCharset().displayName();
 	private static String writingCharset = Charset.defaultCharset().displayName();
 	private static boolean charsetDetection = false;
+	
+	public static final TreeMap<Integer, CoordinateReferenceSystem> crsMap = new TreeMap<Integer, CoordinateReferenceSystem>();
 	
 	static {
 		// register file readers/writers
@@ -134,7 +143,80 @@ public class TridasIO {
 		registerFileWriter(VFormatWriter.class);
 		registerFileWriter(Past4Writer.class);
 
+		initializeCRS();
 	}
+	
+	/**
+	 * Create map of all the coordinate reference systems supported by the library.  This
+	 * function reads the definitions from the text file in coordsys/srsinfo.txt.
+	 */
+	private static void initializeCRS()
+	{
+		
+		try{
+			  FileInputStream fstream = new FileInputStream(TridasIO.class.getResource("/coordsys/srsinfo.txt").getFile().toString());
+			  DataInputStream in = new DataInputStream(fstream);
+			  BufferedReader br = new BufferedReader(new InputStreamReader(in));
+			  String strLine = null;
+			  Integer linenum = 0;
+			  //Read Line By Line
+			  while ((strLine = br.readLine()) != null)   {
+				  linenum++;
+				  // Ignore comments line
+				  if(strLine.startsWith("#")) continue;
+				  
+				  // Print the content on the console
+				  String[] parts = strLine.split(";");
+				  
+				  // Parse the EPSG code
+				  Integer code=  null;
+				  try{
+					  code = Integer.parseInt(parts[0]);
+				  } catch (NumberFormatException e)
+				  {
+					  log.error("Line " + linenum +" contains invalid EPSG code ("+parts[0]+". Skipping.");
+					  continue;
+				  } 
+				  
+				  // Parse the axis order
+				  AxisOrder order = null;
+				  if(parts[2].equals("1"))
+				  {
+					  order = AxisOrder.LONG_LAT;
+				  }
+				  else if (parts[2].equals("2"))
+				  {
+					  order = AxisOrder.LAT_LONG;
+				  }
+				  else
+				  {
+					  log.error("Line " + linenum +" contains invalid axis order code. Skipping.");
+					  continue;
+				  }
+				  CoordinateReferenceSystem crs = new CoordinateReferenceSystem(code, parts[1], order, parts[3]);
+				  
+				  
+				  // TODO Ignore all CRS with +proj=longlat as this is not yet supported
+				  // by the JMapProjLib.  
+				  if(crs.getProjStr().contains("longlat")) continue;
+				  
+				  // Add to CRS map
+				  crsMap.put(code, crs);
+				  
+			  } 
+			  //Close the input stream
+			  in.close();
+			  
+	    }catch (Exception e){
+		  log.error(e.getMessage());
+		}
+	    
+
+	    
+	    
+	 }
+		
+	
 	
 	/**
 	 * Sets if charset detection is used when loading files. Usually this doesn't

@@ -1,24 +1,25 @@
-package org.tridas.io.util;
+package org.tridas.spatial;
 
 import java.awt.geom.Point2D;
 import java.util.ArrayList;
 
-import org.tridas.io.I18n;
-
 import net.opengis.gml.schema.PointType;
 import net.opengis.gml.schema.Pos;
 
+import org.tridas.io.I18n;
+import org.tridas.io.TridasIO;
+
 import com.jhlabs.map.proj.Projection;
 import com.jhlabs.map.proj.ProjectionException;
-import com.jhlabs.map.proj.ProjectionFactory;
 
 /**
- * Helper class to take care of projecting coordinates and handling axis order ambiguities.  
+ * Helper class to take care of handling the srsName for coordinates.  Where
+ * possible it will project points and handle axis order ambiguities.  
  * 
  * @author pwb48
  *
  */
-public class TridasPointProjectionHandler  {
+public class GMLPointSRSHandler  {
 
 	private static final long serialVersionUID = 1L;
 	private Projection proj = null;
@@ -27,7 +28,7 @@ public class TridasPointProjectionHandler  {
 	private Point2D.Double projectedpoint = new Point2D.Double();
 
 	
-	enum AxisOrder{
+	public enum AxisOrder{
 		LAT_LONG,
 		LONG_LAT;
 	}
@@ -37,7 +38,7 @@ public class TridasPointProjectionHandler  {
 	 * @param point
 	 * @throws ProjectionException
 	 */
-	public TridasPointProjectionHandler(PointType point) throws ProjectionException
+	public GMLPointSRSHandler(PointType point) throws ProjectionException
 	{
 		this.point = point;
 		
@@ -185,35 +186,36 @@ public class TridasPointProjectionHandler  {
 				throw new ProjectionException("The URN supplied does not refer to the EPSG database.  The EPSG is the only authority currently supported");
 			}
 			
-			//TODO Need to look this up in the EPSG database
-			if(urnparts[4].equalsIgnoreCase("EPSG") && urnparts[6].equalsIgnoreCase("4326"))
-			{
-				axisOrder = AxisOrder.LAT_LONG;
-			}
-			
-			
-			if(urnparts[4].equalsIgnoreCase("EPSG") && urnparts[6].equalsIgnoreCase("4326"))
-			{
-				// This is the standard coordinate references system so no need to look it up
-				return;
-			}
-			else
-			{
-				// This means we're looking at another EPSG crs so try looking it up
-				try{
-					proj = ProjectionFactory.getNamedPROJ4CoordinateSystem(urnparts[4]+":"+urnparts[6]);
-					if(proj==null)
+			// Look up axis order for this EPSG code
+			try
+			{	
+				Integer code = Integer.parseInt(urnparts[6]);
+				CoordinateReferenceSystem crs = TridasIO.crsMap.get(code);
+				axisOrder = crs.getAxisOrder();
+				
+				if(urnparts[6].equalsIgnoreCase("4326"))
+				{
+					// This is the standard coordinate references system so no need to look it up
+					return;
+				}
+				else
+				{
+					// This means we're looking at another EPSG crs so try looking it up
+					try{
+						proj = crs.getAsProjection();
+						if(proj==null)
+						{
+							throw new ProjectionException(I18n.getText("srsname.notsupported"));
+						}
+					} catch (ProjectionException e)
 					{
 						throw new ProjectionException(I18n.getText("srsname.notsupported"));
 					}
-				} catch (ProjectionException e)
-				{
-					throw new ProjectionException(I18n.getText("srsname.notsupported"));
+					
 				}
 				
-			}
-			
-			
+			} catch (NumberFormatException e){}
+
 		}
 		else if (srsName.equalsIgnoreCase("WGS84") || (srsName.equals("EPSG:4326")))
 		{
@@ -221,11 +223,14 @@ public class TridasPointProjectionHandler  {
 			return;
 		}
 		
-		else 
+		else if (srsName.toUpperCase().startsWith("EPSG:")) 
 		{
 			// Some other coordinate system so have a stab at converting it
 			try{
-				proj = ProjectionFactory.getNamedPROJ4CoordinateSystem(srsName);
+				Integer code = Integer.parseInt(srsName.substring(srsName.indexOf(":")));
+				CoordinateReferenceSystem crs = TridasIO.crsMap.get(code);
+								
+				proj = crs.getAsProjection();
 				
 				if(proj==null)
 				{
@@ -233,7 +238,11 @@ public class TridasPointProjectionHandler  {
 				}
 				
 				return;
-			} catch (ProjectionException e)
+			}catch (NumberFormatException e2)
+			{
+				throw new ProjectionException(I18n.getText("srsname.notsupported"));
+			}
+			catch (ProjectionException e)
 			{
 				throw new ProjectionException(I18n.getText("srsname.notsupported"));
 			}
@@ -291,7 +300,7 @@ public class TridasPointProjectionHandler  {
 	public PointType getAsWGS84PointType()
 	{
 		PointType pt = new PointType();
-		pt.setSrsName(CoordinatesUtils.WGS84);
+		pt.setSrsName(SpatialUtils.WGS84);
 		Pos pos = new Pos();
 		ArrayList<Double> coords = new ArrayList<Double>();
 		coords.add(projectedpoint.getX());

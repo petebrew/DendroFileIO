@@ -35,6 +35,7 @@ public abstract class AbstractDendroFileReader {
 	private ArrayList<ConversionWarning> warnings = new ArrayList<ConversionWarning>();
 	private final Class<? extends IMetadataFieldSet> defaultFieldsClass;
 	private String origFilename;
+
 	
 	/**
 	 * @param argDefaultFieldsClass

@@ -42,9 +42,9 @@ import org.tridas.io.formats.tridas.TridasReader;
 import org.tridas.io.formats.tridas.TridasWriter;
 import org.tridas.io.formats.tucson.TridasToTucsonDefaults;
 import org.tridas.io.formats.tucson.TucsonWriter;
-import org.tridas.io.util.TridasPointProjectionHandler;
 import org.tridas.schema.TridasObject;
 import org.tridas.schema.TridasTridas;
+import org.tridas.spatial.GMLPointSRSHandler;
 
 import com.jhlabs.map.proj.ProjectionException;
 
@@ -101,9 +101,9 @@ public class UnitTest extends TestCase {
 			
 			TridasObject o = container.getProjects().get(0).getObjects().get(0);
 			
-			TridasPointProjectionHandler projectionHandler = null;
+			GMLPointSRSHandler projectionHandler = null;
 			try {
-				projectionHandler = new TridasPointProjectionHandler(o.getLocation().getLocationGeometry().getPoint());
+				projectionHandler = new GMLPointSRSHandler(o.getLocation().getLocationGeometry().getPoint());
 				
 			} catch (ProjectionException e) {
 				System.out.println(e.getLocalizedMessage());

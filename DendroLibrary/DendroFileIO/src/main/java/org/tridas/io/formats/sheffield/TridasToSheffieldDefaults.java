@@ -32,7 +32,6 @@ import org.tridas.io.formats.heidelberg.HeidelbergToTridasDefaults.DefaultFields
 import org.tridas.io.util.DateUtils;
 import org.tridas.io.util.ITRDBTaxonConverter;
 import org.tridas.io.util.SafeIntYear;
-import org.tridas.io.util.TridasPointProjectionHandler;
 import org.tridas.io.util.UnitUtils;
 import org.tridas.schema.ComplexPresenceAbsence;
 import org.tridas.schema.NormalTridasDatingType;
@@ -49,6 +48,7 @@ import org.tridas.schema.TridasRadius;
 import org.tridas.schema.TridasSample;
 import org.tridas.schema.TridasValues;
 import org.tridas.schema.TridasWoodCompleteness;
+import org.tridas.spatial.GMLPointSRSHandler;
 
 public class TridasToSheffieldDefaults extends AbstractMetadataFieldSet implements IMetadataFieldSet {
 	
@@ -102,7 +102,7 @@ public class TridasToSheffieldDefaults extends AbstractMetadataFieldSet implemen
 			{
 				if(o.getLocation().getLocationGeometry().isSetPoint())
 				{
-					TridasPointProjectionHandler tph = new TridasPointProjectionHandler(o.getLocation().getLocationGeometry().getPoint());
+					GMLPointSRSHandler tph = new GMLPointSRSHandler(o.getLocation().getLocationGeometry().getPoint());
 					getStringDefaultValue(DefaultFields.LAT_LONG).setValue(tph.getWGS84LatCoord().toString()+ ";" + tph.getWGS84LongCoord().toString());
 				}
 			}

@@ -18,7 +18,9 @@ package org.tridas.io.formats.heidelberg;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.HashMap;
+import java.util.Iterator;
 import java.util.List;
+import java.util.Map;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -39,7 +41,6 @@ import org.tridas.io.formats.heidelberg.HeidelbergToTridasDefaults.FHPith;
 import org.tridas.io.formats.heidelberg.HeidelbergToTridasDefaults.FHSeriesType;
 import org.tridas.io.formats.heidelberg.HeidelbergToTridasDefaults.FHStartsOrEndsWith;
 import org.tridas.io.formats.heidelberg.HeidelbergToTridasDefaults.FHWaldKante;
-import org.tridas.io.util.CoordinatesUtils;
 import org.tridas.io.util.DateUtils;
 import org.tridas.io.util.ITRDBTaxonConverter;
 import org.tridas.io.util.SafeIntYear;
@@ -58,6 +59,7 @@ import org.tridas.schema.TridasTridas;
 import org.tridas.schema.TridasUnit;
 import org.tridas.schema.TridasValue;
 import org.tridas.schema.TridasValues;
+import org.tridas.spatial.SpatialUtils;
 
 /**
  * @author daniel
@@ -605,6 +607,12 @@ public class HeidelbergReader extends AbstractDendroFileReader {
 	
 	}
 	
+	private void populateIndexedHeaderField(String prefix, 
+			HashMap<String, String> fileMetadata, HeidelbergToTridasDefaults defaults)
+	{
+		
+	}
+	
 	@SuppressWarnings("unchecked")
 	private void populateHeaderInformation() {
 		// clone a new default for each series, and add corresponding metadata from that
@@ -627,6 +635,23 @@ public class HeidelbergReader extends AbstractDendroFileReader {
 			//COUNTRY, new StringDefaultValue());
 			if(fileMetadata.containsKey("country")){
 				s.defaults.getStringDefaultValue(DefaultFields.COUNTRY).setValue(fileMetadata.get("country"));
+			}
+			
+			// COMMENTS
+			String comments = "";
+			Iterator it = fileMetadata.entrySet().iterator();
+			while(it.hasNext())
+			{
+				Map.Entry pairs = (Map.Entry)it.next();
+				String key = (String) pairs.getKey();
+				if(key.startsWith("comment["))
+				{
+					comments += pairs.getValue() + "; ";
+				}
+			}
+			if(comments.length()>0)
+			{
+				s.defaults.getStringDefaultValue(DefaultFields.COMMENTS).setValue(comments.substring(0, comments.length()-2));
 			}
 			
 			//DATA_FORMAT, new GenericDefaultValue<FHDataFormat>());
@@ -791,7 +816,7 @@ public class HeidelbergReader extends AbstractDendroFileReader {
 			//LATITUDE, new DoubleDefaultValue());
 			if(fileMetadata.containsKey("latitude")){
 				try{
-					Boolean success = s.defaults.getDoubleDefaultValue(DefaultFields.LATITUDE).setValue(CoordinatesUtils.parseLatLonFromHalfLatLongString(fileMetadata.get("latitude")));
+					Boolean success = s.defaults.getDoubleDefaultValue(DefaultFields.LATITUDE).setValue(SpatialUtils.parseLatLonFromHalfLatLongString(fileMetadata.get("latitude")));
 					if(success==false)
 					{
 						addWarning(new ConversionWarning(WarningType.INVALID, 
@@ -833,7 +858,7 @@ public class HeidelbergReader extends AbstractDendroFileReader {
 			//LONGITUDE, new StringDefaultValue());
 			if(fileMetadata.containsKey("longitude")){
 				try{
-					Boolean success = s.defaults.getDoubleDefaultValue(DefaultFields.LONGITUDE).setValue(CoordinatesUtils.parseLatLonFromHalfLatLongString(fileMetadata.get("longitude")));
+					Boolean success = s.defaults.getDoubleDefaultValue(DefaultFields.LONGITUDE).setValue(SpatialUtils.parseLatLonFromHalfLatLongString(fileMetadata.get("longitude")));
 					if(success==false)
 					{
 						addWarning(new ConversionWarning(WarningType.INVALID, 

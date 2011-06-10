@@ -35,7 +35,6 @@ import org.tridas.io.formats.sheffield.TridasToSheffieldDefaults.SheffieldEdgeCo
 import org.tridas.io.formats.sheffield.TridasToSheffieldDefaults.SheffieldPeriodCode;
 import org.tridas.io.formats.sheffield.TridasToSheffieldDefaults.SheffieldShapeCode;
 import org.tridas.io.formats.sheffield.TridasToSheffieldDefaults.SheffieldVariableCode;
-import org.tridas.io.util.CoordinatesUtils;
 import org.tridas.io.util.ITRDBTaxonConverter;
 import org.tridas.io.util.SafeIntYear;
 import org.tridas.schema.ComplexPresenceAbsence;
@@ -67,6 +66,7 @@ import org.tridas.schema.TridasUnit;
 import org.tridas.schema.TridasValues;
 import org.tridas.schema.TridasVariable;
 import org.tridas.schema.TridasWoodCompleteness;
+import org.tridas.spatial.SpatialUtils;
 
 public class SheffieldToTridasDefaults extends TridasMetadataFieldSet implements IMetadataFieldSet {
 	
@@ -128,7 +128,7 @@ public class SheffieldToTridasDefaults extends TridasMetadataFieldSet implements
 		// If Lat Long is available use it
 		if (getDefaultValue(DefaultFields.LATITUDE).getValue() != null
 				&& getDefaultValue(DefaultFields.LONGITUDE).getValue() != null) {
-			TridasLocationGeometry geometry = CoordinatesUtils.getLocationGeometry(getDoubleDefaultValue(
+			TridasLocationGeometry geometry = SpatialUtils.getLocationGeometry(getDoubleDefaultValue(
 					DefaultFields.LATITUDE).getValue(), getDoubleDefaultValue(DefaultFields.LONGITUDE).getValue());
 			TridasLocation location = new TridasLocation();
 			location.setLocationGeometry(geometry);
@@ -138,7 +138,7 @@ public class SheffieldToTridasDefaults extends TridasMetadataFieldSet implements
 		{
 			// Convert UK coords and use these 
 			try{
-				o.setLocation(CoordinatesUtils.getLocationGeometryFromBNG(getStringDefaultValue(DefaultFields.UK_COORDS).getValue()));
+				o.setLocation(SpatialUtils.getLocationGeometryFromBNG(getStringDefaultValue(DefaultFields.UK_COORDS).getValue()));
 			} catch (NumberFormatException e){ }
 		}
 		
