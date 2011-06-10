@@ -13,7 +13,7 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package org.tridas.io.util;
+package org.tridas.spatial;
 
 import java.awt.geom.Point2D;
 import java.util.ArrayList;
@@ -23,8 +23,7 @@ import java.util.regex.Pattern;
 import net.opengis.gml.schema.PointType;
 import net.opengis.gml.schema.Pos;
 
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
+import org.tridas.io.util.StringUtils;
 import org.tridas.schema.TridasLocation;
 import org.tridas.schema.TridasLocationGeometry;
 
@@ -36,17 +35,16 @@ import com.jhlabs.map.proj.ProjectionFactory;
  * 
  * @author peterbrewer
  */
-public class CoordinatesUtils {
+public class SpatialUtils {
 	
-	private static final Logger log = LoggerFactory.getLogger(CoordinatesUtils.class);	
+	//private static final Logger log = LoggerFactory.getLogger(SpatialUtils.class);	
 
-	//public static String WGS84 = "urn:ogc:def:crs:EPSG:6.6:4326";
-	// Dumb down for now - remember to check all uses of this when changing back to
+	// TODO
+	// Dumbed down for now - remember to check all uses of this when changing back to
 	// the correct URN style
+	//public static String WGS84 = "urn:ogc:def:crs:EPSG:6.6:4326";
 	public static String WGS84 = "EPSG:4326";
-	
-
-	
+		
 	/**
 	 * Convert DMS format coordinate into decimal degrees, where W and S are
 	 * indicated by negative degrees.
@@ -196,6 +194,12 @@ public class CoordinatesUtils {
 		
 	}
 	
+	/**
+	 * Helper function for getting the JMapProjLib Projection
+	 * for the British National Grid using PROJ4 specification
+	 * 
+	 * @return
+	 */
 	public static Projection getBritishNationalGrid()
 	{
 		return ProjectionFactory.fromPROJ4Specification(
@@ -216,8 +220,11 @@ public class CoordinatesUtils {
 
 	
 	/**
-	 * Converts a British Nationa Grid coordinate into EPSG:4326 
-	 * lat long coordinates
+	 * Converts a SN****** style British National Grid coordinate into EPSG:4326 
+	 * lat long coordinates. As BNG refs refer to tiles, this function also sets
+	 * the precision of the reference depending on the size of the tile referred 
+	 * to.  For instance 12 character reference refers to 1m tiles, therefore 
+	 * precision is set to 1m.
 	 * 
 	 * @param bngStr
 	 * @return
@@ -294,6 +301,15 @@ public class CoordinatesUtils {
 		  return gridRef;
 		}
 	
+	/**
+	 * Converts British National Grid reference with letter prefix to full numeric
+	 * reference style.  As standard SN****** style codes refer to tiles, this 
+	 * function returns the coordinate as the centre of the referenced tile. Works on
+	 * references up to 12 characters long (=1m grid tiles)
+	 * 
+	 * @param gridref
+	 * @return
+	 */
 	public static Point2D.Double BNGLetterReftoBNGNumberRef(String gridref) {
 		
 		gridref = gridref.trim();
@@ -308,9 +324,9 @@ public class CoordinatesUtils {
 		{
 			throw new NumberFormatException("Unable to extract coordinates from string.  String must be 4 or more characters");
 		}
-		if(gridref.length()>14)
+		if(gridref.length()>12)
 		{
-			throw new NumberFormatException("Unable to extract coordinates from string.  String must be 14 or less characters");
+			throw new NumberFormatException("Unable to extract coordinates from string.  String must be 12 or less characters");
 		}
 		if(!gridref.matches("([A-Za-z]){2}([0-9])+"))
 		{
@@ -381,7 +397,7 @@ public class CoordinatesUtils {
 	
 	
 	/**
-	 * Create a TridasLocationGeoemtry from a GML pos.  Assumes 
+	 * Create a TridasLocationGeoemtry from a GML Pos.  Assumes 
 	 * coordinates are WGS84.
 	 * 
 	 * @param pos
@@ -390,40 +406,13 @@ public class CoordinatesUtils {
 	public static TridasLocationGeometry getLocationGeometry(Pos pos) {
 		TridasLocationGeometry geometry = new TridasLocationGeometry();
 		PointType point = new PointType();
-		point.setSrsName(CoordinatesUtils.WGS84);
+		point.setSrsName(SpatialUtils.WGS84);
 		point.setPos(pos);
 		geometry.setPoint(point);
 		return geometry;
 		
 	}
-	
-	/**
-	 * Attempt to extract a decimal latitude from a complete lat long string.
-	 * If unsuccessful it returns null.
-	 * 
-	 * @param str
-	 * @return
-	 */
-	public static Double parseLatitudeFromLatLongString(String str)
-	{
 		
-		return null;
-	}
-	
-	/**
-	 * Attempt to extract a decimal longitude from a complete lat long string.
-	 * If unsuccessful it returns null.
-	 * 
-	 * @param str
-	 * @return
-	 */
-	public static Double parseLongitudeFromLatLongString(String str)
-	{
-		
-		return null;
-	}
-	
-	
 	/**
 	 * Attempt to convert a string to a decimal lat or lon value.
 	 * 

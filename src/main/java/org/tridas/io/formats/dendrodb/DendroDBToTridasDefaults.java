@@ -22,7 +22,6 @@ import org.tridas.io.defaults.values.DoubleDefaultValue;
 import org.tridas.io.defaults.values.GenericDefaultValue;
 import org.tridas.io.defaults.values.SafeIntYearDefaultValue;
 import org.tridas.io.defaults.values.StringDefaultValue;
-import org.tridas.io.util.CoordinatesUtils;
 import org.tridas.schema.ControlledVoc;
 import org.tridas.schema.DatingSuffix;
 import org.tridas.schema.NormalTridasUnit;
@@ -38,6 +37,7 @@ import org.tridas.schema.TridasSample;
 import org.tridas.schema.TridasUnit;
 import org.tridas.schema.TridasValues;
 import org.tridas.schema.TridasVariable;
+import org.tridas.spatial.SpatialUtils;
 
 public class DendroDBToTridasDefaults extends TridasMetadataFieldSet implements
 		IMetadataFieldSet {
@@ -124,7 +124,7 @@ public class DendroDBToTridasDefaults extends TridasMetadataFieldSet implements
 				getDefaultValue(DDBDefaultFields.LONGITUDE).getValue()!=null))
 		{
 			TridasLocation loc = new TridasLocation();
-			loc.setLocationGeometry(CoordinatesUtils.getLocationGeometry(
+			loc.setLocationGeometry(SpatialUtils.getLocationGeometry(
 					getDoubleDefaultValue(DDBDefaultFields.LATITUDE).getValue(),
 					getDoubleDefaultValue(DDBDefaultFields.LONGITUDE).getValue()));
 			e.setLocation(loc);

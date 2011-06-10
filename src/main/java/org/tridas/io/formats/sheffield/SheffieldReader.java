@@ -40,7 +40,6 @@ import org.tridas.io.formats.sheffield.TridasToSheffieldDefaults.SheffieldPeriod
 import org.tridas.io.formats.sheffield.TridasToSheffieldDefaults.SheffieldPithCode;
 import org.tridas.io.formats.sheffield.TridasToSheffieldDefaults.SheffieldShapeCode;
 import org.tridas.io.formats.sheffield.TridasToSheffieldDefaults.SheffieldVariableCode;
-import org.tridas.io.util.CoordinatesUtils;
 import org.tridas.io.util.SafeIntYear;
 import org.tridas.schema.ComplexPresenceAbsence;
 import org.tridas.schema.SeriesLink;
@@ -54,6 +53,7 @@ import org.tridas.schema.TridasSample;
 import org.tridas.schema.TridasTridas;
 import org.tridas.schema.TridasValue;
 import org.tridas.schema.TridasValues;
+import org.tridas.spatial.SpatialUtils;
 
 /**
  * Reader for the file format produced by Ian Tyers'
@@ -226,7 +226,7 @@ public class SheffieldReader extends AbstractDendroFileReader {
 				if (!lineString.equals("?")) {
 					defaults.getStringDefaultValue(DefaultFields.UK_COORDS).setValue(lineString);
 					try{
-						CoordinatesUtils.getLocationGeometryFromBNG(lineString);
+						SpatialUtils.getLocationGeometryFromBNG(lineString);
 					} catch (NumberFormatException e)
 					{
 						addWarning(new ConversionWarning(WarningType.INVALID, "British National Grid coordinates invalid",
@@ -781,7 +781,7 @@ public class SheffieldReader extends AbstractDendroFileReader {
 			}
 		}
 		
-		return CoordinatesUtils.getDecimalCoords(sign, degrees, minutes, null);
+		return SpatialUtils.getDecimalCoords(sign, degrees, minutes, null);
 	}
 	
 	/**

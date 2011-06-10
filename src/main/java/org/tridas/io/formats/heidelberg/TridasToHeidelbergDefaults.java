@@ -44,7 +44,6 @@ import org.tridas.io.formats.heidelberg.HeidelbergToTridasDefaults.FHStartsOrEnd
 import org.tridas.io.formats.heidelberg.HeidelbergToTridasDefaults.FHWaldKante;
 import org.tridas.io.util.ITRDBTaxonConverter;
 import org.tridas.io.util.SafeIntYear;
-import org.tridas.io.util.TridasPointProjectionHandler;
 import org.tridas.schema.ComplexPresenceAbsence;
 import org.tridas.schema.PresenceAbsence;
 import org.tridas.schema.TridasBark;
@@ -64,6 +63,7 @@ import org.tridas.schema.TridasSapwood;
 import org.tridas.schema.TridasUnit;
 import org.tridas.schema.TridasValues;
 import org.tridas.schema.TridasWoodCompleteness;
+import org.tridas.spatial.GMLPointSRSHandler;
 
 public class TridasToHeidelbergDefaults extends AbstractMetadataFieldSet implements IMetadataFieldSet {
 	
@@ -504,7 +504,7 @@ public class TridasToHeidelbergDefaults extends AbstractMetadataFieldSet impleme
 			{
 				if(o.getLocation().getLocationGeometry().isSetPoint())
 				{
-					TridasPointProjectionHandler tph = new TridasPointProjectionHandler(o.getLocation().getLocationGeometry().getPoint());
+					GMLPointSRSHandler tph = new GMLPointSRSHandler(o.getLocation().getLocationGeometry().getPoint());
 					getDoubleDefaultValue(DefaultFields.LATITUDE).setValue(tph.getWGS84LatCoord());
 					getDoubleDefaultValue(DefaultFields.LONGITUDE).setValue(tph.getWGS84LongCoord());
 				}

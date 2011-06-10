@@ -54,13 +54,13 @@ import org.tridas.io.defaults.TridasMetadataFieldSet;
 import org.tridas.io.exceptions.ConversionWarning;
 import org.tridas.io.exceptions.InvalidDendroFileException;
 import org.tridas.io.exceptions.ConversionWarning.WarningType;
-import org.tridas.io.util.CoordinatesUtils;
 import org.tridas.io.util.IOUtils;
-import org.tridas.io.util.TridasPointProjectionHandler;
 import org.tridas.io.util.TridasUtils;
 import org.tridas.schema.TridasObject;
 import org.tridas.schema.TridasProject;
 import org.tridas.schema.TridasTridas;
+import org.tridas.spatial.SpatialUtils;
+import org.tridas.spatial.GMLPointSRSHandler;
 import org.w3c.dom.Document;
 import org.w3c.dom.NodeList;
 import org.xml.sax.SAXException;
@@ -192,7 +192,7 @@ public class TridasReader extends AbstractDendroFileReader {
 							PointType point = o.getLocation().getLocationGeometry().getPoint();
 							if(!point.isSetSrsName())
 							{
-								o.getLocation().getLocationGeometry().getPoint().setSrsName(CoordinatesUtils.WGS84);
+								o.getLocation().getLocationGeometry().getPoint().setSrsName(SpatialUtils.WGS84);
 								addWarning(new ConversionWarning(WarningType.ASSUMPTION, 
 										I18n.getText("srsname.noneSpecifiedAssumingWGS84")));
 								continue;
@@ -200,7 +200,7 @@ public class TridasReader extends AbstractDendroFileReader {
 							else
 							{
 								try{
-									TridasPointProjectionHandler tph = new TridasPointProjectionHandler(point);
+									GMLPointSRSHandler tph = new GMLPointSRSHandler(point);
 									o.getLocation().getLocationGeometry().setPoint(tph.getAsWGS84PointType());
 									if(tph.hasSpecificProjection())
 									{
@@ -210,7 +210,7 @@ public class TridasReader extends AbstractDendroFileReader {
 								}
 								catch (ProjectionException ex)
 								{
-									o.getLocation().getLocationGeometry().getPoint().setSrsName(CoordinatesUtils.WGS84);
+									o.getLocation().getLocationGeometry().getPoint().setSrsName(SpatialUtils.WGS84);
 									addWarning(new ConversionWarning(WarningType.ASSUMPTION, 
 											I18n.getText("srsname.notSupportedAssumingWGS84")));
 								}
