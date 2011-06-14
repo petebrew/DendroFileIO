@@ -26,8 +26,6 @@ import org.tridas.io.defaults.values.DoubleDefaultValue;
 import org.tridas.io.defaults.values.GenericDefaultValue;
 import org.tridas.io.defaults.values.IntegerDefaultValue;
 import org.tridas.io.defaults.values.StringDefaultValue;
-import org.tridas.io.exceptions.ConversionWarning;
-import org.tridas.io.exceptions.ConversionWarning.WarningType;
 import org.tridas.io.formats.sheffield.TridasToSheffieldDefaults.SheffieldChronologyType;
 import org.tridas.io.formats.sheffield.TridasToSheffieldDefaults.SheffieldDataType;
 import org.tridas.io.formats.sheffield.TridasToSheffieldDefaults.SheffieldDateType;

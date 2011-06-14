@@ -607,11 +607,6 @@ public class HeidelbergReader extends AbstractDendroFileReader {
 	
 	}
 	
-	private void populateIndexedHeaderField(String prefix, 
-			HashMap<String, String> fileMetadata, HeidelbergToTridasDefaults defaults)
-	{
-		
-	}
 	
 	@SuppressWarnings("unchecked")
 	private void populateHeaderInformation() {
