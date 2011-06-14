@@ -1,0 +1,207 @@
+<?xml version="1.0" encoding="UTF-8"?>
+    <project xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+ xsi:schemaLocation="http://www.tridas.org/1.2.2 ../../../../java/XMLSchema/1.2.2/tridas-1.2.2.xsd"
+ xmlns="http://www.tridas.org/1.2.2"
+ xmlns:xlink="http://www.w3.org/1999/xlink">
+        <title>Coordinate Testing</title>
+        <identifier domain="dendro.cornell.edu">XX</identifier>
+        <createdTimestamp certainty="exact">1997-02-01T14:13:51.0Z</createdTimestamp>
+        <lastModifiedTimestamp certainty="exact">1997-02-01T14:13:51.0Z</lastModifiedTimestamp>
+        <type>Dating</type>
+        <description>Dummy project containing an Oil terminal in the Shetland Islands in British National Grid format</description>
+        <laboratory>
+            <name>Malcolm and Carolyn Weiner Laboratory for Aegean and Near Eastern Dendrochronology</name>
+            <address>
+                <addressLine1>B48 Goldwin Smith Hall</addressLine1>
+                <addressLine2>Cornell University</addressLine2>
+                <cityOrTown>Ithaca</cityOrTown>
+                <stateProvinceRegion>NY</stateProvinceRegion>
+                <postalCode>14853</postalCode>
+                <country>USA</country>
+            </address>
+        </laboratory>
+        <category>Testing</category>
+        <investigator>Peter Brewer</investigator>
+        <period>1976-present</period>
+        <object>
+            <title>Sullom Voe Oil Terminal</title>
+            <identifier domain="dendro.cornell.edu">xxx</identifier>
+            <createdTimestamp certainty="exact">1997-02-01T14:13:51.0Z</createdTimestamp>
+            <lastModifiedTimestamp certainty="exact">1997-02-01T14:13:51.0Z</lastModifiedTimestamp>
+            <type normalStd="Corina Dictionary" normalId="4" normal="Building">Building</type>
+            <description>Oil terminal on Shetland islands</description>
+            <location>
+                <locationGeometry xmlns:gml="http://www.opengis.net/gml">
+                    <gml:Point srsName="invalid">
+                        <gml:pos>439668 1175316</gml:pos>
+                    </gml:Point>
+                </locationGeometry>
+                <locationPrecision>10</locationPrecision>
+            </location>
+                <element>
+                    <title>C-TWT-65</title>
+                    <identifier domain="dendro.cornell.edu">89dbd409-03a3-42a0-9391-62c6be7009ad</identifier>
+                    <createdTimestamp certainty="exact">1997-02-01T14:13:51.0Z</createdTimestamp>
+                    <lastModifiedTimestamp certainty="exact">1997-02-01T14:13:51.0Z</lastModifiedTimestamp>
+                    <type normalStd="Corina Dictionary" normalId="3" normal="Rafter">Rafter</type>
+                    <description>15th Rafter from the south</description>
+                    <taxon normalStd="Catalogue of Life Annual Checklist 2008" normal="Quercus" normalId="49139">Quercus sp.</taxon>
+                    <dimensions>
+                        <unit normalTridas="metres"/>
+                        <height>1</height>
+                        <width>1</width>
+                        <depth>1</depth>
+                    </dimensions>
+                    <authenticity>Original</authenticity>
+                    <sample>
+                        <title>C-TWT-65-B</title>
+                        <identifier domain="dendro.cornell.edu">ff688357-b2d4-4394-a21a-90696cd4558c</identifier>
+                        <createdTimestamp certainty="exact">1998-02-01T14:13:51.0Z</createdTimestamp>
+                        <lastModifiedTimestamp certainty="exact">1997-02-28T14:13:51.0Z</lastModifiedTimestamp>
+                        <type normal="Corina Dictionary" normalId="1" normalStd="Section">Section</type>
+                        <samplingDate certainty="exact">1981-07-25</samplingDate>
+                        <state>Dry</state>
+                        <radius>
+                            <title>C-TWT-65-A-B</title>
+                            <identifier domain="dendro.cornell.edu">5b7baa8b-cd4e-4b3b-88fa-82939420e544</identifier>
+                            <createdTimestamp certainty="exact">2006-05-04T18:13:51.0Z</createdTimestamp>
+                            <lastModifiedTimestamp certainty="exact">2006-05-04T18:13:51.0Z</lastModifiedTimestamp>
+                            <woodCompleteness>
+                                <pith presence="absent"/>
+                                <heartwood presence="incomplete"/>
+                                <sapwood presence="complete"/>
+                                <bark presence="present"/>
+                            </woodCompleteness>
+                            <measurementSeries>
+                                <title>C-TWT-65-A-B-A</title>
+                                <identifier domain="dendro.cornell.edu">TWT65ABA</identifier>
+                                <createdTimestamp certainty="exact">1997-02-01T14:13:51.0Z</createdTimestamp>
+                                <lastModifiedTimestamp certainty="exact">1997-02-28T14:13:51.0Z</lastModifiedTimestamp>
+                                <analyst>Laura Steele</analyst>
+                                <dendrochronologist>Kuniholm, Peter I</dendrochronologist>
+                                <measuringMethod normalStd="Corina Dictionary" normalId="1">Measuring platform</measuringMethod>
+                                <interpretation>
+                                    <firstYear suffix="BC">5</firstYear>
+                                    <statFoundation>
+                                        <statValue>8.3</statValue>
+                                        <type>t-score</type>
+                                        <usedSoftware>Corina 2.10</usedSoftware>
+                                    </statFoundation>
+                                    <provenance>Possibly from the region of Serres</provenance>
+                                </interpretation>
+                                <values>
+                                    <variable normalTridas="ring width"/>
+                                    <unit normalTridas="1/100th millimetres"/>
+                                    <value value="10"/>
+                                    <value value="20"/>
+                                    <value value="30"/>
+									<value value="40"/>
+                                    <value value="50"/>
+                                    <value value="60"/>
+                                    <value value="70"/>
+									<value value="80"/>
+                                    <value value="90"/>
+                                    <value value="100"/>
+                                    <value value="110"/>
+                                    <value value="120"/>
+                                    <value value="130"/>
+									<value value="140"/>
+                                    <value value="150"/>
+                                    <value value="160"/>
+                                    <value value="170"/>
+									<value value="180"/>
+                                    <value value="190"/>
+                                    <value value="200"/>
+                                    <value value="210"/>
+                                    <value value="220"/>
+                                    <value value="230"/>
+									<value value="240"/>
+                                    <value value="250"/>
+                                    <value value="260"/>
+                                    <value value="270"/>
+									<value value="280"/>
+                                    <value value="290"/>
+                                    <value value="300"/>   
+                                    <value value="310"/>
+                                    <value value="320"/>
+                                    <value value="330"/>
+									<value value="340"/>
+                                    <value value="350"/>
+                                    <value value="360"/>
+                                    <value value="370"/>
+									<value value="380"/>
+                                    <value value="390"/>
+                                    <value value="400"/>  
+                                    <value value="410"/>
+                                    <value value="420"/>
+                                    <value value="430"/>
+									<value value="440"/>
+                                    <value value="450"/>
+                                    <value value="460"/>
+                                    <value value="470"/>
+									<value value="480"/>
+                                    <value value="490"/>
+                                    <value value="500"/>                                                                                                                   								                                    
+                                </values>
+                            </measurementSeries>
+                            <measurementSeries>
+                                <title>test2</title>
+                                <identifier domain="dendro.cornell.edu">9c50234e-8eda-41bb-b578-01cc881d1ea1</identifier>
+                                <createdTimestamp certainty="exact">1997-02-01T14:13:51.0Z</createdTimestamp>
+                                <lastModifiedTimestamp certainty="exact">1997-02-01T14:13:51.0Z</lastModifiedTimestamp>
+                                <analyst>Laura Steele</analyst>
+                                <dendrochronologist>Peter I Kuniholm</dendrochronologist>
+                                <measuringMethod normalStd="Corina Dictionary" normalId="1">Measuring platform</measuringMethod>
+                                <interpretation>
+                                    <firstYear suffix="BC">1500</firstYear>
+                                    <statFoundation>
+                                        <statValue>8.3</statValue>
+                                        <type>t-score</type>
+                                        <usedSoftware>Corina 2.10</usedSoftware>
+                                    </statFoundation>
+                                    <deathYear suffix="AD">1535</deathYear>
+                                    <provenance>Possibly from the region of Serres</provenance>
+                                </interpretation>
+                                <values>
+                                    <variable normalTridas="ring width"/>
+                                    <unit normalTridas="1/100th millimetres"/>
+                                    <value value="54"/>
+                                    <value value="111"/>
+                                    <value value="71"/>
+                                    <value value="40"/>
+                                    <value value="56"/>
+                                </values>
+                            </measurementSeries>
+                         <measurementSeries>
+                                <title>C-TWT-65-A-B-A</title>
+                                <identifier domain="dendro.cornell.edu">7c50234e-8eda-41bb-b578-01cc881d1ea1</identifier>
+                                <createdTimestamp certainty="exact">1997-02-01T14:13:51.0Z</createdTimestamp>
+                                <lastModifiedTimestamp certainty="exact">1997-02-01T14:13:51.0Z</lastModifiedTimestamp>
+                                <analyst>Laura Steele</analyst>
+                                <dendrochronologist>Peter I Kuniholm</dendrochronologist>
+                                <measuringMethod normalStd="Corina Dictionary" normalId="1">Measuring platform</measuringMethod>
+                                <interpretation>
+                                    <firstYear suffix="AD">1500</firstYear>
+                                    <statFoundation>
+                                        <statValue>8.3</statValue>
+                                        <type>t-score</type>
+                                        <usedSoftware>Corina 2.10</usedSoftware>
+                                    </statFoundation>
+                                    <deathYear suffix="AD">1535</deathYear>
+                                    <provenance>Possibly from the region of Serres</provenance>
+                                </interpretation>
+                                <values>
+                                    <variable normalTridas="ring width"/>
+                                    <unit normalTridas="1/100th millimetres"/>
+                                    <value value="54"/>
+                                    <value value="111"/>
+                                    <value value="71"/>
+                                    <value value="40"/>
+                                    <value value="56"/>
+                                </values>
+                            </measurementSeries>
+                        </radius>
+                    </sample>
+                </element>
+        </object>
+    </project>

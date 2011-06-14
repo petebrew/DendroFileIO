@@ -96,7 +96,7 @@ public class TridasIO {
 	private static String writingCharset = Charset.defaultCharset().displayName();
 	private static boolean charsetDetection = false;
 	
-	public static final TreeMap<Integer, CoordinateReferenceSystem> crsMap = new TreeMap<Integer, CoordinateReferenceSystem>();
+	public static TreeMap<Integer, CoordinateReferenceSystem> crsMap = new TreeMap<Integer, CoordinateReferenceSystem>();
 	
 	static {
 		// register file readers/writers
@@ -198,7 +198,7 @@ public class TridasIO {
 				  
 				  // TODO Ignore all CRS with +proj=longlat as this is not yet supported
 				  // by the JMapProjLib.  
-				  if(crs.getProjStr().contains("longlat")) continue;
+				  //if(crs.getProjStr().contains("longlat")) continue;
 				  
 				  // Add to CRS map
 				  crsMap.put(code, crs);

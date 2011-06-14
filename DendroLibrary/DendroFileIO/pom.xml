@@ -16,9 +16,9 @@
 <project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
 	xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
 	<modelVersion>4.0.0</modelVersion>
-	<groupId>org.tridas.io</groupId>
-	<artifactId>DendroFileIO</artifactId>
-	<version>0.1.3</version>
+	<groupId>org.tridas</groupId>
+	<artifactId>org.tridas.dendrofileio</artifactId>
+	<version>0.1.4</version>
 	<name>DendroFileIO</name>
 	<description>IO library for converting dendro files to and from the schema from TridasJLib</description>
 	<dependencies>
@@ -100,7 +100,7 @@
 		</dependency>
         <dependency>
         	<groupId>org.tridas</groupId>
-        	<artifactId>TridasJLib</artifactId>
+        	<artifactId>org.tridas.jlib</artifactId>
         	<version>0.2</version>
         	<type>jar</type>
         	<scope>compile</scope>
@@ -109,6 +109,13 @@
         	<groupId>com.sun.xml.bind</groupId>
         	<artifactId>jaxb-impl</artifactId>
         	<version>2.2.2</version>
+        	<type>jar</type>
+        	<scope>compile</scope>
+        </dependency>
+        <dependency>
+        	<groupId>com.jhlabs</groupId>
+        	<artifactId>jmapprojlib</artifactId>
+        	<version>1.2.0-SNAPSHOT</version>
         	<type>jar</type>
         	<scope>compile</scope>
         </dependency>
@@ -128,6 +135,22 @@
 			</roles>
 		</developer>
 	</developers>
+	
+	<repositories>
+		<repository>
+	      <id>maven.tridas.org</id>
+	      <name>TRiDaS Maven Repository</name>
+	      <url>http://www.tridas.org:8080/archiva/repository/maven.tridas.org/</url>
+	      <releases>
+	        <enabled>true</enabled>
+	      </releases>
+	      <snapshots>
+	        <enabled>true</enabled>
+	      </snapshots>
+	    </repository>
+	</repositories>
+	
+	
 	<build>
 		<plugins>
 		<plugin>

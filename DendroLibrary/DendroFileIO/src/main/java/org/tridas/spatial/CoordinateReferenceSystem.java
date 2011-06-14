@@ -59,7 +59,14 @@ public class CoordinateReferenceSystem {
 	 */
 	public AxisOrder getAxisOrder()
 	{
-		return axisOrder;
+		if(axisOrder!=null)
+		{
+			return axisOrder;
+		}
+		else
+		{
+			return AxisOrder.LONG_LAT;
+		}
 	}
 	
 	/**
