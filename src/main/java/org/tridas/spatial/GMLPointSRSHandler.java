@@ -6,6 +6,8 @@ import java.util.ArrayList;
 import net.opengis.gml.schema.PointType;
 import net.opengis.gml.schema.Pos;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.tridas.io.I18n;
 import org.tridas.io.TridasIO;
 
@@ -21,6 +23,9 @@ import com.jhlabs.map.proj.ProjectionException;
  */
 public class GMLPointSRSHandler  {
 
+	private static final Logger log = LoggerFactory.getLogger(GMLPointSRSHandler.class);
+
+	
 	private static final long serialVersionUID = 1L;
 	private Projection proj = null;
 	private PointType point = null;
@@ -28,9 +33,15 @@ public class GMLPointSRSHandler  {
 	private Point2D.Double projectedpoint = new Point2D.Double();
 
 	
-	public enum AxisOrder{
+	public enum AxisOrder
+	{
 		LAT_LONG,
 		LONG_LAT;
+		
+		public AxisOrder getDefault()
+		{
+			return AxisOrder.LONG_LAT;
+		}
 	}
 	
 	/**
@@ -190,7 +201,15 @@ public class GMLPointSRSHandler  {
 			try
 			{	
 				Integer code = Integer.parseInt(urnparts[6]);
-				CoordinateReferenceSystem crs = TridasIO.crsMap.get(code);
+				log.debug("Looking up srsname = "+code);
+				
+				CoordinateReferenceSystem crs = (CoordinateReferenceSystem) TridasIO.crsMap.get(code);
+				
+				if(crs==null){
+					log.warn("CRS code not found");
+					return;
+				}
+
 				axisOrder = crs.getAxisOrder();
 				
 				if(urnparts[6].equalsIgnoreCase("4326"))
@@ -217,7 +236,7 @@ public class GMLPointSRSHandler  {
 			} catch (NumberFormatException e){}
 
 		}
-		else if (srsName.equalsIgnoreCase("WGS84") || (srsName.equals("EPSG:4326")))
+		else if (srsName.equalsIgnoreCase("WGS84") || (srsName.equals("EPSG:4326")) || (srsName.equals("EPSG::4326")))
 		{
 			// Default WGS84 srsname so no need to do anything
 			return;
