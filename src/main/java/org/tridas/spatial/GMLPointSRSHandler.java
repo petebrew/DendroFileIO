@@ -32,12 +32,22 @@ public class GMLPointSRSHandler  {
 	private AxisOrder axisOrder = AxisOrder.LONG_LAT;
 	private Point2D.Double projectedpoint = new Point2D.Double();
 
-	
+	/**
+	 * Whether coordinates should be presented with Latitude or Longitude
+	 * first.  
+	 * 
+	 * @author pwb48
+	 *
+	 */
 	public enum AxisOrder
 	{
 		LAT_LONG,
 		LONG_LAT;
 		
+		/**
+		 * Returns the default order - Longitude - Latitude
+		 * @return
+		 */
 		public AxisOrder getDefault()
 		{
 			return AxisOrder.LONG_LAT;
