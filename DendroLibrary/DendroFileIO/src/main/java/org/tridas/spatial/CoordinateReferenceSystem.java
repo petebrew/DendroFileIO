@@ -6,7 +6,8 @@ import com.jhlabs.map.proj.Projection;
 import com.jhlabs.map.proj.ProjectionFactory;
 
 /**
- * 
+ * Details of a Coordinate Reference System.  Provides methods for 
+ * obtaining the JMapProjLib Projection.
  * 
  * @author pwb48
  */
