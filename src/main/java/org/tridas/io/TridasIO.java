@@ -19,6 +19,7 @@ import java.io.BufferedReader;
 import java.io.DataInputStream;
 import java.io.FileInputStream;
 import java.io.InputStreamReader;
+import java.net.URL;
 import java.nio.charset.Charset;
 import java.nio.charset.IllegalCharsetNameException;
 import java.nio.charset.UnsupportedCharsetException;
@@ -150,15 +151,16 @@ public class TridasIO {
 	 * Create map of all the coordinate reference systems supported by the library.  This
 	 * function reads the definitions from the text file in coordsys/srsinfo.txt.
 	 */
-	private static void initializeCRS()
+	public static void initializeCRS()
 	{
-		
+		Integer linenum = 0;
 		try{
-			  FileInputStream fstream = new FileInputStream(TridasIO.class.getResource("/coordsys/srsinfo.txt").getFile().toString());
+			  URL res = TridasIO.class.getResource("/coordsys/srsinfo.txt");
+			  FileInputStream fstream = new FileInputStream(res.getFile().toString());
 			  DataInputStream in = new DataInputStream(fstream);
 			  BufferedReader br = new BufferedReader(new InputStreamReader(in));
 			  String strLine = null;
-			  Integer linenum = 0;
+			  
 			  //Read Line By Line
 			  while ((strLine = br.readLine()) != null)   {
 				  linenum++;
@@ -208,7 +210,14 @@ public class TridasIO {
 			  in.close();
 			  
 	    }catch (Exception e){
-		  log.error(e.getMessage());
+	    	if(linenum>0)
+	    	{
+	    		log.error("Error reading CRS file.  Failed at line number: "+ linenum);
+	    	}
+	    	else
+	    	{
+	    		log.error("Error reading CRS file");
+	    	}
 		}
 	    
 
