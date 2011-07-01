@@ -17,7 +17,9 @@ package org.tridas.io;
 
 import java.io.BufferedReader;
 import java.io.DataInputStream;
+import java.io.File;
 import java.io.FileInputStream;
+import java.io.InputStream;
 import java.io.InputStreamReader;
 import java.net.URL;
 import java.nio.charset.Charset;
@@ -155,8 +157,9 @@ public class TridasIO {
 	{
 		Integer linenum = 0;
 		try{
-			  URL res = TridasIO.class.getResource("/coordsys/srsinfo.txt");
-			  FileInputStream fstream = new FileInputStream(res.getFile().toString());
+			  InputStream fstream  = TridasIO.class.getResourceAsStream("/coordsys/srsinfo.txt");
+	
+			  
 			  DataInputStream in = new DataInputStream(fstream);
 			  BufferedReader br = new BufferedReader(new InputStreamReader(in));
 			  String strLine = null;

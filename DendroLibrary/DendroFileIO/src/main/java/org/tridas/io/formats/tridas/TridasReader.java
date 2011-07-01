@@ -85,6 +85,20 @@ public class TridasReader extends AbstractDendroFileReader {
 		super(TridasMetadataFieldSet.class);
 	}
 	
+	/**
+	 * Special case for TridasReader.  This works like loadFile() but instead of 
+	 * passing it the raw file strings, you pass a TridasContainer instead
+	 * 
+	 * @param container
+	 */
+	public void loadTridasContainer(TridasTridas container)throws InvalidDendroFileException
+	{
+		if(container==null) throw new InvalidDendroFileException("Null TRiDaS container");
+		if(!container.isSetProjects()) throw new InvalidDendroFileException("TRiDaS container has no projects");
+
+		projects = container.getProjects();
+	}
+	
 	@Override
 	protected void parseFile(String[] argFileString, IMetadataFieldSet argDefaultFields)
 			throws InvalidDendroFileException {
