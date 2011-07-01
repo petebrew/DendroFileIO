@@ -21,6 +21,7 @@ import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Properties;
 
+import org.tridas.io.defaults.TridasMetadataFieldSet;
 import org.tridas.io.exceptions.ConversionWarning;
 import org.tridas.io.exceptions.ConversionWarningException;
 import org.tridas.io.exceptions.IncompleteTridasDataException;
@@ -34,6 +35,7 @@ import org.tridas.io.naming.UUIDNamingConvention;
 import org.tridas.io.util.FileHelper;
 import org.tridas.io.util.IOUtils;
 import org.tridas.io.util.StringUtils;
+import org.tridas.io.util.TridasUtils;
 import org.tridas.schema.TridasTridas;
 
 public class CommandLineUI {
@@ -77,7 +79,7 @@ public class CommandLineUI {
 			}
 		}
 		
-		if (args.length > 6 || args.length < 2) {
+		if (args.length > 7  || args.length < 2) {
 			showHelp(true);
 			return;
 		}
@@ -196,7 +198,14 @@ public class CommandLineUI {
 			String[] files = getFilesFromFolder(inputfilename);
 			ArrayList<TridasTridas> containers = new ArrayList<TridasTridas>();
 			
+			if(files==null || files.length==0) 
+			{
+				showHelp(false, "No file(s) found in folder "+inputfilename);
+				return;
+			}
+			
 			for (String file : files) {
+				
 				AbstractDendroFileReader reader;
 				
 				if (inputFormat != null) {
@@ -213,6 +222,12 @@ public class CommandLineUI {
 				try {
 					reader.loadFile(inputfilename + File.separator + file);
 					containers.add(reader.getTridasContainer());
+					
+					for(ConversionWarning warn : reader.getWarnings())
+					{
+						System.out.println(warn.getWarningType() + ": "+warn.getMessage());
+					}
+					
 				} catch (IOException e1) {
 					System.out.println(e1.toString());
 					e1.printStackTrace();
@@ -222,22 +237,56 @@ public class CommandLineUI {
 				}
 			}
 			
+			
+			
 			TridasTridas bigcontainer = IOUtils.mergeToSingleProject(containers);
 			if(bigcontainer==null) System.out.println("Container is null");
+			//TridasUtils.debugTridasStructure(bigcontainer);
 			
-			TridasReader reader = new TridasReader();
-
+			TridasWriter writer = new TridasWriter();
+			TridasMetadataFieldSet argDefaults = new TridasMetadataFieldSet();
+			
+			
+			
+			File temp = null;
 			try {
-				reader.loadTridasContainer(bigcontainer);
-				reader.getTridasContainer();
-			} catch (InvalidDendroFileException e) {
-				System.out.println(e.toString());
-				e.printStackTrace();
+				writer.parseTridasContainer(bigcontainer, argDefaults);
+				temp = File.createTempFile("tmpfolder", "fld");
+				temp.delete();
+				temp.mkdir();
+				writer.saveAllToDisk(temp.getAbsolutePath());
+				
+				files = getFilesFromFolder(temp.getAbsolutePath());
+				
+				
+				for (String file : files) {
+					
+					TridasReader reader = new TridasReader();
+					
+					try {
+						reader.loadFile(temp.getAbsolutePath() + File.separator + file);
+						reader.getTridasContainer();
+					} catch (IOException e1) {
+						System.out.println(e1.toString());
+						e1.printStackTrace();
+					} catch (InvalidDendroFileException e) {
+						System.out.println(e.toString());
+						e.printStackTrace();
+					}
+					WriterReaderStruct struct = new WriterReaderStruct();
+					struct.reader = reader;
+					struct.origFilename = file;
+					structs.add(struct);
+				}
+			} catch (IOException e1) {
+				// TODO Auto-generated catch block
+				e1.printStackTrace();
+			} finally {
+				//temp.delete();
 			}
-			WriterReaderStruct struct = new WriterReaderStruct();
-			struct.reader = reader;
-			struct.origFilename = inputfilename;
-			structs.add(struct);
+
+			
+
 			
 			
 		}
@@ -273,6 +322,7 @@ public class CommandLineUI {
 			try {
 				writer.setNamingConvention(namingConvention);
 				writer.load(s.reader.getTridasContainer());
+								
 				writer.saveAllToDisk(outputFolder);
 			} catch (IncompleteTridasDataException e) {
 				System.out.println(e.toString());
@@ -327,7 +377,7 @@ public class CommandLineUI {
 			
 			// Show list of output files
 			for (IDendroFile f : files) {
-				System.out.println(s.origFilename + " --> '" + writer.getNamingConvention().getFilename(f) + "."
+				System.out.println(s.origFilename + " --> '" + outputFolder+File.separator+writer.getNamingConvention().getFilename(f) + "."
 						+ f.getExtension() + "'");
 			}
 		}
@@ -352,6 +402,7 @@ public class CommandLineUI {
 		
 		System.out.println("Usage: [options] inputFilename outputFolder");
 		System.out.println("       [options] -batch inputFolder outputFolder");
+		System.out.println("       -merge-project -inputFormat=sheffield inputFolder outputFolder");
 		System.out.println("  -log               - log all errors to file");
 		System.out.println("  -formats           - show the list of supported formats and quit");
 		System.out.println("  -help              - show this help information");
@@ -361,8 +412,10 @@ public class CommandLineUI {
 		System.out.println("  -inputFormat=name  - specify input format name");
 		System.out.println("  -outputFormat=name - specify output format name (default is Tridas)");
 		System.out.println("  -batch             - loads all files in a folder");
+		System.out.println("");
+		System.out.println("The following options are experimental:");
 		System.out.println("  -merge-project     - all input files treated as if from a single project");
-		System.out.println("  -merge-object      - all input files treated as if from a single object");
+		//System.out.println("  -merge-object      - all input files treated as if from a single object");
 		System.out.println("");
 	}
 	

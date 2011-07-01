@@ -32,6 +32,7 @@ import java.io.UnsupportedEncodingException;
 import java.net.URL;
 import java.nio.charset.Charset;
 import java.util.ArrayList;
+import java.util.List;
 import java.util.zip.GZIPInputStream;
 import java.util.zip.GZIPOutputStream;
 
@@ -40,6 +41,7 @@ import javax.swing.JFrame;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.tridas.schema.TridasObject;
 import org.tridas.schema.TridasProject;
 import org.tridas.schema.TridasTridas;
 
@@ -578,25 +580,34 @@ public class IOUtils {
 			return null;
 		}
 
+		//System.out.println(containers.size()+" containers provided to merge");
 		
 		TridasProject p = containers.get(0).getProjects().get(0);
 		p.setObjects(null);
 		p.setDerivedSeries(null);
 		
-		
+		TridasTridas thiscont = new TridasTridas();
 		for(TridasTridas c : containers)
 		{
+			//System.out.println(c.getProjects().size()+" project(s) in this container to merge");
 			for (TridasProject pr : c.getProjects())
 			{
-				p.getObjects().addAll(pr.getObjects());
+				
+				List<TridasObject> objects = pr.getObjects();
+				System.out.println(objects.size()+" object(s) in this project");
+				p.getObjects().addAll(objects);
 				p.getDerivedSeries().addAll(pr.getDerivedSeries());
 			}
 		}
 		
-		TridasTridas thiscont = new TridasTridas();
-		thiscont.getProjects().add(p);
 		
+		
+		thiscont.getProjects().add(p);
+		//System.out.println(thiscont.getProjects().size()+" project(s) in this merged container");
 		
 		return thiscont;
 	}
+	
+	
+
 }
