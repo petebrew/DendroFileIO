@@ -96,7 +96,10 @@ public class TridasReader extends AbstractDendroFileReader {
 		if(container==null) throw new InvalidDendroFileException("Null TRiDaS container");
 		if(!container.isSetProjects()) throw new InvalidDendroFileException("TRiDaS container has no projects");
 
-		projects = container.getProjects();
+		List<TridasProject> ps = container.getProjects();
+			
+		
+		projects = ps;
 	}
 	
 	@Override

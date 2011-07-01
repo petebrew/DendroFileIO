@@ -20,7 +20,10 @@ import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.tridas.interfaces.ITridas;
+import org.tridas.io.formats.tridas.TridasReader;
 import org.tridas.schema.NormalTridasRemark;
 import org.tridas.schema.TridasDerivedSeries;
 import org.tridas.schema.TridasElement;
@@ -31,10 +34,13 @@ import org.tridas.schema.TridasProject;
 import org.tridas.schema.TridasRadius;
 import org.tridas.schema.TridasRemark;
 import org.tridas.schema.TridasSample;
+import org.tridas.schema.TridasTridas;
 import org.tridas.schema.TridasValue;
 import org.tridas.schema.TridasValues;
 
 public class TridasUtils {
+	
+	private static final Logger log = LoggerFactory.getLogger(TridasUtils.class);
 	
 	public TridasUtils() {
 
@@ -421,6 +427,110 @@ public class TridasUtils {
 		}
 	}
 
+	
+	public static void debugTridasStructure(Object entity)
+	{
+		debugTridasStructure(entity, 0);
+	}
+	
+	/**
+	 * ASCII Art debug printout of an TRiDaS entity 
+	 * 
+	 * @param entity
+	 * @param level
+	 */
+	public static void debugTridasStructure(Object entity, Integer level)
+	{
+		if(entity==null) return;
+		
+		if(entity instanceof TridasTridas)
+		{
+			System.out.println("----------------");
+			System.out.println(getTabs(level)+"Tridas container ");
+			for(TridasProject p : ((TridasTridas) entity).getProjects())
+			{
+				debugTridasStructure(p, level+1);
+			}
+		}
+		else if (entity instanceof ITridas)
+		{
+			if (entity instanceof TridasProject)
+			{
+				
+				System.out.println(getTabs(level)+"Project: "+((ITridas)entity).getTitle());
+				for(TridasObject o : ((TridasProject) entity).getObjects())
+				{
+					debugTridasStructure(o, level+1);
+				}
+				for(TridasDerivedSeries ser : ((TridasProject) entity).getDerivedSeries())
+				{
+					debugTridasStructure(ser, level+1);
+				}
+				System.out.println("----------------");
+			}
+			else if(entity instanceof TridasObject)
+			{
+				System.out.println(getTabs(level)+"Object: "+((ITridas)entity).getTitle());
+				for(TridasObject o2 : ((TridasObject) entity).getObjects())
+				{
+					debugTridasStructure(o2, level+1);
+				}
+				for(TridasElement e : ((TridasObject) entity).getElements())
+				{
+					debugTridasStructure(e, level+1);
+				}
+			}
+			else if(entity instanceof TridasElement)
+			{
+				System.out.println(getTabs(level)+"Element: "+((ITridas)entity).getTitle());
+				for(TridasSample s : ((TridasElement) entity).getSamples())
+				{
+					debugTridasStructure(s, level+1);
+				}
+			}
+			else if(entity instanceof TridasSample)
+			{
+				System.out.println(getTabs(level)+"Sample: "+((ITridas)entity).getTitle());
+				for(TridasRadius r : ((TridasSample) entity).getRadiuses())
+				{
+					debugTridasStructure(r, level+1);
+				}
+			}
+			else if(entity instanceof TridasRadius)
+			{
+				System.out.println(getTabs(level)+"Radius: "+((ITridas)entity).getTitle());
+				for(TridasMeasurementSeries ms : ((TridasRadius) entity).getMeasurementSeries())
+				{
+					debugTridasStructure(ms, level+1);
+				}
+			}
+			else if(entity instanceof TridasMeasurementSeries)
+			{
+				System.out.println(getTabs(level)+"MSeries: "+((ITridas)entity).getTitle());
+			}
+			else if(entity instanceof TridasDerivedSeries)
+			{
+				System.out.println(getTabs(level)+"DSeries: "+((ITridas)entity).getTitle());
+			}
+		}
+		else
+		{
+			log.warn("Unable to print stucture.  Unknown entity type");
+		}
+		
+	}
+	
+	private static String getTabs(Integer level)
+	{
+		String str = "";
+		for(Integer i=1; i<=level; i++)
+		{
+			str+="    ";
+		}
+		return str+"|->";
+	}
+	
+	
 	public enum TridasValueDataType{
 		DOUBLE,
 		INTEGER,
