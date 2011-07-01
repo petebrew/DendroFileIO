@@ -25,6 +25,7 @@ import org.tridas.io.exceptions.ConversionWarning;
 import org.tridas.io.exceptions.ConversionWarningException;
 import org.tridas.io.exceptions.IncompleteTridasDataException;
 import org.tridas.io.exceptions.InvalidDendroFileException;
+import org.tridas.io.formats.tridas.TridasReader;
 import org.tridas.io.formats.tridas.TridasWriter;
 import org.tridas.io.naming.HierarchicalNamingConvention;
 import org.tridas.io.naming.INamingConvention;
@@ -33,6 +34,7 @@ import org.tridas.io.naming.UUIDNamingConvention;
 import org.tridas.io.util.FileHelper;
 import org.tridas.io.util.IOUtils;
 import org.tridas.io.util.StringUtils;
+import org.tridas.schema.TridasTridas;
 
 public class CommandLineUI {
 	
@@ -59,6 +61,8 @@ public class CommandLineUI {
 		String convention = "uuid";
 		ArrayList<WriterReaderStruct> structs = new ArrayList<WriterReaderStruct>();
 		boolean batch = false;
+		boolean merge = false;
+		String mergelevel = "project";
 		
 		// Check number of args
 		int index = 0;
@@ -73,7 +77,7 @@ public class CommandLineUI {
 			}
 		}
 		
-		if (args.length > 5 || args.length < 2) {
+		if (args.length > 6 || args.length < 2) {
 			showHelp(true);
 			return;
 		}
@@ -98,6 +102,16 @@ public class CommandLineUI {
 			else if (arg.equalsIgnoreCase("-batch")) {
 				batch = true;
 			}
+			else if (arg.equalsIgnoreCase("-merge-project")) {
+				merge = true;
+				mergelevel = "project";
+				outputFormat = "TRiDaS";
+			}
+			else if (arg.equalsIgnoreCase("-merge-object")) {
+				merge = true;
+				mergelevel = "object";
+				outputFormat = "TRiDaS";
+			}
 			else if (arg.startsWith("-")) {
 				System.out.println("Unknown arguments: '" + arg + "'");
 			}
@@ -113,7 +127,7 @@ public class CommandLineUI {
 		}
 		
 		// set up readers
-		if (!batch) {
+		if (!batch && !merge) {
 			// Read in File
 			AbstractDendroFileReader reader;
 			// Set up reader
@@ -143,7 +157,8 @@ public class CommandLineUI {
 			struct.origFilename = inputfilename;
 			structs.add(struct);
 		}
-		else {
+		else if(batch ){
+			// BATCH
 			String[] files = getFilesFromFolder(inputfilename);
 			for (String file : files) {
 				AbstractDendroFileReader reader;
@@ -158,7 +173,7 @@ public class CommandLineUI {
 					showHelp(false, "Reader format invalid");
 					return;
 				}
-				
+	
 				try {
 					reader.loadFile(inputfilename + File.separator + file);
 					reader.getTridasContainer();
@@ -174,6 +189,57 @@ public class CommandLineUI {
 				struct.origFilename = file;
 				structs.add(struct);
 			}
+		}
+		else
+		{
+			// MERGE
+			String[] files = getFilesFromFolder(inputfilename);
+			ArrayList<TridasTridas> containers = new ArrayList<TridasTridas>();
+			
+			for (String file : files) {
+				AbstractDendroFileReader reader;
+				
+				if (inputFormat != null) {
+					reader = TridasIO.getFileReader(inputFormat);
+				}
+				else {
+					reader = TridasIO.getFileReaderFromExtension(file.substring(file.lastIndexOf(".") + 1));
+				}
+				if (reader == null) {
+					showHelp(false, "Reader format invalid");
+					return;
+				}
+	
+				try {
+					reader.loadFile(inputfilename + File.separator + file);
+					containers.add(reader.getTridasContainer());
+				} catch (IOException e1) {
+					System.out.println(e1.toString());
+					e1.printStackTrace();
+				} catch (InvalidDendroFileException e) {
+					System.out.println(e.toString());
+					e.printStackTrace();
+				}
+			}
+			
+			TridasTridas bigcontainer = IOUtils.mergeToSingleProject(containers);
+			if(bigcontainer==null) System.out.println("Container is null");
+			
+			TridasReader reader = new TridasReader();
+
+			try {
+				reader.loadTridasContainer(bigcontainer);
+				reader.getTridasContainer();
+			} catch (InvalidDendroFileException e) {
+				System.out.println(e.toString());
+				e.printStackTrace();
+			}
+			WriterReaderStruct struct = new WriterReaderStruct();
+			struct.reader = reader;
+			struct.origFilename = inputfilename;
+			structs.add(struct);
+			
+			
 		}
 		
 		// set up writers
@@ -295,6 +361,8 @@ public class CommandLineUI {
 		System.out.println("  -inputFormat=name  - specify input format name");
 		System.out.println("  -outputFormat=name - specify output format name (default is Tridas)");
 		System.out.println("  -batch             - loads all files in a folder");
+		System.out.println("  -merge-project     - all input files treated as if from a single project");
+		System.out.println("  -merge-object      - all input files treated as if from a single object");
 		System.out.println("");
 	}
 	

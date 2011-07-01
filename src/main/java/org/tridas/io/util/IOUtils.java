@@ -31,6 +31,7 @@ import java.io.PrintWriter;
 import java.io.UnsupportedEncodingException;
 import java.net.URL;
 import java.nio.charset.Charset;
+import java.util.ArrayList;
 import java.util.zip.GZIPInputStream;
 import java.util.zip.GZIPOutputStream;
 
@@ -39,6 +40,8 @@ import javax.swing.JFrame;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.tridas.schema.TridasProject;
+import org.tridas.schema.TridasTridas;
 
 import com.ibm.icu.text.CharsetDetector;
 import com.ibm.icu.text.CharsetMatch;
@@ -550,5 +553,50 @@ public class IOUtils {
 		log.debug("Best charset match is " + match.getName() + " (" + match.getLanguage() + ") with a confidence of "
 				+ match.getConfidence() + "%");
 		return Charset.forName(match.getName());
+	}
+	
+	
+	/**
+	 * Merge all the provided data into a single Tridas container containing
+	 * a single TridasProject.  
+	 * 
+	 * @param containers
+	 * @return
+	 */
+	public static TridasTridas mergeToSingleProject(ArrayList<TridasTridas> containers)
+	{
+		if(containers==null) {
+			log.warn("TRiDaS container is null");
+			return null;
+		}
+		if(containers.size()==0) {
+			log.warn("TRiDaS container is null");
+			return null;
+		}
+		if(!containers.get(0).isSetProjects()) {
+			log.warn("TRiDaS container has no projects");
+			return null;
+		}
+
+		
+		TridasProject p = containers.get(0).getProjects().get(0);
+		p.setObjects(null);
+		p.setDerivedSeries(null);
+		
+		
+		for(TridasTridas c : containers)
+		{
+			for (TridasProject pr : c.getProjects())
+			{
+				p.getObjects().addAll(pr.getObjects());
+				p.getDerivedSeries().addAll(pr.getDerivedSeries());
+			}
+		}
+		
+		TridasTridas thiscont = new TridasTridas();
+		thiscont.getProjects().add(p);
+		
+		
+		return thiscont;
 	}
 }
