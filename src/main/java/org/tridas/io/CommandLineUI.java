@@ -60,7 +60,7 @@ public class CommandLineUI {
 		boolean log = false;
 		String inputFormat = null;
 		boolean verbose = false;
-		String convention = "uuid";
+		String convention = "";
 		ArrayList<WriterReaderStruct> structs = new ArrayList<WriterReaderStruct>();
 		boolean batch = false;
 		boolean merge = false;
@@ -238,7 +238,6 @@ public class CommandLineUI {
 			}
 			
 			
-			
 			TridasTridas bigcontainer = IOUtils.mergeToSingleProject(containers);
 			if(bigcontainer==null) System.out.println("Container is null");
 			//TridasUtils.debugTridasStructure(bigcontainer);
@@ -246,8 +245,7 @@ public class CommandLineUI {
 			TridasWriter writer = new TridasWriter();
 			TridasMetadataFieldSet argDefaults = new TridasMetadataFieldSet();
 			
-			
-			
+			// Write to a temporary TRiDaS file
 			File temp = null;
 			try {
 				writer.parseTridasContainer(bigcontainer, argDefaults);
@@ -275,14 +273,13 @@ public class CommandLineUI {
 					}
 					WriterReaderStruct struct = new WriterReaderStruct();
 					struct.reader = reader;
-					struct.origFilename = file;
+					struct.origFilename = inputfilename;
 					structs.add(struct);
 				}
 			} catch (IOException e1) {
-				// TODO Auto-generated catch block
 				e1.printStackTrace();
 			} finally {
-				//temp.delete();
+				temp.delete();
 			}
 
 			
@@ -306,21 +303,24 @@ public class CommandLineUI {
 			}
 			
 			// Set up naming convention
-			INamingConvention namingConvention;
+			INamingConvention namingConvention = null;
 			if (convention.equalsIgnoreCase("hierarchy")) {
 				namingConvention = new HierarchicalNamingConvention();
 			}
 			else if (convention.equalsIgnoreCase("uuid")) {
 				namingConvention = new UUIDNamingConvention();
 			}
-			else {
+			/*else {
 				namingConvention = new NumericalNamingConvention(s.origFilename.substring(0, s.origFilename
 						.lastIndexOf(".")));
-			}
+			}*/
 			
 			// Write out project
 			try {
-				writer.setNamingConvention(namingConvention);
+				if(namingConvention!=null)
+				{
+					writer.setNamingConvention(namingConvention);
+				}
 				writer.load(s.reader.getTridasContainer());
 								
 				writer.saveAllToDisk(outputFolder);
