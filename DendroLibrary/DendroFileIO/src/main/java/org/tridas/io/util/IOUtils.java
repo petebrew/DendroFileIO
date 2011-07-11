@@ -594,7 +594,7 @@ public class IOUtils {
 			{
 				
 				List<TridasObject> objects = pr.getObjects();
-				System.out.println(objects.size()+" object(s) in this project");
+				//System.out.println(objects.size()+" object(s) in this project");
 				p.getObjects().addAll(objects);
 				p.getDerivedSeries().addAll(pr.getDerivedSeries());
 			}
