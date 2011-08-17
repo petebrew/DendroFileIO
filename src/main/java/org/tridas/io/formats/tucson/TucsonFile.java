@@ -155,12 +155,12 @@ public class TucsonFile implements IDendroFile {
 			}*/
 			
 			// Calculate start and end years
-			SafeIntYear start;
-			SafeIntYear end;
+			AstronomicalYear start;
+			AstronomicalYear end;
 			try {
-				start = new SafeIntYear(series.getInterpretation().getFirstYear());
+				start = (new SafeIntYear(series.getInterpretation().getFirstYear())).toAstronomicalYear();
 			} catch (Exception e) {
-				start = new SafeIntYear();
+				start = (new SafeIntYear()).toAstronomicalYear();
 			}
 			try {
 				end = start.add(series.getValues().get(0).getValues().size());
@@ -171,7 +171,7 @@ public class TucsonFile implements IDendroFile {
 
 			
 			// start year; processed files always start on the decade
-			SafeIntYear y = start;
+			AstronomicalYear y = start;
 			if (isChronology) {
 				y = y.add(-start.column());
 			}
@@ -180,7 +180,10 @@ public class TucsonFile implements IDendroFile {
 			for (;;) {
 				
 				// Row header column
-				if (y.equals(new SafeIntYear(-1))|| y.column() == 0 || (y.equals(start) && !isChronology)) {
+				if (  y.equals(new AstronomicalYear(-1))       || 
+					  y.column() == 0   					  || 
+					 (y.equals(start) && !isChronology)) 
+				{
 					
 					if(isChronology)
 					{
@@ -241,10 +244,8 @@ public class TucsonFile implements IDendroFile {
 				}
 				
 				// eoln
- 				
- 				AstronomicalYear y2 = y.toAstronomicalYear();
- 				
-				if (y2.column() == 9) {
+ 				 				
+				if (y.column() == 9) {
 					string.append("\n");
 				}
 				
@@ -270,13 +271,13 @@ public class TucsonFile implements IDendroFile {
 	 *            The year we're at
 	 * @throws IOException
 	 */
-	private void writeRowHeader(StringBuilder string, String code, int colWidth, SafeIntYear y) {
+	private void writeRowHeader(StringBuilder string, String code, int colWidth, AstronomicalYear y) {
 		String yearMarker; // don't print the decade for the first one
 		if (y.compareTo(allSeriesRange.getStart()) < 0) {
 			yearMarker = allSeriesRange.getStart().toAstronomicalYear().toString();
 		}
 		else {
-			yearMarker = y.toAstronomicalYear().toString();
+			yearMarker = y.toString();
 		}
 
 		yearMarker = StringUtils.leftPad(yearMarker, 4);

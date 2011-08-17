@@ -191,19 +191,19 @@ public class WinDendroToTridasDefaults extends TridasMetadataFieldSet implements
 			if(getIntegerDefaultValue(WDDefaultField.RING_COUNT).getValue()!=null)
 			{
 				// Set first year by using ring count and last ring year
-				SafeIntYear firstYear =lastYear.add(0-(getIntegerDefaultValue(WDDefaultField.RING_COUNT).getValue()));
+				SafeIntYear firstYear =lastYear.add(1-(getIntegerDefaultValue(WDDefaultField.RING_COUNT).getValue()));
 				ms.getInterpretation().setFirstYear(firstYear.toTridasYear(DatingSuffix.AD));
 				
 				if(getIntegerDefaultValue(WDDefaultField.TREE_AGE).getValue()==0)
 				{
 					// If tree age = 0 then spec says to use ring count to decide pith year
-					SafeIntYear pithAge =lastYear.add(0-(getIntegerDefaultValue(WDDefaultField.RING_COUNT).getValue()));
+					SafeIntYear pithAge =lastYear.add(1-(getIntegerDefaultValue(WDDefaultField.RING_COUNT).getValue()));
 					ms.getInterpretation().setPithYear(pithAge.toTridasYear(DatingSuffix.AD));
 				}
 				else
 				{
 					// tree age has been set, so use it to calculate pith year
-					SafeIntYear pithAge =lastYear.add(0-(getIntegerDefaultValue(WDDefaultField.TREE_AGE).getValue()));
+					SafeIntYear pithAge =lastYear.add(1-(getIntegerDefaultValue(WDDefaultField.TREE_AGE).getValue()));
 					ms.getInterpretation().setPithYear(pithAge.toTridasYear(DatingSuffix.AD));
 				}
 				
