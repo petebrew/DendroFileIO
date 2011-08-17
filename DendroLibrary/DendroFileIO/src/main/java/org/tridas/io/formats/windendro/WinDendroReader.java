@@ -181,7 +181,18 @@ public class WinDendroReader extends AbstractDendroFileReader {
 
 			// Last Ring year
 			try{
-				currentSeries.defaults.getSafeIntYearDefaultValue(WDDefaultField.LAST_RING_YEAR).setValue(Integer.parseInt(data[3]));
+				
+				if(Integer.parseInt(data[3])==0)
+				{
+					addWarning(new ConversionWarning(WarningType.INVALID, I18n.getText("windendro.invalidLastRing", currentLineNumber+"")));
+
+				}
+				else
+				{
+					currentSeries.defaults.getSafeIntYearDefaultValue(WDDefaultField.LAST_RING_YEAR).setValue(Integer.parseInt(data[3]));
+					
+				}
+				
 			} catch (NumberFormatException e){
 				addWarning(new ConversionWarning(WarningType.INVALID, I18n.getText("windendro.invalidLastRing", currentLineNumber+"")));
 			}

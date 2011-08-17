@@ -262,7 +262,14 @@ public final class AstronomicalYear implements Comparable {
 	 * @return the year modulo <code>m</code>
 	 */
 	public int mod(int m) {
-		int r = y % m;
+		
+		int yr = y;
+		if(y<=0)
+		{
+			yr++;
+		}
+		
+		int r = yr % m;
 		if (r < 0) {
 			r += m;
 		}
@@ -277,8 +284,12 @@ public final class AstronomicalYear implements Comparable {
 	 * @see #column
 	 */
 	public int row() {
-		int z = y / 10;
-		if (y < 0 && y % 10 != 0) {
+		
+		int yr = y;
+		if(y<=0) yr++;
+		
+		int z = yr / 10;
+		if (yr < 0 && yr % 10 != 0) {
 			z--;
 		}
 		return z;
@@ -356,10 +367,20 @@ public final class AstronomicalYear implements Comparable {
 	 *            Object to compare
 	 * @return >0, =0, or <0 if this is greater-than, equal-to, or less-than o
 	 * @throws ClassCastException
-	 *             if o is not a Year
+	 *             if o is not a SafeIntYear or AstronomicalYear
 	 */
 	public int compareTo(Object o) {
-		return y - ((AstronomicalYear) o).y;
+		
+		if(o instanceof SafeIntYear)
+		{		
+			return y - ((SafeIntYear) o).toAstronomicalYear().y;
+		}
+		else if (o instanceof AstronomicalYear)
+		{
+			return y - ((AstronomicalYear) o).y;
+		}
+		
+		throw new ClassCastException();
 	}
 	
 	/**
