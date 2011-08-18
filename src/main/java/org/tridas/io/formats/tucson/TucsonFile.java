@@ -19,12 +19,15 @@ import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.tridas.interfaces.ITridasSeries;
 import org.tridas.io.I18n;
 import org.tridas.io.IDendroFile;
 import org.tridas.io.defaults.IMetadataFieldSet;
 import org.tridas.io.exceptions.ConversionWarning;
 import org.tridas.io.exceptions.ConversionWarning.WarningType;
+import org.tridas.io.formats.heidelberg.HeidelbergFile;
 import org.tridas.io.formats.tucson.TridasToTucsonDefaults.TucsonField;
 import org.tridas.io.util.AstronomicalYear;
 import org.tridas.io.util.SafeIntYear;
@@ -38,7 +41,8 @@ import org.tridas.schema.TridasValue;
 
  */
 public class TucsonFile implements IDendroFile {
-	
+	private static final Logger log = LoggerFactory.getLogger(TucsonFile.class);
+
 	/**
 	 * Tucson only has space for 4 characters to represent years so
 	 * is limited to -999 to 9999.  One method to work around this
@@ -180,7 +184,13 @@ public class TucsonFile implements IDendroFile {
 			for (;;) {
 				
 				// Row header column
-				if (  y.equals(new AstronomicalYear(-1))       || 
+				log.debug("***** Y  = "+ y);
+				log.debug("y.column = "+y.column());
+				log.debug("y.equals(new Astronomical Year(0)) : "+y.equals(new AstronomicalYear(0)));
+				
+				log.debug("y.equals(start): "+y.equals(start));
+				
+				if (  y.equals(new AstronomicalYear(0))       || 
 					  y.column() == 0   					  || 
 					 (y.equals(start) && !isChronology)) 
 				{
@@ -273,7 +283,7 @@ public class TucsonFile implements IDendroFile {
 	 */
 	private void writeRowHeader(StringBuilder string, String code, int colWidth, AstronomicalYear y) {
 		String yearMarker; // don't print the decade for the first one
-		if (y.compareTo(allSeriesRange.getStart()) < 0) {
+		if (y.compareTo(allSeriesRange.getStart()) <= 0) {
 			yearMarker = allSeriesRange.getStart().toAstronomicalYear().toString();
 		}
 		else {

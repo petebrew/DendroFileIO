@@ -21,6 +21,7 @@ import java.util.ArrayList;
 import org.tridas.io.I18n;
 import org.tridas.io.defaults.IMetadataFieldSet;
 import org.tridas.io.defaults.TridasMetadataFieldSet;
+import org.tridas.io.defaults.values.BooleanDefaultValue;
 import org.tridas.io.defaults.values.DateTimeDefaultValue;
 import org.tridas.io.defaults.values.DoubleDefaultValue;
 import org.tridas.io.defaults.values.GenericDefaultValue;
@@ -53,7 +54,7 @@ public class WinDendroToTridasDefaults extends TridasMetadataFieldSet implements
 	public enum WDDefaultField {
 		TREE_NAME, PATH_ID, SITE_ID, LAST_RING_YEAR, SAPWOOD_DISTANCE, TREE_HEIGHT, TREE_AGE, SECTION_HEIGHT,
 		USER_VARIABLE, RING_COUNT, WD_DATA_TYPE, OFFSET_TO_NEXT, IMAGE_NAME, ANALYSIS_TIMESTAMP, ACQUISITION_TIMESTAMP,
-		MODIFIED_DATE, IMAGE_SIZE_PIXELS, CALIB_METHOD, IMAGEING_HARDWARE, LENS_FOC_LENGTH, DISK_AVG_DIAM, PATH_LENGTH;
+		MODIFIED_DATE, IMAGE_SIZE_PIXELS, CALIB_METHOD, IMAGEING_HARDWARE, LENS_FOC_LENGTH, DISK_AVG_DIAM, PATH_LENGTH, RELATIVE_DATING;
 	}
 	
 	/**
@@ -76,6 +77,7 @@ public class WinDendroToTridasDefaults extends TridasMetadataFieldSet implements
 		setDefaultValue(WDDefaultField.RING_COUNT, new IntegerDefaultValue(null, 1, Integer.MAX_VALUE));
 		setDefaultValue(WDDefaultField.WD_DATA_TYPE, new GenericDefaultValue<WinDendroDataType>());
 		setDefaultValue(WDDefaultField.OFFSET_TO_NEXT, new IntegerDefaultValue(null, 0, 99));
+		setDefaultValue(WDDefaultField.RELATIVE_DATING, new BooleanDefaultValue(false));
 		
 		
 		// Version 4 fields
@@ -178,7 +180,8 @@ public class WinDendroToTridasDefaults extends TridasMetadataFieldSet implements
 		ms.setMeasuringMethod(method);
 		
 		SafeIntYear lastYear = getSafeIntYearDefaultValue(WDDefaultField.LAST_RING_YEAR).getValue();
-		if (lastYear!=null)
+		Boolean isRelativelyDated = getBooleanDefaultValue(WDDefaultField.RELATIVE_DATING).getValue(); 
+		if (lastYear!=null && !isRelativelyDated)
 		{
 			// Dating type
 			TridasDating dating = new TridasDating();
@@ -208,10 +211,13 @@ public class WinDendroToTridasDefaults extends TridasMetadataFieldSet implements
 				}
 				
 			}
-			
-
-			
-
+		}
+		else if (isRelativelyDated)
+		{
+			// Dating type
+			TridasDating dating = new TridasDating();
+			dating.setType(NormalTridasDatingType.RELATIVE);
+			ms.getInterpretation().setDating(dating);
 		}
 	
 		ArrayList<TridasGenericField> gflist = new ArrayList<TridasGenericField>();
