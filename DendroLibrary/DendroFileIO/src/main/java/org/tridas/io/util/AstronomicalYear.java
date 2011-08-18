@@ -210,7 +210,7 @@ public final class AstronomicalYear implements Comparable {
 	 */
 	public AstronomicalYear add(int dy) {
 		// copy, and convert to zys
-		int r = y;
+		/*int r = y;
 		if (r < 0) {
 			r++;
 		}
@@ -221,8 +221,10 @@ public final class AstronomicalYear implements Comparable {
 		// convert back, and return
 		if (r <= 0) {
 			r--;
-		}
-		return new AstronomicalYear(r);
+		}*/
+		
+		
+		return new AstronomicalYear(y+dy);
 	}
 	
 	/**
@@ -264,10 +266,10 @@ public final class AstronomicalYear implements Comparable {
 	public int mod(int m) {
 		
 		int yr = y;
-		if(y<=0)
+		/*if(y<=0)
 		{
 			yr++;
-		}
+		}*/
 		
 		int r = yr % m;
 		if (r < 0) {
@@ -286,7 +288,7 @@ public final class AstronomicalYear implements Comparable {
 	public int row() {
 		
 		int yr = y;
-		if(y<=0) yr++;
+		//if(y<=0) yr++;
 		
 		int z = yr / 10;
 		if (yr < 0 && yr % 10 != 0) {
