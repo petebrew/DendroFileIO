@@ -15,10 +15,12 @@
  */
 package org.tridas.io.formats.sheffield;
 
+import java.io.File;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 
+import org.apache.poi.openxml4j.opc.internal.FileHelper;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.tridas.interfaces.ITridasSeries;
@@ -26,6 +28,7 @@ import org.tridas.io.AbstractDendroFileReader;
 import org.tridas.io.DendroFileFilter;
 import org.tridas.io.I18n;
 import org.tridas.io.defaults.IMetadataFieldSet;
+import org.tridas.io.defaults.TridasMetadataFieldSet.TridasExtraField;
 import org.tridas.io.defaults.values.GenericDefaultValue;
 import org.tridas.io.exceptions.ConversionWarning;
 import org.tridas.io.exceptions.ConversionWarningException;
@@ -81,11 +84,17 @@ public class SheffieldReader extends AbstractDendroFileReader {
 		// Check the file is valid
 		checkFile(argFileString);
 		
+		if(this.getOriginalFilename()!=null)
+		{
+			File file = new File(this.getOriginalFilename());
+			defaults.getStringDefaultValue(TridasExtraField.ORIGINAL_FILENAME).setValue(FileHelper.getFilename(file));
+		}
+		
 		ArrayList<TridasValue> ringWidthValues = new ArrayList<TridasValue>();
 		SafeIntYear startYear = null;
 		for (int lineNum = 1; lineNum <= 22; lineNum++) {
 			String lineString = argFileString[lineNum - 1];
-			
+						
 			// Line 1 - Series title
 			if (lineNum == 1) {
 				if (lineString.length() > 64) {

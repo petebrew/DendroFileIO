@@ -22,6 +22,7 @@ import org.apache.commons.lang.WordUtils;
 import org.tridas.interfaces.ITridasSeries;
 import org.tridas.io.I18n;
 import org.tridas.io.defaults.TridasMetadataFieldSet;
+import org.tridas.io.defaults.TridasMetadataFieldSet.TridasExtraField;
 import org.tridas.io.defaults.values.DateTimeDefaultValue;
 import org.tridas.io.defaults.values.DoubleDefaultValue;
 import org.tridas.io.defaults.values.GenericDefaultValue;
@@ -291,17 +292,28 @@ public class HeidelbergToTridasDefaults extends TridasMetadataFieldSet {
 			series.setAuthor(getStringDefaultValue(DefaultFields.PERS_ID).getStringValue());
 		}
 		
+		ArrayList<TridasGenericField> gflist = new ArrayList<TridasGenericField>();
+
+		
 		if(getStringDefaultValue(DefaultFields.KEYCODE).getStringValue()!=null)
 		{
 			TridasGenericField gf = new TridasGenericField();
 			gf.setName("keycode");
 			gf.setValue(getStringDefaultValue(DefaultFields.KEYCODE).getStringValue());
 			gf.setType("xs:string");
-			ArrayList<TridasGenericField> gflist = new ArrayList<TridasGenericField>();
 			gflist.add(gf);
-			series.setGenericFields(gflist);
+			
 		}
 		
+		if (getDefaultValue(TridasExtraField.ORIGINAL_FILENAME).getValue() != null) {
+			TridasGenericField gf = new ObjectFactory().createTridasGenericField();
+			gf.setName("dccd.treeringdatafile");
+			gf.setType("xs:string");
+			gf.setValue(getDefaultValue(TridasExtraField.ORIGINAL_FILENAME).getValue().toString());
+			gflist.add(gf);
+		}
+		
+		series.setGenericFields(gflist);
 
 		return series;
 	}
@@ -403,16 +415,28 @@ public class HeidelbergToTridasDefaults extends TridasMetadataFieldSet {
 			series.setAnalyst(getStringDefaultValue(DefaultFields.PERS_ID).getStringValue());
 		}
 		
+		ArrayList<TridasGenericField> gflist = new ArrayList<TridasGenericField>();
+
+		
 		if(getStringDefaultValue(DefaultFields.KEYCODE).getStringValue()!=null)
 		{
 			TridasGenericField gf = new TridasGenericField();
 			gf.setName("keycode");
 			gf.setValue(getStringDefaultValue(DefaultFields.KEYCODE).getStringValue());
 			gf.setType("xs:string");
-			ArrayList<TridasGenericField> gflist = new ArrayList<TridasGenericField>();
 			gflist.add(gf);
-			series.setGenericFields(gflist);
+			
 		}
+		
+		if (getDefaultValue(TridasExtraField.ORIGINAL_FILENAME).getValue() != null) {
+			TridasGenericField gf = new ObjectFactory().createTridasGenericField();
+			gf.setName("dccd.treeringdatafile");
+			gf.setType("xs:string");
+			gf.setValue(getDefaultValue(TridasExtraField.ORIGINAL_FILENAME).getValue().toString());
+			gflist.add(gf);
+		}
+		
+		series.setGenericFields(gflist);
 
 		
 

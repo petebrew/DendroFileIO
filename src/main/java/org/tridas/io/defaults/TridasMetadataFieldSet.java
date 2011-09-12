@@ -36,6 +36,7 @@ import org.tridas.schema.TridasElement;
 import org.tridas.schema.TridasHeartwood;
 import org.tridas.schema.TridasIdentifier;
 import org.tridas.schema.TridasLaboratory;
+import org.tridas.schema.TridasLaboratory.Name;
 import org.tridas.schema.TridasMeasurementSeries;
 import org.tridas.schema.TridasMeasuringMethod;
 import org.tridas.schema.TridasObject;
@@ -46,7 +47,6 @@ import org.tridas.schema.TridasSample;
 import org.tridas.schema.TridasSapwood;
 import org.tridas.schema.TridasVariable;
 import org.tridas.schema.TridasWoodCompleteness;
-import org.tridas.schema.TridasLaboratory.Name;
 
 /**
  * Mandatory fields as specified by the Tridas schema along with
@@ -60,8 +60,14 @@ public class TridasMetadataFieldSet extends AbstractTridasMetadataFieldSet {
 		PROJECT_TITLE, PROJECT_TYPES, PROJECT_LABORATORIES, PROJECT_CATEGORY, PROJECT_INVESTIGATOR, PROJECT_PERIOD, OBJECT_TITLE, OBJECT_TYPE, ELEMENT_TITLE, ELEMENT_TAXON, SAMPLE_TITLE, SAMPLE_TYPE, RADIUS_TITLE, MEASUREMENTSERIES_TITLE, MEASUREMENTSERIES_MEASURINGMETHOD, MEASUREMENTSERIES_VARIABLE, DERIVEDSERIES_TITLE, DERIVEDSERIES_TYPE, DERIVEDSERIES_IDENTIFIER, IDENTIFIER_DOMAIN;
 	}
 	
+	public enum TridasExtraField{
+		ORIGINAL_FILENAME;
+	}
+	
 	@Override
 	protected void initDefaultValues() {
+		setDefaultValue(TridasExtraField.ORIGINAL_FILENAME, new StringDefaultValue());
+
 		setDefaultValue(TridasMandatoryField.PROJECT_TITLE, new StringDefaultValue(I18n.getText("unnamed.project")));
 		
 		ArrayList<ControlledVoc> projectTypes = new ArrayList<ControlledVoc>();

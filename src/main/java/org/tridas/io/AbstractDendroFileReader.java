@@ -340,7 +340,7 @@ public abstract class AbstractDendroFileReader {
 	 * Gets the parsed projects after they are loaded.
 	 */
 	public abstract TridasProject[] getProjects();
-	
+		
 	
 	public abstract TridasTridas getTridasContainer();
 

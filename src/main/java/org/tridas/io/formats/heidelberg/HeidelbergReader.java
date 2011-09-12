@@ -15,6 +15,7 @@
  */
 package org.tridas.io.formats.heidelberg;
 
+import java.io.File;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.HashMap;
@@ -22,12 +23,14 @@ import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
 
+import org.apache.poi.openxml4j.opc.internal.FileHelper;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.tridas.io.AbstractDendroFileReader;
 import org.tridas.io.DendroFileFilter;
 import org.tridas.io.I18n;
 import org.tridas.io.defaults.IMetadataFieldSet;
+import org.tridas.io.defaults.TridasMetadataFieldSet.TridasExtraField;
 import org.tridas.io.defaults.values.GenericDefaultValue;
 import org.tridas.io.exceptions.ConversionWarning;
 import org.tridas.io.exceptions.InvalidDendroFileException;
@@ -91,6 +94,13 @@ public class HeidelbergReader extends AbstractDendroFileReader {
 		
 		// first lets see if we look like a heidelberg file
 		checkFile(argFileString);
+		
+		if(this.getOriginalFilename()!=null)
+		{
+			File file = new File(this.getOriginalFilename());
+			defaults.getStringDefaultValue(TridasExtraField.ORIGINAL_FILENAME).setValue(FileHelper.getFilename(file));
+		}
+		
 		int fileLength = argFileString.length;
 		int lineNum = 0;
 		HeidelbergSeries currSeries = null;
@@ -1044,8 +1054,8 @@ public class HeidelbergReader extends AbstractDendroFileReader {
 			}
 			
 			//TREE_NUMBER, new StringDefaultValue());
-			if(fileMetadata.containsKey("treenumber")){
-				s.defaults.getStringDefaultValue(DefaultFields.TREE_NUMBER).setValue(fileMetadata.get("treenumber"));
+			if(fileMetadata.containsKey("treeno")){
+				s.defaults.getStringDefaultValue(DefaultFields.TREE_NUMBER).setValue(fileMetadata.get("treeno"));
 			}
 			
 			//UNIT, new GenericDefaultValue<TridasUnit>());	
