@@ -111,6 +111,7 @@ public class SheffieldToTridasDefaults extends TridasMetadataFieldSet implements
 		setDefaultValue(DefaultFields.SHEFFIELD_VARIABLE_TYPE, new GenericDefaultValue<SheffieldVariableCode>());
 		setDefaultValue(DefaultFields.SHEFFIELD_EDGE_CODE, new GenericDefaultValue<SheffieldEdgeCode>());
 		setDefaultValue(DefaultFields.SHEFFIELD_CHRONOLOGY_TYPE, new GenericDefaultValue<SheffieldChronologyType>());
+
 	}
 	
 	/**
@@ -558,6 +559,14 @@ public class SheffieldToTridasDefaults extends TridasMetadataFieldSet implements
 			genFields.add(gf);
 		}
 		
+		if (getDefaultValue(TridasExtraField.ORIGINAL_FILENAME).getValue() != null) {
+			TridasGenericField gf = new ObjectFactory().createTridasGenericField();
+			gf.setName("dccd.treeringdatafile");
+			gf.setType("xs:string");
+			gf.setValue(getDefaultValue(TridasExtraField.ORIGINAL_FILENAME).getValue().toString());
+			genFields.add(gf);
+		}
+		
 		return genFields;
 		
 	}
@@ -587,6 +596,14 @@ public class SheffieldToTridasDefaults extends TridasMetadataFieldSet implements
 			gf.setName("keycode");
 			gf.setType("xs:string");
 			gf.setValue(getDefaultValue(DefaultFields.SHORT_TITLE).getValue().toString());
+			genFields.add(gf);
+		}
+		
+		if (getDefaultValue(TridasExtraField.ORIGINAL_FILENAME).getValue() != null) {
+			TridasGenericField gf = new ObjectFactory().createTridasGenericField();
+			gf.setName("dccd.treeringdatafile");
+			gf.setType("xs:string");
+			gf.setValue(getDefaultValue(TridasExtraField.ORIGINAL_FILENAME).getValue().toString());
 			genFields.add(gf);
 		}
 		

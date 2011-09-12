@@ -1,0 +1,31 @@
+HEADER:
+DateEnd=-66
+KeyNo=27
+Project=Growth studies
+Length=103
+Location=Oak Ridge
+Species=PISY
+SapWoodRings=14
+WaldKante=WKF
+State=Tennessy
+PersId=FR
+KeyCode=271017
+Country=USA
+DateOfSampling=19931106
+TreeNo=5
+CoreNo=1
+Exposition=North-West
+CreationDate=19940526
+SoilType=Sand
+DATA:Tree
+   125   130    99   120   115   145   151   130   135   151
+   200   190   151   170   170   174   170   200   210   130
+   180   197   210   160   180   155   180   199   140   150
+   146   140   145   150   155   110   115   113   120   130
+   110   120   150   120   120   110   115   160   160   145
+   135   145   125   115   145   149   120   150   160    99
+   110    75    70    82    96    90   120   151   155   130
+   132   133   149   110   130   120   128   118   125   115
+    95    90   110    98    80    85    97    88    70   100
+    90    70    80    90    85    78    95    84    70    90
+    80    75    70     0     0     0     0     0     0     0
