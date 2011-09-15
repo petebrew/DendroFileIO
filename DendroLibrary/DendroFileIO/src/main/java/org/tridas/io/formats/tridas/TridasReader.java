@@ -112,29 +112,7 @@ public class TridasReader extends AbstractDendroFileReader {
 		for (String s : argFileString) {
 			if(firstLine)
 			{
-				// This strips out any byte order marks at the beginning of the
-				// file otherwise JAXB will choke.
-								
-				char firstchar = s.charAt(0);
-				char secondchar = s.charAt(1);
-				char utf8      = '\uefbb';
-				char leftbrac  = '\u003c';
-				
-				if(firstchar!=leftbrac)
-				{		
-					log.debug("XML file contains a byte order mark.  Attempting to remove...");
-					if(firstchar!= utf8)
-					{
-						String errorstr = "Byte order mark 'u+"+(Integer.toHexString((int)firstchar))+"' indicates file is not UTF-8";
-						log.error(errorstr);
-						addWarning(new ConversionWarning(WarningType.INVALID, 
-								"This file has a byte order mark that suggests " +
-								"it is not in the expected UTF-8 character encoding. " +
-								"Some characters may be incorrect"));
-					}
-					fileString.append(s.replaceFirst("^[^<]*", "")+"\n");
-				}
-				
+				fileString.append(s.replaceFirst("^[^<]*", "")+"\n");
 				firstLine = false;
 			}
 			else
