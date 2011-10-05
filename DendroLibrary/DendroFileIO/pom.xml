@@ -20,7 +20,7 @@
 	<modelVersion>4.0.0</modelVersion>
 	<groupId>org.tridas</groupId>
 	<artifactId>dendrofileio</artifactId>
-	<version>0.1.6</version>
+	<version>1.0.3</version>
 	<name>DendroFileIO</name>
 	<description>IO library for converting dendro files to and from the TridasJLib Java classes</description>
 	<licenses>
@@ -153,9 +153,7 @@
         <dependency>
         	<groupId>org.tridas</groupId>
         	<artifactId>tridasjlib</artifactId>
-        	<version>0.2</version>
-        	<type>jar</type>
-        	<scope>compile</scope>
+        	<version>1.22.2</version>
         </dependency>
         <dependency>
         	<groupId>com.sun.xml.bind</groupId>
