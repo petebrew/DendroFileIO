@@ -1,0 +1,114 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<DIF xmlns="http://gcmd.gsfc.nasa.gov/Aboutus/xml/dif/" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://gcmd.gsfc.nasa.gov/Aboutus/xml/dif/ http://gcmd.gsfc.nasa.gov/Aboutus/xml/dif/dif_v9.7.1.xsd">
+<Entry_ID>noaa-tree-10714</Entry_ID>
+<Entry_Title>Esper - Bagrot Valley 1 - JUSP - ITRDB PAKI001</Entry_Title>
+<Data_Set_Citation>
+<Dataset_Creator>Esper, J.; Treydte, K.; Winiger, M.</Dataset_Creator>
+<Dataset_Title>Esper - Bagrot Valley 1 - JUSP - ITRDB PAKI001</Dataset_Title>
+<Dataset_Release_Date>2010-06-10</Dataset_Release_Date>
+<Dataset_Publisher>NCDC-Paleoclimatology</Dataset_Publisher>
+<Data_Presentation_Form>Online Files</Data_Presentation_Form>
+<Online_Resource>http://www.ncdc.noaa.gov/paleo/metadata/noaa-tree-10714.html</Online_Resource>
+</Data_Set_Citation>
+<Personnel>
+<Role>Investigator</Role>
+<First_Name>J.</First_Name>
+<Last_Name>Esper</Last_Name>
+</Personnel>
+<Personnel>
+<Role>Investigator</Role>
+<First_Name>K.</First_Name>
+<Last_Name>Treydte</Last_Name>
+</Personnel>
+<Personnel>
+<Role>Investigator</Role>
+<First_Name>M.</First_Name>
+<Last_Name>Winiger</Last_Name>
+</Personnel>
+<Parameters>
+<Category>earth science</Category>
+<Topic>paleoclimate</Topic>
+<Term>tree-ring</Term>
+<Variable_Level_1>width</Variable_Level_1>
+</Parameters>
+<ISO_Topic_Category>Geoscientific Information</ISO_Topic_Category>
+<Keyword>JUSP</Keyword>
+<Keyword>Juniperus spp. L.</Keyword>
+<Keyword>juniper</Keyword>
+<Paleo_Temporal_Coverage>
+<Paleo_Start_Date>1593 AD</Paleo_Start_Date>
+<Paleo_Stop_Date>1993 AD</Paleo_Stop_Date>
+</Paleo_Temporal_Coverage>
+<Paleo_Temporal_Coverage>
+<Paleo_Start_Date>357 cal yr BP</Paleo_Start_Date>
+<Paleo_Stop_Date>-43 cal yr BP</Paleo_Stop_Date>
+</Paleo_Temporal_Coverage>
+<Data_Set_Progress>Complete</Data_Set_Progress>
+<Spatial_Coverage>
+<Southernmost_Latitude>36.0333</Southernmost_Latitude>
+<Northernmost_Latitude>36.0333</Northernmost_Latitude>
+<Westernmost_Longitude>74.5833</Westernmost_Longitude>
+<Easternmost_Longitude>74.5833</Easternmost_Longitude>
+<Minimum_Altitude>3100</Minimum_Altitude>
+<Maximum_Altitude>3100</Maximum_Altitude>
+</Spatial_Coverage>
+<Location>
+<Location_Category>GCMD_locations</Location_Category>
+<Location_Type>Continent</Location_Type>
+<Location_Subregion1>Asia</Location_Subregion1>
+<Location_Subregion2>Southcentral Asia</Location_Subregion2>
+<Location_Subregion3>Pakistan</Location_Subregion3>
+<Detailed_Location>Bagrot Valley 1::LATITUDE 36.0333::LONGITUDE 74.5833</Detailed_Location>
+</Location>
+<Access_Constraints>None</Access_Constraints>
+<Use_Constraints>Please cite original references when using this data.</Use_Constraints>
+<Data_Set_Language>English</Data_Set_Language>
+<Data_Center>
+<Data_Center_Name>
+<Short_Name>DOC/NOAA/NESDIS/NCDC</Short_Name>
+<Long_Name>National Climatic Data Center, NESDIS, NOAA, U.S. Department of Commerce </Long_Name>
+</Data_Center_Name>
+<Data_Center_URL>http://www.ncdc.noaa.gov/paleo/</Data_Center_URL>
+<Personnel>
+<Role>Data Center Contact</Role>
+<First_Name>Bruce</First_Name>
+<Last_Name>Bauer</Last_Name>
+<Email>bruce.a.bauer@noaa.gov</Email>
+<Email>paleo@noaa.gov</Email>
+<Phone>303-497-6280</Phone>
+<Fax>303-497-6513</Fax>
+<Contact_Address>
+<Address>325 Broadway, E/CC23</Address>
+<City>Boulder</City>
+<Province_or_State>CO</Province_or_State>
+<Postal_Code>80305-3328</Postal_Code>
+<Country>USA</Country>
+</Contact_Address>
+</Personnel>
+</Data_Center>
+<Distribution>
+<Distribution_Media>online</Distribution_Media>
+<Distribution_Format>ASCII</Distribution_Format>
+</Distribution>
+<Reference>Esper J, Frank DC, Wilson RJS, Büntgen U, Treydte K (2007) 
+Uniform growth trends among central Asian low and high elevation 
+juniper tree sites. 
+Trees - Structure and Function
+Volume 21, Number 2, 141-150, DOI: 10.1007/s00468-006-0104-0
+</Reference>
+<Summary>We present an analysis of 28 juniper tree-ring sites sampled over the last decades by several research teams in the Tien Shan and Karakorum mountains of western central Asia. Ring-width chronologies were developed on a site-by-site basis, using a detrending technique designed to retain low-frequency climate variations. Site chronologies were grouped according to their distance from the upper timberline in the Tien Shan (~3,400 m a.s.l.) and Karakorum (~4,000 m), and low- and high-elevation composite chronologies combining data from both mountain systems developed. Comparison of these elevational subsets revealed significant coherence (r = 0.72) over the 1438–1995 common period, which is inconsistent with the concept of differing environmental signals captured in tree-ring data along elevational gradients. It is hypothesized that the uniform growth behavior in central Asian juniper trees has been forced by solar radiation variations controlled via cloud cover changes, but verification of this assumption requires further fieldwork. The high-elevation composite chronology was further compared with existing temperature reconstructions from the Karakorum and Tien Shan, and long-term trend differences discussed. We concluded that the extent of warmth during medieval times cannot be precisely estimated based on ring-width data currently available. </Summary>
+<Related_URL>
+<URL_Content_Type>
+<Type>GET DATA</Type>
+</URL_Content_Type>
+<URL>ftp://ftp.ncdc.noaa.gov/pub/data/paleo/treering/measurements/asia/paki001.rwl</URL>
+<URL>ftp://ftp.ncdc.noaa.gov/pub/data/paleo/treering/measurements/correlation-stats/paki001.txt</URL>
+</Related_URL>
+<IDN_Node>
+<Short_Name>USA/NOAA</Short_Name>
+</IDN_Node>
+<Metadata_Name>DIF</Metadata_Name>
+<Metadata_Version>Version 9.7.1</Metadata_Version>
+<DIF_Creation_Date>2011-04-05</DIF_Creation_Date>
+<Last_DIF_Revision_Date>2011-04-05</Last_DIF_Revision_Date>
+</DIF>

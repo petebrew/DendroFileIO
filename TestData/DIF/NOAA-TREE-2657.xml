@@ -1,0 +1,123 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<dif:DIF xmlns:dif="http://gcmd.gsfc.nasa.gov/Aboutus/xml/dif/" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://gcmd.gsfc.nasa.gov/Aboutus/xml/dif/ http://gcmd.gsfc.nasa.gov/Aboutus/xml/dif/dif_v9.4.xsd">
+  <dif:Entry_ID>NOAA-TREE-2657</dif:Entry_ID>
+  <dif:Entry_Title>Adams - Fernow Experimental Forest - QUPR - ITRDB WV003</dif:Entry_Title>
+  <dif:Data_Set_Citation>
+    <dif:Dataset_Creator>Adams, H.S.; Lawrence, D.M.; Muzika, R.; Stephenson, S.</dif:Dataset_Creator>
+    <dif:Dataset_Title>Adams - Fernow Experimental Forest - QUPR - ITRDB WV003</dif:Dataset_Title>
+    <dif:Dataset_Publisher>NCDC-Paleoclimatology</dif:Dataset_Publisher>
+    <dif:Data_Presentation_Form>Online Files</dif:Data_Presentation_Form>
+    <dif:Online_Resource>http://www.ncdc.noaa.gov/paleo/metadata/NOAA-TREE-2657.html</dif:Online_Resource>
+  </dif:Data_Set_Citation>
+  <dif:Personnel>
+    <dif:Role>Investigator</dif:Role>
+    <dif:First_Name>H.S.</dif:First_Name>
+    <dif:Last_Name>Adams</dif:Last_Name>
+  </dif:Personnel>
+  <dif:Personnel>
+    <dif:Role>Investigator</dif:Role>
+    <dif:First_Name>D.M.</dif:First_Name>
+    <dif:Last_Name>Lawrence</dif:Last_Name>
+  </dif:Personnel>
+  <dif:Personnel>
+    <dif:Role>Investigator</dif:Role>
+    <dif:First_Name>R.</dif:First_Name>
+    <dif:Last_Name>Muzika</dif:Last_Name>
+  </dif:Personnel>
+  <dif:Personnel>
+    <dif:Role>Investigator</dif:Role>
+    <dif:First_Name>S.</dif:First_Name>
+    <dif:Last_Name>Stephenson</dif:Last_Name>
+  </dif:Personnel>
+  <dif:Parameters>
+    <dif:Category>earth science</dif:Category>
+    <dif:Topic>paleoclimate</dif:Topic>
+    <dif:Term>tree-ring</dif:Term>
+    <dif:Variable>tree species</dif:Variable>
+    <dif:Detailed_Variable>Quercus prinus L.</dif:Detailed_Variable>
+  </dif:Parameters>
+  <dif:Parameters>
+    <dif:Category>earth science</dif:Category>
+    <dif:Topic>paleoclimate</dif:Topic>
+    <dif:Term>tree-ring</dif:Term>
+    <dif:Variable>width</dif:Variable>
+    <dif:Detailed_Variable>ring width</dif:Detailed_Variable>
+  </dif:Parameters>
+  <dif:Parameters>
+    <dif:Category>earth science</dif:Category>
+    <dif:Topic>paleoclimate</dif:Topic>
+    <dif:Term>tree-ring</dif:Term>
+    <dif:Variable>width</dif:Variable>
+    <dif:Detailed_Variable>more info</dif:Detailed_Variable>
+  </dif:Parameters>
+  <dif:ISO_Topic_Category>Geoscientific Information</dif:ISO_Topic_Category>
+  <dif:Keyword>earth science&gt;paleoclimate&gt;tree-ring&gt;tree species&gt;Quercus prinus L.</dif:Keyword>
+  <dif:Keyword>earth science&gt;paleoclimate&gt;tree-ring&gt;width&gt;ring width</dif:Keyword>
+  <dif:Keyword>earth science&gt;paleoclimate&gt;tree-ring&gt;width&gt;more info</dif:Keyword>
+  <dif:Keyword>SPECIES&gt;QUPR&gt;Quercus prinus L.&gt;chestnut oak</dif:Keyword>
+  <dif:Paleo_Temporal_Coverage>
+    <dif:Paleo_Start_Date>1865 AD</dif:Paleo_Start_Date>
+    <dif:Paleo_Stop_Date>1993 AD</dif:Paleo_Stop_Date>
+  </dif:Paleo_Temporal_Coverage>
+  <dif:Data_Set_Progress>Complete</dif:Data_Set_Progress>
+  <dif:Spatial_Coverage>
+    <dif:Southernmost_Latitude>39.1</dif:Southernmost_Latitude>
+    <dif:Northernmost_Latitude>39.1</dif:Northernmost_Latitude>
+    <dif:Westernmost_Longitude>-79.72</dif:Westernmost_Longitude>
+    <dif:Easternmost_Longitude>-79.72</dif:Easternmost_Longitude>
+    <dif:Minimum_Altitude>740</dif:Minimum_Altitude>
+    <dif:Maximum_Altitude>740</dif:Maximum_Altitude>
+  </dif:Spatial_Coverage>
+  <dif:Location>
+    <dif:Location_Name>Continent&gt;North America&gt;United States Of America&gt;West Virginia</dif:Location_Name>
+    <dif:Detailed_Location>Fernow Experimental Forest&gt;United States&gt;West Virginia&gt;LATITUDE 39.1&gt;LONGITUDE -79.72</dif:Detailed_Location>
+  </dif:Location>
+  <dif:Access_Constraints>None</dif:Access_Constraints>
+  <dif:Use_Constraints>Please cite original references when using this data.</dif:Use_Constraints>
+  <dif:Data_Set_Language>English</dif:Data_Set_Language>
+  <dif:Data_Center>
+    <dif:Data_Center_Name>
+      <dif:Short_Name>DOC/NOAA/NESDIS/NCDC</dif:Short_Name>
+      <dif:Long_Name>National Climatic Data Center, NESDIS, NOAA, U.S. Department of Commerce </dif:Long_Name>
+    </dif:Data_Center_Name>
+    <dif:Data_Center_URL>http://www.ncdc.noaa.gov/paleo/</dif:Data_Center_URL>
+    <dif:Personnel>
+      <dif:Role>Data Center Contact</dif:Role>
+      <dif:First_Name>Bruce</dif:First_Name>
+      <dif:Last_Name>Bauer</dif:Last_Name>
+      <dif:Email>bruce.a.bauer@noaa.gov</dif:Email>
+      <dif:Email>paleo@noaa.gov</dif:Email>
+      <dif:Phone>303-497-6280</dif:Phone>
+      <dif:Fax>303-497-6513</dif:Fax>
+      <dif:Contact_Address>
+        <dif:Address>325 Broadway, E/CC23</dif:Address>
+        <dif:City>Boulder</dif:City>
+        <dif:Province_or_State>CO</dif:Province_or_State>
+        <dif:Postal_Code>80305</dif:Postal_Code>
+        <dif:Country>USA</dif:Country>
+      </dif:Contact_Address>
+    </dif:Personnel>
+  </dif:Data_Center>
+  <dif:Distribution>
+    <dif:Distribution_Media>online</dif:Distribution_Media>
+    <dif:Distribution_Format>ASCII</dif:Distribution_Format>
+  </dif:Distribution>
+  <dif:Reference/>
+  <dif:Summary>Records of past temperature, precipitation, and climate and environmental change derived from tree ring measurements.  Parameter keywords describe what was measured in this data set.  Additional summary information can be found in the abstracts of papers listed in the data set citations, however many of the data sets arise from unpublished research contributed to the International Tree Ring Data Bank.  Additional information on data processing and analysis for International Tree Ring Data Bank (ITRDB) data sets can be found on the Tree Ring Page (http://www.ncdc.noaa.gov/paleo/treering.html).
+</dif:Summary>
+  <dif:Related_URL>
+    <dif:URL_Content_Type>Get Data</dif:URL_Content_Type>
+    <dif:URL>ftp://ftp.ncdc.noaa.gov/pub/data/paleo/treering/chronologies/northamerica/usa/wv003.crn</dif:URL>
+    <dif:URL>ftp://ftp.ncdc.noaa.gov/pub/data/paleo/treering/chronologies/northamerica/usa/wv003a.crn</dif:URL>
+    <dif:URL>ftp://ftp.ncdc.noaa.gov/pub/data/paleo/treering/chronologies/northamerica/usa/wv003r.crn</dif:URL>
+    <dif:URL>ftp://ftp.ncdc.noaa.gov/pub/data/paleo/treering/measurements/correlation-stats/wv003.txt</dif:URL>
+    <dif:URL>ftp://ftp.ncdc.noaa.gov/pub/data/paleo/treering/measurements/northamerica/usa/wv003.rwl</dif:URL>
+  </dif:Related_URL>
+  <dif:IDN_Node>
+    <dif:Short_Name>USA/NOAA</dif:Short_Name>
+  </dif:IDN_Node>
+  <dif:Metadata_Name>DIF</dif:Metadata_Name>
+  <dif:Metadata_Version>Version 9.4</dif:Metadata_Version>
+  <dif:DIF_Creation_Date>2007-05-22</dif:DIF_Creation_Date>
+  <dif:Last_DIF_Revision_Date>2007-05-22</dif:Last_DIF_Revision_Date>
+</dif:DIF>

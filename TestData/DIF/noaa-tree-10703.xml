@@ -1,0 +1,122 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<DIF xmlns="http://gcmd.gsfc.nasa.gov/Aboutus/xml/dif/" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://gcmd.gsfc.nasa.gov/Aboutus/xml/dif/ http://gcmd.gsfc.nasa.gov/Aboutus/xml/dif/dif_v9.7.1.xsd">
+<Entry_ID>noaa-tree-10703</Entry_ID>
+<Entry_Title>Wilson - Salzstadel 1 Straubing Historical Timbers - ABAL - ITRDB GERM098</Entry_Title>
+<Data_Set_Citation>
+<Dataset_Creator>Wilson, R.</Dataset_Creator>
+<Dataset_Title>Wilson - Salzstadel 1 Straubing Historical Timbers - ABAL - ITRDB GERM098</Dataset_Title>
+<Dataset_Release_Date>2010-06-23</Dataset_Release_Date>
+<Dataset_Publisher>NCDC-Paleoclimatology</Dataset_Publisher>
+<Data_Presentation_Form>Online Files</Data_Presentation_Form>
+<Online_Resource>http://www.ncdc.noaa.gov/paleo/metadata/noaa-tree-10703.html</Online_Resource>
+</Data_Set_Citation>
+<Personnel>
+<Role>Investigator</Role>
+<First_Name>R.</First_Name>
+<Last_Name>Wilson</Last_Name>
+</Personnel>
+<Parameters>
+<Category>earth science</Category>
+<Topic>paleoclimate</Topic>
+<Term>tree-ring</Term>
+<Variable_Level_1>width</Variable_Level_1>
+</Parameters>
+<ISO_Topic_Category>Geoscientific Information</ISO_Topic_Category>
+<Keyword>drought</Keyword>
+<Keyword>ABAL</Keyword>
+<Keyword>Abies alba Mill.</Keyword>
+<Keyword>silver fir</Keyword>
+<Keyword>European silver fir</Keyword>
+<Paleo_Temporal_Coverage>
+<Paleo_Start_Date>1683 AD</Paleo_Start_Date>
+<Paleo_Stop_Date>1839 AD</Paleo_Stop_Date>
+</Paleo_Temporal_Coverage>
+<Paleo_Temporal_Coverage>
+<Paleo_Start_Date>267 cal yr BP</Paleo_Start_Date>
+<Paleo_Stop_Date>111 cal yr BP</Paleo_Stop_Date>
+</Paleo_Temporal_Coverage>
+<Data_Set_Progress>Complete</Data_Set_Progress>
+<Spatial_Coverage>
+<Southernmost_Latitude>48.8833</Southernmost_Latitude>
+<Northernmost_Latitude>48.8833</Northernmost_Latitude>
+<Westernmost_Longitude>12.5667</Westernmost_Longitude>
+<Easternmost_Longitude>12.5667</Easternmost_Longitude>
+</Spatial_Coverage>
+<Location>
+<Location_Category>GCMD_locations</Location_Category>
+<Location_Type>Continent</Location_Type>
+<Location_Subregion1>Europe</Location_Subregion1>
+<Location_Subregion2>Western Europe</Location_Subregion2>
+<Location_Subregion3>Germany</Location_Subregion3>
+<Detailed_Location>Salzstadel 1 Straubing Historical Timbers::LATITUDE 48.8833::LONGITUDE 12.5667</Detailed_Location>
+</Location>
+<Access_Constraints>None</Access_Constraints>
+<Use_Constraints>Please cite original references when using this data.</Use_Constraints>
+<Data_Set_Language>English</Data_Set_Language>
+<Data_Center>
+<Data_Center_Name>
+<Short_Name>DOC/NOAA/NESDIS/NCDC</Short_Name>
+<Long_Name>National Climatic Data Center, NESDIS, NOAA, U.S. Department of Commerce </Long_Name>
+</Data_Center_Name>
+<Data_Center_URL>http://www.ncdc.noaa.gov/paleo/</Data_Center_URL>
+<Personnel>
+<Role>Data Center Contact</Role>
+<First_Name>Bruce</First_Name>
+<Last_Name>Bauer</Last_Name>
+<Email>bruce.a.bauer@noaa.gov</Email>
+<Email>paleo@noaa.gov</Email>
+<Phone>303-497-6280</Phone>
+<Fax>303-497-6513</Fax>
+<Contact_Address>
+<Address>325 Broadway, E/CC23</Address>
+<City>Boulder</City>
+<Province_or_State>CO</Province_or_State>
+<Postal_Code>80305-3328</Postal_Code>
+<Country>USA</Country>
+</Contact_Address>
+</Personnel>
+</Data_Center>
+<Distribution>
+<Distribution_Media>online</Distribution_Media>
+<Distribution_Format>ASCII</Distribution_Format>
+</Distribution>
+<Reference>Wilson, R.J.S., B.H. Luckman, and J. Esper. 2005. 
+A 500-Year Dendroclimatic Reconstruction of Spring/Summer 
+Precipitation from the Lower Bavarian Forest Region, Germany. 
+International Journal of Climatology, 25: 611-630.
+</Reference>
+<Summary>This paper presents a 500 year March-August precipitation reconstruction for the Bavarian Forest region of southeast
+Germany based on a composite, well-replicated data set of 676 living and historical tree-ring width series from Norway
+spruce. Two versions of the chronology are developed. The cubic smoothing spline (SPL) chronology, standardized
+with a fixed 80 year spline function, retains decadal and higher frequency variation. The regional curve standardization
+(RCS) chronology uses regional curve standardization to retain additional lower frequency variation from the same
+data. Calibration (1879-1978) of these chronologies with March-August precipitation indicates they explain 40% (SPL)
+and 34% (RCS) of the variability in the instrumental precipitation record. The SPL reconstruction models the high frequency
+variation better, whereas the RCS reconstruction tracks the low-frequency trends more robustly. It suggests
+that spring-summer precipitation was above the long-term average for the periods 1730-1810 and 1870-2000, about
+average between 1560 and 1610 and that significantly drier periods occurred during 1510-60, 1610-35, 1660-1730 and
+1830-70. The low-frequency trends of the RCS reconstruction during the 19th century were verified by comparison with a
+regional precipitation series derived from 14 long precipitation records from central Europe. Better verification results were
+obtained using the original (non-homogenized) records over this interval. These results suggest that some low-frequency
+variability may have been removed during correction of these early records. Periods of synchronous decadal variability
+were observed between the SPL series and independent dendroclimatic reconstructions from central Europe. The RCS
+reconstruction is the first dendroclimatic precipitation reconstruction in Europe to capture low-frequency information.
+These long-term trends, however, are difficult to verify owing to the paucity of other proxy precipitation records in
+central Europe that portray low-frequency information. Further verification and testing of the RCS reconstruction will
+require the development of additional reconstructions from tree-rings (or other proxy data series) that similarly target
+low-frequency variability.</Summary>
+<Related_URL>
+<URL_Content_Type>
+<Type>GET DATA</Type>
+</URL_Content_Type>
+<URL>ftp://ftp.ncdc.noaa.gov/pub/data/paleo/treering/measurements/europe/germ098.rwl</URL>
+<URL>ftp://ftp.ncdc.noaa.gov/pub/data/paleo/treering/measurements/correlation-stats/germ098.txt</URL>
+</Related_URL>
+<IDN_Node>
+<Short_Name>USA/NOAA</Short_Name>
+</IDN_Node>
+<Metadata_Name>DIF</Metadata_Name>
+<Metadata_Version>Version 9.7.1</Metadata_Version>
+<DIF_Creation_Date>2011-04-04</DIF_Creation_Date>
+<Last_DIF_Revision_Date>2011-04-04</Last_DIF_Revision_Date>
+</DIF>
