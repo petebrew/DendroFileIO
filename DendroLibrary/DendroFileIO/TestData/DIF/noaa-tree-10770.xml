@@ -1,0 +1,107 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<DIF xmlns="http://gcmd.gsfc.nasa.gov/Aboutus/xml/dif/" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://gcmd.gsfc.nasa.gov/Aboutus/xml/dif/ http://gcmd.gsfc.nasa.gov/Aboutus/xml/dif/dif_v9.7.1.xsd">
+<Entry_ID>noaa-tree-10770</Entry_ID>
+<Entry_Title>Bräker - Brüschholz AB - FASY - ITRDB SWIT199</Entry_Title>
+<Data_Set_Citation>
+<Dataset_Creator>Bräker, O.U.; Zingg, A.</Dataset_Creator>
+<Dataset_Title>Bräker - Brüschholz AB - FASY - ITRDB SWIT199</Dataset_Title>
+<Dataset_Release_Date>2010-06-10</Dataset_Release_Date>
+<Dataset_Publisher>NCDC-Paleoclimatology</Dataset_Publisher>
+<Data_Presentation_Form>Online Files</Data_Presentation_Form>
+<Online_Resource>http://www.ncdc.noaa.gov/paleo/metadata/noaa-tree-10770.html</Online_Resource>
+</Data_Set_Citation>
+<Personnel>
+<Role>Investigator</Role>
+<First_Name>O.U.</First_Name>
+<Last_Name>Bräker</Last_Name>
+</Personnel>
+<Personnel>
+<Role>Investigator</Role>
+<First_Name>A.</First_Name>
+<Last_Name>Zingg</Last_Name>
+</Personnel>
+<Parameters>
+<Category>earth science</Category>
+<Topic>paleoclimate</Topic>
+<Term>tree-ring</Term>
+<Variable_Level_1>width</Variable_Level_1>
+</Parameters>
+<ISO_Topic_Category>Geoscientific Information</ISO_Topic_Category>
+<Keyword>FASY</Keyword>
+<Keyword>Fagus sylvatica L.</Keyword>
+<Keyword>European beech</Keyword>
+<Keyword>common beech</Keyword>
+<Paleo_Temporal_Coverage>
+<Paleo_Start_Date>1882 AD</Paleo_Start_Date>
+<Paleo_Stop_Date>1994 AD</Paleo_Stop_Date>
+</Paleo_Temporal_Coverage>
+<Paleo_Temporal_Coverage>
+<Paleo_Start_Date>68 cal yr BP</Paleo_Start_Date>
+<Paleo_Stop_Date>-44 cal yr BP</Paleo_Stop_Date>
+</Paleo_Temporal_Coverage>
+<Data_Set_Progress>Complete</Data_Set_Progress>
+<Spatial_Coverage>
+<Southernmost_Latitude>47.3333</Southernmost_Latitude>
+<Northernmost_Latitude>47.3333</Northernmost_Latitude>
+<Westernmost_Longitude>7.9167</Westernmost_Longitude>
+<Easternmost_Longitude>7.9167</Easternmost_Longitude>
+<Minimum_Altitude>475</Minimum_Altitude>
+<Maximum_Altitude>475</Maximum_Altitude>
+</Spatial_Coverage>
+<Location>
+<Location_Category>GCMD_locations</Location_Category>
+<Location_Type>Continent</Location_Type>
+<Location_Subregion1>Europe</Location_Subregion1>
+<Location_Subregion2>Western Europe</Location_Subregion2>
+<Location_Subregion3>Switzerland</Location_Subregion3>
+<Detailed_Location>Brüschholz AB::LATITUDE 47.3333::LONGITUDE 7.9167</Detailed_Location>
+</Location>
+<Access_Constraints>None</Access_Constraints>
+<Use_Constraints>Please cite original references when using this data.</Use_Constraints>
+<Data_Set_Language>English</Data_Set_Language>
+<Data_Center>
+<Data_Center_Name>
+<Short_Name>DOC/NOAA/NESDIS/NCDC</Short_Name>
+<Long_Name>National Climatic Data Center, NESDIS, NOAA, U.S. Department of Commerce </Long_Name>
+</Data_Center_Name>
+<Data_Center_URL>http://www.ncdc.noaa.gov/paleo/</Data_Center_URL>
+<Personnel>
+<Role>Data Center Contact</Role>
+<First_Name>Bruce</First_Name>
+<Last_Name>Bauer</Last_Name>
+<Email>bruce.a.bauer@noaa.gov</Email>
+<Email>paleo@noaa.gov</Email>
+<Phone>303-497-6280</Phone>
+<Fax>303-497-6513</Fax>
+<Contact_Address>
+<Address>325 Broadway, E/CC23</Address>
+<City>Boulder</City>
+<Province_or_State>CO</Province_or_State>
+<Postal_Code>80305-3328</Postal_Code>
+<Country>USA</Country>
+</Contact_Address>
+</Personnel>
+</Data_Center>
+<Distribution>
+<Distribution_Media>online</Distribution_Media>
+<Distribution_Format>ASCII</Distribution_Format>
+</Distribution>
+<Reference>Schmid, S., A. Zingg, P. Biber, and H. Bugmann. 2006. 
+Evaluation of the forest growth model SILVA along an elevational gradient in Switzerland. 
+Vol. 125, Number 1, pp. 43-55, DOI: 10.1007/s10342-005-0076-4 </Reference>
+<Summary>The semi-empirical single-tree model SILVA 2.2 has been developed and parameterised using forest research and inventory data from Germany that range from the colline to the montane zone. The focus of the model evaluation presented in this study was to test the applicability of the model for the main Swiss forest types and at elevations ranging from the colline to the upper subalpine zone. To this end, SILVA was initialized using data from long-term forest yield research plots. The results at the end of the 30-year simulation were compared with observed data. The analysis of the results at each test site showed that there were no significant differences in model performance between forest types. However, the deviation between simulated and observed growth depended strongly on the elevational zone, i.e., on climate. As expected, the best results were found in the colline zone, for which the model had been calibrated, whereas the upper subalpine sites revealed the strongest differences. The quality of the data regarding forest structure that were available for model initialization had a strong impact on the simulation results, mainly at high-elevation zones (i.e., supalpine and upper subalpine). We conclude that SILVA 2.2 is a suitable tool to estimate the development of single trees and standing volume for a large fraction of the forests in Switzerland. However, extreme climate conditions should be avoided with the model, and the availability of detailed stand structure information is a key priority that has a strong effect on the quality of the simulation results. </Summary>
+<Related_URL>
+<URL_Content_Type>
+<Type>GET DATA</Type>
+</URL_Content_Type>
+<URL>ftp://ftp.ncdc.noaa.gov/pub/data/paleo/treering/measurements/europe/swit199.rwl</URL>
+<URL>ftp://ftp.ncdc.noaa.gov/pub/data/paleo/treering/measurements/correlation-stats/swit199.txt</URL>
+</Related_URL>
+<IDN_Node>
+<Short_Name>USA/NOAA</Short_Name>
+</IDN_Node>
+<Metadata_Name>DIF</Metadata_Name>
+<Metadata_Version>Version 9.7.1</Metadata_Version>
+<DIF_Creation_Date>2011-04-11</DIF_Creation_Date>
+<Last_DIF_Revision_Date>2011-04-11</Last_DIF_Revision_Date>
+</DIF>

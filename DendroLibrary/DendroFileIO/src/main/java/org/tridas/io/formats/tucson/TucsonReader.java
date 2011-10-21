@@ -761,7 +761,6 @@ public class TucsonReader extends AbstractDendroFileReader {
 			} else if (value.equals("-999")) {
 				// Missing data value - override to zero
 				dataValues.add(0);
-				break;
 			} else if (value.matches("[.]")) {
 				// This is a non-standard placeholder used after the
 				// stop marker to indicate where a value would go

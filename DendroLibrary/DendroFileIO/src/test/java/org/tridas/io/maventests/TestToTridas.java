@@ -33,6 +33,7 @@ import org.tridas.io.formats.belfastarchive.BelfastArchiveReader;
 import org.tridas.io.formats.besancon.BesanconReader;
 import org.tridas.io.formats.catras.CatrasReader;
 import org.tridas.io.formats.corina.CorinaReader;
+import org.tridas.io.formats.cracow.CracowReader;
 import org.tridas.io.formats.csvmatrix.CSVMatrixReader;
 import org.tridas.io.formats.dendrodb.DendroDBReader;
 import org.tridas.io.formats.excelmatrix.ExcelMatrixReader;
@@ -175,7 +176,54 @@ public class TestToTridas extends TestCase {
 		
 	}
 	
-	
+	public void testCracowToTridas() {
+		String folder = "TestData/Cracow";
+		String[] files = getFilesFromFolder(folder);
+		
+		if (files.length == 0) {
+			fail();
+		}
+		
+		for (String filename : files) {
+			//if(!filename.equals("WR1916.AVR")) { continue; }
+
+			log.info("Test conversion of: " + filename);
+			
+			// Create a new converter
+			CracowReader reader = new CracowReader();
+			
+			// Parse the legacy data file
+			try {
+				// TridasEntitiesFromDefaults def = new TridasEntitiesFromDefaults();
+				reader.loadFile(folder, filename);
+			} catch (IOException e) {
+				// Standard IO Exception
+				log.info(e.getLocalizedMessage());
+				fail();
+				return;
+			} catch (InvalidDendroFileException e) {
+				// Fatal error interpreting file
+				log.info(e.getLocalizedMessage());
+				fail();
+				return;
+			}
+			
+			// Extract the TridasProject
+			TridasTridas container = reader.getTridasContainer();
+			
+			TridasWriter writer = new TridasWriter();
+			writer.setNamingConvention(new NumericalNamingConvention("Cracow-"+filename));
+			
+			try {
+				writer.load(container);
+			} catch (IncompleteTridasDataException e) {
+				fail();
+			} catch (ConversionWarningException e) {
+			} 
+			writer.saveAllToDisk(outputLocation);
+			
+		}
+	}
 	
 	public void testCatrasToTridas() {
 		String folder = "TestData/CATRAS";

@@ -1,0 +1,100 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<DIF xmlns="http://gcmd.gsfc.nasa.gov/Aboutus/xml/dif/" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://gcmd.gsfc.nasa.gov/Aboutus/xml/dif/ http://gcmd.gsfc.nasa.gov/Aboutus/xml/dif/dif_v9.7.1.xsd">
+<Entry_ID>noaa-tree-10723</Entry_ID>
+<Entry_Title>Kaiser - Daettnau 3 Late Glacial Subfossil - PISY - ITRDB SWIT197</Entry_Title>
+<Data_Set_Citation>
+<Dataset_Creator>Kaiser, K.</Dataset_Creator>
+<Dataset_Title>Kaiser - Daettnau 3 Late Glacial Subfossil - PISY - ITRDB SWIT197</Dataset_Title>
+<Dataset_Release_Date>2010-06-10</Dataset_Release_Date>
+<Dataset_Publisher>NCDC-Paleoclimatology</Dataset_Publisher>
+<Data_Presentation_Form>Online Files</Data_Presentation_Form>
+<Online_Resource>http://www.ncdc.noaa.gov/paleo/metadata/noaa-tree-10723.html</Online_Resource>
+</Data_Set_Citation>
+<Personnel>
+<Role>Investigator</Role>
+<First_Name>K.</First_Name>
+<Last_Name>Kaiser</Last_Name>
+</Personnel>
+<Parameters>
+<Category>earth science</Category>
+<Topic>paleoclimate</Topic>
+<Term>tree-ring</Term>
+<Variable_Level_1>width</Variable_Level_1>
+</Parameters>
+<ISO_Topic_Category>Geoscientific Information</ISO_Topic_Category>
+<Keyword>PISY</Keyword>
+<Keyword>Pinus sylvestris L.</Keyword>
+<Keyword>Scots pine</Keyword>
+<Keyword>Scotch pine</Keyword>
+<Paleo_Temporal_Coverage>
+<Paleo_Start_Date>14237 cal yr BP</Paleo_Start_Date>
+<Paleo_Stop_Date>12750 cal yr BP</Paleo_Stop_Date>
+</Paleo_Temporal_Coverage>
+<Data_Set_Progress>Complete</Data_Set_Progress>
+<Spatial_Coverage>
+<Southernmost_Latitude>47.4833</Southernmost_Latitude>
+<Northernmost_Latitude>47.4833</Northernmost_Latitude>
+<Westernmost_Longitude>8.6833</Westernmost_Longitude>
+<Easternmost_Longitude>8.6833</Easternmost_Longitude>
+<Minimum_Altitude>487</Minimum_Altitude>
+<Maximum_Altitude>487</Maximum_Altitude>
+</Spatial_Coverage>
+<Location>
+<Location_Category>GCMD_locations</Location_Category>
+<Location_Type>Continent</Location_Type>
+<Location_Subregion1>Europe</Location_Subregion1>
+<Location_Subregion2>Western Europe</Location_Subregion2>
+<Location_Subregion3>Switzerland</Location_Subregion3>
+<Detailed_Location>Daettnau 3 Late Glacial Subfossil::LATITUDE 47.4833::LONGITUDE 8.6833</Detailed_Location>
+</Location>
+<Access_Constraints>None</Access_Constraints>
+<Use_Constraints>Please cite original references when using this data.</Use_Constraints>
+<Data_Set_Language>English</Data_Set_Language>
+<Data_Center>
+<Data_Center_Name>
+<Short_Name>DOC/NOAA/NESDIS/NCDC</Short_Name>
+<Long_Name>National Climatic Data Center, NESDIS, NOAA, U.S. Department of Commerce </Long_Name>
+</Data_Center_Name>
+<Data_Center_URL>http://www.ncdc.noaa.gov/paleo/</Data_Center_URL>
+<Personnel>
+<Role>Data Center Contact</Role>
+<First_Name>Bruce</First_Name>
+<Last_Name>Bauer</Last_Name>
+<Email>bruce.a.bauer@noaa.gov</Email>
+<Email>paleo@noaa.gov</Email>
+<Phone>303-497-6280</Phone>
+<Fax>303-497-6513</Fax>
+<Contact_Address>
+<Address>325 Broadway, E/CC23</Address>
+<City>Boulder</City>
+<Province_or_State>CO</Province_or_State>
+<Postal_Code>80305-3328</Postal_Code>
+<Country>USA</Country>
+</Contact_Address>
+</Personnel>
+</Data_Center>
+<Distribution>
+<Distribution_Media>online</Distribution_Media>
+<Distribution_Format>ASCII</Distribution_Format>
+</Distribution>
+<Reference>Friedrich, M., B. Kromer, K.F. Kaiser, M. Spurk, K.A. Hughen, and S.J. Johnsen. 2001. 
+High-resolution climate signals in the Bølling-Allerød Interstadial (Greenland Interstadial 1) as reflected in European tree-ring chronologies compared to marine varves and ice-core records. 
+Quaternary Science Reviews, Vol. 20, Issue 11, May 2001, pp. 1223-1232.  
+doi:10.1016/S0277-3791(00)00148-7 
+</Reference>
+<Summary>Lateglacial and Holocene tree-ring chronologies are unique archives, which provide various information on past environments on a true annual time scale. Changes in ring-width can be related to past climate anomalies and dendrodated wood provides an ideal source for radiocarbon calibration. We present a 1051 year tree-ring chronology from the Late Glacial, built from subfossil Scots pines (Pinus sylvestris) that grew in different regions of Central and Southern Europe. Through a series of high-precision radiocarbon measurements we obtained a floating radiocarbon chronology, which allowed accurate wiggle-matching to the INTCAL98 calibration curve. The trees show a coherent pattern in ring-width variations throughout Central Europe, and extending into the Mediterranean, which indicates a strong external climatic factor, most probably temperature during the growing season. We identified major growth events, which appear synchronous with events seen in isotopic and tracer signals in the Greenland ice cores and with changes in the strength of upwelling in the Cariaco Basin.</Summary>
+<Related_URL>
+<URL_Content_Type>
+<Type>GET DATA</Type>
+</URL_Content_Type>
+<URL>ftp://ftp.ncdc.noaa.gov/pub/data/paleo/treering/measurements/europe/swit197.rwl</URL>
+<URL>ftp://ftp.ncdc.noaa.gov/pub/data/paleo/treering/measurements/correlation-stats/swit197.txt</URL>
+</Related_URL>
+<IDN_Node>
+<Short_Name>USA/NOAA</Short_Name>
+</IDN_Node>
+<Metadata_Name>DIF</Metadata_Name>
+<Metadata_Version>Version 9.7.1</Metadata_Version>
+<DIF_Creation_Date>2011-04-05</DIF_Creation_Date>
+<Last_DIF_Revision_Date>2011-04-05</Last_DIF_Revision_Date>
+</DIF>

@@ -43,6 +43,7 @@ import org.tridas.io.formats.catras.CatrasReader;
 import org.tridas.io.formats.catras.CatrasWriter;
 import org.tridas.io.formats.corina.CorinaReader;
 import org.tridas.io.formats.corina.CorinaWriter;
+import org.tridas.io.formats.cracow.CracowReader;
 import org.tridas.io.formats.csvmatrix.CSVMatrixReader;
 import org.tridas.io.formats.csvmatrix.CSVMatrixWriter;
 import org.tridas.io.formats.dendrodb.DendroDBReader;
@@ -108,6 +109,7 @@ public class TridasIO {
 		registerFileReader(BesanconReader.class);
 		registerFileReader(CatrasReader.class);
 		registerFileReader(CorinaReader.class);
+		registerFileReader(CracowReader.class);
 		registerFileReader(CSVMatrixReader.class);
 		registerFileReader(DendroDBReader.class);
 		registerFileReader(ExcelMatrixReader.class);

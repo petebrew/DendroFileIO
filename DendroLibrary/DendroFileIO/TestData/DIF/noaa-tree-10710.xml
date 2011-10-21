@@ -1,0 +1,121 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<DIF xmlns="http://gcmd.gsfc.nasa.gov/Aboutus/xml/dif/" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://gcmd.gsfc.nasa.gov/Aboutus/xml/dif/ http://gcmd.gsfc.nasa.gov/Aboutus/xml/dif/dif_v9.7.1.xsd">
+<Entry_ID>noaa-tree-10710</Entry_ID>
+<Entry_Title>Büntgen - Vogesen - FASY - ITRDB FRAN041</Entry_Title>
+<Data_Set_Citation>
+<Dataset_Creator>Büntgen, U.; Esper, J.; Frank, D.; Nievergelt, D.; Verstege, A.</Dataset_Creator>
+<Dataset_Title>Büntgen - Vogesen - FASY - ITRDB FRAN041</Dataset_Title>
+<Dataset_Release_Date>2010-06-10</Dataset_Release_Date>
+<Dataset_Publisher>NCDC-Paleoclimatology</Dataset_Publisher>
+<Data_Presentation_Form>Online Files</Data_Presentation_Form>
+<Online_Resource>http://www.ncdc.noaa.gov/paleo/metadata/noaa-tree-10710.html</Online_Resource>
+</Data_Set_Citation>
+<Personnel>
+<Role>Investigator</Role>
+<First_Name>U.</First_Name>
+<Last_Name>Büntgen</Last_Name>
+</Personnel>
+<Personnel>
+<Role>Investigator</Role>
+<First_Name>J.</First_Name>
+<Last_Name>Esper</Last_Name>
+</Personnel>
+<Personnel>
+<Role>Investigator</Role>
+<First_Name>D.</First_Name>
+<Last_Name>Frank</Last_Name>
+</Personnel>
+<Personnel>
+<Role>Investigator</Role>
+<First_Name>D.</First_Name>
+<Last_Name>Nievergelt</Last_Name>
+</Personnel>
+<Personnel>
+<Role>Investigator</Role>
+<First_Name>A.</First_Name>
+<Last_Name>Verstege</Last_Name>
+</Personnel>
+<Parameters>
+<Category>earth science</Category>
+<Topic>paleoclimate</Topic>
+<Term>tree-ring</Term>
+<Variable_Level_1>width</Variable_Level_1>
+</Parameters>
+<ISO_Topic_Category>Geoscientific Information</ISO_Topic_Category>
+<Keyword>FASY</Keyword>
+<Keyword>Fagus sylvatica L.</Keyword>
+<Keyword>European beech</Keyword>
+<Keyword>common beech</Keyword>
+<Paleo_Temporal_Coverage>
+<Paleo_Start_Date>1781 AD</Paleo_Start_Date>
+<Paleo_Stop_Date>2003 AD</Paleo_Stop_Date>
+</Paleo_Temporal_Coverage>
+<Paleo_Temporal_Coverage>
+<Paleo_Start_Date>169 cal yr BP</Paleo_Start_Date>
+<Paleo_Stop_Date>-53 cal yr BP</Paleo_Stop_Date>
+</Paleo_Temporal_Coverage>
+<Data_Set_Progress>Complete</Data_Set_Progress>
+<Spatial_Coverage>
+<Southernmost_Latitude>48</Southernmost_Latitude>
+<Northernmost_Latitude>48</Northernmost_Latitude>
+<Westernmost_Longitude>6.15</Westernmost_Longitude>
+<Easternmost_Longitude>6.15</Easternmost_Longitude>
+<Minimum_Altitude>1230</Minimum_Altitude>
+<Maximum_Altitude>1230</Maximum_Altitude>
+</Spatial_Coverage>
+<Location>
+<Location_Category>GCMD_locations</Location_Category>
+<Location_Type>Continent</Location_Type>
+<Location_Subregion1>Europe</Location_Subregion1>
+<Location_Subregion2>Western Europe</Location_Subregion2>
+<Location_Subregion3>France</Location_Subregion3>
+<Detailed_Location>Vogesen::LATITUDE 48::LONGITUDE 6.15</Detailed_Location>
+</Location>
+<Access_Constraints>None</Access_Constraints>
+<Use_Constraints>Please cite original references when using this data.</Use_Constraints>
+<Data_Set_Language>English</Data_Set_Language>
+<Data_Center>
+<Data_Center_Name>
+<Short_Name>DOC/NOAA/NESDIS/NCDC</Short_Name>
+<Long_Name>National Climatic Data Center, NESDIS, NOAA, U.S. Department of Commerce </Long_Name>
+</Data_Center_Name>
+<Data_Center_URL>http://www.ncdc.noaa.gov/paleo/</Data_Center_URL>
+<Personnel>
+<Role>Data Center Contact</Role>
+<First_Name>Bruce</First_Name>
+<Last_Name>Bauer</Last_Name>
+<Email>bruce.a.bauer@noaa.gov</Email>
+<Email>paleo@noaa.gov</Email>
+<Phone>303-497-6280</Phone>
+<Fax>303-497-6513</Fax>
+<Contact_Address>
+<Address>325 Broadway, E/CC23</Address>
+<City>Boulder</City>
+<Province_or_State>CO</Province_or_State>
+<Postal_Code>80305-3328</Postal_Code>
+<Country>USA</Country>
+</Contact_Address>
+</Personnel>
+</Data_Center>
+<Distribution>
+<Distribution_Media>online</Distribution_Media>
+<Distribution_Format>ASCII</Distribution_Format>
+</Distribution>
+<Reference/>
+<Summary>Records of past temperature, precipitation, and climate and environmental change derived from tree ring measurements.  Parameter keywords describe what was measured in this data set.  Additional summary information can be found in the abstracts of papers listed in the data set citations, however many of the data sets arise from unpublished research contributed to the International Tree Ring Data Bank.  Additional information on data processing and analysis for International Tree Ring Data Bank (ITRDB) data sets can be found on the Tree Ring Page (http://www.ncdc.noaa.gov/paleo/treering.html).
+</Summary>
+<Related_URL>
+<URL_Content_Type>
+<Type>GET DATA</Type>
+</URL_Content_Type>
+<URL>ftp://ftp.ncdc.noaa.gov/pub/data/paleo/treering/measurements/europe/fran041.rwl</URL>
+<URL>ftp://ftp.ncdc.noaa.gov/pub/data/paleo/treering/measurements/correlation-stats/fran041.txt</URL>
+</Related_URL>
+<IDN_Node>
+<Short_Name>USA/NOAA</Short_Name>
+</IDN_Node>
+<Metadata_Name>DIF</Metadata_Name>
+<Metadata_Version>Version 9.7.1</Metadata_Version>
+<DIF_Creation_Date>2011-04-05</DIF_Creation_Date>
+<Last_DIF_Revision_Date>2011-04-05</Last_DIF_Revision_Date>
+</DIF>
