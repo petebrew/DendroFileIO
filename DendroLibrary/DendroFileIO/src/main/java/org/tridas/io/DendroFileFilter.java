@@ -44,7 +44,7 @@ public class DendroFileFilter extends FileFilter implements Comparable<DendroFil
 					return true;
 				}
 	    	
-				if (file.getName().toLowerCase().endsWith(extension.replace("*", "")))
+				if (file.getName().toLowerCase().endsWith(extension.toLowerCase().replace("*", "")))
 				{
 					return true;
 				}

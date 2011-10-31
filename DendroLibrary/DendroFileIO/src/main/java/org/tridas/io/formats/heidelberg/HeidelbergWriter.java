@@ -58,7 +58,7 @@ public class HeidelbergWriter extends AbstractDendroCollectionWriter {
 		defaults.populateFromTridasProject(argProject);
 		
 		//TODO ESTHER SPECIAL
-		//HeidelbergFile file = new HeidelbergFile(defaults);
+		HeidelbergFile file = new HeidelbergFile(defaults);
 		
 		for (TridasObject o : TridasUtils.getObjectList(argProject)) {
 			TridasToHeidelbergDefaults objectDefaults = (TridasToHeidelbergDefaults) defaults.clone();
@@ -131,16 +131,16 @@ public class HeidelbergWriter extends AbstractDendroCollectionWriter {
 								tvDefaults.populateFromTridasValues(tvsgroup);
 								
 								//TODO ESTHER SPECIAL
-								HeidelbergFile file = new HeidelbergFile(defaults);
+								//HeidelbergFile file = new HeidelbergFile(defaults);
 								
 								file.addSeries(ms, tvsgroup, tvDefaults);
 								
 								//TODO ESTHER SPECIAL
 								naming.registerFile(file, argProject, o, e, s, r, ms);
-								if(file.getSeries().length>0)
+								/*if(file.getSeries().length>0)
 								{
 									addToFileList(file);
-								}
+								}*/
 							}
 							
 						}
@@ -235,26 +235,26 @@ public class HeidelbergWriter extends AbstractDendroCollectionWriter {
 					}
 					
 					//TODO ESTHER SPECIAL
-					HeidelbergFile file = new HeidelbergFile(defaults);
+					//HeidelbergFile file = new HeidelbergFile(defaults);
 					
 					file.addSeries(ds, tvsgroup, tvDefaults);
 
 					//TODO ESTHER SPECIAL
 					naming.registerFile(file, argProject, ds);
-					if(file.getSeries().length>0)
+					/*if(file.getSeries().length>0)
 					{
 						addToFileList(file);
-					}
+					}*/
 					
 				}
 			}
 		}
 		
 		//TODO ESTHER SPECIAL	
-		/*if(file.getSeries().length>0)
+		if(file.getSeries().length>0)
 		{
 			addToFileList(file);
-		}*/
+		}
 	}
 	
 	/**
