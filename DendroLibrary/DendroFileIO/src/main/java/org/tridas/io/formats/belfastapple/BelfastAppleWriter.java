@@ -21,8 +21,10 @@ import java.util.List;
 import org.tridas.io.AbstractDendroCollectionWriter;
 import org.tridas.io.I18n;
 import org.tridas.io.defaults.IMetadataFieldSet;
+import org.tridas.io.exceptions.ConversionWarning;
 import org.tridas.io.exceptions.ConversionWarningException;
 import org.tridas.io.exceptions.IncompleteTridasDataException;
+import org.tridas.io.exceptions.ConversionWarning.WarningType;
 import org.tridas.io.naming.INamingConvention;
 import org.tridas.io.naming.NumericalNamingConvention;
 import org.tridas.io.util.TridasUtils;
@@ -34,6 +36,7 @@ import org.tridas.schema.TridasObject;
 import org.tridas.schema.TridasProject;
 import org.tridas.schema.TridasRadius;
 import org.tridas.schema.TridasSample;
+import org.tridas.schema.TridasValues;
 
 public class BelfastAppleWriter extends AbstractDendroCollectionWriter {
 	
@@ -58,34 +61,45 @@ public class BelfastAppleWriter extends AbstractDendroCollectionWriter {
 				// Create a belfastappleFile for each and add to file list
 				BelfastAppleFile file = new BelfastAppleFile(defaults, this);
 				naming.registerFile(file, argProject, ds);
-				file.setSeries(ds);
 				
-				// Try and grab object and sample titles from linked series
-				if(ds.isSetLinkSeries())
+				
+				for(TridasValues group : ds.getValues())
 				{
-					// TODO what happens if there are links to multiple different entities?
-					// For now just go with the first link
-					if(ds.getLinkSeries().getSeries().size()>1) break;
-					TridasIdentifier id = ds.getLinkSeries().getSeries().get(0).getIdentifier();
-					TridasObject parentObject = (TridasObject) TridasUtils.getEntityByIdentifier(argProject, id, TridasObject.class);
-					if(parentObject!=null)
+					if(!group.isSetValues())
 					{
-						if(parentObject.isSetTitle())
+						this.addWarning(new ConversionWarning(WarningType.IGNORED, I18n.getText("fileio.noDataValues")));
+						continue;
+					}
+					
+					file.setValuesGroup(group);
+					
+					// Try and grab object and sample titles from linked series
+					if(ds.isSetLinkSeries())
+					{
+						// TODO what happens if there are links to multiple different entities?
+						// For now just go with the first link
+						if(ds.getLinkSeries().getSeries().size()>1) break;
+						TridasIdentifier id = ds.getLinkSeries().getSeries().get(0).getIdentifier();
+						TridasObject parentObject = (TridasObject) TridasUtils.getEntityByIdentifier(argProject, id, TridasObject.class);
+						if(parentObject!=null)
 						{
-							file.setObjectTitle(parentObject.getTitle());
+							if(parentObject.isSetTitle())
+							{
+								file.setObjectTitle(parentObject.getTitle());
+							}
+						}
+						TridasSample parentSample = (TridasSample) TridasUtils.getEntityByIdentifier(argProject, id, TridasSample.class);
+						if(parentSample!=null)
+						{
+							if(parentSample.isSetTitle())
+							{
+								file.setSampleTitle(parentSample.getTitle());
+							}
 						}
 					}
-					TridasSample parentSample = (TridasSample) TridasUtils.getEntityByIdentifier(argProject, id, TridasSample.class);
-					if(parentSample!=null)
-					{
-						if(parentSample.isSetTitle())
-						{
-							file.setSampleTitle(parentSample.getTitle());
-						}
-					}
+	
+					addToFileList(file);
 				}
-
-				addToFileList(file);
 			}
 		} catch (NullPointerException e) {
 			System.out.println("blah");
@@ -147,13 +161,23 @@ public class BelfastAppleWriter extends AbstractDendroCollectionWriter {
 						
 						if (serList != null) {
 							for (TridasMeasurementSeries ser : serList) {								
-								// Create a belfastappleFile for each and add to file list
-								BelfastAppleFile file = new BelfastAppleFile(defaults, this);
-								naming.registerFile(file, argProject, obj, el, s, r, ser);
-								file.setSeries(ser);
-								file.setObjectTitle(objecttitle);
-								file.setSampleTitle(sampletitle);
-								addToFileList(file);
+								// Create a belfastappleFile for each values group and add to file list
+								
+								for(TridasValues group : ser.getValues())
+								{
+									if(!group.isSetValues())
+									{
+										this.addWarning(new ConversionWarning(WarningType.IGNORED, I18n.getText("fileio.noDataValues")));
+										continue;
+									}
+								
+									BelfastAppleFile file = new BelfastAppleFile(defaults, this);
+									naming.registerFile(file, argProject, obj, el, s, r, ser);
+									file.setValuesGroup(group);
+									file.setObjectTitle(objecttitle);
+									file.setSampleTitle(sampletitle);
+									addToFileList(file);
+								}
 							}
 						}
 					}

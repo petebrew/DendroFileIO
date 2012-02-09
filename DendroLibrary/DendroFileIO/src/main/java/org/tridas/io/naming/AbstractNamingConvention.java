@@ -57,6 +57,20 @@ public abstract class AbstractNamingConvention implements INamingConvention {
 		registerFile(argFile, filename);
 	}
 	
+	@Override
+	public synchronized void registerFile(IDendroFile argFile, NamingConventionGrouper group)
+	{
+		if(group.containsDerived())
+		{
+			registerFile(argFile, group.getProject(), group.getDerivedSeries());
+		}
+		else
+		{
+			registerFile(argFile, group.getProject(), group.getObject(), group.getElement(), group.getSample(), group.getRadius(), group.getMeasurementSeries());
+
+		}
+	}
+	
 	/**
 	 * @see org.tridas.io.naming.INamingConvention#registerFile(org.tridas.io.IDendroFile,
 	 *      org.tridas.schema.TridasProject, org.tridas.schema.TridasDerivedSeries)
@@ -116,6 +130,7 @@ public abstract class AbstractNamingConvention implements INamingConvention {
 		ArrayList<IDendroFile> files = nameMap.get(baseFilename);
 		if (files == null || files.size() == 0) {
 			log.error(I18n.getText("fileio.fileNotRegistered"));
+			return "UNKNOWN";
 		}
 		
 		if (files.size() == 1 || addSequenceNumbersForUniqueness==false) {

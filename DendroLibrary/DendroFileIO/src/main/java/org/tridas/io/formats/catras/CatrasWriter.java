@@ -132,7 +132,12 @@ public class CatrasWriter extends AbstractDendroCollectionWriter {
 								// Check we can handle this variable
 								if(tvsgroup.isSetVariable())
 								{
-									if (!tvsgroup.getVariable().isSetNormalTridas())
+									if(!tvsgroup.isSetValues())
+									{
+										this.addWarning(new ConversionWarning(WarningType.IGNORED, I18n.getText("fileio.noDataValues")));
+										skipThisGroup = true;
+									}
+									else if (!tvsgroup.getVariable().isSetNormalTridas())
 									{
 										this.addWarning(new ConversionWarning(WarningType.AMBIGUOUS, I18n.getText("fileio.nonstandardVariable")));
 									}
@@ -171,7 +176,7 @@ public class CatrasWriter extends AbstractDendroCollectionWriter {
 								} catch (NumberFormatException e1) {
 									throw new IncompleteTridasDataException(I18n.getText("general.ringValuesNotNumbers"));
 								} catch (ConversionWarningException e1) {
-									// Convertion failed so warn and stick with original values
+									// Conversion failed so warn and stick with original values
 									this.addWarning(e1.getWarning());
 									theValues = tvsgroup;
 								}
@@ -204,7 +209,12 @@ public class CatrasWriter extends AbstractDendroCollectionWriter {
 				// Check we can handle this variable
 				if(tvsgroup.isSetVariable())
 				{
-					if (!tvsgroup.getVariable().isSetNormalTridas())
+					if(!tvsgroup.isSetValues())
+					{
+						this.addWarning(new ConversionWarning(WarningType.IGNORED, I18n.getText("fileio.noDataValues")));
+						skipThisGroup = true;
+					}
+					else if (!tvsgroup.getVariable().isSetNormalTridas())
 					{
 						this.addWarning(new ConversionWarning(WarningType.AMBIGUOUS, I18n.getText("fileio.nonstandardVariable")));
 					}

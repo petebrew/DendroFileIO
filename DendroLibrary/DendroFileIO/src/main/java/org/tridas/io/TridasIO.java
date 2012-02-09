@@ -50,6 +50,7 @@ import org.tridas.io.formats.dendrodb.DendroDBReader;
 import org.tridas.io.formats.excelmatrix.ExcelMatrixReader;
 import org.tridas.io.formats.excelmatrix.ExcelMatrixWriter;
 import org.tridas.io.formats.heidelberg.HeidelbergReader;
+import org.tridas.io.formats.heidelberg.HeidelbergUnstackedWriter;
 import org.tridas.io.formats.heidelberg.HeidelbergWriter;
 import org.tridas.io.formats.nottingham.NottinghamReader;
 import org.tridas.io.formats.nottingham.NottinghamWriter;
@@ -135,6 +136,7 @@ public class TridasIO {
 		registerFileWriter(CSVMatrixWriter.class);
 		registerFileWriter(ExcelMatrixWriter.class);
 		registerFileWriter(HeidelbergWriter.class);
+		registerFileWriter(HeidelbergUnstackedWriter.class);
 		registerFileWriter(NottinghamWriter.class);
 		registerFileWriter(ODFMatrixWriter.class);
 		registerFileWriter(OOXMLWriter.class);

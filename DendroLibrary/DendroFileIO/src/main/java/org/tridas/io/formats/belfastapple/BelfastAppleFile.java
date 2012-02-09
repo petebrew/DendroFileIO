@@ -28,6 +28,7 @@ import org.tridas.io.exceptions.ConversionWarningException;
 import org.tridas.io.exceptions.ConversionWarning.WarningType;
 import org.tridas.io.formats.belfastapple.TridasToBelfastAppleDefaults.BelfastAppleField;
 import org.tridas.schema.TridasValue;
+import org.tridas.schema.TridasValues;
 
 public class BelfastAppleFile implements IDendroFile {
 	
@@ -62,12 +63,12 @@ public class BelfastAppleFile implements IDendroFile {
 		}
 	}
 	
-	public void setSeries(ITridasSeries series) throws ConversionWarningException {
+	public void setValuesGroup(TridasValues valuesgroup) throws ConversionWarningException {
 		
 		// Extract ring widths from series
 		List<TridasValue> valueList;
 		try {
-			valueList = series.getValues().get(0).getValues();
+			valueList = valuesgroup.getValues();
 		} catch (NullPointerException e) {
 			throw new ConversionWarningException(new ConversionWarning(WarningType.NULL_VALUE, I18n
 					.getText("fileio.noData")));

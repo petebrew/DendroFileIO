@@ -125,7 +125,16 @@ public class HeidelbergReader extends AbstractDendroFileReader {
 			}
 			else if (line.toUpperCase().startsWith("DATA:")) {
 				// see what kind of data is here
-				FHDataFormat dataType = FHDataFormat.valueOf(line.substring(line.indexOf(":") + 1));
+				FHDataFormat dataType = null;
+				try{
+				 dataType = FHDataFormat.valueOf(line.substring(line.indexOf(":") + 1).trim());
+				} catch (IllegalArgumentException e)
+				{
+					throw new InvalidDendroFileException("The data type '"+line.substring(line.indexOf(":") + 1).trim()+"' ["+
+							line.substring(line.indexOf(":") + 1).trim().length()+" chars"
+							+"] is not recognised");
+				}
+				
 				lineNum++;
 				line = argFileString[lineNum];
 				currentLineNum = lineNum; // update line num
@@ -395,10 +404,10 @@ public class HeidelbergReader extends AbstractDendroFileReader {
 			currentLineNum = i + 1; // +1 because of the HEADER line
 			String[] split = s.split("=");
 			if (split.length == 1) {
-				argSeries.fileMetadata.put(split[0].toLowerCase(), "");
+				argSeries.fileMetadata.put(split[0].toLowerCase().trim(), "");
 			}
 			else {
-				argSeries.fileMetadata.put(split[0].toLowerCase(), split[1]);
+				argSeries.fileMetadata.put(split[0].toLowerCase().trim(), split[1].replaceAll("\\s+", " ").trim());
 			}
 		}
 	}
