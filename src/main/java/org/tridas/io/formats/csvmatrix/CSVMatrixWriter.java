@@ -24,14 +24,17 @@ import org.tridas.interfaces.ITridasSeries;
 import org.tridas.io.AbstractDendroCollectionWriter;
 import org.tridas.io.I18n;
 import org.tridas.io.defaults.IMetadataFieldSet;
+import org.tridas.io.exceptions.ConversionWarning;
 import org.tridas.io.exceptions.ConversionWarningException;
 import org.tridas.io.exceptions.IncompleteTridasDataException;
+import org.tridas.io.exceptions.ConversionWarning.WarningType;
 import org.tridas.io.naming.INamingConvention;
 import org.tridas.io.naming.NumericalNamingConvention;
 import org.tridas.io.util.TridasUtils;
 import org.tridas.schema.TridasDerivedSeries;
 import org.tridas.schema.TridasMeasurementSeries;
 import org.tridas.schema.TridasProject;
+import org.tridas.schema.TridasValues;
 
 public class CSVMatrixWriter extends AbstractDendroCollectionWriter {
 	@SuppressWarnings("unused")
@@ -51,6 +54,8 @@ public class CSVMatrixWriter extends AbstractDendroCollectionWriter {
 		
 		ArrayList<ITridasSeries> seriesList = new ArrayList<ITridasSeries>();
 		
+		Boolean hasgroup = false;
+		
 		// Grab all derivedSeries from project
 		try {
 			List<TridasDerivedSeries> lst = argProject.getDerivedSeries();
@@ -58,6 +63,15 @@ public class CSVMatrixWriter extends AbstractDendroCollectionWriter {
 				
 				// add to list
 				seriesList.add(ds);
+				
+				for(TridasValues tvsgroup : ds.getValues())
+				{
+					if(!tvsgroup.isSetValues())
+					{
+						this.addWarning(new ConversionWarning(WarningType.IGNORED, I18n.getText("fileio.noDataValues")));
+					}
+				}
+				
 			}
 		} catch (NullPointerException e) {}
 		
@@ -67,6 +81,18 @@ public class CSVMatrixWriter extends AbstractDendroCollectionWriter {
 							
 				// add to list
 				seriesList.add(ser);
+				
+				for(TridasValues tvsgroup : ser.getValues())
+				{
+					if(tvsgroup.isSetValues())
+					{
+
+					}
+					else
+					{
+						this.addWarning(new ConversionWarning(WarningType.IGNORED, I18n.getText("fileio.noDataValues")));
+					}
+				}
 			}
 		} catch (NullPointerException e) {}
 		

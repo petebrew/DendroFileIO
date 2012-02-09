@@ -115,7 +115,12 @@ public class CorinaWriter extends AbstractDendroCollectionWriter {
 								// Check we can handle this variable
 								if(tvsgroup.isSetVariable())
 								{
-									if (!tvsgroup.getVariable().isSetNormalTridas())
+									if(!tvsgroup.isSetValues())
+									{
+										this.addWarning(new ConversionWarning(WarningType.IGNORED, I18n.getText("fileio.noDataValues")));
+										skipThisGroup = true;
+									}
+									else if (!tvsgroup.getVariable().isSetNormalTridas())
 									{
 										msDefaults.addConversionWarning(new ConversionWarning(WarningType.AMBIGUOUS, I18n.getText("fileio.nonstandardVariable")));
 									}
@@ -184,7 +189,12 @@ public class CorinaWriter extends AbstractDendroCollectionWriter {
 				// Check we can handle this variable
 				if(tvsgroup.isSetVariable())
 				{
-					if (!tvsgroup.getVariable().isSetNormalTridas())
+					if(!tvsgroup.isSetValues())
+					{
+						this.addWarning(new ConversionWarning(WarningType.IGNORED, I18n.getText("fileio.noDataValues")));
+						skipThisGroup = true;
+					}
+					else if (!tvsgroup.getVariable().isSetNormalTridas())
 					{
 						dsDefaults.addConversionWarning(new ConversionWarning(WarningType.AMBIGUOUS, I18n.getText("fileio.nonstandardVariable")));
 					}

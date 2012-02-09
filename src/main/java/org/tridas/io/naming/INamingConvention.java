@@ -34,6 +34,9 @@ public interface INamingConvention {
 	
 	public void registerFile(IDendroFile argFile, TridasProject argProject, TridasDerivedSeries argSeries);
 	
+	
+	public void registerFile(IDendroFile argFile, NamingConventionGrouper group);
+	
 	public String getFilename(IDendroFile argFile);
 	
 	public String getDescription();

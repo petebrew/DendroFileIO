@@ -23,6 +23,7 @@ import org.tridas.io.exceptions.ConversionWarningException;
 import org.tridas.io.exceptions.IncompleteTridasDataException;
 import org.tridas.io.exceptions.ConversionWarning.WarningType;
 import org.tridas.io.naming.INamingConvention;
+import org.tridas.io.naming.NamingConventionGrouper;
 import org.tridas.io.naming.NumericalNamingConvention;
 import org.tridas.io.util.TridasUtils;
 import org.tridas.io.util.UnitUtils;
@@ -102,26 +103,35 @@ public class BesanconWriter extends AbstractDendroCollectionWriter {
 		defaults = (TridasToBesanconDefaults) argDefaults;
 		defaults.populateFromTridasProject(argProject);
 		
+		// Start naming convention grouper
+		NamingConventionGrouper ncgroup = new NamingConventionGrouper();
+		ncgroup.add(argProject);
+		
 		for (TridasObject o : TridasUtils.getObjectList(argProject)) {
 			TridasToBesanconDefaults objectDefaults = (TridasToBesanconDefaults) defaults.clone();
 			objectDefaults.populateFromTridasObject(o);
+			ncgroup.add(o);
 			
 			for (TridasElement e : o.getElements()) {
 				TridasToBesanconDefaults elementDefaults = (TridasToBesanconDefaults) objectDefaults.clone();
 				elementDefaults.populateFromTridasElement(e);
+				ncgroup.add(e);
 				
 				for (TridasSample s : e.getSamples()) {
 					TridasToBesanconDefaults sampleDefaults = (TridasToBesanconDefaults) elementDefaults.clone();
 					sampleDefaults.populateFromTridasSample(s);
+					ncgroup.add(s);
 					
 					for (TridasRadius r : s.getRadiuses()) {
 						TridasToBesanconDefaults radiusDefaults = (TridasToBesanconDefaults) sampleDefaults.clone();
 						radiusDefaults.populateFromTridasRadius(r);
+						ncgroup.add(r);
 												
 						for (TridasMeasurementSeries ms : r.getMeasurementSeries()) {
 							TridasToBesanconDefaults msDefaults = (TridasToBesanconDefaults) radiusDefaults
 									.clone();
 							msDefaults.populateFromWoodCompleteness(ms, r);
+							ncgroup.add(ms);
 							
 							for (int i = 0; i < ms.getValues().size(); i++) {
 								boolean skipThisGroup = false;
@@ -131,7 +141,13 @@ public class BesanconWriter extends AbstractDendroCollectionWriter {
 								// Check we can handle this variable
 								if(tvsgroup.isSetVariable())
 								{
-									if (!tvsgroup.getVariable().isSetNormalTridas())
+									
+									if(!tvsgroup.isSetValues())
+									{
+										this.addWarning(new ConversionWarning(WarningType.IGNORED, I18n.getText("fileio.noDataValues")));
+										skipThisGroup = true;
+									}
+									else if (!tvsgroup.getVariable().isSetNormalTridas())
 									{
 										this.addWarning(new ConversionWarning(WarningType.AMBIGUOUS, I18n.getText("fileio.nonstandardVariable")));
 									}
@@ -170,7 +186,7 @@ public class BesanconWriter extends AbstractDendroCollectionWriter {
 								file.addSeries(ms, tvDefaults);
 								
 								// Set naming convention
-								naming.registerFile(file, argProject, o, e, s, r, ms);
+								naming.registerFile(file, ncgroup);
 								
 								// Add file to list
 								addToFileList(file);
@@ -184,7 +200,9 @@ public class BesanconWriter extends AbstractDendroCollectionWriter {
 		
 		for (TridasDerivedSeries ds : argProject.getDerivedSeries()) {
 			TridasToBesanconDefaults dsDefaults = (TridasToBesanconDefaults) defaults.clone();
-						
+				
+			ncgroup.add(ds);
+			
 			for (int i = 0; i < ds.getValues().size(); i++) {
 				boolean skipThisGroup = false;
 
@@ -193,7 +211,12 @@ public class BesanconWriter extends AbstractDendroCollectionWriter {
 				// Check we can handle this variable
 				if(tvsgroup.isSetVariable())
 				{
-					if (!tvsgroup.getVariable().isSetNormalTridas())
+					if(!tvsgroup.isSetValues())
+					{
+						this.addWarning(new ConversionWarning(WarningType.IGNORED, I18n.getText("fileio.noDataValues")));
+						skipThisGroup = true;
+					}
+					else if (!tvsgroup.getVariable().isSetNormalTridas())
 					{
 						this.addWarning(new ConversionWarning(WarningType.AMBIGUOUS, I18n.getText("fileio.nonstandardVariable")));
 					}

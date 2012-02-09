@@ -22,6 +22,7 @@ import org.tridas.io.exceptions.ConversionWarning;
 import org.tridas.io.exceptions.IncompleteTridasDataException;
 import org.tridas.io.exceptions.ConversionWarning.WarningType;
 import org.tridas.io.naming.INamingConvention;
+import org.tridas.io.naming.NamingConventionGrouper;
 import org.tridas.io.naming.NumericalNamingConvention;
 import org.tridas.io.util.StringUtils;
 import org.tridas.io.util.TridasUtils;
@@ -46,6 +47,7 @@ public class HeidelbergWriter extends AbstractDendroCollectionWriter {
 	
 	private TridasToHeidelbergDefaults defaults;
 	private INamingConvention naming = new NumericalNamingConvention();
+	protected boolean isstacked = true;
 	
 	public HeidelbergWriter() {
 		super(TridasToHeidelbergDefaults.class);
@@ -59,29 +61,36 @@ public class HeidelbergWriter extends AbstractDendroCollectionWriter {
 		
 		//TODO ESTHER SPECIAL
 		HeidelbergFile file = new HeidelbergFile(defaults);
+		NamingConventionGrouper ncgroup = new NamingConventionGrouper();
+		ncgroup.add(argProject);
 		
 		for (TridasObject o : TridasUtils.getObjectList(argProject)) {
 			TridasToHeidelbergDefaults objectDefaults = (TridasToHeidelbergDefaults) defaults.clone();
 			objectDefaults.populateFromTridasObject(o);
+			ncgroup.add(o);
 			
 			for (TridasElement e : o.getElements()) {
 				TridasToHeidelbergDefaults elementDefaults = (TridasToHeidelbergDefaults) objectDefaults.clone();
 				elementDefaults.populateFromTridasElement(e);
 				elementDefaults.populateFromTridasLocation(o, e);
+				ncgroup.add(e);
 				
 				for (TridasSample s : e.getSamples()) {
 					TridasToHeidelbergDefaults sampleDefaults = (TridasToHeidelbergDefaults) elementDefaults.clone();
 					sampleDefaults.populateFromTridasSample(s);
+					ncgroup.add(s);
 					
 					for (TridasRadius r : s.getRadiuses()) {
 						TridasToHeidelbergDefaults radiusDefaults = (TridasToHeidelbergDefaults) sampleDefaults.clone();
 						radiusDefaults.populateFromTridasRadius(r);
+						ncgroup.add(r);
 												
 						for (TridasMeasurementSeries ms : r.getMeasurementSeries()) {
 							TridasToHeidelbergDefaults msDefaults = (TridasToHeidelbergDefaults) radiusDefaults
 									.clone();
 							msDefaults.populateFromMS(ms);
 							msDefaults.populateFromWoodCompleteness(ms, r);
+							ncgroup.add(ms);
 							
 							for (int i = 0; i < ms.getValues().size(); i++) {
 								boolean skipThisGroup = false;
@@ -92,7 +101,12 @@ public class HeidelbergWriter extends AbstractDendroCollectionWriter {
 								// Check we can handle this variable
 								if(tvsgroup.isSetVariable())
 								{
-									if (!tvsgroup.getVariable().isSetNormalTridas())
+									if(!tvsgroup.isSetValues())
+									{
+										this.addWarning(new ConversionWarning(WarningType.IGNORED, I18n.getText("fileio.noDataValues")));
+										skipThisGroup = true;
+									}
+									else if (!tvsgroup.getVariable().isSetNormalTridas())
 									{
 										tvDefaults.addConversionWarning(new ConversionWarning(WarningType.AMBIGUOUS, I18n.getText("fileio.nonstandardVariable")));
 									}
@@ -131,18 +145,21 @@ public class HeidelbergWriter extends AbstractDendroCollectionWriter {
 								tvDefaults.populateFromTridasValues(tvsgroup);
 								
 								//TODO ESTHER SPECIAL
-								//HeidelbergFile file = new HeidelbergFile(defaults);
 								
-								file.addSeries(ms, tvsgroup, tvDefaults);
-								
-								//TODO ESTHER SPECIAL
-								naming.registerFile(file, argProject, o, e, s, r, ms);
-								/*if(file.getSeries().length>0)
+								if(!isstacked) 
 								{
+									file = new HeidelbergFile(defaults);
+									file.addSeries(ms, tvsgroup, tvDefaults);
+									naming.registerFile(file, argProject, o, e, s, r, ms);
 									addToFileList(file);
-								}*/
+									file = new HeidelbergFile(defaults);
+								}
+								else
+								{
+									file.addSeries(ms, tvsgroup, tvDefaults);
+									naming.registerFile(file, ncgroup);
+								}
 							}
-							
 						}
 					}
 				}
@@ -152,6 +169,8 @@ public class HeidelbergWriter extends AbstractDendroCollectionWriter {
 		for (TridasDerivedSeries ds : argProject.getDerivedSeries()) {
 			TridasToHeidelbergDefaults dsDefaults = (TridasToHeidelbergDefaults) defaults.clone();
 			dsDefaults.populateFromDerivedSeries(ds);
+			
+			ncgroup.add(ds);
 			
 			for (int i = 0; i < ds.getValues().size(); i++) {
 				
@@ -163,7 +182,12 @@ public class HeidelbergWriter extends AbstractDendroCollectionWriter {
 				// Check we can handle this variable
 				if(tvsgroup.isSetVariable())
 				{
-					if (!tvsgroup.getVariable().isSetNormalTridas())
+					if(!tvsgroup.isSetValues())
+					{
+						this.addWarning(new ConversionWarning(WarningType.IGNORED, I18n.getText("fileio.noDataValues")));
+						skipThisGroup = true;
+					}
+					else if (!tvsgroup.getVariable().isSetNormalTridas())
 					{
 						tvDefaults.addConversionWarning(new ConversionWarning(WarningType.AMBIGUOUS, I18n.getText("fileio.nonstandardVariable")));
 					}
@@ -234,18 +258,20 @@ public class HeidelbergWriter extends AbstractDendroCollectionWriter {
 						}
 					}
 					
-					//TODO ESTHER SPECIAL
-					//HeidelbergFile file = new HeidelbergFile(defaults);
 					
-					file.addSeries(ds, tvsgroup, tvDefaults);
-
-					//TODO ESTHER SPECIAL
-					naming.registerFile(file, argProject, ds);
-					/*if(file.getSeries().length>0)
+					if(!isstacked) 
 					{
+						file = new HeidelbergFile(defaults);
+						file.addSeries(ds, tvsgroup, tvDefaults);
+						naming.registerFile(file, argProject, ds);
 						addToFileList(file);
-					}*/
-					
+						file = new HeidelbergFile(defaults);
+					}
+					else
+					{
+						file.addSeries(ds, tvsgroup, tvDefaults);
+						naming.registerFile(file, ncgroup);
+					}
 				}
 			}
 		}

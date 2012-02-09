@@ -23,6 +23,7 @@ import java.util.Set;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.tridas.interfaces.ITridas;
+import org.tridas.io.I18n;
 import org.tridas.io.formats.tridas.TridasReader;
 import org.tridas.schema.NormalTridasRemark;
 import org.tridas.schema.TridasDerivedSeries;
@@ -37,6 +38,8 @@ import org.tridas.schema.TridasSample;
 import org.tridas.schema.TridasTridas;
 import org.tridas.schema.TridasValue;
 import org.tridas.schema.TridasValues;
+import org.tridas.schema.TridasVariable;
+import org.tridas.util.TridasObjectEx;
 
 public class TridasUtils {
 	
@@ -520,6 +523,35 @@ public class TridasUtils {
 		
 	}
 	
+	/**
+	 * Get a friendly variable name for printing from TridasValues group
+	 * 
+	 * @param group
+	 * @return
+	 */
+	public static String getFriendlyVariableString(TridasValues group)
+	{
+		if(!group.isSetVariable()) return I18n.getText("unknown.variable");
+		
+		
+		TridasVariable var = group.getVariable();
+		
+		if(var.isSetNormalTridas())
+		{
+			return var.getNormalTridas().toString().toLowerCase();
+		}
+		else if (var.isSetNormal())
+		{
+			return var.getNormal().toString().toLowerCase();
+		}
+		else if (var.isSetValue())
+		{
+			return var.getValue().toLowerCase();
+		}
+				
+		return I18n.getText("unknown.variable");
+	}
+	
 	private static String getTabs(Integer level)
 	{
 		String str = "";
@@ -530,6 +562,68 @@ public class TridasUtils {
 		return str+"|->";
 	}
 	
+	/** 
+	 * Get the level of the Tridas class as an integer where
+	 * 1=object through to 5=series.  If a class is given that is 
+	 * not in the Tridas hierarchy then 0 is returned.
+	 * 
+	 * @param e1
+	 * @return
+	 */
+	public static int getDepth(Class<? extends Object> e1)
+	{
+		if(e1==null) return 0;
+		
+		if(e1.equals(TridasObject.class) || e1.equals(TridasObjectEx.class))
+		{
+			return TreeDepth.OBJECT.getDepth();
+		}
+		else if(e1.equals(TridasElement.class) )
+		{
+			return TreeDepth.ELEMENT.getDepth();
+		}
+		else if(e1.equals(TridasSample.class) )
+		{
+			return TreeDepth.SAMPLE.getDepth();
+		}
+		else if(e1.equals(TridasRadius.class) )
+		{
+			return TreeDepth.RADIUS.getDepth();
+		}
+		else if(e1.equals(TridasMeasurementSeries.class) || e1.equals(TridasDerivedSeries.class))
+		{
+			return TreeDepth.SERIES.getDepth();
+		}
+		return 0;
+	}
+	
+	
+	public static enum TreeDepth {
+		OBJECT(1),
+		ELEMENT(2),
+		SAMPLE(3),
+		RADIUS(4),
+		SERIES(5);
+		
+		private int depth;
+		
+		TreeDepth(int c) {
+			depth = c;
+		}
+		
+		public int getDepth() {
+			return depth;
+		}
+		
+		public static TreeDepth valueOf(int c) {
+			for(TreeDepth depth : values()) {
+				if(depth.getDepth() == c)
+					return depth;
+			}
+			
+			throw new IllegalArgumentException("Invalid type");
+		}
+	}
 	
 	public enum TridasValueDataType{
 		DOUBLE,

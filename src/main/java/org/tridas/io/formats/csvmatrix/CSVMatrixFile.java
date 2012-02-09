@@ -26,11 +26,15 @@ import org.tridas.interfaces.ITridasSeries;
 import org.tridas.io.I18n;
 import org.tridas.io.IDendroFile;
 import org.tridas.io.defaults.IMetadataFieldSet;
+import org.tridas.io.exceptions.ConversionWarning;
+import org.tridas.io.exceptions.ConversionWarning.WarningType;
 import org.tridas.io.util.SafeIntYear;
+import org.tridas.io.util.TridasUtils;
 import org.tridas.io.util.YearRange;
 import org.tridas.schema.DatingSuffix;
 import org.tridas.schema.TridasGenericField;
 import org.tridas.schema.TridasValue;
+import org.tridas.schema.TridasValues;
 
 public class CSVMatrixFile implements IDendroFile {
 	private static final Logger log = LoggerFactory.getLogger(CSVMatrixFile.class);
@@ -115,8 +119,17 @@ public class CSVMatrixFile implements IDendroFile {
 			
 			int col = 1;
 			for (ITridasSeries series : seriesList) {
-				writeRingWidthColumn(table, col, series);
-				col++;
+				
+				for(TridasValues group : series.getValues())
+				{
+					if(!series.isSetValues()) 
+					{
+						continue;
+					}
+					
+					writeDataColumn(table, col, series, group);
+					col++;
+				}
 			}	
 			
 			// Convert ODF Spreadsheet into CSV doc
@@ -196,8 +209,7 @@ public class CSVMatrixFile implements IDendroFile {
 	 * @param col
 	 * @param series
 	 */
-	private void writeRingWidthColumn(OdfTable table, Integer col, ITridasSeries series)  {
-		List<TridasValue> values = series.getValues().get(0).getValues();
+	private void writeDataColumn(OdfTable table, Integer col, ITridasSeries series, TridasValues values)  {
 		
 		// Creates year label
 		String l;
@@ -221,6 +233,11 @@ public class CSVMatrixFile implements IDendroFile {
 		    l = series.getTitle();
 		}
 		
+		if(series.getValues().size()>1)
+		{
+			l = l + "("+TridasUtils.getFriendlyVariableString(values)+")";
+		}
+		
 		table.getCellByPosition(col, 0).setStringValue(l);
 		
 		// Calculate which row to start on
@@ -239,7 +256,7 @@ public class CSVMatrixFile implements IDendroFile {
 		
 		// Loop through values and write to spreadsheet
 		Double yearval;
-		for (TridasValue value : values) {
+		for (TridasValue value : values.getValues()) {
 			if(value.getValue()==null);
 			
 			yearval = Double.parseDouble(value.getValue());
