@@ -145,6 +145,11 @@ public class HeidelbergReader extends AbstractDendroFileReader {
 					if (line.startsWith("HEADER")) {
 						break;
 					}
+					if (line.trim().equals(""))
+					{
+						currentLineNum = ++lineNum;
+						continue;
+					}
 					data.add(line);
 					currentLineNum = ++lineNum; // update line num
 				}
