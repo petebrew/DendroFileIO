@@ -35,6 +35,7 @@ import org.tridas.schema.TridasProject;
 import org.tridas.schema.TridasRadius;
 import org.tridas.schema.TridasSample;
 import org.tridas.schema.TridasValues;
+import org.tridas.spatial.GMLPointSRSHandler;
 
 /**
  * Place to hold and change default fields for the Tucson filetype
@@ -68,7 +69,10 @@ public class TridasToTucsonDefaults extends AbstractMetadataFieldSet {
 
 	protected void populateFromTridasProject(TridasProject p)
 	{
-
+		if(p.isSetInvestigator())
+		{
+			getStringDefaultValue(TucsonField.INVESTIGATOR).setValue(p.getInvestigator());
+		}
 	}
 	
 	protected void populateFromTridasObject(TridasObject o)
@@ -90,6 +94,24 @@ public class TridasToTucsonDefaults extends AbstractMetadataFieldSet {
 				getStringDefaultValue(TucsonField.LATLONG).setValue(
 						getStringCoordsFromGeometry(o.getLocation().getLocationGeometry()));
 			}
+			
+			if(o.getLocation().isSetAddress())
+			{
+				if(o.getLocation().getAddress().isSetStateProvinceRegion())
+				{
+					getStringDefaultValue(TucsonField.STATE_COUNTRY).setValue(o.getLocation().getAddress().getStateProvinceRegion());
+				}
+				else if(o.getLocation().getAddress().isSetCountry())
+				{
+					getStringDefaultValue(TucsonField.STATE_COUNTRY).setValue(o.getLocation().getAddress().getCountry());
+				}
+			}
+			else if (o.getLocation().isSetLocationComment())
+			{
+				getStringDefaultValue(TucsonField.STATE_COUNTRY).setValue(o.getLocation().getLocationComment());
+
+			}
+			
 		}
 
 	}
@@ -243,28 +265,28 @@ public class TridasToTucsonDefaults extends AbstractMetadataFieldSet {
 		String latstr = null;
 		String longstr = null;
 		
-		List<Double> points = geom.getPoint().getPos().getValues();
+		GMLPointSRSHandler pointHandler = new GMLPointSRSHandler(geom.getPoint());
+		
 		DecimalFormat TucsonDigits = new DecimalFormat("#.#");
-		if(points.size()==2)
+		
+		if(pointHandler.getWGS84LatCoord().compareTo(0.0)<0)
 		{
-			if(points.get(0)<0)
-			{
-				latstr = "S"+TucsonDigits.format(points.get(0)).substring(1);
-			}
-			else
-			{
-				latstr = "N"+TucsonDigits.format(points.get(0));
-			}
-			
-			if(points.get(1)<0)
-			{
-				longstr = "W"+TucsonDigits.format(points.get(1)).substring(1);
-			}
-			else
-			{
-				longstr = "E"+TucsonDigits.format(points.get(1));
-			}
+			latstr = "S"+TucsonDigits.format(pointHandler.getWGS84LatCoord()).substring(1);
 		}
+		else
+		{
+			latstr = "N"+TucsonDigits.format(pointHandler.getWGS84LatCoord());
+		}
+		
+		if(pointHandler.getWGS84LongCoord().compareTo(0.0)<0)
+		{
+			longstr = "W"+TucsonDigits.format(pointHandler.getWGS84LongCoord()).substring(1);
+		}
+		else
+		{
+			longstr = "E"+TucsonDigits.format(pointHandler.getWGS84LongCoord());
+		}
+	
 		
 		return latstr+longstr;
 	}

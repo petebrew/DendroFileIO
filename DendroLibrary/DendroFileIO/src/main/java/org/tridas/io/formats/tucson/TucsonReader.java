@@ -29,11 +29,13 @@ import org.tridas.io.I18n;
 import org.tridas.io.defaults.IMetadataFieldSet;
 import org.tridas.io.defaults.values.GenericDefaultValue;
 import org.tridas.io.exceptions.ConversionWarning;
-import org.tridas.io.exceptions.InvalidDendroFileException;
 import org.tridas.io.exceptions.ConversionWarning.WarningType;
+import org.tridas.io.exceptions.InvalidDendroFileException;
+import org.tridas.io.exceptions.InvalidDendroFileException.PointerType;
 import org.tridas.io.formats.tucson.TucsonToTridasDefaults.TucsonDefaultField;
 import org.tridas.io.util.DateUtils;
 import org.tridas.io.util.SafeIntYear;
+import org.tridas.io.util.StatsUtil;
 import org.tridas.io.util.YearRange;
 import org.tridas.schema.DatingSuffix;
 import org.tridas.schema.NormalTridasUnit;
@@ -73,6 +75,10 @@ public class TucsonReader extends AbstractDendroFileReader {
 	private Integer numYearMarkerChars = 4; // no. of chars used in year markers
 	private Boolean lastYearReached = false; // Did we reach a 'end of data'
 												// marker?
+	
+	private Integer minLineLength = 0;
+	private Integer maxLineLength = 0;
+	private Integer modeLineLength = 0;
 
 	/**
 	 * Officially Tucson format uses Astronomical Date format for all years.
@@ -139,6 +145,9 @@ public class TucsonReader extends AbstractDendroFileReader {
 		defaults = null;
 		seriesList.clear();
 		numYearMarkerChars = 4;
+		maxLineLength = null;
+		minLineLength = null;
+		modeLineLength = null;
 	}
 
 	/**
@@ -179,7 +188,7 @@ public class TucsonReader extends AbstractDendroFileReader {
 				values.setValues(valuesList);
 				valuesGroupList.add(values);
 				ds.setValues(valuesGroupList);
-
+				
 				// Set link series
 				/*
 				 * TridasRadiusPlaceholder rph= new TridasRadiusPlaceholder();
@@ -277,7 +286,7 @@ public class TucsonReader extends AbstractDendroFileReader {
 	protected void parseFile(String[] argFileString,
 			IMetadataFieldSet argDefaultFields)
 			throws InvalidDendroFileException {
-
+		
 		defaults = (TucsonToTridasDefaults) argDefaultFields;
 		log.debug("starting tucson file parsing");
 
@@ -309,7 +318,11 @@ public class TucsonReader extends AbstractDendroFileReader {
 			}
 
 			// Handle line depending on type
-			switch (getLineType(line)) {
+			TucsonLineType linetype = getLineType(line);
+			
+			log.debug("Line "+this.currentLineNumber+" = "+linetype.toString());
+			
+			switch (linetype) {
 			case HEADER_LINE1:
 				if (withinChronologyBlock) {
 					break;
@@ -436,7 +449,7 @@ public class TucsonReader extends AbstractDendroFileReader {
 						|| lastYearReached) {
 					// NEW SERIES WITHOUT A HEADER
 
-					warnAboutNonStandardHeader();
+					//warnAboutNonStandardHeader();
 
 					// Reset 'end of data' and last Year markers flag
 					lastYearReached = false;
@@ -562,6 +575,9 @@ public class TucsonReader extends AbstractDendroFileReader {
 		int crnLines = 0;
 		int rwlLines = 0;
 		int headerLines = 0;
+		
+		buildLineStats(argFileString);
+		
 
 		for (; index < argFileString.length; index++) {
 			String line = argFileString[index];
@@ -649,7 +665,7 @@ public class TucsonReader extends AbstractDendroFileReader {
 				}
 				series.defaults.getStringDefaultValue(
 						TucsonDefaultField.LATLONG).setValue(
-						(line2.substring(47, 57)).trim());
+						(line2.substring(47, 58)).trim());
 				try {
 					series.defaults.getSafeIntYearDefaultValue(
 							TucsonDefaultField.FIRST_YEAR).setValue(
@@ -664,7 +680,7 @@ public class TucsonReader extends AbstractDendroFileReader {
 				// Attempt to extract data from line 3
 				series.defaults.getStringDefaultValue(
 						TucsonDefaultField.INVESTIGATOR).setValue(
-						(line3.substring(9, 71)).trim());
+						(line3.substring(9, 70)).trim());
 				try {
 					int day = Integer.parseInt(line3.substring(78, 80));
 					int month = Integer.parseInt(line3.substring(75, 78));
@@ -726,6 +742,12 @@ public class TucsonReader extends AbstractDendroFileReader {
 	private void loadRWLDataFromDataLine(String line, TucsonSeries series)
 			throws InvalidDendroFileException {
 
+		if(modeLineLength > 80 && modeLineLength < 87)
+		{
+			line = line.substring(0, 80);
+		}
+		
+		
 		ArrayList<Integer> dataValues = new ArrayList<Integer>();
 		ArrayList<String> vals = new ArrayList<String>();
 
@@ -793,6 +815,24 @@ public class TucsonReader extends AbstractDendroFileReader {
 	private void loadCRNDataFromDataLine(String line, TucsonSeries series)
 			throws InvalidDendroFileException {
 
+		if(modeLineLength > 80 && modeLineLength < 87)
+		{
+			if(series.typeColumn==null)
+			{
+				series.typeColumn = line.substring(80).toLowerCase().trim();
+				series.defaults.getStringDefaultValue(TucsonDefaultField.NOSTD_VAR).setValue(series.typeColumn);				
+			}
+			else
+			{
+				if(!series.typeColumn.equals(line.substring(80).trim()))
+				{
+					throw new InvalidDendroFileException("The last column containing the series type varies within the same series", this.currentLineNumber, PointerType.LINE);
+				}
+			}
+		
+			line = line.substring(0, 80);
+		}
+		
 		ArrayList<Integer> vals = new ArrayList<Integer>();
 		ArrayList<Integer> counts = new ArrayList<Integer>();
 
@@ -912,14 +952,23 @@ public class TucsonReader extends AbstractDendroFileReader {
 	 */
 	private boolean isLikelyHeader(String line1, String line2, String line3) {
 		// Check lines match the headerline1, 2 and 3 format respectively
-		if ((matchesLineType(TucsonLineType.HEADER_LINE1, line1))
-				&& (matchesLineType(TucsonLineType.HEADER_LINE2, line2))
-				&& (matchesLineType(TucsonLineType.HEADER_LINE3, line3))) {
+		Boolean line1match = matchesLineType(TucsonLineType.HEADER_LINE1, line1);	
+		Boolean line2match = matchesLineType(TucsonLineType.HEADER_LINE2, line2);
+		Boolean line3match = matchesLineType(TucsonLineType.HEADER_LINE3, line3);
+		
+		
+		if (line1match && line2match && line3match) {
 			// Check the first 6 characters are all the same
 			if ((line1.substring(0, 6).equals(line2.substring(0, 6)))
 					&& (line2.substring(0, 6).equals(line3.substring(0, 6)))) {
 				return true;
 			}
+		}
+		else
+		{
+			log.debug("Header line 1 match = "+line1match);
+			log.debug("Header line 2 match = "+line2match);
+			log.debug("Header line 3 match = "+line3match);
 		}
 		return false;
 	}
@@ -1007,6 +1056,30 @@ public class TucsonReader extends AbstractDendroFileReader {
 		}
 	}
 
+	private void buildLineStats(String[] argFileString)
+	{
+		if(argFileString==null) return;
+		if(argFileString.length==0) return;
+		
+		Integer cumLines = 0;
+		ArrayList<Integer> lineCounts = new ArrayList<Integer>();
+		
+		minLineLength = argFileString[0].length();
+		maxLineLength = argFileString[0].length();
+		
+		for(String line : argFileString)
+		{
+			if(line.length()<minLineLength) minLineLength = line.length();
+			if(line.length()>maxLineLength) maxLineLength = line.length();
+			cumLines = cumLines + line.length();
+			lineCounts.add(line.length());
+		}
+		
+		modeLineLength = StatsUtil.mode(lineCounts);
+	}
+	
+
+	
 	/**
 	 * Check whether a line matches a specific line type. This is simple
 	 * regexing so it isn't perfect, especially for headers. The HEADER_LINE3
@@ -1033,6 +1106,10 @@ public class TucsonReader extends AbstractDendroFileReader {
 				return false;
 			}
 		}
+		
+		
+		
+		
 
 		String regexKeycode6 = "[\\w\\t -.]{6}";
 		String regexKeycode8 = "[\\w\\t -.]{8}";
@@ -1179,19 +1256,20 @@ public class TucsonReader extends AbstractDendroFileReader {
 
 			// HEADER TYPES
 		case HEADER_LINE1:
-			regex = "^[^\\n]{9}[^\\n]{52}[A-Z]{4}";
+			regex = "^[\\d\\w ]{7}[1 ][ ][^\\n]{52}[A-Z]{4}";
 			p1 = Pattern.compile(regex, Pattern.CASE_INSENSITIVE
 					| Pattern.DOTALL);
 			m1 = p1.matcher(line);
 			return m1.find();
 		case HEADER_LINE2:
-			regex = "^[^\\n]{9}[^\\n]{21}[\\t ]{10}[0-9mMft.]{5}[\\s]{2}[0-9\\t+\\- ]{10}[\\t ]{10}[\\d\\t ]{9}";
+			//regex = "^[^\\n]{9}[^\\n]{21}[\\t ]{10}[0-9mMft.]{5}[\\s]{2}[0-9\\t+\\- ]{10}[\\t ]{10}[\\d\\t ]{9}";
+			regex = "^[\\d\\w ]{7}[2 ][ ][^\\n]{30}[ ][ 0-9mMft.]{5}[ ]{2}[0-9\\t+\\- NWnw]{11}[ ]{9}[0-9 -]{4}[ ][0-9 -]{4}";
 			p1 = Pattern.compile(regex, Pattern.CASE_INSENSITIVE
 					| Pattern.DOTALL);
 			m1 = p1.matcher(line);
 			return m1.find();
 		case HEADER_LINE3:
-			regex = "^[^\\n]{9}[\\w\\t\\. ,-]{63}[\\d\\t ]{8}";
+			regex = "^[\\d\\w ]{7}[3 ][ ][^\\n]{63}[\\d\\w /-]{8}";
 			p1 = Pattern.compile(regex, Pattern.CASE_INSENSITIVE
 					| Pattern.DOTALL);
 			m1 = p1.matcher(line);
@@ -1220,7 +1298,7 @@ public class TucsonReader extends AbstractDendroFileReader {
 	 * @author peterbrewer
 	 * 
 	 */
-	private enum TucsonLineType {
+	public enum TucsonLineType {
 		HEADER, // One of the standard header lines
 		HEADER_LINE1, // Standard header line 1
 		HEADER_LINE2, // Standard header line 2
@@ -1262,6 +1340,7 @@ public class TucsonReader extends AbstractDendroFileReader {
 		public final ArrayList<Integer> countInts = new ArrayList<Integer>();
 		public SafeIntYear firstYear = new SafeIntYear();
 		public SafeIntYear lastYear = new SafeIntYear();
+		public String typeColumn = null;
 
 		private TucsonSeries(TucsonToTridasDefaults df) {
 			defaults = df;

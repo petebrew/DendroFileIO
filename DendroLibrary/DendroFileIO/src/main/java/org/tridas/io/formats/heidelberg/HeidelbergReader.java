@@ -1142,13 +1142,14 @@ public class HeidelbergReader extends AbstractDendroFileReader {
 	
 	private TridasProject getProject() {
 		TridasProject project = defaults.getDefaultTridasProject();
-		TridasObject object = defaults.getDefaultTridasObject();
+		
 		// the defaults populate from the element downward, so I make a new
 		// element for each series in the file
-		ArrayList<TridasElement> elements = new ArrayList<TridasElement>();
+		ArrayList<TridasObject> objects = new ArrayList<TridasObject>();
 		
 		for (HeidelbergSeries s : series) {
 			project= s.defaults.getDefaultTridasProject();
+			TridasObject object = s.defaults.getDefaultTridasObject();
 			TridasElement element = s.defaults.getDefaultTridasElement();
 			TridasSample sample = s.defaults.getDefaultTridasSample();
 			
@@ -1255,11 +1256,13 @@ public class HeidelbergReader extends AbstractDendroFileReader {
 			 * }
 			 * element.setGenericFields(metaData);
 			 */
-			elements.add(element);
+			
+			object.getElements().add(element);
+			objects.add(object);
 		}
 		
-		object.setElements(elements);
-		project.getObjects().add(object);
+
+		project.getObjects().addAll(objects);
 		
 		
 		return project;

@@ -16,6 +16,7 @@
 package org.tridas.io.formats.tucson;
 
 import java.util.ArrayList;
+import java.util.List;
 import java.util.UUID;
 
 import org.tridas.io.I18n;
@@ -32,6 +33,8 @@ import org.tridas.schema.DatingSuffix;
 import org.tridas.schema.NormalTridasDatingType;
 import org.tridas.schema.NormalTridasUnit;
 import org.tridas.schema.NormalTridasVariable;
+import org.tridas.schema.SeriesLink;
+import org.tridas.schema.SeriesLinks;
 import org.tridas.schema.TridasDating;
 import org.tridas.schema.TridasDerivedSeries;
 import org.tridas.schema.TridasElement;
@@ -57,7 +60,7 @@ public class TucsonToTridasDefaults extends TridasMetadataFieldSet implements IM
 	
 	public enum TucsonDefaultField {
 		SITE_CODE, SITE_NAME, SPECIES_CODE, SPECIES_NAME, INVESTIGATOR, ELEVATION, LATLONG, 
-		STATE_COUNTRY, COMP_DATE, UNITS, VARIABLE, SERIES_CODE, FIRST_YEAR, LAST_YEAR;
+		STATE_COUNTRY, COMP_DATE, UNITS, VARIABLE, NOSTD_VAR, SERIES_CODE, FIRST_YEAR, LAST_YEAR;
 	}
 	
 	/**
@@ -77,6 +80,7 @@ public class TucsonToTridasDefaults extends TridasMetadataFieldSet implements IM
 		setDefaultValue(TucsonDefaultField.COMP_DATE, new DateTimeDefaultValue());
 		setDefaultValue(TucsonDefaultField.UNITS, new GenericDefaultValue<NormalTridasUnit>());
 		setDefaultValue(TucsonDefaultField.VARIABLE, new GenericDefaultValue<NormalTridasVariable>());
+		setDefaultValue(TucsonDefaultField.NOSTD_VAR, new StringDefaultValue(I18n.getText("unknown")));
 		setDefaultValue(TucsonDefaultField.SERIES_CODE, new StringDefaultValue(UUID.randomUUID().toString()));
 		setDefaultValue(TucsonDefaultField.FIRST_YEAR, new SafeIntYearDefaultValue());
 		setDefaultValue(TucsonDefaultField.LAST_YEAR, new SafeIntYearDefaultValue());		
@@ -229,6 +233,7 @@ public class TucsonToTridasDefaults extends TridasMetadataFieldSet implements IM
 		id.setValue(getStringDefaultValue(TucsonDefaultField.SERIES_CODE).getValue());
 		ds.setIdentifier(id);
 		ds.setTitle(getStringDefaultValue(TucsonDefaultField.SERIES_CODE).getValue());
+		
 		// Investigator
 		if(getStringDefaultValue(TucsonDefaultField.INVESTIGATOR).getValue()!=null)
 		{
@@ -247,6 +252,20 @@ public class TucsonToTridasDefaults extends TridasMetadataFieldSet implements IM
 			dating.setType(NormalTridasDatingType.ABSOLUTE);
 			interp.setDating(dating);
 		}
+		
+		
+		SeriesLinks sl = new SeriesLinks();
+		ArrayList<SeriesLink> series = new ArrayList<SeriesLink>();
+		SeriesLink link = new SeriesLink();
+		
+		TridasIdentifier linkid = new TridasIdentifier();
+		linkid.setValue("Unknown");
+		linkid.setDomain("Unknown");
+		
+		link.setIdentifier(linkid);
+		series.add(link);
+		sl.setSeries(series);
+		ds.setLinkSeries(sl);
 		
 		return ds;
 		
@@ -271,7 +290,7 @@ public class TucsonToTridasDefaults extends TridasMetadataFieldSet implements IM
 		}
 		else
 		{
-			variable.setValue(I18n.getText("unknown"));
+			variable.setValue(getStringDefaultValue(TucsonDefaultField.NOSTD_VAR).getStringValue());
 		}
 		values.setVariable(variable);
 		

@@ -189,7 +189,22 @@ public class HeidelbergWriter extends AbstractDendroCollectionWriter {
 					}
 					else if (!tvsgroup.getVariable().isSetNormalTridas())
 					{
-						tvDefaults.addConversionWarning(new ConversionWarning(WarningType.AMBIGUOUS, I18n.getText("fileio.nonstandardVariable")));
+						if(tvsgroup.getVariable().isSetNormal())
+						{
+							if(tvsgroup.getVariable().getNormal().equals("Weiserjahre"))
+							{
+								this.addWarning(new ConversionWarning(WarningType.UNREPRESENTABLE, I18n.getText("tellervo.skippingWeiserjahre")));
+								skipThisGroup = true;
+							}
+							else
+							{
+								tvDefaults.addConversionWarning(new ConversionWarning(WarningType.AMBIGUOUS, I18n.getText("fileio.nonstandardVariable")));
+							}
+						}
+						else
+						{
+							tvDefaults.addConversionWarning(new ConversionWarning(WarningType.AMBIGUOUS, I18n.getText("fileio.nonstandardVariable")));
+						}
 					}
 					else
 					{
@@ -230,7 +245,7 @@ public class HeidelbergWriter extends AbstractDendroCollectionWriter {
 					{
 						// TODO what happens if there are links to multiple different entities?
 						// For now just go with the first link
-						if(ds.getLinkSeries().getSeries().size()>1) break;
+						//if(ds.getLinkSeries().getSeries().size()>1) break;
 						TridasIdentifier id = ds.getLinkSeries().getSeries().get(0).getIdentifier();
 						
 						TridasObject parentObject = (TridasObject) TridasUtils.getEntityByIdentifier(argProject, id, TridasObject.class);

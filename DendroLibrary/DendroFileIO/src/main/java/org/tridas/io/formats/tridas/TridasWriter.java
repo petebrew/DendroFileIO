@@ -32,6 +32,7 @@ import org.tridas.schema.TridasObject;
 import org.tridas.schema.TridasProject;
 import org.tridas.schema.TridasRadius;
 import org.tridas.schema.TridasSample;
+import org.tridas.schema.TridasTridas;
 
 /**
  * Writer for the TRiDaS file format. This is little more than a
@@ -50,6 +51,56 @@ public class TridasWriter extends AbstractDendroCollectionWriter {
 	 */
 	public TridasWriter() {
 		super(TridasMetadataFieldSet.class);
+	}
+	
+	@Override
+	public void parseTridasContainer(TridasTridas argContainer,
+			IMetadataFieldSet argDefaults)
+			throws IncompleteTridasDataException, ConversionWarningException {
+		
+		if (argContainer == null) {
+			throw new IncompleteTridasDataException("Tridas container is null!");
+			
+		}
+		
+		TridasFile file = new TridasFile(argDefaults);
+		
+		for(TridasProject p : argContainer.getProjects())
+		{
+			file.addTridasProject(p);
+		}
+		
+		TridasProject project = argContainer.getProjects().get(0);
+		TridasObject object = null;
+		TridasElement element = null;
+		TridasSample sample = null;
+		TridasRadius radius = null;
+		TridasMeasurementSeries series = null;
+		
+		ArrayList<TridasObject> objects = TridasUtils.getObjectList(project);
+		if (objects.size() == 1) {
+			object = objects.get(0);
+			
+			if (object.getElements().size() == 1) {
+				element = object.getElements().get(0);
+				
+				if (element.getSamples().size() == 1) {
+					sample = element.getSamples().get(0);
+					
+					if (sample.getRadiuses().size() == 1) {
+						radius = sample.getRadiuses().get(0);
+						
+						if (radius.getMeasurementSeries().size() == 1) {
+							series = radius.getMeasurementSeries().get(0);
+						}
+					}
+				}
+			}
+		}
+		
+		naming.registerFile(file, project, object, element, sample, radius, series);
+		addToFileList(file);
+		
 	}
 	
 	@Override

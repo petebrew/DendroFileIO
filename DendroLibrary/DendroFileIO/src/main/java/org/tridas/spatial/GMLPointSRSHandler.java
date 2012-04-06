@@ -256,7 +256,8 @@ public class GMLPointSRSHandler  {
 		{
 			// Some other coordinate system so have a stab at converting it
 			try{
-				Integer code = Integer.parseInt(srsName.substring(srsName.indexOf(":")));
+				String strcode = srsName.substring(srsName.indexOf(":")+1);
+				Integer code = Integer.parseInt(strcode);
 				CoordinateReferenceSystem crs = TridasIO.crsMap.get(code);
 								
 				proj = crs.getAsProjection();

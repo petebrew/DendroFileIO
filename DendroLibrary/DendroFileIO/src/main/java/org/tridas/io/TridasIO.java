@@ -52,6 +52,7 @@ import org.tridas.io.formats.excelmatrix.ExcelMatrixWriter;
 import org.tridas.io.formats.heidelberg.HeidelbergReader;
 import org.tridas.io.formats.heidelberg.HeidelbergUnstackedWriter;
 import org.tridas.io.formats.heidelberg.HeidelbergWriter;
+import org.tridas.io.formats.kinsys.KinsysReader;
 import org.tridas.io.formats.nottingham.NottinghamReader;
 import org.tridas.io.formats.nottingham.NottinghamWriter;
 import org.tridas.io.formats.odfmatrix.ODFMatrixReader;
@@ -115,6 +116,7 @@ public class TridasIO {
 		registerFileReader(DendroDBReader.class);
 		registerFileReader(ExcelMatrixReader.class);
 		registerFileReader(HeidelbergReader.class);
+		registerFileReader(KinsysReader.class);
 		registerFileReader(NottinghamReader.class);
 		registerFileReader(ODFMatrixReader.class);
 		registerFileReader(OOXMLReader.class);
