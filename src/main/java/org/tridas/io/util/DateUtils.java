@@ -24,6 +24,7 @@ import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
 import javax.xml.datatype.DatatypeConfigurationException;
+import javax.xml.datatype.DatatypeConstants;
 import javax.xml.datatype.DatatypeFactory;
 import javax.xml.datatype.XMLGregorianCalendar;
 
@@ -68,6 +69,11 @@ public class DateUtils {
 			// have logical month integers!
 			GregorianCalendar c = new GregorianCalendar(year, month-1, day);
 			XMLGregorianCalendar requestedDate = DatatypeFactory.newInstance().newXMLGregorianCalendar(c);
+			
+			// Remove time info
+			requestedDate.setTimezone(DatatypeConstants.FIELD_UNDEFINED);  
+			requestedDate.setTime(DatatypeConstants.FIELD_UNDEFINED, DatatypeConstants.FIELD_UNDEFINED, DatatypeConstants.FIELD_UNDEFINED);  
+
 			DateTime returnval = new DateTime();
 			returnval.setValue(requestedDate);
 			return returnval;

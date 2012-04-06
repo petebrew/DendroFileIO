@@ -87,54 +87,59 @@ public class TucsonWriter extends AbstractDendroCollectionWriter {
 		
 			for (TridasDerivedSeries ds : dsList) 
 			{
-				TridasValues tvs = ds.getValues().get(0);
 				
-				try {
-					ds.getValues().set(0, UnitUtils.convertTridasValues(getOutputUnits(tvs), ds.getValues().get(0), true));
-				} catch (NumberFormatException e) {
-				} catch (ConversionWarningException e) {
-					this.addWarning(e.getWarning());
-				}
-				
-				// Check that the range does not go outside that which Tucson format is capable of storing
-				YearRange thisSeriesRange = new YearRange(ds);
-				if (SafeIntYear.min(thisSeriesRange.getStart(), new SafeIntYear(-1001)) == thisSeriesRange.getStart()) 
+				for(TridasValues  tvs: ds.getValues())
 				{
-					// Series with data before 1000BC cannot be saved
-					addWarning(new ConversionWarning(WarningType.UNREPRESENTABLE, 
-							I18n.getText("tucson.before1000BC", ds.getTitle())));
-					continue;
-				}
-				else
-				{
-					// Range ok so create file and add series
-					
-					// Try and grab object, element, sample and radius info from linked series
-					if(ds.isSetLinkSeries())
-					{
-						// TODO what happens if there are links to multiple different entities?
-						// For now just go with the first link
-						if(ds.getLinkSeries().getSeries().size()>1) break;
-						TridasIdentifier id = ds.getLinkSeries().getSeries().get(0).getIdentifier();
-						
-						TridasObject parentObject = (TridasObject) TridasUtils.getEntityByIdentifier(p, id, TridasObject.class);
-						if(parentObject!=null)
-						{
-							defaults.populateFromTridasObject(parentObject);
-						}
-
-						TridasElement parentElement = (TridasElement) TridasUtils.getEntityByIdentifier(p, id, TridasElement.class);
-						if(parentElement!=null)
-						{
-							defaults.populateFromTridasElement(parentElement);
-						}
-
+		
+					try {
+						ds.getValues().set(0, UnitUtils.convertTridasValues(getOutputUnits(tvs), ds.getValues().get(0), true));
+					} catch (NumberFormatException e) {
+						this.addWarning(new ConversionWarning(WarningType.INVALID, e.getMessage()));
+						continue;
+					} catch (ConversionWarningException e) {
+						this.addWarning(e.getWarning());
 					}
 					
-					TucsonFile file = new TucsonFile(defaults);
-					file.addSeries(ds);
-					naming.registerFile(file, p, ds);
-					addToFileList(file);
+					// Check that the range does not go outside that which Tucson format is capable of storing
+					YearRange thisSeriesRange = new YearRange(ds);
+					if (SafeIntYear.min(thisSeriesRange.getStart(), new SafeIntYear(-1001)) == thisSeriesRange.getStart()) 
+					{
+						// Series with data before 1000BC cannot be saved
+						addWarning(new ConversionWarning(WarningType.UNREPRESENTABLE, 
+								I18n.getText("tucson.before1000BC", ds.getTitle())));
+						continue;
+					}
+					else
+					{
+						// Range ok so create file and add series
+						
+						// Try and grab object, element, sample and radius info from linked series
+						if(ds.isSetLinkSeries())
+						{
+							// TODO what happens if there are links to multiple different entities?
+							// For now just go with the first link
+							//if(ds.getLinkSeries().getSeries().size()>1) break;
+							TridasIdentifier id = ds.getLinkSeries().getSeries().get(0).getIdentifier();
+							
+							TridasObject parentObject = (TridasObject) TridasUtils.getEntityByIdentifier(p, id, TridasObject.class);
+							if(parentObject!=null)
+							{
+								defaults.populateFromTridasObject(parentObject);
+							}
+	
+							TridasElement parentElement = (TridasElement) TridasUtils.getEntityByIdentifier(p, id, TridasElement.class);
+							if(parentElement!=null)
+							{
+								defaults.populateFromTridasElement(parentElement);
+							}
+	
+						}
+						
+						TucsonFile file = new TucsonFile(defaults);
+						file.addSeries(ds);
+						naming.registerFile(file, p, ds);
+						addToFileList(file);
+					}
 				}
 			}
 			

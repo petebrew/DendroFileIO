@@ -22,6 +22,7 @@ import java.util.UUID;
 import org.tridas.io.I18n;
 import org.tridas.io.defaults.values.GenericDefaultValue;
 import org.tridas.io.defaults.values.StringDefaultValue;
+import org.tridas.io.formats.tucson.TucsonToTridasDefaults.TucsonDefaultField;
 import org.tridas.schema.ComplexPresenceAbsence;
 import org.tridas.schema.ControlledVoc;
 import org.tridas.schema.NormalTridasMeasuringMethod;
@@ -183,9 +184,15 @@ public class TridasMetadataFieldSet extends AbstractTridasMetadataFieldSet {
 	protected TridasSample getDefaultTridasSample() {
 		ObjectFactory factory = new ObjectFactory();
 		TridasSample s = factory.createTridasSample();
-		
+				
 		s.setTitle(getDefaultValue(TridasMandatoryField.SAMPLE_TITLE).getStringValue());
 		s.setType((ControlledVoc) getDefaultValue(TridasMandatoryField.SAMPLE_TYPE).getValue());
+		
+		TridasIdentifier id = new TridasIdentifier();
+		id.setDomain(getStringDefaultValue(TridasMandatoryField.IDENTIFIER_DOMAIN).getValue());
+		id.setValue(UUID.randomUUID().toString());
+		
+		s.setIdentifier(id);
 		
 		return s;
 	}

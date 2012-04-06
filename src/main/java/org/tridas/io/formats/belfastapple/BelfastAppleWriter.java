@@ -71,14 +71,20 @@ public class BelfastAppleWriter extends AbstractDendroCollectionWriter {
 						continue;
 					}
 					
+					try{
 					file.setValuesGroup(group);
+					} catch (ConversionWarningException e)
+					{
+						this.addWarning(e.getWarning());
+						continue;
+					}
 					
 					// Try and grab object and sample titles from linked series
 					if(ds.isSetLinkSeries())
 					{
 						// TODO what happens if there are links to multiple different entities?
 						// For now just go with the first link
-						if(ds.getLinkSeries().getSeries().size()>1) break;
+						//if(ds.getLinkSeries().getSeries().size()>1) break;
 						TridasIdentifier id = ds.getLinkSeries().getSeries().get(0).getIdentifier();
 						TridasObject parentObject = (TridasObject) TridasUtils.getEntityByIdentifier(argProject, id, TridasObject.class);
 						if(parentObject!=null)
@@ -102,7 +108,7 @@ public class BelfastAppleWriter extends AbstractDendroCollectionWriter {
 				}
 			}
 		} catch (NullPointerException e) {
-			System.out.println("blah");
+			System.out.println("Null pointer exception");
 		}
 		
 		// Loop through Objects

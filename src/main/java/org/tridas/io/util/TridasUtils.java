@@ -210,6 +210,342 @@ public class TridasUtils {
 		return ols;
 	}
 	
+	/**
+	 * Takes a list of projects and merges those together than have the same title
+	 * 
+	 * @param projects
+	 * @return
+	 */
+	public static ArrayList<TridasProject> consolidateProjects(ArrayList<TridasProject> projects)
+	{
+		ArrayList<ITridas> returnProjects = new ArrayList<ITridas>();
+		
+		// First consolidate Projects
+		for(TridasProject p1 : projects)
+		{
+			if(getMatchInArrayByTitle(returnProjects, p1)==null)
+			{
+				// Project not in return list, so add
+				returnProjects.add(p1);
+			}
+			else
+			{
+				// Project is in return list, so grab 
+				TridasProject p2 = (TridasProject) getMatchInArrayByTitle(returnProjects, p1);
+				
+				// Remove existing from list
+				returnProjects = removeEntriesThatMatchTitle(returnProjects, p1);
+				
+				// Append extra objects
+				p2.getObjects().addAll(p1.getObjects());
+				
+				// Add back to list
+				returnProjects.add(p2);
+			}
+		}
+				
+		
+		// Cast to ArrayList<TridasProject>
+		ArrayList<TridasProject> returnProjects2 = new ArrayList<TridasProject>();
+		for(ITridas i : returnProjects)
+		{
+			TridasProject i2 = (TridasProject) i;
+			ArrayList<TridasObject> objlist = new ArrayList<TridasObject>();
+			for(TridasObject o : i2.getObjects())
+			{
+				objlist.add(o);
+			}
+
+			i2.getObjects().clear();
+			i2.getObjects().addAll(consolidateObjects(objlist));
+			returnProjects2.add(i2);
+		}
+		return returnProjects2;
+		
+	}
+	
+	/**
+	 * Takes a list of objects and merges those together than have the same title.  
+	 * 
+	 * @param objects
+	 * @return
+	 */
+	public static ArrayList<TridasObject> consolidateObjects(List<TridasObject> objects)
+	{
+		ArrayList<ITridas> returnObjects = new ArrayList<ITridas>();
+		
+		// First consolidate Objects
+		for(TridasObject o1 : objects)
+		{
+			if(getMatchInArrayByTitle(returnObjects, o1)==null)
+			{
+				// Object not in return list, so add
+				returnObjects.add(o1);
+			}
+			else
+			{
+				// Object is in return list, so grab 
+				TridasObject o2 = (TridasObject) getMatchInArrayByTitle(returnObjects, o1);
+								
+				// Remove existing from list
+				returnObjects = removeEntriesThatMatchTitle(returnObjects, o1);
+				
+				// Append extra elements
+				o2.getElements().addAll(o1.getElements());
+				
+				// Add back to list
+				returnObjects.add(o2);
+			}
+		}
+		
+		
+		// Cast to ArrayList<TridasObject>
+		ArrayList<TridasObject> returnObjects2 = new ArrayList<TridasObject>();
+		for(ITridas i : returnObjects)
+		{
+			TridasObject i2 = (TridasObject) i;
+			ArrayList<TridasObject> objlist = new ArrayList<TridasObject>();
+			for(TridasObject o : i2.getObjects())
+			{
+				objlist.add(o);
+			}
+
+			i2.getObjects().clear();
+			i2.getObjects().addAll(consolidateObjects(objlist));
+			
+			
+			ArrayList<TridasElement> ellist = new ArrayList<TridasElement>();
+			for(TridasElement e : i2.getElements())
+			{
+				ellist.add(e);
+			}
+			
+			i2.getElements().clear();
+			i2.getElements().addAll(consolidateElements(ellist));
+			
+			returnObjects2.add(i2);
+
+		}
+		return returnObjects2;
+		
+	}
+	
+	/**
+	 * Takes a list of elements and merges those together than have the same title
+	 * 
+	 * @param elements
+	 * @return
+	 */
+	public static ArrayList<TridasElement> consolidateElements(ArrayList<TridasElement> elements)
+	{
+		ArrayList<ITridas> returnElements = new ArrayList<ITridas>();
+		
+		// First consolidate Elements
+		for(TridasElement e1 : elements)
+		{
+			if(getMatchInArrayByTitle(returnElements, e1)==null)
+			{
+				// Element not in return list, so add
+				returnElements.add(e1);
+			}
+			else
+			{
+				// Element is in return list, so grab 
+				TridasElement e2 = (TridasElement) getMatchInArrayByTitle(returnElements, e1);
+				
+				// Remove existing from list
+				returnElements = removeEntriesThatMatchTitle(returnElements, e1);
+				
+				// Append extra samples
+				e2.getSamples().addAll(e1.getSamples());
+				
+				// Add back to list
+				returnElements.add(e2);
+			}
+		}
+				
+		
+		// Recurse to merge child entries
+		ArrayList<TridasElement> returnElements2 = new ArrayList<TridasElement>();
+		for(ITridas i : returnElements)
+		{
+			TridasElement i2 = (TridasElement) i;
+			ArrayList<TridasSample> sampList = new ArrayList<TridasSample>();
+			for(TridasSample s : i2.getSamples())
+			{
+				sampList.add(s);
+			}
+
+			i2.getSamples().clear();
+			i2.getSamples().addAll(consolidateSamples(sampList));
+			returnElements2.add(i2);
+		}
+		return returnElements2;
+		
+	}
+	
+	/**
+	 * Takes a list of samples and merges those together than have the same title
+	 * 
+	 * @param elements
+	 * @return
+	 */
+	public static ArrayList<TridasSample> consolidateSamples(ArrayList<TridasSample> samples)
+	{
+		ArrayList<ITridas> returnSamples = new ArrayList<ITridas>();
+		
+		// First consolidate Samples
+		for(TridasSample s1 : samples)
+		{
+			if(getMatchInArrayByTitle(returnSamples, s1)==null)
+			{
+				// Samples not in return list, so add
+				returnSamples.add(s1);
+			}
+			else
+			{
+				// Samples is in return list, so grab 
+				TridasSample s2 = (TridasSample) getMatchInArrayByTitle(returnSamples, s1);
+				
+				// Remove existing from list
+				returnSamples = removeEntriesThatMatchTitle(returnSamples, s1);
+				
+				// Append extra radii
+				s2.getRadiuses().addAll(s1.getRadiuses());
+				
+				// Add back to list
+				returnSamples.add(s2);
+			}
+		}
+				
+		
+		// Recurse to merge child entries
+		ArrayList<TridasSample> returnSamples2 = new ArrayList<TridasSample>();
+		for(ITridas i : returnSamples)
+		{
+			TridasSample i2 = (TridasSample) i;
+			ArrayList<TridasRadius> radList = new ArrayList<TridasRadius>();
+			for(TridasRadius r : i2.getRadiuses())
+			{
+				radList.add(r);
+			}
+
+			i2.getRadiuses().clear();
+			i2.getRadiuses().addAll(consolidateRadii(radList));
+			returnSamples2.add(i2);
+		}
+		return returnSamples2;
+		
+	}
+	
+	/**
+	 * Takes a list of radii and merges those together than have the same title
+	 * 
+	 * @param elements
+	 * @return
+	 */
+	public static ArrayList<TridasRadius> consolidateRadii(ArrayList<TridasRadius> radii)
+	{
+		ArrayList<ITridas> returnRadii = new ArrayList<ITridas>();
+		
+		// First consolidate Radii
+		for(TridasRadius r1 : radii)
+		{
+			if(getMatchInArrayByTitle(returnRadii, r1)==null)
+			{
+				// Radius not in return list, so add
+				returnRadii.add(r1);
+			}
+			else
+			{
+				// Radius is in return list, so grab 
+				TridasRadius r2 = (TridasRadius) getMatchInArrayByTitle(returnRadii, r1);
+				
+				// Remove existing from list
+				returnRadii = removeEntriesThatMatchTitle(returnRadii, r1);
+				
+				// Append extra series
+				r2.getMeasurementSeries().addAll(r1.getMeasurementSeries());
+				
+				// Add back to list
+				returnRadii.add(r2);
+			}
+		}
+				
+		
+		// Recurse to merge child entries
+		ArrayList<TridasRadius> returnRadii2 = new ArrayList<TridasRadius>();
+		for(ITridas i : returnRadii)
+		{
+			returnRadii2.add((TridasRadius) i);
+		}
+		return returnRadii2;
+		
+	}
+	
+	
+	
+	/**
+	 * Search through the provided list looking for a match based on title.  If the 
+	 * provided item has the default 'Unknown' title, then it is treated as unique.
+	 * 
+	 * If match is found, this entity is returned.  If not match is found then null 
+	 * is returned
+	 * 
+	 * @param list
+	 * @param checkitem
+	 * @return
+	 */
+	private static ITridas getMatchInArrayByTitle(ArrayList<ITridas> list, ITridas checkitem)
+	{
+		// Intercept 'Unknown' entities and force treatment as different entities 
+		if(checkitem instanceof TridasProject)
+		{
+			if(checkitem.getTitle().equals(I18n.getText("unnamed.project"))) return null;
+		}
+		else if(checkitem instanceof TridasObject)
+		{
+			if(checkitem.getTitle().equals(I18n.getText("unnamed.object"))) return null;
+		}
+		else if(checkitem instanceof TridasElement)
+		{
+			if(checkitem.getTitle().equals(I18n.getText("unnamed.element"))) return null;
+		}
+		else if(checkitem instanceof TridasSample)
+		{
+			if(checkitem.getTitle().equals(I18n.getText("unnamed.sample"))) return null;
+		}			
+		else if(checkitem instanceof TridasRadius)
+		{
+			if(checkitem.getTitle().equals(I18n.getText("unnamed.radius"))) return null;
+		}	
+		
+		// Search through list checking against titles
+		for(ITridas thisitem : list)
+		{
+			if(thisitem.getTitle().equals(checkitem.getTitle())) return thisitem;
+		}
+		
+		// No match
+		return null;
+		
+	}
+	
+	private static ArrayList<ITridas> removeEntriesThatMatchTitle(ArrayList<ITridas> list, ITridas checkitem)
+	{
+		ArrayList<ITridas> returnList = new ArrayList<ITridas>();
+		
+		for(ITridas thisitem : list)
+		{
+			if(!thisitem.getTitle().equals(checkitem.getTitle())) 
+			{
+				returnList.add(thisitem);
+			}
+		}
+		
+		return returnList;
+	}
+
 	
 	/**
 	 * Checks to see whether a TridasValues block contains only only values
@@ -400,6 +736,7 @@ public class TridasUtils {
 		
 		return null;
 	}
+		
 	
 	/**
 	 * Returns true if the TRiDaS entities identifier matches the one specified

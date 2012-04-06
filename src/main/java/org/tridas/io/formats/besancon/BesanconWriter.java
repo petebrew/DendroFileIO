@@ -203,7 +203,8 @@ public class BesanconWriter extends AbstractDendroCollectionWriter {
 				
 			ncgroup.add(ds);
 			
-			for (int i = 0; i < ds.getValues().size(); i++) {
+			for (int i = 0; i < ds.getValues().size(); i++) 
+			{
 				boolean skipThisGroup = false;
 
 				TridasValues tvsgroup = ds.getValues().get(i);
@@ -218,7 +219,15 @@ public class BesanconWriter extends AbstractDendroCollectionWriter {
 					}
 					else if (!tvsgroup.getVariable().isSetNormalTridas())
 					{
-						this.addWarning(new ConversionWarning(WarningType.AMBIGUOUS, I18n.getText("fileio.nonstandardVariable")));
+						if(tvsgroup.getVariable().getNormal().equals("Weiserjahre"))
+						{
+							this.addWarning(new ConversionWarning(WarningType.UNREPRESENTABLE, I18n.getText("tellervo.skippingWeiserjahre")));
+							skipThisGroup = true;
+						}
+						else
+						{
+							this.addWarning(new ConversionWarning(WarningType.AMBIGUOUS, I18n.getText("fileio.nonstandardVariable")));
+						}
 					}
 					else
 					{
@@ -254,7 +263,7 @@ public class BesanconWriter extends AbstractDendroCollectionWriter {
 				{
 					// TODO what happens if there are links to multiple different entities?
 					// For now just go with the first link
-					if(ds.getLinkSeries().getSeries().size()>1) break;
+					//if(ds.getLinkSeries().getSeries().size()>1) break;
 					TridasIdentifier id = ds.getLinkSeries().getSeries().get(0).getIdentifier();
 					TridasElement parentElement = (TridasElement) TridasUtils.getEntityByIdentifier(argProject, id, TridasElement.class);
 					if(parentElement!=null)

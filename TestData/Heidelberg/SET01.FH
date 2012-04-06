@@ -17,6 +17,7 @@ CoreNo=1
 Exposition=North-West
 CreationDate=19940526
 SoilType=Sand
+Dated=Dated
 DATA:Tree
    125   130    99   120   115   145   151   130   135   151
    200   190   151   170   170   174   170   200   210   130
