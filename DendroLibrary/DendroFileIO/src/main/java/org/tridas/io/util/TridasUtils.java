@@ -26,6 +26,7 @@ import org.tridas.interfaces.ITridas;
 import org.tridas.io.I18n;
 import org.tridas.io.formats.tridas.TridasReader;
 import org.tridas.schema.NormalTridasRemark;
+import org.tridas.schema.NormalTridasUnit;
 import org.tridas.schema.TridasDerivedSeries;
 import org.tridas.schema.TridasElement;
 import org.tridas.schema.TridasIdentifier;
@@ -970,5 +971,15 @@ public class TridasUtils {
 		ANYNUMBER,
 		STRING;
 	}
+	
+    public static NormalTridasUnit getUnitFromName(String v) {
+        for (NormalTridasUnit c: NormalTridasUnit.values()) {
+            if (c.name().equals(v)) {
+                return c;
+            }
+        }
+        throw new IllegalArgumentException(v);
+    }
+	
 }
 
