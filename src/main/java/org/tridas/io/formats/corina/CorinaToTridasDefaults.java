@@ -15,11 +15,14 @@
  */
 package org.tridas.io.formats.corina;
 
+import java.util.UUID;
+
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.tridas.io.I18n;
 import org.tridas.io.defaults.IMetadataFieldSet;
 import org.tridas.io.defaults.TridasMetadataFieldSet;
+import org.tridas.io.defaults.TridasMetadataFieldSet.TridasMandatoryField;
 import org.tridas.io.defaults.values.IntegerDefaultValue;
 import org.tridas.io.defaults.values.SafeIntYearDefaultValue;
 import org.tridas.io.defaults.values.StringDefaultValue;
@@ -39,6 +42,7 @@ import org.tridas.schema.TridasDating;
 import org.tridas.schema.TridasDerivedSeries;
 import org.tridas.schema.TridasElement;
 import org.tridas.schema.TridasGenericField;
+import org.tridas.schema.TridasIdentifier;
 import org.tridas.schema.TridasInterpretation;
 import org.tridas.schema.TridasMeasurementSeries;
 import org.tridas.schema.TridasPith;
@@ -234,6 +238,12 @@ public class CorinaToTridasDefaults extends TridasMetadataFieldSet implements
 	@Override
 	protected TridasMeasurementSeries getDefaultTridasMeasurementSeries() {
 		TridasMeasurementSeries series = super.getDefaultTridasMeasurementSeries();
+		
+		TridasIdentifier id = new TridasIdentifier();
+		id.setDomain(getStringDefaultValue(TridasMandatoryField.IDENTIFIER_DOMAIN).getValue());
+		id.setValue(UUID.randomUUID().toString());
+		
+		series.setIdentifier(id);
 		
 		series.setTitle(getStringDefaultValue(DefaultFields.NAME).getValue());
 		
