@@ -15,12 +15,15 @@
  */
 package org.tridas.io.formats.corina;
 
+import java.io.File;
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.tridas.interfaces.ITridasSeries;
 import org.tridas.io.AbstractDendroFileReader;
 import org.tridas.io.DendroFileFilter;
 import org.tridas.io.I18n;
@@ -30,10 +33,12 @@ import org.tridas.io.exceptions.InvalidDendroFileException;
 import org.tridas.io.exceptions.ConversionWarning.WarningType;
 import org.tridas.io.formats.corina.CorinaToTridasDefaults.DefaultFields;
 import org.tridas.io.util.SafeIntYear;
+import org.tridas.io.util.TridasUtils;
 import org.tridas.schema.SeriesLink;
 import org.tridas.schema.SeriesLinks;
 import org.tridas.schema.TridasDerivedSeries;
 import org.tridas.schema.TridasElement;
+import org.tridas.schema.TridasIdentifier;
 import org.tridas.schema.TridasMeasurementSeries;
 import org.tridas.schema.TridasObject;
 import org.tridas.schema.TridasProject;
@@ -52,8 +57,11 @@ public class CorinaReader extends AbstractDendroFileReader {
 	
 	private ArrayList<Integer> dataVals = new ArrayList<Integer>();
 	private ArrayList<Integer> countVals = new ArrayList<Integer>();
-	private ArrayList<String> parentSeries = new ArrayList<String>();
+	private ArrayList<String> parentSeriesLinks = new ArrayList<String>();
+	private ArrayList<TridasIdentifier> linkIds = new ArrayList<TridasIdentifier>();
+	private TridasProject parentProject = null;
 	private Boolean isDerivedSeries = false;
+	public Boolean loadRecursively = true;
 	
 	
 	public CorinaReader() {
@@ -148,12 +156,19 @@ public class CorinaReader extends AbstractDendroFileReader {
 			// Set Link series
 			SeriesLinks slinks = new SeriesLinks();
 			ArrayList<SeriesLink> seriesList = new ArrayList<SeriesLink>();
-			for(String parent : parentSeries)
+			for(String parent : parentSeriesLinks)
 			{
 				SeriesLink series = new SeriesLink();
 				XLink linkvalue = new XLink();
 				linkvalue.setHref(parent);
 				series.setXLink(linkvalue);
+				seriesList.add(series);
+			}
+			
+			for(TridasIdentifier parent : this.linkIds)
+			{
+				SeriesLink series = new SeriesLink();
+				series.setIdentifier(parent);
 				seriesList.add(series);
 			}
 			
@@ -194,9 +209,7 @@ public class CorinaReader extends AbstractDendroFileReader {
 			oList.add(o);		
 			p.setObjects(oList);
 		}
-		
-		
-		
+				
 		return p;
 		
 	}
@@ -457,8 +470,116 @@ public class CorinaReader extends AbstractDendroFileReader {
 			// If line has a ; in it then return
 			if (line.contains(";")) return;
 			
-			// Add to list
-			parentSeries.add(line);
+			// If we're not loading recursively then just add link to parent
+			// element and move on
+			if(!loadRecursively)
+			{
+				parentSeriesLinks.add(line);
+				continue;
+			}
+
+			// Try and load any files that are referred to
+			File f = new File(line);
+			if(!f.exists())
+			{
+				// File does not exist so just warn and link to it
+				this.addWarning(new ConversionWarning(WarningType.INFORMATION, "The file '"+line+"' cannot be found and has therefore been excluded."));
+				parentSeriesLinks.add(line);
+			}
+			else
+			{
+				// File exists so go ahead and load
+				
+				// Create a new converter
+				CorinaReader reader = new CorinaReader();
+				
+				// Don't recurse any further though as life gets too complicated
+				reader.loadRecursively = false;
+				
+				// Parse the legacy data file
+				try {
+					// TridasEntitiesFromDefaults def = new TridasEntitiesFromDefaults();
+					reader.loadFile(line);
+				} catch (IOException e) {
+					// Standard IO Exception
+					log.info(e.getLocalizedMessage());
+					this.addWarning(new ConversionWarning(WarningType.INFORMATION, "The file '"+line+"' cannot be found and has therefore been excluded."));
+					parentSeriesLinks.add(line);
+					continue;
+				} catch (InvalidDendroFileException e) {
+					// Fatal error interpreting file
+					log.info(e.getLocalizedMessage());
+					this.addWarning(new ConversionWarning(WarningType.INFORMATION, "The file '"+line+"' is not a valid Corina file so has been excluded."));
+					parentSeriesLinks.add(line);
+					continue;
+				}
+				
+				TridasProject currentProject =reader.getProject();
+				
+				if(currentProject.isSetDerivedSeries())
+				{
+					if(currentProject.getDerivedSeries().size()>1)
+					{
+						this.addWarning(new ConversionWarning(WarningType.INFORMATION, "The file '"+line+"' contains more than one chronology which shouldn't be possible.  Excluding."));
+						parentSeriesLinks.add(line);
+						continue;
+					}
+					else
+					{
+						this.linkIds.add(currentProject.getDerivedSeries().get(0).getIdentifier());
+						
+						if(parentProject==null)
+						{
+							parentProject = currentProject;
+						}
+						else
+						{
+							parentProject.getObjects().addAll(currentProject.getObjects());
+							parentProject.getDerivedSeries().addAll(currentProject.getDerivedSeries());
+						}
+						continue;
+					}
+				}
+				else 
+				{
+					ArrayList<TridasMeasurementSeries> series = TridasUtils.getMeasurementSeriesFromTridasProject(currentProject);
+					
+					if(series==null)
+					{
+						this.addWarning(new ConversionWarning(WarningType.INFORMATION, "The file '"+line+"' does not include any series so it is being excluded."));
+						parentSeriesLinks.add(line);
+						continue;
+					}
+					else if (series.size()>1)
+					{
+						this.addWarning(new ConversionWarning(WarningType.INFORMATION, "The file '"+line+"' contains more than one series which shouldn't be possible.  Excluding."));
+						parentSeriesLinks.add(line);
+						continue;
+					}
+					else
+					{
+						this.linkIds.add(series.get(0).getIdentifier());
+						
+						if(parentProject==null)
+						{
+							parentProject = currentProject;
+						}
+						else
+						{
+							parentProject.getObjects().addAll(currentProject.getObjects());
+							parentProject.getDerivedSeries().addAll(currentProject.getDerivedSeries());
+						}
+												
+						continue;
+					}
+				}
+					
+
+				
+
+			}
+			
+			
 			
 		}
 		
@@ -540,9 +661,14 @@ public class CorinaReader extends AbstractDendroFileReader {
 	 */
 	@Override
 	public TridasProject[] getProjects() {
-		TridasProject projects[] = new TridasProject[1];
-		projects[0] = this.getProject();
-		return projects;
+		
+		ArrayList<TridasProject> list = new ArrayList<TridasProject>();
+		list.add(this.getProject());				
+		list.add(this.parentProject);
+		
+		ArrayList<TridasProject> list2 = TridasUtils.consolidateProjects(list, false);
+		
+		return list2.toArray(new TridasProject[0]);
 	}
 
 	/**

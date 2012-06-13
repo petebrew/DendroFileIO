@@ -23,6 +23,7 @@ import java.util.Set;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.tridas.interfaces.ITridas;
+import org.tridas.interfaces.ITridasSeries;
 import org.tridas.io.I18n;
 import org.tridas.io.formats.tridas.TridasReader;
 import org.tridas.schema.NormalTridasRemark;
@@ -48,6 +49,46 @@ public class TridasUtils {
 	
 	public TridasUtils() {
 
+	}
+		
+	public static ArrayList<ITridasSeries> getAllSeriesFromTridasContainer(TridasTridas c)
+	{
+		ArrayList<ITridasSeries> serlist = new ArrayList<ITridasSeries>();
+				
+		for(TridasProject p : c.getProjects())
+		{
+			serlist.addAll(TridasUtils.getMeasurementSeriesFromTridasProject(p));
+			serlist.addAll(p.getDerivedSeries());
+		}
+		
+		return serlist;
+	}
+	
+	public static ArrayList<TridasDerivedSeries> getDerivedSeriesFromTridasContainer(TridasTridas c)
+	{
+		ArrayList<TridasDerivedSeries> serlist = new ArrayList<TridasDerivedSeries>();
+		
+		for(TridasProject p : c.getProjects())
+		{
+			serlist.addAll(p.getDerivedSeries());
+		}
+		
+		return serlist;
+
+	}
+	
+	
+	public static ArrayList<TridasMeasurementSeries> getMeasurementSeriesFromTridasContainer(TridasTridas c)
+	{
+		ArrayList<TridasMeasurementSeries> serlist = new ArrayList<TridasMeasurementSeries>();
+
+		for(TridasProject p : c.getProjects())
+		{
+			serlist.addAll(TridasUtils.getMeasurementSeriesFromTridasProject(p));
+		}
+		
+		return serlist;
+		
 	}
 	
 	public static ArrayList<TridasMeasurementSeries> getMeasurementSeriesFromTridasProject(TridasProject p) {
@@ -219,12 +260,17 @@ public class TridasUtils {
 	 */
 	public static ArrayList<TridasProject> consolidateProjects(ArrayList<TridasProject> projects)
 	{
+		return consolidateProjects(projects, true);
+	}
+	
+	public static ArrayList<TridasProject> consolidateProjects(ArrayList<TridasProject> projects, Boolean treatUnknownsAsDifferent)
+	{
 		ArrayList<ITridas> returnProjects = new ArrayList<ITridas>();
 		
 		// First consolidate Projects
 		for(TridasProject p1 : projects)
 		{
-			if(getMatchInArrayByTitle(returnProjects, p1)==null)
+			if(getMatchInArrayByTitle(returnProjects, p1, treatUnknownsAsDifferent)==null)
 			{
 				// Project not in return list, so add
 				returnProjects.add(p1);
@@ -232,14 +278,14 @@ public class TridasUtils {
 			else
 			{
 				// Project is in return list, so grab 
-				TridasProject p2 = (TridasProject) getMatchInArrayByTitle(returnProjects, p1);
+				TridasProject p2 = (TridasProject) getMatchInArrayByTitle(returnProjects, p1, treatUnknownsAsDifferent);
 				
 				// Remove existing from list
 				returnProjects = removeEntriesThatMatchTitle(returnProjects, p1);
 				
 				// Append extra objects
 				p2.getObjects().addAll(p1.getObjects());
-				
+							
 				// Add back to list
 				returnProjects.add(p2);
 			}
@@ -273,12 +319,17 @@ public class TridasUtils {
 	 */
 	public static ArrayList<TridasObject> consolidateObjects(List<TridasObject> objects)
 	{
+		return consolidateObjects(objects, true);
+	}
+	
+	public static ArrayList<TridasObject> consolidateObjects(List<TridasObject> objects,  Boolean treatUnknownsAsDifferent)
+	{
 		ArrayList<ITridas> returnObjects = new ArrayList<ITridas>();
 		
 		// First consolidate Objects
 		for(TridasObject o1 : objects)
 		{
-			if(getMatchInArrayByTitle(returnObjects, o1)==null)
+			if(getMatchInArrayByTitle(returnObjects, o1, treatUnknownsAsDifferent)==null)
 			{
 				// Object not in return list, so add
 				returnObjects.add(o1);
@@ -286,7 +337,7 @@ public class TridasUtils {
 			else
 			{
 				// Object is in return list, so grab 
-				TridasObject o2 = (TridasObject) getMatchInArrayByTitle(returnObjects, o1);
+				TridasObject o2 = (TridasObject) getMatchInArrayByTitle(returnObjects, o1, treatUnknownsAsDifferent);
 								
 				// Remove existing from list
 				returnObjects = removeEntriesThatMatchTitle(returnObjects, o1);
@@ -499,27 +550,48 @@ public class TridasUtils {
 	 */
 	private static ITridas getMatchInArrayByTitle(ArrayList<ITridas> list, ITridas checkitem)
 	{
+		return getMatchInArrayByTitle(list, checkitem, true);
+	}
+	
+	/**
+	 * Search through the provided list looking for a match based on title.  The
+	 * treatUnknownsAsDifferent param determines whether matching is ignored for
+	 * entities with 'Unknown' titles.
+	 * 
+	 * If match is found, this entity is returned.  If not match is found then null 
+	 * is returned
+	 * 
+	 * @param list
+	 * @param checkitem
+	 * @param treatUnknownsAsDifferent
+	 * @return
+	 */
+	private static ITridas getMatchInArrayByTitle(ArrayList<ITridas> list, ITridas checkitem, Boolean treatUnknownsAsDifferent)
+	{
 		// Intercept 'Unknown' entities and force treatment as different entities 
-		if(checkitem instanceof TridasProject)
+		if(treatUnknownsAsDifferent)
 		{
-			if(checkitem.getTitle().equals(I18n.getText("unnamed.project"))) return null;
+			if(checkitem instanceof TridasProject)
+			{
+				if(checkitem.getTitle().equals(I18n.getText("unnamed.project"))) return null;
+			}
+			else if(checkitem instanceof TridasObject)
+			{
+				if(checkitem.getTitle().equals(I18n.getText("unnamed.object"))) return null;
+			}
+			else if(checkitem instanceof TridasElement)
+			{
+				if(checkitem.getTitle().equals(I18n.getText("unnamed.element"))) return null;
+			}
+			else if(checkitem instanceof TridasSample)
+			{
+				if(checkitem.getTitle().equals(I18n.getText("unnamed.sample"))) return null;
+			}			
+			else if(checkitem instanceof TridasRadius)
+			{
+				if(checkitem.getTitle().equals(I18n.getText("unnamed.radius"))) return null;
+			}	
 		}
-		else if(checkitem instanceof TridasObject)
-		{
-			if(checkitem.getTitle().equals(I18n.getText("unnamed.object"))) return null;
-		}
-		else if(checkitem instanceof TridasElement)
-		{
-			if(checkitem.getTitle().equals(I18n.getText("unnamed.element"))) return null;
-		}
-		else if(checkitem instanceof TridasSample)
-		{
-			if(checkitem.getTitle().equals(I18n.getText("unnamed.sample"))) return null;
-		}			
-		else if(checkitem instanceof TridasRadius)
-		{
-			if(checkitem.getTitle().equals(I18n.getText("unnamed.radius"))) return null;
-		}	
 		
 		// Search through list checking against titles
 		for(ITridas thisitem : list)
