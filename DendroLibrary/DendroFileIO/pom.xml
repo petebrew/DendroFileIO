@@ -66,11 +66,11 @@
 	<distributionManagement>
 	    <repository>
 	      <id>tridas-releases</id>
-	      <url>http://www.tridas.org:8080/archiva/repository/tridas-releases/</url>
+	      <url>http://maven.tridas.org/repository/tridas-releases/</url>
 	    </repository>
 	    <snapshotRepository>
 	      <id>tridas-snapshots</id>
-	      <url>http://www.tridas.org:8080/archiva/repository/tridas-snapshots/</url>
+	      <url>http://maven.tridas.org/repository/tridas-snapshots/</url>
 	    </snapshotRepository>
 	</distributionManagement>
 	
@@ -178,7 +178,7 @@
 		<repository>
 			<id>tridas-releases</id>
 			<name>TRiDaS Maven Releases Repository</name>
-			<url>http://www.tridas.org:8080/archiva/repository/tridas-releases/</url>
+			<url>http://maven.tridas.org/repository/tridas-releases/</url>
 			<releases>
 				<enabled>true</enabled>
 			</releases>
@@ -189,7 +189,7 @@
 		<repository>
 			<id>tridas-snapshots</id>
 			<name>TRiDaS Maven Snapshots Repository</name>
-			<url>http://www.tridas.org:8080/archiva/repository/tridas-snapshots/</url>
+			<url>http://maven.tridas.org/repository/tridas-snapshots/</url>
 			<releases>
 				<enabled>false</enabled>
 			</releases>
