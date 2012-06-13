@@ -364,7 +364,8 @@ public class TucsonFile implements IDendroFile {
 				allSeriesRange = thisSeriesRange;
 			}
 			else {
-				allSeriesRange.union(thisSeriesRange);
+				YearRange newrange = allSeriesRange.union(thisSeriesRange);
+				allSeriesRange = newrange;
 			}
 						
 			// Warn if any data is BC

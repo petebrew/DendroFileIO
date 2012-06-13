@@ -358,7 +358,8 @@ public class YearRange implements Comparable {
 	 * @return the union of this and r
 	 */
 	public YearRange union(YearRange r) {
-		return new YearRange(SafeIntYear.min(start, r.start), SafeIntYear.max(end, r.end));
+		YearRange newval = new YearRange(SafeIntYear.min(start, r.start), SafeIntYear.max(end, r.end));
+		return newval;
 	}
 	
 	/**
