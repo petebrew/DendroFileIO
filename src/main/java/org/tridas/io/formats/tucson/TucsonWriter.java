@@ -155,11 +155,14 @@ public class TucsonWriter extends AbstractDendroCollectionWriter {
 			 * so we create a new file for each object.
 			 */
 			
-			for (TridasObject o : p.getObjects()) {
+			for (TridasObject o : p.getObjects()) 
+			{
 				
 				// Clone defaults and set fields specific to this object
 				TridasToTucsonDefaults objectDefaults = (TridasToTucsonDefaults) defaults.clone();
 				objectDefaults.populateFromTridasObject(o);
+				
+				TucsonFile file = null;
 				
 				for (TridasElement e : TridasUtils.getElementList(o)) {
 					TridasToTucsonDefaults elementDefaults = (TridasToTucsonDefaults) objectDefaults.clone();
@@ -197,7 +200,7 @@ public class TucsonWriter extends AbstractDendroCollectionWriter {
 									}
 																		
 									TridasToTucsonDefaults tvDefaults = (TridasToTucsonDefaults) msDefaults.clone();
-									tvDefaults.populateFromTridasValues(tvs);
+
 
 									// Check that the range does not go outside that which Tucson format is capable of storing
 									YearRange thisSeriesRange = new YearRange(ms);
@@ -211,16 +214,21 @@ public class TucsonWriter extends AbstractDendroCollectionWriter {
 									else
 									{
 										// Range ok so create file and add series
-										TucsonFile file = new TucsonFile(tvDefaults);
+										if(file==null)
+										{
+											file = new TucsonFile(tvDefaults);
+										}
+										
 										file.addSeries(ms);
 										naming.registerFile(file, p, o, e, s, r, ms);
-										addToFileList(file);
+										
 									}
 								}
 							}
 						}
 					}
 				}
+				addToFileList(file);
 			}
 		}
 	}
