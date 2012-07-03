@@ -74,7 +74,7 @@ public class BesanconToTridasDefaults extends TridasMetadataFieldSet {
 		setDefaultValue(DefaultFields.BARK, new BooleanDefaultValue(false));
 		setDefaultValue(DefaultFields.FIRST_YEAR, new SafeIntYearDefaultValue());
 		setDefaultValue(DefaultFields.LAST_YEAR, new SafeIntYearDefaultValue());
-		setDefaultValue(DefaultFields.POSITION_IN_MEAN, new IntegerDefaultValue(1));
+		setDefaultValue(DefaultFields.POSITION_IN_MEAN, new IntegerDefaultValue());
 		setDefaultValue(DefaultFields.DATED, new BooleanDefaultValue(false));
 	}
 	

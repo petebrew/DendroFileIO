@@ -343,7 +343,7 @@ public class HeidelbergToTridasDefaults extends TridasMetadataFieldSet {
 			TridasInterpretation interp = new TridasInterpretation();
 			TridasDating dating = new TridasDating();
 			
-			if (dated.getValue().equals(FHDated.Dated)) {
+			if (dated.getValue().equals(FHDated.Dated) || dated.getValue() == null) {
 				if (getIntegerDefaultValue(DefaultFields.DATE_BEGIN).getValue() != null) {
 					SafeIntYear startYear = new SafeIntYear(getIntegerDefaultValue(DefaultFields.DATE_BEGIN).getValue());
 					interp.setFirstYear(startYear.toTridasYear(DatingSuffix.AD));

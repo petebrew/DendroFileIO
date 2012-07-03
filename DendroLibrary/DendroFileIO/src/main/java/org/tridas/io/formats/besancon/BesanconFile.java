@@ -140,7 +140,10 @@ public class BesanconFile implements IDendroFile {
 			file.add("   LON "+String.valueOf(dataPair.defaults.getIntegerDefaultValue(DefaultFields.RING_COUNT).getValue()));
 			
 			// Position of series in the mean
-			file.add("   POS "+String.valueOf(dataPair.defaults.getIntegerDefaultValue(DefaultFields.POSITION_IN_MEAN).getValue()));
+			if(dataPair.defaults.getIntegerDefaultValue(DefaultFields.POSITION_IN_MEAN).getValue()!=null)
+			{
+				file.add("   POS "+String.valueOf(dataPair.defaults.getIntegerDefaultValue(DefaultFields.POSITION_IN_MEAN).getValue()));
+			}
 			
 			// Only do if the series is dated
 			if(dataPair.defaults.getBooleanDefaultValue(DefaultFields.DATED).getValue())
