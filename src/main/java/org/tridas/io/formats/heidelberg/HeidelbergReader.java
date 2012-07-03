@@ -104,6 +104,7 @@ public class HeidelbergReader extends AbstractDendroFileReader {
 		int fileLength = argFileString.length;
 		int lineNum = 0;
 		HeidelbergSeries currSeries = null;
+		String commentsCache = null;
 		
 		while (lineNum < fileLength) {
 			currentLineNum = lineNum; // update line num
@@ -122,6 +123,7 @@ public class HeidelbergReader extends AbstractDendroFileReader {
 				}
 				currSeries = new HeidelbergSeries();
 				extractHeader(header.toArray(new String[0]), currSeries);
+								
 			}
 			else if (line.toUpperCase().startsWith("DATA:")) {
 				// see what kind of data is here
@@ -158,12 +160,29 @@ public class HeidelbergReader extends AbstractDendroFileReader {
 				}
 				currSeries.dataType = dataType;
 				extractData(data.toArray(new String[0]), currSeries);
-											
+				
+				// Add any comments lines that have been cached
+				if(commentsCache!=null)
+				{
+					currSeries.fileMetadata.put("comment[x", commentsCache);
+					commentsCache = null;
+				}
+				
 				series.add(currSeries);
 				currSeries = null;
 			}
 			else {
-				log.error("Found unknown line");
+				log.error("Found unknown line.  Treating as comment");
+				lineNum++;
+				
+				// Cache the line to add to the next series as comments
+				if(commentsCache==null)
+				{
+					commentsCache = "";
+				}
+			
+				commentsCache+= line.trim()+"\n";
+				
 			}
 		}
 		
@@ -241,23 +260,20 @@ public class HeidelbergReader extends AbstractDendroFileReader {
 	private void checkFile(String[] argStrings) throws InvalidDendroFileException {
 		log.debug("Checking file to see if it looks like a Heidelberg file");
 		
-		if (!argStrings[0].startsWith("HEADER") && !argStrings[0].startsWith("DATA")) {
-			log.error(I18n.getText("heidelberg.firstLineWrong"));
-			throw new InvalidDendroFileException(I18n.getText("heidelberg.firstLineWrong"), 1);
-		}
+		boolean inHeader = false;
+		boolean foundHeaderOrDataYet = false;
 		
-		
-		boolean inHeader = true;
-
 		for (int i = 0; i < argStrings.length; i++) {
 			currentLineNum = i; // update line number
 			String s = argStrings[i];
 			if (s.startsWith("HEADER")) {
 				inHeader = true;
+				foundHeaderOrDataYet = true;
 				continue;
 			}
 			else if (s.toUpperCase().startsWith("DATA:")) {
 				inHeader = false;
+				foundHeaderOrDataYet = true;
 				String dataTypeString = s.substring(s.indexOf(":") + 1).trim();
 				try {
 					FHDataFormat.valueOf(dataTypeString);
@@ -269,15 +285,21 @@ public class HeidelbergReader extends AbstractDendroFileReader {
 
 				continue;
 			}
+			else if (foundHeaderOrDataYet==false)
+			{
+				// Not reached any header or data yet so we'll ignore this line and assume
+				// that it contains comments
+				continue;
+			}
 			
-			// so we're in the header or data
+			
+			// We must now be in the header or data section
 			
 			if (s.equals("")) {
 				// empty line?
 				continue;
 			}
 			
-			//String[] nums; // out here so we don't get compile errors
 			if (inHeader) {
 				// in header!
 				if (!s.contains("=")) {
@@ -292,77 +314,6 @@ public class HeidelbergReader extends AbstractDendroFileReader {
 				// This is the first line of the actual data.  If it is 50 characters long
 				// it is likely to be a TSAP-DOS file with each value taking up just 5
 				// characters rather than the typical 6.
-
-				/*DATA_CHARS_PER_NUMBER_REG = getColWidth(s);
-	
-				switch (dataFormat) {
-					case Chrono :
-					case Quadro :
-						
-						if(s.contains(";")) break;
-						
-						// 4 nums per measurement
-						nums = StringUtils.chopString(s, DATA_CHARS_PER_NUMBER_QUAD);
-						if (nums.length != DATA_NUMS_PER_LINE_QUAD) {
-							throw new InvalidDendroFileException(I18n.getText("heidelberg.wrongNumValsPerLine", "Quad",
-									DATA_CHARS_PER_NUMBER_QUAD + ""), i + 1);
-						}
-						try {
-							for (String num : nums) {
-								Integer.parseInt(num.trim());
-							}
-						} catch (NumberFormatException e) {
-							log.error(I18n.getText("fileio.invalidDataValue"));
-							throw new InvalidDendroFileException(I18n.getText("fileio.invalidDataValue"), i + 1);
-						}
-						
-						break;
-					case HalfChrono :
-					case Double :
-						
-						if(s.contains(";")) break;
-						// 2 nums per measurement
-						nums = StringUtils.chopString(s, DATA_CHARS_PER_NUMBER_REG);
-						if (nums.length != DATA_NUMS_PER_LINE_REG) {
-							throw new InvalidDendroFileException(I18n.getText("heidelberg.wrongNumValsPerLine",
-									"Double", DATA_NUMS_PER_LINE_REG + ""), i + 1);
-						}
-						try {
-							for (String num : nums) {
-								Integer.parseInt(num.trim());
-							}
-						} catch (NumberFormatException e) {
-							log.error(I18n.getText("fileio.invalidDataValue"));
-							throw new InvalidDendroFileException(I18n.getText("fileio.invalidDataValue"), i + 1);
-						}
-						break;
-					case Single :
-					case Tree :
-						if(s.contains(";")) break;
-						if (s.length() >= 6 && s.contains(" ")) {
-							// multi-row format
-							nums = StringUtils.chopString(s, DATA_CHARS_PER_NUMBER_REG);
-							try {
-								for (String num : nums) {
-									Integer.parseInt(num.trim());
-								}
-							} catch (NumberFormatException e) {
-								log.error(I18n.getText("fileio.invalidDataValue"));
-								throw new InvalidDendroFileException(I18n.getText("fileio.invalidDataValue"), i + 1);
-							}
-						}
-						else {
-							// single row format
-							try {
-								Integer.parseInt(s.trim());
-							} catch (NumberFormatException e) {
-								log.error(I18n.getText("fileio.invalidDataValue"));
-								throw new InvalidDendroFileException(I18n.getText("fileio.invalidDataValue"), i + 1);
-							}
-						}
-						break;
-				}
-				*/
 				
 				if(s.contains(";"))
 				{
@@ -699,8 +650,8 @@ public class HeidelbergReader extends AbstractDendroFileReader {
 			{
 				if((fileMetadata.containsKey("datebegin")) || (fileMetadata.containsKey("dateend")))
 				{
-					// Dated not specified, but begin and/or end date is so set to relatively dated
-					dated = FHDated.RelDated;
+					// Dated not specified, but set to 'dated' as this is how TSAP treats them
+					dated = FHDated.Dated;
 				}
 				else
 				{
