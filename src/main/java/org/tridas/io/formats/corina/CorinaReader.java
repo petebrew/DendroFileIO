@@ -61,7 +61,7 @@ public class CorinaReader extends AbstractDendroFileReader {
 	private ArrayList<TridasIdentifier> linkIds = new ArrayList<TridasIdentifier>();
 	private TridasProject parentProject = null;
 	private Boolean isDerivedSeries = false;
-	public Boolean loadRecursively = true;
+	protected Boolean loadRecursively = false;
 	
 	
 	public CorinaReader() {
@@ -663,8 +663,12 @@ public class CorinaReader extends AbstractDendroFileReader {
 	public TridasProject[] getProjects() {
 		
 		ArrayList<TridasProject> list = new ArrayList<TridasProject>();
-		list.add(this.getProject());				
-		list.add(this.parentProject);
+		list.add(this.getProject());	
+		
+		if(parentProject!=null)
+		{
+			list.add(this.parentProject);
+		}
 		
 		ArrayList<TridasProject> list2 = TridasUtils.consolidateProjects(list, false);
 		
