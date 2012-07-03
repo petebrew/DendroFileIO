@@ -163,8 +163,10 @@ public class TridasToBesanconDefaults extends AbstractMetadataFieldSet
 					getBooleanDefaultValue(DefaultFields.DATED).setValue(true);
 					break;
 				case RELATIVE:
-					this.addConversionWarning(new ConversionWarning(WarningType.UNREPRESENTABLE, 
-							I18n.getText("general.outputRelativeDatingUnsupported")));
+					if(ser.getInterpretation().isSetFirstYear())
+					{
+						getIntegerDefaultValue(DefaultFields.POSITION_IN_MEAN).setValue(ser.getInterpretation().getFirstYear().getValue());
+					}
 				default:
 					
 				}

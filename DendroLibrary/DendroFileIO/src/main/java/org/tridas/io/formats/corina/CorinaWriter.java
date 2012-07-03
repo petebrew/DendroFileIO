@@ -15,6 +15,7 @@
  */
 package org.tridas.io.formats.corina;
 
+import org.tridas.interfaces.ITridasSeries;
 import org.tridas.io.AbstractDendroCollectionWriter;
 import org.tridas.io.I18n;
 import org.tridas.io.defaults.IMetadataFieldSet;
@@ -35,6 +36,7 @@ import org.tridas.schema.TridasObject;
 import org.tridas.schema.TridasProject;
 import org.tridas.schema.TridasRadius;
 import org.tridas.schema.TridasSample;
+import org.tridas.schema.TridasValue;
 import org.tridas.schema.TridasValues;
 
 public class CorinaWriter extends AbstractDendroCollectionWriter {
@@ -177,8 +179,10 @@ public class CorinaWriter extends AbstractDendroCollectionWriter {
 			}
 		}
 		
-		for (TridasDerivedSeries ds : argProject.getDerivedSeries()) {			
-			for (int i = 0; i < ds.getValues().size(); i++) {
+		for (TridasDerivedSeries ds : argProject.getDerivedSeries()) 
+		{			
+			for (int i = 0; i < ds.getValues().size(); i++) 
+			{
 				
 				TridasToCorinaDefaults dsDefaults = (TridasToCorinaDefaults) defaults.clone();
 				
@@ -197,6 +201,7 @@ public class CorinaWriter extends AbstractDendroCollectionWriter {
 					else if (!tvsgroup.getVariable().isSetNormalTridas())
 					{
 						dsDefaults.addConversionWarning(new ConversionWarning(WarningType.AMBIGUOUS, I18n.getText("fileio.nonstandardVariable")));
+						skipThisGroup=true;
 					}
 					else
 					{
@@ -244,17 +249,19 @@ public class CorinaWriter extends AbstractDendroCollectionWriter {
 				{
 					// TODO what happens if there are links to multiple different entities?
 					// For now just go with the first link
-					if(ds.getLinkSeries().getSeries().size()>1) break;
-					TridasIdentifier id = ds.getLinkSeries().getSeries().get(0).getIdentifier();
-					TridasElement parentElement = (TridasElement) TridasUtils.getEntityByIdentifier(argProject, id, TridasElement.class);
-					if(parentElement!=null)
+					if(ds.getLinkSeries().getSeries().size()==1)
 					{
-						dsDefaults.populateFromTridasElement(parentElement);
-					}
-					TridasSample parentSample = (TridasSample) TridasUtils.getEntityByIdentifier(argProject, id, TridasSample.class);
-					if(parentSample!=null)
-					{
-						dsDefaults.populateFromTridasSample(parentSample);
+						TridasIdentifier id = ds.getLinkSeries().getSeries().get(0).getIdentifier();
+						TridasElement parentElement = (TridasElement) TridasUtils.getEntityByIdentifier(argProject, id, TridasElement.class);
+						if(parentElement!=null)
+						{
+							dsDefaults.populateFromTridasElement(parentElement);
+						}
+						TridasSample parentSample = (TridasSample) TridasUtils.getEntityByIdentifier(argProject, id, TridasSample.class);
+						if(parentSample!=null)
+						{
+							dsDefaults.populateFromTridasSample(parentSample);
+						}
 					}
 				}
 				
@@ -262,7 +269,12 @@ public class CorinaWriter extends AbstractDendroCollectionWriter {
 				CorinaFile file = new CorinaFile(dsDefaults);
 				file.setDataValues(tvsgroup);
 				file.setSeries(ds);
-
+				
+				TridasValues wjvalues = this.getWJValues(ds);
+				if(wjvalues!=null)
+				{
+					file.setWJValues(wjvalues);
+				}
 
 				// Set naming convention
 				naming.registerFile(file, argProject, ds);
@@ -275,6 +287,26 @@ public class CorinaWriter extends AbstractDendroCollectionWriter {
 			
 		}
 
+	}
+	
+	private TridasValues getWJValues(ITridasSeries series)
+	{
+		for(TridasValues values : series.getValues())
+		{
+			if(!values.isSetVariable()) continue;
+			
+			if(!values.getVariable().isSetNormalStd()) continue;
+			
+			if(values.getVariable().getNormalStd().equals("Tellervo"))
+			{
+				if(values.getVariable().getNormal().equals("Weiserjahre"))
+				{
+					return values;
+				}
+			}
+		}
+		
+		return null;
 	}
 
 	/**

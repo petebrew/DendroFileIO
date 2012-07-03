@@ -408,17 +408,18 @@ public class CorinaFile implements IDendroFile {
 				.add(1)) {
 
 			// year: "%5d"
-			if (y.equals(startYear))
+			if (y.equals(startYear) || y.column()== 0)
 				line +=StringUtils.leftPad(y.toString(), 5);
 
 			// always use '/' in corina files			
-			line+=StringUtils.leftPad(data.get(y.diff(range.getStart()))
-					.toString(), 6);
+			line+=StringUtils.leftPad(data.get(y.diff(range.getStart())).toString(), 6);
 
 			// newline
 			if (y.column() == 9 || y.equals(endYear.add(-1)))
+			{
 				file.add(line);
 				line = "";
+			}
 		}
 		file.add(line);
 		line="";
