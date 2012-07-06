@@ -235,6 +235,8 @@ public class BesanconFile implements IDendroFile {
 			}
 		}
 		
+		file.add(":");
+		
 		return file.toArray(new String[0]);
 	}
 	
