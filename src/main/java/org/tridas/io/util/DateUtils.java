@@ -72,7 +72,7 @@ public class DateUtils {
 			
 			// Remove time info
 			requestedDate.setTimezone(DatatypeConstants.FIELD_UNDEFINED);  
-			requestedDate.setTime(DatatypeConstants.FIELD_UNDEFINED, DatatypeConstants.FIELD_UNDEFINED, DatatypeConstants.FIELD_UNDEFINED);  
+			//requestedDate.setTime(DatatypeConstants.FIELD_UNDEFINED, DatatypeConstants.FIELD_UNDEFINED, DatatypeConstants.FIELD_UNDEFINED);  
 
 			DateTime returnval = new DateTime();
 			returnval.setValue(requestedDate);
@@ -169,11 +169,37 @@ public class DateUtils {
 	}
 	
 	/**
-	 * Try and parse a DateTime from a string.  Supported styles are:
+	 * Wrapper around parseDateFromDayMonthYearString assuming standard
+	 * European order for date string
+	 * 
+	 * @param date
+	 * @return
+	 * @throws Exception
+	 */
+	public static DateTime parseDateFromDayMonthYearString(String date) throws Exception
+	{
+		try{
+			DateTime dt =  parseDateFromDayMonthYearString(date, false);
+			return dt;
+		}
+		catch (Exception e)
+		{
+			throw e;
+		}
+	}
+	
+	/**
+	 * Try and parse a DateTime from a string.  If americanOrder=false then 
+	 * supported styles are:
 	 *   - dd/MM/yy
 	 *   - dd.MM.yy
 	 *   - dd-MM-yy
+	 *   - dd/MM/yyyy
+	 *   - dd.MM.yyyy
+	 *   - dd-MM-yyyy
 	 *   - ddMMyyyy
+	 *   
+	 *   Otherwise dd and MM are reversed
 	 *   
 	 *   For two digit years, yy>50 is interpreted as 19xx, and yy<50 is
 	 *   interpreted as 20xx
@@ -181,26 +207,44 @@ public class DateUtils {
 	 *   All other formats return null.
 	 *   
 	 * @param date
+	 * @param americanOrder
 	 * @return
 	 * @throws Exception
 	 */
-	public static DateTime parseDateFromDayMonthYearString(String date) throws Exception
+	public static DateTime parseDateFromDayMonthYearString(String date, Boolean americanOrder) throws Exception
 	{
 		if(date==null) return null;
 		
 		date = date.trim();
 		if(date.equals("")) return null;
 	
-		int day = 0;
-		int month = 0;
+		int partOne = 0;
+		int partTwo = 0;
 		int year = 0;
 
-		if(date.matches("\\d\\d(.|-/|)\\d\\d(.|-|/)\\d\\d"))
+		if(date.matches("\\d{1,2}(/|.|-)\\d{1,2}(/|.|-)(19|20)\\d\\d"))
 		{
-			// Old style dd/MM/yy or dd-MM-yy assuming 20th century year
-			day = Integer.parseInt(date.substring(0,2));
-			month = Integer.parseInt(date.substring(3,5));
-			year = Integer.parseInt(date.substring(6,8));
+			// Old style dd/MM/yyyy or dd-MM-yyyy or dd.MM.yyyy
+			String[] parts = date.split("(/|,|-)");
+			
+			if(parts.length==3)
+			{
+				partOne = Integer.parseInt(parts[0]);
+				partTwo = Integer.parseInt(parts[1]);
+				year = Integer.parseInt(parts[2]);
+			}
+			
+		}
+		else if(date.matches("\\d{1,2}(/|.|-)\\d{1,2}(/|.|-)\\d\\d"))
+		{
+			// Old style dd/MM/yy or dd-MM-yy assuming 20th or 21st century year
+			String[] parts = date.split("(/|,|-)");
+			if(parts.length==3)
+			{
+				partOne = Integer.parseInt(parts[0]);
+				partTwo = Integer.parseInt(parts[1]);
+				year = Integer.parseInt(parts[2]);
+			}
 			if(year>50)
 			{
 				year = year+1900;
@@ -211,24 +255,64 @@ public class DateUtils {
 			}
 			
 		}
-		else
+		else if(date.matches("\\d{4}(19|20)\\d{2}"))
 		{
-			// Newer style ddMMyyyy
-			day = Integer.parseInt(date.substring(0,2));
-			month = Integer.parseInt(date.substring(2,4));
+			// Newer style ddMMyyyy 
+			// assuming year is in 20th or 21st century
+			partOne = Integer.parseInt(date.substring(0,2));
+			partTwo = Integer.parseInt(date.substring(2,4));
 			year = Integer.parseInt(date.substring(4,8));
 		}
-		
-		if(day>0 && month >0 && year > 0)
+		else if(date.matches("\\d{4}\\d{2}"))
 		{
-			return DateUtils.getDateTime(day, month, year);
+			// Shorter style ddMMyy
+			partOne = Integer.parseInt(date.substring(0,2));
+			partTwo = Integer.parseInt(date.substring(2,4));
+			year = Integer.parseInt(date.substring(4,6));
+			if(year>50)
+			{
+				year = year+1900;
+			}
+			else
+			{
+				year = year+2000;
+			}
 		}
 		else
 		{
 			return null;
 		}
+		
+		// Handle order
+		int day = partOne;
+		int month = partTwo;
+		if(americanOrder)
+		{
+			day = partTwo;
+			month = partOne;
+		}
+		
+		// Check date is logical
+		if(day>0 && month >0 && year > 0 && day<=31 && month<=12)
+		{
+			DateTime newDT = DateUtils.getDateTime(day, month, year);
 			
+			if(newDT.getValue().getDay()!=day)
+			{
+				// DateTime has been altered because day and month combination was invalid
+				// e.g. 30th Feb.  Be safe and fail. 
+				return null;
+			}
+						
+			// Check date is not in the future
+			DateTime currDT = DateUtils.getTodaysDateTime();
+			if(newDT.getValue().toGregorianCalendar().compareTo(currDT.getValue().toGregorianCalendar())<=0)
+			{
+				return newDT;
+			}
+		}
 
+		return null;
 	}
 	
 	/**
@@ -398,18 +482,43 @@ public class DateUtils {
 
 		
 	}
-	
-	
+		
 	/**
-	 * Attempt to parse a DateTime from a natural language string using the 
-	 * Natty library.  This has various limitations including being English
-	 * specific.
+	 * Attempt to parse a DateTime from a natural language string.
+	 * 
+	 * The first attempt is using regex for various international layouts
+	 * (e.g. 28/10/2012).  If this fails, then try various American layouts
+	 * (e.g. 10/28/2012).  If this also fails, then the last ditch chance
+	 * is to use the Natty library.  Natty is a natural language parsing 
+	 * library.  It has various limitations including being English
+	 * specific, but can interpret a wide variety of layouts.
 	 * 
 	 * @param str
 	 * @return
 	 */
 	public static DateTime parseDateTimeFromNaturalString(String str)
 	{
+	
+		DateTime datetime = null;
+		
+		try {
+			// Try international format first
+			datetime = parseDateFromDayMonthYearString(str, false);
+			if(datetime!=null)	
+			{
+				return datetime;
+			}
+			
+			// Failed so try American format next
+			datetime = parseDateFromDayMonthYearString(str, true);
+			if(datetime!=null)	
+			{
+				return datetime;
+			}
+		} catch (Exception e) {		}
+		
+		// Failed so now try using Natty		
+		
 		Parser parser = new Parser();
 		ArrayList<DateGroup> groups = (ArrayList<DateGroup>) parser.parse(str);
 		
@@ -426,8 +535,8 @@ public class DateUtils {
 		Calendar cal = Calendar.getInstance();
 		cal.setTime(dt);
 		
-		DateTime datetime = DateUtils.getDateTime(cal.get(Calendar.DAY_OF_MONTH), 
-				cal.get(Calendar.MONTH), 
+		datetime = DateUtils.getDateTime(cal.get(Calendar.DAY_OF_MONTH), 
+				cal.get(Calendar.MONTH)+1, 
 				cal.get(Calendar.YEAR));
 		
 		if(datetime== null) return null;

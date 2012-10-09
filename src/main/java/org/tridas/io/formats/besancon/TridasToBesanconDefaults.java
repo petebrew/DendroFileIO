@@ -195,7 +195,7 @@ public class TridasToBesanconDefaults extends AbstractMetadataFieldSet
 			{
 				getSafeIntYearDefaultValue(DefaultFields.LAST_YEAR).setValue(
 						new SafeIntYear(series.getInterpretation().getFirstYear())
-						.add(argValues.getValues().size()));
+						.add(argValues.getValues().size()-1));
 			}
 		}
 		

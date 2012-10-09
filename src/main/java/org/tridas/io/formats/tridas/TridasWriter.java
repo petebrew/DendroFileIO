@@ -70,6 +70,14 @@ public class TridasWriter extends AbstractDendroCollectionWriter {
 			file.addTridasProject(p);
 		}
 		
+		// Check that we have no internal XML errors in the file
+		try{
+			file.validate();
+		} catch (IncompleteTridasDataException e)
+		{
+			throw e;
+		}
+		
 		TridasProject project = argContainer.getProjects().get(0);
 		TridasObject object = null;
 		TridasElement element = null;
@@ -115,6 +123,15 @@ public class TridasWriter extends AbstractDendroCollectionWriter {
 		TridasFile file = new TridasFile(argDefaults);
 		
 		file.addTridasProject(p);
+		
+		// Check that we have no internal XML errors in the file
+		try{
+			file.validate();
+		} catch (IncompleteTridasDataException e)
+		{
+			throw e;
+		}
+		
 		TridasProject project = p;
 		TridasObject object = null;
 		TridasElement element = null;

@@ -266,7 +266,10 @@ public class CorinaReader extends AbstractDendroFileReader {
 			// Last line is user name which is denoted by a ~
 			if(line.startsWith("~"))
 			{
-				defaults.getStringDefaultValue(DefaultFields.USERNAME).setValue(line.substring(2).trim());
+				if(line.length()>2)
+				{
+					defaults.getStringDefaultValue(DefaultFields.USERNAME).setValue(line.substring(2).trim());
+				}
 				return;
 			}
 			

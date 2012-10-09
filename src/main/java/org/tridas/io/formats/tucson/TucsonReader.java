@@ -538,8 +538,10 @@ public class TucsonReader extends AbstractDendroFileReader {
 			throws InvalidDendroFileException {
 		SafeIntYear yearMarker;
 		try {
+			Integer keycodelen = getKeycodeLength();
+			Integer endlen = getKeycodeLength() + numYearMarkerChars;
 			String yearString = line.substring(getKeycodeLength(),
-					getKeycodeLength() + numYearMarkerChars).trim();
+					getKeycodeLength() + numYearMarkerChars);
 			yearMarker = new SafeIntYear(yearString, usingAstronomicalDates);
 
 			// Warn if years use negative numbers
@@ -742,9 +744,14 @@ public class TucsonReader extends AbstractDendroFileReader {
 	private void loadRWLDataFromDataLine(String line, TucsonSeries series)
 			throws InvalidDendroFileException {
 
-		if(modeLineLength > 80 && modeLineLength < 87)
+		try{
+		if(modeLineLength > 80 && modeLineLength < 87 && line.length()>modeLineLength)
 		{
 			line = line.substring(0, 80);
+		}
+		} catch (StringIndexOutOfBoundsException e)
+		{
+			log.error("line length = " +line.length() +". Can't truncate to 80 chars");
 		}
 		
 		
@@ -752,7 +759,8 @@ public class TucsonReader extends AbstractDendroFileReader {
 		ArrayList<String> vals = new ArrayList<String>();
 
 		// Remove keycode from line
-		line = line.substring(getKeycodeLength());
+		Integer keycodelen = getKeycodeLength()+1;
+		line = line.substring(keycodelen);
 
 		// Remove year marker from line
 		line = line.substring(numYearMarkerChars);
@@ -1114,7 +1122,7 @@ public class TucsonReader extends AbstractDendroFileReader {
 		String regexKeycode6 = "[\\w\\t -.]{6}";
 		String regexKeycode8 = "[\\w\\t -.]{8}";
 		String regexYear = "[\\t\\d -]{3}[\\d]{1}";
-		String regexRWLVal = "[ -]{1}[\\t\\d- ]{4}[\\d]{1}";
+		String regexRWLVal = "[ -]{1}[\\t\\d -]{4}[\\d]{1}";
 		String regexCRNVal = "[\\d ]{4}((\\d\\d\\d)|( \\d\\d)|(  \\d))";
 
 		switch (type) {
@@ -1164,9 +1172,8 @@ public class TucsonReader extends AbstractDendroFileReader {
 			}
 			return false;
 		case RWL_DATA_PARTIAL_8:
-			regex = "^" + regexKeycode8 + regexYear + regexRWLVal;
-			p1 = Pattern.compile(regex, Pattern.CASE_INSENSITIVE
-					| Pattern.DOTALL);
+			regex = regexKeycode8 + regexYear + regexRWLVal;
+			p1 = Pattern.compile(regex, Pattern.CASE_INSENSITIVE);
 			m1 = p1.matcher(line);
 			if (m1.find()) {
 				if (!matchesLineType(TucsonLineType.RWL_DATA_COMPLETE_8, line)) {
@@ -1176,6 +1183,7 @@ public class TucsonReader extends AbstractDendroFileReader {
 					}
 					return true;
 				}
+				return true;
 			}
 		case RWL_DATA_6:
 			return matchesLineType(TucsonLineType.RWL_DATA_PARTIAL_6, line)

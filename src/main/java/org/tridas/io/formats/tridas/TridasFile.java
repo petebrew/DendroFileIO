@@ -34,6 +34,8 @@ import org.tridas.io.TridasNamespacePrefixMapper;
 import org.tridas.io.defaults.IMetadataFieldSet;
 import org.tridas.io.exceptions.ConversionWarning;
 import org.tridas.io.exceptions.ConversionWarning.WarningType;
+import org.tridas.io.exceptions.ConversionWarningException;
+import org.tridas.io.exceptions.IncompleteTridasDataException;
 import org.tridas.io.util.IOUtils;
 import org.tridas.schema.TridasProject;
 import org.tridas.schema.TridasTridas;
@@ -55,6 +57,7 @@ public class TridasFile implements IDendroFile {
 	private ArrayList<TridasProject> projects = new ArrayList<TridasProject>();
 	
 	private IMetadataFieldSet defaults;
+	private StringWriter swriter;
 	
 	public TridasFile(IMetadataFieldSet argDefaults) {
 		defaults = argDefaults;
@@ -76,11 +79,8 @@ public class TridasFile implements IDendroFile {
 		return container;
 	}
 	
-	@Override
-	public String[] saveToString() {
-		if (projects == null) {
-			return null;
-		}
+	public void validate() throws IncompleteTridasDataException
+	{
 		Schema schema = null;
 		
 		// Validate output against schema first
@@ -93,12 +93,11 @@ public class TridasFile implements IDendroFile {
 				schema = factory.newSchema(file);
 			} catch (SAXException e) {
 				log.error("Error getting TRiDaS schema for validation, not using.", e);
-				defaults.addConversionWarning(new ConversionWarning(WarningType.DEFAULT,
-						I18n.getText("fileio.errorGettingSchema")));
+				throw new IncompleteTridasDataException(I18n.getText("fileio.errorGettingSchema"));
 			}
 		}
 		
-		StringWriter swriter = new StringWriter();
+		swriter = new StringWriter();
 		// Marshaller code goes here...
 		JAXBContext jc;
 		try {
@@ -112,11 +111,39 @@ public class TridasFile implements IDendroFile {
 
 		} catch (Exception e) {
 			log.error("Jaxb error", e);
-			defaults.addConversionWarning(new ConversionWarning(WarningType.FILE_IGNORED, I18n.getText("fileio.jaxbError")));
+			
+			String cause = e.getCause().getMessage();
+			if(cause!=null)
+			{
+				throw new IncompleteTridasDataException(I18n.getText("fileio.jaxbError")+ " " + cause);
+			}
+			else
+			{
+				throw new IncompleteTridasDataException(I18n.getText("fileio.jaxbError"));
+			}
+
+		}
+		
+	}
+	
+	@Override
+	public String[] saveToString() {
+		if (projects == null) {
 			return null;
+		}
+		if(swriter==null)
+		{
+			try {
+				validate();
+			} catch (IncompleteTridasDataException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+				return null;
+			}
 		}
 		
 		return swriter.getBuffer().toString().split("\n");
+
 	}
 	
 	/**
