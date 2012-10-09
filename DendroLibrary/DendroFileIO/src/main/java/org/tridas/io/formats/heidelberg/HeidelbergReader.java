@@ -49,6 +49,7 @@ import org.tridas.io.util.ITRDBTaxonConverter;
 import org.tridas.io.util.SafeIntYear;
 import org.tridas.io.util.UnitUtils;
 import org.tridas.schema.ControlledVoc;
+import org.tridas.schema.DateTime;
 import org.tridas.schema.SeriesLink;
 import org.tridas.schema.TridasDerivedSeries;
 import org.tridas.schema.TridasElement;
@@ -104,7 +105,7 @@ public class HeidelbergReader extends AbstractDendroFileReader {
 		int fileLength = argFileString.length;
 		int lineNum = 0;
 		HeidelbergSeries currSeries = null;
-		String commentsCache = null;
+		String commentsCache = "";
 		
 		while (lineNum < fileLength) {
 			currentLineNum = lineNum; // update line num
@@ -609,6 +610,11 @@ public class HeidelbergReader extends AbstractDendroFileReader {
 			
 			// COMMENTS
 			String comments = "";
+			if(fileMetadata.containsKey("comment"))
+			{
+				comments = fileMetadata.get("comment");
+			}
+				
 			Iterator it = fileMetadata.entrySet().iterator();
 			while(it.hasNext())
 			{
@@ -619,6 +625,8 @@ public class HeidelbergReader extends AbstractDendroFileReader {
 					comments += pairs.getValue() + "; ";
 				}
 			}
+
+			
 			if(comments.length()>0)
 			{
 				s.defaults.getStringDefaultValue(DefaultFields.COMMENTS).setValue(comments.substring(0, comments.length()-2));
@@ -708,9 +716,15 @@ public class HeidelbergReader extends AbstractDendroFileReader {
 
 			//DATE_OF_SAMPLING, new StringDefaultValue());
 			if(fileMetadata.containsKey("dateofsampling")){
-				s.defaults.getDateTimeDefaultValue(DefaultFields.DATE_OF_SAMPLING).setValue(
-						DateUtils.parseDateTimeFromNaturalString(
-								fileMetadata.get("dateofsampling")));
+				DateTime dos = DateUtils.parseDateTimeFromNaturalString(fileMetadata.get("dateofsampling"));
+				if(dos!=null) 
+				{
+					s.defaults.getDateTimeDefaultValue(DefaultFields.DATE_OF_SAMPLING).setValue(dos);
+				}
+				else
+				{
+					addWarning(new ConversionWarning(WarningType.IGNORED, I18n.getText("general.datenotparsable"), "DateOfSampling"));
+				}
 			}
 			
 			//DISTRICT, new StringDefaultValue());
@@ -745,9 +759,15 @@ public class HeidelbergReader extends AbstractDendroFileReader {
 			
 			//FIRST_MEASUREMENT_DATE, new StringDefaultValue());
 			if(fileMetadata.containsKey("firstmeasurementdate")){
-				s.defaults.getDateTimeDefaultValue(DefaultFields.FIRST_MEASUREMENT_DATE).setValue(
-						DateUtils.parseDateTimeFromNaturalString(
-								fileMetadata.get("firstmeasurementdate")));
+				DateTime dt = DateUtils.parseDateTimeFromNaturalString(fileMetadata.get("firstmeasurementdate"));
+				if(dt!=null) 
+				{
+					s.defaults.getDateTimeDefaultValue(DefaultFields.FIRST_MEASUREMENT_DATE).setValue(dt);
+				}
+				else
+				{
+					addWarning(new ConversionWarning(WarningType.IGNORED, I18n.getText("general.datenotparsable"), "FirstMeasurementDate"));
+				}
 			}
 			
 			//HOUSE_NAME, new StringDefaultValue());
@@ -773,9 +793,15 @@ public class HeidelbergReader extends AbstractDendroFileReader {
 			
 			//LAST_REVISION_DATE, new StringDefaultValue());
 			if(fileMetadata.containsKey("lastrevisiondate")){
-				s.defaults.getDateTimeDefaultValue(DefaultFields.LAST_REVISION_DATE).setValue(
-						DateUtils.parseDateTimeFromNaturalString(
-						fileMetadata.get("lastrevisiondate")));
+				DateTime dt = DateUtils.parseDateTimeFromNaturalString(fileMetadata.get("lastrevisiondate"));
+				if(dt!=null) 
+				{
+					s.defaults.getDateTimeDefaultValue(DefaultFields.LAST_REVISION_DATE).setValue(dt);					
+				}
+				else
+				{
+					addWarning(new ConversionWarning(WarningType.IGNORED, I18n.getText("general.datenotparsable"), "LastRevisionDate"));
+				}
 			}
 			
 			//LAST_REVISION_PERS_ID, new StringDefaultValue());
@@ -1058,11 +1084,12 @@ public class HeidelbergReader extends AbstractDendroFileReader {
 			for(int i=s.dataVals.size()-1; i>0; i-- )
 			{
 				TridasValue v = s.dataVals.get(i);
-				
-				if(v.getValue().equals("0"))
-				{
-					s.dataVals.remove(i);
-				}
+
+				// If not a zero stop removing!
+				if(!v.getValue().equals("0")) break;
+					
+				// Zero so remove and keep going
+				s.dataVals.remove(i);
 			}
 			
 			

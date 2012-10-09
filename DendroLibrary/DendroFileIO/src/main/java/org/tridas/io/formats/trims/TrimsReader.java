@@ -112,7 +112,7 @@ public class TrimsReader extends AbstractDendroFileReader {
 		// Build interpretation group for series
 		TridasInterpretation interp = new TridasInterpretation();
 		interp.setFirstYear(startYear.toTridasYear(DatingSuffix.AD));
-		interp.setLastYear(startYear.add(ringWidthValues.size()).toTridasYear(DatingSuffix.AD));
+		interp.setLastYear(startYear.add(ringWidthValues.size()-1).toTridasYear(DatingSuffix.AD));
 		
 		// Add values to nested value(s) tags
 		TridasValues valuesGroup = new TridasValues();

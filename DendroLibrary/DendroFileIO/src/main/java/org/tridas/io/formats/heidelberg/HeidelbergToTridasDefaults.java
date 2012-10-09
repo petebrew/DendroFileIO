@@ -18,7 +18,11 @@ package org.tridas.io.formats.heidelberg;
 import java.util.ArrayList;
 import java.util.UUID;
 
+import javax.xml.datatype.XMLGregorianCalendar;
+
 import org.apache.commons.lang.WordUtils;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.tridas.interfaces.ITridasSeries;
 import org.tridas.io.I18n;
 import org.tridas.io.defaults.TridasMetadataFieldSet;
@@ -32,6 +36,8 @@ import org.tridas.io.util.DateUtils;
 import org.tridas.io.util.SafeIntYear;
 import org.tridas.schema.ComplexPresenceAbsence;
 import org.tridas.schema.ControlledVoc;
+import org.tridas.schema.Date;
+import org.tridas.schema.DateTime;
 import org.tridas.schema.DatingSuffix;
 import org.tridas.schema.NormalTridasDatingType;
 import org.tridas.schema.ObjectFactory;
@@ -65,7 +71,8 @@ import org.tridas.schema.TridasWoodCompleteness;
 import org.tridas.spatial.SpatialUtils;
 
 public class HeidelbergToTridasDefaults extends TridasMetadataFieldSet {
-	
+	private static final Logger log = LoggerFactory.getLogger(HeidelbergToTridasDefaults.class);
+
 	public static enum DefaultFields {
 		
 		// Field marked with *** have been implemented
@@ -380,12 +387,23 @@ public class HeidelbergToTridasDefaults extends TridasMetadataFieldSet {
 		// Created
 		if(getDateTimeDefaultValue(DefaultFields.FIRST_MEASUREMENT_DATE).getValue()!=null)
 		{
-			series.setCreatedTimestamp(getDateTimeDefaultValue(DefaultFields.FIRST_MEASUREMENT_DATE).getValue());
+			DateTime date = getDateTimeDefaultValue(DefaultFields.FIRST_MEASUREMENT_DATE).getValue();
+			if(series instanceof TridasMeasurementSeries)
+			{
+				Date date2 = DateUtils.dateTimeToDate(date);
+				((TridasMeasurementSeries)series).setMeasuringDate(date2);
+			}						
 		}
+		
+		series.setCreatedTimestamp(DateUtils.getTodaysDateTime());
+		
+
 		
 		// Last modified
 		if(getDateTimeDefaultValue(DefaultFields.LAST_REVISION_DATE).getValue()!=null)
 		{
+			log.debug("Last modified timestamp value: "+getDateTimeDefaultValue(DefaultFields.LAST_REVISION_DATE).getValue());
+
 			series.setLastModifiedTimestamp(getDateTimeDefaultValue(DefaultFields.LAST_REVISION_DATE).getValue());
 		}
 

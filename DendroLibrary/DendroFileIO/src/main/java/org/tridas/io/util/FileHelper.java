@@ -30,6 +30,7 @@ import java.util.zip.GZIPInputStream;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.tridas.io.util.UnicodeBOMInputStream;
 
 import com.ibm.icu.text.CharsetDetector;
 import com.ibm.icu.text.CharsetMatch;
@@ -140,7 +141,20 @@ public class FileHelper {
 	}
 	
 	public String[] loadStrings(String filename, String argEncoding) throws UnsupportedEncodingException {
-		InputStream is = createInput(filename);
+		
+        UnicodeBOMInputStream is = null;
+		try {
+			is = new UnicodeBOMInputStream(createInput(filename));
+			is.skipBOM();
+		} catch (NullPointerException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		} catch (IOException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+        
+
 		if (is != null) {
 			return IOUtils.loadStrings(is, argEncoding);
 		}

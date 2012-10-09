@@ -20,7 +20,7 @@
 	<modelVersion>4.0.0</modelVersion>
 	<groupId>org.tridas</groupId>
 	<artifactId>dendrofileio</artifactId>
-	<version>1.0.6-SNAPSHOT</version>
+	<version>1.0.7-SNAPSHOT</version>
 	<name>DendroFileIO</name>
 	<description>IO library for converting dendro files to and from the TridasJLib Java classes</description>
 	<licenses>
@@ -148,7 +148,7 @@
         <dependency> 
 		  <groupId>com.joestelmach</groupId>
 		  <artifactId>natty</artifactId>
-		  <version>0.3</version>
+		  <version>0.6</version>
 		</dependency>
         <dependency>
         	<groupId>org.tridas</groupId>
