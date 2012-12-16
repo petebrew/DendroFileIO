@@ -754,20 +754,20 @@ public class TucsonReader extends AbstractDendroFileReader {
 			log.error("line length = " +line.length() +". Can't truncate to 80 chars");
 		}
 		
-		
 		ArrayList<Integer> dataValues = new ArrayList<Integer>();
 		ArrayList<String> vals = new ArrayList<String>();
 
 		// Remove keycode from line
-		Integer keycodelen = getKeycodeLength()+1;
+		Integer keycodelen = getKeycodeLength();
 		line = line.substring(keycodelen);
-
+	
 		// Remove year marker from line
 		line = line.substring(numYearMarkerChars);
 
 		// Split values into string array. Limiting to 10 values (decade).
-		for (int i = 0; i + 6 <= line.length(); i = i + 6) {
+		for (int i = 0; i + 6 <= (line.length()); i = i + 6) {
 			if (!line.substring(i, i + 6).trim().equals("")) {
+				//log.warn("Value = ["+line.substring(i, i + 6)+"]");
 				vals.add(line.substring(i, i + 6).trim());
 			}
 		}
@@ -1172,7 +1172,7 @@ public class TucsonReader extends AbstractDendroFileReader {
 			}
 			return false;
 		case RWL_DATA_PARTIAL_8:
-			regex = regexKeycode8 + regexYear + regexRWLVal;
+			regex = "^" + regexKeycode8 + regexYear + regexRWLVal;
 			p1 = Pattern.compile(regex, Pattern.CASE_INSENSITIVE);
 			m1 = p1.matcher(line);
 			if (m1.find()) {
