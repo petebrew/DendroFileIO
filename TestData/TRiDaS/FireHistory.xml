@@ -1,8 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 	<project xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
- xsi:schemaLocation="http://www.tridas.org/1.2.2 ../../../../sourceforge/tridas/XMLSchema/1.2.2/tridas-1.2.2.xsd"
- xmlns="http://www.tridas.org/1.2.2"
- xmlns:xlink="http://www.w3.org/1999/xlink">
+ xsi:schemaLocation="http://www.tridas.org/1.2.2 ../../src/main/resources/schemas/tridas.xsd"
+ xmlns="http://www.tridas.org/1.2.2" xmlns:xlink="http://www.w3.org/1999/xlink">
 		<title>Western Australian Museum</title>
 		<identifier domain="RING projectadministration">2007002</identifier>
 		<type>dating</type>
@@ -63,10 +62,10 @@
 							<title>radius ABA00021</title>
 							<identifier domain="RING administration">ABA00021</identifier>
 							<woodCompleteness>					
-								<pith presence="absent"/>
+								<pith presence="complete"/>
 								<heartwood presence="complete"/>
 								<sapwood presence="absent"/>
-								<bark presence="absent"/>
+								<bark presence="present"/>
 							</woodCompleteness>
 							<measurementSeries>
 								<title>ABA00021</title>
@@ -74,7 +73,7 @@
 								<analyst>Elsemiek Hanraets</analyst>
 								<measuringMethod>binocular + measuring table PAST</measuringMethod>
 								<interpretation>
-									<firstYear suffix="AD" certainty="exact">1485</firstYear>									
+									<firstYear suffix="BC" certainty="exact">3</firstYear>									
 									<datingReference>
 										<linkSeries><identifier domain="RING administration">NLARTPO1</identifier></linkSeries>
 									</datingReference>
@@ -90,15 +89,26 @@
 										<significanceLevel>0.0001</significanceLevel>
 										<usedSoftware>PAST</usedSoftware>
 									</statFoundation>
-									<deathYear suffix="AD" certainty="after">1614</deathYear>
 									<provenance>Poland</provenance>
 								</interpretation>
 								<values>
 									<variable>total ring width</variable>
 									<unit normalTridas="micrometres"/>
-									<value value="98"/>
-									<value value="98"/>
-									<value value="91"/>
+									<value value="11">
+										<remark normalTridas="fire damage"></remark>
+									</value>
+									<value value="22"><remark normalTridas="fire damage"></remark></value>
+									<value value="33"/>
+									<value value="22"><remark normalTridas="fire damage"></remark></value>
+									<value value="33"/>
+									<value value="22"><remark normalTridas="fire damage"></remark></value>
+									<value value="33"/>
+									<value value="22"><remark normalTridas="fire damage"></remark></value>
+									<value value="22"><remark normalTridas="fire damage"></remark></value>
+									<value value="22"><remark normalTridas="fire damage"></remark></value>
+									<value value="22"><remark normalTridas="fire damage"></remark></value>
+									<value value="22"><remark normalTridas="fire damage"></remark></value>
+									<value value="33"/>
 								</values>
 							</measurementSeries>
 						</radius>
@@ -157,9 +167,10 @@
 							<values>
 								<variable>total ring width</variable>
 								<unit normalTridas="micrometres"/>
-								<value value="98"/>
-								<value value="98"/>
-								<value value="91"/>
+								<value value="44"><remark normalTridas="fire damage"></remark>
+								</value>
+								<value value="55"><remark normalTridas="fire damage"></remark></value>
+								<value value="66"/>
 							</values>
 						</measurementSeries>
 					</radius>
@@ -214,9 +225,11 @@
 							<values>
 								<variable>total ring width</variable>
 								<unit normalTridas="micrometres"/>
-								<value value="94"/>
-								<value value="32"/>
-								<value value="54"/>
+								<value value="77"/>
+								<value value="88"><remark normalTridas="fire damage"></remark></value>
+								<value value="99">
+									<remark normalTridas="fire damage"></remark>
+								</value>
 							</values>
 						</measurementSeries>
 					</radius>

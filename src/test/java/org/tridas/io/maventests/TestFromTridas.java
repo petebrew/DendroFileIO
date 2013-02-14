@@ -32,6 +32,7 @@ import org.tridas.io.formats.catras.CatrasWriter;
 import org.tridas.io.formats.corina.CorinaWriter;
 import org.tridas.io.formats.csvmatrix.CSVMatrixWriter;
 import org.tridas.io.formats.excelmatrix.ExcelMatrixWriter;
+import org.tridas.io.formats.fhx2.FHX2Writer;
 import org.tridas.io.formats.heidelberg.HeidelbergWriter;
 import org.tridas.io.formats.nottingham.NottinghamWriter;
 import org.tridas.io.formats.odfmatrix.ODFMatrixWriter;
@@ -65,6 +66,58 @@ public class TestFromTridas extends TestCase {
 		
 	}
 	
+	public void testTridasToFHX2(){
+		String folder = "TestData/TRiDaS";
+		String[] files = getFilesFromFolder(folder);
+		
+		if (files.length == 0) {
+			fail();
+		}
+		
+		for (String filename : files) {
+			if (!filename.equals("FireHistory.xml")) {
+				continue;
+			}
+			
+			log.info("Test conversion of: " + filename);
+			
+			TridasTridas container = null;
+			
+			TridasReader reader = new TridasReader();
+			try {
+				reader.loadFile(folder, filename);
+			} catch (IOException e) {
+				log.info("Failed reading - file not found/readable");
+				// fail();
+				continue;
+			} catch (InvalidDendroFileException e) {
+				log.info("Failed reading - " + e.getLocalizedMessage());
+				// fail();
+				continue;
+			}
+			
+			// Extract container
+			container = reader.getTridasContainer();
+			
+			// Create a new converter based on a TridasProject
+			FHX2Writer writer = new FHX2Writer();
+			
+			writer.setNamingConvention(new NumericalNamingConvention("FHX2"));
+			try {
+				writer.load(container);
+			} catch (IncompleteTridasDataException e) {
+				log.info("Failed Writing - " + e.getLocalizedMessage());
+				// fail();
+				continue;
+			} catch (ConversionWarningException e) {
+
+			} 
+			
+			// Actually save file(s) to disk
+			writer.saveAllToDisk(outputLocation);
+		}
+	}
+	
 	public void testTridasToCSV() {
 		String folder = "TestData/TRiDaS";
 		String[] files = getFilesFromFolder(folder);
@@ -74,7 +127,7 @@ public class TestFromTridas extends TestCase {
 		}
 		
 		for (String filename : files) {
-			if (!filename.equals("Tridas2.xml")) {
+			if (!filename.equals("FireHistory.xml")) {
 				continue;
 			}
 			
