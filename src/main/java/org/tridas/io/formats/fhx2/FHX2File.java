@@ -25,7 +25,7 @@ public class FHX2File implements IDendroFile {
 	private YearRange yrRange;
 	private DatingSuffix calendar = DatingSuffix.AD;
 	private static final Logger log = LoggerFactory.getLogger(FHX2File.class);
-
+	private TridasToFHX2Defaults defaults = new TridasToFHX2Defaults();
 	
 	public void setSeriesList(ArrayList<FHX2Series> lst) {
 				
@@ -257,11 +257,25 @@ public class FHX2File implements IDendroFile {
 				{
 					for (TridasRemark remark : val.getRemarks())
 					{
-						if(remark.isSetNormalTridas())
+						if(remark.isSetNormalStd() && remark.getNormalStd().equals("FHX2"))
 						{
-							if(remark.getNormalTridas().equals(NormalTridasRemark.FIRE_DAMAGE))
+							if(remark.isSetNormalId())
 							{
-								mark = "U";
+								if(remark.getNormalId().equals("U") 
+									|| remark.getNormalId().equals("u")
+									|| remark.getNormalId().equals("A")
+									|| remark.getNormalId().equals("a")
+									|| remark.getNormalId().equals("L")
+									|| remark.getNormalId().equals("l")
+									|| remark.getNormalId().equals("M")
+									|| remark.getNormalId().equals("m")
+									|| remark.getNormalId().equals("E")
+									|| remark.getNormalId().equals("e")
+									|| remark.getNormalId().equals("D")
+									|| remark.getNormalId().equals("d"))
+								{
+									mark = remark.getNormalId();
+								}
 							}
 						}
 					}
@@ -292,8 +306,7 @@ public class FHX2File implements IDendroFile {
 
 	@Override
 	public IMetadataFieldSet getDefaults() {
-		// TODO Auto-generated method stub
-		return null;
+		return defaults;
 	}
 
 }
