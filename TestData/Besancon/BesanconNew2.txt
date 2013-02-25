@@ -1,0 +1,53 @@
+< BESANCON_1992
+DENDRON II - format TEXT BESANCON 1992 - VERSION: janv 2005 : DATA EXPORT
+FICHIER_INFOS
+* 01 DATE jeudi 8 juillet 2010
+* 02 HEURE 9:56
+* 03 LIEU ?
+* 04 PERIODE ?
+* 05 MATERIAU ?
+* 06 SOURCE ?
+* 07 SOURCE_SIGLE ?
+* 08 VERSION ?
+* 09 VERSION_SIGLE ?
+* 10 NOTE ?
+; FIN FICHIER_INFOS
+format B1999 interm�diaire - produit le Jeu 8 juil 2010
+. HAP07/02/2b
+  esp�ce�: QUERCUS
+  longueur: 179
+  position: 1
+  fin: 179
+  origine: 1
+  terme: 179
+  aubier: 178
+  moe
+__ HAP07/02/2b
+    minimum:  25
+    maximum:  144
+    total:  12543
+    moyenne:  70.07
+    �c.abs:  17.01
+    �cart-type:  20.4
+VAL  :  HAP07/02/2b
+ , , , 60 , 105 62 109 96 76
+ 72 99 73 73 55 77 80 52 76 61
+ 84 95 60 89 54 52 48 86 70 89
+ 77 84 109 86 77 80 80 47 53 57
+ 63 63 100 109 94 113 100 95 88 85
+ 59 76 99 144 72 65 79 48 55 82
+ 92 78 51 64 112 58 73 75 112 108
+ 87 97 105 42 46 45 88 82 49 68
+ 67 90 66 70 56 53 44 85 62 85
+ 42 84 69 74 58 79 63 74 91 78
+ 36 67 101 82 75 39 39 51 37 25
+ 61 93 78 86 70 80 78 74 70 44
+ 48 48 47 73 77 58 61 53 92 74
+ 63 52 42 69 59 63 68 75 57 49
+ 37 59 44 44 62 51 57 53 46 46
+ 47 67 54 47 48 53 56 50 62 42
+ 58 44 51 56 43 48 79 69 53 69
+ 77 97 104 74 91 67 92 , , 
+    ;
+:
+

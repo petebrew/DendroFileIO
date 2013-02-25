@@ -12,9 +12,9 @@ FICHIER_INFOS
 * 09 VERSION_SIGLE ?
 * 10 NOTE ?
 ; FIN FICHIER_INFOS
-format B1999 intermŽdiaire - produit le Jeu 8 juil 2010
+format B1999 intermï¿½diaire - produit le Jeu 8 juil 2010
 . HAP07/02/2b
-  espèce : QUERCUS
+  espï¿½ceï¿½: QUERCUS
   longueur: 179
   position: 1
   fin: 179
@@ -27,10 +27,10 @@ __ HAP07/02/2b
     maximum:  144
     total:  12543
     moyenne:  70.07
-    Žc.abs:  17.01
-    Žcart-type:  20.4
+    ï¿½c.abs:  17.01
+    ï¿½cart-type:  20.4
 VAL  :  HAP07/02/2b
- 78 121 105 60 98 105 62 109 96 76
+ , , , 60 98 105 62 109 96 76
  72 99 73 73 55 77 80 52 76 61
  84 95 60 89 54 52 48 86 70 89
  77 84 109 86 77 80 80 47 53 57
@@ -47,7 +47,7 @@ VAL  :  HAP07/02/2b
  37 59 44 44 62 51 57 53 46 46
  47 67 54 47 48 53 56 50 62 42
  58 44 51 56 43 48 79 69 53 69
- 77 97 104 74 91 67 92 60 56 
+ 77 97 104 74 91 67 92 , , 
     ;
 . hap07/02/2bis
   longueur: 125
@@ -62,8 +62,8 @@ __ hap07/02/2bis
     maximum:  392
     total:  8091
     moyenne:  64.73
-    Žc.abs:  19.82
-    Žcart-type:  34.3
+    ï¿½c.abs:  19.82
+    ï¿½cart-type:  34.3
 VAL  :  hap07/02/2bis
  24 70 76 41 51 67 71 75 55 66
  96 64 63 63 112 95 96 107 392 35
@@ -91,8 +91,8 @@ __ hap07/02/2ter
     maximum:  102
     total:  4288
     moyenne:  58.74
-    Žc.abs:  13.71
-    Žcart-type:  16.13
+    ï¿½c.abs:  13.71
+    ï¿½cart-type:  16.13
 VAL  :  hap07/02/2ter
  43 58 49 33 56 92 73 102
  62 72 77 79 61 45 51 39 40 72
@@ -115,8 +115,8 @@ __ HAP10/01/2
     maximum:  220
     total:  18170
     moyenne:  124.45
-    Žc.abs:  22.83
-    Žcart-type:  26.58
+    ï¿½c.abs:  22.83
+    ï¿½cart-type:  26.58
 VAL  :  HAP10/01/2
  50 80 100 120 100 150 160 140 130 120 
  120 150 100 120 140 130 110 100 140 150
@@ -146,8 +146,8 @@ __ HAP33/02/1
     maximum:  393
     total:  32031
     moyenne:  184.09
-    Žc.abs:  43.76
-    Žcart-type:  76.72
+    ï¿½c.abs:  43.76
+    ï¿½cart-type:  76.72
 VAL  :  HAP33/02/1
  174 191 235 202 200 197 290 215 322 323
  279 202 295 265 240 329 263 317 211 243
@@ -180,8 +180,8 @@ __ HAP42/04/2
     maximum:  233
     total:  20126
     moyenne:  117.01
-    Žc.abs:  24.34
-    Žcart-type:  37.53
+    ï¿½c.abs:  24.34
+    ï¿½cart-type:  37.53
 VAL  :  HAP42/04/2
  233 222 168 133 124 129 135 75 136 165
  204 159 137 161 151 194 198 221 193 140

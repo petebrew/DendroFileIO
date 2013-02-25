@@ -614,7 +614,7 @@ public class TestToTridas extends TestCase {
 		}
 		
 		for (String filename : files) {
-			if(!filename.equals("BesanconNew.txt")) continue;
+			if(!filename.equals("BesanconNew2.txt")) continue;
 			
 			log.info("Test conversion of: " + filename);
 			
