@@ -17,7 +17,9 @@ package org.tridas.io.formats.besancon;
 
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.Iterator;
 import java.util.List;
+import java.util.ListIterator;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -31,7 +33,9 @@ import org.tridas.io.exceptions.InvalidDendroFileException;
 import org.tridas.io.exceptions.ConversionWarning.WarningType;
 import org.tridas.io.formats.besancon.BesanconToTridasDefaults.BesanconCambiumType;
 import org.tridas.io.formats.besancon.BesanconToTridasDefaults.DefaultFields;
+import org.tridas.io.util.SafeIntYear;
 import org.tridas.schema.DateTime;
+import org.tridas.schema.NormalTridasRemark;
 import org.tridas.schema.NormalTridasUnit;
 import org.tridas.schema.NormalTridasVariable;
 import org.tridas.schema.TridasElement;
@@ -149,14 +153,23 @@ public class BesanconReader extends AbstractDendroFileReader {
 			
 		}
 		
-		extractDataFromBlocks();
-		extractMetadataFromBlocks();
+		extractInfo();
+
 		
 	}
 	
-	private void extractDataFromBlocks() {
-		for (BesanconMeasurementSeries series : seriesList) {
-			for (String lineString : series.dataBlock) {
+
+	
+	@SuppressWarnings("unchecked")
+	private void extractInfo() {
+		for (BesanconMeasurementSeries series : seriesList) 
+		{
+			Integer unmeasAtStart = 0;
+			Integer unmeasAtEnd = 0;
+			series.defaults = (BesanconToTridasDefaults) defaults.clone();
+			
+			for (String lineString : series.dataBlock) 
+			{
 				String[] parts = lineString.split("\\s");
 				
 				for (String val : parts) {
@@ -173,29 +186,66 @@ public class BesanconReader extends AbstractDendroFileReader {
 					else if (val.equals(",")) {
 						tv.setValue("0");
 						TridasRemark remark = new TridasRemark();
-						remark.setValue(I18n.getText("besancon.notMeasured"));
+						remark.setNormalTridas(NormalTridasRemark.MISSING_RING);
 						ArrayList<TridasRemark> remarksList = new ArrayList<TridasRemark>();
 						remarksList.add(remark);
 						tv.setRemarks(remarksList);
 						series.dataValues.add(tv);
 					}
-					try {
-						Integer.parseInt(val);
-						tv.setValue(val);
-						series.dataValues.add(tv);
-					} catch (NumberFormatException e) {
-						log.debug("Ring width value is not a number! Value was '" + val + "'");
+					else
+					{
+						try {
+							Integer.parseInt(val);
+							tv.setValue(val);
+							series.dataValues.add(tv);
+						} catch (NumberFormatException e) {
+							log.debug("Ring width value is not a number! Value was '" + val + "'");
+						}
 					}
 				}
-				
 			}
-		}
-	}
+			
+			// Loop through and remove 'missing rings' at beginning and end of sequence, instead record these as unmeasured rings 
+		      ListIterator<TridasValue> itr = series.dataValues.listIterator();
+		      Boolean foundFirstVal = false;
+		      while(itr.hasNext()) {
+		    	  TridasValue v = itr.next();
+		    	  if(foundFirstVal==false 
+		    			  && v.getValue()=="0" 
+		    			  && v.isSetRemarks() 
+		    			  && v.getRemarks().get(0).isSetNormalTridas() 
+		    			  && v.getRemarks().get(0).getNormalTridas().equals(NormalTridasRemark.MISSING_RING)) 
+		    	  {
+		    		  itr.remove();
+		    		  unmeasAtStart++;
+		    	  }	   
+		    	  else
+		    	  {
+		    		  foundFirstVal=true;
+		    	  }
+		      }
+		      if(unmeasAtStart>0) series.defaults.getIntegerDefaultValue(DefaultFields.UNMEASURED_RINGS_AT_START).setValue(unmeasAtStart); 
 	
-	@SuppressWarnings("unchecked")
-	private void extractMetadataFromBlocks() {
-		for (BesanconMeasurementSeries series : seriesList) {
-			series.defaults = (BesanconToTridasDefaults) defaults.clone();
+		      while(itr.hasPrevious()) {
+		    	  TridasValue v = itr.previous();
+		    	  if(v.getValue()=="0" 
+		    			  && v.isSetRemarks() 
+		    			  && v.getRemarks().get(0).isSetNormalTridas() 
+		    			  && v.getRemarks().get(0).getNormalTridas().equals(NormalTridasRemark.MISSING_RING)) 
+		    	  {
+		    		  itr.remove();
+		    		  unmeasAtEnd++;
+		    	  }
+		    	  else
+		    	  {
+		    		  break;
+		    	  }
+		      }
+		      if(unmeasAtEnd>0) series.defaults.getIntegerDefaultValue(DefaultFields.UNMEASURED_RINGS_AT_END).setValue(unmeasAtEnd); 
+
+
+			
+			
 			
 			if (fileLastUpdated != null) {
 				series.defaults.getDateTimeDefaultValue(DefaultFields.DATE).setValue(fileLastUpdated);
@@ -292,8 +342,9 @@ public class BesanconReader extends AbstractDendroFileReader {
 					// First Year
 					else if (key.startsWith("ORI")) {						
 						try {
-							Integer intval = Integer.parseInt(value);
-							series.defaults.getSafeIntYearDefaultValue(DefaultFields.FIRST_YEAR).setValue(intval);
+							SafeIntYear intyear = new SafeIntYear(value);						
+							intyear = intyear.add(unmeasAtStart);
+							series.defaults.getSafeIntYearDefaultValue(DefaultFields.FIRST_YEAR).setValue(intyear);
 							series.defaults.getBooleanDefaultValue(DefaultFields.DATED).setValue(true);
 						} catch (Exception e) {
 							addWarning(new ConversionWarning(WarningType.INVALID, I18n
@@ -303,15 +354,16 @@ public class BesanconReader extends AbstractDendroFileReader {
 					
 					// This key is ignore and set by calculating ORI + number of data values
 					// Last Year
-					/*else if (key.startsWith("TER")) {
+					else if (key.startsWith("TER")) {
 						try {
-							series.defaults.getSafeIntYearDefaultValue(DefaultFields.LAST_YEAR).setValue(
-									Integer.parseInt(value));
+							SafeIntYear intyear = new SafeIntYear(value);
+							intyear = intyear.add(0-unmeasAtEnd);						
+							series.defaults.getSafeIntYearDefaultValue(DefaultFields.LAST_YEAR).setValue(intyear);
 						} catch (Exception e) {
 							addWarning(new ConversionWarning(WarningType.INVALID, I18n
-									.getText("besancon.invalidLastYear"), "Terme"));
+									.getText("besancon.invalidStartYear"), "TER"));
 						}
-					}*/
+					}
 					
 					// Position in a mean
 					else if (key.startsWith("POS")) {
@@ -381,11 +433,13 @@ public class BesanconReader extends AbstractDendroFileReader {
 			valuesGroup.add(values);
 			
 			// Override last year with first year + number of values
-			try {
+			/*try {
 				thisseries.defaults.getSafeIntYearDefaultValue(DefaultFields.LAST_YEAR).setValue(
 						thisseries.defaults.getSafeIntYearDefaultValue(DefaultFields.FIRST_YEAR).getValue()
-						.add(thisseries.dataValues.size()));
+						.add(thisseries.dataValues.size()-1));
 			} catch (Exception e) {	}
+			*/
+			
 			
 			TridasMeasurementSeries ser = thisseries.defaults.getDefaultMeasurementSeries();
 			ser.setValues(valuesGroup);

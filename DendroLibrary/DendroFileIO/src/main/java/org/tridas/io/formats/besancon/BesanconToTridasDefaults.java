@@ -58,7 +58,9 @@ public class BesanconToTridasDefaults extends TridasMetadataFieldSet {
 		FIRST_YEAR, // ORI
 		LAST_YEAR, // TER
 		POSITION_IN_MEAN, // POS
-		DATED; // ORI is not null
+		DATED, // ORI is not null
+		UNMEASURED_RINGS_AT_START,
+		UNMEASURED_RINGS_AT_END;
 	}
 	
 	@Override
@@ -76,6 +78,8 @@ public class BesanconToTridasDefaults extends TridasMetadataFieldSet {
 		setDefaultValue(DefaultFields.LAST_YEAR, new SafeIntYearDefaultValue());
 		setDefaultValue(DefaultFields.POSITION_IN_MEAN, new IntegerDefaultValue());
 		setDefaultValue(DefaultFields.DATED, new BooleanDefaultValue(false));
+		setDefaultValue(DefaultFields.UNMEASURED_RINGS_AT_START, new IntegerDefaultValue());
+		setDefaultValue(DefaultFields.UNMEASURED_RINGS_AT_END, new IntegerDefaultValue());
 	}
 	
 	@Override
@@ -262,6 +266,16 @@ public class BesanconToTridasDefaults extends TridasMetadataFieldSet {
 		}	
 		wc.setHeartwood(heartwood);
 		
+		if(getIntegerDefaultValue(DefaultFields.UNMEASURED_RINGS_AT_START).getValue()!=null)
+		{
+			wc.setNrOfUnmeasuredInnerRings(getIntegerDefaultValue(DefaultFields.UNMEASURED_RINGS_AT_START).getValue());
+		}
+		
+		if(getIntegerDefaultValue(DefaultFields.UNMEASURED_RINGS_AT_END).getValue()!=null)
+		{
+			wc.setNrOfUnmeasuredOuterRings(getIntegerDefaultValue(DefaultFields.UNMEASURED_RINGS_AT_END).getValue());
+		}
+			
 		// Add wood completeness to series
 		series.setWoodCompleteness(wc);
 		
