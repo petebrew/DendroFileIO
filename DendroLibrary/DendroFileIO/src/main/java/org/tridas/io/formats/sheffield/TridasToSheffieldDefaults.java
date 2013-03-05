@@ -97,7 +97,7 @@ public class TridasToSheffieldDefaults extends AbstractMetadataFieldSet implemen
 		// Set site name
 		if(o.isSetTitle())
 		{
-			getStringDefaultValue(DefaultFields.SITE_NAME).setValue(o.getTitle());
+			getSheffieldStringDefaultValue(DefaultFields.SITE_NAME).setValue(o.getTitle());
 		}
 		
 		// Set coordinates using the projection handler to make sure we're reading correctly
