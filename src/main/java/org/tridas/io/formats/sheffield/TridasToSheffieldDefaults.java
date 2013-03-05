@@ -52,7 +52,7 @@ import org.tridas.spatial.GMLPointSRSHandler;
 public class TridasToSheffieldDefaults extends AbstractMetadataFieldSet implements IMetadataFieldSet {
 	
 	public static enum DefaultFields {
-		SERIES_NAME, RING_COUNT, DATE_TYPE, START_DATE, DATA_TYPE, SAPWOOD_COUNT, 
+		SITE_NAME, RING_COUNT, DATE_TYPE, START_DATE, DATA_TYPE, SAPWOOD_COUNT, 
 		TIMBER_COUNT, EDGE_CODE, CHRONOLOGY_TYPE, COMMENT, UK_COORDS, LAT_LONG, 
 		PITH_CODE, SHAPE_CODE, MAJOR_DIM, MINOR_DIM, INNER_RING_CODE, OUTER_RING_CODE,
 		PHASE, SHORT_TITLE, PERIOD, TAXON, INTERPRETATION_COMMENT, VARIABLE_TYPE;
@@ -60,7 +60,7 @@ public class TridasToSheffieldDefaults extends AbstractMetadataFieldSet implemen
 	
 	@Override
 	public void initDefaultValues() {
-		setDefaultValue(DefaultFields.SERIES_NAME, new SheffieldStringDefaultValue(I18n.getText("unnamed.series"), 1, 64));
+		setDefaultValue(DefaultFields.SITE_NAME, new SheffieldStringDefaultValue(I18n.getText("unnamed.object"), 1, 64));
 		setDefaultValue(DefaultFields.RING_COUNT, new IntegerDefaultValue(1, 2147483647));
 		setDefaultValue(DefaultFields.DATE_TYPE, new GenericDefaultValue<SheffieldDateType>(SheffieldDateType.ABSOLUTE));
 		setDefaultValue(DefaultFields.START_DATE, new IntegerDefaultValue(1));
@@ -69,7 +69,7 @@ public class TridasToSheffieldDefaults extends AbstractMetadataFieldSet implemen
 		setDefaultValue(DefaultFields.TIMBER_COUNT, new IntegerDefaultValue(0));
 		setDefaultValue(DefaultFields.EDGE_CODE, new GenericDefaultValue<SheffieldEdgeCode>(SheffieldEdgeCode.NO_SPECFIC_EDGE));
 		setDefaultValue(DefaultFields.CHRONOLOGY_TYPE, new GenericDefaultValue<SheffieldChronologyType>(SheffieldChronologyType.UNKNOWN_MEAN));
-		setDefaultValue(DefaultFields.COMMENT, new SheffieldStringDefaultValue("?", 1, 64));
+		setDefaultValue(DefaultFields.COMMENT, new SheffieldStringDefaultValue(" ", 1, 64));
 		setDefaultValue(DefaultFields.UK_COORDS, new StringDefaultValue("?", 1, 14));
 		setDefaultValue(DefaultFields.LAT_LONG, new StringDefaultValue("?", 1, 64));
 		setDefaultValue(DefaultFields.PITH_CODE, new GenericDefaultValue<SheffieldPithCode>(SheffieldPithCode.UNKNOWN));
@@ -94,6 +94,12 @@ public class TridasToSheffieldDefaults extends AbstractMetadataFieldSet implemen
 	
 	public void populateFromTridasObject(TridasObject o) {
 
+		// Set site name
+		if(o.isSetTitle())
+		{
+			getStringDefaultValue(DefaultFields.SITE_NAME).setValue(o.getTitle());
+		}
+		
 		// Set coordinates using the projection handler to make sure we're reading correctly
 		if(o.isSetLocation())
 		{
@@ -279,12 +285,7 @@ public class TridasToSheffieldDefaults extends AbstractMetadataFieldSet implemen
 		
 		GenericDefaultValue<SheffieldDataType> dataTypeField = (GenericDefaultValue<SheffieldDataType>)getDefaultValue(DefaultFields.DATA_TYPE);
 		dataTypeField.setValue(SheffieldDataType.ANNUAL_RAW_RING_WIDTH);
-		
-		if(ms.isSetTitle())
-		{
-			getSheffieldStringDefaultValue(DefaultFields.SERIES_NAME).setValue(ms.getTitle());
-		}
-		
+				
 		// Author and comment
 		String comment ="";
 		if(ms.isSetDendrochronologist())
@@ -299,7 +300,11 @@ public class TridasToSheffieldDefaults extends AbstractMetadataFieldSet implemen
 		{
 			comment+= " " +ms.getComments();
 		}
-		getSheffieldStringDefaultValue(DefaultFields.COMMENT).setValue(comment);
+		
+		if(comment.length()>0)
+		{
+			getSheffieldStringDefaultValue(DefaultFields.COMMENT).setValue(comment);
+		}
 	}
 	
 	
