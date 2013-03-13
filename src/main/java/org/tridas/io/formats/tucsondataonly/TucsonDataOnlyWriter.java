@@ -13,7 +13,7 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package org.tridas.io.formats.tucson;
+package org.tridas.io.formats.tucsondataonly;
 
 import java.util.List;
 
@@ -24,6 +24,7 @@ import org.tridas.io.exceptions.ConversionWarning;
 import org.tridas.io.exceptions.ConversionWarningException;
 import org.tridas.io.exceptions.IncompleteTridasDataException;
 import org.tridas.io.exceptions.ConversionWarning.WarningType;
+import org.tridas.io.formats.tucson.TridasToTucsonDefaults;
 import org.tridas.io.naming.INamingConvention;
 import org.tridas.io.naming.NumericalNamingConvention;
 import org.tridas.io.util.SafeIntYear;
@@ -48,7 +49,7 @@ import org.tridas.schema.TridasValues;
  * @see org.tridas.io.formats.tucson
  * @author peterbrewer
  */
-public class TucsonWriter extends AbstractDendroCollectionWriter {
+public class TucsonDataOnlyWriter extends AbstractDendroCollectionWriter {
 	
 	TridasToTucsonDefaults defaults;
 	INamingConvention naming = new NumericalNamingConvention();
@@ -56,7 +57,7 @@ public class TucsonWriter extends AbstractDendroCollectionWriter {
 	/**
 	 * Standard constructor
 	 */
-	public TucsonWriter() {
+	public TucsonDataOnlyWriter() {
 		super(TridasToTucsonDefaults.class);
 	}
 	
@@ -67,10 +68,9 @@ public class TucsonWriter extends AbstractDendroCollectionWriter {
 	
 		// Base defaults for all the output files
 		defaults = (TridasToTucsonDefaults) argDefaults;
-		
-		// Set project level fields
-		defaults.populateFromTridasProject(p);
 				
+		TucsonDataOnlyFile file = new TucsonDataOnlyFile(defaults);
+		
 		// Extract any TridasDerivedSeries from project
 		List<TridasDerivedSeries> dsList = null;
 		try { dsList = p.getDerivedSeries();
@@ -90,7 +90,9 @@ public class TucsonWriter extends AbstractDendroCollectionWriter {
 				
 				for(TridasValues  tvs: ds.getValues())
 				{
-					TridasToTucsonDefaults dft = (TridasToTucsonDefaults) defaults.clone();
+		
+					TridasToTucsonDefaults df = (TridasToTucsonDefaults) defaults.clone();
+					
 					try {
 						ds.getValues().set(0, UnitUtils.convertTridasValues(getOutputUnits(tvs), ds.getValues().get(0), true));
 					} catch (NumberFormatException e) {
@@ -113,38 +115,26 @@ public class TucsonWriter extends AbstractDendroCollectionWriter {
 					{
 						// Range ok so create file and add series
 						
-						// Try and grab object, element, sample and radius info from linked series
-						if(ds.isSetLinkSeries())
-						{
-							// TODO what happens if there are links to multiple different entities?
-							// For now just go with the first link
-							//if(ds.getLinkSeries().getSeries().size()>1) break;
-							TridasIdentifier id = ds.getLinkSeries().getSeries().get(0).getIdentifier();
-							
-							TridasObject parentObject = (TridasObject) TridasUtils.getEntityByIdentifier(p, id, TridasObject.class);
-							if(parentObject!=null)
-							{
-								dft.populateFromTridasObject(parentObject);
-							}
-	
-							TridasElement parentElement = (TridasElement) TridasUtils.getEntityByIdentifier(p, id, TridasElement.class);
-							if(parentElement!=null)
-							{
-								dft.populateFromTridasElement(parentElement);
-							}
-	
-						}
+						df.populateFromTridasDerivedSeries(ds);
+
 						
-						
-						dft.populateFromTridasDerivedSeries(ds);
-						TucsonFile file = new TucsonFile(defaults);
-						file.addSeries(ds, tvs, dft);
-						
+						file.addSeries(ds, tvs, df);
 						naming.registerFile(file, p, ds);
-						addToFileList(file);
+						
 					}
 				}
+								
 			}
+			
+			if(file.getSeries().length>0)
+			{
+				addToFileList(file);
+			}
+			else
+			{
+				throw new IncompleteTridasDataException();
+			}
+			
 			
 		}
 		
@@ -158,87 +148,57 @@ public class TucsonWriter extends AbstractDendroCollectionWriter {
 			 * so we create a new file for each object.
 			 */
 			
-			for (TridasObject o : p.getObjects()) 
-			{
+				file = new TucsonDataOnlyFile(defaults);
 				
-				// Clone defaults and set fields specific to this object
-				TridasToTucsonDefaults objectDefaults = (TridasToTucsonDefaults) defaults.clone();
-				objectDefaults.populateFromTridasObject(o);
+
 				
-				TucsonFile file = null;
+				for (TridasMeasurementSeries ms : TridasUtils.getMeasurementSeriesFromTridasProject(p)) 
+				{
+					TridasToTucsonDefaults dft = (TridasToTucsonDefaults) defaults.clone();
 				
-				for (TridasElement e : TridasUtils.getElementList(o)) {
-					TridasToTucsonDefaults elementDefaults = (TridasToTucsonDefaults) objectDefaults.clone();
-					elementDefaults.populateFromTridasElement(e);
-					
-					for (TridasSample s : e.getSamples()) {
-						
-						for (TridasRadius r : s.getRadiuses()) {
+					for (int i = 0; i < ms.getValues().size(); i++) 
+					{
+						TridasValues tvs = ms.getValues().get(i);
+
+						try {
+							ms.getValues().set(i, UnitUtils.convertTridasValues(getOutputUnits(tvs), ms.getValues().get(i), true));
+						} catch (NumberFormatException e1) {
+						} catch (ConversionWarningException e1) {
+							this.addWarning(e1.getWarning());
+						}
+
+						// Check that the range does not go outside that which Tucson format is capable of storing
+						YearRange thisSeriesRange = new YearRange(ms);
+						if (SafeIntYear.min(thisSeriesRange.getStart(), new SafeIntYear(-1001)) == thisSeriesRange.getStart()) 
+						{
+							// Series with data before 1000BC cannot be saved
+							addWarning(new ConversionWarning(WarningType.UNREPRESENTABLE, 
+									I18n.getText("tucson.before1000BC", ms.getTitle())));
+							continue;
+						}
+						else
+						{
 							
-							for (TridasMeasurementSeries ms : r.getMeasurementSeries()) {
-								TridasToTucsonDefaults msDefaults = (TridasToTucsonDefaults) elementDefaults
-										.clone();
-								msDefaults.populateFromTridasMeasurementSeries(ms);
-								
-								if(ms.isSetInterpretation())
-								{
-									if(ms.getInterpretation().isSetDating())
-									{
-										if(ms.getInterpretation().getDating().getType().equals(NormalTridasDatingType.RELATIVE))
-										{
-											this.addWarning(new ConversionWarning(WarningType.AMBIGUOUS,
-													I18n.getText("tucson.relativeDates")));
-										}
-									}
-								}
-								
-								for (int i = 0; i < ms.getValues().size(); i++) {
-									TridasValues tvs = ms.getValues().get(i);
-	
-									try {
-										ms.getValues().set(i, UnitUtils.convertTridasValues(getOutputUnits(tvs), ms.getValues().get(i), true));
-									} catch (NumberFormatException e1) {
-									} catch (ConversionWarningException e1) {
-										this.addWarning(e1.getWarning());
-									}
-																		
-									TridasToTucsonDefaults tvDefaults = new TridasToTucsonDefaults();
-
-
-									// Check that the range does not go outside that which Tucson format is capable of storing
-									YearRange thisSeriesRange = new YearRange(ms);
-									if (SafeIntYear.min(thisSeriesRange.getStart(), new SafeIntYear(-1001)) == thisSeriesRange.getStart()) 
-									{
-										// Series with data before 1000BC cannot be saved
-										addWarning(new ConversionWarning(WarningType.UNREPRESENTABLE, 
-												I18n.getText("tucson.before1000BC", ms.getTitle())));
-										continue;
-									}
-									else
-									{
-										tvDefaults.populateFromTridasMeasurementSeries(ms);
-										
-										// Range ok so create file and add series
-										if(file==null)
-										{
-											file = new TucsonFile(tvDefaults);
-										}
-										
-										
-										
-										file.addSeries(ms, tvs, tvDefaults);
-										naming.registerFile(file, p, o, e, s, r, ms);
-										
-									}
-								}
-							}
+							dft.populateFromTridasMeasurementSeries(ms);
+							
+							file.addSeries(ms, tvs, dft);
+							naming.registerFile(file, p, null);
+							
 						}
 					}
 				}
+				
+			if(file.getSeries().length>0)
+			{
 				addToFileList(file);
+			}
+			else
+			{
+				throw new IncompleteTridasDataException();
 			}
 		}
 	}
+	
 	
 
 	/**
@@ -315,7 +275,7 @@ public class TucsonWriter extends AbstractDendroCollectionWriter {
 	 */
 	@Override
 	public String getDescription() {
-		return I18n.getText("tucson.about.description");
+		return I18n.getText("tucsondataonly.about.description");
 	}
 	
 	/**
@@ -323,7 +283,7 @@ public class TucsonWriter extends AbstractDendroCollectionWriter {
 	 */
 	@Override
 	public String getFullName() {
-		return I18n.getText("tucson.about.fullName");
+		return I18n.getText("tucsondataonly.about.fullName");
 	}
 	
 	/**
@@ -331,6 +291,6 @@ public class TucsonWriter extends AbstractDendroCollectionWriter {
 	 */
 	@Override
 	public String getShortName() {
-		return I18n.getText("tucson.about.shortName");
+		return I18n.getText("tucsondataonly.about.shortName");
 	}
 }

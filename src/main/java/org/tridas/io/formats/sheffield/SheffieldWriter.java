@@ -118,12 +118,27 @@ public class SheffieldWriter extends AbstractDendroCollectionWriter {
 					for (TridasRadius r : s.getRadiuses()) {
 						TridasToSheffieldDefaults radiusDefaults = (TridasToSheffieldDefaults) sampleDefaults.clone();
 						radiusDefaults.populateFromTridasRadius(r);
-												
+
+																				
 						for (TridasMeasurementSeries ms : r.getMeasurementSeries()) {
 							TridasToSheffieldDefaults msDefaults = (TridasToSheffieldDefaults) radiusDefaults
 									.clone();
 							msDefaults.populateFromTridasMeasurementSeries(ms);
 							msDefaults.populateFromWoodCompleteness(ms, r);
+			
+							
+							if(ms.isSetInterpretation())
+							{
+								if(!ms.getInterpretation().isSetDating())
+								{
+									this.addWarning(new ConversionWarning(WarningType.AMBIGUOUS, "No information on dating type given.  Assuming absolutely dated"));
+								}
+							}
+							else
+							{
+								this.addWarning(new ConversionWarning(WarningType.AMBIGUOUS, "No information on dating type given.  Assuming absolutely dated"));
+							}
+										
 							
 							for (int i = 0; i < ms.getValues().size(); i++) {
 								boolean skipThisGroup = false;

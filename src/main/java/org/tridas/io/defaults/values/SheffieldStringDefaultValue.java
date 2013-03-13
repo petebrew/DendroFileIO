@@ -95,6 +95,16 @@ public class SheffieldStringDefaultValue extends AbstractDefaultValue<String> {
 	// basically recreation of getStringValue from AbstractDefaultValue, as it
 	// works with strings as well
 	private String validValue(String argValue) {
+		
+		if(argValue==null)
+		{
+			return null;
+		}
+		if(argValue.length()==0)
+		{
+			return "";
+		}
+		
 		String value = argValue.toString();
 		
 		// Replace restricted characters with something that looks similar

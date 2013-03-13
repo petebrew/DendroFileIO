@@ -151,7 +151,7 @@ public class TridasToTucsonDefaults extends AbstractMetadataFieldSet {
 		
 	}
 	
-	protected void populateFromTridasMeasurementSeries(TridasMeasurementSeries ms)
+	public void populateFromTridasMeasurementSeries(TridasMeasurementSeries ms)
 	{
 				
 		// KEYCODE
@@ -202,7 +202,7 @@ public class TridasToTucsonDefaults extends AbstractMetadataFieldSet {
 	}
 	
 	
-	protected void populateFromTridasDerivedSeries(TridasDerivedSeries ds)
+	public void populateFromTridasDerivedSeries(TridasDerivedSeries ds)
 	{
 		
 		// KEYCODE

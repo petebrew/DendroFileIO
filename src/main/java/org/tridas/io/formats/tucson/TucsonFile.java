@@ -28,6 +28,7 @@ import org.tridas.io.defaults.IMetadataFieldSet;
 import org.tridas.io.exceptions.ConversionWarning;
 import org.tridas.io.exceptions.ConversionWarning.WarningType;
 import org.tridas.io.formats.heidelberg.HeidelbergFile;
+import org.tridas.io.formats.heidelberg.TridasToHeidelbergDefaults;
 import org.tridas.io.formats.tucson.TridasToTucsonDefaults.TucsonField;
 import org.tridas.io.util.AstronomicalYear;
 import org.tridas.io.util.SafeIntYear;
@@ -36,6 +37,7 @@ import org.tridas.io.util.YearRange;
 import org.tridas.schema.NormalTridasUnit;
 import org.tridas.schema.TridasDerivedSeries;
 import org.tridas.schema.TridasValue;
+import org.tridas.schema.TridasValues;
 
 /**
 
@@ -50,13 +52,13 @@ public class TucsonFile implements IDendroFile {
 	 * to read.
 	 */
 	private Boolean useEightThousandYearOffsetBodge = false;	
-	private TridasToTucsonDefaults defaults; 	 // Contains the defaults for the fields
-	private ArrayList<ITridasSeries> seriesList; // List of series represented by this file
+	protected TridasToTucsonDefaults fileDefaults; 	 // Contains the defaults for the fields
+	protected ArrayList<TucsonSeries> seriesList; // List of series represented by this file
 	private YearRange allSeriesRange = null;              // Total range of years for data in this file
 	
 	public TucsonFile(IMetadataFieldSet argDefaults) {
-		defaults = (TridasToTucsonDefaults) argDefaults;
-		seriesList = new ArrayList<ITridasSeries>();
+		fileDefaults = (TridasToTucsonDefaults) argDefaults;
+		seriesList = new ArrayList<TucsonSeries>();
 	}
 	
 	/**
@@ -65,9 +67,9 @@ public class TucsonFile implements IDendroFile {
 	@Override
 	public String getExtension() {
 		
-		for (ITridasSeries series : seriesList)
+		for (TucsonSeries series : seriesList)
 		{
-			if(series instanceof TridasDerivedSeries) return "crn";
+			if(series.series instanceof TridasDerivedSeries) return "crn";
 		}
 		return "rwl";
 	}
@@ -77,7 +79,15 @@ public class TucsonFile implements IDendroFile {
 	 */
 	@Override
 	public ITridasSeries[] getSeries() {
-		return seriesList.toArray(new ITridasSeries[0]);
+		
+		ArrayList<ITridasSeries> list = new ArrayList<ITridasSeries>();
+		
+		for(TucsonSeries s : seriesList)
+		{
+			list.add(s.series);
+		}
+		
+		return list.toArray(new ITridasSeries[0]);
 	}
 	
 	/**
@@ -85,7 +95,7 @@ public class TucsonFile implements IDendroFile {
 	 */
 	@Override
 	public IMetadataFieldSet getDefaults() {
-		return defaults;
+		return fileDefaults;
 	}
 
 	@Override
@@ -107,14 +117,19 @@ public class TucsonFile implements IDendroFile {
 	 * @param string
 	 * @throws IOException
 	 */
-	private void writeSeriesData(StringBuilder string) {
-		// Default the series identifier to the same as the site code
-		String code = defaults.getStringDefaultValue(TucsonField.KEY_CODE).getStringValue();
+	protected void writeSeriesData(StringBuilder string) {
+
 		
 		// Loop through each series in our list
-		for (ITridasSeries series : seriesList) {
+		for (TucsonSeries s : seriesList) {
+			
+			ITridasSeries series = s.series;
+			
+			// Default the series identifier to the same as the site code
+			String code = s.seriesDefaults.getStringDefaultValue(TucsonField.KEY_CODE).getStringValue();
+			
 			// Extract all values from series
-			List<TridasValue> data = series.getValues().get(0).getValues();
+			List<TridasValue> data = s.dataValues.getValues();
 			
 			// if it's summed, we print spaces instead of [1]'s later
 			boolean isSummed = false; // s.isSummed();
@@ -184,11 +199,12 @@ public class TucsonFile implements IDendroFile {
 			for (;;) {
 				
 				// Row header column
-				log.debug("***** Y  = "+ y);
+				/*log.debug("***** Y  = "+ y);
 				log.debug("y.column = "+y.column());
 				log.debug("y.equals(new Astronomical Year(0)) : "+y.equals(new AstronomicalYear(0)));
 				
 				log.debug("y.equals(start): "+y.equals(start));
+				*/
 				
 				if (  y.equals(new AstronomicalYear(0))       || 
 					  y.column() == 0   					  || 
@@ -303,15 +319,15 @@ public class TucsonFile implements IDendroFile {
 	 */
 	private void writeFileHeader(StringBuilder string) {
 		// Write header info
-		String siteCode = defaults.getStringDefaultValue(TucsonField.SITE_CODE).getStringValue();
-		String siteName = defaults.getStringDefaultValue(TucsonField.SITE_NAME).getStringValue();
-		String speciesCode = defaults.getStringDefaultValue(TucsonField.SPECIES_CODE).getStringValue();
-		String stateCountry = defaults.getStringDefaultValue(TucsonField.STATE_COUNTRY).getStringValue();
-		String speciesName = defaults.getStringDefaultValue(TucsonField.SPECIES_NAME).getStringValue();
-		String elevation = defaults.getDoubleDefaultValue(TucsonField.ELEVATION).getStringValue();
-		String latlong = defaults.getStringDefaultValue(TucsonField.LATLONG).getStringValue();
-		String investigator = defaults.getStringDefaultValue(TucsonField.INVESTIGATOR).getStringValue();
-		String compDate = defaults.getStringDefaultValue(TucsonField.COMP_DATE).getStringValue();
+		String siteCode = fileDefaults.getStringDefaultValue(TucsonField.SITE_CODE).getStringValue();
+		String siteName = fileDefaults.getStringDefaultValue(TucsonField.SITE_NAME).getStringValue();
+		String speciesCode = fileDefaults.getStringDefaultValue(TucsonField.SPECIES_CODE).getStringValue();
+		String stateCountry = fileDefaults.getStringDefaultValue(TucsonField.STATE_COUNTRY).getStringValue();
+		String speciesName = fileDefaults.getStringDefaultValue(TucsonField.SPECIES_NAME).getStringValue();
+		String elevation = fileDefaults.getDoubleDefaultValue(TucsonField.ELEVATION).getStringValue();
+		String latlong = fileDefaults.getStringDefaultValue(TucsonField.LATLONG).getStringValue();
+		String investigator = fileDefaults.getStringDefaultValue(TucsonField.INVESTIGATOR).getStringValue();
+		String compDate = fileDefaults.getStringDefaultValue(TucsonField.COMP_DATE).getStringValue();
 		
 		string.append(siteCode + StringUtils.getSpaces(3) + siteName + speciesCode + "\n");
 		string.append(siteCode + StringUtils.getSpaces(3) + stateCountry + speciesName + elevation + latlong
@@ -353,7 +369,7 @@ public class TucsonFile implements IDendroFile {
 	 * 
 	 * @param series
 	 */
-	public void addSeries(ITridasSeries series){
+	public void addSeries(ITridasSeries series, TridasValues values, TridasToTucsonDefaults dfts){
 			
 		YearRange thisSeriesRange = new YearRange(series);
 		
@@ -370,14 +386,33 @@ public class TucsonFile implements IDendroFile {
 						
 			// Warn if any data is BC
 			if (SafeIntYear.min(thisSeriesRange.getStart(), new SafeIntYear(1)) == thisSeriesRange.getStart()) {
-				defaults.addConversionWarning(new ConversionWarning(WarningType.AMBIGUOUS, 
+				fileDefaults.addConversionWarning(new ConversionWarning(WarningType.AMBIGUOUS, 
 						I18n.getText("tucson.before1AD")));
 			}
 			
 			// Add this series to our list
-			seriesList.add(series);
+			seriesList.add(new TucsonSeries(series, values, dfts));
 			
 		}
 		
 	}
+	
+	
+	
+	public class TucsonSeries
+	{
+		public final ITridasSeries series;
+		public final TridasValues dataValues;
+		public final TridasToTucsonDefaults seriesDefaults; 
+		
+		
+		public TucsonSeries(ITridasSeries series, TridasValues dataValues, TridasToTucsonDefaults defaults)
+		{
+			this.series = series;
+			this.dataValues = dataValues;
+			this.seriesDefaults = defaults;
+		}
+		
+	}
+	
 }
