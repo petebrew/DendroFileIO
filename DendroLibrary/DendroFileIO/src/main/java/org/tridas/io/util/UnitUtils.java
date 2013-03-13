@@ -74,6 +74,8 @@ public class UnitUtils {
 		str = str.trim();
 		if ((str==null) || (str.equals(""))) return null;
 	
+		str =str.toLowerCase();
+		
 		Integer val;
 		Boolean mmDetected = false;
 		

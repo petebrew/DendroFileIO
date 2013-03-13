@@ -208,7 +208,7 @@
                                             <genericField name="name21" type="xs:string">genericField10</genericField>
                                             <genericField name="name23" type="xs:string">genericField11</genericField>
                                             <measurementSeries id="ID007">
-                                                <title>title6</title>
+                                                <title>ABC0001</title>
                                                 <analyst>Brewer, Peter</analyst>
                                                 <measuringMethod normalTridas="measuring platform" normalStd="normalStd21" normalId="normalId21" normal="normal21" lang="en-US">measuringMethod0</measuringMethod>
                                                 
@@ -242,7 +242,7 @@
                                             <genericField name="name25" type="xs:string">genericField12</genericField>
                                             <genericField name="name27" type="xs:string">genericField13</genericField>
                                             <measurementSeries id="ID011">
-                                                <title>title6</title>
+                                                <title>ABC0002</title>
                                                 <measuringMethod normalTridas="measuring platform" normalStd="normalStd21" normalId="normalId21" normal="normal21" lang="en-US">measuringMethod0</measuringMethod>
                                                 <values>
                                                     <variable normalTridas="ring width"/>
@@ -259,7 +259,7 @@
                 
         </object>
        <derivedSeries id="ID069">
-            <title>title40</title>
+            <title>ABC0003</title>
             <identifier domain="domain61">identifier30</identifier>
             <createdTimestamp certainty="unknown">2006-05-04T18:13:51.0Z</createdTimestamp>
             <lastModifiedTimestamp certainty="unknown">2006-05-04T18:13:51.0Z</lastModifiedTimestamp>
@@ -305,13 +305,13 @@
             <values>
                 <variable normalTridas="earlywood density" normalStd="normalStd115" normalId="normalId115" normal="normal115" lang="en-US">variable2</variable>
                     <unitless/>
-                <value value="50" count="1">
+                <value value="500" count="1">
                     <remark normalTridas="fire damage" inheritedCount="0" normalStd="normalStd117" normalId="normalId117" normal="normal117"
                          lang="en-US">remark8</remark>
                     <remark normalTridas="fire damage" inheritedCount="0" normalStd="normalStd119" normalId="normalId119" normal="normal119"
                          lang="en-US">remark9</remark>
                 </value>
-                <value value="57" count="2">
+                <value value="570" count="2">
                     <remark normalTridas="fire damage" inheritedCount="0" normalStd="normalStd121" normalId="normalId121" normal="normal121"
                          lang="en-US">remark10</remark>
                     <remark normalTridas="fire damage" inheritedCount="0" normalStd="normalStd123" normalId="normalId123" normal="normal123"
