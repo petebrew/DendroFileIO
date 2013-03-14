@@ -23,6 +23,7 @@ import org.slf4j.LoggerFactory;
 import org.tridas.io.I18n;
 import org.tridas.io.IDendroFile;
 import org.tridas.io.util.StringUtils;
+import org.tridas.io.util.TridasUtils;
 import org.tridas.schema.TridasDerivedSeries;
 import org.tridas.schema.TridasElement;
 import org.tridas.schema.TridasMeasurementSeries;
@@ -55,6 +56,47 @@ public abstract class AbstractNamingConvention implements INamingConvention {
 		
 		String filename = getDendroFilename(argFile, argProject, argObject, argElement, argSample, argRadius, argSeries);
 		registerFile(argFile, filename);
+	}
+	
+	
+	public synchronized void registerFile(IDendroFile argFile, TridasProject p)
+	{
+		TridasProject project = p;
+		TridasObject object = null;
+		TridasElement element = null;
+		TridasSample sample = null;
+		TridasRadius radius = null;
+		TridasMeasurementSeries series = null;
+		
+		
+		if(p.isSetDerivedSeries())
+		{
+			this.registerFile(argFile, project, p.getDerivedSeries().get(0));
+			return;
+		}
+		
+		ArrayList<TridasObject> objects = TridasUtils.getObjectList(project);
+		if (objects.size() == 1) {
+			object = objects.get(0);
+			
+			if (object.getElements().size() == 1) {
+				element = object.getElements().get(0);
+				
+				if (element.getSamples().size() == 1) {
+					sample = element.getSamples().get(0);
+					
+					if (sample.getRadiuses().size() == 1) {
+						radius = sample.getRadiuses().get(0);
+						
+						if (radius.getMeasurementSeries().size() == 1) {
+							series = radius.getMeasurementSeries().get(0);
+						}
+					}
+				}
+			}
+		}
+		
+		this.registerFile(argFile, project, object, element, sample, radius, series);
 	}
 	
 	@Override

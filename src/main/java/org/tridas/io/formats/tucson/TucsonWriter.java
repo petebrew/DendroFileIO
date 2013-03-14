@@ -224,17 +224,16 @@ public class TucsonWriter extends AbstractDendroCollectionWriter {
 											file = new TucsonFile(tvDefaults);
 										}
 										
-										
-										
 										file.addSeries(ms, tvs, tvDefaults);
-										naming.registerFile(file, p, o, e, s, r, ms);
-										
+																				
 									}
 								}
 							}
 						}
 					}
 				}
+				naming.registerFile(file, p);
+
 				addToFileList(file);
 			}
 		}
