@@ -29,6 +29,8 @@ import org.tridas.schema.TridasSample;
  */
 public interface INamingConvention {
 	
+	public void registerFile(IDendroFile argFile, TridasProject argProject);
+	
 	public void registerFile(IDendroFile argFile, TridasProject argProject, TridasObject argObject,
 			TridasElement argElement, TridasSample argSample, TridasRadius argRadius, TridasMeasurementSeries argSeries);
 	
