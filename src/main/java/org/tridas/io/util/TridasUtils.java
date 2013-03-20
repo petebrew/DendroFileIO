@@ -26,6 +26,7 @@ import org.tridas.interfaces.ITridas;
 import org.tridas.interfaces.ITridasSeries;
 import org.tridas.io.I18n;
 import org.tridas.io.formats.tridas.TridasReader;
+import org.tridas.schema.DatingSuffix;
 import org.tridas.schema.NormalTridasRemark;
 import org.tridas.schema.NormalTridasUnit;
 import org.tridas.schema.TridasDerivedSeries;
@@ -1043,6 +1044,19 @@ public class TridasUtils {
 		ANYNUMBER,
 		STRING;
 	}
+	
+    public static DatingSuffix getDatingSuffixFromName(String v)
+    {
+            for(DatingSuffix c: DatingSuffix.values())
+            {
+                    if(c.name().equals(v))
+                    {
+                            return c;
+                    }
+            }
+            throw new IllegalArgumentException(v);
+    }
+
 	
     public static NormalTridasUnit getUnitFromName(String v) {
         for (NormalTridasUnit c: NormalTridasUnit.values()) {

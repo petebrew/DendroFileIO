@@ -67,7 +67,7 @@ public class SheffieldStringDefaultValue extends AbstractDefaultValue<String> {
 		}
 		argValue = validValue(argValue);
 		if (argValue != null) {
-			log.debug("string value stored: " + argValue);
+			//log.debug("string value stored: " + argValue);
 			value = argValue;
 			return true;
 		}
