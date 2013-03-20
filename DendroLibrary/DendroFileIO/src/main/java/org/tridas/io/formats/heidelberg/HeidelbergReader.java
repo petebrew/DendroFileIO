@@ -612,7 +612,7 @@ public class HeidelbergReader extends AbstractDendroFileReader {
 			String comments = "";
 			if(fileMetadata.containsKey("comment"))
 			{
-				comments = fileMetadata.get("comment");
+				comments = fileMetadata.get("comment")+"; ";
 			}
 				
 			Iterator it = fileMetadata.entrySet().iterator();
@@ -629,7 +629,7 @@ public class HeidelbergReader extends AbstractDendroFileReader {
 			
 			if(comments.length()>0)
 			{
-				s.defaults.getStringDefaultValue(DefaultFields.COMMENTS).setValue(comments.substring(0, comments.length()-2));
+				s.defaults.getStringDefaultValue(DefaultFields.COMMENTS).setValue(comments.substring(0, comments.length()-1));
 			}
 			
 			//DATA_FORMAT, new GenericDefaultValue<FHDataFormat>());

@@ -21,6 +21,7 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.tridas.schema.Certainty;
 import org.tridas.schema.DatingSuffix;
+import org.tridas.schema.NormalTridasDatingType;
 import org.tridas.schema.Year;
 
 /**
@@ -201,6 +202,74 @@ public final class SafeIntYear implements Comparable {
 		// i pity th' fool who tries to use intvalue!
 		throw new UnsupportedOperationException();
 	}
+	
+    private String getCorrectSuffix(DatingSuffix suffix)
+    {
+            BigInteger yBigInt = BigInteger.valueOf(y);
+            if (suffix == DatingSuffix.AD || suffix == DatingSuffix.BC) {
+
+                    if(y>0)
+                    {
+                            return "AD";
+                    }
+                    else
+                    {
+                            return "BC";
+                    }
+
+            }
+            else if (suffix == DatingSuffix.BP) {
+                    if (y > 0) {
+                            return (1950 - y)+"BP";
+                    }
+                    if (y < 0) {
+                            return Integer.valueOf((yBigInt.negate()).add((BigInteger.valueOf(1950))).toString()) + "BP";
+                    }
+            }
+            else if (suffix == DatingSuffix.RELATIVE)
+            {
+                    return "Rel.Yr.";
+            }
+            else
+            {
+                    log.error("Unhandled date suffix type");
+            }
+
+            return null;
+    }
+
+	
+    /**
+     * Return this year as a formatted string depending on the dating type of this year
+     * and the preferred dating suffix. 
+     *   
+     * @param datingtype
+     * @param suffix
+     * @return
+     */
+    public String formattedYear(NormalTridasDatingType datingtype, DatingSuffix suffix)
+    {
+
+
+            if(datingtype==null || datingtype.equals(NormalTridasDatingType.RELATIVE))
+            {
+                    return getCorrectSuffix(DatingSuffix.RELATIVE)+" "+y;
+            }
+            else if (datingtype.equals(NormalTridasDatingType.DATED_WITH_UNCERTAINTY) ||
+                            datingtype.equals(NormalTridasDatingType.RADIOCARBON))
+            {
+                    return "\u2248"+y+" "+getCorrectSuffix(suffix);
+            }
+            else if (datingtype.equals(NormalTridasDatingType.ABSOLUTE))
+            {
+                    return Math.abs(y)+" "+getCorrectSuffix(suffix);
+            }
+
+            return y+"";
+
+
+    }
+
 	
 	public Year toTridasYear(DatingSuffix suffix) {
 		

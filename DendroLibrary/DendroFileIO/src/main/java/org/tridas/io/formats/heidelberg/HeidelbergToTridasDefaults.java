@@ -402,7 +402,7 @@ public class HeidelbergToTridasDefaults extends TridasMetadataFieldSet {
 		// Last modified
 		if(getDateTimeDefaultValue(DefaultFields.LAST_REVISION_DATE).getValue()!=null)
 		{
-			log.debug("Last modified timestamp value: "+getDateTimeDefaultValue(DefaultFields.LAST_REVISION_DATE).getValue());
+			//log.debug("Last modified timestamp value: "+getDateTimeDefaultValue(DefaultFields.LAST_REVISION_DATE).getValue());
 
 			series.setLastModifiedTimestamp(getDateTimeDefaultValue(DefaultFields.LAST_REVISION_DATE).getValue());
 		}
