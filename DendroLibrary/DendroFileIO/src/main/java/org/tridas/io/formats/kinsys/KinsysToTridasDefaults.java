@@ -99,7 +99,7 @@ public class KinsysToTridasDefaults extends TridasMetadataFieldSet {
 		setDefaultValue(DefaultFields.CREATION_DATE, new DateTimeDefaultValue());
 		
 		setDefaultValue(DefaultFields.PROJECT_CODE, new StringDefaultValue());
-		setDefaultValue(DefaultFields.PROJECT_NAME, new StringDefaultValue(I18n.getText("unamed.project")));
+		setDefaultValue(DefaultFields.PROJECT_NAME, new StringDefaultValue(I18n.getText("unnamed.project")));
 		setDefaultValue(DefaultFields.INVESTIGATOR, new StringDefaultValue());
 		
 		setDefaultValue(DefaultFields.SAMPLING_DATE, new DateTimeDefaultValue());
