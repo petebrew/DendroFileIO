@@ -973,6 +973,30 @@ public class TridasUtils {
 		return str+"|->";
 	}
 	
+    public static DatingSuffix getDatingSuffixFromName(String v)
+    {
+            for(DatingSuffix c: DatingSuffix.values())
+            {
+                    if(c.name().equals(v))
+                    {
+                            return c;
+                    }
+            }
+            throw new IllegalArgumentException(v);
+    }
+
+	
+    public static NormalTridasUnit getUnitFromName(String v) {
+        for (NormalTridasUnit c: NormalTridasUnit.values()) {
+            if (c.name().equals(v)) {
+                return c;
+            }
+        }
+        throw new IllegalArgumentException(v);
+    }
+	
+
+	
 	/** 
 	 * Get the level of the Tridas class as an integer where
 	 * 1=object through to 5=series.  If a class is given that is 
@@ -1044,28 +1068,6 @@ public class TridasUtils {
 		ANYNUMBER,
 		STRING;
 	}
-	
-    public static DatingSuffix getDatingSuffixFromName(String v)
-    {
-            for(DatingSuffix c: DatingSuffix.values())
-            {
-                    if(c.name().equals(v))
-                    {
-                            return c;
-                    }
-            }
-            throw new IllegalArgumentException(v);
-    }
-
-	
-    public static NormalTridasUnit getUnitFromName(String v) {
-        for (NormalTridasUnit c: NormalTridasUnit.values()) {
-            if (c.name().equals(v)) {
-                return c;
-            }
-        }
-        throw new IllegalArgumentException(v);
-    }
 	
 }
 
