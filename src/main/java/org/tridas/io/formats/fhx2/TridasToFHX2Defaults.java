@@ -15,12 +15,12 @@
  */
 package org.tridas.io.formats.fhx2;
 
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Date;
 import java.util.HashSet;
 import java.util.Iterator;
-import java.text.SimpleDateFormat;
 
 import org.tridas.io.defaults.AbstractMetadataFieldSet;
 import org.tridas.schema.TridasElement;
@@ -28,8 +28,6 @@ import org.tridas.schema.TridasGenericField;
 import org.tridas.schema.TridasObject;
 import org.tridas.schema.TridasSample;
 import org.tridas.spatial.GMLPointSRSHandler;
-
-import com.ibm.icu.util.GregorianCalendar;
 
 import edu.emory.mathcs.backport.java.util.Collections;
 
@@ -48,6 +46,7 @@ public class TridasToFHX2Defaults extends AbstractMetadataFieldSet {
 	public ArrayList<String> soil;
 	public ArrayList<String> geology;
 	public ArrayList<Date> collectingDate;
+	public ArrayList<Double> altitude;
 
 	
 	@Override
@@ -67,6 +66,7 @@ public class TridasToFHX2Defaults extends AbstractMetadataFieldSet {
 		soil = new ArrayList<String>();
 		geology = new ArrayList<String>();
 		collectingDate = new ArrayList<Date>();
+		altitude = new ArrayList<Double>();
 	}
 	
 	public String getLatitude()
@@ -109,7 +109,9 @@ public class TridasToFHX2Defaults extends AbstractMetadataFieldSet {
 		String lines = "";
 		for(String line : comments)
 		{
-			lines+= "\n"+line.trim();
+			String l = line.replace("\t", " ");
+			
+			lines+= "\n"+l;
 		}
 		return lines;
 	}
@@ -136,20 +138,54 @@ public class TridasToFHX2Defaults extends AbstractMetadataFieldSet {
 		String str ="";
 		if(soilstr!=null && soilstr.length()>0)
 		{
-			str +="Soil: "+soilstr +".  ";
+			str +="Soil: "+soilstr.trim() +".  ";
 		}
 		if(geolstr!=null && geolstr.length()>0)
 		{
-			str +="Bedrock: "+geolstr;
+			str +="Bedrock: "+geolstr.trim();
 		}
 		
-		return str.replaceAll("\\n", "  ");
+		return str.replaceAll("\n", "  ");
 		
 	}
 	
 	public String getCollectionDate()
 	{
 		return summeriseDateArray(collectingDate);
+	}
+	
+	public String getMinimumAltitude()
+	{
+		if(altitude.size()==0) return "";
+		if(altitude.size()==1) return altitude.get(0)+"m";
+		
+		Double min =9999999.9;
+		
+		for(Double a : altitude)
+		{
+			if(a<min) min = a;
+		}
+		
+		if(min.equals(9999999.9)) return "";
+		
+		return min +"m";
+	}
+	
+	public String getMaximumAltitude()
+	{
+		if(altitude.size()==0) return "";
+		if(altitude.size()==1) return altitude.get(0)+"m";
+		
+		Double max =-9999999.9;
+		
+		for(Double a : altitude)
+		{
+			if(a>max) max = a;
+		}
+		
+		if(max.equals(-9999999.9)) return "";
+		
+		return max +"m";
 	}
 	
 	public void populateFromTridasSample(TridasSample s)
@@ -205,6 +241,11 @@ public class TridasToFHX2Defaults extends AbstractMetadataFieldSet {
 			{
 				geology.add(e.getBedrock().getDescription());
 			}
+		}
+		
+		if(e.isSetAltitude())
+		{
+			altitude.add(e.getAltitude());
 		}
 	}
 	
@@ -335,19 +376,19 @@ public class TridasToFHX2Defaults extends AbstractMetadataFieldSet {
 		ArrayList<String> arr = (ArrayList<String>) ar.clone();
 		
 		if(arr.size()==0) return "";
-		if(arr.size()==1) return arr.get(0);
+		if(arr.size()==1) return arr.get(0).trim();
 		
 		HashSet hs = new HashSet();
 		hs.addAll(arr);
 		if(hs.size()==0) return "";
-		if(hs.size()==1) return arr.get(0);
+		if(hs.size()==1) return arr.get(0).trim();
 		
 		String str = hs.size()+" "+field+": ";
 		
 		Iterator iter = hs.iterator();
 		while (iter.hasNext()) {
 		  String val = (String) iter.next();
-		  if(val!=null && val.length()>0) str +=val+"; ";
+		  if(val!=null && val.length()>0) str +=val.trim()+"; ";
 		}
 		
 		try{

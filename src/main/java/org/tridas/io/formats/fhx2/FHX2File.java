@@ -111,8 +111,8 @@ public class FHX2File implements IDendroFile {
 		lines.add("Latitude       : "+defaults.getLatitude());
 		lines.add("Longitude      : "+defaults.getLongitude());
 		lines.add("Topographic map: ");
-		lines.add("Lowest elev    : ");
-		lines.add("Highest elev   : ");
+		lines.add("Lowest elev    : "+defaults.getMinimumAltitude());
+		lines.add("Highest elev   : "+defaults.getMaximumAltitude());
 		lines.add("Slope          : "+defaults.getSlope());
 		lines.add("Aspect         : "+defaults.getAspect());
 		lines.add("Area sampled   : ");
