@@ -78,18 +78,23 @@ public class FHX2Writer extends AbstractDendroCollectionWriter {
 		*/
 		
 		FHX2File file = new FHX2File();
+		TridasToFHX2Defaults defaults = new TridasToFHX2Defaults();
 		NamingConventionGrouper ncgroup = new NamingConventionGrouper();
 		ncgroup.add(argProject);
 		
 		try {
 			for (TridasObject o : TridasUtils.getObjectList(argProject)) {
 				ncgroup.add(o);
+				defaults.populateFromTridasObject(o);
+				
 				
 				for (TridasElement e : o.getElements()) {
 					ncgroup.add(e);
+					defaults.populateFromTridasElement(e);
 					
 					for (TridasSample s : e.getSamples()) {
 						ncgroup.add(s);
+						defaults.populateFromTridasSample(s);
 						
 						for (TridasRadius r : s.getRadiuses()) {
 							ncgroup.add(r);
@@ -174,6 +179,7 @@ public class FHX2Writer extends AbstractDendroCollectionWriter {
 				
 		file.setSeriesList(seriesList);
 		addToFileList(file);
+		file.setDefaults(defaults);
 		naming.registerFile(file, argProject, null);
 
 	}

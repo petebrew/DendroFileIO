@@ -2,6 +2,7 @@ package org.tridas.io.formats.fhx2;
 
 import java.util.ArrayList;
 
+import org.apache.commons.lang.ArrayUtils;
 import org.odftoolkit.odfdom.doc.OdfSpreadsheetDocument;
 import org.odftoolkit.odfdom.doc.table.OdfTable;
 import org.slf4j.Logger;
@@ -77,6 +78,53 @@ public class FHX2File implements IDendroFile {
 		seriesList = lst;
 	}
 	
+	public void setDefaults(TridasToFHX2Defaults defaults)
+	{
+		this.defaults = defaults;
+	}
+	
+	private ArrayList<String> getMetadata()
+	{
+		ArrayList<String> lines = new ArrayList<String>();
+		
+		lines.add("Name of site   : "+defaults.getSiteTitle());
+		lines.add("Site code      : "+defaults.getSiteCode());
+		lines.add("Collection date: "+defaults.getCollectionDate());
+		lines.add("Collectors     : ");
+		lines.add("Crossdaters    : ");
+		lines.add("Number samples : "+seriesList.size()); 
+		lines.add("Species name   : "+defaults.getTaxon());
+		lines.add("Common name    : ");
+		lines.add("Habitat type   : "); 
+		lines.add("Country        : "+defaults.getCountry());
+		lines.add("State          : "+defaults.getState());
+		lines.add("County         : ");
+		lines.add("Park/Monument  : ");
+		lines.add("National Forest: ");
+		lines.add("Ranger district: ");
+		lines.add("Township       : "+defaults.getTown());
+		lines.add("Range          : ");
+		lines.add("Section        : ");
+		lines.add("Quarter section: ");
+		lines.add("UTM easting    : ");
+		lines.add("UTM northing   : ");
+		lines.add("Latitude       : "+defaults.getLatitude());
+		lines.add("Longitude      : "+defaults.getLongitude());
+		lines.add("Topographic map: ");
+		lines.add("Lowest elev    : ");
+		lines.add("Highest elev   : ");
+		lines.add("Slope          : "+defaults.getSlope());
+		lines.add("Aspect         : "+defaults.getAspect());
+		lines.add("Area sampled   : ");
+		lines.add("Substrate type : "+defaults.getSubstrate());
+		lines.add("Begin comments BELOW this line: "+defaults.getComments());
+		lines.add("End comments ABOVE this line. ");
+		lines.add(" ");
+		
+		
+		return lines;
+	}
+	
 	@Override
 	public String[] saveToString() {	
 		OdfSpreadsheetDocument outputDocument;
@@ -142,8 +190,11 @@ public class FHX2File implements IDendroFile {
 				//line = line.substring(0, line.length()-2) ;
 				lines.add(line);
 			}
+			ArrayList<String> metadata = getMetadata();
 			
-			return lines.toArray(new String[0]);
+			metadata.addAll(lines);
+			
+			return metadata.toArray(new String[0]);
 			
 		} catch (Exception e) {
 
