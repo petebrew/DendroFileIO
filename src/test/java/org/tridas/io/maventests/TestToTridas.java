@@ -37,6 +37,8 @@ import org.tridas.io.formats.cracow.CracowReader;
 import org.tridas.io.formats.csvmatrix.CSVMatrixReader;
 import org.tridas.io.formats.dendrodb.DendroDBReader;
 import org.tridas.io.formats.excelmatrix.ExcelMatrixReader;
+import org.tridas.io.formats.fhx2.FHX2Reader;
+import org.tridas.io.formats.fhx2.FHX2ToTridasDefaults;
 import org.tridas.io.formats.heidelberg.HeidelbergReader;
 import org.tridas.io.formats.nottingham.NottinghamReader;
 import org.tridas.io.formats.odfmatrix.ODFMatrixReader;
@@ -109,6 +111,57 @@ public class TestToTridas extends TestCase {
 			TridasTridas container = reader.getTridasContainer();
 			TridasWriter writer = new TridasWriter();
 			writer.setNamingConvention(new NumericalNamingConvention("Tucson-"+filename));
+			
+			try {
+				writer.load(container, new TridasMetadataFieldSet());
+			} catch (IncompleteTridasDataException e) {
+				fail();
+			} catch (ConversionWarningException e) {} catch (IncorrectDefaultFieldsException e) {
+				fail();
+			} 
+			writer.saveAllToDisk(outputLocation);
+			
+		}
+		
+	}
+	
+	public void testFHX2ToTridas() {
+		String folder = "TestData/FHX2";
+		String[] files = getFilesFromFolder(folder);
+		
+		if (files.length == 0) {
+			fail();
+		}
+		
+		for (String filename : files) {
+						
+			log.info("Test conversion of: " + filename);
+			
+			// Create a new converter
+			FHX2Reader reader = new FHX2Reader();
+			
+			// Parse the legacy data file
+			try {
+				// TridasEntitiesFromDefaults def = new TridasEntitiesFromDefaults();
+				reader.loadFile(folder, filename, new FHX2ToTridasDefaults());
+			} catch (IOException e) {
+				// Standard IO Exception
+				log.info(e.getLocalizedMessage());
+				fail();
+			} catch (IncorrectDefaultFieldsException e) {
+				// The default fields you gave were wrong
+				e.printStackTrace();
+				fail();
+			} catch (InvalidDendroFileException e) {
+				// Fatal error interpreting file
+				log.info(e.getLocalizedMessage());
+				fail();
+			}
+			
+			// Extract the TridasProject
+			TridasTridas container = reader.getTridasContainer();
+			TridasWriter writer = new TridasWriter();
+			writer.setNamingConvention(new NumericalNamingConvention("FHX2-"+filename));
 			
 			try {
 				writer.load(container, new TridasMetadataFieldSet());

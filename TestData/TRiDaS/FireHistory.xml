@@ -25,7 +25,10 @@
 		<commissioner>Western Australian Museum</commissioner>
 		<object>
 			<title>Batavia</title>
+						<comments>Hello world
+			This is another comment</comments>
 			<type normalStd="AAT" normalId="125446" normal="sailing ships">sailing ship</type>
+
 			<description>This VOC ship was built between 1627 and 1628 at the Peperwerf (Peper Wharf) in Amsterdam and sank on June 14th 1629 at Houtman Albrolhos, Western Australia</description>
 			<creator>Peper wharf (Peperwerf), Amsterdam</creator>
 			<owner>Dutch East India Company (original); Australia (present)</owner>
@@ -34,30 +37,74 @@
 				<coverageTemporalFoundation>written sources</coverageTemporalFoundation>
 			</coverage>
 			<location>
+
 				<locationGeometry>
 					<gml:Point xmlns:gml="http://www.opengis.net/gml" srsName="urn:ogc:def:crs:EPSG:6.6:4326">
 						<gml:pos>-28.49175 113.7916</gml:pos>
 					</gml:Point>					
 				</locationGeometry>
+				
+
 				<locationType>current location</locationType>
+				
 				<locationPrecision>5</locationPrecision>
+				
 				<locationComment>The Batavia wreck site is located on Morning Reef in the Wallabi Group of the Houtman Abrolhos, - a series of islets and reefs, about 35 km from the mainland of Western Australia.</locationComment>
+				<address>
+					<cityOrTown>Blah</cityOrTown>
+					<stateProvinceRegion>Blah2</stateProvinceRegion>
+					<country>USA</country>		
+				</address>
 			</location>
 			<object>
 				<title>part of Batavia</title>
 				<type>unknown</type>
+				
 				<description>It's unknown from which part of the ship this "ceiling plank" was taken.</description>
+							<location>
+
+				<locationGeometry>
+					<gml:Point xmlns:gml="http://www.opengis.net/gml" srsName="urn:ogc:def:crs:EPSG:6.6:4326">
+						<gml:pos>-28.59175 113.8916</gml:pos>
+					</gml:Point>					
+				</locationGeometry>
+				
+
+				<locationType>current location</locationType>
+				
+				<locationPrecision>5</locationPrecision>
+				
+				<locationComment>The Batavia wreck site is located on Morning Reef in the Wallabi Group of the Houtman Abrolhos, - a series of islets and reefs, about 35 km from the mainland of Western Australia.</locationComment>
+				<address>
+					<cityOrTown>Blah</cityOrTown>
+					<stateProvinceRegion>Blah2</stateProvinceRegion>
+					<country>UK</country>		
+				</address>
+			</location>
 				<element>
 					<title>ceiling plank of Batavia</title>
 					<identifier domain="Western Australian Museum">BAT6226</identifier>
 					<description>Ceiling plank</description>
 					<taxon>Quercus robur or Quercus petraea</taxon>
 					<authenticity>original</authenticity>
+					<slope>
+					<angle>55</angle>
+					<azimuth>12</azimuth>
+					</slope>
+					<soil>
+					<description>Brown
+					and
+					Grey	</description></soil>
+					<bedrock>
+					<description>Granite</description>
+					</bedrock>
 					<sample>
 						<title>cross section of BAT6226</title>
 						<type>physical cross section</type>
-						<samplingDate certainty="unknown">2006-01-01</samplingDate>
+						<samplingDate certainty="unknown">2005-01-01</samplingDate>
+						
 						<state>waterlogged</state>
+						
 						<radius>
 							<title>radius ABA00021</title>
 							<identifier domain="RING administration">ABA00021</identifier>
@@ -125,6 +172,7 @@
 					<title>cross section on BAT6375</title>
 					<createdTimestamp certainty="after">2006-12-01T00:00:00</createdTimestamp>
 					<type>physical cross section</type>
+					<samplingDate certainty="unknown">2005-05-03</samplingDate>
 					<state>waterlogged</state>
 					<radius>
 						<title>radius ABA00011</title>
