@@ -5,6 +5,8 @@ import java.util.Arrays;
 import java.util.HashMap;
 import java.util.List;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.tridas.io.AbstractDendroFileReader;
 import org.tridas.io.DendroFileFilter;
 import org.tridas.io.I18n;
@@ -14,6 +16,7 @@ import org.tridas.io.defaults.values.GenericDefaultValue;
 import org.tridas.io.exceptions.ConversionWarning;
 import org.tridas.io.exceptions.ConversionWarning.WarningType;
 import org.tridas.io.exceptions.InvalidDendroFileException;
+import org.tridas.io.formats.fhx2.FHX2File.FHXMarker;
 import org.tridas.io.formats.fhx2.FHX2ToTridasDefaults.DefaultFields;
 import org.tridas.io.formats.heidelberg.HeidelbergToTridasDefaults;
 import org.tridas.io.formats.heidelberg.HeidelbergToTridasDefaults.FHDataFormat;
@@ -41,7 +44,8 @@ public class FHX2Reader extends AbstractDendroFileReader {
 	private Integer numberOfSamples;
 	private Integer codeLength;
 	private ArrayList<FHX2Series> seriesList = new ArrayList<FHX2Series>();
-	
+	private static final Logger log = LoggerFactory.getLogger(FHX2Reader.class);
+
 	
 	
 	
@@ -170,9 +174,11 @@ public class FHX2Reader extends AbstractDendroFileReader {
 
 
 				GenericDefaultValue<ControlledVoc> speciesField = (GenericDefaultValue<ControlledVoc>) defaults.getDefaultValue(DefaultFields.SPECIES_NAME);
-				speciesField.setValue(ITRDBTaxonConverter.getControlledVocFromCode(value));
+				ControlledVoc voc = ITRDBTaxonConverter.getControlledVocFromCode(value);
+				log.debug("Species found to be "+voc.getNormal()+" authority "+voc.getNormalStd());
+				speciesField.setValue(voc);
 				
-
+				((GenericDefaultValue<ControlledVoc>) defaults.getDefaultValue(DefaultFields.SPECIES_NAME)).setValue(voc);
 			}			
 			
 			/*else if(line.startsWith("Common name"))
@@ -634,7 +640,7 @@ public class FHX2Reader extends AbstractDendroFileReader {
 	
 		
 		TridasRemark remark = new TridasRemark();
-		remark.setNormalStd("FHX");
+		remark.setNormalStd(FHX2File.FHX_DOMAIN);
 		remark.setNormalId(marker.getCode());
 		remark.setNormal(marker.getDescription());
 		
@@ -680,52 +686,5 @@ public class FHX2Reader extends AbstractDendroFileReader {
 	}
 	
 	
-	public enum FHXMarker{
-		
-		A_UPPERCASE("A", "Fire scar in latewood"),
-		A_LOWERCASE("a", "Fire injury in latewood"),
-		D_UPPERCASE("D", "Fire scar in dormant position"),
-		D_LOWERCASE("d", "Fire injury in dormant position"),
-		E_UPPERCASE("E", "Fire scar in first third of earlywood"),
-		E_LOWERCASE("e", "Fire injury in first third of earlywood"),
-		M_UPPERCASE("M", "Fire scar in middle third of earlywood"),
-		M_LOWERCASE("m", "Fire injury in middle third of earlywood"),
-		L_UPPERCASE("L", "Fire scar in last third of earlywood"),
-		L_LOWERCASE("l", "Fire injury in last third of earlywood"),
-		U_UPPERCASE("U", "Fire scar - position undetermined"),
-		U_LOWERCASE("u", "Fire injury - position undetermined"),
-		NON_RECORDER(".", "Not recording fires");
-		
-		private String code;
-		private String description;
-		
-		FHXMarker(String c, String d) {
-			code = c;
-			description = d;
-		}
-		
-		@Override
-		public final String toString() {
-			return description;
-		}
-		
-		public final String getCode(){
-			return code;
-		}
-		
-		public final String getDescription()
-		{
-			return description;
-		}
-		
-		public static FHXMarker fromCode(String code) {
-			for (FHXMarker val : FHXMarker.values()) {
-				if (val.getCode().equals(code)) {
-					return val;
-				}
-			}
-			return null;
-		}
-}
 
 }

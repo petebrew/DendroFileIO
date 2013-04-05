@@ -2,7 +2,6 @@ package org.tridas.io.formats.fhx2;
 
 import java.util.ArrayList;
 
-import org.apache.commons.lang.ArrayUtils;
 import org.odftoolkit.odfdom.doc.OdfSpreadsheetDocument;
 import org.odftoolkit.odfdom.doc.table.OdfTable;
 import org.slf4j.Logger;
@@ -15,7 +14,6 @@ import org.tridas.io.util.SafeIntYear;
 import org.tridas.io.util.StringUtils;
 import org.tridas.io.util.YearRange;
 import org.tridas.schema.DatingSuffix;
-import org.tridas.schema.NormalTridasRemark;
 import org.tridas.schema.TridasGenericField;
 import org.tridas.schema.TridasRemark;
 import org.tridas.schema.TridasValue;
@@ -308,22 +306,11 @@ public class FHX2File implements IDendroFile {
 				{
 					for (TridasRemark remark : val.getRemarks())
 					{
-						if(remark.isSetNormalStd() && remark.getNormalStd().equals("FHX2"))
+						if(remark.isSetNormalStd() && remark.getNormalStd().equals(FHX2File.FHX_DOMAIN))
 						{
 							if(remark.isSetNormalId())
 							{
-								if(remark.getNormalId().equals("U") 
-									|| remark.getNormalId().equals("u")
-									|| remark.getNormalId().equals("A")
-									|| remark.getNormalId().equals("a")
-									|| remark.getNormalId().equals("L")
-									|| remark.getNormalId().equals("l")
-									|| remark.getNormalId().equals("M")
-									|| remark.getNormalId().equals("m")
-									|| remark.getNormalId().equals("E")
-									|| remark.getNormalId().equals("e")
-									|| remark.getNormalId().equals("D")
-									|| remark.getNormalId().equals("d"))
+								if(FHXMarker.isCharacterValid(remark.getNormalId()))
 								{
 									mark = remark.getNormalId();
 								}
@@ -359,5 +346,67 @@ public class FHX2File implements IDendroFile {
 	public IMetadataFieldSet getDefaults() {
 		return defaults;
 	}
+	
+	public enum FHXMarker{
+		
+		A_UPPERCASE("A", "Fire scar in latewood"),
+		A_LOWERCASE("a", "Fire injury in latewood"),
+		D_UPPERCASE("D", "Fire scar in dormant position"),
+		D_LOWERCASE("d", "Fire injury in dormant position"),
+		E_UPPERCASE("E", "Fire scar in first third of earlywood"),
+		E_LOWERCASE("e", "Fire injury in first third of earlywood"),
+		M_UPPERCASE("M", "Fire scar in middle third of earlywood"),
+		M_LOWERCASE("m", "Fire injury in middle third of earlywood"),
+		L_UPPERCASE("L", "Fire scar in last third of earlywood"),
+		L_LOWERCASE("l", "Fire injury in last third of earlywood"),
+		U_UPPERCASE("U", "Fire scar - position undetermined"),
+		U_LOWERCASE("u", "Fire injury - position undetermined"),
+		NON_RECORDER(".", "Not recording fires");
+		
+		private String code;
+		private String description;
+		
+		FHXMarker(String c, String d) {
+			code = c;
+			description = d;
+		}
+		
+		@Override
+		public final String toString() {
+			return description;
+		}
+		
+		public final String getCode(){
+			return code;
+		}
+		
+		public final String getDescription()
+		{
+			return description;
+		}
+		
+		public static FHXMarker fromCode(String code) {
+			for (FHXMarker val : FHXMarker.values()) {
+				if (val.getCode().equals(code)) {
+					return val;
+				}
+			}
+			return null;
+		}
+		
+		public static Boolean isCharacterValid(String s)
+		{
+			for (FHXMarker val : FHXMarker.values()) {
+				if (val.getCode().equals(s)) {
+					return true;
+				}
+			}
+			return false;
+		}
+		
+}
+	
+	public static String FHX_DOMAIN = "FHX"; 
+
 
 }
