@@ -376,6 +376,12 @@ public class FHX2Reader extends AbstractDendroFileReader {
 			
 			series.defaults.getStringDefaultValue(TridasMandatoryField.MEASUREMENTSERIES_TITLE).setValue(seriesname);
 			
+			if(argFileString[lineNumDataBegins+2+codeLength].trim().length()>0)
+			{
+				throw new InvalidDendroFileException("The line immediately before the data matrix should be empty", lineNumDataBegins+2+codeLength+1);
+			}
+			
+			
 			for(int i=lineNumDataBegins+2+codeLength+1; i<argFileString.length; i++)
 			{
 				try{
