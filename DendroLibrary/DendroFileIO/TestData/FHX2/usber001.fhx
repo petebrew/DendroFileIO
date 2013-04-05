@@ -1,19 +1,19 @@
-Name of site   : Bear Wallow
-Site code      : BER
+Name of site   : SiteBlah
+Site code      : ABC
 Collection date: 10th March 2012
-Collectors     : Tom Swetnam
-Crossdaters    : 
-Number samples : 
-Species name   : 
+Collectors     : John Doe
+Crossdaters    : John and Jane Doe
+Number samples : 13
+Species name   : ABAL
 Common name    : 
 Habitat type   : MC
-Country        : 
+Country        : USA
 State          : NM
 County         : 
 Park/Monument  : 
-National Forest: Gila
+National Forest: 
 Ranger district: 
-Township       : 
+Township       : A Town somewhere
 Range          : 
 Section        : 
 Quarter section: 
@@ -24,12 +24,12 @@ Longitude      : -108.6678
 Topographic map: 
 Lowest elev    : 1555 m
 Highest elev   : 1555 m
-Slope          : 
-Aspect         : 
+Slope          : 10
+Aspect         : 90
 Area sampled   : 
 Substrate type : 
 Begin comments BELOW this line:
-Principal Investigator(s) Christopher H. Baisan, Thomas W. Swetnam;
+Principal Investigator(s) John and Jane Doe
 End comments ABOVE this line:
 
 FHX2 FORMAT
@@ -39,7 +39,7 @@ MMMMMMMMMMMMM
 AAAPPBBBCCCDD
 0000000000000
 1231212312312
-
+ 
 ...........[. 1553
 ............. 1554
 ............. 1555
