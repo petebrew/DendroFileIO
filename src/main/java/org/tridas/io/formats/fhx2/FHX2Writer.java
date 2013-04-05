@@ -130,9 +130,14 @@ public class FHX2Writer extends AbstractDendroCollectionWriter {
 									{
 										for(TridasRemark remark : v.getRemarks())
 										{
-											if(remark.isSetNormalTridas() && remark.getNormalTridas().equals(NormalTridasRemark.FIRE_DAMAGE))
+											Boolean ringRemarkFound = false;
+											if((remark.isSetNormalTridas() && remark.getNormalTridas().equals(NormalTridasRemark.FIRE_DAMAGE))||
+											   (remark.isSetNormalStd() && remark.getNormalStd().equals(FHX2File.FHX_DOMAIN))
+											  )
 											{
 												hasFireFlags = true;
+												if(ringRemarkFound) this.addWarning(new ConversionWarning(WarningType.UNREPRESENTABLE, "Multiple fire events/remarks found in a single ring.  FHX2 format can only represent one remark per ring"));
+												ringRemarkFound = true;
 											}
 										}
 									}

@@ -202,29 +202,11 @@ public class FHX2ToTridasDefaults extends TridasMetadataFieldSet {
 	@Override
 	protected TridasElement getDefaultTridasElement(){
 		TridasElement e = super.getDefaultTridasElement();
-		
-		try{
-		ControlledVoc v = (ControlledVoc) getDefaultValue(DefaultFields.SERIES_NAME).getValue();
-		if(v!=null){
-			if(v.isSetNormalId())
-			{
-				// Code was absent or invalid for ITRDB controlled voc so try the plain
-				// species name instead
-				if (getDefaultValue(DefaultFields.SPECIES_NAME).getValue()!=null)
-				{
-					v.setValue(getDefaultValue(DefaultFields.SPECIES_NAME).getValue().toString());
-				}
-			}
-		}
-		e.setTaxon(v);
-		} catch (NullPointerException ex)
-		{
 			
-		}
-		
+		GenericDefaultValue<ControlledVoc> field = (GenericDefaultValue<ControlledVoc>) getDefaultValue(DefaultFields.SPECIES_NAME);
+		ControlledVoc v = field.getValue();
+		e.setTaxon(v);
 
-
-		
 		if(getIntegerDefaultValue(DefaultFields.SLOPE).getValue()!=null)
 		{
 			TridasSlope slope = new TridasSlope();
