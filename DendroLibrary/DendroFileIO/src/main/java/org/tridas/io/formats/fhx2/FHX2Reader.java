@@ -1,6 +1,8 @@
 package org.tridas.io.formats.fhx2;
 
+import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.HashMap;
 import java.util.List;
 
 import org.tridas.io.AbstractDendroFileReader;
@@ -8,10 +10,29 @@ import org.tridas.io.DendroFileFilter;
 import org.tridas.io.I18n;
 import org.tridas.io.defaults.IMetadataFieldSet;
 import org.tridas.io.defaults.TridasMetadataFieldSet.TridasMandatoryField;
+import org.tridas.io.defaults.values.GenericDefaultValue;
+import org.tridas.io.exceptions.ConversionWarning;
+import org.tridas.io.exceptions.ConversionWarning.WarningType;
 import org.tridas.io.exceptions.InvalidDendroFileException;
+import org.tridas.io.formats.fhx2.FHX2ToTridasDefaults.DefaultFields;
+import org.tridas.io.formats.heidelberg.HeidelbergToTridasDefaults;
+import org.tridas.io.formats.heidelberg.HeidelbergToTridasDefaults.FHDataFormat;
+import org.tridas.io.formats.sheffield.TridasToSheffieldDefaults.SheffieldShapeCode;
+import org.tridas.io.util.DateUtils;
+import org.tridas.io.util.ITRDBTaxonConverter;
 import org.tridas.io.util.SafeIntYear;
+import org.tridas.schema.ControlledVoc;
+import org.tridas.schema.DateTime;
+import org.tridas.schema.TridasElement;
+import org.tridas.schema.TridasMeasurementSeries;
+import org.tridas.schema.TridasObject;
 import org.tridas.schema.TridasProject;
+import org.tridas.schema.TridasRadius;
+import org.tridas.schema.TridasRemark;
+import org.tridas.schema.TridasSample;
 import org.tridas.schema.TridasTridas;
+import org.tridas.schema.TridasValue;
+import org.tridas.schema.TridasValues;
 
 public class FHX2Reader extends AbstractDendroFileReader {
 	private Integer lineNumDataBegins = null;
@@ -19,6 +40,9 @@ public class FHX2Reader extends AbstractDendroFileReader {
 	private SafeIntYear startYear;
 	private Integer numberOfSamples;
 	private Integer codeLength;
+	private ArrayList<FHX2Series> seriesList = new ArrayList<FHX2Series>();
+	
+	
 	
 	
 	public FHX2Reader() {
@@ -87,61 +111,99 @@ public class FHX2Reader extends AbstractDendroFileReader {
 			if(line.startsWith("Name of site"))
 			{
 				String value = getMetadataValue(line);
-				defaults.getStringDefaultValue(TridasMandatoryField.OBJECT_TITLE).setValue(value);
+				if(value!=null)
+				{
+					defaults.getStringDefaultValue(TridasMandatoryField.OBJECT_TITLE).setValue(value);
+				}
 			}
 			
 			else if(line.startsWith("Site code"))
 			{
 				String value = getMetadataValue(line);
+				if(value!=null)
+				{
+					defaults.getStringDefaultValue(DefaultFields.SITE_CODE).setValue(value);
+				}
 			}			
 			
 			else if(line.startsWith("Collection date"))
 			{
-				String value = getMetadataValue(line);
+				DateTime dt = DateUtils.parseDateTimeFromNaturalString(getMetadataValue(line));
+				if(dt!=null)
+				{
+					defaults.getDateTimeDefaultValue(DefaultFields.COLLECTION_DATE).setValue(dt);
+				}
+				else if(getMetadataValue(line).trim().length()>0)
+				{
+					this.addWarning(new ConversionWarning(WarningType.AMBIGUOUS, "Unable to parse date from free text string", "Collection date"));
+				}
 			}			
 
-			
-			else if(line.startsWith("Collectors"))
+			/*else if(line.startsWith("Collectors"))
 			{
 				String value = getMetadataValue(line);
-			}			
+				if(value!=null)
+				{
+					defaults.getStringDefaultValue(DefaultFields.COLLECTORS).setValue(value);
+
+				}
+			}	*/		
 			
 			else if(line.startsWith("Crossdaters"))
 			{
 				String value = getMetadataValue(line);
+				if(value!=null)
+				{
+					defaults.getStringDefaultValue(DefaultFields.CROSSDATERS).setValue(value);
+
+				}
 			}			
 			
-			else if(line.startsWith("Number samples"))
+			/*else if(line.startsWith("Number samples"))
 			{
 				String value = getMetadataValue(line);
-			}			
+			}	*/		
 			
 			else if(line.startsWith("Species name"))
 			{
 				String value = getMetadataValue(line);
+
+
+				GenericDefaultValue<ControlledVoc> speciesField = (GenericDefaultValue<ControlledVoc>) defaults.getDefaultValue(DefaultFields.SPECIES_NAME);
+				speciesField.setValue(ITRDBTaxonConverter.getControlledVocFromCode(value));
+				
+
 			}			
 			
-			else if(line.startsWith("Common name"))
+			/*else if(line.startsWith("Common name"))
 			{
 				String value = getMetadataValue(line);
-			}			
+			}*/			
 			
-			else if(line.startsWith("Habitat type"))
+			/*else if(line.startsWith("Habitat type"))
 			{
 				String value = getMetadataValue(line);
-			}			
+			}*/			
 			
 			else if(line.startsWith("Country"))
 			{
 				String value = getMetadataValue(line);
+				if(value!=null)
+				{
+					defaults.getStringDefaultValue(DefaultFields.COUNTRY).setValue(value);
+				}
 			}			
 			
 			else if(line.startsWith("State"))
 			{
 				String value = getMetadataValue(line);
+				if(value!=null)
+				{
+					defaults.getStringDefaultValue(DefaultFields.STATE).setValue(value);
+				}
 			}			
 			
-			else if(line.startsWith("County"))
+			/*else if(line.startsWith("County"))
 			{
 				String value = getMetadataValue(line);
 			}			
@@ -159,14 +221,18 @@ public class FHX2Reader extends AbstractDendroFileReader {
 			else if(line.startsWith("Ranger district"))
 			{
 				String value = getMetadataValue(line);
-			}			
+			}	*/		
 			
 			else if(line.startsWith("Township"))
 			{
 				String value = getMetadataValue(line);
+				if(value!=null)
+				{
+					defaults.getStringDefaultValue(DefaultFields.TOWN).setValue(value);
+				}
 			}			
 			
-			else if(line.startsWith("Range"))
+			/*else if(line.startsWith("Range"))
 			{
 				String value = getMetadataValue(line);
 			}			
@@ -189,19 +255,44 @@ public class FHX2Reader extends AbstractDendroFileReader {
 			else if(line.startsWith("UTM northing"))
 			{
 				String value = getMetadataValue(line);
-			}			
+			}*/			
 			
 			else if(line.startsWith("Latitude"))
 			{
 				String value = getMetadataValue(line);
+
+				if(value.length()>0)
+				{
+				
+					try{
+						Double lat = Double.parseDouble(value);
+						defaults.getDoubleDefaultValue(DefaultFields.LATITUDE).setValue(lat);
+					} catch (NumberFormatException e)
+					{
+						this.addWarning(new ConversionWarning(WarningType.INVALID, "Unable to parse latitude from free text string", "Latitude"));
+	
+					}
+				}
 			}			
 			
 			else if(line.startsWith("Longitude"))
 			{
 				String value = getMetadataValue(line);
+
+				if(value.length()>0)
+				{
+					try{
+						Double lat = Double.parseDouble(value);
+						defaults.getDoubleDefaultValue(DefaultFields.LONGITUDE).setValue(lat);
+					} catch (NumberFormatException e)
+					{
+						this.addWarning(new ConversionWarning(WarningType.INVALID, "Unable to parse longitude from free text string", "Longitude"));
+	
+					}
+				}
 			}			
 			
-			else if(line.startsWith("Topographic map"))
+			/*else if(line.startsWith("Topographic map"))
 			{
 				String value = getMetadataValue(line);
 			}			
@@ -214,19 +305,44 @@ public class FHX2Reader extends AbstractDendroFileReader {
 			else if(line.startsWith("Highest elev"))
 			{
 				String value = getMetadataValue(line);
-			}			
+			}*/			
 			
 			else if(line.startsWith("Slope"))
 			{
 				String value = getMetadataValue(line);
+
+				if(value.length()>0)
+				{
+					try{
+						Integer integer = Integer.parseInt(value);
+						defaults.getIntegerDefaultValue(DefaultFields.SLOPE).setValue(integer);
+					} catch (NumberFormatException e)
+					{
+						this.addWarning(new ConversionWarning(WarningType.AMBIGUOUS, "Unable to parse slope angle from free text string", "Slope"));
+	
+					}
+				}
+				
 			}			
 			
 			else if(line.startsWith("Aspect"))
 			{
 				String value = getMetadataValue(line);
+
+				if(value.length()>0)
+				{			
+					try{
+						Integer integer = Integer.parseInt(value);
+						defaults.getIntegerDefaultValue(DefaultFields.ASPECT).setValue(integer);
+					} catch (NumberFormatException e)
+					{
+						this.addWarning(new ConversionWarning(WarningType.AMBIGUOUS, "Unable to parse aspect angle from free text string", "Aspect"));
+	
+					}
+				}
 			}			
 			
-			else if(line.startsWith("Area sampled"))
+			/*else if(line.startsWith("Area sampled"))
 			{
 				String value = getMetadataValue(line);
 			}			
@@ -235,7 +351,7 @@ public class FHX2Reader extends AbstractDendroFileReader {
 			{
 				String value = getMetadataValue(line);
 			}			
-			
+	*/		
 			
 		}
 		
@@ -248,23 +364,152 @@ public class FHX2Reader extends AbstractDendroFileReader {
 		for(int samplenumber=0; samplenumber<numberOfSamples; samplenumber++)
 		{
 			// Loop through sample columns
-			
+			FHX2Series series = new FHX2Series((FHX2ToTridasDefaults) defaults.clone());
 			String seriesname = "";
-			String datachars = "";
+			
+			
 			for(int i=lineNumDataBegins+2; i<lineNumDataBegins+2+codeLength; i++)
 			{
 				String line = argFileString[i];
-				seriesname+= line.substring(samplenumber,samplenumber);				
+				seriesname+= line.substring(samplenumber,samplenumber+1);				
 			}
 			
-			for(int i=lineNumDataBegins+2+codeLength+2; i<argFileString.length; i++)
+			series.defaults.getStringDefaultValue(TridasMandatoryField.MEASUREMENTSERIES_TITLE).setValue(seriesname);
+			
+			for(int i=lineNumDataBegins+2+codeLength+1; i<argFileString.length; i++)
 			{
-				String line = argFileString[i];
-				datachars+= line.substring(samplenumber,samplenumber);	
+				try{
+					String line = argFileString[i];
+					series.datachars.add(line.substring(samplenumber,samplenumber+1));
+				} catch (IndexOutOfBoundsException e)
+				{
+					break;
+				}
+			}
+			
+			seriesList.add(series);
+		}
+		
+		Integer length = seriesList.get(0).datachars.size();
+		int samplenumber = 0;
+		for(FHX2Series s : seriesList)
+		{
+			String seriesname = s.defaults.getStringDefaultValue(TridasMandatoryField.MEASUREMENTSERIES_TITLE).getStringValue();
+
+			
+			samplenumber++;
+			if(s.datachars.size()!=length){ 
+				throw new InvalidDendroFileException("All series must contain the same number of years. Sample "+seriesname+"(column "+samplenumber+") contains "+s.datachars.size()+" whereas the previous sample contained "+length);
 			}
 			
 			
+			Boolean started = false;
+			Boolean finished = false;
+			
+			s.defaults.getSafeIntYearDefaultValue(DefaultFields.FIRST_YEAR).setValue(startYear);
+			ArrayList<String> tempdata = new ArrayList<String>();
+			
+			int i=-1;
+			for(String value : s.datachars)
+			{
+				i++;
+				if(started==false)
+				{
+					if(value.equals("."))
+					{
+						s.defaults.getSafeIntYearDefaultValue(DefaultFields.FIRST_YEAR).setValue(
+								s.defaults.getSafeIntYearDefaultValue(DefaultFields.FIRST_YEAR).getValue().add(1)
+								);
+						continue;
+					}
+					else if (value.equals("[") || value.equals("{"))
+					{
+						started=true;
+						tempdata.add(value);
+						
+						if(value.equals("["))
+						{
+							s.defaults.getBooleanDefaultValue(DefaultFields.PITH).setValue(true);
+						}
+						else
+						{
+							s.defaults.getBooleanDefaultValue(DefaultFields.PITH).setValue(false);
+						}
+						
+						continue;
+					}
+					else
+					{
+						throw new InvalidDendroFileException("Data value '"+value+"' found before start of sequence in sample "+seriesname+" (column "+samplenumber+")", lineNumDataBegins+codeLength+i+4);
+					}
+				}
+				else if(finished==false)
+				{
+					tempdata.add(value);
+					
+					if(value.equals("[") || value.equals("{"))
+					{
+						throw new InvalidDendroFileException("Second start indicator found in sample "+seriesname+" (column "+samplenumber+")", lineNumDataBegins+codeLength+i+4);
+					}
+					else if(value.equals("]") || value.equals("}"))
+					{
+						
+						s.defaults.getSafeIntYearDefaultValue(DefaultFields.LAST_YEAR).setValue(
+								s.defaults.getSafeIntYearDefaultValue(DefaultFields.FIRST_YEAR).getValue().add(tempdata.size()-1)
+								);
+						finished = true;
+						
+						if(value.equals("]"))
+						{
+							s.defaults.getBooleanDefaultValue(DefaultFields.BARK).setValue(true);
+						}
+						else
+						{
+							s.defaults.getBooleanDefaultValue(DefaultFields.BARK).setValue(false);
+						}
+						
+						
+						
+					}
+					else if(!value.equals("U") 
+								&& !value.equals("u")
+								&& !value.equals("A")
+								&& !value.equals("a")
+								&& !value.equals("L")
+								&& !value.equals("l")
+								&& !value.equals("M")
+								&& !value.equals("m")
+								&& !value.equals("E")
+								&& !value.equals("e")
+								&& !value.equals("D")
+								&& !value.equals("d")
+								&& !value.equals("|")
+								&& !value.equals("."))
+					{
+						this.addWarning(new ConversionWarning(WarningType.IGNORED, "Non-standard '"+value+"' found in sample "+seriesname+" (column "+samplenumber+"), line "+lineNumDataBegins+codeLength+i+4));
+					}
+						
+				}
+				else
+				{
+					if(!value.equals("."))
+					{
+						throw new InvalidDendroFileException("Data value '"+value+"' found after end of the sequence in sample "+seriesname+" (column "+samplenumber+")", lineNumDataBegins+codeLength+i+4);
+					}
+				}
+				
+				
+			}
+			
+			if(finished=false)
+			{
+				throw new InvalidDendroFileException("Reached end of data in  sample "+seriesname+" (column "+samplenumber+")"+" without reaching the bark or end of series identifier", lineNumDataBegins+codeLength+i+4);
+			}
+			
+			// Replace original data values
+			s.datachars = tempdata;
 		}
+		
 	}
 	
 	
@@ -316,7 +561,78 @@ public class FHX2Reader extends AbstractDendroFileReader {
 	}
 
 	private TridasProject getProject(){
-		return defaults.getProjectWithDefaults(true);
+		TridasProject project = defaults.getProjectWithDefaults();
+		
+		TridasObject object = defaults.getObjectWithDefaults();
+		
+		
+		for(FHX2Series s : seriesList)
+		{
+			
+			
+
+			
+			TridasElement element = s.defaults.getElementWithDefaults();
+			TridasSample sample = s.defaults.getSampleWithDefaults();
+			TridasRadius radius = s.defaults.getRadiusWithDefaults(false);
+			TridasMeasurementSeries series = s.defaults.getMeasurementSeriesWithDefaults();
+			
+			TridasValues valuesGroup = s.defaults.getTridasValuesWithDefaults();
+			valuesGroup.setValues(getTridasValuesFromStringArray(s.datachars));
+			
+			series.getValues().add(valuesGroup);
+			radius.getMeasurementSeries().add(series);
+			sample.getRadiuses().add(radius);
+			element.getSamples().add(sample);
+			object.getElements().add(element);
+		}
+		
+		
+		
+		project.getObjects().add(object);
+		
+		return project;
+		
+	}
+	
+	
+	private ArrayList<TridasValue> getTridasValuesFromStringArray(ArrayList<String> arr)
+	{
+		ArrayList<TridasValue> values = new ArrayList<TridasValue>();
+		
+		for(String v : arr)
+		{
+			TridasValue value = new TridasValue();
+			value.setValue("0");
+			TridasRemark remark = getRemarkForMarker(v);
+			if(remark!=null) value.getRemarks().add(remark);		
+			values.add(value);
+		}
+		
+		
+		return values;
+		
+	}
+	
+	private TridasRemark getRemarkForMarker(String v)
+	{
+		FHXMarker marker;
+		try{
+			marker = FHXMarker.fromCode(v);
+		} catch (IllegalArgumentException e)
+		{
+			return null;
+		}
+		
+		if(marker==null) return null;
+	
+		
+		TridasRemark remark = new TridasRemark();
+		remark.setNormalStd("FHX");
+		remark.setNormalId(marker.getCode());
+		remark.setNormal(marker.getDescription());
+		
+		return remark;
 	}
 	
 	@Override
@@ -345,5 +661,65 @@ public class FHX2Reader extends AbstractDendroFileReader {
 		return new DendroFileFilter(exts, getShortName());
 
 	}
+	
+	private static class FHX2Series {
+
+		public ArrayList<String> datachars = new ArrayList<String>();		
+		public FHX2ToTridasDefaults defaults;
+		
+		public FHX2Series(FHX2ToTridasDefaults d)
+		{
+			defaults = d;
+		}
+	}
+	
+	
+	public enum FHXMarker{
+		
+		A_UPPERCASE("A", "Fire scar in latewood"),
+		A_LOWERCASE("a", "Fire injury in latewood"),
+		D_UPPERCASE("D", "Fire scar in dormant position"),
+		D_LOWERCASE("d", "Fire injury in dormant position"),
+		E_UPPERCASE("E", "Fire scar in first third of earlywood"),
+		E_LOWERCASE("e", "Fire injury in first third of earlywood"),
+		M_UPPERCASE("M", "Fire scar in middle third of earlywood"),
+		M_LOWERCASE("m", "Fire injury in middle third of earlywood"),
+		L_UPPERCASE("L", "Fire scar in last third of earlywood"),
+		L_LOWERCASE("l", "Fire injury in last third of earlywood"),
+		U_UPPERCASE("U", "Fire scar - position undetermined"),
+		U_LOWERCASE("u", "Fire injury - position undetermined"),
+		NON_RECORDER(".", "Not recording fires");
+		
+		private String code;
+		private String description;
+		
+		FHXMarker(String c, String d) {
+			code = c;
+			description = d;
+		}
+		
+		@Override
+		public final String toString() {
+			return description;
+		}
+		
+		public final String getCode(){
+			return code;
+		}
+		
+		public final String getDescription()
+		{
+			return description;
+		}
+		
+		public static FHXMarker fromCode(String code) {
+			for (FHXMarker val : FHXMarker.values()) {
+				if (val.getCode().equals(code)) {
+					return val;
+				}
+			}
+			return null;
+		}
+}
 
 }

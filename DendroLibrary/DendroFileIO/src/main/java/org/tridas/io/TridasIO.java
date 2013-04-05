@@ -50,6 +50,7 @@ import org.tridas.io.formats.csvmatrix.CSVMatrixWriter;
 import org.tridas.io.formats.dendrodb.DendroDBReader;
 import org.tridas.io.formats.excelmatrix.ExcelMatrixReader;
 import org.tridas.io.formats.excelmatrix.ExcelMatrixWriter;
+import org.tridas.io.formats.fhx2.FHX2Reader;
 import org.tridas.io.formats.fhx2.FHX2Writer;
 import org.tridas.io.formats.heidelberg.HeidelbergReader;
 import org.tridas.io.formats.heidelberg.HeidelbergUnstackedWriter;
@@ -119,6 +120,7 @@ public class TridasIO {
 		registerFileReader(CSVMatrixReader.class);
 		registerFileReader(DendroDBReader.class);
 		registerFileReader(ExcelMatrixReader.class);
+		registerFileReader(FHX2Reader.class);
 		registerFileReader(HeidelbergReader.class);
 		registerFileReader(KinsysReader.class);
 		registerFileReader(NottinghamReader.class);
@@ -141,6 +143,7 @@ public class TridasIO {
 		registerFileWriter(CorinaWriter.class);
 		registerFileWriter(CSVMatrixWriter.class);
 		registerFileWriter(ExcelMatrixWriter.class);
+		registerFileWriter(FHX2Writer.class);
 		registerFileWriter(HeidelbergWriter.class);
 		registerFileWriter(HeidelbergUnstackedWriter.class);
 		registerFileWriter(NottinghamWriter.class);
@@ -156,7 +159,7 @@ public class TridasIO {
 		registerFileWriter(TucsonCompactWriter.class);
 		registerFileWriter(VFormatWriter.class);
 		registerFileWriter(Past4Writer.class);
-		registerFileWriter(FHX2Writer.class);
+		
 
 		initializeCRS();
 	}
