@@ -69,7 +69,7 @@ public class TucsonFile implements IDendroFile {
 		
 		for (TucsonSeries series : seriesList)
 		{
-			if(series.series instanceof TridasDerivedSeries) return "crn";
+			if(series.isCRN) return "crn";
 		}
 		return "rwl";
 	}
@@ -133,8 +133,8 @@ public class TucsonFile implements IDendroFile {
 			
 			// if it's summed, we print spaces instead of [1]'s later
 			boolean isSummed = false; // s.isSummed();
-			boolean isChronology = false; // s.isIndexed() || s.isSummed();
-			if (series instanceof TridasDerivedSeries){isChronology = true;}
+			boolean isChronology = s.isCRN; // s.isIndexed() || s.isSummed();
+
 			
 			// Check if units are microns as we need to use a different EOF and missing ring markers 
 			String eofMarker = "999";
@@ -404,13 +404,24 @@ public class TucsonFile implements IDendroFile {
 		public final ITridasSeries series;
 		public final TridasValues dataValues;
 		public final TridasToTucsonDefaults seriesDefaults; 
-		
+		public Boolean isCRN;
 		
 		public TucsonSeries(ITridasSeries series, TridasValues dataValues, TridasToTucsonDefaults defaults)
 		{
 			this.series = series;
 			this.dataValues = dataValues;
 			this.seriesDefaults = defaults;
+			isCRN = false;
+			
+			for(TridasValue value : series.getValues().get(0).getValues())
+			{
+				if(value.isSetCount() && value.getCount()>1)
+				{
+					isCRN = true;
+					break;
+				}
+			}
+			
 		}
 		
 	}
