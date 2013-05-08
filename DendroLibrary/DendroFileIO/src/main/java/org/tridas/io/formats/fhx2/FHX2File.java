@@ -310,9 +310,16 @@ public class FHX2File implements IDendroFile {
 						{
 							if(remark.isSetNormalId())
 							{
+								// Try first direct from NormalID if set
 								if(FHXMarker.isCharacterValid(remark.getNormalId()))
 								{
 									mark = remark.getNormalId();
+								}
+								// If not try from description
+								else if (FHXMarker.isDescriptionValid(remark.getNormal()))
+								{
+									FHXMarker m2 = FHXMarker.fromDescription(remark.getNormal());
+									mark = m2.getCode();
 								}
 							}
 						}
@@ -394,6 +401,15 @@ public class FHX2File implements IDendroFile {
 			return null;
 		}
 		
+		public static FHXMarker fromDescription(String desc) {
+			for (FHXMarker val : FHXMarker.values()) {
+				if (val.getDescription().equals(desc)) {
+					return val;
+				}
+			}
+			return null;
+		}
+		
 		public static Boolean isCharacterValid(String s)
 		{
 			for (FHXMarker val : FHXMarker.values()) {
@@ -403,6 +419,17 @@ public class FHX2File implements IDendroFile {
 			}
 			return false;
 		}
+		
+		public static Boolean isDescriptionValid(String s)
+		{
+			for (FHXMarker val : FHXMarker.values()) {
+				if (val.getDescription().equals(s)) {
+					return true;
+				}
+			}
+			return false;
+		}
+		
 		
 }
 	
