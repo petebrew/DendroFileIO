@@ -151,7 +151,7 @@ public class FHX2File implements IDendroFile {
 			Integer rowNumber = labelsize+2;
 			String yearval;
 			while (yr.compareTo(yrRange.getEnd()) <= 0) {
-				yearval = "{"+yr.toAstronomicalInteger()+"}";
+				yearval = "{"+yr.toString()+"}";
 				
 				table.getCellByPosition(seriesList.size()+1, rowNumber).setStringValue(yearval);
 				// Increment to next year and row number
