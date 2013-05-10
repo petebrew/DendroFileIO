@@ -1,0 +1,44 @@
+HOLZN-Format "WSL-Birmensdorf, Switzerland"              Total 116 Characters
+
+FORMAT = '(A8, A4, 18I4, 2A4, A24)'
+
+
+
+ID       Zst   J   n   N   x   X   e   E   l   L   r   R   i   I   t   T   p   P   M Art Dat         Text
+|------||--||--||--||--||--||--||--||--||--||--||--||--||--||--||--||--||--||--||--||--||--||----------------------|
+TEST0001R   1984   1  22   1  56   1  85   1  11   1  96   1 280   1 483   1 115  71PCAB0588TESTFORMAT  HOLZN   1993
+TEST0001R   1985   1  24   1  74   1  83   1  20   1 103   1 303   1 630   1 194  72PCAB0588TESTFORMAT  HOLZN   1993
+TEST0001R   1986   1  23   1  79   1  88   1  12   1 100   1 295   1 680   1 120  73PCAB0588TESTFORMAT  HOLZN   1993
+TEST0001R   1987   1  22   1  73   1  68   1  14   1  82   1 274   1 590   1 171  74PCAB0588TESTFORMAT  HOLZN   1993
+TEST0001R   9999-999-999-999-999-999-999-999-999-999-999-999-999-999-999-999-999-999PCAB0588TESTFORMAT  HOLZN   1993
+
+
+
+Legend:
+
+ID    A8   Identification (for single samples: col. 1-4 = Film#, col. 5-8 = sample#)
+Zst   A4   Data State
+J     I4   Year (9999 = Data-Set-End)
+n     I4   Weight Minimum Density
+N     I4   Minimum Density                             1/100 g/cm3     factor for Indices * 10.
+x     I4   Weight Maximum Density
+X     I4   Maximum Density                             1/100 g/cm3     factor for Indices * 10.
+e     I4   Weight Earlywood Width
+E     I4   Earlywood Width                             1/100 mm        factor for Indices * 1000.
+l     I4   Weight Latewood Width
+L     I4   Latewood Width                              1/100 mm        factor for Indices * 1000.
+r     I4   Weight Ring Width
+R     I4   Ring Width                                  1/100 mm        factor for Indices * 1000.
+i     I4   Weight Earlywood Density
+I     I4   Earlywood Density                           1/1000 g/cm3    factor for Indices * 1.
+t     I4   Weight Latewood Density
+T     I4   Latewood Density                            1/1000 g/cm3    factor for Indices * 1.
+p     I4   Weight % of Latewood
+P     I4   % of Latewood                               L / R * 1000.   factor for Indices * 1.
+M     I4   Approx. Age of Pith
+Art   A4   Species
+Dat   A4   Date
+Text  A24  Site-Name
+
+
+(C) WSL-Birmensdorf 2000 / P. Nogler
