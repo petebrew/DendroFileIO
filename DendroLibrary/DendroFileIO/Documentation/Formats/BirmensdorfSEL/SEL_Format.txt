@@ -1,0 +1,57 @@
+SEL‑Format:			
+*******************
+Total 60 characters
+
+Title line:	FORMAT = '(1X, A4, 1X, A4, 6X, A4, 1X, I4, 1X, A4, 1X, A4, A15, 1X, A9)'
+Comment line:	FORMAT = '(A60)'  (wird überlesen)
+Data line:	FORMAT = '(2I4, 3I5, 2I6, I7, I6, A12)'
+
+
+- Individual series:
+
+ ID1  ID2   Sw  Art   M   Zst  Dat    Text1          Text2
+ |‑‑| |‑‑| |‑‑| |‑‑| |‑‑| |‑‑| |‑‑||‑‑‑‑‑‑‑‑‑‑‑‑‑| |‑‑‑‑‑‑‑|
+FTESTP011 S    H    K 7  Z    D    TESTSATZ SELE        1993
+JAHR MIN   FH  MAX   SH   FHD   SHD    JRB    MA Bemerkungen
+
+   J   N    E    X    L     I     T      R     M Comments
+|‑‑||‑‑||‑‑‑||‑‑‑||‑‑‑||‑‑‑‑||‑‑‑‑||‑‑‑‑‑||‑‑‑‑||‑‑‑‑‑‑‑‑‑‑| 
+1984  30   80  122   55   177   322    135     1
+1985  33   88  133   66   199   333    154     2
+1986  32   77  144   44   188   322    121     3
+1987  32   83  150   60   210   422    143     4
+
+
+- Mean series:
+
+ ID1  ID2   Sw  Art   M   Zst  Dat    Text1          Text2
+ |‑‑| |‑‑| |‑‑| |‑‑| |‑‑| |‑‑| |‑‑||‑‑‑‑‑‑‑‑‑‑‑‑‑| |‑‑‑‑‑‑‑|
+FTESTP011 S    H    K 7  Z    D    TESTSATZ SELM        1993
+JAHR MIN   FH  MAX   SH   FHD   SHD    JRB  GEWr Comments
+
+   J   N    E    X    L     I     T      R     r 	
+|‑‑||‑‑||‑‑‑||‑‑‑||‑‑‑||‑‑‑‑||‑‑‑‑||‑‑‑‑‑||‑‑‑‑||‑‑‑‑‑‑‑‑‑‑| 
+1984  30   80  122   55   177   322    135     1
+1985  33   88  133   66   199   333    154     2
+1986  32   77  144   44   188   322    121     2
+1987  32   83  150   60   210   422    143     2
+
+
+Legend: 
+ID1	=	Film number
+ID2	=	Sample number
+Sw	=	Threshold	
+Art	=	Type of wood
+M	=	Markalter?
+Zst	=	Data state	
+Dat	=	Date
+Text=	Location (Text1 + Text2)
+J	=	Year	
+N	=	Minimum density
+E	=	Earlywood width
+X	=	Maximum Density	
+L	=	Latewood width	
+I	=	Earlywood density	
+T	=	Latewood density
+R	=	Ring width	
+r	=	Weight of tree-ring width
