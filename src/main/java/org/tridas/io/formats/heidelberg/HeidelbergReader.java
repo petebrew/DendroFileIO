@@ -50,6 +50,7 @@ import org.tridas.io.util.SafeIntYear;
 import org.tridas.io.util.UnitUtils;
 import org.tridas.schema.ControlledVoc;
 import org.tridas.schema.DateTime;
+import org.tridas.schema.NormalTridasVariable;
 import org.tridas.schema.SeriesLink;
 import org.tridas.schema.TridasDerivedSeries;
 import org.tridas.schema.TridasElement;
@@ -63,6 +64,7 @@ import org.tridas.schema.TridasTridas;
 import org.tridas.schema.TridasUnit;
 import org.tridas.schema.TridasValue;
 import org.tridas.schema.TridasValues;
+import org.tridas.schema.TridasVariable;
 import org.tridas.spatial.SpatialUtils;
 
 /**
@@ -81,6 +83,7 @@ public class HeidelbergReader extends AbstractDendroFileReader {
 	
 	private int currentLineNum = 0;
 	
+	private Boolean isEarlyWoodFlag = true;
 
 	
 	public HeidelbergReader() {
@@ -117,23 +120,35 @@ public class HeidelbergReader extends AbstractDendroFileReader {
 				line = argFileString[lineNum];
 				
 				ArrayList<String> header = new ArrayList<String>();
+				FHStartsOrEndsWith seriesstarts = null;
 				while (!line.toUpperCase().startsWith("DATA:")) {
+					
 					header.add(line);
 					currentLineNum = ++lineNum; // update line num
 					line = argFileString[lineNum];
+					
+					if(line.toLowerCase().startsWith("seriesstart"))
+					{
+						String[] split = line.split("=");
+						if (split.length == 2) {
+							seriesstarts = FHStartsOrEndsWith.fromCode(split[1]);
+						}
+					}
 				}
+				
 				currSeries = new HeidelbergSeries();
 				extractHeader(header.toArray(new String[0]), currSeries);
+				currSeries.nextValueIs = seriesstarts;
 								
 			}
 			else if (line.toUpperCase().startsWith("DATA:")) {
 				// see what kind of data is here
-				FHDataFormat dataType = null;
+				FHDataFormat dataFormat = null;
 				try{
-				 dataType = FHDataFormat.valueOf(line.substring(line.indexOf(":") + 1).trim());
+				 dataFormat = FHDataFormat.valueOf(line.substring(line.indexOf(":") + 1).trim());
 				} catch (IllegalArgumentException e)
 				{
-					throw new InvalidDendroFileException("The data type '"+line.substring(line.indexOf(":") + 1).trim()+"' ["+
+					throw new InvalidDendroFileException("The data format '"+line.substring(line.indexOf(":") + 1).trim()+"' ["+
 							line.substring(line.indexOf(":") + 1).trim().length()+" chars"
 							+"] is not recognised");
 				}
@@ -159,7 +174,7 @@ public class HeidelbergReader extends AbstractDendroFileReader {
 				if (currSeries == null) {
 					currSeries = new HeidelbergSeries();
 				}
-				currSeries.dataType = dataType;
+				currSeries.dataFormat = dataFormat;
 				extractData(data.toArray(new String[0]), currSeries);
 				
 				// Add any comments lines that have been cached
@@ -251,6 +266,7 @@ public class HeidelbergReader extends AbstractDendroFileReader {
 				// both start and end year are null
 				addWarning(new ConversionWarning(WarningType.NULL_VALUE, I18n.getText("heidelberg.noStartOrEndDate")));
 			}
+			
 		}
 
 		
@@ -367,12 +383,21 @@ public class HeidelbergReader extends AbstractDendroFileReader {
 				argSeries.fileMetadata.put(split[0].toLowerCase().trim(), split[1].replaceAll("\\s+", " ").trim());
 			}
 		}
+		
 	}
 	
 	private void extractData(String[] argData, HeidelbergSeries argSeries) {
 		//log.debug("Data strings", argData);
-		ArrayList<TridasValue> ints = new ArrayList<TridasValue>();
-		switch (argSeries.dataType) {
+		
+		// The EarlyLateWood data type means two values are for two TridasValue groups.  Otherwise
+		// we treat them as value and counts of the same series
+		FHDataType dataType = argSeries.dataType;
+		
+		ArrayList<TridasValue> ints = new ArrayList<TridasValue>();   // Whole ring widths
+		ArrayList<TridasValue> ints2 = new ArrayList<TridasValue>();  // Early wood
+		ArrayList<TridasValue> ints3 = new ArrayList<TridasValue>();  // Late wood
+		
+		switch (argSeries.dataFormat) {
 			case Chrono :
 			case Quadro :
 				for (int i = 0; i < argData.length; i++) {
@@ -449,6 +474,7 @@ public class HeidelbergReader extends AbstractDendroFileReader {
 				break;
 			case Double :
 			case HalfChrono :
+
 				for (int i = 0; i < argData.length; i++) {
 					String line = argData[i];
 					currentLineNum++;
@@ -493,14 +519,42 @@ public class HeidelbergReader extends AbstractDendroFileReader {
 							
 						}
 						
-						// Add count value
-						Integer countval = Integer.parseInt(argData[i+1].trim());
-						val.setCount(countval);
-						ints.add(val);
+					
 						
-						// Jump line pointer forward
-						i++;
-						currentLineNum++;
+						if(dataType.equals(FHDataType.EARLY_LATE_WOOD))
+						{
+							
+							if(argSeries.nextValueIs.equals(FHStartsOrEndsWith.RING_WIDTH))
+							{
+								// File didn't specify what the first value should be
+								this.addWarning(new ConversionWarning(WarningType.ASSUMPTION, "Series is EarlyLateWood format but doesn't specify if the first value is early or late wood.  Assuming early wood."));
+								argSeries.nextValueIs = FHStartsOrEndsWith.EARLYWOOD;
+							}
+							
+							// Add value to correct series then switch format flag ready for next value
+							if(argSeries.nextValueIs.equals(FHStartsOrEndsWith.EARLYWOOD))
+							{
+								ints2.add(val);
+								argSeries.nextValueIs = FHStartsOrEndsWith.LATEWOOD;
+							}
+							else if(argSeries.nextValueIs.equals(FHStartsOrEndsWith.LATEWOOD))
+							{
+								ints3.add(val);
+								argSeries.nextValueIs = FHStartsOrEndsWith.EARLYWOOD;
+							}
+
+						}
+						else
+						{
+							// Handle second value here and treat as count 
+							Integer countval = Integer.parseInt(argData[i+1].trim());
+							val.setCount(countval);
+							ints.add(val);
+							
+							// Jump line pointer forward
+							i++;
+							currentLineNum++;
+						}
 					}
 					else
 					{
@@ -509,10 +563,35 @@ public class HeidelbergReader extends AbstractDendroFileReader {
 							Integer firstval = Integer.parseInt(s[j].trim());
 							Integer secondval = Integer.parseInt(s[j+1].trim());
 							
-							TridasValue val = new TridasValue();
-							val.setValue(firstval.toString());
-							val.setCount(secondval);
-							ints.add(val);
+							TridasValue val1 = new TridasValue();
+							val1.setValue(firstval.toString());
+							
+							
+							TridasValue val2 = new TridasValue();
+							val2.setValue(secondval.toString());
+							
+							
+							if(argSeries.nextValueIs == null || argSeries.nextValueIs.equals(FHStartsOrEndsWith.RING_WIDTH))
+							{
+								// File didn't specify what the first value should be
+								this.addWarning(new ConversionWarning(WarningType.ASSUMPTION, "Series is EarlyLateWood format but doesn't specify if the first value is early or late wood.  Assuming early wood."));
+								argSeries.nextValueIs = FHStartsOrEndsWith.EARLYWOOD;
+							}
+							
+							if(argSeries.nextValueIs.equals(FHStartsOrEndsWith.EARLYWOOD))
+							{
+								ints2.add(val1);  // First value goes into ints2 (earlywood)
+								ints3.add(val2); // Second value goes into ints3 (latewood)
+							}
+							else if(argSeries.nextValueIs.equals(FHStartsOrEndsWith.LATEWOOD))
+							{
+								ints2.add(val2); // Second value goes into ints2 (earlywood)
+								ints3.add(val1);// First value goes into ints3 (latewood)
+								
+							}
+
+							
+							
 						}
 					}
 				}
@@ -579,7 +658,32 @@ public class HeidelbergReader extends AbstractDendroFileReader {
 					break;
 		}
 		
+		
+		if(ints2.size()>0 && ints3.size()>0)
+		{
+			// Series contains early/late wood values
+			// Calculate whole ring widths too
+			
+			if(ints2.size()!=ints3.size())
+			{
+				this.addWarning(new ConversionWarning(WarningType.INVALID, "Series contains a different number of early and late wood widths"));
+			}
+			else
+			{
+				for(int i=0; i<ints2.size(); i++)
+				{
+					TridasValue val = new TridasValue();
+					Integer intval = Integer.parseInt(ints2.get(i).getValue())+Integer.parseInt(ints3.get(i).getValue());
+					val.setValue(intval.toString());
+					ints.add(val);
+				}
+			}
+			
+		}
+		
 		argSeries.dataVals.addAll(ints);
+		argSeries.dataValsSecondSeries.addAll(ints2);
+		argSeries.dataValsThirdSeries.addAll(ints3);
 	
 	}
 	
@@ -641,9 +745,11 @@ public class HeidelbergReader extends AbstractDendroFileReader {
 			
 			//DATA_TYPE, new GenericDefaultValue<FHDataType>());
 			if(fileMetadata.containsKey("datatype")){
+				FHDataType dataType = FHDataType.fromCode(fileMetadata.get("datatype"));
 				GenericDefaultValue<FHDataType> dataTypeField = (GenericDefaultValue<FHDataType>) s.defaults
 				.getDefaultValue(DefaultFields.DATA_TYPE);
-				dataTypeField.setValue(FHDataType.fromCode(fileMetadata.get("datatype")));
+				dataTypeField.setValue(dataType);
+				s.dataType = dataType;
 			}
 						
 			//DATED, new GenericDefaultValue<FHDated>());
@@ -961,9 +1067,16 @@ public class HeidelbergReader extends AbstractDendroFileReader {
 			
 			//SERIES_START, new GenericDefaultValue<FHStartsOrEndsWith>());
 			if(fileMetadata.containsKey("seriesstart")){
+				log.debug("*********");
+				FHStartsOrEndsWith startswithtype = FHStartsOrEndsWith.fromCode(fileMetadata.get("seriesstart"));
+				
+				s.nextValueIs = startswithtype;
+				
+				log.debug("Series starts with "+startswithtype);
+				
 				GenericDefaultValue<FHStartsOrEndsWith> seriesStartField = (GenericDefaultValue<FHStartsOrEndsWith>) s.defaults
 				.getDefaultValue(DefaultFields.SERIES_START);
-				seriesStartField.setValue(FHStartsOrEndsWith.fromCode(fileMetadata.get("seriesstart")));
+				seriesStartField.setValue(startswithtype);
 			}
 			
 			//SERIES_TYPE, new GenericDefaultValue<FHSeriesType>());
@@ -1131,8 +1244,8 @@ public class HeidelbergReader extends AbstractDendroFileReader {
 			TridasElement element = s.defaults.getDefaultTridasElement();
 			TridasSample sample = s.defaults.getDefaultTridasSample();
 			
-			FHDataFormat dataType = s.dataType;
-			switch (dataType) {
+			FHDataFormat dataFormat = s.dataFormat;
+			switch (dataFormat) {
 				case Chrono :
 				//TODO START ESTHER SPECIAL
 				//case Double :
@@ -1183,14 +1296,95 @@ public class HeidelbergReader extends AbstractDendroFileReader {
 					break;
 				//TODO START ESTHER SPECIAL
 				case Double:
+					
+					// Special case for EarlyLateWood data type where we need to override variables
+					// and use second and third series of values
+					if(s.dataType.equals(FHDataType.EARLY_LATE_WOOD))
+					{
+						// Whole Ring widths
+						TridasRadius radius = s.defaults.getDefaultTridasRadius();
+						TridasMeasurementSeries series = s.defaults.getDefaultTridasMeasurementSeries();
+						
+						TridasValues valuesGroup = s.defaults.getTridasValuesWithDefaults();
+					
+						TridasVariable var = new TridasVariable();
+						var.setNormalTridas(NormalTridasVariable.RING_WIDTH);
+						valuesGroup.setVariable(var);
+						valuesGroup.setValues(s.dataVals);
+						
+						int numDataInts = s.dataVals.size();
+						String slength = s.fileMetadata.get("length");
+						if (slength != null) {
+							try {
+								numDataInts = Integer.parseInt(slength); // value
+							} catch (Exception e) {}
+						}
+						if (numDataInts > s.dataVals.size()) {
+							log.error("Incorrect length: " + numDataInts);
+							// throw ConversionWarning()
+							numDataInts = s.dataVals.size();
+						}
+						
+						
+						// Early Wood Widths
+						TridasValues valuesGroup2 = s.defaults.getTridasValuesWithDefaults();
+					
+						TridasVariable var2 = new TridasVariable();
+						var2.setNormalTridas(NormalTridasVariable.EARLYWOOD_WIDTH);
+						valuesGroup2.setVariable(var2);
+						valuesGroup2.setValues(s.dataValsSecondSeries);
+						
+						if (slength != null) {
+							try {
+								numDataInts = Integer.parseInt(slength); // value
+							} catch (Exception e) {}
+						}
+						if (numDataInts > s.dataValsSecondSeries.size()) {
+							log.error("Incorrect length: " + numDataInts);
+							// throw ConversionWarning()
+							numDataInts = s.dataValsSecondSeries.size();
+						}
+						
+						
+						// Late Wood Widths
+						TridasValues valuesGroup3 = s.defaults.getTridasValuesWithDefaults();
+						
+						TridasVariable var3 = new TridasVariable();
+						var3.setNormalTridas(NormalTridasVariable.LATEWOOD_WIDTH);
+						valuesGroup3.setVariable(var3);
+						valuesGroup3.setValues(s.dataValsThirdSeries);
+						
+						numDataInts = s.dataValsThirdSeries.size();
+						if (slength != null) {
+							try {
+								numDataInts = Integer.parseInt(slength); // value
+							} catch (Exception e) {}
+						}
+						if (numDataInts > s.dataValsThirdSeries.size()) {
+							log.error("Incorrect length for latewood series: " + numDataInts);
+							// throw ConversionWarning()
+							numDataInts = s.dataValsThirdSeries.size();
+						}
+
+						series.getValues().add(valuesGroup);
+						series.getValues().add(valuesGroup2);
+						series.getValues().add(valuesGroup3);
+						radius.getMeasurementSeries().add(series);
+						sample.getRadiuses().add(radius);
+						
+						break;
+					}
+					
 				case HalfChrono:
 				//TODO STOP ESTHER SPECIAL	
 				case Single :
 				case Tree : {
+					
 					TridasRadius radius = s.defaults.getDefaultTridasRadius();
 					TridasMeasurementSeries series = s.defaults.getDefaultTridasMeasurementSeries();
 					
 					TridasValues valuesGroup = s.defaults.getTridasValuesWithDefaults();
+					
 					valuesGroup.setValues(s.dataVals);
 					
 					int numDataInts = s.dataVals.size();
@@ -1294,10 +1488,14 @@ public class HeidelbergReader extends AbstractDendroFileReader {
 	 * @author daniel
 	 */
 	private static class HeidelbergSeries {
-		public FHDataFormat dataType;
+		public FHDataFormat dataFormat;
+		public FHDataType dataType;
 		public HeidelbergToTridasDefaults defaults;
 		public final HashMap<String, String> fileMetadata = new HashMap<String, String>();
 		public final ArrayList<TridasValue> dataVals = new ArrayList<TridasValue>();
+		public final ArrayList<TridasValue> dataValsSecondSeries = new ArrayList<TridasValue>();
+		public final ArrayList<TridasValue> dataValsThirdSeries = new ArrayList<TridasValue>();
+		public FHStartsOrEndsWith nextValueIs = FHStartsOrEndsWith.RING_WIDTH;
 	}
 	
 	/**
