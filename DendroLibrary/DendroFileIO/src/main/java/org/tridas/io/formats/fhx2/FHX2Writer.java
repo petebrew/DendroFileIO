@@ -147,7 +147,7 @@ public class FHX2Writer extends AbstractDendroCollectionWriter {
 								{
 									log.warn("This series doesn't include fire history data.");
 									this.addWarning(new ConversionWarning(WarningType.IGNORED, "This series doesn't include fire history data."));
-									continue;
+									//continue;
 								}
 								
 								TridasWoodCompleteness wc = null;

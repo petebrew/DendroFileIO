@@ -16,6 +16,7 @@ import org.tridas.io.defaults.values.GenericDefaultValue;
 import org.tridas.io.exceptions.ConversionWarning;
 import org.tridas.io.exceptions.ConversionWarning.WarningType;
 import org.tridas.io.exceptions.InvalidDendroFileException;
+import org.tridas.io.exceptions.InvalidDendroFileException.PointerType;
 import org.tridas.io.formats.fhx2.FHX2File.FHXMarker;
 import org.tridas.io.formats.fhx2.FHX2ToTridasDefaults.DefaultFields;
 import org.tridas.io.formats.heidelberg.HeidelbergToTridasDefaults;
@@ -377,8 +378,15 @@ public class FHX2Reader extends AbstractDendroFileReader {
 			for(int i=lineNumDataBegins+2; i<lineNumDataBegins+2+codeLength; i++)
 			{
 				String line = argFileString[i];
-				seriesname+= line.substring(samplenumber,samplenumber+1);				
+				try{
+				seriesname+= line.substring(samplenumber,samplenumber+1);
+				} catch (StringIndexOutOfBoundsException ex)
+				{
+					log.debug("Ignoring series name character");
+				}
 			}
+			
+			seriesname = seriesname.trim();
 			
 			series.defaults.getStringDefaultValue(TridasMandatoryField.MEASUREMENTSERIES_TITLE).setValue(seriesname);
 			
@@ -392,6 +400,8 @@ public class FHX2Reader extends AbstractDendroFileReader {
 			{
 				try{
 					String line = argFileString[i];
+					
+
 					series.datachars.add(line.substring(samplenumber,samplenumber+1));
 				} catch (IndexOutOfBoundsException e)
 				{
@@ -434,7 +444,26 @@ public class FHX2Reader extends AbstractDendroFileReader {
 								);
 						continue;
 					}
-					else if (value.equals("[") || value.equals("{"))
+					else if (value.equals("]") || value.equals("}"))
+					{
+						throw new InvalidDendroFileException("Data value '"+value+"' found before start of sequence in sample "+seriesname+" (column "+samplenumber+")", lineNumDataBegins+codeLength+i+4);
+					}
+					else if (value.equals("[")  
+							|| value.equals("{")  
+							|| value.equals("U") 
+							|| value.equals("u")
+							|| value.equals("A")
+							|| value.equals("a")
+							|| value.equals("L")
+							|| value.equals("l")
+							|| value.equals("M")
+							|| value.equals("m")
+							|| value.equals("E")
+							|| value.equals("e")
+							|| value.equals("D")
+							|| value.equals("d")
+							|| value.equals("|")
+							|| value.equals("."))
 					{
 						started=true;
 						tempdata.add(value);
@@ -452,8 +481,10 @@ public class FHX2Reader extends AbstractDendroFileReader {
 					}
 					else
 					{
-						throw new InvalidDendroFileException("Data value '"+value+"' found before start of sequence in sample "+seriesname+" (column "+samplenumber+")", lineNumDataBegins+codeLength+i+4);
+						throw new InvalidDendroFileException("Data value '"+value+"' unrecognised in "+seriesname+" (column "+samplenumber+")", lineNumDataBegins+codeLength+i+4);
+
 					}
+
 				}
 				else if(finished==false)
 				{
@@ -504,9 +535,13 @@ public class FHX2Reader extends AbstractDendroFileReader {
 				}
 				else
 				{
-					if(!value.equals("."))
+					if(!value.equals(".") && !value.equals("\u001A"))
 					{
 						throw new InvalidDendroFileException("Data value '"+value+"' found after end of the sequence in sample "+seriesname+" (column "+samplenumber+")", lineNumDataBegins+codeLength+i+4);
+					}
+					else if (value.equals("\u001A"))
+					{
+						length = length-1;
 					}
 				}
 				
