@@ -384,7 +384,7 @@ public class TestToTridas extends TestCase {
 		}
 		
 		for (String filename : files) {
-			//if(!filename.equals("SET03.FH")) continue;
+			if(!filename.equals("earlylatewood.fh")) continue;
 			
 			log.info("Test conversion of: " + filename);
 			

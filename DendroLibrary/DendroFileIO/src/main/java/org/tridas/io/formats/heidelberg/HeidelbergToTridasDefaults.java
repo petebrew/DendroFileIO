@@ -559,6 +559,8 @@ public class HeidelbergToTridasDefaults extends TridasMetadataFieldSet {
 		else {
 			valuesGroup.setUnit(units.getValue());
 		}
+		
+		
 		GenericDefaultValue<TridasVariable> variable = (GenericDefaultValue<TridasVariable>) getDefaultValue(TridasMandatoryField.MEASUREMENTSERIES_VARIABLE);
 		valuesGroup.setVariable(variable.getValue());
 	
