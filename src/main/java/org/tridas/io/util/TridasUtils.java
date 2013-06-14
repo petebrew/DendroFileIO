@@ -23,6 +23,7 @@ import java.util.Set;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.tridas.interfaces.ITridas;
+import org.tridas.interfaces.ITridasGeneric;
 import org.tridas.interfaces.ITridasSeries;
 import org.tridas.io.I18n;
 import org.tridas.io.formats.tridas.TridasReader;
@@ -31,6 +32,7 @@ import org.tridas.schema.NormalTridasRemark;
 import org.tridas.schema.NormalTridasUnit;
 import org.tridas.schema.TridasDerivedSeries;
 import org.tridas.schema.TridasElement;
+import org.tridas.schema.TridasGenericField;
 import org.tridas.schema.TridasIdentifier;
 import org.tridas.schema.TridasMeasurementSeries;
 import org.tridas.schema.TridasObject;
@@ -50,6 +52,19 @@ public class TridasUtils {
 	
 	public TridasUtils() {
 
+	}
+	
+	public static TridasGenericField getGenericFieldByName(ITridasGeneric entity, String fieldName)
+	{
+	
+		if(!entity.isSetGenericFields()) return null;
+		
+		for(TridasGenericField field: entity.getGenericFields())
+		{
+			if(field.getName().equals(fieldName)) return field;
+		}
+		
+		return null;
 	}
 		
 	public static ArrayList<ITridasSeries> getAllSeriesFromTridasContainer(TridasTridas c)
