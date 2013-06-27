@@ -55,6 +55,8 @@ import org.tridas.io.formats.fhx2.FHX2Writer;
 import org.tridas.io.formats.heidelberg.HeidelbergReader;
 import org.tridas.io.formats.heidelberg.HeidelbergUnstackedWriter;
 import org.tridas.io.formats.heidelberg.HeidelbergWriter;
+import org.tridas.io.formats.heikkenensingle.HeikkenenSingleReader;
+import org.tridas.io.formats.heikkenensingle.HeikkenenSingleWriter;
 import org.tridas.io.formats.kinsys.KinsysReader;
 import org.tridas.io.formats.nottingham.NottinghamReader;
 import org.tridas.io.formats.nottingham.NottinghamWriter;
@@ -122,6 +124,7 @@ public class TridasIO {
 		registerFileReader(ExcelMatrixReader.class);
 		registerFileReader(FHX2Reader.class);
 		registerFileReader(HeidelbergReader.class);
+		registerFileReader(HeikkenenSingleReader.class);
 		registerFileReader(KinsysReader.class);
 		registerFileReader(NottinghamReader.class);
 		registerFileReader(ODFMatrixReader.class);
@@ -146,6 +149,7 @@ public class TridasIO {
 		registerFileWriter(FHX2Writer.class);
 		registerFileWriter(HeidelbergWriter.class);
 		registerFileWriter(HeidelbergUnstackedWriter.class);
+		registerFileWriter(HeikkenenSingleWriter.class);
 		registerFileWriter(NottinghamWriter.class);
 		registerFileWriter(ODFMatrixWriter.class);
 		registerFileWriter(OOXMLWriter.class);
