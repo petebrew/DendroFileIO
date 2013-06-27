@@ -31,6 +31,7 @@ import org.tridas.schema.TridasObject;
 import org.tridas.schema.TridasProject;
 import org.tridas.schema.TridasRadius;
 import org.tridas.schema.TridasSample;
+import org.tridas.schema.TridasValues;
 
 /**
  * @author daniel
@@ -58,6 +59,13 @@ public abstract class AbstractNamingConvention implements INamingConvention {
 		registerFile(argFile, filename);
 	}
 	
+	
+	public synchronized void  registerFile(IDendroFile argFile, TridasProject argProject, TridasObject argObject,
+			TridasElement argElement, TridasSample argSample, TridasRadius argRadius, TridasMeasurementSeries argSeries, TridasValues argValues)
+	{
+		String filename = getDendroFilename(argFile, argProject, argObject, argElement, argSample, argRadius, argSeries, argValues);
+		registerFile(argFile, filename);
+	}
 	
 	public synchronized void registerFile(IDendroFile argFile, TridasProject p)
 	{
@@ -154,6 +162,12 @@ public abstract class AbstractNamingConvention implements INamingConvention {
 	
 	protected abstract String getDendroFilename(IDendroFile argFile, TridasProject argProject, TridasObject argObject,
 			TridasElement argElement, TridasSample argSample, TridasRadius argRadius, TridasMeasurementSeries argSeries);
+	
+	protected String getDendroFilename(IDendroFile argFile, TridasProject argProject, TridasObject argObject,
+			TridasElement argElement, TridasSample argSample, TridasRadius argRadius, TridasMeasurementSeries argSeries, TridasValues argValues)
+	{
+		return getDendroFilename(argFile, argProject, argObject, argElement, argSample, argRadius, argSeries);
+	}
 	
 	protected abstract String getDendroFilename(IDendroFile argFile, TridasProject argProject,
 			TridasDerivedSeries argSeries);

@@ -24,7 +24,9 @@ import org.tridas.io.exceptions.ConversionWarning;
 import org.tridas.io.exceptions.ConversionWarningException;
 import org.tridas.io.exceptions.IncompleteTridasDataException;
 import org.tridas.io.exceptions.ConversionWarning.WarningType;
+import org.tridas.io.formats.heidelberg.HeidelbergFile;
 import org.tridas.io.naming.INamingConvention;
+import org.tridas.io.naming.NamingConventionGrouper;
 import org.tridas.io.naming.NumericalNamingConvention;
 import org.tridas.io.util.SafeIntYear;
 import org.tridas.io.util.TridasUtils;
@@ -52,6 +54,8 @@ public class TucsonWriter extends AbstractDendroCollectionWriter {
 	
 	TridasToTucsonDefaults defaults;
 	INamingConvention naming = new NumericalNamingConvention();
+	protected boolean isstacked = true;
+	
 	
 	/**
 	 * Standard constructor
@@ -76,6 +80,12 @@ public class TucsonWriter extends AbstractDendroCollectionWriter {
 		try { dsList = p.getDerivedSeries();
 		} catch (NullPointerException e) {}
 				
+		
+		TucsonFile file = new TucsonFile(defaults);
+		NamingConventionGrouper ncgroup = new NamingConventionGrouper();
+		ncgroup.add(p);
+		
+		
 		if (dsList!=null && dsList.size()>0) 
 		{
 			/**
@@ -136,12 +146,23 @@ public class TucsonWriter extends AbstractDendroCollectionWriter {
 						}
 						
 						
-						dft.populateFromTridasDerivedSeries(ds);
-						TucsonFile file = new TucsonFile(defaults);
-						file.addSeries(ds, tvs, dft);
+						if(!isstacked) 
+						{		
+							dft.populateFromTridasDerivedSeries(ds);
+							file = new TucsonFile(defaults);
+							file.addSeries(ds, tvs, dft);
+							
+							naming.registerFile(file, p, ds);
+							addToFileList(file);
+						}
+						else
+						{
+							file.addSeries(ds, tvs, dft);
+							naming.registerFile(file, ncgroup);
+						}
 						
-						naming.registerFile(file, p, ds);
-						addToFileList(file);
+						
+
 					}
 				}
 			}
@@ -165,7 +186,7 @@ public class TucsonWriter extends AbstractDendroCollectionWriter {
 				TridasToTucsonDefaults objectDefaults = (TridasToTucsonDefaults) defaults.clone();
 				objectDefaults.populateFromTridasObject(o);
 				
-				TucsonFile file = null;
+				file = null;
 				
 				for (TridasElement e : TridasUtils.getElementList(o)) {
 					TridasToTucsonDefaults elementDefaults = (TridasToTucsonDefaults) objectDefaults.clone();
@@ -224,8 +245,19 @@ public class TucsonWriter extends AbstractDendroCollectionWriter {
 											file = new TucsonFile(tvDefaults);
 										}
 										
-										file.addSeries(ms, tvs, tvDefaults);
-																				
+										if(!isstacked) 
+										{
+											file = new TucsonFile(tvDefaults);
+											file.addSeries(ms, tvs, tvDefaults);
+											naming.registerFile(file, p, o, e, s, r, ms, tvs);
+											addToFileList(file);
+											file = new TucsonFile(defaults);
+										}
+										else
+										{
+											file.addSeries(ms, tvs, tvDefaults);
+											naming.registerFile(file, ncgroup);
+										}																			
 									}
 								}
 							}
@@ -234,7 +266,10 @@ public class TucsonWriter extends AbstractDendroCollectionWriter {
 				}
 				naming.registerFile(file, p);
 
-				addToFileList(file);
+				if(file.getSeries().length>0)
+				{
+					addToFileList(file);
+				}
 			}
 		}
 	}

@@ -77,6 +77,7 @@ import org.tridas.io.formats.tridas.TridasWriter;
 import org.tridas.io.formats.trims.TrimsReader;
 import org.tridas.io.formats.trims.TrimsWriter;
 import org.tridas.io.formats.tucson.TucsonReader;
+import org.tridas.io.formats.tucson.TucsonUnstackedWriter;
 import org.tridas.io.formats.tucson.TucsonWriter;
 import org.tridas.io.formats.tucsoncompact.TucsonCompactReader;
 import org.tridas.io.formats.tucsoncompact.TucsonCompactWriter;
@@ -159,6 +160,7 @@ public class TridasIO {
 		registerFileWriter(TridasWriter.class);
 		registerFileWriter(TrimsWriter.class);
 		registerFileWriter(TucsonWriter.class);
+		registerFileWriter(TucsonUnstackedWriter.class);
 		registerFileWriter(TucsonDataOnlyWriter.class);
 		registerFileWriter(TucsonCompactWriter.class);
 		registerFileWriter(VFormatWriter.class);
