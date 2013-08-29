@@ -361,7 +361,7 @@ public class TucsonFile implements IDendroFile {
 		}
 		
 		// return range
-		return allSeriesRange.getStart().toAstronomicalYear() + " " + allSeriesRange.getEnd().toAstronomicalYear();
+		return allSeriesRange.getStart().toAstronomicalYear() + " " + allSeriesRange.getEnd().add(-1).toAstronomicalYear();
 	}
 	
 	/**

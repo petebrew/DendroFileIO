@@ -223,8 +223,8 @@ public class TucsonWriter extends AbstractDendroCollectionWriter {
 										this.addWarning(e1.getWarning());
 									}
 																		
-									TridasToTucsonDefaults tvDefaults = new TridasToTucsonDefaults();
-
+									//TridasToTucsonDefaults tvDefaults = new TridasToTucsonDefaults();
+									TridasToTucsonDefaults tvDefaults = (TridasToTucsonDefaults) msDefaults.clone();
 
 									// Check that the range does not go outside that which Tucson format is capable of storing
 									YearRange thisSeriesRange = new YearRange(ms);
