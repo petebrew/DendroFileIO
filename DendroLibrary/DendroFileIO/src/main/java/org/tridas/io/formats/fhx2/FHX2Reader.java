@@ -96,8 +96,8 @@ public class FHX2Reader extends AbstractDendroFileReader {
 	private void parseMetadata(String[] argFileString) throws InvalidDendroFileException
 	{
 		Integer metadataLineNum = lineNumDataBegins+1;
-		String[] parts = argFileString[metadataLineNum].split(" ");
-		if(parts.length!=3) throw new InvalidDendroFileException("Metadata line does not contain start year, sample number and code length as expected", metadataLineNum);
+		String[] parts = argFileString[metadataLineNum].split("\\s+");
+		if(parts.length!=3) throw new InvalidDendroFileException("Metadata line does not contain start year, sample number and code length as expected. Values should be whole numbers separated by single spaces", metadataLineNum+1);
 		
 		
 		try{
