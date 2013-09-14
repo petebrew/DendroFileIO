@@ -18,6 +18,7 @@ package org.tridas.io.formats.past4;
 import java.util.ArrayList;
 
 import org.tridas.io.AbstractDendroCollectionWriter;
+import org.tridas.io.DendroFileFilter;
 import org.tridas.io.I18n;
 import org.tridas.io.defaults.IMetadataFieldSet;
 import org.tridas.io.exceptions.ConversionWarning;
@@ -394,4 +395,13 @@ public class Past4Writer extends AbstractDendroCollectionWriter {
 		
 		return record;
 	}
+	
+	@Override
+	public DendroFileFilter getDendroFileFilter() {
+		String[] exts = new String[] {"P4P"};
+		
+		return new DendroFileFilter(exts, getShortName());
+
+	}
+
 }

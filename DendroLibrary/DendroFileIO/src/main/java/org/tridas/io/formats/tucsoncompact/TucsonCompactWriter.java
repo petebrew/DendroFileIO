@@ -16,6 +16,7 @@
 package org.tridas.io.formats.tucsoncompact;
 
 import org.tridas.io.AbstractDendroCollectionWriter;
+import org.tridas.io.DendroFileFilter;
 import org.tridas.io.I18n;
 import org.tridas.io.defaults.IMetadataFieldSet;
 import org.tridas.io.exceptions.ConversionWarning;
@@ -276,4 +277,13 @@ public class TucsonCompactWriter extends AbstractDendroCollectionWriter {
 	public void setNamingConvention(INamingConvention argConvension) {
 		naming = argConvension;
 	}
+	
+	@Override
+	public DendroFileFilter getDendroFileFilter() {
+		String[] exts = new String[] {"txt"};
+		
+		return new DendroFileFilter(exts, getShortName());
+	
+	}
+	
 }

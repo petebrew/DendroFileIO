@@ -19,6 +19,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import org.tridas.io.AbstractDendroCollectionWriter;
+import org.tridas.io.DendroFileFilter;
 import org.tridas.io.I18n;
 import org.tridas.io.defaults.IMetadataFieldSet;
 import org.tridas.io.exceptions.ConversionWarning;
@@ -246,6 +247,14 @@ public class BelfastAppleWriter extends AbstractDendroCollectionWriter {
 		naming = argConvension;
 	}
 
+	@Override
+	public DendroFileFilter getDendroFileFilter() {
+
+		String[] exts = new String[] {"*.*"};
+		
+		return new DendroFileFilter(exts, getShortName());
+
+	}
 
 	
 }

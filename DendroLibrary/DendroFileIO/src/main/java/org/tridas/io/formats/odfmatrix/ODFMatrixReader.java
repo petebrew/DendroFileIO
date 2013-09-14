@@ -63,7 +63,7 @@ public class ODFMatrixReader extends AbstractDendroFileReader {
 	
 	@Override
 	public DendroFileFilter getDendroFileFilter() {
-		String[] exts = new String[] {"xls"};
+		String[] exts = new String[] {"ods"};
 		
 		return new DendroFileFilter(exts, getShortName());
 

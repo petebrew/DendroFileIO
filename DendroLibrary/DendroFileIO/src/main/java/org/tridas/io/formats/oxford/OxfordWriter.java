@@ -17,6 +17,7 @@ package org.tridas.io.formats.oxford;
 
 import org.tridas.interfaces.ITridasSeries;
 import org.tridas.io.AbstractDendroCollectionWriter;
+import org.tridas.io.DendroFileFilter;
 import org.tridas.io.I18n;
 import org.tridas.io.defaults.IMetadataFieldSet;
 import org.tridas.io.exceptions.ConversionWarning;
@@ -278,4 +279,12 @@ public class OxfordWriter extends AbstractDendroCollectionWriter {
 				"No file created"));
 	}
 	
+	@Override
+	public DendroFileFilter getDendroFileFilter() {
+		String[] exts = new String[] {"ddf"};
+		
+		return new DendroFileFilter(exts, getShortName());
+
+	}
+
 }

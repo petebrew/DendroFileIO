@@ -22,6 +22,7 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.tridas.interfaces.ITridasSeries;
 import org.tridas.io.AbstractDendroCollectionWriter;
+import org.tridas.io.DendroFileFilter;
 import org.tridas.io.I18n;
 import org.tridas.io.defaults.IMetadataFieldSet;
 import org.tridas.io.exceptions.ConversionWarning;
@@ -139,4 +140,12 @@ public class CSVMatrixWriter extends AbstractDendroCollectionWriter {
 		naming = argConvention;
 	}
 	
+	@Override
+	public DendroFileFilter getDendroFileFilter() {
+		String[] exts = new String[] {"csv"};
+		
+		return new DendroFileFilter(exts, getShortName());
+
+	}
+
 }

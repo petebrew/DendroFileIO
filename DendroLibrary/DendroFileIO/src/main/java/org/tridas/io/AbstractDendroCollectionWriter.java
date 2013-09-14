@@ -412,4 +412,7 @@ public abstract class AbstractDendroCollectionWriter {
 	 * @return
 	 */
 	public abstract IMetadataFieldSet getDefaults();
+	
+	public abstract DendroFileFilter getDendroFileFilter();
+
 }

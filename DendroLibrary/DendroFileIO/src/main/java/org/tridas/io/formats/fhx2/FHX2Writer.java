@@ -7,6 +7,7 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.tridas.interfaces.ITridasSeries;
 import org.tridas.io.AbstractDendroCollectionWriter;
+import org.tridas.io.DendroFileFilter;
 import org.tridas.io.I18n;
 import org.tridas.io.defaults.IMetadataFieldSet;
 import org.tridas.io.exceptions.ConversionWarning;
@@ -340,5 +341,14 @@ public class FHX2Writer extends AbstractDendroCollectionWriter {
 			return series.getValues().get(0).getValues().get(difference);
 		}
 	}
+	
+	@Override
+	public DendroFileFilter getDendroFileFilter() {
+		String[] exts = new String[] {"fhx"};
+		
+		return new DendroFileFilter(exts, getShortName());
+
+	}
+
 
 }
