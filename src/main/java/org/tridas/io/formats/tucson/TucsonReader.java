@@ -155,7 +155,7 @@ public class TucsonReader extends AbstractDendroFileReader {
 	 */
 	@Override
 	public String[] getFileExtensions() {
-		return new String[] { "crn", "rwl" };
+		return new String[] { "rwl", "tuc", "crn", "raw" };
 	}
 
 	private TridasProject getProject() {

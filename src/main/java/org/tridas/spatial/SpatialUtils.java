@@ -141,12 +141,13 @@ public class SpatialUtils {
 				
 		if (sign.equalsIgnoreCase("S") || sign.equalsIgnoreCase("W")) {
 			coords = 0 - coords;
+			return coords;
 		}
 		else if (sign.equalsIgnoreCase("N") || sign.equalsIgnoreCase("E")) {
 			return coords;
 		}
 		
-		throw new NumberFormatException("Coordinate direction must be one of N,S,E or W");
+		throw new NumberFormatException("Coordinate direction must be one of N,S,E or W, but direction was '"+sign+"'");
 		
 	}
 	
@@ -162,14 +163,18 @@ public class SpatialUtils {
 	public static Double getDecimalCoords(String sign, Double degrees, Double minutes, Double seconds) throws NumberFormatException {
 		Double coords = getDecimalCoords(degrees, minutes, seconds);
 		
+		sign = sign.trim();
+		
 		if (sign.equalsIgnoreCase("S") || sign.equalsIgnoreCase("W")) {
 			coords = 0 - coords;
+			return coords;
 		}
 		else if (sign.equalsIgnoreCase("N") || sign.equalsIgnoreCase("E")) {
 			return coords;
 		}
 		
-		throw new NumberFormatException("Coordinate direction must be one of N,S,E or W");
+		throw new NumberFormatException("Coordinate direction must be one of N,S,E or W, but direction was '"+sign+"'");
+
 	}
 	
 	/**
@@ -413,6 +418,8 @@ public class SpatialUtils {
 		
 	}
 		
+	
+	
 	/**
 	 * Attempt to convert a string to a decimal lat or lon value.
 	 * 

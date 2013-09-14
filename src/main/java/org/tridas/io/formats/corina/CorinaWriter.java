@@ -17,6 +17,7 @@ package org.tridas.io.formats.corina;
 
 import org.tridas.interfaces.ITridasSeries;
 import org.tridas.io.AbstractDendroCollectionWriter;
+import org.tridas.io.DendroFileFilter;
 import org.tridas.io.I18n;
 import org.tridas.io.defaults.IMetadataFieldSet;
 import org.tridas.io.exceptions.ConversionWarning;
@@ -315,5 +316,14 @@ public class CorinaWriter extends AbstractDendroCollectionWriter {
 	@Override
 	public void setNamingConvention(INamingConvention argConvension) {
 		naming = argConvension;
+	}
+	
+	@Override
+	public DendroFileFilter getDendroFileFilter() {
+
+		String[] exts = new String[] {"*.*"};
+		
+		return new DendroFileFilter(exts, getShortName());
+
 	}
 }

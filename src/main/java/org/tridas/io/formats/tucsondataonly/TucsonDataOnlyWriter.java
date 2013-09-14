@@ -19,6 +19,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import org.tridas.io.AbstractDendroCollectionWriter;
+import org.tridas.io.DendroFileFilter;
 import org.tridas.io.I18n;
 import org.tridas.io.defaults.IMetadataFieldSet;
 import org.tridas.io.exceptions.ConversionWarning;
@@ -351,4 +352,13 @@ public class TucsonDataOnlyWriter extends AbstractDendroCollectionWriter {
 	public String getShortName() {
 		return I18n.getText("tucsondataonly.about.shortName");
 	}
+	
+	@Override
+	public DendroFileFilter getDendroFileFilter() {
+		String[] exts = new String[] {"rwl", "crn", "tuc", "raw"};
+		
+		return new DendroFileFilter(exts, getShortName());
+	
+	}
+	
 }

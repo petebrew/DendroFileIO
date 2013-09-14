@@ -18,6 +18,7 @@ package org.tridas.io.formats.tridas;
 import java.util.ArrayList;
 
 import org.tridas.io.AbstractDendroCollectionWriter;
+import org.tridas.io.DendroFileFilter;
 import org.tridas.io.I18n;
 import org.tridas.io.defaults.IMetadataFieldSet;
 import org.tridas.io.defaults.TridasMetadataFieldSet;
@@ -211,4 +212,13 @@ public class TridasWriter extends AbstractDendroCollectionWriter {
 	public String getShortName() {
 		return I18n.getText("tridas.about.shortName");
 	}
+	
+	@Override
+	public DendroFileFilter getDendroFileFilter() {
+		String[] exts = new String[] {"xml"};
+		
+		return new DendroFileFilter(exts, getShortName());
+
+	}
+
 }

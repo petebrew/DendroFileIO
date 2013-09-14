@@ -16,6 +16,7 @@
 package org.tridas.io.formats.sheffield;
 
 import org.tridas.io.AbstractDendroCollectionWriter;
+import org.tridas.io.DendroFileFilter;
 import org.tridas.io.I18n;
 import org.tridas.io.defaults.IMetadataFieldSet;
 import org.tridas.io.exceptions.ConversionWarning;
@@ -327,4 +328,14 @@ public class SheffieldWriter extends AbstractDendroCollectionWriter {
 		}
 		
 	}
+	
+	@Override
+	public DendroFileFilter getDendroFileFilter() {
+		String[] exts = new String[] {"d"};
+		
+		return new DendroFileFilter(exts, getShortName());
+
+	}
+
+	
 }
