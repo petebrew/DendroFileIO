@@ -18,7 +18,6 @@ package org.tridas.io.formats.past4;
 import java.util.ArrayList;
 
 import org.tridas.io.AbstractDendroCollectionWriter;
-import org.tridas.io.DendroFileFilter;
 import org.tridas.io.I18n;
 import org.tridas.io.defaults.IMetadataFieldSet;
 import org.tridas.io.exceptions.ConversionWarning;
@@ -50,7 +49,7 @@ public class Past4Writer extends AbstractDendroCollectionWriter {
 	private ArrayList<String> p4pRecords = new ArrayList<String>();
 	
 	public Past4Writer() {
-		super(TridasToPast4Defaults.class);
+		super(TridasToPast4Defaults.class, new Past4Format());
 	}
 	
 
@@ -79,30 +78,6 @@ public class Past4Writer extends AbstractDendroCollectionWriter {
 		return defaults;
 	}
 	
-	/**
-	 * @see org.tridas.io.IDendroCollectionWriter#getDescription()
-	 */
-	@Override
-	public String getDescription() {
-		return I18n.getText("past4.about.description");
-	}
-	
-	/**
-	 * @see org.tridas.io.IDendroCollectionWriter#getFullName()
-	 */
-	@Override
-	public String getFullName() {
-		return I18n.getText("past4.about.fullName");
-	}
-	
-	/**
-	 * @see org.tridas.io.IDendroCollectionWriter#getShortName()
-	 */
-	@Override
-	public String getShortName() {
-		return I18n.getText("past4.about.shortName");
-	}
-
 	private void parseTridasObject(TridasObject o, String parentIndex)
 	{
 		TridasToPast4Defaults objectDefaults = (TridasToPast4Defaults) defaults.clone();
@@ -395,13 +370,4 @@ public class Past4Writer extends AbstractDendroCollectionWriter {
 		
 		return record;
 	}
-	
-	@Override
-	public DendroFileFilter getDendroFileFilter() {
-		String[] exts = new String[] {"P4P"};
-		
-		return new DendroFileFilter(exts, getShortName());
-
-	}
-
 }

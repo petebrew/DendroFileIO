@@ -18,7 +18,6 @@ package org.tridas.io.formats.tucson;
 import java.util.List;
 
 import org.tridas.io.AbstractDendroCollectionWriter;
-import org.tridas.io.DendroFileFilter;
 import org.tridas.io.I18n;
 import org.tridas.io.defaults.IMetadataFieldSet;
 import org.tridas.io.exceptions.ConversionWarning;
@@ -62,7 +61,7 @@ public class TucsonWriter extends AbstractDendroCollectionWriter {
 	 * Standard constructor
 	 */
 	public TucsonWriter() {
-		super(TridasToTucsonDefaults.class);
+		super(TridasToTucsonDefaults.class, new TucsonFormat());
 	}
 	
 
@@ -344,39 +343,5 @@ public class TucsonWriter extends AbstractDendroCollectionWriter {
 	public IMetadataFieldSet getDefaults() {
 		return defaults;
 	}
-	
-	/**
-	 * @see org.tridas.io.IDendroFileReader#getDescription()
-	 */
-	@Override
-	public String getDescription() {
-		return I18n.getText("tucson.about.description");
-	}
-	
-	/**
-	 * @see org.tridas.io.IDendroFileReader#getFullName()
-	 */
-	@Override
-	public String getFullName() {
-		return I18n.getText("tucson.about.fullName");
-	}
-	
-	/**
-	 * @see org.tridas.io.IDendroFileReader#getShortName()
-	 */
-	@Override
-	public String getShortName() {
-		return I18n.getText("tucson.about.shortName");
-	}
-
-
-	@Override
-	public DendroFileFilter getDendroFileFilter() {
-		String[] exts = new String[] {"rwl", "crn,", "tuc", "raw"};
-		
-		return new DendroFileFilter(exts, getShortName());
-	
-	}
-	
 	
 }

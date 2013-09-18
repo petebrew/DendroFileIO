@@ -16,7 +16,6 @@
 package org.tridas.io.formats.topham;
 
 import org.tridas.io.AbstractDendroCollectionWriter;
-import org.tridas.io.DendroFileFilter;
 import org.tridas.io.I18n;
 import org.tridas.io.defaults.IMetadataFieldSet;
 import org.tridas.io.exceptions.ConversionWarning;
@@ -44,36 +43,12 @@ public class TophamWriter extends AbstractDendroCollectionWriter {
 	private INamingConvention naming = new NumericalNamingConvention();
 	
 	public TophamWriter() {
-		super(TridasToTophamDefaults.class);
+		super(TridasToTophamDefaults.class, new TophamFormat());
 	}
 	
 	@Override
 	public IMetadataFieldSet getDefaults() {
 		return defaults;
-	}
-
-	/**
-	 * @see org.tridas.io.IDendroFileReader#getDescription()
-	 */
-	@Override
-	public String getDescription() {
-		return I18n.getText("topham.about.description");
-	}
-	
-	/**
-	 * @see org.tridas.io.IDendroFileReader#getFullName()
-	 */
-	@Override
-	public String getFullName() {
-		return I18n.getText("topham.about.fullName");
-	}
-	
-	/**
-	 * @see org.tridas.io.IDendroFileReader#getShortName()
-	 */
-	@Override
-	public String getShortName() {
-		return I18n.getText("topham.about.shortName");
 	}
 
 	/**
@@ -238,13 +213,4 @@ public class TophamWriter extends AbstractDendroCollectionWriter {
 	public void setNamingConvention(INamingConvention argConvension) {
 		naming = argConvension;
 	}
-	
-	@Override
-	public DendroFileFilter getDendroFileFilter() {
-		String[] exts = new String[] {"txt"};
-		
-		return new DendroFileFilter(exts, getShortName());
-
-	}
-
 }

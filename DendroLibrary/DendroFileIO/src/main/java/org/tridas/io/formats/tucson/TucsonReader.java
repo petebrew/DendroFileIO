@@ -24,7 +24,6 @@ import java.util.regex.Pattern;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.tridas.io.AbstractDendroFileReader;
-import org.tridas.io.DendroFileFilter;
 import org.tridas.io.I18n;
 import org.tridas.io.defaults.IMetadataFieldSet;
 import org.tridas.io.defaults.values.GenericDefaultValue;
@@ -88,7 +87,7 @@ public class TucsonReader extends AbstractDendroFileReader {
 	private Boolean usingAstronomicalDates = true;
 
 	public TucsonReader() {
-		super(TucsonToTridasDefaults.class);
+		super(TucsonToTridasDefaults.class, new TucsonFormat());
 	}
 
 	/****************
@@ -112,30 +111,6 @@ public class TucsonReader extends AbstractDendroFileReader {
 	}
 
 	/**
-	 * @see org.tridas.io.IDendroFileReader#getDescription()
-	 */
-	@Override
-	public String getDescription() {
-		return I18n.getText("tucson.about.description");
-	}
-
-	/**
-	 * @see org.tridas.io.IDendroFileReader#getFullName()
-	 */
-	@Override
-	public String getFullName() {
-		return I18n.getText("tucson.about.fullName");
-	}
-
-	/**
-	 * @see org.tridas.io.IDendroFileReader#getShortName()
-	 */
-	@Override
-	public String getShortName() {
-		return I18n.getText("tucson.about.shortName");
-	}
-
-	/**
 	 * @see org.tridas.io.AbstractDendroFileReader#resetReader()
 	 */
 	@Override
@@ -148,14 +123,6 @@ public class TucsonReader extends AbstractDendroFileReader {
 		maxLineLength = null;
 		minLineLength = null;
 		modeLineLength = null;
-	}
-
-	/**
-	 * @see org.tridas.io.AbstractDendroFileReader#getFileExtensions()
-	 */
-	@Override
-	public String[] getFileExtensions() {
-		return new String[] { "rwl", "tuc", "crn", "raw" };
 	}
 
 	private TridasProject getProject() {
@@ -1353,18 +1320,6 @@ public class TucsonReader extends AbstractDendroFileReader {
 		private TucsonSeries(TucsonToTridasDefaults df) {
 			defaults = df;
 		}
-	}
-	
-	/**
-	 * @see org.tridas.io.AbstractDendroFileReader#getDendroFileFilter()
-	 */
-	@Override
-	public DendroFileFilter getDendroFileFilter() {
-
-		String[] exts = new String[] {"tuc", "rwl", "dec", "crn", "txt"};
-		
-		return new DendroFileFilter(exts, getShortName());
-
 	}
 	
 	/**

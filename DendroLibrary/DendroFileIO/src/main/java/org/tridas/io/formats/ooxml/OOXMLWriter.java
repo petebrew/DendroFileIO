@@ -23,7 +23,6 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.tridas.interfaces.ITridasSeries;
 import org.tridas.io.AbstractDendroCollectionWriter;
-import org.tridas.io.DendroFileFilter;
 import org.tridas.io.I18n;
 import org.tridas.io.IDendroFile;
 import org.tridas.io.defaults.IMetadataFieldSet;
@@ -44,7 +43,7 @@ public class OOXMLWriter extends AbstractDendroCollectionWriter {
 	INamingConvention naming = new NumericalNamingConvention();
 	
 	public OOXMLWriter() {
-		super(TridasToOOXMLDefaults.class);
+		super(TridasToOOXMLDefaults.class, new OOXMLFormat());
 	}
 	
 	@Override
@@ -88,25 +87,10 @@ public class OOXMLWriter extends AbstractDendroCollectionWriter {
 	public IMetadataFieldSet getDefaults() {
 		return defaults;
 	}
-	
-	@Override
-	public String getDescription() {
-		return I18n.getText("ooxml.about.description");
-	}
-	
-	@Override
-	public String getFullName() {
-		return I18n.getText("ooxml.about.fullName");
-	}
-	
+		
 	@Override
 	public INamingConvention getNamingConvention() {
 		return naming;
-	}
-	
-	@Override
-	public String getShortName() {
-		return I18n.getText("ooxml.about.shortName");
 	}
 	
 	@Override
@@ -135,13 +119,4 @@ public class OOXMLWriter extends AbstractDendroCollectionWriter {
 			log.error("Error saving file to disk", e);
 		}
 	}
-	
-	@Override
-	public DendroFileFilter getDendroFileFilter() {
-		String[] exts = new String[] {"xlsx"};
-		
-		return new DendroFileFilter(exts, getShortName());
-
-	}
-
 }

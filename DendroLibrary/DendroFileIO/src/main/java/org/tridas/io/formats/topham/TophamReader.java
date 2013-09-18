@@ -22,7 +22,6 @@ import java.util.List;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.tridas.io.AbstractDendroFileReader;
-import org.tridas.io.DendroFileFilter;
 import org.tridas.io.I18n;
 import org.tridas.io.defaults.IMetadataFieldSet;
 import org.tridas.io.exceptions.InvalidDendroFileException;
@@ -45,7 +44,7 @@ public class TophamReader extends AbstractDendroFileReader {
 	private ArrayList<TridasValue> dataVals = new ArrayList<TridasValue>();
 
 	public TophamReader() {
-		super(TophamToTridasDefaults.class);
+		super(TophamToTridasDefaults.class, new TophamFormat());
 	}
 	
 	@Override
@@ -56,36 +55,6 @@ public class TophamReader extends AbstractDendroFileReader {
 	@Override
 	public IMetadataFieldSet getDefaults() {
 		return defaults;
-	}
-
-
-	/**
-	 * @see org.tridas.io.IDendroFileReader#getDescription()
-	 */
-	@Override
-	public String getDescription() {
-		return I18n.getText("topham.about.description");
-	}
-	
-	/**
-	 * @see org.tridas.io.IDendroFileReader#getFullName()
-	 */
-	@Override
-	public String getFullName() {
-		return I18n.getText("topham.about.fullName");
-	}
-	
-	/**
-	 * @see org.tridas.io.IDendroFileReader#getShortName()
-	 */
-	@Override
-	public String getShortName() {
-		return I18n.getText("topham.about.shortName");
-	}
-	
-	@Override
-	public String[] getFileExtensions() {
-		return new String[]{"txt"};
 	}
 	
 	@Override
@@ -163,18 +132,6 @@ public class TophamReader extends AbstractDendroFileReader {
 			}
 		}
 		
-	}
-
-	/**
-	 * @see org.tridas.io.AbstractDendroFileReader#getDendroFileFilter()
-	 */
-	@Override
-	public DendroFileFilter getDendroFileFilter() {
-
-		String[] exts = new String[] {"txt"};
-		
-		return new DendroFileFilter(exts, getShortName());
-
 	}
 	
 	/**

@@ -48,7 +48,7 @@ public class TucsonCompactReader extends AbstractDendroFileReader {
 	private int currentLineNumber = -1;
 
 	public TucsonCompactReader() {
-		super(TucsonCompactToTridasDefaults.class);
+		super(TucsonCompactToTridasDefaults.class, new TucsonCompactFormat());
 	}
 	
 	@Override
@@ -59,36 +59,6 @@ public class TucsonCompactReader extends AbstractDendroFileReader {
 	@Override
 	public IMetadataFieldSet getDefaults() {
 		return defaults;
-	}
-
-
-	/**
-	 * @see org.tridas.io.IDendroFileReader#getDescription()
-	 */
-	@Override
-	public String getDescription() {
-		return I18n.getText("tucsoncompact.about.description");
-	}
-	
-	/**
-	 * @see org.tridas.io.IDendroFileReader#getFullName()
-	 */
-	@Override
-	public String getFullName() {
-		return I18n.getText("tucsoncompact.about.fullName");
-	}
-	
-	/**
-	 * @see org.tridas.io.IDendroFileReader#getShortName()
-	 */
-	@Override
-	public String getShortName() {
-		return I18n.getText("tucsoncompact.about.shortName");
-	}
-	
-	@Override
-	public String[] getFileExtensions() {
-		return new String[]{"txt"};
 	}
 	
 	@Override
@@ -302,19 +272,7 @@ public class TucsonCompactReader extends AbstractDendroFileReader {
 			defaults =df;
 		}
 	}
-	
-	/**
-	 * @see org.tridas.io.AbstractDendroFileReader#getDendroFileFilter()
-	 */
-	@Override
-	public DendroFileFilter getDendroFileFilter() {
-
-		String[] exts = new String[] {"rwm"};
 		
-		return new DendroFileFilter(exts, getShortName());
-
-	}
-	
 	/**
 	 * @see org.tridas.io.AbstractDendroFileReader#getProjects()
 	 */

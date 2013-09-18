@@ -23,7 +23,6 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.tridas.interfaces.ITridasSeries;
 import org.tridas.io.AbstractDendroCollectionWriter;
-import org.tridas.io.DendroFileFilter;
 import org.tridas.io.I18n;
 import org.tridas.io.IDendroFile;
 import org.tridas.io.defaults.IMetadataFieldSet;
@@ -49,7 +48,7 @@ public class ODFMatrixWriter extends AbstractDendroCollectionWriter {
 	INamingConvention naming = new NumericalNamingConvention();
 	
 	public ODFMatrixWriter() {
-		super(TridasToODFMatrixDefaults.class);
+		super(TridasToODFMatrixDefaults.class, new ODFMatrixFormat());
 	}
 	
 	@Override
@@ -108,23 +107,8 @@ public class ODFMatrixWriter extends AbstractDendroCollectionWriter {
 	}
 	
 	@Override
-	public String getDescription() {
-		return I18n.getText("odfmatrix.about.description");
-	}
-	
-	@Override
-	public String getFullName() {
-		return I18n.getText("odfmatrix.about.fullName");
-	}
-	
-	@Override
 	public INamingConvention getNamingConvention() {
 		return naming;
-	}
-	
-	@Override
-	public String getShortName() {
-		return I18n.getText("odfmatrix.about.shortName");
 	}
 	
 	@Override
@@ -153,13 +137,4 @@ public class ODFMatrixWriter extends AbstractDendroCollectionWriter {
 			log.error("Error saving file to disk", e);
 		}
 	}
-	
-	@Override
-	public DendroFileFilter getDendroFileFilter() {
-		String[] exts = new String[] {"ods"};
-		
-		return new DendroFileFilter(exts, getShortName());
-
-	}
-
 }

@@ -22,12 +22,11 @@ import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
 import org.tridas.io.AbstractDendroFileReader;
-import org.tridas.io.DendroFileFilter;
 import org.tridas.io.I18n;
 import org.tridas.io.defaults.IMetadataFieldSet;
 import org.tridas.io.exceptions.ConversionWarning;
-import org.tridas.io.exceptions.InvalidDendroFileException;
 import org.tridas.io.exceptions.ConversionWarning.WarningType;
+import org.tridas.io.exceptions.InvalidDendroFileException;
 import org.tridas.io.formats.oxford.OxfordToTridasDefaults.OxDefaultFields;
 import org.tridas.io.util.SafeIntYear;
 import org.tridas.schema.TridasDerivedSeries;
@@ -49,16 +48,16 @@ public class OxfordReader extends AbstractDendroFileReader {
 	private ArrayList<Integer> countVals = new ArrayList<Integer>();
 
 	
-	public OxfordReader()
-	{
-		super(OxfordToTridasDefaults.class);
-	}
-	
 	public OxfordReader(OxfordToTridasDefaults argDefaultFieldsClass) {
-		super(OxfordToTridasDefaults.class);
+		super(OxfordToTridasDefaults.class, new OxfordFormat());
 		defaults = argDefaultFieldsClass;
 	}
 
+	public OxfordReader() {
+		super(OxfordToTridasDefaults.class, new OxfordFormat());
+		defaults = new OxfordToTridasDefaults();
+	}
+	
 	@Override
 	public int getCurrentLineNumber() {
 		return currentLineNumber;
@@ -68,33 +67,6 @@ public class OxfordReader extends AbstractDendroFileReader {
 	public IMetadataFieldSet getDefaults() {
 		return defaults;
 	}
-
-	@Override
-	public DendroFileFilter getDendroFileFilter() {
-		String[] exts = new String[] {"*.*"};	
-		return new DendroFileFilter(exts, getShortName());
-	}
-
-	@Override
-	public String getDescription() {
-		return I18n.getText("oxford.about.description");
-	}
-
-	@Override
-	public String[] getFileExtensions() {
-		return new String[] { "ddf" };
-	}
-
-	@Override
-	public String getFullName() {
-		return I18n.getText("oxford.about.fullName");
-	}
-
-	@Override
-	public String getShortName() {
-		return I18n.getText("oxford.about.shortName");
-	}
-
 
 	@Override
 	protected void parseFile(String[] argFileString,

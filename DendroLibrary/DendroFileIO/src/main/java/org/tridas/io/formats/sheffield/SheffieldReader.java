@@ -25,15 +25,14 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.tridas.interfaces.ITridasSeries;
 import org.tridas.io.AbstractDendroFileReader;
-import org.tridas.io.DendroFileFilter;
 import org.tridas.io.I18n;
 import org.tridas.io.defaults.IMetadataFieldSet;
 import org.tridas.io.defaults.TridasMetadataFieldSet.TridasExtraField;
 import org.tridas.io.defaults.values.GenericDefaultValue;
 import org.tridas.io.exceptions.ConversionWarning;
+import org.tridas.io.exceptions.ConversionWarning.WarningType;
 import org.tridas.io.exceptions.ConversionWarningException;
 import org.tridas.io.exceptions.InvalidDendroFileException;
-import org.tridas.io.exceptions.ConversionWarning.WarningType;
 import org.tridas.io.formats.sheffield.SheffieldToTridasDefaults.DefaultFields;
 import org.tridas.io.formats.sheffield.TridasToSheffieldDefaults.SheffieldChronologyType;
 import org.tridas.io.formats.sheffield.TridasToSheffieldDefaults.SheffieldDataType;
@@ -72,7 +71,7 @@ public class SheffieldReader extends AbstractDendroFileReader {
 	SheffieldDateType dateType = SheffieldDateType.RELATIVE;
 	
 	public SheffieldReader() {
-		super(SheffieldToTridasDefaults.class);
+		super(SheffieldToTridasDefaults.class, new SheffieldFormat());
 	}
 	
 	@SuppressWarnings("unchecked")
@@ -587,12 +586,6 @@ public class SheffieldReader extends AbstractDendroFileReader {
 		
 	}
 	
-	@Override
-	public String[] getFileExtensions() {
-		return new String[]{"d"};
-		
-	}
-	
 	private TridasProject getProject() {
 		TridasProject project = null;
 		TridasObject o = null;
@@ -692,31 +685,7 @@ public class SheffieldReader extends AbstractDendroFileReader {
 		// TODO Auto-generated method stub
 		return 0;
 	}
-	
-	/**
-	 * @see org.tridas.io.IDendroFileReader#getDescription()
-	 */
-	@Override
-	public String getDescription() {
-		return I18n.getText("sheffield.about.description");
-	}
-	
-	/**
-	 * @see org.tridas.io.IDendroFileReader#getFullName()
-	 */
-	@Override
-	public String getFullName() {
-		return I18n.getText("sheffield.about.fullName");
-	}
-	
-	/**
-	 * @see org.tridas.io.IDendroFileReader#getShortName()
-	 */
-	@Override
-	public String getShortName() {
-		return I18n.getText("sheffield.about.shortName");
-	}
-	
+		
 	/**
 	 * Check that this is a valid Sheffield DFormat file
 	 * 
@@ -802,19 +771,7 @@ public class SheffieldReader extends AbstractDendroFileReader {
 		dateType = SheffieldDateType.RELATIVE;
 		series = null;
 	}
-	
-	/**
-	 * @see org.tridas.io.AbstractDendroFileReader#getDendroFileFilter()
-	 */
-	@Override
-	public DendroFileFilter getDendroFileFilter() {
-
-		String[] exts = new String[] {"d"};
 		
-		return new DendroFileFilter(exts, getShortName());
-
-	}
-	
 	/**
 	 * @see org.tridas.io.AbstractDendroFileReader#getProjects()
 	 */

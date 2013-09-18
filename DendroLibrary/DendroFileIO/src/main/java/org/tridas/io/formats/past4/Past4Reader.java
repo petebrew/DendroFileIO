@@ -33,12 +33,11 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.tridas.interfaces.ITridasSeries;
 import org.tridas.io.AbstractDendroFileReader;
-import org.tridas.io.DendroFileFilter;
 import org.tridas.io.I18n;
 import org.tridas.io.defaults.IMetadataFieldSet;
 import org.tridas.io.exceptions.ConversionWarning;
-import org.tridas.io.exceptions.InvalidDendroFileException;
 import org.tridas.io.exceptions.ConversionWarning.WarningType;
+import org.tridas.io.exceptions.InvalidDendroFileException;
 import org.tridas.io.formats.past4.Past4ToTridasDefaults.HeaderFields;
 import org.tridas.io.formats.past4.TridasToPast4Defaults.DefaultFields;
 import org.tridas.io.util.DateUtils;
@@ -71,7 +70,7 @@ public class Past4Reader extends AbstractDendroFileReader {
 	private TridasProject project;
 	
 	public Past4Reader() {
-		super(Past4ToTridasDefaults.class);
+		super(Past4ToTridasDefaults.class, new Past4Format());
 	}
 	
 	@Override
@@ -85,37 +84,6 @@ public class Past4Reader extends AbstractDendroFileReader {
 		return defaults;
 	}
 
-
-
-	@Override
-	public String[] getFileExtensions() {
-		return new String[]{"P4P"};
-	}
-
-	/**
-	 * @see org.tridas.io.IDendroFileReader#getDescription()
-	 */
-	@Override
-	public String getDescription() {
-		return I18n.getText("past4.about.description");
-	}
-	
-	/**
-	 * @see org.tridas.io.IDendroFileReader#getFullName()
-	 */
-	@Override
-	public String getFullName() {
-		return I18n.getText("past4.about.fullName");
-	}
-	
-	/**
-	 * @see org.tridas.io.IDendroFileReader#getShortName()
-	 */
-	@Override
-	public String getShortName() {
-		return I18n.getText("past4.about.shortName");
-	}
-	
 	/**
 	 * Get XML Document from array of strings
 	 * 
@@ -815,18 +783,6 @@ public class Past4Reader extends AbstractDendroFileReader {
 		numOfRecords = 0;
 		numOfGroups = 0;
 		length = 0;
-	}
-
-	/**
-	 * @see org.tridas.io.AbstractDendroFileReader#getDendroFileFilter()
-	 */
-	@Override
-	public DendroFileFilter getDendroFileFilter() {
-
-		String[] exts = new String[] {"p4p"};
-		
-		return new DendroFileFilter(exts, getShortName());
-
 	}
 	
 	/**
