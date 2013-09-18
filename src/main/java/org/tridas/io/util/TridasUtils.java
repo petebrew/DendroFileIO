@@ -94,6 +94,7 @@ public class TridasUtils {
 	}
 	
 	
+	
 	public static ArrayList<TridasMeasurementSeries> getMeasurementSeriesFromTridasContainer(TridasTridas c)
 	{
 		ArrayList<TridasMeasurementSeries> serlist = new ArrayList<TridasMeasurementSeries>();
