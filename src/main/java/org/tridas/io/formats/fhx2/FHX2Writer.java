@@ -1,23 +1,17 @@
 package org.tridas.io.formats.fhx2;
 
 import java.util.ArrayList;
-import java.util.List;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.tridas.interfaces.ITridasSeries;
 import org.tridas.io.AbstractDendroCollectionWriter;
-import org.tridas.io.DendroFileFilter;
 import org.tridas.io.I18n;
 import org.tridas.io.defaults.IMetadataFieldSet;
 import org.tridas.io.exceptions.ConversionWarning;
+import org.tridas.io.exceptions.ConversionWarning.WarningType;
 import org.tridas.io.exceptions.ConversionWarningException;
 import org.tridas.io.exceptions.IncompleteTridasDataException;
-import org.tridas.io.exceptions.ConversionWarning.WarningType;
-import org.tridas.io.formats.csv.TridasToCSVDefaults;
-import org.tridas.io.formats.csvmatrix.CSVMatrixFile;
-import org.tridas.io.formats.heidelberg.HeidelbergFile;
-import org.tridas.io.formats.heidelberg.TridasToHeidelbergDefaults;
 import org.tridas.io.naming.INamingConvention;
 import org.tridas.io.naming.NamingConventionGrouper;
 import org.tridas.io.naming.NumericalNamingConvention;
@@ -28,7 +22,6 @@ import org.tridas.schema.ComplexPresenceAbsence;
 import org.tridas.schema.NormalTridasRemark;
 import org.tridas.schema.PresenceAbsence;
 import org.tridas.schema.TridasBark;
-import org.tridas.schema.TridasDerivedSeries;
 import org.tridas.schema.TridasElement;
 import org.tridas.schema.TridasMeasurementSeries;
 import org.tridas.schema.TridasObject;
@@ -38,7 +31,6 @@ import org.tridas.schema.TridasRadius;
 import org.tridas.schema.TridasRemark;
 import org.tridas.schema.TridasSample;
 import org.tridas.schema.TridasValue;
-import org.tridas.schema.TridasValues;
 import org.tridas.schema.TridasWoodCompleteness;
 
 public class FHX2Writer extends AbstractDendroCollectionWriter {
@@ -48,7 +40,7 @@ public class FHX2Writer extends AbstractDendroCollectionWriter {
 	INamingConvention naming = new NumericalNamingConvention();
 	
 	public FHX2Writer() {
-		super(TridasToFHX2Defaults.class);
+		super(TridasToFHX2Defaults.class, new FHX2Format());
 	}
 	
 	@Override
@@ -199,30 +191,6 @@ public class FHX2Writer extends AbstractDendroCollectionWriter {
 	}
 	
 	/**
-	 * @see org.tridas.io.IDendroCollectionWriter#getDescription()
-	 */
-	@Override
-	public String getDescription() {
-		return I18n.getText("fhx2.about.description");
-	}
-	
-	/**
-	 * @see org.tridas.io.IDendroCollectionWriter#getFullName()
-	 */
-	@Override
-	public String getFullName() {
-		return I18n.getText("fhx2.about.fullName");
-	}
-	
-	/**
-	 * @see org.tridas.io.IDendroCollectionWriter#getShortName()
-	 */
-	@Override
-	public String getShortName() {
-		return I18n.getText("fhx2.about.shortName");
-	}
-	
-	/**
 	 * @see org.tridas.io.IDendroCollectionWriter#getNamingConvention()
 	 */
 	@Override
@@ -341,14 +309,5 @@ public class FHX2Writer extends AbstractDendroCollectionWriter {
 			return series.getValues().get(0).getValues().get(difference);
 		}
 	}
-	
-	@Override
-	public DendroFileFilter getDendroFileFilter() {
-		String[] exts = new String[] {"fhx"};
-		
-		return new DendroFileFilter(exts, getShortName());
-
-	}
-
 
 }

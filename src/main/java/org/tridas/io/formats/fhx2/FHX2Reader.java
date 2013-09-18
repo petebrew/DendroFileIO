@@ -2,26 +2,20 @@ package org.tridas.io.formats.fhx2;
 
 import java.util.ArrayList;
 import java.util.Arrays;
-import java.util.HashMap;
 import java.util.List;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.tridas.io.AbstractDendroFileReader;
 import org.tridas.io.DendroFileFilter;
-import org.tridas.io.I18n;
 import org.tridas.io.defaults.IMetadataFieldSet;
 import org.tridas.io.defaults.TridasMetadataFieldSet.TridasMandatoryField;
 import org.tridas.io.defaults.values.GenericDefaultValue;
 import org.tridas.io.exceptions.ConversionWarning;
 import org.tridas.io.exceptions.ConversionWarning.WarningType;
 import org.tridas.io.exceptions.InvalidDendroFileException;
-import org.tridas.io.exceptions.InvalidDendroFileException.PointerType;
 import org.tridas.io.formats.fhx2.FHX2File.FHXMarker;
 import org.tridas.io.formats.fhx2.FHX2ToTridasDefaults.DefaultFields;
-import org.tridas.io.formats.heidelberg.HeidelbergToTridasDefaults;
-import org.tridas.io.formats.heidelberg.HeidelbergToTridasDefaults.FHDataFormat;
-import org.tridas.io.formats.sheffield.TridasToSheffieldDefaults.SheffieldShapeCode;
 import org.tridas.io.util.DateUtils;
 import org.tridas.io.util.ITRDBTaxonConverter;
 import org.tridas.io.util.SafeIntYear;
@@ -37,7 +31,6 @@ import org.tridas.schema.TridasSample;
 import org.tridas.schema.TridasTridas;
 import org.tridas.schema.TridasValue;
 import org.tridas.schema.TridasValues;
-import org.tridas.spatial.SpatialUtils;
 
 public class FHX2Reader extends AbstractDendroFileReader {
 	private Integer lineNumDataBegins = null;
@@ -52,7 +45,7 @@ public class FHX2Reader extends AbstractDendroFileReader {
 	
 	
 	public FHX2Reader() {
-		super(FHX2ToTridasDefaults.class);
+		super(FHX2ToTridasDefaults.class, new FHX2Format());
 	}
 
 	@Override
@@ -97,8 +90,8 @@ public class FHX2Reader extends AbstractDendroFileReader {
 	private void parseMetadata(String[] argFileString) throws InvalidDendroFileException
 	{
 		Integer metadataLineNum = lineNumDataBegins+1;
-		String[] parts = argFileString[metadataLineNum].split("\\s+");
-		if(parts.length!=3) throw new InvalidDendroFileException("Metadata line does not contain start year, sample number and code length as expected. Values should be whole numbers separated by single spaces", metadataLineNum+1);
+		String[] parts = argFileString[metadataLineNum].split(" ");
+		if(parts.length!=3) throw new InvalidDendroFileException("Metadata line does not contain start year, sample number and code length as expected", metadataLineNum);
 		
 		
 		try{
@@ -273,8 +266,8 @@ public class FHX2Reader extends AbstractDendroFileReader {
 				{
 				
 					try{
-						Double lat = SpatialUtils.parseLatLonFromHalfLatLongString(value);		
-						if(lat!=null) defaults.getDoubleDefaultValue(DefaultFields.LATITUDE).setValue(lat);
+						Double lat = Double.parseDouble(value);
+						defaults.getDoubleDefaultValue(DefaultFields.LATITUDE).setValue(lat);
 					} catch (NumberFormatException e)
 					{
 						this.addWarning(new ConversionWarning(WarningType.INVALID, "Unable to parse latitude from free text string", "Latitude"));
@@ -290,8 +283,8 @@ public class FHX2Reader extends AbstractDendroFileReader {
 				if(value.length()>0)
 				{
 					try{
-						Double lon = SpatialUtils.parseLatLonFromHalfLatLongString(value);		
-						if(lon!=null) defaults.getDoubleDefaultValue(DefaultFields.LONGITUDE).setValue(lon);
+						Double lat = Double.parseDouble(value);
+						defaults.getDoubleDefaultValue(DefaultFields.LONGITUDE).setValue(lat);
 					} catch (NumberFormatException e)
 					{
 						this.addWarning(new ConversionWarning(WarningType.INVALID, "Unable to parse longitude from free text string", "Longitude"));
@@ -575,35 +568,6 @@ public class FHX2Reader extends AbstractDendroFileReader {
 	}
 
 	@Override
-	public String[] getFileExtensions() {
-		return new String[]{"fhx"};
-	}
-	
-	/**
-	 * @see org.tridas.io.IDendroFileReader#getDescription()
-	 */
-	@Override
-	public String getDescription() {
-		return I18n.getText("fhx2.about.description");
-	}
-	
-	/**
-	 * @see org.tridas.io.IDendroFileReader#getFullName()
-	 */
-	@Override
-	public String getFullName() {
-		return I18n.getText("fhx2.about.fullName");
-	}
-	
-	/**
-	 * @see org.tridas.io.IDendroFileReader#getShortName()
-	 */
-	@Override
-	public String getShortName() {
-		return I18n.getText("fhx2.about.shortName");
-	}
-
-	@Override
 	public IMetadataFieldSet getDefaults() {
 		return defaults;
 	}
@@ -616,9 +580,6 @@ public class FHX2Reader extends AbstractDendroFileReader {
 		
 		for(FHX2Series s : seriesList)
 		{
-			
-			
-
 			
 			TridasElement element = s.defaults.getElementWithDefaults();
 			TridasSample sample = s.defaults.getSampleWithDefaults();

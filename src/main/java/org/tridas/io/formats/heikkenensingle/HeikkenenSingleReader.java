@@ -46,7 +46,7 @@ public class HeikkenenSingleReader extends AbstractDendroFileReader {
 	private ArrayList<TridasValue> dataVals = new ArrayList<TridasValue>();
 
 	public HeikkenenSingleReader() {
-		super(HeikkenenSingleToTridasDefaults.class);
+		super(HeikkenenSingleToTridasDefaults.class, new HeikkenenSingleFormat());
 	}
 	
 	@Override
@@ -57,36 +57,6 @@ public class HeikkenenSingleReader extends AbstractDendroFileReader {
 	@Override
 	public IMetadataFieldSet getDefaults() {
 		return defaults;
-	}
-
-
-	/**
-	 * @see org.tridas.io.IDendroFileReader#getDescription()
-	 */
-	@Override
-	public String getDescription() {
-		return I18n.getText("heikkenensingle.about.description");
-	}
-	
-	/**
-	 * @see org.tridas.io.IDendroFileReader#getFullName()
-	 */
-	@Override
-	public String getFullName() {
-		return I18n.getText("heikkenensingle.about.fullName");
-	}
-	
-	/**
-	 * @see org.tridas.io.IDendroFileReader#getShortName()
-	 */
-	@Override
-	public String getShortName() {
-		return I18n.getText("heikkenensingle.about.shortName");
-	}
-	
-	@Override
-	public String[] getFileExtensions() {
-		return new String[]{"rng"};
 	}
 	
 	@Override
@@ -166,18 +136,6 @@ public class HeikkenenSingleReader extends AbstractDendroFileReader {
 			}
 		}
 		
-	}
-
-	/**
-	 * @see org.tridas.io.AbstractDendroFileReader#getDendroFileFilter()
-	 */
-	@Override
-	public DendroFileFilter getDendroFileFilter() {
-
-		String[] exts = new String[] {"rng"};
-		
-		return new DendroFileFilter(exts, getShortName());
-
 	}
 	
 	/**

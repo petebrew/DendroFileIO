@@ -61,37 +61,9 @@ public class ExcelMatrixReader extends AbstractDendroFileReader {
 	
 	public ExcelMatrixReader()
 	{
-		super(ExcelMatrixToTridasDefaults.class);
+		super(ExcelMatrixToTridasDefaults.class, new ExcelMatrixFormat());
 	}
 	
-	@Override
-	public DendroFileFilter getDendroFileFilter() {
-		String[] exts = new String[] {"xls"};
-		
-		return new DendroFileFilter(exts, getShortName());
-
-	}
-
-	@Override
-	public String getDescription() {
-		return I18n.getText("excelmatrix.about.description");
-	}
-
-	@Override
-	public String[] getFileExtensions() {
-		return new String[]{"xls"};
-	}
-
-	@Override
-	public String getFullName() {
-		return I18n.getText("excelmatrix.about.fullName");
-	}
-
-	@Override
-	public String getShortName() {
-		return I18n.getText("excelmatrix.about.shortName");
-	}
-
 	// *******************************
 	// NOT SUPPORTED - BINARY FORMAT
 	// *******************************

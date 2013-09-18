@@ -23,7 +23,6 @@ import java.util.List;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.tridas.io.AbstractDendroFileReader;
-import org.tridas.io.DendroFileFilter;
 import org.tridas.io.I18n;
 import org.tridas.io.defaults.IMetadataFieldSet;
 import org.tridas.io.exceptions.InvalidDendroFileException;
@@ -47,7 +46,7 @@ public class HeikkenenChronoReader extends AbstractDendroFileReader {
 	private ArrayList<TridasValue> dataVals = new ArrayList<TridasValue>();
 
 	public HeikkenenChronoReader() {
-		super(HeikkenenChronoToTridasDefaults.class);
+		super(HeikkenenChronoToTridasDefaults.class, new HeikkenenChronoFormat());
 	}
 	
 	@Override
@@ -58,36 +57,6 @@ public class HeikkenenChronoReader extends AbstractDendroFileReader {
 	@Override
 	public IMetadataFieldSet getDefaults() {
 		return defaults;
-	}
-
-
-	/**
-	 * @see org.tridas.io.IDendroFileReader#getDescription()
-	 */
-	@Override
-	public String getDescription() {
-		return I18n.getText("heikkenenchrono.about.description");
-	}
-	
-	/**
-	 * @see org.tridas.io.IDendroFileReader#getFullName()
-	 */
-	@Override
-	public String getFullName() {
-		return I18n.getText("heikkenenchrono.about.fullName");
-	}
-	
-	/**
-	 * @see org.tridas.io.IDendroFileReader#getShortName()
-	 */
-	@Override
-	public String getShortName() {
-		return I18n.getText("heikkenenchrono.about.shortName");
-	}
-	
-	@Override
-	public String[] getFileExtensions() {
-		return new String[]{"rng"};
 	}
 	
 	@Override
@@ -171,18 +140,6 @@ public class HeikkenenChronoReader extends AbstractDendroFileReader {
 			}
 		}
 		
-	}
-
-	/**
-	 * @see org.tridas.io.AbstractDendroFileReader#getDendroFileFilter()
-	 */
-	@Override
-	public DendroFileFilter getDendroFileFilter() {
-
-		String[] exts = new String[] {"rng"};
-		
-		return new DendroFileFilter(exts, getShortName());
-
 	}
 	
 	/**

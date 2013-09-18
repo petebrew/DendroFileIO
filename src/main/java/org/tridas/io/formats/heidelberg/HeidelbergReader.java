@@ -27,14 +27,13 @@ import org.apache.poi.openxml4j.opc.internal.FileHelper;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.tridas.io.AbstractDendroFileReader;
-import org.tridas.io.DendroFileFilter;
 import org.tridas.io.I18n;
 import org.tridas.io.defaults.IMetadataFieldSet;
 import org.tridas.io.defaults.TridasMetadataFieldSet.TridasExtraField;
 import org.tridas.io.defaults.values.GenericDefaultValue;
 import org.tridas.io.exceptions.ConversionWarning;
-import org.tridas.io.exceptions.InvalidDendroFileException;
 import org.tridas.io.exceptions.ConversionWarning.WarningType;
+import org.tridas.io.exceptions.InvalidDendroFileException;
 import org.tridas.io.formats.heidelberg.HeidelbergToTridasDefaults.DefaultFields;
 import org.tridas.io.formats.heidelberg.HeidelbergToTridasDefaults.FHBarkType;
 import org.tridas.io.formats.heidelberg.HeidelbergToTridasDefaults.FHDataFormat;
@@ -87,7 +86,7 @@ public class HeidelbergReader extends AbstractDendroFileReader {
 
 	
 	public HeidelbergReader() {
-		super(HeidelbergToTridasDefaults.class);
+		super(HeidelbergToTridasDefaults.class, new HeidelbergFormat());
 	}
 	
 	@Override
@@ -1459,30 +1458,6 @@ public class HeidelbergReader extends AbstractDendroFileReader {
 	}
 	
 	/**
-	 * @see org.tridas.io.IDendroFileReader#getDescription()
-	 */
-	@Override
-	public String getDescription() {
-		return I18n.getText("heidelberg.about.description");
-	}
-	
-	/**
-	 * @see org.tridas.io.IDendroFileReader#getFullName()
-	 */
-	@Override
-	public String getFullName() {
-		return I18n.getText("heidelberg.about.fullName");
-	}
-	
-	/**
-	 * @see org.tridas.io.IDendroFileReader#getShortName()
-	 */
-	@Override
-	public String getShortName() {
-		return I18n.getText("heidelberg.about.shortName");
-	}
-	
-	/**
 	 * Class to store the measurement series data
 	 * 
 	 * @author daniel
@@ -1507,19 +1482,7 @@ public class HeidelbergReader extends AbstractDendroFileReader {
 		defaults = null;
 		series.clear();
 	}
-	
-	/**
-	 * @see org.tridas.io.AbstractDendroFileReader#getDendroFileFilter()
-	 */
-	@Override
-	public DendroFileFilter getDendroFileFilter() {
-
-		String[] exts = new String[] {"fh"};
 		
-		return new DendroFileFilter(exts, getShortName());
-
-	}
-	
 	/**
 	 * @see org.tridas.io.AbstractDendroFileReader#getProjects()
 	 */
