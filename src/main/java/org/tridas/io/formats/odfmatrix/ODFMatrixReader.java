@@ -58,36 +58,10 @@ public class ODFMatrixReader extends AbstractDendroFileReader {
 	
 	public ODFMatrixReader()
 	{
-		super(ODFMatrixToTridasDefaults.class);
+		super(ODFMatrixToTridasDefaults.class, new ODFMatrixFormat());
 	}
 	
-	@Override
-	public DendroFileFilter getDendroFileFilter() {
-		String[] exts = new String[] {"ods"};
-		
-		return new DendroFileFilter(exts, getShortName());
-
-	}
-
-	@Override
-	public String getDescription() {
-		return I18n.getText("odfmatrix.about.description");
-	}
-
-	@Override
-	public String[] getFileExtensions() {
-		return new String[]{"ods"};
-	}
-
-	@Override
-	public String getFullName() {
-		return I18n.getText("odfmatrix.about.fullName");
-	}
-
-	@Override
-	public String getShortName() {
-		return I18n.getText("odfmatrix.about.shortName");
-	}
+	
 
 	// *******************************
 	// NOT SUPPORTED - BINARY FORMAT

@@ -16,7 +16,6 @@
 package org.tridas.io.formats.tucsoncompact;
 
 import org.tridas.io.AbstractDendroCollectionWriter;
-import org.tridas.io.DendroFileFilter;
 import org.tridas.io.I18n;
 import org.tridas.io.defaults.IMetadataFieldSet;
 import org.tridas.io.exceptions.ConversionWarning;
@@ -43,36 +42,12 @@ public class TucsonCompactWriter extends AbstractDendroCollectionWriter {
 	private INamingConvention naming = new NumericalNamingConvention();
 	
 	public TucsonCompactWriter() {
-		super(TridasToTucsonCompactDefaults.class);
+		super(TridasToTucsonCompactDefaults.class, new TucsonCompactFormat());
 	}
 	
 	@Override
 	public IMetadataFieldSet getDefaults() {
 		return defaults;
-	}
-
-	/**
-	 * @see org.tridas.io.IDendroFileReader#getDescription()
-	 */
-	@Override
-	public String getDescription() {
-		return I18n.getText("tucsoncompact.about.description");
-	}
-	
-	/**
-	 * @see org.tridas.io.IDendroFileReader#getFullName()
-	 */
-	@Override
-	public String getFullName() {
-		return I18n.getText("tucsoncompact.about.fullName");
-	}
-	
-	/**
-	 * @see org.tridas.io.IDendroFileReader#getShortName()
-	 */
-	@Override
-	public String getShortName() {
-		return I18n.getText("tucsoncompact.about.shortName");
 	}
 
 	/**
@@ -277,13 +252,4 @@ public class TucsonCompactWriter extends AbstractDendroCollectionWriter {
 	public void setNamingConvention(INamingConvention argConvension) {
 		naming = argConvension;
 	}
-	
-	@Override
-	public DendroFileFilter getDendroFileFilter() {
-		String[] exts = new String[] {"txt"};
-		
-		return new DendroFileFilter(exts, getShortName());
-	
-	}
-	
 }

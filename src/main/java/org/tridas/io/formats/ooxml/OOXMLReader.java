@@ -33,13 +33,12 @@ import org.apache.poi.xssf.usermodel.XSSFWorkbook;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.tridas.io.AbstractDendroFileReader;
-import org.tridas.io.DendroFileFilter;
 import org.tridas.io.I18n;
 import org.tridas.io.defaults.IMetadataFieldSet;
 import org.tridas.io.exceptions.ConversionWarning;
+import org.tridas.io.exceptions.ConversionWarning.WarningType;
 import org.tridas.io.exceptions.IncorrectDefaultFieldsException;
 import org.tridas.io.exceptions.InvalidDendroFileException;
-import org.tridas.io.exceptions.ConversionWarning.WarningType;
 import org.tridas.io.exceptions.InvalidDendroFileException.PointerType;
 import org.tridas.io.util.SafeIntYear;
 import org.tridas.io.util.StringUtils;
@@ -65,36 +64,10 @@ public class OOXMLReader extends AbstractDendroFileReader {
 	
 	public OOXMLReader()
 	{
-		super(OOXMLToTridasDefaults.class);
+		super(OOXMLToTridasDefaults.class, new OOXMLFormat());
 	}
 	
-	@Override
-	public DendroFileFilter getDendroFileFilter() {
-		String[] exts = new String[] {"xlsx"};
-		
-		return new DendroFileFilter(exts, getShortName());
-
-	}
-
-	@Override
-	public String getDescription() {
-		return I18n.getText("ooxml.about.description");
-	}
-
-	@Override
-	public String[] getFileExtensions() {
-		return new String[]{"xlsx"};
-	}
-
-	@Override
-	public String getFullName() {
-		return I18n.getText("ooxml.about.fullName");
-	}
-
-	@Override
-	public String getShortName() {
-		return I18n.getText("ooxml.about.shortName");
-	}
+	
 
 	// *******************************
 	// NOT SUPPORTED - BINARY FORMAT

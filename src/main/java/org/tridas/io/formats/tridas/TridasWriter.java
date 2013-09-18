@@ -18,8 +18,6 @@ package org.tridas.io.formats.tridas;
 import java.util.ArrayList;
 
 import org.tridas.io.AbstractDendroCollectionWriter;
-import org.tridas.io.DendroFileFilter;
-import org.tridas.io.I18n;
 import org.tridas.io.defaults.IMetadataFieldSet;
 import org.tridas.io.defaults.TridasMetadataFieldSet;
 import org.tridas.io.exceptions.ConversionWarningException;
@@ -51,7 +49,7 @@ public class TridasWriter extends AbstractDendroCollectionWriter {
 	 * TRiDaS java classes.
 	 */
 	public TridasWriter() {
-		super(TridasMetadataFieldSet.class);
+		super(TridasMetadataFieldSet.class, new TridasFormat());
 	}
 	
 	@Override
@@ -187,38 +185,6 @@ public class TridasWriter extends AbstractDendroCollectionWriter {
 	@Override
 	public IMetadataFieldSet getDefaults() {
 		return null;
-	}
-	
-	/**
-	 * @see org.tridas.io.IDendroFileReader#getDescription()
-	 */
-	@Override
-	public String getDescription() {
-		return I18n.getText("tridas.about.description");
-	}
-	
-	/**
-	 * @see org.tridas.io.IDendroFileReader#getFullName()
-	 */
-	@Override
-	public String getFullName() {
-		return I18n.getText("tridas.about.fullName");
-	}
-	
-	/**
-	 * @see org.tridas.io.IDendroFileReader#getShortName()
-	 */
-	@Override
-	public String getShortName() {
-		return I18n.getText("tridas.about.shortName");
-	}
-	
-	@Override
-	public DendroFileFilter getDendroFileFilter() {
-		String[] exts = new String[] {"xml"};
-		
-		return new DendroFileFilter(exts, getShortName());
-
 	}
 
 }
