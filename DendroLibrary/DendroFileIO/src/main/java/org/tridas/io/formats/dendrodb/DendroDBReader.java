@@ -20,13 +20,12 @@ import java.util.Arrays;
 import java.util.List;
 
 import org.tridas.io.AbstractDendroFileReader;
-import org.tridas.io.DendroFileFilter;
 import org.tridas.io.I18n;
 import org.tridas.io.defaults.IMetadataFieldSet;
 import org.tridas.io.defaults.values.GenericDefaultValue;
 import org.tridas.io.exceptions.ConversionWarning;
-import org.tridas.io.exceptions.InvalidDendroFileException;
 import org.tridas.io.exceptions.ConversionWarning.WarningType;
+import org.tridas.io.exceptions.InvalidDendroFileException;
 import org.tridas.io.formats.dendrodb.DendroDBToTridasDefaults.DDBDefaultFields;
 import org.tridas.io.formats.dendrodb.DendroDBToTridasDefaults.DendroDBParameter;
 import org.tridas.io.util.SafeIntYear;
@@ -48,7 +47,7 @@ public class DendroDBReader extends AbstractDendroFileReader {
 	
 	public DendroDBReader()
 	{
-		super(DendroDBToTridasDefaults.class);
+		super(DendroDBToTridasDefaults.class, new DendroDBFormat());
 	}
 	
 	@Override
@@ -59,32 +58,6 @@ public class DendroDBReader extends AbstractDendroFileReader {
 	@Override
 	public IMetadataFieldSet getDefaults() {
 		return defaults;
-	}
-
-	@Override
-	public DendroFileFilter getDendroFileFilter() {
-		String[] exts = new String[] {"dat"};	
-		return new DendroFileFilter(exts, getShortName());
-	}
-
-	@Override
-	public String getDescription() {
-		return I18n.getText("dendrodb.about.description");
-	}
-
-	@Override
-	public String[] getFileExtensions() {
-		return new String[] { "dat" };
-	}
-
-	@Override
-	public String getFullName() {
-		return I18n.getText("dendrodb.about.fullName");
-	}
-
-	@Override
-	public String getShortName() {
-		return I18n.getText("dendrodb.about.shortName");
 	}
 
 	@Override

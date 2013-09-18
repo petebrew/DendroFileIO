@@ -48,7 +48,7 @@ public class KinsysReader extends AbstractDendroFileReader {
 
 
 	public KinsysReader() {
-		super(KinsysToTridasDefaults.class);
+		super(KinsysToTridasDefaults.class, new KinsysFormat());
 		defaults = new KinsysToTridasDefaults();
 	}
 
@@ -623,43 +623,6 @@ public class KinsysReader extends AbstractDendroFileReader {
 		container.setProjects(list);
 		return container;
 	}
-
-	/**
-	 * @see org.tridas.io.AbstractDendroFileReader#getDendroFileFilter()
-	 */
-	@Override
-	public DendroFileFilter getDendroFileFilter() {
-
-		String[] exts = new String[] {"MIT"};
-		
-		return new DendroFileFilter(exts, getShortName());
-
-	}
-	
-	/**
-	 * @see org.tridas.io.IDendroFileReader#getDescription()
-	 */
-	@Override
-	public String getDescription() {
-		return I18n.getText("kinsys.about.description");
-	}
-	
-	/**
-	 * @see org.tridas.io.IDendroFileReader#getFullName()
-	 */
-	@Override
-	public String getFullName() {
-		return I18n.getText("kinsys.about.fullName");
-	}
-	
-	/**
-	 * @see org.tridas.io.IDendroFileReader#getShortName()
-	 */
-	@Override
-	public String getShortName() {
-		return I18n.getText("kinsys.about.shortName");
-	}
-	
 
 	private static class KinsysSeries
 	{
