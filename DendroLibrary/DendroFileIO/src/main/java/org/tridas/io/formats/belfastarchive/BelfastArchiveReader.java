@@ -23,7 +23,6 @@ import java.util.UUID;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.tridas.io.AbstractDendroFileReader;
-import org.tridas.io.DendroFileFilter;
 import org.tridas.io.I18n;
 import org.tridas.io.defaults.IMetadataFieldSet;
 import org.tridas.io.defaults.TridasMetadataFieldSet.TridasMandatoryField;
@@ -63,7 +62,7 @@ public class BelfastArchiveReader extends AbstractDendroFileReader {
 	SafeIntYear startYear;
 	
 	public BelfastArchiveReader() {
-		super(BelfastArchiveToTridasDefaults.class);
+		super(BelfastArchiveToTridasDefaults.class, new BelfastArchiveFormat());
 	}
 	
 	@SuppressWarnings("unchecked")
@@ -195,11 +194,7 @@ public class BelfastArchiveReader extends AbstractDendroFileReader {
 		mseriesList.add(series);
 		
 	}
-	
-	@Override
-	public String[] getFileExtensions() {
-		return new String[]{"arx"};
-	}
+
 	
 	private TridasProject getProject() {
 		TridasProject project = null;
@@ -251,30 +246,7 @@ public class BelfastArchiveReader extends AbstractDendroFileReader {
 		// TODO track this
 		return 0;
 	}
-	
-	/**
-	 * @see org.tridas.io.IDendroFileReader#getDescription()
-	 */
-	@Override
-	public String getDescription() {
-		return I18n.getText("belfastarchive.about.description");
-	}
-	
-	/**
-	 * @see org.tridas.io.IDendroFileReader#getFullName()
-	 */
-	@Override
-	public String getFullName() {
-		return I18n.getText("belfastarchive.about.fullName");
-	}
-	
-	/**
-	 * @see org.tridas.io.IDendroFileReader#getShortName()
-	 */
-	@Override
-	public String getShortName() {
-		return I18n.getText("belfastarchive.about.shortName");
-	}
+
 	
 	/**
 	 * @see org.tridas.io.AbstractDendroFileReader#resetReader()
@@ -288,17 +260,6 @@ public class BelfastArchiveReader extends AbstractDendroFileReader {
 		startYear = null;
 	}
 
-	/**
-	 * @see org.tridas.io.AbstractDendroFileReader#getDendroFileFilter()
-	 */
-	@Override
-	public DendroFileFilter getDendroFileFilter() {
-
-		String[] exts = new String[] {"txt", "arx", "dat"};
-		
-		return new DendroFileFilter(exts, getShortName());
-
-	}
 
 	/**
 	 * @see org.tridas.io.AbstractDendroFileReader#getProjects()
