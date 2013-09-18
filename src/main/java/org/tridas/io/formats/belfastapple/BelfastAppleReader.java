@@ -55,7 +55,7 @@ public class BelfastAppleReader extends AbstractDendroFileReader {
 	String samplename = null;
 	Integer ringcount = 0;
 	public BelfastAppleReader() {
-		super(BelfastAppleToTridasDefaults.class);
+		super(BelfastAppleToTridasDefaults.class, new BelfastAppleFormat());
 	}
 	
 	@SuppressWarnings("unchecked")
@@ -138,10 +138,7 @@ public class BelfastAppleReader extends AbstractDendroFileReader {
 		
 	}
 	
-	@Override
-	public String[] getFileExtensions() {
-		return new String[]{"txt"};
-	}
+
 	
 	private TridasProject getProject() {
 		TridasProject project = null;
@@ -190,31 +187,7 @@ public class BelfastAppleReader extends AbstractDendroFileReader {
 		// TODO keep track of this
 		return 0;
 	}
-	
-	/**
-	 * @see org.tridas.io.IDendroFileReader#getDescription()
-	 */
-	@Override
-	public String getDescription() {
-		return I18n.getText("belfastapple.about.description");
-	}
-	
-	/**
-	 * @see org.tridas.io.IDendroFileReader#getFullName()
-	 */
-	@Override
-	public String getFullName() {
-		return I18n.getText("belfastapple.about.fullName");
-	}
-	
-	/**
-	 * @see org.tridas.io.IDendroFileReader#getShortName()
-	 */
-	@Override
-	public String getShortName() {
-		return I18n.getText("belfastapple.about.shortName");
-		
-	}
+
 	
 	/**
 	 * @see org.tridas.io.AbstractDendroFileReader#resetReader()
@@ -225,18 +198,6 @@ public class BelfastAppleReader extends AbstractDendroFileReader {
 		defaults = null;
 		objectname = null;
 		samplename = null;
-	}
-
-	/**
-	 * @see org.tridas.io.AbstractDendroFileReader#getDendroFileFilter()
-	 */
-	@Override
-	public DendroFileFilter getDendroFileFilter() {
-
-		String[] exts = new String[] {"*.*"};
-		
-		return new DendroFileFilter(exts, getShortName());
-
 	}
 
 	/**

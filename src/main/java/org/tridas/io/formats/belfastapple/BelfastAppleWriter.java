@@ -19,7 +19,6 @@ import java.util.ArrayList;
 import java.util.List;
 
 import org.tridas.io.AbstractDendroCollectionWriter;
-import org.tridas.io.DendroFileFilter;
 import org.tridas.io.I18n;
 import org.tridas.io.defaults.IMetadataFieldSet;
 import org.tridas.io.exceptions.ConversionWarning;
@@ -45,7 +44,7 @@ public class BelfastAppleWriter extends AbstractDendroCollectionWriter {
 	INamingConvention naming = new NumericalNamingConvention();
 	
 	public BelfastAppleWriter() {
-		super(TridasToBelfastAppleDefaults.class);
+		super(TridasToBelfastAppleDefaults.class, new BelfastAppleFormat());
 	}
 		
 	@Override
@@ -207,30 +206,7 @@ public class BelfastAppleWriter extends AbstractDendroCollectionWriter {
 		return defaults;
 	}
 	
-	/**
-	 * @see org.tridas.io.IDendroCollectionWriter#getDescription()
-	 */
-	@Override
-	public String getDescription() {
-		return I18n.getText("belfastapple.about.description");
-	}
-	
-	/**
-	 * @see org.tridas.io.IDendroCollectionWriter#getFullName()
-	 */
-	@Override
-	public String getFullName() {
-		return I18n.getText("belfastapple.about.fullName");
-	}
-	
-	/**
-	 * @see org.tridas.io.IDendroCollectionWriter#getShortName()
-	 */
-	@Override
-	public String getShortName() {
-		return I18n.getText("belfastapple.about.shortName");
-	}
-	
+
 	/**
 	 * @see org.tridas.io.IDendroCollectionWriter#getNamingConvention()
 	 */
@@ -247,14 +223,6 @@ public class BelfastAppleWriter extends AbstractDendroCollectionWriter {
 		naming = argConvension;
 	}
 
-	@Override
-	public DendroFileFilter getDendroFileFilter() {
-
-		String[] exts = new String[] {"*.*"};
-		
-		return new DendroFileFilter(exts, getShortName());
-
-	}
 
 	
 }
