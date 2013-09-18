@@ -16,7 +16,6 @@
 package org.tridas.io.formats.heidelberg;
 
 import org.tridas.io.AbstractDendroCollectionWriter;
-import org.tridas.io.DendroFileFilter;
 import org.tridas.io.I18n;
 import org.tridas.io.defaults.IMetadataFieldSet;
 import org.tridas.io.exceptions.ConversionWarning;
@@ -51,7 +50,7 @@ public class HeidelbergWriter extends AbstractDendroCollectionWriter {
 	protected boolean isstacked = true;
 	
 	public HeidelbergWriter() {
-		super(TridasToHeidelbergDefaults.class);
+		super(TridasToHeidelbergDefaults.class, new HeidelbergFormat());
 	}
 	
 	@Override
@@ -323,36 +322,4 @@ public class HeidelbergWriter extends AbstractDendroCollectionWriter {
 		return defaults;
 	}
 	
-	/**
-	 * @see org.tridas.io.IDendroCollectionWriter#getDescription()
-	 */
-	@Override
-	public String getDescription() {
-		return I18n.getText("heidelberg.about.description");
-	}
-	
-	/**
-	 * @see org.tridas.io.IDendroCollectionWriter#getFullName()
-	 */
-	@Override
-	public String getFullName() {
-		return I18n.getText("heidelberg.about.fullName");
-	}
-	
-	/**
-	 * @see org.tridas.io.IDendroCollectionWriter#getShortName()
-	 */
-	@Override
-	public String getShortName() {
-		return I18n.getText("heidelberg.about.shortName");
-	}
-	
-	@Override
-	public DendroFileFilter getDendroFileFilter() {
-		String[] exts = new String[] {"fh"};
-		
-		return new DendroFileFilter(exts, getShortName());
-
-	}
-
 }

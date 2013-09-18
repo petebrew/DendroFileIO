@@ -1,7 +1,6 @@
 package org.tridas.io.formats.fhx2;
 
 import org.tridas.io.defaults.TridasMetadataFieldSet;
-import org.tridas.io.defaults.TridasMetadataFieldSet.TridasMandatoryField;
 import org.tridas.io.defaults.values.BooleanDefaultValue;
 import org.tridas.io.defaults.values.DateTimeDefaultValue;
 import org.tridas.io.defaults.values.DoubleDefaultValue;
@@ -9,8 +8,6 @@ import org.tridas.io.defaults.values.GenericDefaultValue;
 import org.tridas.io.defaults.values.IntegerDefaultValue;
 import org.tridas.io.defaults.values.SafeIntYearDefaultValue;
 import org.tridas.io.defaults.values.StringDefaultValue;
-import org.tridas.io.formats.heidelberg.HeidelbergToTridasDefaults.DefaultFields;
-import org.tridas.io.formats.heidelberg.HeidelbergToTridasDefaults.FHBarkType;
 import org.tridas.io.util.DateUtils;
 import org.tridas.schema.ComplexPresenceAbsence;
 import org.tridas.schema.ControlledVoc;
@@ -32,7 +29,6 @@ import org.tridas.schema.TridasPith;
 import org.tridas.schema.TridasSample;
 import org.tridas.schema.TridasSapwood;
 import org.tridas.schema.TridasSlope;
-import org.tridas.schema.TridasUnit;
 import org.tridas.schema.TridasUnitless;
 import org.tridas.schema.TridasValues;
 import org.tridas.schema.TridasVariable;

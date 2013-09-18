@@ -16,7 +16,6 @@
 package org.tridas.io.formats.heikkenensingle;
 
 import org.tridas.io.AbstractDendroCollectionWriter;
-import org.tridas.io.DendroFileFilter;
 import org.tridas.io.I18n;
 import org.tridas.io.defaults.IMetadataFieldSet;
 import org.tridas.io.exceptions.ConversionWarning;
@@ -44,7 +43,7 @@ public class HeikkenenSingleWriter extends AbstractDendroCollectionWriter {
 	private INamingConvention naming = new NumericalNamingConvention();
 	
 	public HeikkenenSingleWriter() {
-		super(TridasToHeikkenenSingleDefaults.class);
+		super(TridasToHeikkenenSingleDefaults.class, new HeikkenenSingleFormat());
 	}
 	
 	@Override
@@ -52,29 +51,6 @@ public class HeikkenenSingleWriter extends AbstractDendroCollectionWriter {
 		return defaults;
 	}
 
-	/**
-	 * @see org.tridas.io.IDendroFileReader#getDescription()
-	 */
-	@Override
-	public String getDescription() {
-		return I18n.getText("heikkenensingle.about.description");
-	}
-	
-	/**
-	 * @see org.tridas.io.IDendroFileReader#getFullName()
-	 */
-	@Override
-	public String getFullName() {
-		return I18n.getText("heikkenensingle.about.fullName");
-	}
-	
-	/**
-	 * @see org.tridas.io.IDendroFileReader#getShortName()
-	 */
-	@Override
-	public String getShortName() {
-		return I18n.getText("heikkenensingle.about.shortName");
-	}
 
 	/**
 	 * @see org.tridas.io.IDendroCollectionWriter#getNamingConvention()
@@ -238,13 +214,4 @@ public class HeikkenenSingleWriter extends AbstractDendroCollectionWriter {
 	public void setNamingConvention(INamingConvention argConvension) {
 		naming = argConvension;
 	}
-	
-	@Override
-	public DendroFileFilter getDendroFileFilter() {
-		String[] exts = new String[] {"rng"};
-		
-		return new DendroFileFilter(exts, getShortName());
-
-	}
-
 }
