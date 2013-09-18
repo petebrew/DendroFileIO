@@ -20,6 +20,8 @@ import java.math.BigInteger;
 import java.text.DecimalFormat;
 import java.util.ArrayList;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.tridas.io.I18n;
 import org.tridas.io.exceptions.ConversionWarning;
 import org.tridas.io.exceptions.ConversionWarningException;
@@ -30,6 +32,7 @@ import org.tridas.schema.TridasValue;
 import org.tridas.schema.TridasValues;
 
 public class UnitUtils {
+	private static final Logger log = LoggerFactory.getLogger(UnitUtils.class);
 
 	
 	
@@ -232,6 +235,8 @@ public class UnitUtils {
 		{
 			throw new ConversionWarningException(new ConversionWarning(WarningType.AMBIGUOUS, I18n.getText("fileio.convertsOnlyTridasUnits")));
 		}
+		
+		log.debug("Input units are: "+inputunits.name());
 		
 		for (TridasValue value : values)
 		{
