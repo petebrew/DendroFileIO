@@ -22,7 +22,6 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.tridas.interfaces.ITridasSeries;
 import org.tridas.io.AbstractDendroCollectionWriter;
-import org.tridas.io.DendroFileFilter;
 import org.tridas.io.I18n;
 import org.tridas.io.defaults.IMetadataFieldSet;
 import org.tridas.io.exceptions.ConversionWarning;
@@ -45,7 +44,7 @@ public class CSVMatrixWriter extends AbstractDendroCollectionWriter {
 	INamingConvention naming = new NumericalNamingConvention();
 	
 	public CSVMatrixWriter() {
-		super(TridasToCSVMatrixDefaults.class);
+		super(TridasToCSVMatrixDefaults.class, new CSVMatrixFormat());
 	}
 	
 	@Override
@@ -116,36 +115,13 @@ public class CSVMatrixWriter extends AbstractDendroCollectionWriter {
 	}
 	
 	@Override
-	public String getDescription() {
-		return I18n.getText("csv.about.description");
-	}
-	
-	@Override
-	public String getFullName() {
-		return I18n.getText("csv.about.fullName");
-	}
-	
-	@Override
 	public INamingConvention getNamingConvention() {
 		return naming;
 	}
-	
-	@Override
-	public String getShortName() {
-		return I18n.getText("csv.about.shortName");
-	}
-	
+
 	@Override
 	public void setNamingConvention(INamingConvention argConvention) {
 		naming = argConvention;
 	}
 	
-	@Override
-	public DendroFileFilter getDendroFileFilter() {
-		String[] exts = new String[] {"csv"};
-		
-		return new DendroFileFilter(exts, getShortName());
-
-	}
-
 }

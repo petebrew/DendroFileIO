@@ -17,13 +17,12 @@ package org.tridas.io.formats.corina;
 
 import org.tridas.interfaces.ITridasSeries;
 import org.tridas.io.AbstractDendroCollectionWriter;
-import org.tridas.io.DendroFileFilter;
 import org.tridas.io.I18n;
 import org.tridas.io.defaults.IMetadataFieldSet;
 import org.tridas.io.exceptions.ConversionWarning;
+import org.tridas.io.exceptions.ConversionWarning.WarningType;
 import org.tridas.io.exceptions.ConversionWarningException;
 import org.tridas.io.exceptions.IncompleteTridasDataException;
-import org.tridas.io.exceptions.ConversionWarning.WarningType;
 import org.tridas.io.naming.INamingConvention;
 import org.tridas.io.naming.NumericalNamingConvention;
 import org.tridas.io.util.TridasUtils;
@@ -37,7 +36,6 @@ import org.tridas.schema.TridasObject;
 import org.tridas.schema.TridasProject;
 import org.tridas.schema.TridasRadius;
 import org.tridas.schema.TridasSample;
-import org.tridas.schema.TridasValue;
 import org.tridas.schema.TridasValues;
 
 public class CorinaWriter extends AbstractDendroCollectionWriter {
@@ -46,36 +44,12 @@ public class CorinaWriter extends AbstractDendroCollectionWriter {
 	private INamingConvention naming = new NumericalNamingConvention();
 	
 	public CorinaWriter() {
-		super(TridasToCorinaDefaults.class);
+		super(TridasToCorinaDefaults.class, new CorinaFormat());
 	}
 	
 	@Override
 	public IMetadataFieldSet getDefaults() {
 		return defaults;
-	}
-
-	/**
-	 * @see org.tridas.io.IDendroFileReader#getDescription()
-	 */
-	@Override
-	public String getDescription() {
-		return I18n.getText("corina.about.description");
-	}
-	
-	/**
-	 * @see org.tridas.io.IDendroFileReader#getFullName()
-	 */
-	@Override
-	public String getFullName() {
-		return I18n.getText("corina.about.fullName");
-	}
-	
-	/**
-	 * @see org.tridas.io.IDendroFileReader#getShortName()
-	 */
-	@Override
-	public String getShortName() {
-		return I18n.getText("corina.about.shortName");
 	}
 
 	/**
@@ -316,14 +290,5 @@ public class CorinaWriter extends AbstractDendroCollectionWriter {
 	@Override
 	public void setNamingConvention(INamingConvention argConvension) {
 		naming = argConvension;
-	}
-	
-	@Override
-	public DendroFileFilter getDendroFileFilter() {
-
-		String[] exts = new String[] {"*.*"};
-		
-		return new DendroFileFilter(exts, getShortName());
-
 	}
 }

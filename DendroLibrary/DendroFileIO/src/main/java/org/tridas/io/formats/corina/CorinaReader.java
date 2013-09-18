@@ -23,18 +23,18 @@ import java.util.List;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import org.tridas.interfaces.ITridasSeries;
 import org.tridas.io.AbstractDendroFileReader;
 import org.tridas.io.DendroFileFilter;
 import org.tridas.io.I18n;
 import org.tridas.io.defaults.IMetadataFieldSet;
 import org.tridas.io.exceptions.ConversionWarning;
-import org.tridas.io.exceptions.InvalidDendroFileException;
 import org.tridas.io.exceptions.ConversionWarning.WarningType;
+import org.tridas.io.exceptions.InvalidDendroFileException;
 import org.tridas.io.formats.corina.CorinaToTridasDefaults.DefaultFields;
 import org.tridas.io.util.SafeIntYear;
 import org.tridas.io.util.TridasUtils;
 import org.tridas.schema.SeriesLink;
+import org.tridas.schema.SeriesLink.XLink;
 import org.tridas.schema.SeriesLinks;
 import org.tridas.schema.TridasDerivedSeries;
 import org.tridas.schema.TridasElement;
@@ -47,7 +47,6 @@ import org.tridas.schema.TridasSample;
 import org.tridas.schema.TridasTridas;
 import org.tridas.schema.TridasValue;
 import org.tridas.schema.TridasValues;
-import org.tridas.schema.SeriesLink.XLink;
 
 public class CorinaReader extends AbstractDendroFileReader {
 
@@ -65,7 +64,7 @@ public class CorinaReader extends AbstractDendroFileReader {
 	
 	
 	public CorinaReader() {
-		super(CorinaToTridasDefaults.class);
+		super(CorinaToTridasDefaults.class, new CorinaFormat());
 	}
 	
 	@Override
@@ -78,36 +77,6 @@ public class CorinaReader extends AbstractDendroFileReader {
 		return defaults;
 	}
 
-
-	/**
-	 * @see org.tridas.io.IDendroFileReader#getDescription()
-	 */
-	@Override
-	public String getDescription() {
-		return I18n.getText("corina.about.description");
-	}
-	
-	/**
-	 * @see org.tridas.io.IDendroFileReader#getFullName()
-	 */
-	@Override
-	public String getFullName() {
-		return I18n.getText("corina.about.fullName");
-	}
-	
-	/**
-	 * @see org.tridas.io.IDendroFileReader#getShortName()
-	 */
-	@Override
-	public String getShortName() {
-		return I18n.getText("corina.about.shortName");
-	}
-	
-	@Override
-	public String[] getFileExtensions() {
-		return new String[]{"raw", "rec", "cln", "sum"};
-	}
-	
 	@Override
 	protected void resetReader() {
 		

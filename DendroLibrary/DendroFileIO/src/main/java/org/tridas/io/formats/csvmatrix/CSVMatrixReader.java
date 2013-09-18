@@ -26,12 +26,11 @@ import org.odftoolkit.odfdom.doc.table.OdfTableColumn;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.tridas.io.AbstractDendroFileReader;
-import org.tridas.io.DendroFileFilter;
 import org.tridas.io.I18n;
 import org.tridas.io.defaults.IMetadataFieldSet;
 import org.tridas.io.exceptions.ConversionWarning;
-import org.tridas.io.exceptions.InvalidDendroFileException;
 import org.tridas.io.exceptions.ConversionWarning.WarningType;
+import org.tridas.io.exceptions.InvalidDendroFileException;
 import org.tridas.io.exceptions.InvalidDendroFileException.PointerType;
 import org.tridas.io.util.SafeIntYear;
 import org.tridas.io.util.StringUtils;
@@ -56,37 +55,9 @@ public class CSVMatrixReader extends AbstractDendroFileReader {
 	
 	public CSVMatrixReader()
 	{
-		super(CSVMatrixToTridasDefaults.class);
+		super(CSVMatrixToTridasDefaults.class, new CSVMatrixFormat());
 	}
 	
-	@Override
-	public DendroFileFilter getDendroFileFilter() {
-		String[] exts = new String[] {"csv"};
-		
-		return new DendroFileFilter(exts, getShortName());
-
-	}
-
-	@Override
-	public String getDescription() {
-		return I18n.getText("csv.about.description");
-	}
-
-	@Override
-	public String[] getFileExtensions() {
-		return new String[]{"csv"};
-	}
-
-	@Override
-	public String getFullName() {
-		return I18n.getText("csv.about.fullName");
-	}
-
-	@Override
-	public String getShortName() {
-		return I18n.getText("csv.about.shortName");
-	}
-
 	/**
 	 * Check this is a valid CSV file
 	 * 

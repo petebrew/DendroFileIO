@@ -71,7 +71,7 @@ public class CatrasReader extends AbstractDendroFileReader {
 	private ArrayList<Integer> sampleDepthValues = new ArrayList<Integer>();
 		
 	public CatrasReader() {
-		super(CatrasToTridasDefaults.class);
+		super(CatrasToTridasDefaults.class, new CatrasFormat());
 	}
 	
 	/**
@@ -626,12 +626,7 @@ public class CatrasReader extends AbstractDendroFileReader {
 	private int getIntFromBytePairByPos(byte[] wBytes, int pos) {
 		return getIntFromBytePair(getBytePairByPos(wBytes, pos));
 	}
-		
-	@Override
-	public String[] getFileExtensions() {
-		return new String[]{"cat"};
-	}
-	
+			
 	
 	@SuppressWarnings("unchecked")
 	private TridasProject getProject() {
@@ -761,30 +756,6 @@ public class CatrasReader extends AbstractDendroFileReader {
 	public int getCurrentLineNumber() {
 		// TODO track this
 		return 0;
-	}
-	
-	/**
-	 * @see org.tridas.io.IDendroFileReader#getDescription()
-	 */
-	@Override
-	public String getDescription() {
-		return I18n.getText("catras.about.description");
-	}
-	
-	/**
-	 * @see org.tridas.io.IDendroFileReader#getFullName()
-	 */
-	@Override
-	public String getFullName() {
-		return I18n.getText("catras.about.fullName");
-	}
-	
-	/**
-	 * @see org.tridas.io.IDendroFileReader#getShortName()
-	 */
-	@Override
-	public String getShortName() {
-		return I18n.getText("catras.about.shortName");
 	}
 	
 	/**
