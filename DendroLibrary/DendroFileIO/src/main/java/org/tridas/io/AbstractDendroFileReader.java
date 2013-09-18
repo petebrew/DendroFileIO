@@ -29,9 +29,10 @@ import org.tridas.schema.TridasProject;
 import org.tridas.schema.TridasTridas;
 
 
-public abstract class AbstractDendroFileReader {
+public abstract class AbstractDendroFileReader{
 	private static final Logger log = LoggerFactory.getLogger(AbstractDendroFileReader.class);
 	
+	private final AbstractDendroFormat format;
 	private ArrayList<ConversionWarning> warnings = new ArrayList<ConversionWarning>();
 	private final Class<? extends IMetadataFieldSet> defaultFieldsClass;
 	private String origFilename;
@@ -43,10 +44,14 @@ public abstract class AbstractDendroFileReader {
 	 * @throws RuntimeException
 	 *             if argDefaultFieldsClass is null or doesn't have an empty constructor
 	 */
-	public AbstractDendroFileReader(Class<? extends IMetadataFieldSet> argDefaultFieldsClass) {
+	public AbstractDendroFileReader(Class<? extends IMetadataFieldSet> argDefaultFieldsClass, AbstractDendroFormat format) {
 		if (argDefaultFieldsClass == null) {
 			throw new RuntimeException(I18n.getText("fileio.defaultsnull"));
 		}
+		
+		if(format ==null ) throw new RuntimeException("Null format description");
+		
+		this.format = format;
 		
 		try {
 			if (argDefaultFieldsClass.getConstructor(new Class<?>[]{}) == null) {
@@ -299,33 +304,7 @@ public abstract class AbstractDendroFileReader {
 	 */
 	public abstract int getCurrentLineNumber();
 	
-	/**
-	 * Returns a list of the file extensions for this file
-	 * 
-	 * @return
-	 */
-	public abstract String[] getFileExtensions();
-	
-	/**
-	 * Get the short name of the format
-	 * 
-	 * @return
-	 */
-	public abstract String getShortName();
-	
-	/**
-	 * Get the full name of the format
-	 * 
-	 * @return
-	 */
-	public abstract String getFullName();
-	
-	/**
-	 * Get the description of the format
-	 * 
-	 * @return
-	 */
-	public abstract String getDescription();
+
 	
 	/**
 	 * Get the default values for this reader that were given in
@@ -344,5 +323,56 @@ public abstract class AbstractDendroFileReader {
 	
 	public abstract TridasTridas getTridasContainer();
 
-	public abstract DendroFileFilter getDendroFileFilter();
+
+	
+	/**
+	 * Returns a list of the file extensions for this file
+	 * 
+	 * @return
+	 */
+	public String[] getFileExtensions()
+	{
+		return format.getFileExtensions();
+	}
+	
+	/**
+	 * Get the short name of the format
+	 * 
+	 * @return
+	 */
+	public String getShortName()
+	{
+		return format.getShortName();
+	}
+	
+	/**
+	 * Get the full name of the format
+	 * 
+	 * @return
+	 */
+	public String getFullName()
+	{
+		return format.getFullName();
+	}
+	
+	/**
+	 * Get the description of the format
+	 * 
+	 * @return
+	 */
+	public String getDescription()
+	{
+		return format.getDescription();
+	}
+	
+	/**
+	 * Get a file filter for this format
+	 * 
+	 * @return
+	 */
+	public DendroFileFilter getDendroFileFilter()
+	{
+		return format.getDendroFileFilter();
+	}
+	
 }
