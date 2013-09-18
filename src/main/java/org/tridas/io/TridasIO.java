@@ -17,11 +17,8 @@ package org.tridas.io;
 
 import java.io.BufferedReader;
 import java.io.DataInputStream;
-import java.io.File;
-import java.io.FileInputStream;
 import java.io.InputStream;
 import java.io.InputStreamReader;
-import java.net.URL;
 import java.nio.charset.Charset;
 import java.nio.charset.IllegalCharsetNameException;
 import java.nio.charset.UnsupportedCharsetException;
@@ -419,7 +416,7 @@ public class TridasIO {
 	}
 	
 	@SuppressWarnings("unchecked")
-	public synchronized static ArrayList<DendroFileFilter> getFileFilterArray()
+	public synchronized static ArrayList<DendroFileFilter> getFileReadingFilterArray()
 	{
 		ArrayList<DendroFileFilter> arr = new ArrayList<DendroFileFilter>();
 		
@@ -431,6 +428,31 @@ public class TridasIO {
 				AbstractDendroFileReader reader = e.fileReader.newInstance();
 				
 				arr.add((DendroFileFilter) reader.getDendroFileFilter());
+				
+			} catch (Exception e1) {
+				
+			}
+	        
+	    }
+	    
+	    return arr;
+
+		
+	}
+	
+	@SuppressWarnings("unchecked")
+	public synchronized static ArrayList<DendroFileFilter> getFileWritingFilterArray()
+	{
+		ArrayList<DendroFileFilter> arr = new ArrayList<DendroFileFilter>();
+		
+	    Iterator it = converterMap.entrySet().iterator();
+	    while (it.hasNext()) {
+	        Map.Entry pairs = (Map.Entry)it.next();
+	        TridasIOEntry e = (TridasIOEntry) pairs.getValue();
+	        try {
+				AbstractDendroCollectionWriter writer = e.fileWriter.newInstance();
+				
+				arr.add((DendroFileFilter) writer.getDendroFileFilter());
 				
 			} catch (Exception e1) {
 				
