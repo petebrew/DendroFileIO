@@ -17,7 +17,6 @@ package org.tridas.io.formats.besancon;
 
 import java.util.ArrayList;
 import java.util.Arrays;
-import java.util.Iterator;
 import java.util.List;
 import java.util.ListIterator;
 
@@ -29,8 +28,8 @@ import org.tridas.io.I18n;
 import org.tridas.io.defaults.IMetadataFieldSet;
 import org.tridas.io.defaults.values.GenericDefaultValue;
 import org.tridas.io.exceptions.ConversionWarning;
-import org.tridas.io.exceptions.InvalidDendroFileException;
 import org.tridas.io.exceptions.ConversionWarning.WarningType;
+import org.tridas.io.exceptions.InvalidDendroFileException;
 import org.tridas.io.formats.besancon.BesanconToTridasDefaults.BesanconCambiumType;
 import org.tridas.io.formats.besancon.BesanconToTridasDefaults.DefaultFields;
 import org.tridas.io.util.SafeIntYear;
@@ -62,7 +61,7 @@ public class BesanconReader extends AbstractDendroFileReader {
 	private DateTime fileLastUpdated;
 	
 	public BesanconReader() {
-		super(BesanconToTridasDefaults.class);
+		super(BesanconToTridasDefaults.class, new BescanconFormat());
 	}
 	
 	@Override
@@ -466,36 +465,7 @@ public class BesanconReader extends AbstractDendroFileReader {
 	public IMetadataFieldSet getDefaults() {
 		return defaults;
 	}
-	
-	@Override
-	public String[] getFileExtensions() {
-		return new String[]{"txt"};
-	}
-	
-	/**
-	 * @see org.tridas.io.IDendroFileReader#getDescription()
-	 */
-	@Override
-	public String getDescription() {
-		return I18n.getText("besancon.about.description");
-	}
-	
-	/**
-	 * @see org.tridas.io.IDendroFileReader#getFullName()
-	 */
-	@Override
-	public String getFullName() {
-		return I18n.getText("besancon.about.fullName");
-	}
-	
-	/**
-	 * @see org.tridas.io.IDendroFileReader#getShortName()
-	 */
-	@Override
-	public String getShortName() {
-		return I18n.getText("besancon.about.shortName");
-	}
-	
+		
 	/**
 	 * Class to store the measurement series data
 	 * 

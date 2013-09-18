@@ -35,7 +35,7 @@ public class CracowReader extends AbstractDendroFileReader {
 	private ArrayList<Integer> ringWidthValues = null;
 	
 	public CracowReader() {
-		super(CracowToTridasDefaults.class);
+		super(CracowToTridasDefaults.class, new CracowFormat());
 	}
 
 	
@@ -195,35 +195,6 @@ public class CracowReader extends AbstractDendroFileReader {
 	@Override
 	public int getCurrentLineNumber() {
 		return 0;
-	}
-
-	@Override
-	public String[] getFileExtensions() {
-		return new String[] { "AVR", "AVS" };
-	}
-
-	/**
-	 * @see org.tridas.io.IDendroFileReader#getDescription()
-	 */
-	@Override
-	public String getDescription() {
-		return I18n.getText("cracow.about.description");
-	}
-	
-	/**
-	 * @see org.tridas.io.IDendroFileReader#getFullName()
-	 */
-	@Override
-	public String getFullName() {
-		return I18n.getText("cracow.about.fullName");
-	}
-	
-	/**
-	 * @see org.tridas.io.IDendroFileReader#getShortName()
-	 */
-	@Override
-	public String getShortName() {
-		return I18n.getText("cracow.about.shortName");
 	}
 
 	/**

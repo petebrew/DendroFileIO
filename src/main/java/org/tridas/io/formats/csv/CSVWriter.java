@@ -19,11 +19,11 @@ import java.util.ArrayList;
 import java.util.List;
 
 import org.tridas.io.AbstractDendroCollectionWriter;
-import org.tridas.io.DendroFileFilter;
 import org.tridas.io.I18n;
 import org.tridas.io.defaults.IMetadataFieldSet;
 import org.tridas.io.exceptions.ConversionWarningException;
 import org.tridas.io.exceptions.IncompleteTridasDataException;
+import org.tridas.io.formats.csvmatrix.CSVMatrixFormat;
 import org.tridas.io.naming.INamingConvention;
 import org.tridas.io.naming.NumericalNamingConvention;
 import org.tridas.io.util.TridasUtils;
@@ -47,7 +47,7 @@ public class CSVWriter extends AbstractDendroCollectionWriter {
 	INamingConvention naming = new NumericalNamingConvention();
 	
 	public CSVWriter() {
-		super(TridasToCSVDefaults.class);
+		super(TridasToCSVDefaults.class, new CSVMatrixFormat());
 	}
 	
 	@Override
@@ -147,31 +147,7 @@ public class CSVWriter extends AbstractDendroCollectionWriter {
 	public IMetadataFieldSet getDefaults() {
 		return defaults;
 	}
-	
-	/**
-	 * @see org.tridas.io.IDendroCollectionWriter#getDescription()
-	 */
-	@Override
-	public String getDescription() {
-		return I18n.getText("csv.about.description");
-	}
-	
-	/**
-	 * @see org.tridas.io.IDendroCollectionWriter#getFullName()
-	 */
-	@Override
-	public String getFullName() {
-		return I18n.getText("csv.about.fullName");
-	}
-	
-	/**
-	 * @see org.tridas.io.IDendroCollectionWriter#getShortName()
-	 */
-	@Override
-	public String getShortName() {
-		return I18n.getText("csv.about.shortName");
-	}
-	
+		
 	/**
 	 * @see org.tridas.io.IDendroCollectionWriter#getNamingConvention()
 	 */
@@ -187,13 +163,4 @@ public class CSVWriter extends AbstractDendroCollectionWriter {
 	public void setNamingConvention(INamingConvention argConvension) {
 		naming = argConvension;
 	}	
-	
-	@Override
-	public DendroFileFilter getDendroFileFilter() {
-
-		String[] exts = new String[] {"csv"};
-		
-		return new DendroFileFilter(exts, getShortName());
-
-	}
 }
