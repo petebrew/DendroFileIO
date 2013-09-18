@@ -34,9 +34,10 @@ import org.tridas.schema.TridasTridas;
 /**
  * @author Daniel Murphy
  */
-public abstract class AbstractDendroCollectionWriter {
+public abstract class AbstractDendroCollectionWriter{
 	private static final Logger log = LoggerFactory.getLogger(AbstractDendroCollectionWriter.class);
 
+	private final AbstractDendroFormat format;
 	private ArrayList<IDendroFile> fileList = new ArrayList<IDendroFile>();
 	private ArrayList<ConversionWarning> warnings = new ArrayList<ConversionWarning>();
 	private Class<? extends IMetadataFieldSet> defaultFieldsClass;
@@ -44,10 +45,14 @@ public abstract class AbstractDendroCollectionWriter {
 	/**
 	 * @param argDefaultFieldsClass
 	 */
-	public AbstractDendroCollectionWriter(Class<? extends IMetadataFieldSet> argDefaultFieldsClass) {
+	public AbstractDendroCollectionWriter(Class<? extends IMetadataFieldSet> argDefaultFieldsClass, AbstractDendroFormat format) {
 		if (argDefaultFieldsClass == null) {
 			throw new RuntimeException(I18n.getText("fileio.defaultsnull"));
 		}
+		
+		if(format ==null ) throw new RuntimeException("Null format description");
+		
+		this.format = format;
 		
 		try {
 			if (argDefaultFieldsClass.getConstructor(new Class<?>[]{}) == null) {
@@ -247,7 +252,7 @@ public abstract class AbstractDendroCollectionWriter {
 			saveFileToDisk(argOutputFolder, filename, dof);
 		}
 	}
-	
+		
 	/**
 	 * Used specify where to save each file individually.
 	 * 
@@ -276,7 +281,12 @@ public abstract class AbstractDendroCollectionWriter {
 	 * @param argFile
 	 *            a dendro file of this writer
 	 */
-	protected void saveFileToDisk(String argOutputFolder, String argFilename, IDendroFile argFile) {
+	protected void saveFileToDisk(String argOutputFolder, String argFilename, IDendroFile argFile) 
+	{
+		saveFileToDisk(argOutputFolder, argFilename, null, argFile);
+	}
+		
+	protected void saveFileToDisk(String argOutputFolder, String argFilename, String forceExtension, IDendroFile argFile) {
 		FileHelper helper;
 		boolean absolute = (new File(argOutputFolder)).isAbsolute();
 		
@@ -301,10 +311,22 @@ public abstract class AbstractDendroCollectionWriter {
 			return;
 		}
 		
+		
+		String fullfilename;
+		if(forceExtension!=null)
+		{
+			fullfilename = argFilename + "." + forceExtension;
+	
+		}
+		else
+		{
+			fullfilename = argFilename + "." + argFile.getExtension();
+		}
+		
 		if (absolute) {
 			if (TridasIO.getWritingCharset() != null) {
 				try {
-					helper.saveStrings(argFilename + "." + argFile.getExtension(), file, TridasIO.getWritingCharset());
+					helper.saveStrings(fullfilename, file, TridasIO.getWritingCharset());
 					return;
 				} catch (UnsupportedEncodingException e) {
 					// shouldn't happen, but
@@ -312,20 +334,20 @@ public abstract class AbstractDendroCollectionWriter {
 					e.printStackTrace();
 				}
 			}
-			helper.saveStrings(argFilename + "." + argFile.getExtension(), file);
+			helper.saveStrings(fullfilename, file);
 			
 		}
 		else {
 			if (TridasIO.getWritingCharset() != null) {
 				try {
-					helper.saveStrings(argOutputFolder + argFilename + "." + argFile.getExtension(), file, TridasIO
+					helper.saveStrings(argOutputFolder + fullfilename, file, TridasIO
 							.getWritingCharset());
 					return;
 				} catch (UnsupportedEncodingException e) {
 					log.error("Exception trying to save strings",e);
 				}
 			}
-			helper.saveStrings(argOutputFolder + argFilename + "." + argFile.getExtension(), file);
+			helper.saveStrings(argOutputFolder + fullfilename, file);
 		}
 	}
 	
@@ -386,33 +408,60 @@ public abstract class AbstractDendroCollectionWriter {
 	public abstract INamingConvention getNamingConvention();
 	
 	/**
-	 * Get the short name of the format
-	 * 
-	 * @return
-	 */
-	public abstract String getShortName();
-	
-	/**
-	 * Get the full name of the format
-	 * 
-	 * @return
-	 */
-	public abstract String getFullName();
-	
-	/**
-	 * Get the description of the format
-	 * 
-	 * @return
-	 */
-	public abstract String getDescription();
-	
-	/**
 	 * Get the default values for this writer.
 	 * 
 	 * @return
 	 */
 	public abstract IMetadataFieldSet getDefaults();
 	
-	public abstract DendroFileFilter getDendroFileFilter();
-
+	
+	/**
+	 * Returns a list of the file extensions for this file
+	 * 
+	 * @return
+	 */
+	public String[] getFileExtensions()
+	{
+		return format.getFileExtensions();
+	}
+	
+	/**
+	 * Get the short name of the format
+	 * 
+	 * @return
+	 */
+	public String getShortName()
+	{
+		return format.getShortName();
+	}
+	
+	/**
+	 * Get the full name of the format
+	 * 
+	 * @return
+	 */
+	public String getFullName()
+	{
+		return format.getFullName();
+	}
+	
+	/**
+	 * Get the description of the format
+	 * 
+	 * @return
+	 */
+	public String getDescription()
+	{
+		return format.getDescription();
+	}
+	
+	/**
+	 * Get a file filter for this format
+	 * 
+	 * @return
+	 */
+	public DendroFileFilter getDendroFileFilter()
+	{
+		return format.getDendroFileFilter();
+	}
 }
