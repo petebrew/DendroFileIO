@@ -51,7 +51,7 @@ public class WinDendroReader extends AbstractDendroFileReader {
 	Integer currentLineNumber = -1;
 	
 	public WinDendroReader() {
-		super(WinDendroToTridasDefaults.class);
+		super(WinDendroToTridasDefaults.class, new WinDendroFormat());
 	}
 	
 	@Override
@@ -64,20 +64,6 @@ public class WinDendroReader extends AbstractDendroFileReader {
 		return defaults;
 	}
 
-	@Override
-	public String getDescription() {
-		return I18n.getText("windendro.about.description");
-	}
-
-	@Override
-	public String[] getFileExtensions() {
-		return new String[]{"txt"};
-	}
-
-	@Override
-	public String getFullName() {
-		return I18n.getText("windendro.about.fullName");
-	}
 
 	private TridasProject getProject() {
 		TridasProject project = defaults.getProjectWithDefaults(false);
@@ -128,11 +114,6 @@ public class WinDendroReader extends AbstractDendroFileReader {
 		
 		project.setObjects(olist);
 		return project;
-	}
-
-	@Override
-	public String getShortName() {
-		return I18n.getText("windendro.about.shortName");
 	}
 
 	@Override
@@ -450,17 +431,6 @@ public class WinDendroReader extends AbstractDendroFileReader {
 		}
 	}
 	
-	/**
-	 * @see org.tridas.io.AbstractDendroFileReader#getDendroFileFilter()
-	 */
-	@Override
-	public DendroFileFilter getDendroFileFilter() {
-
-		String[] exts = new String[] {"txt"};
-		
-		return new DendroFileFilter(exts, getShortName());
-
-	}
 	
 	/**
 	 * @see org.tridas.io.AbstractDendroFileReader#getProjects()
