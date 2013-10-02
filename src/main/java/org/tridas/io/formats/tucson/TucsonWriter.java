@@ -18,13 +18,13 @@ package org.tridas.io.formats.tucson;
 import java.util.List;
 
 import org.tridas.io.AbstractDendroCollectionWriter;
+import org.tridas.io.AbstractDendroFormat;
 import org.tridas.io.I18n;
 import org.tridas.io.defaults.IMetadataFieldSet;
 import org.tridas.io.exceptions.ConversionWarning;
+import org.tridas.io.exceptions.ConversionWarning.WarningType;
 import org.tridas.io.exceptions.ConversionWarningException;
 import org.tridas.io.exceptions.IncompleteTridasDataException;
-import org.tridas.io.exceptions.ConversionWarning.WarningType;
-import org.tridas.io.formats.heidelberg.HeidelbergFile;
 import org.tridas.io.naming.INamingConvention;
 import org.tridas.io.naming.NamingConventionGrouper;
 import org.tridas.io.naming.NumericalNamingConvention;
@@ -62,6 +62,12 @@ public class TucsonWriter extends AbstractDendroCollectionWriter {
 	 */
 	public TucsonWriter() {
 		super(TridasToTucsonDefaults.class, new TucsonFormat());
+	}
+	
+	protected TucsonWriter(AbstractDendroFormat format)
+	{
+		super(TridasToTucsonDefaults.class, format);
+
 	}
 	
 

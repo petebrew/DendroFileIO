@@ -10,7 +10,7 @@ public class BescanconFormat extends AbstractDendroFormat{
 	 */
 	@Override
 	public String getDescription() {
-		return I18n.getText("bescancon.about.description");
+		return I18n.getText("besancon.about.description");
 	}
 	
 	/**
@@ -18,7 +18,7 @@ public class BescanconFormat extends AbstractDendroFormat{
 	 */
 	@Override
 	public String getFullName() {
-		return I18n.getText("bescancon.about.fullName");
+		return I18n.getText("besancon.about.fullName");
 	}
 	
 	/**
@@ -26,7 +26,7 @@ public class BescanconFormat extends AbstractDendroFormat{
 	 */
 	@Override
 	public String getShortName() {
-		return I18n.getText("bescancon.about.shortName");
+		return I18n.getText("besancon.about.shortName");
 		
 	}
 

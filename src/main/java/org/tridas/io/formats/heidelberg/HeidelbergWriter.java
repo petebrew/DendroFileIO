@@ -16,6 +16,7 @@
 package org.tridas.io.formats.heidelberg;
 
 import org.tridas.io.AbstractDendroCollectionWriter;
+import org.tridas.io.AbstractDendroFormat;
 import org.tridas.io.I18n;
 import org.tridas.io.defaults.IMetadataFieldSet;
 import org.tridas.io.exceptions.ConversionWarning;
@@ -51,6 +52,10 @@ public class HeidelbergWriter extends AbstractDendroCollectionWriter {
 	
 	public HeidelbergWriter() {
 		super(TridasToHeidelbergDefaults.class, new HeidelbergFormat());
+	}
+	
+	protected HeidelbergWriter(AbstractDendroFormat format){
+		super(TridasToHeidelbergDefaults.class, format);
 	}
 	
 	@Override
