@@ -31,6 +31,7 @@ import org.tridas.schema.TridasSample;
 import org.tridas.schema.TridasTridas;
 import org.tridas.schema.TridasValue;
 import org.tridas.schema.TridasValues;
+import org.tridas.spatial.SpatialUtils;
 
 public class FHX2Reader extends AbstractDendroFileReader {
 	private Integer lineNumDataBegins = null;
@@ -266,7 +267,8 @@ public class FHX2Reader extends AbstractDendroFileReader {
 				{
 				
 					try{
-						Double lat = Double.parseDouble(value);
+						
+						Double lat = SpatialUtils.parseLatLonFromHalfLatLongString(value);
 						defaults.getDoubleDefaultValue(DefaultFields.LATITUDE).setValue(lat);
 					} catch (NumberFormatException e)
 					{
@@ -283,8 +285,8 @@ public class FHX2Reader extends AbstractDendroFileReader {
 				if(value.length()>0)
 				{
 					try{
-						Double lat = Double.parseDouble(value);
-						defaults.getDoubleDefaultValue(DefaultFields.LONGITUDE).setValue(lat);
+						Double lon = SpatialUtils.parseLatLonFromHalfLatLongString(value);
+						defaults.getDoubleDefaultValue(DefaultFields.LONGITUDE).setValue(lon);
 					} catch (NumberFormatException e)
 					{
 						this.addWarning(new ConversionWarning(WarningType.INVALID, "Unable to parse longitude from free text string", "Longitude"));

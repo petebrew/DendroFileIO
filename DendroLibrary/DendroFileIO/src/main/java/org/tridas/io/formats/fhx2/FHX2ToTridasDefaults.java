@@ -140,7 +140,7 @@ public class FHX2ToTridasDefaults extends TridasMetadataFieldSet {
 		wc.setPith(pith);
 		
 		TridasBark bark = new TridasBark();
-		if(getBooleanDefaultValue(DefaultFields.BARK).getValue().equals(true))
+		if(getBooleanDefaultValue(DefaultFields.BARK).getValue()!=null && getBooleanDefaultValue(DefaultFields.BARK).getValue().equals(true))
 		{
 			bark.setPresence(PresenceAbsence.PRESENT);
 			interp.setDeathYear(getSafeIntYearDefaultValue(DefaultFields.LAST_YEAR).getValue().toTridasYear(DatingSuffix.AD));
@@ -153,7 +153,9 @@ public class FHX2ToTridasDefaults extends TridasMetadataFieldSet {
 		
 		TridasHeartwood hw = new TridasHeartwood();
 		TridasSapwood sw = new TridasSapwood();
-		if(getBooleanDefaultValue(DefaultFields.PITH).getValue().equals(true) 
+		if(getBooleanDefaultValue(DefaultFields.PITH).getValue()!=null && 
+				getBooleanDefaultValue(DefaultFields.BARK).getValue()!=null && 
+				getBooleanDefaultValue(DefaultFields.PITH).getValue().equals(true) 
 				&& getBooleanDefaultValue(DefaultFields.BARK).getValue().equals(true))
 		{
 			hw.setPresence(ComplexPresenceAbsence.COMPLETE);
