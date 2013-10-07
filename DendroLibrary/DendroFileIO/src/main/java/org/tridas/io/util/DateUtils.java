@@ -30,6 +30,7 @@ import javax.xml.datatype.XMLGregorianCalendar;
 
 import org.tridas.schema.Certainty;
 import org.tridas.schema.DateTime;
+import org.tridas.schema.NormalTridasDatingType;
 
 import com.joestelmach.natty.DateGroup;
 import com.joestelmach.natty.Parser;
@@ -573,4 +574,5 @@ public class DateUtils {
 		return d;
 
 	}
+	
 }

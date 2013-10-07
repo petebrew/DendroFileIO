@@ -92,16 +92,23 @@ public class FHX2Reader extends AbstractDendroFileReader {
 	{
 		Integer metadataLineNum = lineNumDataBegins+1;
 		String[] parts = argFileString[metadataLineNum].split(" ");
-		if(parts.length!=3) throw new InvalidDendroFileException("Metadata line does not contain start year, sample number and code length as expected", metadataLineNum);
+		if(parts.length!=3) throw new InvalidDendroFileException("Data description line does not contain start year, sample number and code length as expected", metadataLineNum);
 		
 		
 		try{
-			startYear = new SafeIntYear(parts[0]);
+			Integer startYearInt = Integer.parseInt(parts[0]);
+			
+			if(startYearInt.equals(0))
+			{
+				throw new InvalidDendroFileException("File claims that the data starts in the non-existent year 0BC/AD", metadataLineNum+1);
+			}
+			
+			startYear = new SafeIntYear(startYearInt);
 			numberOfSamples = Integer.parseInt(parts[1]);
 			codeLength = Integer.parseInt(parts[2]);
 		} catch (NumberFormatException e)
 		{
-			throw new InvalidDendroFileException("Metadata in unexpected format", metadataLineNum);
+			throw new InvalidDendroFileException("Data description line in unexpected format", metadataLineNum+1);
 		}
 		
 		for(int i=0; i<lineNumDataBegins-2; i++)

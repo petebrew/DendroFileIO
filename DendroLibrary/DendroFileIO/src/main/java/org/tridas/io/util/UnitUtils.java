@@ -213,7 +213,7 @@ public class UnitUtils {
 	/**
 	 * Convert a TridasValues tag from one unit to another.  The TridasVales must have 
 	 * NormalTridasUnit set otherwise it throws an IncompleteTridasDataException.  The 
-	 * values returns are integers limited to maxIntChars in length.  If any values 
+	 * values returned are integers limited to maxIntChars in length.  If any values 
 	 * are longer it throws an NumberFormatException.
 	 * 
 	 * @param outputunits
@@ -231,12 +231,13 @@ public class UnitUtils {
 		
 		try{
 			 inputunits = tv.getUnit().getNormalTridas();
+			 log.debug("Input units are: "+inputunits.name());
 		} catch (Exception e)
 		{
 			throw new ConversionWarningException(new ConversionWarning(WarningType.AMBIGUOUS, I18n.getText("fileio.convertsOnlyTridasUnits")));
 		}
 		
-		log.debug("Input units are: "+inputunits.name());
+		
 		
 		for (TridasValue value : values)
 		{
