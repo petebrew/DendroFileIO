@@ -415,6 +415,13 @@ public class TridasIO {
 		}
 	}
 	
+	
+	@Deprecated
+	public synchronized static ArrayList<DendroFileFilter> getFileFilterArray()
+	{
+		return getFileReadingFilterArray();
+	}
+	
 	@SuppressWarnings("unchecked")
 	public synchronized static ArrayList<DendroFileFilter> getFileReadingFilterArray()
 	{

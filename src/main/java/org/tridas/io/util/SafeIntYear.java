@@ -249,12 +249,11 @@ public final class SafeIntYear implements Comparable {
      */
     public String formattedYear(NormalTridasDatingType datingtype, DatingSuffix suffix)
     {
-
-
             if(datingtype==null || datingtype.equals(NormalTridasDatingType.RELATIVE))
             {
                     return getCorrectSuffix(DatingSuffix.RELATIVE)+" "+y;
             }
+      
             else if (datingtype.equals(NormalTridasDatingType.DATED_WITH_UNCERTAINTY) ||
                             datingtype.equals(NormalTridasDatingType.RADIOCARBON))
             {
