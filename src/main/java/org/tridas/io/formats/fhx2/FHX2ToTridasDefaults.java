@@ -231,7 +231,7 @@ public class FHX2ToTridasDefaults extends TridasMetadataFieldSet {
 		{
 			TridasGenericField gf = new TridasGenericField();
 			gf.setName("tellervo.objectLabCode");
-			gf.setType("xs:tring");
+			gf.setType("xs:string");
 			gf.setValue(getDefaultValue(DefaultFields.SITE_CODE).getStringValue());
 			o.getGenericFields().add(gf);
 		}
