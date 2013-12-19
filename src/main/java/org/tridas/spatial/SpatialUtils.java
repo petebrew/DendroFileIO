@@ -105,7 +105,7 @@ public class SpatialUtils {
 		if (minutes != null) {
 			if(minutes>=0.0 && minutes <60.0)
 			{
-				coords = coords + Double.valueOf(minutes) / 60;
+				coords = coords + Double.valueOf(minutes) / 60.0;
 			}
 			else
 			{
@@ -116,7 +116,8 @@ public class SpatialUtils {
 		if (seconds != null) {
 			if(seconds>=0.0 && seconds < 60.0)
 			{
-				coords = coords + (Double.valueOf(minutes) / 60) / 60;
+				Double secpart = ((Double.valueOf(seconds) / 60.0) / 60.0);
+				coords = coords + secpart;
 			}
 			else
 			{

@@ -276,6 +276,7 @@ public class FHX2Reader extends AbstractDendroFileReader {
 					try{
 						
 						Double lat = SpatialUtils.parseLatLonFromHalfLatLongString(value);
+						log.debug("Parsed latitude "+value+" as :"+lat);
 						defaults.getDoubleDefaultValue(DefaultFields.LATITUDE).setValue(lat);
 					} catch (NumberFormatException e)
 					{
@@ -293,6 +294,8 @@ public class FHX2Reader extends AbstractDendroFileReader {
 				{
 					try{
 						Double lon = SpatialUtils.parseLatLonFromHalfLatLongString(value);
+						log.debug("Parsed longitude "+value+" as :"+lon);
+
 						defaults.getDoubleDefaultValue(DefaultFields.LONGITUDE).setValue(lon);
 					} catch (NumberFormatException e)
 					{
