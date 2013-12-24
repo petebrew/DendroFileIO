@@ -694,7 +694,7 @@ public class HeidelbergToTridasDefaults extends TridasMetadataFieldSet {
 			if(getDefaultValue(DefaultFields.LATITUDE).getValue()!=null &&
 					   getDefaultValue(DefaultFields.LONGITUDE).getValue()!=null)
 			{	   
-				geometry = SpatialUtils.getLocationGeometry(getDoubleDefaultValue(DefaultFields.LATITUDE).getValue(), 
+				geometry = SpatialUtils.getWGS84LocationGeometry(getDoubleDefaultValue(DefaultFields.LATITUDE).getValue(), 
 						getDoubleDefaultValue(DefaultFields.LONGITUDE).getValue());
 				location.setLocationGeometry(geometry);
 			}

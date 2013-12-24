@@ -124,7 +124,7 @@ public class DendroDBToTridasDefaults extends TridasMetadataFieldSet implements
 				getDefaultValue(DDBDefaultFields.LONGITUDE).getValue()!=null))
 		{
 			TridasLocation loc = new TridasLocation();
-			loc.setLocationGeometry(SpatialUtils.getLocationGeometry(
+			loc.setLocationGeometry(SpatialUtils.getWGS84LocationGeometry(
 					getDoubleDefaultValue(DDBDefaultFields.LATITUDE).getValue(),
 					getDoubleDefaultValue(DDBDefaultFields.LONGITUDE).getValue()));
 			e.setLocation(loc);

@@ -165,10 +165,12 @@ public class GMLPointSRSHandler  {
 		if(point.isSetSrsName())
 		{
 			srsName = point.getSrsName().trim().replace(" ", "");
+			log.debug("Raw SRSName string in GML is "+srsName);
 		}
 		else
 		{
 			// no srsName so presume WGS84
+			log.debug("no SRSName in GML so assuming WGS84");
 			return;
 		}
 			
@@ -249,6 +251,7 @@ public class GMLPointSRSHandler  {
 		else if (srsName.equalsIgnoreCase("WGS84") || (srsName.equals("EPSG:4326")) || (srsName.equals("EPSG::4326")))
 		{
 			// Default WGS84 srsname so no need to do anything
+			log.info("Standard SRSName so no need to do anything about projecting or axis order");
 			return;
 		}
 		
@@ -330,11 +333,20 @@ public class GMLPointSRSHandler  {
 	public PointType getAsWGS84PointType()
 	{
 		PointType pt = new PointType();
-		pt.setSrsName(SpatialUtils.WGS84);
 		Pos pos = new Pos();
+		
+		// X,Y order for simplified WGS84 ref
+		pt.setSrsName(SpatialUtils.WGS84);
 		ArrayList<Double> coords = new ArrayList<Double>();
 		coords.add(projectedpoint.getX());
 		coords.add(projectedpoint.getY());
+		
+		// Y,X order for full URN ref
+		//pt.setSrsName(SpatialUtils.WGS84_FULL_URN);
+		//ArrayList<Double> coords = new ArrayList<Double>();
+		//coords.add(projectedpoint.getY());
+		//coords.add(projectedpoint.getX());
+		
 		pos.setValues(coords);
 		pt.setPos(pos);		
 		return pt;
