@@ -127,7 +127,7 @@ public class SheffieldToTridasDefaults extends TridasMetadataFieldSet implements
 		// If Lat Long is available use it
 		if (getDefaultValue(DefaultFields.LATITUDE).getValue() != null
 				&& getDefaultValue(DefaultFields.LONGITUDE).getValue() != null) {
-			TridasLocationGeometry geometry = SpatialUtils.getLocationGeometry(getDoubleDefaultValue(
+			TridasLocationGeometry geometry = SpatialUtils.getWGS84LocationGeometry(getDoubleDefaultValue(
 					DefaultFields.LATITUDE).getValue(), getDoubleDefaultValue(DefaultFields.LONGITUDE).getValue());
 			TridasLocation location = new TridasLocation();
 			location.setLocationGeometry(geometry);

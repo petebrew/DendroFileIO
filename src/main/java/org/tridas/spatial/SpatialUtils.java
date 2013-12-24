@@ -42,7 +42,11 @@ public class SpatialUtils {
 	// TODO
 	// Dumbed down for now - remember to check all uses of this when changing back to
 	// the correct URN style
-	//public static String WGS84 = "urn:ogc:def:crs:EPSG:6.6:4326";
+	
+	// Full URN requires coordinates in y,x or lat,long order
+	//public static String WGS84_FULL_URN = "urn:ogc:def:crs:EPSG:6.6:4326";
+	
+	// Simplified reference requires coordinates in x,y or long,lat order
 	public static String WGS84 = "EPSG:4326";
 		
 	/**
@@ -179,25 +183,40 @@ public class SpatialUtils {
 	}
 	
 	/**
-	 * Create a TridasLocationGeometry from decimal latitude and longitudes
+	 * Create a TridasLocationGeometry from decimal latitude and longitudes in WGS84
 	 * 
 	 * @param latitude
 	 * @param longitude
 	 * @return
 	 */
-	public static TridasLocationGeometry getLocationGeometry(Double latitude, Double longitude) {
+	public static TridasLocationGeometry getWGS84LocationGeometry(Double latitude, Double longitude) {
 		if (latitude == null || longitude == null) {
 			return null;
 		}
 		
 		Pos pos = new Pos();
 		ArrayList<Double> values = new ArrayList<Double>();
+				
+		TridasLocationGeometry geometry = new TridasLocationGeometry();
+		PointType point = new PointType();
 		
-		values.add(latitude);
+		
+		// Lat,Long order when using full URN coordinate reference
+		//point.setSrsName(SpatialUtils.WGS84_FULL_URN);
+		//values.add(latitude);
+		//values.add(longitude);
+
+		// Long,Lat order when using simplied WGS84 coordinate reference
+		point.setSrsName(SpatialUtils.WGS84);
 		values.add(longitude);
-		pos.setValues(values);
-		return getLocationGeometry(pos);
+		values.add(latitude);
 		
+		pos.setValues(values);
+		
+		point.setPos(pos);
+		geometry.setPoint(point);
+		return geometry;
+				
 	}
 	
 	/**
@@ -246,7 +265,7 @@ public class SpatialUtils {
 		projBNG.inverseTransform(pnt, des);
 
 		
-		TridasLocationGeometry geom = getLocationGeometry(des.getY(), des.getX());
+		TridasLocationGeometry geom = getWGS84LocationGeometry(des.getY(), des.getX());
 		TridasLocation loc = new TridasLocation();
 		loc.setLocationGeometry(geom);
 		
@@ -401,23 +420,7 @@ public class SpatialUtils {
 	}
 	
 	
-	
-	/**
-	 * Create a TridasLocationGeoemtry from a GML Pos.  Assumes 
-	 * coordinates are WGS84.
-	 * 
-	 * @param pos
-	 * @return
-	 */
-	public static TridasLocationGeometry getLocationGeometry(Pos pos) {
-		TridasLocationGeometry geometry = new TridasLocationGeometry();
-		PointType point = new PointType();
-		point.setSrsName(SpatialUtils.WGS84);
-		point.setPos(pos);
-		geometry.setPoint(point);
-		return geometry;
-		
-	}
+
 		
 	
 	

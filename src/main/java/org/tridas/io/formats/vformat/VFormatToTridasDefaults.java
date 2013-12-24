@@ -180,7 +180,7 @@ public class VFormatToTridasDefaults extends TridasMetadataFieldSet {
 		   getDoubleDefaultValue(DefaultFields.LONGITUDE).getValue()!=null)
 		{
 			TridasLocation location = new TridasLocation();
-			location.setLocationGeometry(SpatialUtils.getLocationGeometry(
+			location.setLocationGeometry(SpatialUtils.getWGS84LocationGeometry(
 					getDoubleDefaultValue(DefaultFields.LATITUDE).getValue(), 
 					getDoubleDefaultValue(DefaultFields.LONGITUDE).getValue()));
 			e.setLocation(location);

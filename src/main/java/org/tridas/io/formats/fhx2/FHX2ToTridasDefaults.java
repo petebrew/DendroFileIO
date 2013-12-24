@@ -247,7 +247,7 @@ public class FHX2ToTridasDefaults extends TridasMetadataFieldSet {
 			if(getDoubleDefaultValue(DefaultFields.LATITUDE).getValue()!=null && 
 			        getDoubleDefaultValue(DefaultFields.LONGITUDE).getValue()!=null)
 			{
-				TridasLocationGeometry geom = SpatialUtils.getLocationGeometry(
+				TridasLocationGeometry geom = SpatialUtils.getWGS84LocationGeometry(
 						getDoubleDefaultValue(DefaultFields.LATITUDE).getValue(), 
 						getDoubleDefaultValue(DefaultFields.LONGITUDE).getValue());
 				location.setLocationGeometry(geom);
