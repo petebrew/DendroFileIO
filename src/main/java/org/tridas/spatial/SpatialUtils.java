@@ -16,6 +16,7 @@
 package org.tridas.spatial;
 
 import java.awt.geom.Point2D;
+import java.math.BigDecimal;
 import java.util.ArrayList;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
@@ -90,6 +91,7 @@ public class SpatialUtils {
 	public static Double getDecimalCoords(Double degrees, Double minutes, Double seconds) throws NumberFormatException
 	{
 		Double coords = 0.0;
+		Integer significantFigures = 0;
 		
 		if (degrees != null) {
 			if(degrees<=180.0 && degrees>=-180.0)
@@ -107,6 +109,7 @@ public class SpatialUtils {
 		}
 		
 		if (minutes != null) {
+			significantFigures = 4;
 			if(minutes>=0.0 && minutes <60.0)
 			{
 				coords = coords + Double.valueOf(minutes) / 60.0;
@@ -118,6 +121,7 @@ public class SpatialUtils {
 		}
 		
 		if (seconds != null) {
+			significantFigures = 6;
 			if(seconds>=0.0 && seconds < 60.0)
 			{
 				Double secpart = ((Double.valueOf(seconds) / 60.0) / 60.0);
@@ -129,8 +133,12 @@ public class SpatialUtils {
 			}
 		}
 		
-		return coords;
+		
+		BigDecimal bd = new BigDecimal(coords);
+	    bd = bd.setScale(significantFigures, BigDecimal.ROUND_CEILING);
+	    return bd.doubleValue();
 	}
+	
 	
 	/**
 	 * Convert DMS with NSEW sign into decimal coordinates

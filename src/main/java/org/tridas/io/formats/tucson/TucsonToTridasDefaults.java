@@ -220,6 +220,14 @@ public class TucsonToTridasDefaults extends TridasMetadataFieldSet implements IM
 		}
 		ms.setInterpretation(interp);
 		
+		// Keycode
+		TridasGenericField gf = new TridasGenericField();
+		
+		gf.setName("keycode");
+		gf.setType("xs:string");
+		gf.setValue(getStringDefaultValue(TucsonDefaultField.SERIES_CODE).getValue());
+		ms.getGenericFields().add(gf);
+		
 		return ms;
 		
 	}
