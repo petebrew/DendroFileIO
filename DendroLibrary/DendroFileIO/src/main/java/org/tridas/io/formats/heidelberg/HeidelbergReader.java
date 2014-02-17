@@ -1298,7 +1298,7 @@ public class HeidelbergReader extends AbstractDendroFileReader {
 					
 					// Special case for EarlyLateWood data type where we need to override variables
 					// and use second and third series of values
-					if(s.dataType.equals(FHDataType.EARLY_LATE_WOOD))
+					if(s.dataType!=null && s.dataType.equals(FHDataType.EARLY_LATE_WOOD))
 					{
 						// Whole Ring widths
 						TridasRadius radius = s.defaults.getDefaultTridasRadius();
