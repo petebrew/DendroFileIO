@@ -211,12 +211,12 @@
                                 </interpretation>
                                 <values>
                                     <variable normalTridas="ring width"/>
-                                    <unit normalTridas="1/100th millimetres"/>
-                                    <value value="54"/>
-                                    <value value="111"/>
-                                    <value value="71"/>
-                                    <value value="40"/>
-                                    <value value="56"/>
+                                    <unit normalTridas="micrometres"/>
+                                    <value value="540"/>
+                                    <value value="999"/>
+                                    <value value="710"/>
+                                    <value value="400"/>
+                                    <value value="560"/>
                                 </values>
                             </measurementSeries>
                         </radius>

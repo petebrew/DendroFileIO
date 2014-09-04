@@ -21,6 +21,7 @@
 	<groupId>org.tridas</groupId>
 	<artifactId>dendrofileio</artifactId>
 	<version>1.0.9</version>
+
 	<name>DendroFileIO</name>
 	<description>IO library for converting dendro files to and from the TridasJLib Java classes</description>
 	<licenses>

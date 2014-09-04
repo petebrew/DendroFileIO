@@ -243,6 +243,12 @@ public class TucsonFile implements IDendroFile {
 						thisDataValue = missingRingMarker;
 					}
 					
+					// Ring value is 999 which causes confusion in COFECHA etc
+					if(thisDataValue.trim().equals("999"))
+					{
+						thisDataValue = "998";
+					}
+					
 					// Print data value, either left padded to 4 or 6 digits for measurementSeries and derivedSeries
 					// respectively
 					string.append(StringUtils.leftPad
@@ -388,6 +394,22 @@ public class TucsonFile implements IDendroFile {
 			if (SafeIntYear.min(thisSeriesRange.getStart(), new SafeIntYear(1)) == thisSeriesRange.getStart()) {
 				fileDefaults.addConversionWarning(new ConversionWarning(WarningType.AMBIGUOUS, 
 						I18n.getText("tucson.before1AD")));
+			}
+			
+			// Warn if any data = 999
+			boolean has999Data = false;
+			for (TridasValue val : values.getValues())
+			{
+				if(val.getValue().equals("999"))
+				{
+					has999Data = true;
+				}
+			}
+			
+			if(has999Data)
+			{
+				fileDefaults.addConversionWarning(new ConversionWarning(WarningType.UNREPRESENTABLE, 
+						I18n.getText("tucson.has999data")));
 			}
 			
 			// Add this series to our list

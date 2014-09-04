@@ -272,7 +272,7 @@ public class TucsonWriter extends AbstractDendroCollectionWriter {
 				}
 				naming.registerFile(file, p);
 
-				if(file.getSeries().length>0)
+				if(file!=null && file.getSeries()!=null && file.getSeries().length>0)
 				{
 					addToFileList(file);
 				}
