@@ -572,8 +572,14 @@ public class HeidelbergReader extends AbstractDendroFileReader {
 							
 							if(argSeries.nextValueIs == null || argSeries.nextValueIs.equals(FHStartsOrEndsWith.RING_WIDTH))
 							{
+								
+								/**
+								 * The follow code seems nuts.  Commented out and replaced 6 Oct 2014 by PWB
+								 * TODO INVESTIGATE FULLY!
+								 */								
 								// File didn't specify what the first value should be
-								this.addWarning(new ConversionWarning(WarningType.ASSUMPTION, "Series is EarlyLateWood format but doesn't specify if the first value is early or late wood.  Assuming early wood."));
+								//this.addWarning(new ConversionWarning(WarningType.ASSUMPTION, "Series is EarlyLateWood format but doesn't specify if the first value is early or late wood.  Assuming early wood."));
+
 								argSeries.nextValueIs = FHStartsOrEndsWith.EARLYWOOD;
 							}
 							
