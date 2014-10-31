@@ -15,6 +15,8 @@
  */
 package org.tridas.io.formats.heidelberg;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.tridas.io.AbstractDendroCollectionWriter;
 import org.tridas.io.AbstractDendroFormat;
 import org.tridas.io.I18n;
@@ -45,7 +47,8 @@ import org.tridas.schema.TridasValues;
  * @author daniel
  */
 public class HeidelbergWriter extends AbstractDendroCollectionWriter {
-	
+	private static final Logger log = LoggerFactory.getLogger(HeidelbergReader.class);
+
 	private TridasToHeidelbergDefaults defaults;
 	private INamingConvention naming = new NumericalNamingConvention();
 	protected boolean isstacked = true;
@@ -251,31 +254,38 @@ public class HeidelbergWriter extends AbstractDendroCollectionWriter {
 						// TODO what happens if there are links to multiple different entities?
 						// For now just go with the first link
 						//if(ds.getLinkSeries().getSeries().size()>1) break;
-						TridasIdentifier id = ds.getLinkSeries().getSeries().get(0).getIdentifier();
-						
-						TridasObject parentObject = (TridasObject) TridasUtils.getEntityByIdentifier(argProject, id, TridasObject.class);
-						if(parentObject!=null)
-						{
-							tvDefaults.populateFromTridasObject(parentObject);
-						}
+						try{
+							TridasIdentifier id = ds.getLinkSeries().getSeries().get(0).getIdentifier();
+							TridasObject parentObject = (TridasObject) TridasUtils.getEntityByIdentifier(argProject, id, TridasObject.class);
+							if(parentObject!=null)
+							{
+								tvDefaults.populateFromTridasObject(parentObject);
+							}
 
-						TridasElement parentElement = (TridasElement) TridasUtils.getEntityByIdentifier(argProject, id, TridasElement.class);
-						if(parentElement!=null)
-						{
-							tvDefaults.populateFromTridasElement(parentElement);
+							TridasElement parentElement = (TridasElement) TridasUtils.getEntityByIdentifier(argProject, id, TridasElement.class);
+							if(parentElement!=null)
+							{
+								tvDefaults.populateFromTridasElement(parentElement);
+							}
+							
+							TridasSample parentSample = (TridasSample) TridasUtils.getEntityByIdentifier(argProject, id, TridasSample.class);
+							if(parentSample!=null)
+							{
+								tvDefaults.populateFromTridasSample(parentSample);
+							}
+							
+							TridasRadius parentRadius = (TridasRadius) TridasUtils.getEntityByIdentifier(argProject, id, TridasRadius.class);
+							if(parentRadius!=null)
+							{
+								tvDefaults.populateFromTridasRadius(parentRadius);
+							}
 						}
+						 catch (Exception e)
+						 {
+							 log.error("Failed to get link series");
+						 }
 						
-						TridasSample parentSample = (TridasSample) TridasUtils.getEntityByIdentifier(argProject, id, TridasSample.class);
-						if(parentSample!=null)
-						{
-							tvDefaults.populateFromTridasSample(parentSample);
-						}
-						
-						TridasRadius parentRadius = (TridasRadius) TridasUtils.getEntityByIdentifier(argProject, id, TridasRadius.class);
-						if(parentRadius!=null)
-						{
-							tvDefaults.populateFromTridasRadius(parentRadius);
-						}
+
 					}
 					
 					
