@@ -53,6 +53,8 @@ import org.tridas.io.defaults.TridasMetadataFieldSet;
 import org.tridas.io.exceptions.ConversionWarning;
 import org.tridas.io.exceptions.ConversionWarning.WarningType;
 import org.tridas.io.exceptions.InvalidDendroFileException;
+import org.tridas.io.transform.TridasVersionTransformer;
+import org.tridas.io.transform.TridasVersionTransformer.TridasVersion;
 import org.tridas.io.util.IOUtils;
 import org.tridas.io.util.TridasUtils;
 import org.tridas.schema.TridasObject;
@@ -105,21 +107,36 @@ public class TridasReader extends AbstractDendroFileReader {
 	protected void parseFile(String[] argFileString, IMetadataFieldSet argDefaultFields)
 			throws InvalidDendroFileException {
 		defaults = (TridasMetadataFieldSet) argDefaultFields;
-		// Build the string array into a FileReader
 		StringBuilder fileString = new StringBuilder();
-		Boolean firstLine = true;
-		for (String s : argFileString) {
-			if(firstLine)
-			{
-				fileString.append(s.replaceFirst("^[^<]*", "")+"\n");
-				firstLine = false;
-			}
-			else
-			{
-				fileString.append(s + "\n");
-			}
+		StringReader reader;
+		
+		// Detect what version of TRiDaS this XML file adheres to...
+		TridasVersion xmlFileVersion = TridasVersionTransformer.getTridasVersionFromXMLStrings(argFileString);
+		if(xmlFileVersion==null)
+		{
+			// version number parsing failed.  We'll try to continue anyway.  The schema validation will 
+			// pick up if it's not a valid recent TRiDaS file
+			addWarning(new ConversionWarning(WarningType.NOT_STRICT, I18n.getText("tridas.schemaParseVersionError")));
 		}
-		StringReader reader = new StringReader(fileString.toString());
+		else if(xmlFileVersion.equals(TridasVersion.V_FUTURE))
+		{
+			throw new InvalidDendroFileException(I18n.getText("tridas.versionTooNew"));
+		}
+		else
+		{
+			// Version parsed successfully so we can now transform to the latest version of TRiDaS if necessary 
+			// If it's already the latest version, then any transformation will be skipped
+			try {
+				argFileString = TridasVersionTransformer.transformTridas(argFileString, TridasVersion.V_1_2_3);
+			} catch (Exception e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
+			
+			
+		}
+	
+		
 		// Validate the file against the TRiDaS schema
 		SchemaFactory factory = SchemaFactory.newInstance(XMLConstants.W3C_XML_SCHEMA_NS_URI);
 		URL file = IOUtils.getFileInJarURL("tridas.xsd");
@@ -131,23 +148,6 @@ public class TridasReader extends AbstractDendroFileReader {
 		}
 		else
 		{
-			// First do a string match on the namespace to try to intercept unsupported schema versions
-			// TODO In future we'll need to add an extra stage in here to run XSLT translation for old
-			// TRiDaS files.
-			Integer match = compareTridasVersions(getTridasVersionFromFile(fileString.toString()), getCurrentTridasVersionURI());
-			if(match==null)
-			{
-				addWarning(new ConversionWarning(WarningType.NOT_STRICT, I18n.getText("tridas.schemaParseVersionError")));
-			}
-			else if(match>0)
-			{
-				throw new InvalidDendroFileException(I18n.getText("tridas.versionTooNew"));
-			}
-			else if (match<0)
-			{
-				throw new InvalidDendroFileException(I18n.getText("tridas.versionTooOld", getCurrentTridasVersionNumber()));
-			}
-
 			// Next try to load the schema to validate
 			try {
 				schema = factory.newSchema(file);
@@ -158,6 +158,22 @@ public class TridasReader extends AbstractDendroFileReader {
 				addWarning(new ConversionWarning(WarningType.INVALID, I18n.getText("tridas.schemaMissing", e
 						.getLocalizedMessage())));
 			}
+			
+			
+			// Build the string array into a FileReader
+			Boolean firstLine = true;
+			for (String s : argFileString) {
+				if(firstLine)
+				{
+					fileString.append(s.replaceFirst("^[^<]*", "")+"\n");
+					firstLine = false;
+				}
+				else
+				{
+					fileString.append(s + "\n");
+				}
+			}
+			reader = new StringReader(fileString.toString());
 			
 			// Do the validation
 			Validator validator = schema.newValidator();
@@ -174,7 +190,7 @@ public class TridasReader extends AbstractDendroFileReader {
 		}
 
 		
-		// All is ok so now unmarshall to Java classes
+		// All should be ok so now unmarshall to Java classes
 		JAXBContext jc;
 		reader = new StringReader(fileString.toString());
 		try {
@@ -249,6 +265,14 @@ public class TridasReader extends AbstractDendroFileReader {
 		
 	}
 	
+	/**
+	 * 
+	 * 
+	 * @param v1
+	 * @param v2
+	 * @return
+	 */
+	@Deprecated
 	private Integer compareTridasVersions(String v1, String v2)
 	{
 		if(v1==null || v2==null) return null;
