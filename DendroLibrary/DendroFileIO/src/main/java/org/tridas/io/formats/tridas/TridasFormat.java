@@ -2,9 +2,22 @@ package org.tridas.io.formats.tridas;
 
 import org.tridas.io.AbstractDendroFormat;
 import org.tridas.io.I18n;
+import org.tridas.io.transform.TridasVersionTransformer.TridasVersion;
 
 public class TridasFormat extends AbstractDendroFormat{
 
+	private TridasVersion version;
+	
+	public TridasFormat(TridasVersion version)
+	{
+		this.version = version;
+	}
+	
+	public TridasFormat()
+	{
+		
+	}
+	
 	/**
 	 * @see org.tridas.io.AbstractDendroFormat#getDescription()
 	 */
@@ -18,7 +31,14 @@ public class TridasFormat extends AbstractDendroFormat{
 	 */
 	@Override
 	public String getFullName() {
-		return I18n.getText("tridas.about.fullName");
+		if(version!=null)
+		{
+			return I18n.getText("tridas.about.fullName")+" v."+version.getVersionString();
+		}
+		else
+		{
+			return I18n.getText("tridas.about.fullName");
+		}
 	}
 	
 	/**
@@ -26,8 +46,14 @@ public class TridasFormat extends AbstractDendroFormat{
 	 */
 	@Override
 	public String getShortName() {
-		return I18n.getText("tridas.about.shortName");
-		
+		if(version!=null)
+		{
+			return I18n.getText("tridas.about.shortName")+" v."+version.getVersionString();
+		}
+		else
+		{
+			return I18n.getText("tridas.about.shortName");
+		}
 	}
 
 	/**

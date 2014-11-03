@@ -47,6 +47,7 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.tridas.io.AbstractDendroFileReader;
 import org.tridas.io.I18n;
+import org.tridas.io.TridasIO;
 import org.tridas.io.TridasNamespacePrefixMapper;
 import org.tridas.io.defaults.IMetadataFieldSet;
 import org.tridas.io.defaults.TridasMetadataFieldSet;
@@ -124,10 +125,10 @@ public class TridasReader extends AbstractDendroFileReader {
 		}
 		else
 		{
-			// Version parsed successfully so we can now transform to the latest version of TRiDaS if necessary 
-			// If it's already the latest version, then any transformation will be skipped
+			// Version parsed successfully so we can now transform to the version of TRiDaS that we're using internally.
+			// If it's already that version then the file will be untouched.
 			try {
-				argFileString = TridasVersionTransformer.transformTridas(argFileString, TridasVersion.V_1_2_3);
+				argFileString = TridasVersionTransformer.transformTridas(argFileString, TridasIO.tridasVersionUsedInternally);
 			} catch (Exception e) {
 				// TODO Auto-generated catch block
 				e.printStackTrace();

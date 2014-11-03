@@ -71,6 +71,8 @@ import org.tridas.io.formats.topham.TophamReader;
 import org.tridas.io.formats.topham.TophamWriter;
 import org.tridas.io.formats.tridas.TridasReader;
 import org.tridas.io.formats.tridas.TridasWriter;
+import org.tridas.io.formats.tridas.TridasWriter1_2_2;
+import org.tridas.io.formats.tridas.TridasWriter1_2_3;
 import org.tridas.io.formats.trims.TrimsReader;
 import org.tridas.io.formats.trims.TrimsWriter;
 import org.tridas.io.formats.tucson.TucsonReader;
@@ -82,6 +84,7 @@ import org.tridas.io.formats.tucsondataonly.TucsonDataOnlyWriter;
 import org.tridas.io.formats.vformat.VFormatReader;
 import org.tridas.io.formats.vformat.VFormatWriter;
 import org.tridas.io.formats.windendro.WinDendroReader;
+import org.tridas.io.transform.TridasVersionTransformer.TridasVersion;
 import org.tridas.spatial.CoordinateReferenceSystem;
 import org.tridas.spatial.GMLPointSRSHandler.AxisOrder;
 
@@ -105,6 +108,8 @@ public class TridasIO {
 	private static String readingCharset = Charset.defaultCharset().displayName();
 	private static String writingCharset = Charset.defaultCharset().displayName();
 	private static boolean charsetDetection = false;
+	
+	public static TridasVersion tridasVersionUsedInternally = TridasVersion.V_1_2_2;
 	
 	public static TreeMap<Integer, CoordinateReferenceSystem> crsMap = new TreeMap<Integer, CoordinateReferenceSystem>();
 	
@@ -154,7 +159,8 @@ public class TridasIO {
 		registerFileWriter(OxfordWriter.class);
 		registerFileWriter(SheffieldWriter.class);
 		registerFileWriter(TophamWriter.class);
-		registerFileWriter(TridasWriter.class);
+		registerFileWriter(TridasWriter1_2_2.class);
+		registerFileWriter(TridasWriter1_2_3.class);
 		registerFileWriter(TrimsWriter.class);
 		registerFileWriter(TucsonWriter.class);
 		registerFileWriter(TucsonUnstackedWriter.class);
