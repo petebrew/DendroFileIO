@@ -4,7 +4,6 @@ import java.io.ByteArrayInputStream;
 import java.io.File;
 import java.io.IOException;
 import java.io.InputStream;
-import java.io.StringReader;
 import java.io.StringWriter;
 import java.io.UnsupportedEncodingException;
 import java.util.ArrayList;
@@ -27,7 +26,6 @@ import org.slf4j.LoggerFactory;
 import org.tridas.io.I18n;
 import org.tridas.io.TridasIO;
 import org.tridas.io.util.FileHelper;
-import org.tridas.io.util.IOUtils;
 import org.tridas.io.util.ThreePartVersionCode;
 import org.w3c.dom.Document;
 import org.xml.sax.SAXException;
@@ -45,58 +43,15 @@ public class TridasVersionTransformer {
 	private final static Logger log = LoggerFactory.getLogger(TridasVersionTransformer.class);
 	
 
-	public static void main(String[] args)
-	{
-		try {
-			File output = new File("/tmp/output.xml");
-			
-			TridasVersionTransformer.transformTridas(
-					new File("/home/pwb48/dev/java8/DendroFileIO/TestData/TRiDaS/Extensive.xml"), 
-					TridasVersion.V_1_2_3,
-					output);
-		} catch (Exception e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		}
-	}
-
-	
-
-
-
-	public static File transformTridas(File inputFile, TridasVersion outputVersion, File outputFile) throws Exception {
-	
-		FileHelper fileHelper = new FileHelper(inputFile.getAbsolutePath());
-		log.debug("loading file: " + inputFile.getAbsolutePath());
-		String[] strings = null;
-		try{
-			if (TridasIO.getReadingCharset() != null) {
-				strings = fileHelper.loadStrings(inputFile.getAbsolutePath(), TridasIO.getReadingCharset());
-			}
-			else {
-				if (TridasIO.isCharsetDetection()) {
-					strings = fileHelper.loadStringsFromDetectedCharset(inputFile.getAbsolutePath());
-				}
-				else {
-					strings = fileHelper.loadStrings(inputFile.getAbsolutePath());
-				}
-			}
-			if (strings == null) {
-				throw new IOException(I18n.getText("fileio.loadfailed"));
-			}
-		} catch (UnsupportedEncodingException e){
-			
-		} catch (IOException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		}
-		
-		String[] transformedStrings = transformTridas(strings, outputVersion);
-		
-		IOUtils.saveStrings(outputFile, transformedStrings);
-		return outputFile;
-	}
-	
+	/**
+	 * Transform a TRiDaS XML file to the specified TridasVersion.  If the file already conforms to the specified output 
+	 * version then the file is returned untouched.  The XML file must be provided as a String[] of lines.   
+	 * 
+	 * @param inputFileStrings
+	 * @param outputVersion
+	 * @return
+	 * @throws Exception
+	 */
 	public static String[] transformTridas(String[] inputFileStrings, TridasVersion outputVersion) throws Exception {
 				
 		// Read the input file and determine it's current version
@@ -105,6 +60,7 @@ public class TridasVersionTransformer {
 		{
 			throw new Exception("Unable to determine version of existing TRiDaS file so version transformation failed");
 		}
+		
 		
 		// Create a list of XSL file streams one for each step in the upgrade/downgrade process.
 		ArrayList<InputStream> xsllist = new ArrayList<InputStream>();
@@ -123,16 +79,22 @@ public class TridasVersionTransformer {
 		else if (inputVersion.equals(TridasVersion.V_1_2_3) &&
 				outputVersion.equals(TridasVersion.V_1_2_2))
 		{
-			log.debug("User has requested to upgrade their file from v1.2.3 to v.1.2.2");
+			log.debug("User has requested to downgrade their file from v1.2.3 to v.1.2.2");
 			InputStream xslstream = TridasIO.class.getResourceAsStream("/xslt/Downgrade1.2.3-to-1.2.2.xsl");
 			xsllist.add(xslstream);
+		}
+		
+		else if ( inputVersion.getSequence()<TridasVersion.V_1_2_2.getSequence() ||  
+				 outputVersion.getSequence()<TridasVersion.V_1_2_2.getSequence()   )
+		{
+			throw new Exception("TRiDaS versions prior to v1.2.2 were development versions with no production software that relies upon them.  Conversions to/from these early versions of TRiDaS is therefore not supported.");
 		}
 		//TODO Add support for other steps
 		else
 		{			
 			throw new Exception("Transforming from v"+inputVersion.versionString+" to v"+outputVersion.versionString+" is currently not supported");
 		}
-
+				
 		// Run each XSL transform in turn
 		String[] currentFileStrings = inputFileStrings;
 		for(InputStream currentXSL : xsllist)
@@ -146,11 +108,14 @@ public class TridasVersionTransformer {
 	}
 	
 	
-	
-	
-	
-		
-	
+	/**
+	 * Transform an XML file (provided as a String[] of lines) using the specified XSL file (provided
+	 * as an InputStream). 
+	 * 
+	 * @param inputFileStrings
+	 * @param xslstream
+	 * @return
+	 */
 	public static String[] xslTransform(String[] inputFileStrings, InputStream xslstream) {
 		
 		if(inputFileStrings==null || xslstream == null )
@@ -254,6 +219,13 @@ public class TridasVersionTransformer {
 	} 
 	
 
+	/**
+	 * Create an XML Document from XML file as a string
+	 * 
+	 * @param xml
+	 * @return
+	 * @throws Exception
+	 */
 	public static Document loadXMLFromString(String xml) throws Exception
 	{
 	    DocumentBuilderFactory factory = DocumentBuilderFactory.newInstance();
@@ -265,7 +237,8 @@ public class TridasVersionTransformer {
 	}
 	
 	/**
-	 * Get the TRiDaS version number of the specified TRiDaS input file 
+	 * Get the TridasVersion of the specified TRiDaS input file.  If the version couldn't be
+	 * determined then this returns null. 
 	 * 
 	 * @param inputFile
 	 * @return
@@ -303,6 +276,12 @@ public class TridasVersionTransformer {
 		
 	}
 	
+	/**
+	 * Get the TridasVersion being used by the given XML file (supplied as a String[] of lines)
+	 * 
+	 * @param lines
+	 * @return
+	 */
 	public static TridasVersion getTridasVersionFromXMLStrings(String[] lines)
 	{
 
@@ -344,7 +323,12 @@ public class TridasVersionTransformer {
 		
 	}
 	
-	
+	/**
+	 * Enumeration containing all the known versions of the TRiDaS schema
+	 * 
+	 * @author pwb48
+	 *
+	 */
 	public enum TridasVersion{
 		V_1_0(1, "1.0"),
 		V_1_1(2, "1.1"),
@@ -363,6 +347,12 @@ public class TridasVersionTransformer {
 			this.versionString = versionString;
 		}
 		
+		/**
+		 * Get a TridasVersion from a ThreePartVersionCode class.   
+		 * 
+		 * @param code
+		 * @return
+		 */
 		public static TridasVersion getTridasVersionFromCode(ThreePartVersionCode code)
 		{
 			if(code.getFullVersionString().equals("1.0")) return TridasVersion.V_1_0;
@@ -379,6 +369,13 @@ public class TridasVersionTransformer {
 			return null;
 		}
 		
+		/**
+		 * Get the TridasVersion from a string such as "1.1" or "1.2.2".  If the string is not
+		 * correctly formatted or the version is unknown this returns null.
+		 * 
+		 * @param str
+		 * @return
+		 */
 		public static TridasVersion getTridasVersionFromCodeString(String str)
 		{
 			try{
@@ -392,11 +389,20 @@ public class TridasVersionTransformer {
 			
 		}
 		
+		/**
+		 * Get an integer indicating the sequence in which the schema was released.  The first release of TRiDaS was
+		 * 1.0 and this returns 1, the second release was 1.1 and this returns 2 etc.
+		 * @return
+		 */
 		public int getSequence()
 		{
 			return sequence;
 		}
 		
+		/**
+		 * Get the version as a human readable string e.g. "1.1", "1.2.2" etc.
+		 * @return
+		 */
 		public String getVersionString()
 		{
 			return versionString;

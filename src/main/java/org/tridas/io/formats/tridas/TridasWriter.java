@@ -18,12 +18,15 @@ package org.tridas.io.formats.tridas;
 import java.util.ArrayList;
 
 import org.tridas.io.AbstractDendroCollectionWriter;
+import org.tridas.io.AbstractDendroFormat;
+import org.tridas.io.TridasIO;
 import org.tridas.io.defaults.IMetadataFieldSet;
 import org.tridas.io.defaults.TridasMetadataFieldSet;
 import org.tridas.io.exceptions.ConversionWarningException;
 import org.tridas.io.exceptions.IncompleteTridasDataException;
 import org.tridas.io.naming.INamingConvention;
 import org.tridas.io.naming.NumericalNamingConvention;
+import org.tridas.io.transform.TridasVersionTransformer.TridasVersion;
 import org.tridas.io.util.TridasUtils;
 import org.tridas.schema.TridasElement;
 import org.tridas.schema.TridasMeasurementSeries;
@@ -42,16 +45,28 @@ import org.tridas.schema.TridasTridas;
  */
 public class TridasWriter extends AbstractDendroCollectionWriter {
 	
+	private TridasVersion outputVersion = TridasIO.tridasVersionUsedInternally;
+	
 	private INamingConvention naming = new NumericalNamingConvention();
 	
 	/**
-	 * Constructor for the writer that creates TRiDaS XML files from
-	 * TRiDaS java classes.
+	 * Constructor that defaults to the version of TRiDaS used internally within this library
 	 */
-	public TridasWriter() {
-		super(TridasMetadataFieldSet.class, new TridasFormat());
+	public TridasWriter()
+	{
+		super(TridasMetadataFieldSet.class, new TridasFormat(TridasIO.tridasVersionUsedInternally));
 	}
 	
+	/**
+	 * Constructor that writers to TRiDaS files using the specified TRiDaS version
+	 * 
+	 * @param version
+	 */
+	public TridasWriter(TridasVersion version) {
+		super(TridasMetadataFieldSet.class, new TridasFormat(version));
+		this.outputVersion = version;
+	}
+		
 	@Override
 	public void parseTridasContainer(TridasTridas argContainer,
 			IMetadataFieldSet argDefaults)
@@ -63,7 +78,8 @@ public class TridasWriter extends AbstractDendroCollectionWriter {
 		}
 		
 		TridasFile file = new TridasFile(argDefaults);
-		
+		file.setOutputVersion(outputVersion);
+
 		for(TridasProject p : argContainer.getProjects())
 		{
 			file.addTridasProject(p);
@@ -120,6 +136,7 @@ public class TridasWriter extends AbstractDendroCollectionWriter {
 		}
 		
 		TridasFile file = new TridasFile(argDefaults);
+		file.setOutputVersion(outputVersion);
 		
 		file.addTridasProject(p);
 		
@@ -185,6 +202,27 @@ public class TridasWriter extends AbstractDendroCollectionWriter {
 	@Override
 	public IMetadataFieldSet getDefaults() {
 		return null;
+	}
+
+
+
+	/**
+	 * Get the TRiDaS schema version that is being used to write this file
+	 * 
+	 * @return
+	 */
+	public TridasVersion getOutputVersion() {
+		return outputVersion;
+	}
+
+
+	/**
+	 * Set the TRiDaS schema version to use when writing this file
+	 * 
+	 * @param outputVersion
+	 */
+	public void setOutputVersion(TridasVersion outputVersion) {
+		this.outputVersion = outputVersion;
 	}
 
 }

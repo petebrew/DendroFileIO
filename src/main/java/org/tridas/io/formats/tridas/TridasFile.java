@@ -30,12 +30,15 @@ import org.slf4j.LoggerFactory;
 import org.tridas.interfaces.ITridasSeries;
 import org.tridas.io.I18n;
 import org.tridas.io.IDendroFile;
+import org.tridas.io.TridasIO;
 import org.tridas.io.TridasNamespacePrefixMapper;
 import org.tridas.io.defaults.IMetadataFieldSet;
 import org.tridas.io.exceptions.ConversionWarning;
 import org.tridas.io.exceptions.ConversionWarning.WarningType;
 import org.tridas.io.exceptions.ConversionWarningException;
 import org.tridas.io.exceptions.IncompleteTridasDataException;
+import org.tridas.io.transform.TridasVersionTransformer;
+import org.tridas.io.transform.TridasVersionTransformer.TridasVersion;
 import org.tridas.io.util.IOUtils;
 import org.tridas.schema.TridasProject;
 import org.tridas.schema.TridasTridas;
@@ -58,6 +61,8 @@ public class TridasFile implements IDendroFile {
 	
 	private IMetadataFieldSet defaults;
 	private StringWriter swriter;
+	
+	private TridasVersion outputVersion = TridasIO.tridasVersionUsedInternally;
 	
 	public TridasFile(IMetadataFieldSet argDefaults) {
 		defaults = argDefaults;
@@ -142,8 +147,13 @@ public class TridasFile implements IDendroFile {
 			}
 		}
 		
-		return swriter.getBuffer().toString().split("\n");
-
+		try {
+			// Try and convert to the requested version
+			return TridasVersionTransformer.transformTridas(swriter.getBuffer().toString().split("\n"), outputVersion);
+		} catch (Exception e) {
+			log.error("Failed to convert TRiDaS to version: "+outputVersion.getVersionString()+".  Just sending what I've got.");
+			return swriter.getBuffer().toString().split("\n");
+		}
 	}
 	
 	/**
@@ -169,4 +179,26 @@ public class TridasFile implements IDendroFile {
 	public IMetadataFieldSet getDefaults() {
 		return defaults;
 	}
+	
+
+	/**
+	 * Get the TRiDaS schema version that is being used to write this file
+	 * 
+	 * @return
+	 */
+	public TridasVersion getOutputVersion() {
+		return outputVersion;
+	}
+
+
+
+	/**
+	 * Set the TRiDaS schema version to use when writing this file
+	 * 
+	 * @param outputVersion
+	 */
+	public void setOutputVersion(TridasVersion outputVersion) {
+		this.outputVersion = outputVersion;
+	}
+
 }
