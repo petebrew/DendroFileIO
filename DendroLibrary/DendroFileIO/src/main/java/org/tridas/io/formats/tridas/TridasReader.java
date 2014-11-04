@@ -117,7 +117,9 @@ public class TridasReader extends AbstractDendroFileReader {
 		{
 			// version number parsing failed.  We'll try to continue anyway.  The schema validation will 
 			// pick up if it's not a valid recent TRiDaS file
-			addWarning(new ConversionWarning(WarningType.NOT_STRICT, I18n.getText("tridas.schemaParseVersionError")));
+			//throw new InvalidDendroFileException(I18n.getText("tridas.schemaParseVersionError"));
+			throw new InvalidDendroFileException("This is not a valid TRiDaS file.  The file is missing a namespace declaration, or the declaration is invalid");
+
 		}
 		else if(xmlFileVersion.equals(TridasVersion.V_FUTURE))
 		{
