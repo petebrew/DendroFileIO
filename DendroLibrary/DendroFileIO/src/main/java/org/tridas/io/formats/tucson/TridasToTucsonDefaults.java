@@ -54,14 +54,14 @@ public class TridasToTucsonDefaults extends AbstractMetadataFieldSet {
 	 */
 	@Override
 	protected void initDefaultValues() {
-		setDefaultValue(TucsonField.SITE_CODE, new StringDefaultValue(UUID.randomUUID().toString().substring(0, 8), 8, 8));
+		setDefaultValue(TucsonField.SITE_CODE, new StringDefaultValue(UUID.randomUUID().toString().substring(0, 7), 7, 7));
 		setDefaultValue(TucsonField.KEY_CODE, new StringDefaultValue(UUID.randomUUID().toString().substring(0, 8), 8, 8));
 		setDefaultValue(TucsonField.SITE_NAME, new StringDefaultValue(I18n.getText("unnamed.object"), 52, 52));
 		setDefaultValue(TucsonField.SPECIES_CODE, new StringDefaultValue("UNKN", 4, 4));
 		setDefaultValue(TucsonField.SPECIES_NAME, new StringDefaultValue("Plantae", 18, 18));
 		setDefaultValue(TucsonField.INVESTIGATOR, new StringDefaultValue(I18n.getText("unknown"), 63, 63));
-		setDefaultValue(TucsonField.ELEVATION, new DoubleDefaultValue(null, -418.0, 8850.0, 7, 7)); // Heights of Dead Sea and Everest! ;-)
-		setDefaultValue(TucsonField.LATLONG, new StringDefaultValue("", 10, 10));
+		setDefaultValue(TucsonField.ELEVATION, new DoubleDefaultValue(null, -418.0, 8850.0, 5, 5)); // Heights of Dead Sea and Everest! ;-)
+		setDefaultValue(TucsonField.LATLONG, new StringDefaultValue("", 11, 11));
 		setDefaultValue(TucsonField.STATE_COUNTRY, new StringDefaultValue(I18n.getText("unknown"), 13, 13));
 		setDefaultValue(TucsonField.COMP_DATE, new StringDefaultValue(DateUtils.getDateTimeTucsonStyle(null), 8, 8));
 	}

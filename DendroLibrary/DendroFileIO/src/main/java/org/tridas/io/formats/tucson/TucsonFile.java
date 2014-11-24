@@ -331,14 +331,22 @@ public class TucsonFile implements IDendroFile {
 		String stateCountry = fileDefaults.getStringDefaultValue(TucsonField.STATE_COUNTRY).getStringValue();
 		String speciesName = fileDefaults.getStringDefaultValue(TucsonField.SPECIES_NAME).getStringValue();
 		String elevation = fileDefaults.getDoubleDefaultValue(TucsonField.ELEVATION).getStringValue();
+		if(fileDefaults.getDoubleDefaultValue(TucsonField.ELEVATION).getValue()!=null)
+		{
+			elevation+= "m";
+		}
+		else
+		{
+			elevation+= " ";
+		}
 		String latlong = fileDefaults.getStringDefaultValue(TucsonField.LATLONG).getStringValue();
 		String investigator = fileDefaults.getStringDefaultValue(TucsonField.INVESTIGATOR).getStringValue();
 		String compDate = fileDefaults.getStringDefaultValue(TucsonField.COMP_DATE).getStringValue();
 		
-		string.append(siteCode + StringUtils.getSpaces(3) + siteName + speciesCode + "\n");
-		string.append(siteCode + StringUtils.getSpaces(3) + stateCountry + speciesName + elevation + latlong
-				+ StringUtils.getSpaces(10) + getRangeAsString() + "\n");
-		string.append(siteCode + StringUtils.getSpaces(3) + investigator + compDate + "\n");
+		string.append(siteCode + "1" +StringUtils.getSpaces(1) + siteName + speciesCode + StringUtils.getSpaces(15) + "\n");
+		string.append(siteCode + "2" +StringUtils.getSpaces(1) + stateCountry + speciesName  
+				+ elevation + latlong + StringUtils.getSpaces(10) + getRangeAsString() + StringUtils.getSpaces(4)+"\n");
+		string.append(siteCode + "3" +StringUtils.getSpaces(1) + investigator + compDate + "\n");
 	}
 	
 	

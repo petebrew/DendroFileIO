@@ -51,6 +51,14 @@ import org.tridas.schema.TridasTridas;
 import org.tridas.schema.TridasValue;
 import org.tridas.schema.TridasValues;
 
+import javax.measure.Measure;
+import javax.measure.converter.UnitConverter;
+import javax.measure.quantity.Length;
+import javax.measure.unit.NonSI;
+
+import static javax.measure.unit.NonSI.*;
+import static javax.measure.unit.SI.*;
+
 /**
  * Reader for the Tucson file format.
  * 
@@ -623,11 +631,25 @@ public class TucsonReader extends AbstractDendroFileReader {
 						TucsonDefaultField.SPECIES_NAME).setValue(
 						(line2.substring(22, 30)).trim());
 				try {
+					String elevstr = (line2.substring(40, 45)).trim();
+					Double elevation = null;
+					if(elevstr.toLowerCase().endsWith("m"))
+					{
+						elevstr = elevstr.substring(0, elevstr.length()-1);
+						elevation = Double.parseDouble(elevstr);
+					}
+					else if(elevstr.toLowerCase().endsWith("ft"))
+					{
+						elevstr = elevstr.substring(0, elevstr.length()-2);
+						elevation = Double.parseDouble(elevstr);
+						
+						// Units in feet so convert to meters
+						UnitConverter toMeters = NonSI.FOOT.getConverterTo(METER);
+						elevation = toMeters.convert(elevation);
+					}
+					
 					series.defaults.getDoubleDefaultValue(
-							TucsonDefaultField.ELEVATION).setValue(
-							Double
-									.parseDouble((line2.substring(40, 45))
-											.trim()));
+							TucsonDefaultField.ELEVATION).setValue(elevation);
 				} catch (Exception e) {
 					addWarning(new ConversionWarning(WarningType.IGNORED, I18n
 							.getText("tucson.invalidElevation")));
@@ -651,15 +673,20 @@ public class TucsonReader extends AbstractDendroFileReader {
 						TucsonDefaultField.INVESTIGATOR).setValue(
 						(line3.substring(9, 70)).trim());
 				try {
-					int day = Integer.parseInt(line3.substring(78, 80));
-					int month = Integer.parseInt(line3.substring(75, 78));
-					int year = Integer.parseInt(line3.substring(72, 76));
-					series.defaults.getDateTimeDefaultValue(
-							TucsonDefaultField.COMP_DATE).setValue(
-							DateUtils.getDateTime(day, month, year));
+					int d= line3.substring(72, 80).trim().length();
+					if(d!=0)
+					{
+						
+						int day = Integer.parseInt(line3.substring(78, 80));
+						int month = Integer.parseInt(line3.substring(75, 78));
+						int year = Integer.parseInt(line3.substring(72, 76));
+						series.defaults.getDateTimeDefaultValue(
+								TucsonDefaultField.COMP_DATE).setValue(
+								DateUtils.getDateTime(day, month, year));
+					}
 				} catch (Exception e) {
-					addWarning(new ConversionWarning(WarningType.IGNORED, I18n
-							.getText("tucson.invalidCompDate")));
+					//addWarning(new ConversionWarning(WarningType.IGNORED, I18n.getText("tucson.invalidCompDate")));
+					log.warn(I18n.getText("tucson.invalidCompDate"));
 				}
 			}
 
@@ -1081,10 +1108,6 @@ public class TucsonReader extends AbstractDendroFileReader {
 				return false;
 			}
 		}
-		
-		
-		
-		
 
 		String regexKeycode6 = "[\\w\\t -.]{6}";
 		String regexKeycode8 = "[\\w\\t -.]{8}";
@@ -1238,7 +1261,9 @@ public class TucsonReader extends AbstractDendroFileReader {
 			return m1.find();
 		case HEADER_LINE2:
 			//regex = "^[^\\n]{9}[^\\n]{21}[\\t ]{10}[0-9mMft.]{5}[\\s]{2}[0-9\\t+\\- ]{10}[\\t ]{10}[\\d\\t ]{9}";
-			regex = "^[\\d\\w ]{7}[2 ][ ][^\\n]{30}[ ][ 0-9mMft.]{5}[ ]{2}[0-9\\t+\\- NWnw]{11}[ ]{9}[0-9 -]{4}[ ][0-9 -]{4}";
+			//regex = "^[\\d\\w ]{7}[2 ][ ][^\\n]{30}[ ][ 0-9mMft.]{5}[ ]{2}[0-9\\t+\\- NWnw]{11}[ ]{9}[0-9 -]{4}[ ][0-9 -]{4}";
+			regex = "^[\\d\\w ]{7}[2 ][ ][^\\n]{31}[ 0-9mMft.]{5}[ ]{2}[0-9\\t+\\- NWnw]{11}[ _]{9}[0-9 -]{4}[ ][0-9 -]{4}";
+
 			p1 = Pattern.compile(regex, Pattern.CASE_INSENSITIVE
 					| Pattern.DOTALL);
 			m1 = p1.matcher(line);
