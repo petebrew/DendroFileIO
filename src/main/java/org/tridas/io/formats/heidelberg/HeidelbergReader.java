@@ -520,7 +520,7 @@ public class HeidelbergReader extends AbstractDendroFileReader {
 						
 					
 						
-						if(dataType.equals(FHDataType.EARLY_LATE_WOOD))
+						if(dataType!=null && dataType.equals(FHDataType.EARLY_LATE_WOOD))
 						{
 							
 							if(argSeries.nextValueIs.equals(FHStartsOrEndsWith.RING_WIDTH))
@@ -755,6 +755,16 @@ public class HeidelbergReader extends AbstractDendroFileReader {
 				.getDefaultValue(DefaultFields.DATA_TYPE);
 				dataTypeField.setValue(dataType);
 				s.dataType = dataType;
+			}
+			else
+			{
+				FHDataType dataType = FHDataType.RING_WIDTH;
+				GenericDefaultValue<FHDataType> dataTypeField = (GenericDefaultValue<FHDataType>) s.defaults
+				.getDefaultValue(DefaultFields.DATA_TYPE);
+				dataTypeField.setValue(dataType);
+				s.dataType = dataType;
+				addWarning(new ConversionWarning(WarningType.AMBIGUOUS, 
+						"File does not specify a data type, assuming ring width"));
 			}
 						
 			//DATED, new GenericDefaultValue<FHDated>());

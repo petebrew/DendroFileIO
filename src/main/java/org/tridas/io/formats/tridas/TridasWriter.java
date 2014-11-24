@@ -18,7 +18,6 @@ package org.tridas.io.formats.tridas;
 import java.util.ArrayList;
 
 import org.tridas.io.AbstractDendroCollectionWriter;
-import org.tridas.io.AbstractDendroFormat;
 import org.tridas.io.TridasIO;
 import org.tridas.io.defaults.IMetadataFieldSet;
 import org.tridas.io.defaults.TridasMetadataFieldSet;
