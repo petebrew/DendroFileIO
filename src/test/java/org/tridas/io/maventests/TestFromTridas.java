@@ -434,7 +434,7 @@ public class TestFromTridas extends TestCase {
 		}
 	}
 	
-	public void testTridasToSheffield() {
+	public void  n() {
 		String folder = "TestData/TRiDaS";
 		String[] files = getFilesFromFolder(folder);
 		
