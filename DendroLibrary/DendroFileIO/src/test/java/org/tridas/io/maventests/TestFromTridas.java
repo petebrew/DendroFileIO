@@ -143,11 +143,9 @@ public class TestFromTridas extends TestCase {
 				reader.loadFile(folder, filename);
 			} catch (IOException e) {
 				log.info("Failed reading - file not found/readable");
-				// fail();
 				continue;
 			} catch (InvalidDendroFileException e) {
 				log.info("Failed reading - " + e.getLocalizedMessage());
-				// fail();
 				continue;
 			}
 			
@@ -162,7 +160,6 @@ public class TestFromTridas extends TestCase {
 				writer.load(container);
 			} catch (ImpossibleConversionException e) {
 				log.info("Failed Writing - " + e.getLocalizedMessage());
-				// fail();
 				continue;
 			} catch (ConversionWarningException e) {
 
