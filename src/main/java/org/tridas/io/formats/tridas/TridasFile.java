@@ -36,7 +36,7 @@ import org.tridas.io.defaults.IMetadataFieldSet;
 import org.tridas.io.exceptions.ConversionWarning;
 import org.tridas.io.exceptions.ConversionWarning.WarningType;
 import org.tridas.io.exceptions.ConversionWarningException;
-import org.tridas.io.exceptions.IncompleteTridasDataException;
+import org.tridas.io.exceptions.ImpossibleConversionException;
 import org.tridas.io.transform.TridasVersionTransformer;
 import org.tridas.io.transform.TridasVersionTransformer.TridasVersion;
 import org.tridas.io.util.IOUtils;
@@ -84,7 +84,7 @@ public class TridasFile implements IDendroFile {
 		return container;
 	}
 	
-	public void validate() throws IncompleteTridasDataException
+	public void validate() throws ImpossibleConversionException
 	{
 		Schema schema = null;
 		
@@ -98,7 +98,7 @@ public class TridasFile implements IDendroFile {
 				schema = factory.newSchema(file);
 			} catch (SAXException e) {
 				log.error("Error getting TRiDaS schema for validation, not using.", e);
-				throw new IncompleteTridasDataException(I18n.getText("fileio.errorGettingSchema"));
+				throw new ImpossibleConversionException(I18n.getText("fileio.errorGettingSchema"));
 			}
 		}
 		
@@ -120,11 +120,11 @@ public class TridasFile implements IDendroFile {
 			String cause = e.getCause().getMessage();
 			if(cause!=null)
 			{
-				throw new IncompleteTridasDataException(I18n.getText("fileio.jaxbError")+ " " + cause);
+				throw new ImpossibleConversionException(I18n.getText("fileio.jaxbError")+ " " + cause);
 			}
 			else
 			{
-				throw new IncompleteTridasDataException(I18n.getText("fileio.jaxbError"));
+				throw new ImpossibleConversionException(I18n.getText("fileio.jaxbError"));
 			}
 
 		}
@@ -140,7 +140,7 @@ public class TridasFile implements IDendroFile {
 		{
 			try {
 				validate();
-			} catch (IncompleteTridasDataException e) {
+			} catch (ImpossibleConversionException e) {
 				// TODO Auto-generated catch block
 				e.printStackTrace();
 				return null;

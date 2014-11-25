@@ -24,18 +24,17 @@ import java.util.Properties;
 import org.tridas.io.defaults.TridasMetadataFieldSet;
 import org.tridas.io.exceptions.ConversionWarning;
 import org.tridas.io.exceptions.ConversionWarningException;
-import org.tridas.io.exceptions.IncompleteTridasDataException;
+import org.tridas.io.exceptions.ImpossibleConversionException;
 import org.tridas.io.exceptions.InvalidDendroFileException;
+import org.tridas.io.exceptions.NothingToWriteException;
 import org.tridas.io.formats.tridas.TridasReader;
 import org.tridas.io.formats.tridas.TridasWriter;
 import org.tridas.io.naming.HierarchicalNamingConvention;
 import org.tridas.io.naming.INamingConvention;
-import org.tridas.io.naming.NumericalNamingConvention;
 import org.tridas.io.naming.UUIDNamingConvention;
 import org.tridas.io.util.FileHelper;
 import org.tridas.io.util.IOUtils;
 import org.tridas.io.util.StringUtils;
-import org.tridas.io.util.TridasUtils;
 import org.tridas.schema.TridasTridas;
 
 public class CommandLineUI {
@@ -278,6 +277,9 @@ public class CommandLineUI {
 				}
 			} catch (IOException e1) {
 				e1.printStackTrace();
+			} catch (NothingToWriteException e2) {
+				// TODO Auto-generated catch block
+				e2.printStackTrace();
 			} finally {
 				temp.delete();
 			}
@@ -324,11 +326,14 @@ public class CommandLineUI {
 				writer.load(s.reader.getTridasContainer());
 								
 				writer.saveAllToDisk(outputFolder);
-			} catch (IncompleteTridasDataException e) {
+			} catch (ImpossibleConversionException e) {
 				System.out.println(e.toString());
 				e.printStackTrace();
 			} catch (ConversionWarningException e) {
 				System.out.println(e.toString());
+			} catch (NothingToWriteException e) {
+				System.out.println(e.toString());
+				e.printStackTrace();
 			} 
 			s.writer = writer;
 		}

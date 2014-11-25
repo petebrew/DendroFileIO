@@ -25,9 +25,10 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.tridas.io.defaults.TridasMetadataFieldSet;
 import org.tridas.io.exceptions.ConversionWarningException;
-import org.tridas.io.exceptions.IncompleteTridasDataException;
+import org.tridas.io.exceptions.ImpossibleConversionException;
 import org.tridas.io.exceptions.IncorrectDefaultFieldsException;
 import org.tridas.io.exceptions.InvalidDendroFileException;
+import org.tridas.io.exceptions.NothingToWriteException;
 import org.tridas.io.formats.belfastapple.BelfastAppleReader;
 import org.tridas.io.formats.belfastarchive.BelfastArchiveReader;
 import org.tridas.io.formats.besancon.BesanconReader;
@@ -114,12 +115,17 @@ public class TestToTridas extends TestCase {
 			
 			try {
 				writer.load(container, new TridasMetadataFieldSet());
-			} catch (IncompleteTridasDataException e) {
+			} catch (ImpossibleConversionException e) {
 				fail();
 			} catch (ConversionWarningException e) {} catch (IncorrectDefaultFieldsException e) {
 				fail();
 			} 
-			writer.saveAllToDisk(outputLocation);
+						// Actually save file(s) to disk
+			try {
+				writer.saveAllToDisk(outputLocation);
+			} catch (NothingToWriteException e) {
+				fail();
+			};
 			
 		}
 		
@@ -165,12 +171,17 @@ public class TestToTridas extends TestCase {
 			
 			try {
 				writer.load(container, new TridasMetadataFieldSet());
-			} catch (IncompleteTridasDataException e) {
+			} catch (ImpossibleConversionException e) {
 				fail();
 			} catch (ConversionWarningException e) {} catch (IncorrectDefaultFieldsException e) {
 				fail();
 			} 
-			writer.saveAllToDisk(outputLocation);
+						// Actually save file(s) to disk
+			try {
+				writer.saveAllToDisk(outputLocation);
+			} catch (NothingToWriteException e) {
+				fail();
+			};
 			
 		}
 		
@@ -218,12 +229,17 @@ public class TestToTridas extends TestCase {
 			
 			try {
 				writer.load(container, new TridasMetadataFieldSet());
-			} catch (IncompleteTridasDataException e) {
+			} catch (ImpossibleConversionException e) {
 				fail();
 			} catch (ConversionWarningException e) {} catch (IncorrectDefaultFieldsException e) {
 				fail();
 			} 
-			writer.saveAllToDisk(outputLocation);
+						// Actually save file(s) to disk
+			try {
+				writer.saveAllToDisk(outputLocation);
+			} catch (NothingToWriteException e) {
+				fail();
+			};
 			
 		}
 		
@@ -269,11 +285,16 @@ public class TestToTridas extends TestCase {
 			
 			try {
 				writer.load(container);
-			} catch (IncompleteTridasDataException e) {
+			} catch (ImpossibleConversionException e) {
 				fail();
 			} catch (ConversionWarningException e) {
 			} 
-			writer.saveAllToDisk(outputLocation);
+						// Actually save file(s) to disk
+			try {
+				writer.saveAllToDisk(outputLocation);
+			} catch (NothingToWriteException e) {
+				fail();
+			};
 			
 		}
 	}
@@ -317,11 +338,16 @@ public class TestToTridas extends TestCase {
 			
 			try {
 				writer.load(container);
-			} catch (IncompleteTridasDataException e) {
+			} catch (ImpossibleConversionException e) {
 				fail();
 			} catch (ConversionWarningException e) {
 			} 
-			writer.saveAllToDisk(outputLocation);
+						// Actually save file(s) to disk
+			try {
+				writer.saveAllToDisk(outputLocation);
+			} catch (NothingToWriteException e) {
+				fail();
+			};
 			
 		}
 	}
@@ -365,11 +391,16 @@ public class TestToTridas extends TestCase {
 			
 			try {
 				writer.load(container);
-			} catch (IncompleteTridasDataException e) {
+			} catch (ImpossibleConversionException e) {
 				fail();
 			} catch (ConversionWarningException e) {
 			} 
-			writer.saveAllToDisk(outputLocation);
+						// Actually save file(s) to disk
+			try {
+				writer.saveAllToDisk(outputLocation);
+			} catch (NothingToWriteException e) {
+				fail();
+			};
 			
 		}
 	}
@@ -413,11 +444,16 @@ public class TestToTridas extends TestCase {
 			
 			try {
 				writer.load(container);
-			} catch (IncompleteTridasDataException e) {
+			} catch (ImpossibleConversionException e) {
 				fail();
 			} catch (ConversionWarningException e) {
 			} 
-			writer.saveAllToDisk(outputLocation);
+						// Actually save file(s) to disk
+			try {
+				writer.saveAllToDisk(outputLocation);
+			} catch (NothingToWriteException e) {
+				fail();
+			};
 			
 		}
 		
@@ -459,11 +495,16 @@ public class TestToTridas extends TestCase {
 			
 			try {
 				writer.load(container);
-			} catch (IncompleteTridasDataException e) {
+			} catch (ImpossibleConversionException e) {
 				fail();
 			} catch (ConversionWarningException e) {
 			} 
-			writer.saveAllToDisk(outputLocation);
+						// Actually save file(s) to disk
+			try {
+				writer.saveAllToDisk(outputLocation);
+			} catch (NothingToWriteException e) {
+				fail();
+			};
 			
 		}
 		
@@ -505,11 +546,16 @@ public class TestToTridas extends TestCase {
 			try {
 				writer.setNamingConvention(new NumericalNamingConvention("Sheffield-"+filename));
 				writer.load(container);
-			} catch (IncompleteTridasDataException e) {
+			} catch (ImpossibleConversionException e) {
 				fail();
 			} catch (ConversionWarningException e) {
 			} 
-			writer.saveAllToDisk(outputLocation);
+						// Actually save file(s) to disk
+			try {
+				writer.saveAllToDisk(outputLocation);
+			} catch (NothingToWriteException e) {
+				fail();
+			};
 			
 		}
 		
@@ -551,11 +597,16 @@ public class TestToTridas extends TestCase {
 			
 			try {
 				writer.load(container);
-			} catch (IncompleteTridasDataException e) {
+			} catch (ImpossibleConversionException e) {
 				fail();
 			} catch (ConversionWarningException e) {
 			} 
-			writer.saveAllToDisk(outputLocation);
+						// Actually save file(s) to disk
+			try {
+				writer.saveAllToDisk(outputLocation);
+			} catch (NothingToWriteException e) {
+				fail();
+			};
 			
 		}
 		
@@ -598,11 +649,16 @@ public class TestToTridas extends TestCase {
 			
 			try {
 				writer.load(container);
-			} catch (IncompleteTridasDataException e) {
+			} catch (ImpossibleConversionException e) {
 				fail();
 			} catch (ConversionWarningException e) {
 			} 
-			writer.saveAllToDisk(outputLocation);
+						// Actually save file(s) to disk
+			try {
+				writer.saveAllToDisk(outputLocation);
+			} catch (NothingToWriteException e) {
+				fail();
+			};
 			
 		}
 		
@@ -645,12 +701,17 @@ public class TestToTridas extends TestCase {
 			
 			try {
 				writer.load(container, new TridasMetadataFieldSet());
-			} catch (IncompleteTridasDataException e) {
+			} catch (ImpossibleConversionException e) {
 				fail();
 			} catch (ConversionWarningException e) {} catch (IncorrectDefaultFieldsException e) {
 				fail();
 			} 
-			writer.saveAllToDisk(outputLocation);
+						// Actually save file(s) to disk
+			try {
+				writer.saveAllToDisk(outputLocation);
+			} catch (NothingToWriteException e) {
+				fail();
+			};
 			
 		}
 		
@@ -697,12 +758,17 @@ public class TestToTridas extends TestCase {
 			
 			try {
 				writer.load(container, new TridasMetadataFieldSet());
-			} catch (IncompleteTridasDataException e) {
+			} catch (ImpossibleConversionException e) {
 				fail();
 			} catch (ConversionWarningException e) {} catch (IncorrectDefaultFieldsException e) {
 				fail();
 			}
-			writer.saveAllToDisk(outputLocation);
+						// Actually save file(s) to disk
+			try {
+				writer.saveAllToDisk(outputLocation);
+			} catch (NothingToWriteException e) {
+				fail();
+			};
 			
 		}
 		
@@ -745,12 +811,17 @@ public class TestToTridas extends TestCase {
 			
 			try {
 				writer.load(container, new TridasMetadataFieldSet());
-			} catch (IncompleteTridasDataException e) {
+			} catch (ImpossibleConversionException e) {
 				fail();
 			} catch (ConversionWarningException e) {} catch (IncorrectDefaultFieldsException e) {
 				fail();
 			} 
-			writer.saveAllToDisk(outputLocation);
+						// Actually save file(s) to disk
+			try {
+				writer.saveAllToDisk(outputLocation);
+			} catch (NothingToWriteException e) {
+				fail();
+			};
 			
 		}
 		
@@ -794,12 +865,17 @@ public class TestToTridas extends TestCase {
 			
 			try {
 				writer.load(container, new TridasMetadataFieldSet());
-			} catch (IncompleteTridasDataException e) {
+			} catch (ImpossibleConversionException e) {
 				fail();
 			} catch (ConversionWarningException e) {} catch (IncorrectDefaultFieldsException e) {
 				fail();
 			} 
-			writer.saveAllToDisk(outputLocation);
+						// Actually save file(s) to disk
+			try {
+				writer.saveAllToDisk(outputLocation);
+			} catch (NothingToWriteException e) {
+				fail();
+			};
 			
 		}
 		
@@ -842,12 +918,17 @@ public class TestToTridas extends TestCase {
 			
 			try {
 				writer.load(container, new TridasMetadataFieldSet());
-			} catch (IncompleteTridasDataException e) {
+			} catch (ImpossibleConversionException e) {
 				fail();
 			} catch (ConversionWarningException e) {} catch (IncorrectDefaultFieldsException e) {
 				fail();
 			} 
-			writer.saveAllToDisk(outputLocation);
+						// Actually save file(s) to disk
+			try {
+				writer.saveAllToDisk(outputLocation);
+			} catch (NothingToWriteException e) {
+				fail();
+			};
 			
 		}
 		
@@ -890,12 +971,17 @@ public class TestToTridas extends TestCase {
 			
 			try {
 				writer.load(container, new TridasMetadataFieldSet());
-			} catch (IncompleteTridasDataException e) {
+			} catch (ImpossibleConversionException e) {
 				fail();
 			} catch (ConversionWarningException e) {} catch (IncorrectDefaultFieldsException e) {
 				fail();
 			} 
-			writer.saveAllToDisk(outputLocation);
+						// Actually save file(s) to disk
+			try {
+				writer.saveAllToDisk(outputLocation);
+			} catch (NothingToWriteException e) {
+				fail();
+			};
 			
 		}
 		
@@ -938,12 +1024,17 @@ public class TestToTridas extends TestCase {
 			
 			try {
 				writer.load(container, new TridasMetadataFieldSet());
-			} catch (IncompleteTridasDataException e) {
+			} catch (ImpossibleConversionException e) {
 				fail();
 			} catch (ConversionWarningException e) {} catch (IncorrectDefaultFieldsException e) {
 				fail();
 			} 
-			writer.saveAllToDisk(outputLocation);
+						// Actually save file(s) to disk
+			try {
+				writer.saveAllToDisk(outputLocation);
+			} catch (NothingToWriteException e) {
+				fail();
+			};
 			
 		}
 		
@@ -986,12 +1077,17 @@ public class TestToTridas extends TestCase {
 			
 			try {
 				writer.load(container, new TridasMetadataFieldSet());
-			} catch (IncompleteTridasDataException e) {
+			} catch (ImpossibleConversionException e) {
 				fail();
 			} catch (ConversionWarningException e) {} catch (IncorrectDefaultFieldsException e) {
 				fail();
 			} 
-			writer.saveAllToDisk(outputLocation);
+						// Actually save file(s) to disk
+			try {
+				writer.saveAllToDisk(outputLocation);
+			} catch (NothingToWriteException e) {
+				fail();
+			};
 			
 		}
 		
@@ -1034,12 +1130,17 @@ public class TestToTridas extends TestCase {
 			
 			try {
 				writer.load(container, new TridasMetadataFieldSet());
-			} catch (IncompleteTridasDataException e) {
+			} catch (ImpossibleConversionException e) {
 				fail();
 			} catch (ConversionWarningException e) {} catch (IncorrectDefaultFieldsException e) {
 				fail();
 			} 
-			writer.saveAllToDisk(outputLocation);
+						// Actually save file(s) to disk
+			try {
+				writer.saveAllToDisk(outputLocation);
+			} catch (NothingToWriteException e) {
+				fail();
+			};
 			
 		}
 		
@@ -1087,7 +1188,12 @@ public class TestToTridas extends TestCase {
 			} catch (ConversionWarningException e) {} catch (IncorrectDefaultFieldsException e) {
 				fail();
 			} 
-			writer.saveAllToDisk(outputLocation);
+						// Actually save file(s) to disk
+			try {
+				writer.saveAllToDisk(outputLocation);
+			} catch (NothingToWriteException e) {
+				fail();
+			};
 			
 		}
 		
@@ -1133,11 +1239,16 @@ public class TestToTridas extends TestCase {
 			
 			try {
 				writer.load(container);
-			} catch (IncompleteTridasDataException e) {
+			} catch (ImpossibleConversionException e) {
 				fail();
 			} catch (ConversionWarningException e) {
 			} 
-			writer.saveAllToDisk(outputLocation);
+						// Actually save file(s) to disk
+			try {
+				writer.saveAllToDisk(outputLocation);
+			} catch (NothingToWriteException e) {
+				fail();
+			};
 			
 		}
 	}
@@ -1182,11 +1293,16 @@ public class TestToTridas extends TestCase {
 			
 			try {
 				writer.load(container);
-			} catch (IncompleteTridasDataException e) {
+			} catch (ImpossibleConversionException e) {
 				fail();
 			} catch (ConversionWarningException e) {
 			} 
-			writer.saveAllToDisk(outputLocation);
+						// Actually save file(s) to disk
+			try {
+				writer.saveAllToDisk(outputLocation);
+			} catch (NothingToWriteException e) {
+				fail();
+			};
 			
 		}
 	}
@@ -1230,11 +1346,17 @@ public class TestToTridas extends TestCase {
 			
 			try {
 				writer.load(container);
-			} catch (IncompleteTridasDataException e) {
+			} catch (ImpossibleConversionException e) {
 				fail();
 			} catch (ConversionWarningException e) {
 			} 
-			writer.saveAllToDisk(outputLocation);
+			
+			// Actually save file(s) to disk
+			try {
+				writer.saveAllToDisk(outputLocation);
+			} catch (NothingToWriteException e) {
+				fail();
+			};
 			
 		}
 	}

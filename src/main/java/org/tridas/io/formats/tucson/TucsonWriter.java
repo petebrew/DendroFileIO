@@ -24,7 +24,7 @@ import org.tridas.io.defaults.IMetadataFieldSet;
 import org.tridas.io.exceptions.ConversionWarning;
 import org.tridas.io.exceptions.ConversionWarning.WarningType;
 import org.tridas.io.exceptions.ConversionWarningException;
-import org.tridas.io.exceptions.IncompleteTridasDataException;
+import org.tridas.io.exceptions.ImpossibleConversionException;
 import org.tridas.io.naming.INamingConvention;
 import org.tridas.io.naming.NamingConventionGrouper;
 import org.tridas.io.naming.NumericalNamingConvention;
@@ -73,7 +73,7 @@ public class TucsonWriter extends AbstractDendroCollectionWriter {
 
 	@Override
 	public void parseTridasProject(TridasProject p, IMetadataFieldSet argDefaults) 
-	throws IncompleteTridasDataException {
+	throws ImpossibleConversionException {
 	
 		// Base defaults for all the output files
 		defaults = (TridasToTucsonDefaults) argDefaults;
@@ -277,6 +277,13 @@ public class TucsonWriter extends AbstractDendroCollectionWriter {
 					addToFileList(file);
 				}
 			}
+		}
+		
+
+		if(this.getFiles().length==0)
+		{
+			this.clearWarnings();
+			throw new ImpossibleConversionException("File conversion failed.  This output format is unable to represent the data stored in the input file.");
 		}
 	}
 	

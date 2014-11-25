@@ -23,7 +23,7 @@ import org.tridas.io.I18n;
 import org.tridas.io.defaults.IMetadataFieldSet;
 import org.tridas.io.exceptions.ConversionWarning;
 import org.tridas.io.exceptions.ConversionWarningException;
-import org.tridas.io.exceptions.IncompleteTridasDataException;
+import org.tridas.io.exceptions.ImpossibleConversionException;
 import org.tridas.io.exceptions.ConversionWarning.WarningType;
 import org.tridas.io.formats.tucson.TridasToTucsonDefaults;
 import org.tridas.io.formats.tucson.TucsonFile;
@@ -66,7 +66,7 @@ public class TucsonDataOnlyWriter extends AbstractDendroCollectionWriter {
 
 	@Override
 	public void parseTridasProject(TridasProject p, IMetadataFieldSet argDefaults) 
-	throws IncompleteTridasDataException {
+	throws ImpossibleConversionException {
 	
 		// Base defaults for all the output files
 		defaults = (TridasToTucsonDefaults) argDefaults;
@@ -133,7 +133,7 @@ public class TucsonDataOnlyWriter extends AbstractDendroCollectionWriter {
 			}
 			else
 			{
-				throw new IncompleteTridasDataException();
+				throw new ImpossibleConversionException();
 			}
 			
 			
@@ -246,13 +246,14 @@ public class TucsonDataOnlyWriter extends AbstractDendroCollectionWriter {
 					naming.registerFile(file, p);
 					addToFileList(file);
 				}
-				else
-				{
-					throw new IncompleteTridasDataException();
-				}
 		}
 		
-		
+
+		if(this.getFiles().length==0)
+		{
+			this.clearWarnings();
+			throw new ImpossibleConversionException("File conversion failed.  This output format is unable to represent the data stored in the input file.");
+		}
 
 		
 	}

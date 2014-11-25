@@ -3,7 +3,7 @@ package org.tridas.io.formats.cracow;
 import org.tridas.io.AbstractDendroCollectionWriter;
 import org.tridas.io.defaults.IMetadataFieldSet;
 import org.tridas.io.exceptions.ConversionWarningException;
-import org.tridas.io.exceptions.IncompleteTridasDataException;
+import org.tridas.io.exceptions.ImpossibleConversionException;
 import org.tridas.io.naming.INamingConvention;
 import org.tridas.schema.TridasProject;
 
@@ -17,7 +17,7 @@ public class CracowWriter extends AbstractDendroCollectionWriter {
 	@Override
 	protected void parseTridasProject(TridasProject argProject,
 			IMetadataFieldSet argDefaults)
-			throws IncompleteTridasDataException, ConversionWarningException {
+			throws ImpossibleConversionException, ConversionWarningException {
 		// TODO Auto-generated method stub
 
 	}

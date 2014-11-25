@@ -11,7 +11,7 @@ import org.tridas.io.defaults.IMetadataFieldSet;
 import org.tridas.io.exceptions.ConversionWarning;
 import org.tridas.io.exceptions.ConversionWarning.WarningType;
 import org.tridas.io.exceptions.ConversionWarningException;
-import org.tridas.io.exceptions.IncompleteTridasDataException;
+import org.tridas.io.exceptions.ImpossibleConversionException;
 import org.tridas.io.naming.INamingConvention;
 import org.tridas.io.naming.NamingConventionGrouper;
 import org.tridas.io.naming.NumericalNamingConvention;
@@ -46,7 +46,7 @@ public class FHX2Writer extends AbstractDendroCollectionWriter {
 	@Override
 	protected void parseTridasProject(TridasProject argProject,
 			IMetadataFieldSet argDefaults)
-			throws IncompleteTridasDataException, ConversionWarningException {
+			throws ImpossibleConversionException, ConversionWarningException {
 		
 		ArrayList<FHX2Series> seriesList = new ArrayList<FHX2Series>();
 		
@@ -172,7 +172,8 @@ public class FHX2Writer extends AbstractDendroCollectionWriter {
 		
 		// No series found
 		if (seriesList.size() == 0) {
-			throw new IncompleteTridasDataException(I18n.getText("fileio.noData"));
+			clearWarnings();
+			throw new ImpossibleConversionException(I18n.getText("fileio.noData"));
 		}
 				
 		file.setSeriesList(seriesList);

@@ -21,7 +21,7 @@ import org.tridas.io.I18n;
 import org.tridas.io.defaults.IMetadataFieldSet;
 import org.tridas.io.exceptions.ConversionWarning;
 import org.tridas.io.exceptions.ConversionWarningException;
-import org.tridas.io.exceptions.IncompleteTridasDataException;
+import org.tridas.io.exceptions.ImpossibleConversionException;
 import org.tridas.io.exceptions.ConversionWarning.WarningType;
 import org.tridas.io.formats.oxford.OxfordToTridasDefaults.OxDefaultFields;
 import org.tridas.io.naming.INamingConvention;
@@ -75,7 +75,7 @@ public class OxfordWriter extends AbstractDendroCollectionWriter {
 	
 	@Override
 	protected void parseTridasProject(TridasProject argProject, IMetadataFieldSet argDefaults)
-			throws IncompleteTridasDataException, ConversionWarningException 
+			throws ImpossibleConversionException, ConversionWarningException 
 	{
 	
 		defaults = (TridasToOxfordDefaults) argDefaults;
@@ -178,6 +178,13 @@ public class OxfordWriter extends AbstractDendroCollectionWriter {
 				addWarning(ex.getWarning());
 			}
 
+		}
+		
+
+		if(this.getFiles().length==0)
+		{
+			this.clearWarnings();
+			throw new ImpossibleConversionException("File conversion failed.  This output format is unable to represent the data stored in the input file.");
 		}
 	}
 	

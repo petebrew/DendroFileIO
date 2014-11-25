@@ -20,6 +20,7 @@ import java.io.OutputStream;
 
 import jxl.write.WriteException;
 
+import org.apache.poi.util.HexDump;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.tridas.interfaces.ITridasSeries;
@@ -359,7 +360,7 @@ public class CatrasFile implements IDendroFile {
 	
 	@Override
 	public String[] saveToString() {
-		
+
 		throw new UnsupportedOperationException(I18n.getText("fileio.binaryAsStringUnsupported"));
 		
 	}

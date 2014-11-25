@@ -25,7 +25,7 @@ import org.slf4j.LoggerFactory;
 import org.tridas.io.I18n;
 import org.tridas.io.exceptions.ConversionWarning;
 import org.tridas.io.exceptions.ConversionWarningException;
-import org.tridas.io.exceptions.IncompleteTridasDataException;
+import org.tridas.io.exceptions.ImpossibleConversionException;
 import org.tridas.io.exceptions.ConversionWarning.WarningType;
 import org.tridas.schema.NormalTridasUnit;
 import org.tridas.schema.TridasValue;
@@ -221,7 +221,7 @@ public class UnitUtils {
 	 * @param maxIntChars
 	 * @return
 	 * @throws NumberFormatException
-	 * @throws IncompleteTridasDataException
+	 * @throws ImpossibleConversionException
 	 */
 	public static TridasValues convertTridasValues(NormalTridasUnit outputunits, TridasValues tv, Integer maxIntChars) 
 	throws NumberFormatException, ConversionWarningException
@@ -348,7 +348,7 @@ public class UnitUtils {
 	 * @param outputAsIntegers
 	 * @return
 	 * @throws NumberFormatException
-	 * @throws IncompleteTridasDataException
+	 * @throws ImpossibleConversionException
 	 */
 	public static TridasValues convertTridasValues(NormalTridasUnit outputunits, TridasValues tv, Boolean outputAsIntegers) 
 	throws NumberFormatException, ConversionWarningException
