@@ -128,7 +128,7 @@ public class BelfastAppleWriter extends AbstractDendroCollectionWriter {
 			try {
 				elList = TridasUtils.getElementList(obj);
 			} catch (NullPointerException e) {
-				break;
+				continue;
 				//throw new IncompleteTridasDataException(I18n.getText("fileio.elementMissing"));
 			}
 			
@@ -138,7 +138,7 @@ public class BelfastAppleWriter extends AbstractDendroCollectionWriter {
 				try {
 					sList = el.getSamples();
 				} catch (NullPointerException e) {
-					break;
+					continue;
 					//throw new IncompleteTridasDataException(I18n.getText("fileio.sampleMissing"));
 				}
 				
@@ -152,7 +152,7 @@ public class BelfastAppleWriter extends AbstractDendroCollectionWriter {
 					try {
 						rList = s.getRadiuses();
 					} catch (NullPointerException e) {
-						break;
+						continue;
 						//throw new IncompleteTridasDataException(I18n.getText("fileio.radiusMissing"));
 					}
 					
@@ -162,7 +162,7 @@ public class BelfastAppleWriter extends AbstractDendroCollectionWriter {
 						try {
 							serList = r.getMeasurementSeries();
 						} catch (NullPointerException e) {
-							break;
+							continue;
 						}
 						
 						if (serList != null) {
@@ -179,7 +179,13 @@ public class BelfastAppleWriter extends AbstractDendroCollectionWriter {
 								
 									BelfastAppleFile file = new BelfastAppleFile(defaults, this);
 									naming.registerFile(file, argProject, obj, el, s, r, ser);
-									file.setValuesGroup(group);
+									try{
+										file.setValuesGroup(group);
+									} catch (ConversionWarningException e)
+									{
+										this.addWarning(e.getWarning());
+										continue;
+									}
 									file.setObjectTitle(objecttitle);
 									file.setSampleTitle(sampletitle);
 									addToFileList(file);
