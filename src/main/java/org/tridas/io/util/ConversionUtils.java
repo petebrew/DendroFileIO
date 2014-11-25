@@ -9,7 +9,7 @@ import org.tridas.io.exceptions.ConversionWarning;
 public class ConversionUtils {
 
 	
-	public static String formatConversionWarnings(AbstractDendroFileReader reader, AbstractDendroCollectionWriter writer)
+	public static String formattedConversionLog(AbstractDendroFileReader reader, AbstractDendroCollectionWriter writer)
 	{
 		StringBuilder sb = new StringBuilder();
 		
