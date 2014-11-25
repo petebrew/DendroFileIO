@@ -22,7 +22,7 @@ import org.tridas.io.TridasIO;
 import org.tridas.io.defaults.IMetadataFieldSet;
 import org.tridas.io.defaults.TridasMetadataFieldSet;
 import org.tridas.io.exceptions.ConversionWarningException;
-import org.tridas.io.exceptions.IncompleteTridasDataException;
+import org.tridas.io.exceptions.ImpossibleConversionException;
 import org.tridas.io.naming.INamingConvention;
 import org.tridas.io.naming.NumericalNamingConvention;
 import org.tridas.io.transform.TridasVersionTransformer.TridasVersion;
@@ -69,10 +69,10 @@ public class TridasWriter extends AbstractDendroCollectionWriter {
 	@Override
 	public void parseTridasContainer(TridasTridas argContainer,
 			IMetadataFieldSet argDefaults)
-			throws IncompleteTridasDataException, ConversionWarningException {
+			throws ImpossibleConversionException, ConversionWarningException {
 		
 		if (argContainer == null) {
-			throw new IncompleteTridasDataException("Tridas container is null!");
+			throw new ImpossibleConversionException("Tridas container is null!");
 			
 		}
 		
@@ -87,7 +87,7 @@ public class TridasWriter extends AbstractDendroCollectionWriter {
 		// Check that we have no internal XML errors in the file
 		try{
 			file.validate();
-		} catch (IncompleteTridasDataException e)
+		} catch (ImpossibleConversionException e)
 		{
 			throw e;
 		}
@@ -127,10 +127,10 @@ public class TridasWriter extends AbstractDendroCollectionWriter {
 	
 	@Override
 	public void parseTridasProject(TridasProject p, IMetadataFieldSet argDefaults)
-			throws IncompleteTridasDataException, ConversionWarningException {
+			throws ImpossibleConversionException, ConversionWarningException {
 		
 		if (p == null) {
-			throw new IncompleteTridasDataException("Project is null!");
+			throw new ImpossibleConversionException("Project is null!");
 			
 		}
 		
@@ -142,7 +142,7 @@ public class TridasWriter extends AbstractDendroCollectionWriter {
 		// Check that we have no internal XML errors in the file
 		try{
 			file.validate();
-		} catch (IncompleteTridasDataException e)
+		} catch (ImpossibleConversionException e)
 		{
 			throw e;
 		}

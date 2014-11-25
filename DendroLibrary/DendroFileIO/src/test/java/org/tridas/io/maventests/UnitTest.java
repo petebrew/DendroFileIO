@@ -33,9 +33,10 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.tridas.io.defaults.TridasMetadataFieldSet;
 import org.tridas.io.exceptions.ConversionWarningException;
-import org.tridas.io.exceptions.IncompleteTridasDataException;
+import org.tridas.io.exceptions.ImpossibleConversionException;
 import org.tridas.io.exceptions.IncorrectDefaultFieldsException;
 import org.tridas.io.exceptions.InvalidDendroFileException;
+import org.tridas.io.exceptions.NothingToWriteException;
 import org.tridas.io.formats.catras.CatrasFile;
 import org.tridas.io.formats.catras.CatrasReader;
 import org.tridas.io.formats.tridas.TridasReader;
@@ -141,7 +142,7 @@ public class UnitTest extends TestCase {
 			writer.load(container, new TridasMetadataFieldSet());
 			writer.saveAllToDisk("target/TestOutput");
 			
-		} catch (IncompleteTridasDataException e) {
+		} catch (ImpossibleConversionException e) {
 			e.printStackTrace();
 			fail();
 		} catch (ConversionWarningException e) {
@@ -149,6 +150,8 @@ public class UnitTest extends TestCase {
 			fail();
 		} catch (IncorrectDefaultFieldsException e) {
 			e.printStackTrace();
+		} catch (NothingToWriteException e) {
+			fail();
 		} 
 		
 	}
@@ -218,7 +221,7 @@ public class UnitTest extends TestCase {
 		TucsonWriter tucsonwriter = new TucsonWriter();
 		try {
 			tucsonwriter.load(container, new TridasToTucsonDefaults());
-		} catch (IncompleteTridasDataException e) {
+		} catch (ImpossibleConversionException e) {
 			e.printStackTrace();
 		} catch (ConversionWarningException e) {
 			e.printStackTrace();
@@ -227,7 +230,11 @@ public class UnitTest extends TestCase {
 		} 
 		
 		// Actually save file(s) to disk
-		tucsonwriter.saveAllToDisk("target/TestOutput");
+		try {
+			tucsonwriter.saveAllToDisk("target/TestOutput");
+		} catch (NothingToWriteException e) {
+			fail();
+		}
 		
 	}
 	

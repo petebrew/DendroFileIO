@@ -20,7 +20,7 @@ import org.tridas.io.I18n;
 import org.tridas.io.defaults.IMetadataFieldSet;
 import org.tridas.io.exceptions.ConversionWarning;
 import org.tridas.io.exceptions.ConversionWarningException;
-import org.tridas.io.exceptions.IncompleteTridasDataException;
+import org.tridas.io.exceptions.ImpossibleConversionException;
 import org.tridas.io.exceptions.ConversionWarning.WarningType;
 import org.tridas.io.naming.INamingConvention;
 import org.tridas.io.naming.NumericalNamingConvention;
@@ -64,7 +64,7 @@ public class HeikkenenSingleWriter extends AbstractDendroCollectionWriter {
 	@Override
 	protected void parseTridasProject(TridasProject argProject,
 			IMetadataFieldSet argDefaults)
-			throws IncompleteTridasDataException {
+			throws ImpossibleConversionException {
 		
 		defaults = (TridasToHeikkenenSingleDefaults) argDefaults;
 		
@@ -110,7 +110,7 @@ public class HeikkenenSingleWriter extends AbstractDendroCollectionWriter {
 									try {
 										Double.parseDouble(v.getValue());
 									} catch (NumberFormatException e2) {
-										throw new IncompleteTridasDataException(I18n.getText("general.ringValuesNotNumbers"));
+										throw new ImpossibleConversionException(I18n.getText("general.ringValuesNotNumbers"));
 									}
 								}
 																
@@ -178,7 +178,7 @@ public class HeikkenenSingleWriter extends AbstractDendroCollectionWriter {
 					try {
 						Integer.parseInt(v.getValue());
 					} catch (NumberFormatException e2) {
-						throw new IncompleteTridasDataException(
+						throw new ImpossibleConversionException(
 								"One or more data values are not numbers!  This is technically acceptable in TRiDaS but not supported in this library.");
 					}
 				}
@@ -200,9 +200,13 @@ public class HeikkenenSingleWriter extends AbstractDendroCollectionWriter {
 				// Add file to list
 				addToFileList(file);
 			}
-
 			
-			
+		}
+		
+		if(this.getFiles().length==0)
+		{
+			this.clearWarnings();
+			throw new ImpossibleConversionException("File conversion failed.  This output format is unable to represent the data stored in the input file.");
 		}
 
 	}

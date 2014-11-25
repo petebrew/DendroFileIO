@@ -24,8 +24,9 @@ import org.slf4j.LoggerFactory;
 import org.tridas.io.defaults.IMetadataFieldSet;
 import org.tridas.io.exceptions.ConversionWarning;
 import org.tridas.io.exceptions.ConversionWarningException;
-import org.tridas.io.exceptions.IncompleteTridasDataException;
+import org.tridas.io.exceptions.ImpossibleConversionException;
 import org.tridas.io.exceptions.IncorrectDefaultFieldsException;
+import org.tridas.io.exceptions.NothingToWriteException;
 import org.tridas.io.naming.INamingConvention;
 import org.tridas.io.util.FileHelper;
 import org.tridas.schema.TridasProject;
@@ -73,10 +74,10 @@ public abstract class AbstractDendroCollectionWriter{
 	 * Loads a tridas container to convert into a legacy format, using the default metadata set
 	 * 
 	 * @param argProject
-	 * @throws IncompleteTridasDataException
+	 * @throws ImpossibleConversionException
 	 * @throws ConversionWarningException
 	 */
-	public void load(TridasTridas argContainer) throws IncompleteTridasDataException, ConversionWarningException {
+	public void load(TridasTridas argContainer) throws ImpossibleConversionException, ConversionWarningException {
 		IMetadataFieldSet defaults = constructDefaultMetadata();
 		parseTridasContainer(argContainer, defaults);
 	}
@@ -103,12 +104,12 @@ public abstract class AbstractDendroCollectionWriter{
 	 * 
 	 * @param argContainer
 	 * @param argDefaults
-	 * @throws IncompleteTridasDataException
+	 * @throws ImpossibleConversionException
 	 * @throws ConversionWarningException
 	 * @throws IncorrectDefaultFieldsException
 	 */
 	public void load(TridasTridas argContainer, IMetadataFieldSet argDefaults)
-			throws IncompleteTridasDataException, ConversionWarningException, IncorrectDefaultFieldsException {
+			throws ImpossibleConversionException, ConversionWarningException, IncorrectDefaultFieldsException {
 		if(argDefaults == null){
 			load(argContainer);
 		}
@@ -123,12 +124,12 @@ public abstract class AbstractDendroCollectionWriter{
 	 * 
 	 * @param argProject
 	 * @param argDefaults
-	 * @throws IncompleteTridasDataException
+	 * @throws ImpossibleConversionException
 	 * @throws ConversionWarningException
 	 * @throws IncorrectDefaultFieldsException
 	 */
 	public void load(TridasProject argProject, IMetadataFieldSet argDefaults)
-			throws IncompleteTridasDataException, ConversionWarningException, IncorrectDefaultFieldsException {
+			throws ImpossibleConversionException, ConversionWarningException, IncorrectDefaultFieldsException {
 		if(argDefaults == null){
 			load(argProject);
 		}
@@ -142,10 +143,10 @@ public abstract class AbstractDendroCollectionWriter{
 	 * Loads a TRiDaS project to convert into a legacy format, using the default metadata set
 	 * 
 	 * @param argProject
-	 * @throws IncompleteTridasDataException
+	 * @throws ImpossibleConversionException
 	 * @throws ConversionWarningException
 	 */
-	public void load(TridasProject argProject) throws IncompleteTridasDataException, ConversionWarningException {
+	public void load(TridasProject argProject) throws ImpossibleConversionException, ConversionWarningException {
 		IMetadataFieldSet defaults = constructDefaultMetadata();
 		parseTridasProject(argProject, defaults);
 	}
@@ -156,24 +157,24 @@ public abstract class AbstractDendroCollectionWriter{
 	 * 
 	 * @param argProject
 	 * @param argDefaults
-	 * @throws IncompleteTridasDataException
+	 * @throws ImpossibleConversionException
 	 * @throws ConversionWarningException
 	 * @throws IncorrectDefaultFieldsException
 	 * @deprecated @see org.tridas.io.AbstractDendroCollectionWriter#load(org.tridas.schema.TridasProject, org.tridas.io.default.IMetadataFieldSet)
 	 */
 	public void loadProject(TridasProject argProject, IMetadataFieldSet argDefaults)
-	throws IncompleteTridasDataException, ConversionWarningException, IncorrectDefaultFieldsException {
+	throws ImpossibleConversionException, ConversionWarningException, IncorrectDefaultFieldsException {
 	}
 	
 	/**
 	 * Deprecated.  Use load(TridasProject argProject) instead
 	 * 
 	 * @param argProject
-	 * @throws IncompleteTridasDataException
+	 * @throws ImpossibleConversionException
 	 * @throws ConversionWarningException
 	 * @deprecated @see org.tridas.io.AbstractDendroCollectionWriter#load(org.tridas.schema.TridasProject) 
 	 */
-	public void loadProject(TridasProject argProject) throws IncompleteTridasDataException, ConversionWarningException {
+	public void loadProject(TridasProject argProject) throws ImpossibleConversionException, ConversionWarningException {
 		load(argProject);
 	}
 	
@@ -183,23 +184,23 @@ public abstract class AbstractDendroCollectionWriter{
 	 * 
 	 * @param argProject
 	 * @param argDefaults
-	 * @throws IncompleteTridasDataException
+	 * @throws ImpossibleConversionException
 	 * @throws ConversionWarningException
 	 */
 	protected abstract void parseTridasProject(TridasProject argProject, IMetadataFieldSet argDefaults)
-			throws IncompleteTridasDataException, ConversionWarningException;
+			throws ImpossibleConversionException, ConversionWarningException;
 	
 	/**
 	 * Parse the TRiDaS container with the given defaults
 	 * 
 	 * @param argContainer
 	 * @param argDefaults
-	 * @throws IncompleteTridasDataException
+	 * @throws ImpossibleConversionException
 	 * @throws ConversionWarningException
 	 */
 	protected void parseTridasContainer(TridasTridas argContainer,
 			IMetadataFieldSet argDefaults)
-			throws IncompleteTridasDataException, ConversionWarningException {
+			throws ImpossibleConversionException, ConversionWarningException {
 	
 		for(TridasProject project : argContainer.getProjects())
 		{
@@ -230,8 +231,10 @@ public abstract class AbstractDendroCollectionWriter{
 	/**
 	 * Save all associated files to the disk
 	 * in the same folder as the jar.
+	 * 
+	 * @throws ImpossibleConversionException 
 	 */
-	public void saveAllToDisk() {
+	public void saveAllToDisk() throws NothingToWriteException {
 		saveAllToDisk("");
 	}
 	
@@ -240,12 +243,19 @@ public abstract class AbstractDendroCollectionWriter{
 	 * 
 	 * @param argOutputFolder
 	 *            the folder to save the files to
+	 * @throws ImpossibleConversionException 
 	 */
-	public void saveAllToDisk(String argOutputFolder) {
+	public void saveAllToDisk(String argOutputFolder) throws NothingToWriteException {
 		
 		if (!argOutputFolder.endsWith(File.separator) && !argOutputFolder.equals("")) {
 			argOutputFolder += File.separator;
 		}
+		
+		if(fileList == null || fileList.size()==0)
+		{
+			throw new NothingToWriteException();
+		}
+		
 		
 		for (IDendroFile dof : fileList) {
 			String filename = getNamingConvention().getFilename(dof);
@@ -254,7 +264,7 @@ public abstract class AbstractDendroCollectionWriter{
 	}
 		
 	/**
-	 * Used specify where to save each file individually.
+	 * User specify where to save each file individually.
 	 * 
 	 * @param argOutputFolder
 	 * @param argFile

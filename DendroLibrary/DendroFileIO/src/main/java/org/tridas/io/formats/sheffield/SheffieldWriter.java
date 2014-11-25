@@ -20,7 +20,7 @@ import org.tridas.io.I18n;
 import org.tridas.io.defaults.IMetadataFieldSet;
 import org.tridas.io.exceptions.ConversionWarning;
 import org.tridas.io.exceptions.ConversionWarningException;
-import org.tridas.io.exceptions.IncompleteTridasDataException;
+import org.tridas.io.exceptions.ImpossibleConversionException;
 import org.tridas.io.exceptions.ConversionWarning.WarningType;
 import org.tridas.io.naming.INamingConvention;
 import org.tridas.io.naming.NumericalNamingConvention;
@@ -74,7 +74,7 @@ public class SheffieldWriter extends AbstractDendroCollectionWriter {
 	@Override
 	protected void parseTridasProject(TridasProject argProject,
 			IMetadataFieldSet argDefaults)
-			throws IncompleteTridasDataException {
+			throws ImpossibleConversionException {
 		defaults = (TridasToSheffieldDefaults) argDefaults;
 		defaults.populateFromTridasProject(argProject);
 		
@@ -161,7 +161,7 @@ public class SheffieldWriter extends AbstractDendroCollectionWriter {
 								try {
 									theValues = UnitUtils.convertTridasValues(NormalTridasUnit.HUNDREDTH_MM, tvsgroup, true);
 								} catch (NumberFormatException e1) {
-									throw new IncompleteTridasDataException(I18n.getText("general.ringValuesNotNumbers"));
+									throw new ImpossibleConversionException(I18n.getText("general.ringValuesNotNumbers"));
 								} catch (ConversionWarningException e1) {
 									// Convertion failed so warn and stick with original values
 									this.addWarning(e1.getWarning());
@@ -189,7 +189,7 @@ public class SheffieldWriter extends AbstractDendroCollectionWriter {
 									}
 									catch (Exception e2)
 									{
-										throw new IncompleteTridasDataException(I18n.getText("general.ringValuesNotNumbers"));
+										throw new ImpossibleConversionException(I18n.getText("general.ringValuesNotNumbers"));
 									}
 								}
 								// Add series to file
@@ -301,6 +301,12 @@ public class SheffieldWriter extends AbstractDendroCollectionWriter {
 			}
 			
 		}
-		
+	
+
+		if(this.getFiles().length==0)
+		{
+			this.clearWarnings();
+			throw new ImpossibleConversionException("File conversion failed.  This output format is unable to represent the data stored in the input file.");
+		}
 	}
 }

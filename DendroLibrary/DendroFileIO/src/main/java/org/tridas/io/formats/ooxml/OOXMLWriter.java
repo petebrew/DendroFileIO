@@ -27,7 +27,7 @@ import org.tridas.io.I18n;
 import org.tridas.io.IDendroFile;
 import org.tridas.io.defaults.IMetadataFieldSet;
 import org.tridas.io.exceptions.ConversionWarningException;
-import org.tridas.io.exceptions.IncompleteTridasDataException;
+import org.tridas.io.exceptions.ImpossibleConversionException;
 import org.tridas.io.naming.INamingConvention;
 import org.tridas.io.naming.NumericalNamingConvention;
 import org.tridas.io.util.FileHelper;
@@ -48,7 +48,7 @@ public class OOXMLWriter extends AbstractDendroCollectionWriter {
 	
 	@Override
 	protected void parseTridasProject(TridasProject argProject, IMetadataFieldSet argDefaults)
-			throws IncompleteTridasDataException, ConversionWarningException {
+			throws ImpossibleConversionException, ConversionWarningException {
 		defaults = argDefaults;
 		
 		ArrayList<ITridasSeries> seriesList = new ArrayList<ITridasSeries>();
@@ -72,7 +72,8 @@ public class OOXMLWriter extends AbstractDendroCollectionWriter {
 		
 		// No series found
 		if (seriesList.size() == 0) {
-			throw new IncompleteTridasDataException(I18n.getText("fileio.noData"));
+			clearWarnings();
+			throw new ImpossibleConversionException(I18n.getText("fileio.noData"));
 		}
 		
 		OOXMLFile file = new OOXMLFile(argDefaults);

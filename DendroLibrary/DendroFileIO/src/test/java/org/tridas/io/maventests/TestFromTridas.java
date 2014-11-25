@@ -24,8 +24,9 @@ import junit.framework.TestCase;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.tridas.io.exceptions.ConversionWarningException;
-import org.tridas.io.exceptions.IncompleteTridasDataException;
+import org.tridas.io.exceptions.ImpossibleConversionException;
 import org.tridas.io.exceptions.InvalidDendroFileException;
+import org.tridas.io.exceptions.NothingToWriteException;
 import org.tridas.io.formats.belfastapple.BelfastAppleWriter;
 import org.tridas.io.formats.besancon.BesanconWriter;
 import org.tridas.io.formats.catras.CatrasWriter;
@@ -53,7 +54,7 @@ import org.tridas.schema.TridasTridas;
 public class TestFromTridas extends TestCase {
 	
 	private static final Logger log = LoggerFactory.getLogger(TestFromTridas.class);
-	private static final String outputLocation = "target/TestOutput";
+	private static final String outputLocation = "TestData/TRiDaS";
 	
 	private String[] getFilesFromFolder(String folder) {
 		File dir = new File(folder);
@@ -67,7 +68,7 @@ public class TestFromTridas extends TestCase {
 	}
 	
 	public void testTridasToFHX2(){
-		String folder = "TestData/TRiDaS";
+		String folder = "/tmp/test/";
 		String[] files = getFilesFromFolder(folder);
 		
 		if (files.length == 0) {
@@ -75,9 +76,7 @@ public class TestFromTridas extends TestCase {
 		}
 		
 		for (String filename : files) {
-			if (!filename.equals("FireHistory.xml")) {
-				continue;
-			}
+			
 			
 			log.info("Test conversion of: " + filename);
 			
@@ -105,7 +104,7 @@ public class TestFromTridas extends TestCase {
 			writer.setNamingConvention(new NumericalNamingConvention("FHX2"));
 			try {
 				writer.load(container);
-			} catch (IncompleteTridasDataException e) {
+			} catch (ImpossibleConversionException e) {
 				log.info("Failed Writing - " + e.getLocalizedMessage());
 				// fail();
 				continue;
@@ -114,12 +113,16 @@ public class TestFromTridas extends TestCase {
 			} 
 			
 			// Actually save file(s) to disk
-			writer.saveAllToDisk(outputLocation);
+			try {
+				writer.saveAllToDisk(outputLocation);
+			} catch (NothingToWriteException e) {
+				fail();
+			}
 		}
 	}
 	
 	public void testTridasToCSV() {
-		String folder = "TestData/TRiDaS";
+		String folder = "/tmp/test";
 		String[] files = getFilesFromFolder(folder);
 		
 		if (files.length == 0) {
@@ -157,7 +160,7 @@ public class TestFromTridas extends TestCase {
 			writer.setNamingConvention(new NumericalNamingConvention("CSVMatrix"));
 			try {
 				writer.load(container);
-			} catch (IncompleteTridasDataException e) {
+			} catch (ImpossibleConversionException e) {
 				log.info("Failed Writing - " + e.getLocalizedMessage());
 				// fail();
 				continue;
@@ -166,12 +169,16 @@ public class TestFromTridas extends TestCase {
 			} 
 			
 			// Actually save file(s) to disk
-			writer.saveAllToDisk(outputLocation);
+			try {
+				writer.saveAllToDisk(outputLocation);
+			} catch (NothingToWriteException e) {
+				fail();
+			}
 		}
 	}
 	
 	public void testTridasToTucson() {
-		String folder = "TestData/TRiDaS";
+		String folder = "/tmp/test";
 		String[] files = getFilesFromFolder(folder);
 		
 		if (files.length == 0) {
@@ -203,18 +210,23 @@ public class TestFromTridas extends TestCase {
 			tucsonwriter.setNamingConvention(nc);
 			try {
 				tucsonwriter.load(container);
-			} catch (IncompleteTridasDataException e) {
-				e.printStackTrace();
+			} catch (ImpossibleConversionException e) {
+				log.info(e.getLocalizedMessage());
+				return;
 			} catch (ConversionWarningException e) {
 			} 
 			
 			// Actually save file(s) to disk
-			tucsonwriter.saveAllToDisk(outputLocation);
+			try {
+				tucsonwriter.saveAllToDisk(outputLocation);
+			} catch (NothingToWriteException e) {
+				fail();
+			}
 		}
 	}
 	
 	public void testTridasToTopham() {
-		String folder = "TestData/TRiDaS";
+		String folder = "/tmp/test";
 		String[] files = getFilesFromFolder(folder);
 		
 		if (files.length == 0) {
@@ -245,19 +257,23 @@ public class TestFromTridas extends TestCase {
 			writer.setNamingConvention(new NumericalNamingConvention());
 			try {
 				writer.load(container);
-			} catch (IncompleteTridasDataException e) {
+			} catch (ImpossibleConversionException e) {
 				e.printStackTrace();
 			} catch (ConversionWarningException e) {
 			} 
 			
 			// Actually save file(s) to disk
-			writer.saveAllToDisk("target/TestOutput");
+			try {
+				writer.saveAllToDisk(outputLocation);
+			} catch (NothingToWriteException e) {
+				fail();
+			}
 		}
 	}
 	
 	
 	public void testTridasToHeidelberg() {
-		String folder = "TestData/TRiDaS";
+		String folder = "/tmp/test";
 		String[] files = getFilesFromFolder(folder);
 		
 		if (files.length == 0) {
@@ -291,18 +307,23 @@ public class TestFromTridas extends TestCase {
 			writer.setNamingConvention(new NumericalNamingConvention("Heidelberg-"+filename));
 			try {
 				writer.load(container);
-			} catch (IncompleteTridasDataException e) {
-				e.printStackTrace();
+			} catch (ImpossibleConversionException e) {
+				log.info(e.getLocalizedMessage());
+				return;
 			} catch (ConversionWarningException e) {
 			} 
 			
 			// Actually save file(s) to disk
-			writer.saveAllToDisk(outputLocation);
+			try {
+				writer.saveAllToDisk(outputLocation);
+			} catch (NothingToWriteException e) {
+				fail();
+			}
 		}
 	}
 	
 	public void testTridasToTrims() {
-		String folder = "TestData/TRiDaS";
+		String folder = "/tmp/test";
 		String[] files = getFilesFromFolder(folder);
 		
 		if (files.length == 0) {
@@ -334,18 +355,22 @@ public class TestFromTridas extends TestCase {
 			writer.setNamingConvention(new HierarchicalNamingConvention());
 			try {
 				writer.load(project);
-			} catch (IncompleteTridasDataException e) {
+			} catch (ImpossibleConversionException e) {
 				e.printStackTrace();
 			} catch (ConversionWarningException e) {
 			} 
 			
 			// Actually save file(s) to disk
-			writer.saveAllToDisk(outputLocation);
+			try {
+				writer.saveAllToDisk(outputLocation);
+			} catch (NothingToWriteException e) {
+				fail();
+			}
 		}
 	}
 	
 	public void testTridasToBelfastApple() {
-		String folder = "TestData/TRiDaS";
+		String folder = "/tmp/test";
 		String[] files = getFilesFromFolder(folder);
 		
 		if (files.length == 0) {
@@ -377,18 +402,23 @@ public class TestFromTridas extends TestCase {
 			writer.setNamingConvention(new NumericalNamingConvention("BelfastTestOut-"+filename));
 			try {
 				writer.load(container);
-			} catch (IncompleteTridasDataException e) {
-				e.printStackTrace();
+			} catch (ImpossibleConversionException e) {
+				log.info(e.getLocalizedMessage());
+				return;
 			} catch (ConversionWarningException e) {
 			} 
 			
 			// Actually save file(s) to disk
-			writer.saveAllToDisk(outputLocation);
+			try {
+				writer.saveAllToDisk(outputLocation);
+			} catch (NothingToWriteException e) {
+				fail();
+			}
 		}
 	}
 	
 	public void testTridasToExcelMatrix() {
-		String folder = "TestData/TRiDaS";
+		String folder = "/tmp/test";
 		String[] files = getFilesFromFolder(folder);
 		
 		if (files.length == 0) {
@@ -424,18 +454,22 @@ public class TestFromTridas extends TestCase {
 				//		.lastIndexOf("."))));
 				writer.setNamingConvention(new NumericalNamingConvention());
 				writer.load(container);
-			} catch (IncompleteTridasDataException e) {
+			} catch (ImpossibleConversionException e) {
 				e.printStackTrace();
 			} catch (ConversionWarningException e) {
 			} 
 			
 			// Actually save file(s) to disk
-			writer.saveAllToDisk(outputLocation);
+			try {
+				writer.saveAllToDisk(outputLocation);
+			} catch (NothingToWriteException e) {
+				fail();
+			}
 		}
 	}
 	
-	public void  n() {
-		String folder = "TestData/TRiDaS";
+	public void  testTridasToSheffield() {
+		String folder = "/tmp/test";
 		String[] files = getFilesFromFolder(folder);
 		
 		if (files.length == 0) {
@@ -444,7 +478,6 @@ public class TestFromTridas extends TestCase {
 		
 		for (String filename : files) {
 				
-			if(!filename.equals("TridasMultiVars.xml")) continue;
 			log.info("Test conversion of: " + filename);
 			
 			TridasTridas container = null;
@@ -468,18 +501,22 @@ public class TestFromTridas extends TestCase {
 			writer.setNamingConvention(new NumericalNamingConvention());
 			try {
 				writer.load(container);
-			} catch (IncompleteTridasDataException e) {
+			} catch (ImpossibleConversionException e) {
 				e.printStackTrace();
 			} catch (ConversionWarningException e) {
 			} 
 			
 			// Actually save file(s) to disk
-			writer.saveAllToDisk(outputLocation);
+			try {
+				writer.saveAllToDisk(outputLocation);
+			} catch (NothingToWriteException e) {
+				fail();
+			}
 		}
 	}
 	
 	public void testTridasToNottingham() {
-		String folder = "TestData/TRiDaS";
+		String folder = "/tmp/test";
 		String[] files = getFilesFromFolder(folder);
 		
 		if (files.length == 0) {
@@ -488,7 +525,6 @@ public class TestFromTridas extends TestCase {
 		
 		for (String filename : files) {
 				
-			//if(!filename.equals("TridasMultiVars.xml")) continue;
 			log.info("Test conversion of: " + filename);
 			
 			TridasTridas container = null;
@@ -512,18 +548,22 @@ public class TestFromTridas extends TestCase {
 			writer.setNamingConvention(new NumericalNamingConvention());
 			try {
 				writer.load(container);
-			} catch (IncompleteTridasDataException e) {
+			} catch (ImpossibleConversionException e) {
 				e.printStackTrace();
 			} catch (ConversionWarningException e) {
 			} 
 			
 			// Actually save file(s) to disk
-			writer.saveAllToDisk(outputLocation);
+			try {
+				writer.saveAllToDisk(outputLocation);
+			} catch (NothingToWriteException e) {
+				fail();
+			}
 		}
 	}
 	
 	public void testTridasToODFMatrix() {
-		String folder = "TestData/TRiDaS";
+		String folder = "/tmp/test";
 		String[] files = getFilesFromFolder(folder);
 		
 		if (files.length == 0) {
@@ -532,7 +572,6 @@ public class TestFromTridas extends TestCase {
 		
 		for (String filename : files) {
 				
-			if(!filename.equals("Tridas1.xml")) continue;
 			log.info("Test conversion of: " + filename);
 			
 			TridasTridas container = null;
@@ -556,7 +595,7 @@ public class TestFromTridas extends TestCase {
 			writer.setNamingConvention(new NumericalNamingConvention());
 			try {
 				writer.load(container);
-			} catch (IncompleteTridasDataException e) {
+			} catch (ImpossibleConversionException e) {
 				e.printStackTrace();
 				fail();
 			} catch (ConversionWarningException e) {
@@ -565,12 +604,16 @@ public class TestFromTridas extends TestCase {
 			} 
 			
 			// Actually save file(s) to disk
-			writer.saveAllToDisk(outputLocation);
+			try {
+				writer.saveAllToDisk(outputLocation);
+			} catch (NothingToWriteException e) {
+				fail();
+			}
 		}
 	}
 	
 	public void testTridasToOxford() {
-		String folder = "TestData/TRiDaS";
+		String folder = "/tmp/test";
 		String[] files = getFilesFromFolder(folder);
 		
 		if (files.length == 0) {
@@ -579,7 +622,6 @@ public class TestFromTridas extends TestCase {
 		
 		for (String filename : files) {
 				
-			if(!filename.equals("Utrecht.xml")) continue;
 			log.info("Test conversion of: " + filename);
 			
 			TridasTridas container = null;
@@ -603,7 +645,7 @@ public class TestFromTridas extends TestCase {
 			writer.setNamingConvention(new NumericalNamingConvention());
 			try {
 				writer.load(container);
-			} catch (IncompleteTridasDataException e) {
+			} catch (ImpossibleConversionException e) {
 				e.printStackTrace();
 				fail();
 			} catch (ConversionWarningException e) {
@@ -612,12 +654,16 @@ public class TestFromTridas extends TestCase {
 			} 
 			
 			// Actually save file(s) to disk
-			writer.saveAllToDisk(outputLocation);
+			try {
+				writer.saveAllToDisk(outputLocation);
+			} catch (NothingToWriteException e) {
+				fail();
+			}
 		}
 	}
 	
 	public void testTridasToTucsonCompact() {
-		String folder = "TestData/TRiDaS";
+		String folder = "/tmp/test";
 		String[] files = getFilesFromFolder(folder);
 		
 		if (files.length == 0) {
@@ -626,7 +672,6 @@ public class TestFromTridas extends TestCase {
 		
 		for (String filename : files) {
 				
-			//if(!filename.equals("TridasMultiVars.xml")) continue;
 			log.info("Test conversion of: " + filename);
 			
 			TridasTridas container = null;
@@ -650,18 +695,22 @@ public class TestFromTridas extends TestCase {
 			writer.setNamingConvention(new NumericalNamingConvention());
 			try {
 				writer.load(container);
-			} catch (IncompleteTridasDataException e) {
+			} catch (ImpossibleConversionException e) {
 				e.printStackTrace();
 			} catch (ConversionWarningException e) {
 			} 
 			
 			// Actually save file(s) to disk
-			writer.saveAllToDisk(outputLocation);
+			try {
+				writer.saveAllToDisk(outputLocation);
+			} catch (NothingToWriteException e) {
+				fail();
+			}
 		}
 	}
 	
 	public void testTridasToCorina() {
-		String folder = "TestData/TRiDaS";
+		String folder = "/tmp/test";
 		String[] files = getFilesFromFolder(folder);
 		
 		if (files.length == 0) {
@@ -670,7 +719,6 @@ public class TestFromTridas extends TestCase {
 		
 		for (String filename : files) {
 				
-			//if(!filename.equals("TridasMultiVars.xml")) continue;
 			log.info("Test conversion of: " + filename);
 			
 			TridasTridas container = null;
@@ -694,18 +742,23 @@ public class TestFromTridas extends TestCase {
 			writer.setNamingConvention(new NumericalNamingConvention());
 			try {
 				writer.load(container);
-			} catch (IncompleteTridasDataException e) {
-				e.printStackTrace();
+			} catch (ImpossibleConversionException e) {
+				log.info(e.getLocalizedMessage());
+				return;
 			} catch (ConversionWarningException e) {
 			} 
 			
 			// Actually save file(s) to disk
-			writer.saveAllToDisk(outputLocation);
+			try {
+				writer.saveAllToDisk(outputLocation);
+			} catch (NothingToWriteException e) {
+				fail();
+			}
 		}
 	}
 	
 	public void testTridasToCatras() {
-			String folder = "TestData/TRiDaS";
+			String folder = "/tmp/test";
 			String[] files = getFilesFromFolder(folder);
 			
 			if (files.length == 0) {
@@ -713,7 +766,6 @@ public class TestFromTridas extends TestCase {
 			}
 			
 			for (String filename : files) {
-				if(!filename.equals("Tridas1.xml")) continue;
 				
 				log.info("Test conversion of: " + filename);
 				
@@ -739,21 +791,25 @@ public class TestFromTridas extends TestCase {
 				try {
 					writer.setNamingConvention(new SeriesCode8CharNamingConvention());
 					writer.load(container);
-				} catch (IncompleteTridasDataException e) {
-					e.printStackTrace();
+				} catch (ImpossibleConversionException e) {
+					log.info(e.getLocalizedMessage());
+					return;
 				} catch (ConversionWarningException e) {
 				} 
 				
 				
-				
 				// Actually save file(s) to disk
-				writer.saveAllToDisk(outputLocation);
+				try {
+					writer.saveAllToDisk(outputLocation);
+				} catch (NothingToWriteException e) {
+					fail();
+				}
 			}
 		}
 		
 	
 	public void testTridasToBesancon() {
-		String folder = "TestData/TRiDaS";
+		String folder = "/tmp/test";
 		String[] files = getFilesFromFolder(folder);
 		
 		if (files.length == 0) {
@@ -762,7 +818,6 @@ public class TestFromTridas extends TestCase {
 		
 		for (String filename : files) {
 				
-			if(!filename.equals("DerivedSeriesLinkedToDSeries.xml")) continue;
 			log.info("Test conversion of: " + filename);
 			
 			TridasTridas container = null;
@@ -786,18 +841,23 @@ public class TestFromTridas extends TestCase {
 			writer.setNamingConvention(new NumericalNamingConvention("Bescancon-"+filename));
 			try {
 				writer.load(container);
-			} catch (IncompleteTridasDataException e) {
-				e.printStackTrace();
+			} catch (ImpossibleConversionException e) {
+				log.info(e.getLocalizedMessage());
+				return;
 			} catch (ConversionWarningException e) {
 			} 
 			
 			// Actually save file(s) to disk
-			writer.saveAllToDisk(outputLocation);
+			try {
+				writer.saveAllToDisk(outputLocation);
+			} catch (NothingToWriteException e) {
+				fail();
+			}
 		}
 	}
 	
 	public void testTridasToVFormat() {
-		String folder = "TestData/TRiDaS";
+		String folder = "/tmp/test";
 		String[] files = getFilesFromFolder(folder);
 		
 		if (files.length == 0) {
@@ -830,19 +890,23 @@ public class TestFromTridas extends TestCase {
 			writer.setNamingConvention(new NumericalNamingConvention());
 			try {
 				writer.load(container);
-			} catch (IncompleteTridasDataException e) {
+			} catch (ImpossibleConversionException e) {
 				e.printStackTrace();
 			} catch (ConversionWarningException e) {
 				e.printStackTrace();
 			} 
 			
 			// Actually save file(s) to disk
-			writer.saveAllToDisk(outputLocation);
+			try {
+				writer.saveAllToDisk(outputLocation);
+			} catch (NothingToWriteException e) {
+				fail();
+			}
 		}
 	}
 	
 	public void testTridasToPast4() {
-		String folder = "TestData/TRiDaS";
+		String folder = "/tmp/test";
 		String[] files = getFilesFromFolder(folder);
 		
 		if (files.length == 0) {
@@ -875,13 +939,17 @@ public class TestFromTridas extends TestCase {
 			writer.setNamingConvention(new NumericalNamingConvention());
 			try {
 				writer.load(container);
-			} catch (IncompleteTridasDataException e) {
+			} catch (ImpossibleConversionException e) {
 				e.printStackTrace();
 			} catch (ConversionWarningException e) {
 			} 
 			
 			// Actually save file(s) to disk
-			writer.saveAllToDisk(outputLocation);
+			try {
+				writer.saveAllToDisk(outputLocation);
+			} catch (NothingToWriteException e) {
+				fail();
+			}
 		}
 	}
 }

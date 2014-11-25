@@ -22,7 +22,7 @@ import org.tridas.io.AbstractDendroFormat;
 import org.tridas.io.I18n;
 import org.tridas.io.defaults.IMetadataFieldSet;
 import org.tridas.io.exceptions.ConversionWarning;
-import org.tridas.io.exceptions.IncompleteTridasDataException;
+import org.tridas.io.exceptions.ImpossibleConversionException;
 import org.tridas.io.exceptions.ConversionWarning.WarningType;
 import org.tridas.io.naming.INamingConvention;
 import org.tridas.io.naming.NamingConventionGrouper;
@@ -63,7 +63,7 @@ public class HeidelbergWriter extends AbstractDendroCollectionWriter {
 	
 	@Override
 	protected void parseTridasProject(TridasProject argProject, IMetadataFieldSet argDefaults)
-			throws IncompleteTridasDataException {
+			throws ImpossibleConversionException {
 		defaults = (TridasToHeidelbergDefaults) argDefaults;
 		defaults.populateFromTridasProject(argProject);
 		
@@ -144,7 +144,7 @@ public class HeidelbergWriter extends AbstractDendroCollectionWriter {
 								{
 									if(!StringUtils.isStringWholeInteger(v.getValue()))
 									{
-										throw new IncompleteTridasDataException(
+										throw new ImpossibleConversionException(
 												I18n.getText("general.ringValuesNotWholeNumbers"));
 									}
 								}
@@ -241,7 +241,7 @@ public class HeidelbergWriter extends AbstractDendroCollectionWriter {
 						try {
 							Integer.parseInt(v.getValue());
 						} catch (NumberFormatException e2) {
-							throw new IncompleteTridasDataException(
+							throw new ImpossibleConversionException(
 									I18n.getText("heidelberg.integerValuesOnly"));
 						}
 					}
@@ -310,6 +310,12 @@ public class HeidelbergWriter extends AbstractDendroCollectionWriter {
 		if(file.getSeries().length>0)
 		{
 			addToFileList(file);
+		}
+		
+		if(this.getFiles().length==0)
+		{
+			this.clearWarnings();
+			throw new ImpossibleConversionException("File conversion failed.  This output format is unable to represent the data stored in the input file.");
 		}
 	}
 	

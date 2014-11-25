@@ -20,7 +20,7 @@ import java.util.ArrayList;
 import org.tridas.interfaces.ITridasSeries;
 import org.tridas.io.IDendroFile;
 import org.tridas.io.defaults.IMetadataFieldSet;
-import org.tridas.io.exceptions.IncompleteTridasDataException;
+import org.tridas.io.exceptions.ImpossibleConversionException;
 import org.tridas.io.formats.sheffield.TridasToSheffieldDefaults.DefaultFields;
 import org.tridas.io.formats.sheffield.TridasToSheffieldDefaults.SheffieldPeriodCode;
 import org.tridas.schema.TridasDerivedSeries;
@@ -41,20 +41,20 @@ public class SheffieldFile implements IDendroFile {
 	/**
 	 * Set the series that this Sheffield file represents
 	 * @param ser
-	 * @throws IncompleteTridasDataException 
+	 * @throws ImpossibleConversionException 
 	 */
-	public void setSeries(ITridasSeries ser, TridasValues vals) throws IncompleteTridasDataException
+	public void setSeries(ITridasSeries ser, TridasValues vals) throws ImpossibleConversionException
 	{
 		
 		if(vals==null)
 		{
-			throw new IncompleteTridasDataException("Series contains no data values");
+			throw new ImpossibleConversionException("Series contains no data values");
 			
 		}
 		
 		if(ser==null)
 		{
-			throw new IncompleteTridasDataException("Series is empty");
+			throw new ImpossibleConversionException("Series is empty");
 			
 		}
 		

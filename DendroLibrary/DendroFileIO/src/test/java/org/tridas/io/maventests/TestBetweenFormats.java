@@ -24,9 +24,10 @@ import junit.framework.TestCase;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.tridas.io.exceptions.ConversionWarningException;
-import org.tridas.io.exceptions.IncompleteTridasDataException;
+import org.tridas.io.exceptions.ImpossibleConversionException;
 import org.tridas.io.exceptions.IncorrectDefaultFieldsException;
 import org.tridas.io.exceptions.InvalidDendroFileException;
+import org.tridas.io.exceptions.NothingToWriteException;
 import org.tridas.io.formats.trims.TrimsWriter;
 import org.tridas.io.formats.tucson.TucsonReader;
 import org.tridas.io.formats.tucson.TucsonToTridasDefaults;
@@ -87,11 +88,15 @@ public class TestBetweenFormats extends TestCase {
 			
 			try {
 				writer.load(container);
-			} catch (IncompleteTridasDataException e) {
+				writer.saveAllToDisk(outputLocation);
+			} catch (ImpossibleConversionException e) {
 				fail();
 			} catch (ConversionWarningException e) {
+			} catch (NothingToWriteException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
 			} 
-			writer.saveAllToDisk(outputLocation);
+			
 			
 		}
 	}

@@ -21,22 +21,26 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 /**
- * This exception is thrown when a Tridas entity is not complete. This
- * typically happens when an entity with no child entities is passed e.g.
+ * This exception is thrown when a conversion is not possible. 
+ * 
+ * This typically happens when the provided TRiDaS entity is incomplete e.g. when an entity with no child entities is passed such as
  * a TridasObject with no TridasElements.
+ * 
+ * It's also used when an output format is incapable of storing the data being passed to it e.g. a format that only handles ring widths
+ * is passed a ring density data.
  * 
  * @author peterbrewer
  */
-public class IncompleteTridasDataException extends IOException {
+public class ImpossibleConversionException extends IOException {
 	
-	private static final Logger log = LoggerFactory.getLogger(IncompleteTridasDataException.class);
+	private static final Logger log = LoggerFactory.getLogger(ImpossibleConversionException.class);
 	private static final long serialVersionUID = 1L;
 	
 	/**
 	 * Basic non-descriptive missing data exception
 	 */
-	public IncompleteTridasDataException() {
-		super("Missing data from TRiDaS classes");
+	public ImpossibleConversionException() {
+		super("Unable to convert to this output format");
 	}
 	
 	/**
@@ -45,9 +49,9 @@ public class IncompleteTridasDataException extends IOException {
 	 * 
 	 * @param s
 	 */
-	public IncompleteTridasDataException(String s) {
+	public ImpossibleConversionException(String s) {
 		// For now, just dump debug info
 		super(s);
-		log.error("Incomplete TRiDaS Data: " + s);
+		log.error(s);
 	}
 }
