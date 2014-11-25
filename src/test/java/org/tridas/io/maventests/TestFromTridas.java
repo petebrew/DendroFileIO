@@ -54,7 +54,7 @@ import org.tridas.schema.TridasTridas;
 public class TestFromTridas extends TestCase {
 	
 	private static final Logger log = LoggerFactory.getLogger(TestFromTridas.class);
-	private static final String outputLocation = "TestData/TRiDaS";
+	private static final String outputLocation = System.getProperty("java.io.tmpdir");
 	
 	private String[] getFilesFromFolder(String folder) {
 		File dir = new File(folder);
@@ -68,7 +68,7 @@ public class TestFromTridas extends TestCase {
 	}
 	
 	public void testTridasToFHX2(){
-		String folder = "/tmp/test/";
+		String folder = "TestData/TRiDaS";
 		String[] files = getFilesFromFolder(folder);
 		
 		if (files.length == 0) {
@@ -122,7 +122,7 @@ public class TestFromTridas extends TestCase {
 	}
 	
 	public void testTridasToCSV() {
-		String folder = "/tmp/test";
+		String folder = "TestData/TRiDaS";
 		String[] files = getFilesFromFolder(folder);
 		
 		if (files.length == 0) {
@@ -178,7 +178,7 @@ public class TestFromTridas extends TestCase {
 	}
 	
 	public void testTridasToTucson() {
-		String folder = "/tmp/test";
+		String folder = "TestData/TRiDaS";
 		String[] files = getFilesFromFolder(folder);
 		
 		if (files.length == 0) {
@@ -226,7 +226,7 @@ public class TestFromTridas extends TestCase {
 	}
 	
 	public void testTridasToTopham() {
-		String folder = "/tmp/test";
+		String folder = "TestData/TRiDaS";
 		String[] files = getFilesFromFolder(folder);
 		
 		if (files.length == 0) {
@@ -273,7 +273,7 @@ public class TestFromTridas extends TestCase {
 	
 	
 	public void testTridasToHeidelberg() {
-		String folder = "/tmp/test";
+		String folder = "TestData/TRiDaS";
 		String[] files = getFilesFromFolder(folder);
 		
 		if (files.length == 0) {
@@ -323,7 +323,7 @@ public class TestFromTridas extends TestCase {
 	}
 	
 	public void testTridasToTrims() {
-		String folder = "/tmp/test";
+		String folder = "TestData/TRiDaS";
 		String[] files = getFilesFromFolder(folder);
 		
 		if (files.length == 0) {
@@ -370,7 +370,7 @@ public class TestFromTridas extends TestCase {
 	}
 	
 	public void testTridasToBelfastApple() {
-		String folder = "/tmp/test";
+		String folder = "TestData/TRiDaS";
 		String[] files = getFilesFromFolder(folder);
 		
 		if (files.length == 0) {
@@ -378,7 +378,7 @@ public class TestFromTridas extends TestCase {
 		}
 		
 		for (String filename : files) {
-			//if(!filename.equals("DerivedSeriesLinkedToDSeries.xml")) continue;
+			//if(!filename.equals("Tridas1.xml")) continue;
 			log.info("Test conversion of: " + filename);
 			
 			TridasTridas container = null;
@@ -411,6 +411,7 @@ public class TestFromTridas extends TestCase {
 			// Actually save file(s) to disk
 			try {
 				writer.saveAllToDisk(outputLocation);
+			
 			} catch (NothingToWriteException e) {
 				fail();
 			}
@@ -418,7 +419,7 @@ public class TestFromTridas extends TestCase {
 	}
 	
 	public void testTridasToExcelMatrix() {
-		String folder = "/tmp/test";
+		String folder = "TestData/TRiDaS";
 		String[] files = getFilesFromFolder(folder);
 		
 		if (files.length == 0) {
@@ -469,7 +470,7 @@ public class TestFromTridas extends TestCase {
 	}
 	
 	public void  testTridasToSheffield() {
-		String folder = "/tmp/test";
+		String folder = "TestData/TRiDaS";
 		String[] files = getFilesFromFolder(folder);
 		
 		if (files.length == 0) {
@@ -516,7 +517,7 @@ public class TestFromTridas extends TestCase {
 	}
 	
 	public void testTridasToNottingham() {
-		String folder = "/tmp/test";
+		String folder = "TestData/TRiDaS";
 		String[] files = getFilesFromFolder(folder);
 		
 		if (files.length == 0) {
@@ -563,7 +564,7 @@ public class TestFromTridas extends TestCase {
 	}
 	
 	public void testTridasToODFMatrix() {
-		String folder = "/tmp/test";
+		String folder = "TestData/TRiDaS";
 		String[] files = getFilesFromFolder(folder);
 		
 		if (files.length == 0) {
@@ -613,7 +614,7 @@ public class TestFromTridas extends TestCase {
 	}
 	
 	public void testTridasToOxford() {
-		String folder = "/tmp/test";
+		String folder = "TestData/TRiDaS";
 		String[] files = getFilesFromFolder(folder);
 		
 		if (files.length == 0) {
@@ -663,7 +664,7 @@ public class TestFromTridas extends TestCase {
 	}
 	
 	public void testTridasToTucsonCompact() {
-		String folder = "/tmp/test";
+		String folder = "TestData/TRiDaS";
 		String[] files = getFilesFromFolder(folder);
 		
 		if (files.length == 0) {
@@ -710,7 +711,7 @@ public class TestFromTridas extends TestCase {
 	}
 	
 	public void testTridasToCorina() {
-		String folder = "/tmp/test";
+		String folder = "TestData/TRiDaS";
 		String[] files = getFilesFromFolder(folder);
 		
 		if (files.length == 0) {
@@ -758,7 +759,7 @@ public class TestFromTridas extends TestCase {
 	}
 	
 	public void testTridasToCatras() {
-			String folder = "/tmp/test";
+			String folder = "TestData/TRiDaS";
 			String[] files = getFilesFromFolder(folder);
 			
 			if (files.length == 0) {
@@ -809,7 +810,7 @@ public class TestFromTridas extends TestCase {
 		
 	
 	public void testTridasToBesancon() {
-		String folder = "/tmp/test";
+		String folder = "TestData/TRiDaS";
 		String[] files = getFilesFromFolder(folder);
 		
 		if (files.length == 0) {
@@ -857,7 +858,7 @@ public class TestFromTridas extends TestCase {
 	}
 	
 	public void testTridasToVFormat() {
-		String folder = "/tmp/test";
+		String folder = "TestData/TRiDaS";
 		String[] files = getFilesFromFolder(folder);
 		
 		if (files.length == 0) {
@@ -906,7 +907,7 @@ public class TestFromTridas extends TestCase {
 	}
 	
 	public void testTridasToPast4() {
-		String folder = "/tmp/test";
+		String folder = "TestData/TRiDaS";
 		String[] files = getFilesFromFolder(folder);
 		
 		if (files.length == 0) {
