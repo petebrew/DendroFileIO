@@ -28,6 +28,7 @@ import org.tridas.io.I18n;
 import org.tridas.io.IDendroFile;
 import org.tridas.io.defaults.IMetadataFieldSet;
 import org.tridas.io.defaults.values.GenericDefaultValue;
+import org.tridas.io.exceptions.ImpossibleConversionException;
 import org.tridas.io.formats.catras.CatrasToTridasDefaults.CATRASLastRing;
 import org.tridas.io.formats.catras.CatrasToTridasDefaults.CATRASProtection;
 import org.tridas.io.formats.catras.CatrasToTridasDefaults.CATRASScope;
@@ -99,9 +100,15 @@ public class CatrasFile implements IDendroFile {
 		for(TridasValue val : dataValues.getValues())
 		{
 			String intval = val.getValue();
-			byte[] bytePair = CatrasFile.getIntAsBytePair(Integer.parseInt(intval), true);
-			insertIntoArray(dataArr, bytePair, i, i+1);
-			i = i+2;
+			try{
+				byte[] bytePair = CatrasFile.getIntAsBytePair(Integer.parseInt(intval), true);
+				insertIntoArray(dataArr, bytePair, i, i+1);
+				i = i+2;
+			} catch (NumberFormatException e)
+			{
+				throw new ImpossibleConversionException("Data value is beyond range that can be held by CATRAS format");
+			}
+
 		}
 		
 		return dataArr;
@@ -141,7 +148,7 @@ public class CatrasFile implements IDendroFile {
 	}
 	
 	@SuppressWarnings("unchecked")
-	public byte[] getFileAsBytes() throws IOException{
+	public byte[] getFileAsBytes() throws IOException, ImpossibleConversionException{
 	
 		byte[] file = new byte[getSizeOfFileInBytes()];
 		

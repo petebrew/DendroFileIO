@@ -66,6 +66,7 @@ public class UnitUtils {
 		return BigInteger.valueOf(Math.round(UnitUtils.convertDouble(inputunits, outputunits, val)));
 	}
 	
+	
 	/**
 	 * Parse a NormalTridasUnit from a string
 	 * 
@@ -231,7 +232,7 @@ public class UnitUtils {
 		
 		try{
 			 inputunits = tv.getUnit().getNormalTridas();
-			 log.debug("Input units are: "+inputunits.name());
+			 //log.debug("Input units are: "+inputunits.name());
 		} catch (Exception e)
 		{
 			throw new ConversionWarningException(new ConversionWarning(WarningType.AMBIGUOUS, I18n.getText("fileio.convertsOnlyTridasUnits")));
@@ -404,6 +405,37 @@ public class UnitUtils {
 		return values;
 	}
 	
+	public static TridasValues convertTridasValuesWithMaxValue(NormalTridasUnit outputunits, TridasValues tv, 
+			Boolean outputAsIntegers, Integer highestValue) 
+	throws NumberFormatException, ConversionWarningException
+	{
+		TridasValues values = convertTridasValues(outputunits, tv, outputAsIntegers);
+		
+		if(!checkValuesBelowMax(values, highestValue))
+		{
+			throw new ConversionWarningException(new ConversionWarning(WarningType.UNREPRESENTABLE,
+					I18n.getText("general.valueTooLarge")));
+		}
+
+		return values;
+	}
+	
+	public static TridasValues convertTridasValuesInRange(NormalTridasUnit outputunits, TridasValues tv, 
+			Boolean outputAsIntegers, Integer minValue, Integer maxValue) 
+	throws NumberFormatException, ConversionWarningException
+	{
+		TridasValues values = convertTridasValues(outputunits, tv, outputAsIntegers);
+		
+		if(!checkValuesInRange(values, minValue, maxValue))
+		{
+			throw new ConversionWarningException(new ConversionWarning(WarningType.UNREPRESENTABLE,
+					I18n.getText("general.valueOutOfRange")));
+		}
+
+		return values;
+	}
+	
+	
 	public static Boolean checkValuesFitInFields(TridasValues tv, Integer maxDigits)
 	{
 		for (TridasValue val : tv.getValues())
@@ -416,5 +448,46 @@ public class UnitUtils {
 		
 		return true;
 	}
+	
+	public static Boolean checkValuesBelowMax(TridasValues tv, int maxvalue)
+	{
+		for (TridasValue val : tv.getValues())
+		{
+			try{
+				Integer value = Integer.parseInt(val.getValue());
+				if(value>maxvalue)
+				{
+					return false;
+				}
+			} catch (NumberFormatException e)
+			{
+				return false;
+			}
+			
+		}
+		
+		return true;
+	}
+	
+	public static Boolean checkValuesInRange(TridasValues tv, int minvalue, int maxvalue)
+	{
+		for (TridasValue val : tv.getValues())
+		{
+			try{
+				Integer value = Integer.parseInt(val.getValue());
+				if(value>maxvalue || value < minvalue)
+				{
+					return false;
+				}
+			} catch (NumberFormatException e)
+			{
+				return false;
+			}
+			
+		}
+		
+		return true;
+	}
+	
 	
 }

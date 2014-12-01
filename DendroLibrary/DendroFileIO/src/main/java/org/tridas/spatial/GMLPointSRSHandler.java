@@ -165,12 +165,12 @@ public class GMLPointSRSHandler  {
 		if(point.isSetSrsName())
 		{
 			srsName = point.getSrsName().trim().replace(" ", "");
-			log.debug("Raw SRSName string in GML is "+srsName);
+			//log.debug("Raw SRSName string in GML is "+srsName);
 		}
 		else
 		{
 			// no srsName so presume WGS84
-			log.debug("no SRSName in GML so assuming WGS84");
+			//log.debug("no SRSName in GML so assuming WGS84");
 			return;
 		}
 			
@@ -213,7 +213,7 @@ public class GMLPointSRSHandler  {
 			try
 			{	
 				Integer code = Integer.parseInt(urnparts[6]);
-				log.debug("Looking up srsname = "+code);
+				//log.debug("Looking up srsname = "+code);
 				
 				CoordinateReferenceSystem crs = (CoordinateReferenceSystem) TridasIO.crsMap.get(code);
 				
@@ -251,7 +251,7 @@ public class GMLPointSRSHandler  {
 		else if (srsName.equalsIgnoreCase("WGS84") || (srsName.equals("EPSG:4326")) || (srsName.equals("EPSG::4326")))
 		{
 			// Default WGS84 srsname so no need to do anything
-			log.info("Standard SRSName so no need to do anything about projecting or axis order");
+			//log.info("Standard SRSName so no need to do anything about projecting or axis order");
 			return;
 		}
 		

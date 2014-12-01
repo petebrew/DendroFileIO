@@ -66,7 +66,7 @@ public class TridasVersionTransformer {
 		ArrayList<InputStream> xsllist = new ArrayList<InputStream>();
 		if(inputVersion.equals(outputVersion))
 		{
-			log.info("The input file is already v"+inputVersion.versionString+" so file will not be transformed");
+			//log.info("The input file is already v"+inputVersion.versionString+" so file will not be transformed");
 			return inputFileStrings;
 		}
 		if(inputVersion.equals(TridasVersion.V_1_2_2) &&
@@ -160,7 +160,7 @@ public class TridasVersionTransformer {
 			transformer.transform(source, result);
 			String outstring = result.getWriter().toString();
 			String[] outstrings = outstring.split("\\n");
-			log.debug("Transformation complete!");
+			//log.debug("Transformation complete!");
 			return outstrings;
 			
 		} catch (TransformerConfigurationException tce) {

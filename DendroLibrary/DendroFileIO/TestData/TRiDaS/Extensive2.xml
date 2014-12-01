@@ -1,0 +1,339 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project xmlns="http://www.tridas.org/1.2.2"
+ xmlns:xlink="http://www.w3.org/1999/xlink"
+ xmlns:gml="http://www.opengis.net/gml"
+ xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+ xsi:schemaLocation="http://www.tridas.org/1.2.2 file:/Users/peterbrewer/dev/sourceforge/tridas/XMLSchema/1.2.2/tridas-1.2.2.xsd">
+        <title>title0</title>
+        <identifier domain="domain1">identifier0</identifier>
+        <createdTimestamp certainty="unknown">2006-05-04T18:13:51.0Z</createdTimestamp>
+        <lastModifiedTimestamp certainty="unknown">2006-05-04T18:13:51.0Z</lastModifiedTimestamp>
+        <comments>comments0</comments>
+        <type normalStd="normalStd1" normalId="normalId1" normal="normal1" lang="en-US">type0</type>
+        <type normalStd="normalStd3" normalId="normalId3" normal="normal3" lang="en-US">type1</type>
+        <description>description0</description>
+        <file xlink:href="http://www.oxygenxml.com/"/>
+        <file xlink:href="http://www.oxygenxml.com/"/>
+        <laboratory>
+            <identifier domain="domain3">identifier1</identifier>
+            <name acronym="acronym1">name0</name>
+            <address>
+                <addressLine1>addressLine10</addressLine1>
+                <addressLine2>addressLine20</addressLine2>
+                <cityOrTown>cityOrTown0</cityOrTown>
+                <stateProvinceRegion>stateProvinceRegion0</stateProvinceRegion>
+                <postalCode>postalCode0</postalCode>
+                <country>country0</country>
+            </address>
+        </laboratory>
+        <laboratory>
+            <identifier domain="domain5">identifier2</identifier>
+            <name acronym="acronym3">name1</name>
+            <address>
+                <addressLine1>addressLine11</addressLine1>
+                <addressLine2>addressLine21</addressLine2>
+                <cityOrTown>cityOrTown1</cityOrTown>
+                <stateProvinceRegion>stateProvinceRegion1</stateProvinceRegion>
+                <postalCode>postalCode1</postalCode>
+                <country>country1</country>
+            </address>
+        </laboratory>
+        <category>category0</category>
+        <investigator>investigator0</investigator>
+        <period>period0</period>
+        <requestDate certainty="unknown">2006-05-04</requestDate>
+        <commissioner>commissioner0</commissioner>
+        <reference>reference0</reference>
+        <reference>reference1</reference>
+        <research>
+            <identifier domain="domain7">identifier3</identifier>
+            <description>description1</description>
+        </research>
+        <research>
+            <identifier domain="domain9">identifier4</identifier>
+            <description>description2</description>
+        </research>
+        <genericField name="name1" type="xs:string">genericField0</genericField>
+        <genericField name="name3" type="xs:string">genericField1</genericField>
+        <object>
+                <title>title1</title>
+                <identifier domain="domain11">identifier5</identifier>
+                <createdTimestamp certainty="unknown">2006-05-04T18:13:51.0Z</createdTimestamp>
+                <lastModifiedTimestamp certainty="unknown">2006-05-04T18:13:51.0Z</lastModifiedTimestamp>
+                <comments>comments1</comments>
+                <type normalStd="normalStd7" normalId="normalId7" normal="normal7" lang="en-US">type2</type>
+                <description>description3</description>
+                <linkSeries>
+                    <preferredSeries>
+                        <xLink xlink:href="http://blah.com"/>
+                    </preferredSeries>
+                </linkSeries>
+                <file xlink:href="http://www.oxygenxml.com/"/>
+                <file xlink:href="http://www.oxygenxml.com/"/>
+                <creator>creator0</creator>
+                <owner>owner0</owner>
+                <coverage>
+                    <coverageTemporal>coverageTemporal0</coverageTemporal>
+                    <coverageTemporalFoundation>coverageTemporalFoundation0</coverageTemporalFoundation>
+                </coverage>
+                <location>
+                    <locationGeometry>
+                        <gml:Point srsName="http://www.oxygenxml.com/" gml:id="ID000">
+                                    <gml:description>description0</gml:description>
+                                    <gml:name codeSpace="http://www.oxygenxml.com/">name0</gml:name>
+                                    <gml:name codeSpace="http://www.oxygenxml.com/">name1</gml:name>
+                                <gml:pos>0</gml:pos>
+                        </gml:Point>
+                    </locationGeometry>
+                    <locationType>growth location</locationType>
+                    <locationPrecision>locationPrecision0</locationPrecision>
+                    <locationComment>locationComment0</locationComment>
+                    <address>
+                        <addressLine1>addressLine12</addressLine1>
+                        <addressLine2>addressLine22</addressLine2>
+                        <cityOrTown>cityOrTown2</cityOrTown>
+                        <stateProvinceRegion>stateProvinceRegion2</stateProvinceRegion>
+                        <postalCode>postalCode2</postalCode>
+                        <country>country2</country>
+                    </address>
+                </location>
+                <genericField name="name5" type="xs:string">genericField2</genericField>
+                <genericField name="name7" type="xs:string">genericField3</genericField>
+                <element>
+                        <title>title2</title>
+                        <identifier domain="domain13">identifier6</identifier>
+                        <createdTimestamp certainty="unknown">2006-05-04T18:13:51.0Z</createdTimestamp>
+                        <lastModifiedTimestamp certainty="unknown">2006-05-04T18:13:51.0Z</lastModifiedTimestamp>
+                        <comments>comments2</comments>
+                        <type normalStd="normalStd9" normalId="normalId9" normal="normal9" lang="en-US">type3</type>
+                        <description>description4</description>
+                        <linkSeries>
+                            <preferredSeries>
+                                <identifier domain="http://www.blah.com">12345</identifier>
+                            </preferredSeries>
+                        </linkSeries>
+                        <file xlink:href="http://www.oxygenxml.com/"/>
+                        <file xlink:href="http://www.oxygenxml.com/"/>
+                        <taxon normalStd="normalStd11" normalId="normalId11" normal="normal11" lang="en-US">taxon0</taxon>
+                        <shape normalTridas="whole section" normalStd="normalStd13" normalId="normalId13" normal="normal13" lang="en-US">shape0</shape>
+                        <dimensions>
+                            <unit normalTridas="micrometres" normalStd="normalStd15" normalId="normalId15" normal="normal15" lang="en-US">unit0</unit>
+                            <height>0</height>
+                                    <width>0</width>
+                                    <depth>0</depth>
+                        </dimensions>
+                        <authenticity>authenticity0</authenticity>
+                        <location>
+                            <locationGeometry>
+                                <gml:Point srsName="http://www.oxygenxml.com/" gml:id="ID003">
+                                        <gml:pos>0</gml:pos>
+                                </gml:Point>
+                            </locationGeometry>
+                            <locationType>growth location</locationType>
+                            <locationPrecision>locationPrecision1</locationPrecision>
+                            <locationComment>locationComment1</locationComment>
+                            <address>
+                                <addressLine1>addressLine13</addressLine1>
+                                <addressLine2>addressLine23</addressLine2>
+                                <cityOrTown>cityOrTown3</cityOrTown>
+                                <stateProvinceRegion>stateProvinceRegion3</stateProvinceRegion>
+                                <postalCode>postalCode3</postalCode>
+                                <country>country3</country>
+                            </address>
+                        </location>
+                        <processing>processing0</processing>
+                        <marks>marks0</marks>
+                        <altitude>0</altitude>
+                        <slope>
+                            <angle>0</angle>
+                            <azimuth>0</azimuth>
+                        </slope>
+                        <soil>
+                            <description>description5</description>
+                            <depth>0</depth>
+                        </soil>
+                        <bedrock>
+                            <description>description6</description>
+                        </bedrock>
+                        <genericField name="name9" type="xs:string">genericField4</genericField>
+                        <genericField name="name11" type="xs:string">genericField5</genericField>
+                        <sample>
+                                <title>title3</title>
+                                <identifier domain="domain15">identifier7</identifier>
+                                <createdTimestamp certainty="unknown">2006-05-04T18:13:51.0Z</createdTimestamp>
+                                <lastModifiedTimestamp certainty="unknown">2006-05-04T18:13:51.0Z</lastModifiedTimestamp>
+                                <comments>comments3</comments>
+                                <type normalStd="normalStd17" normalId="normalId17" normal="normal17" lang="en-US">type4</type>
+                                <description>description7</description>
+                                <file xlink:href="http://www.oxygenxml.com/"/>
+                                <file xlink:href="http://www.oxygenxml.com/"/>
+                                <samplingDate certainty="unknown">2006-05-04</samplingDate>
+                                <position>position0</position>
+                                <state>state0</state>
+                                <knots>false</knots>
+                                <genericField name="name13" type="xs:string">genericField6</genericField>
+                                <genericField name="name15" type="xs:string">genericField7</genericField>
+                        </sample>
+                        <sample>
+                                <title>title4</title>
+                                <identifier domain="domain17">identifier8</identifier>
+                                <createdTimestamp certainty="unknown">2006-05-04T18:13:51.0Z</createdTimestamp>
+                                <lastModifiedTimestamp certainty="unknown">2006-05-04T18:13:51.0Z</lastModifiedTimestamp>
+                                <comments>comments4</comments>
+                                <type normalStd="normalStd19" normalId="normalId19" normal="normal19" lang="en-US">type5</type>
+                                <description>description8</description>
+                                <file xlink:href="http://www.oxygenxml.com/"/>
+                                <file xlink:href="http://www.oxygenxml.com/"/>
+                                <samplingDate certainty="unknown">2006-05-04</samplingDate>
+                                <position>position1</position>
+                                <state>state1</state>
+                                <knots>false</knots>
+                                <genericField name="name17" type="xs:string">genericField8</genericField>
+                                <genericField name="name19" type="xs:string">genericField9</genericField>
+                                    <radius>
+                                            <title>title5</title>
+                                            <identifier domain="domain19">identifier9</identifier>
+                                            <createdTimestamp certainty="unknown">2006-05-04T18:13:51.0Z</createdTimestamp>
+                                            <lastModifiedTimestamp certainty="unknown">2006-05-04T18:13:51.0Z</lastModifiedTimestamp>
+                                            <comments>comments5</comments>
+                                            <woodCompleteness>
+                                                <pith presence="unknown"/>
+                                                <heartwood presence="unknown">
+                                                </heartwood>
+                                                <sapwood presence="unknown">
+                                                </sapwood>
+                                                <bark presence="present"/>
+                                            </woodCompleteness>
+                                            <azimuth>0</azimuth>
+                                            <genericField name="name21" type="xs:string">genericField10</genericField>
+                                            <genericField name="name23" type="xs:string">genericField11</genericField>
+                                            <measurementSeries id="ID007">
+                                                <title>ABC0001</title>
+                                                <analyst>Brewer, Peter</analyst>
+                                                <measuringMethod normalTridas="measuring platform" normalStd="normalStd21" normalId="normalId21" normal="normal21" lang="en-US">measuringMethod0</measuringMethod>
+                                                
+                                                <values>
+                                                    <variable normalTridas="ring width"/>
+                                                    <unit normalTridas="1/100th millimetres"/>
+                                                    <value value="123"/>
+                                                    <value value="123"/>
+                                                    <value value="123"/>
+                                                    <value value="125"/>
+                                                </values>
+                                                
+                                            </measurementSeries>
+
+                                    </radius>
+                                    <radius>
+                                            <title>title8</title>
+                                            <identifier domain="domain21">identifier10</identifier>
+                                            <createdTimestamp certainty="unknown">2006-05-04T18:13:51.0Z</createdTimestamp>
+                                            <lastModifiedTimestamp certainty="unknown">2006-05-04T18:13:51.0Z</lastModifiedTimestamp>
+                                            <comments>comments6</comments>
+                                            <woodCompleteness>
+                                                <pith presence="unknown"/>
+                                                <heartwood presence="unknown">
+                                                </heartwood>
+                                                <sapwood presence="unknown">
+                                                </sapwood>
+                                                <bark presence="present"/>
+                                            </woodCompleteness>
+                                            <azimuth>0</azimuth>
+                                            <genericField name="name25" type="xs:string">genericField12</genericField>
+                                            <genericField name="name27" type="xs:string">genericField13</genericField>
+                                            <measurementSeries id="ID011">
+                                                <title>ABC0002</title>
+                                                <measuringMethod normalTridas="measuring platform" normalStd="normalStd21" normalId="normalId21" normal="normal21" lang="en-US">measuringMethod0</measuringMethod>
+                                                <values>
+                                                    <variable normalTridas="ring width"/>
+                                                    <unit normalTridas="1/100th millimetres"/>
+                                                    <value value="123"/>
+                                                    <value value="123"/>
+                                                    <value value="123"/>
+                                                    <value value="125"/>
+                                                    <value value="199"/>
+                                                </values>
+                                            </measurementSeries>
+                                    </radius>
+                        </sample>
+                </element>
+                
+        </object>
+       <derivedSeries id="ID069">
+            <title>ABC0003</title>
+            <identifier domain="domain61">identifier30</identifier>
+            <createdTimestamp certainty="unknown">2006-05-04T18:13:51.0Z</createdTimestamp>
+            <lastModifiedTimestamp certainty="unknown">2006-05-04T18:13:51.0Z</lastModifiedTimestamp>
+            <comments>comments24</comments>
+            <derivationDate certainty="unknown">2006-05-04</derivationDate>
+            <type normalStd="normalStd113" normalId="normalId113" normal="normal113" lang="en-US">type17</type>
+            <linkSeries>
+                <series>
+                    <idRef ref="ID007"/>
+                </series>
+                <series>
+                    <identifier domain="domain63">identifier31</identifier>
+                </series>
+            </linkSeries>
+            <objective>objective1</objective>
+            <standardizingMethod>standardizingMethod1</standardizingMethod>
+            <author>author1</author>
+            <version>version1</version>
+                <interpretationUnsolved/>
+            <location>
+                <locationGeometry>
+                    <gml:Point srsName="http://www.oxygenxml.com/" gml:id="ID071">
+                                <gml:description>description3</gml:description>
+                                <gml:name codeSpace="http://www.oxygenxml.com/">name6</gml:name>
+                                <gml:name codeSpace="http://www.oxygenxml.com/">name7</gml:name>
+                            <gml:pos>0</gml:pos>
+                    </gml:Point>
+                </locationGeometry>
+                <locationType>growth location</locationType>
+                <locationPrecision>locationPrecision7</locationPrecision>
+                <locationComment>locationComment7</locationComment>
+                <address>
+                    <addressLine1>addressLine19</addressLine1>
+                    <addressLine2>addressLine29</addressLine2>
+                    <cityOrTown>cityOrTown9</cityOrTown>
+                    <stateProvinceRegion>stateProvinceRegion9</stateProvinceRegion>
+                    <postalCode>postalCode9</postalCode>
+                    <country>country9</country>
+                </address>
+            </location>
+            <genericField name="name97" type="xs:string">genericField48</genericField>
+            <genericField name="name99" type="xs:string">genericField49</genericField>
+            <values>
+                <variable normalTridas="earlywood density" normalStd="normalStd115" normalId="normalId115" normal="normal115" lang="en-US">variable2</variable>
+                    <unitless/>
+                <value value="500" count="1">
+                    <remark normalTridas="fire damage" inheritedCount="0" normalStd="normalStd117" normalId="normalId117" normal="normal117"
+                         lang="en-US">remark8</remark>
+                    <remark normalTridas="fire damage" inheritedCount="0" normalStd="normalStd119" normalId="normalId119" normal="normal119"
+                         lang="en-US">remark9</remark>
+                </value>
+                <value value="570" count="2">
+                    <remark normalTridas="fire damage" inheritedCount="0" normalStd="normalStd121" normalId="normalId121" normal="normal121"
+                         lang="en-US">remark10</remark>
+                    <remark normalTridas="fire damage" inheritedCount="0" normalStd="normalStd123" normalId="normalId123" normal="normal123"
+                         lang="en-US">remark11</remark>
+                </value>
+            </values>
+           <values>
+               <variable normalTridas="latewood density" normalStd="normalStd115" normalId="normalId115" normal="normal115" lang="en-US">variable2</variable>
+               <unitless/>
+               <value value="540" count="1">
+                   <remark normalTridas="fire damage" inheritedCount="0" normalStd="normalStd117" normalId="normalId117" normal="normal117"
+                       lang="en-US">remark8</remark>
+                   <remark normalTridas="fire damage" inheritedCount="0" normalStd="normalStd119" normalId="normalId119" normal="normal119"
+                       lang="en-US">remark9</remark>
+               </value>
+               <value value="510" count="2">
+                   <remark normalTridas="fire damage" inheritedCount="0" normalStd="normalStd121" normalId="normalId121" normal="normal121"
+                       lang="en-US">remark10</remark>
+                   <remark normalTridas="fire damage" inheritedCount="0" normalStd="normalStd123" normalId="normalId123" normal="normal123"
+                       lang="en-US">remark11</remark>
+               </value>
+           </values>
+        </derivedSeries>
+</project>

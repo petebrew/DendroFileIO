@@ -236,7 +236,7 @@ public abstract class AbstractMetadataFieldSet implements IMetadataFieldSet {
 	@Override
 	public void addIgnoredWarning(Enum<?> argKey, String argText) {
 		ConversionWarning w = new ConversionWarning(WarningType.IGNORED, argText, argKey.toString());
-		log.debug("Warning from defaults: " + w);
+		//log.debug("Warning from defaults: " + w);
 		warnings.add(w);
 	}
 	
@@ -247,7 +247,7 @@ public abstract class AbstractMetadataFieldSet implements IMetadataFieldSet {
 	@Override
 	public void addTruncatedWarning(Enum<?> argKey, String argText) {
 		ConversionWarning w = new ConversionWarning(WarningType.TRUNCATED, argText, argKey.toString());
-		log.debug("Warning from defaults: " + w);
+		//log.debug("Warning from defaults: " + w);
 		warnings.add(w);
 	}
 	

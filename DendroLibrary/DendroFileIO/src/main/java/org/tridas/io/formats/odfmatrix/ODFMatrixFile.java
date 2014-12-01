@@ -18,7 +18,6 @@ package org.tridas.io.formats.odfmatrix;
 import java.io.IOException;
 import java.io.OutputStream;
 import java.util.ArrayList;
-import java.util.List;
 
 import org.odftoolkit.odfdom.doc.OdfSpreadsheetDocument;
 import org.odftoolkit.odfdom.doc.table.OdfTable;
@@ -27,10 +26,12 @@ import org.tridas.io.I18n;
 import org.tridas.io.IDendroFile;
 import org.tridas.io.defaults.IMetadataFieldSet;
 import org.tridas.io.util.SafeIntYear;
+import org.tridas.io.util.TridasUtils;
 import org.tridas.io.util.YearRange;
 import org.tridas.schema.DatingSuffix;
 import org.tridas.schema.TridasGenericField;
 import org.tridas.schema.TridasValue;
+import org.tridas.schema.TridasValues;
 
 public class ODFMatrixFile implements IDendroFile {
 	
@@ -130,8 +131,12 @@ public class ODFMatrixFile implements IDendroFile {
 			
 			int col = 1;
 			for (ITridasSeries series : seriesList) {
-				writeRingWidthColumn(table, col, series);
-				col++;
+				
+				for(TridasValues v : series.getValues())
+				{
+					writeRingWidthColumn(table, col, series, v);
+					col++;
+				}
 			}
 			
 			outputDocument.save(os);
@@ -198,8 +203,7 @@ public class ODFMatrixFile implements IDendroFile {
 	 * @param col
 	 * @param series
 	 */
-	private void writeRingWidthColumn(OdfTable table, Integer col, ITridasSeries series)  {
-		List<TridasValue> values = series.getValues().get(0).getValues();
+	private void writeRingWidthColumn(OdfTable table, Integer col, ITridasSeries series, TridasValues values)  {
 		
 		// Creates year label
 		String l;
@@ -223,13 +227,22 @@ public class ODFMatrixFile implements IDendroFile {
 		    l = series.getTitle();
 		}
 		
+		// Add variable name to column title if necessary
+		if(series.getValues().size()>1)
+		{
+			l = l+"-"+TridasUtils.controlledVocToString(values.getVariable());
+		}
+		
 		table.getCellByPosition(col, 0).setStringValue(l);
 		
 		// Calculate which row to start on
 		SafeIntYear thisStartYear = new SafeIntYear();
 		try {
 			thisStartYear = new SafeIntYear(series.getInterpretation().getFirstYear());
-		} catch (NullPointerException e) {}
+		} catch (NullPointerException e) {
+			thisStartYear = new SafeIntYear(1);
+			
+		}
 		
 		Integer row = 1;
 		
@@ -241,11 +254,28 @@ public class ODFMatrixFile implements IDendroFile {
 		
 		// Loop through values and write to spreadsheet
 		Double yearval;
-		for (TridasValue value : values) {
-			if(value.getValue()==null);
+		for (TridasValue value : values.getValues()) {
+			if(value.getValue()!=null)
+			{
 			
-			yearval = Double.parseDouble(value.getValue());
-			table.getCellByPosition(col, row).setDoubleValue(yearval);
+				try{
+					yearval = Double.parseDouble(value.getValue());
+					
+					if(yearval.equals(Double.NaN)) 
+					{
+						throw new Exception ("nan");
+					}
+					else
+					{
+						table.getCellByPosition(col, row).setDoubleValue(yearval);
+					}
+				} catch (Exception e)
+				{
+					// Unable to parse value as number so write as string instead
+					String stryearval = value.getValue();
+					table.getCellByPosition(col, row).setStringValue(stryearval);
+				}
+			}
 			row++;
 		}
 		
