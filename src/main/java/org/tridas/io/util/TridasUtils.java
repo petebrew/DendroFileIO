@@ -25,8 +25,10 @@ import org.slf4j.LoggerFactory;
 import org.tridas.interfaces.ITridas;
 import org.tridas.interfaces.ITridasGeneric;
 import org.tridas.interfaces.ITridasSeries;
+import org.tridas.interfaces.NormalTridasVoc;
 import org.tridas.io.I18n;
 import org.tridas.io.formats.tridas.TridasReader;
+import org.tridas.schema.ControlledVoc;
 import org.tridas.schema.DatingSuffix;
 import org.tridas.schema.NormalTridasRemark;
 import org.tridas.schema.NormalTridasUnit;
@@ -1083,6 +1085,37 @@ public class TridasUtils {
 		POSITIVE_INTEGER,
 		ANYNUMBER,
 		STRING;
+	}
+	
+	/**
+	 * Get a human readable value for a controlled vocabulary.  Returns in order of preference NormalTridas attribute, Normal attribuate, tag value.
+	 *  
+	 * @param voc
+	 * @return
+	 */
+	public static String controlledVocToString(ControlledVoc voc)
+	{
+		if (voc==null ) return null;
+		
+		if(voc instanceof NormalTridasVoc)
+		{
+			if(((NormalTridasVoc) voc).isSetNormalTridas())
+			{
+				return ((NormalTridasVoc) voc).getNormalTridas().name().toLowerCase().replace("_", " ");
+			}
+		}
+		
+		if(voc.isSetNormal())
+		{
+			return voc.getNormal();
+		}
+		if(voc.isSetValue())
+		{
+			return voc.getValue();
+		}
+		
+		return null;
+		
 	}
 	
 }

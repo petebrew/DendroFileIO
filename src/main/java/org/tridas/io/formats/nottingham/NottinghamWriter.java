@@ -210,7 +210,7 @@ public class NottinghamWriter extends AbstractDendroCollectionWriter {
 		if(this.getFiles().length==0)
 		{
 			this.clearWarnings();
-			throw new ImpossibleConversionException("File conversion failed.  This output format is unable to represent the data stored in the input file.");
+			throw new ImpossibleConversionException("The input file contains no data series that can be represented in Nottingham format files.");
 		}
 		
 	}

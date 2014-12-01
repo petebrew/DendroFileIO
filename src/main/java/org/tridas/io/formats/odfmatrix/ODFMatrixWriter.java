@@ -54,7 +54,7 @@ public class ODFMatrixWriter extends AbstractDendroCollectionWriter {
 	@Override
 	protected void parseTridasProject(TridasProject argProject, IMetadataFieldSet argDefaults)
 			throws ImpossibleConversionException, ConversionWarningException {
-		defaults = argDefaults;
+ 		defaults = argDefaults;
 		
 		ArrayList<ITridasSeries> seriesList = new ArrayList<ITridasSeries>();
 		
@@ -62,20 +62,26 @@ public class ODFMatrixWriter extends AbstractDendroCollectionWriter {
 		try {
 			List<TridasDerivedSeries> lst = argProject.getDerivedSeries();
 			for (TridasDerivedSeries ds : lst) {
+			
+				TridasDerivedSeries newds = (TridasDerivedSeries) ds.clone();
+				newds.setValues(null);
 				
-				// Convert units
 				for(TridasValues tv : ds.getValues())
 				{
 					try {
-						UnitUtils.convertTridasValues(NormalTridasUnit.MILLIMETRES, tv, false);
+						//UnitUtils.convertTridasValues(NormalTridasUnit.MILLIMETRES, tv, false);
+						newds.getValues().add(tv);
 					} catch (NumberFormatException e) {
-						throw new ConversionWarningException(new ConversionWarning(
+						this.addWarning(new ConversionWarning(
 								WarningType.AMBIGUOUS, "Trouble converting units"));
-					} 
+					} /*
+					catch (ConversionWarningException e) {
+						this.addWarning(e.getWarning());
+					} */
 				}
 
 				// add to list
-				seriesList.add(ds);
+				if(newds.getValues()!=null && newds.getValues().size()>0) seriesList.add(newds);
 			}
 		} catch (NullPointerException e) {}
 		

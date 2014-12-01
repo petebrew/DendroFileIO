@@ -172,13 +172,20 @@ public class CatrasWriter extends AbstractDendroCollectionWriter {
 								// Convert units and add data to file
 								TridasValues theValues = null;
 								try {
-									theValues = UnitUtils.convertTridasValues(NormalTridasUnit.HUNDREDTH_MM, tvsgroup, true);
+									theValues = UnitUtils.convertTridasValuesInRange(NormalTridasUnit.HUNDREDTH_MM, tvsgroup, true, 0, 32510);
 								} catch (NumberFormatException e1) {
 									throw new ImpossibleConversionException(I18n.getText("general.ringValuesNotNumbers"));
 								} catch (ConversionWarningException e1) {
+																		
 									// Conversion failed so warn and stick with original values
 									this.addWarning(e1.getWarning());
 									theValues = tvsgroup;
+									
+									if(e1.getWarning().getWarningType().equals(WarningType.UNREPRESENTABLE))
+									{
+										// Format unable to store these values so 
+										continue;
+									}
 								}
 						
 								file.setDataValues(theValues);
@@ -243,17 +250,29 @@ public class CatrasWriter extends AbstractDendroCollectionWriter {
 				
 				CatrasFile file = new CatrasFile(tvDefaults);
 				
+		
+				// Convert units and add data to file
+				TridasValues theValues = null;
+				try {
+					theValues = UnitUtils.convertTridasValuesInRange(NormalTridasUnit.HUNDREDTH_MM, tvsgroup, true, 0, 32510);
+				} catch (NumberFormatException e1) {
+					throw new ImpossibleConversionException(I18n.getText("general.ringValuesNotNumbers"));
+				} catch (ConversionWarningException e1) {
+														
+					// Conversion failed so warn and stick with original values
+					this.addWarning(e1.getWarning());
+					theValues = tvsgroup;
+					
+					if(e1.getWarning().getWarningType().equals(WarningType.UNREPRESENTABLE))
+					{
+						// Format unable to store these values so 
+						continue;
+					}
+				}
+				
 				// Add series to file
 				file.setSeries(ds);
-				
-				// Convert units and add data to file
-				try {
-					file.setDataValues(UnitUtils.convertTridasValues(NormalTridasUnit.HUNDREDTH_MM, tvsgroup, true));
-				} catch (NumberFormatException e) {
-					throw new ImpossibleConversionException(I18n.getText("general.ringValuesNotNumbers"));
-				} catch (ConversionWarningException e) {
-					this.addWarning(e.getWarning());
-				}
+				file.setDataValues(theValues);
 				
 				// Set naming convention
 				naming.registerFile(file, argProject, ds);

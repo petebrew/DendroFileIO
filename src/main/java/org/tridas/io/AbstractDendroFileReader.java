@@ -146,7 +146,7 @@ public abstract class AbstractDendroFileReader{
 			return;
 		}
 		FileHelper fileHelper = new FileHelper();
-		log.debug("loading file: " + argFilename);
+		//log.debug("loading file: " + argFilename);
 		origFilename = argFilename;
 		String[] strings;
 		if (TridasIO.getReadingCharset() != null) {
@@ -200,7 +200,7 @@ public abstract class AbstractDendroFileReader{
 			return;
 		}
 		FileHelper fileHelper = new FileHelper(argPath);
-		log.debug("loading file: " + argFilename);
+		//log.debug("loading file: " + argFilename);
 		origFilename = argFilename;
 		String[] strings;
 		if (TridasIO.getReadingCharset() != null) {

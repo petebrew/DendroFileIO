@@ -105,11 +105,11 @@ public class TestFromTridas extends TestCase {
 			try {
 				writer.load(container);
 			} catch (ImpossibleConversionException e) {
-				log.info("Failed Writing - " + e.getLocalizedMessage());
-				// fail();
+				log.warn("ImpossibleConversionException: "+filename);
+				log.warn(e.getLocalizedMessage());
 				continue;
 			} catch (ConversionWarningException e) {
-
+				log.warn("Conversion Warning: " + e.getLocalizedMessage());
 			} 
 			
 			// Actually save file(s) to disk
@@ -159,10 +159,11 @@ public class TestFromTridas extends TestCase {
 			try {
 				writer.load(container);
 			} catch (ImpossibleConversionException e) {
-				log.info("Failed Writing - " + e.getLocalizedMessage());
+				log.warn("ImpossibleConversionException: "+filename);
+				log.warn(e.getLocalizedMessage());
 				continue;
 			} catch (ConversionWarningException e) {
-
+				log.warn("Conversion Warning: " + e.getLocalizedMessage());
 			} 
 			
 			// Actually save file(s) to disk
@@ -208,9 +209,11 @@ public class TestFromTridas extends TestCase {
 			try {
 				tucsonwriter.load(container);
 			} catch (ImpossibleConversionException e) {
-				log.info(e.getLocalizedMessage());
-				return;
+				log.warn("ImpossibleConversionException: "+filename);
+				log.warn(e.getLocalizedMessage());
+				continue;
 			} catch (ConversionWarningException e) {
+				log.warn("Conversion Warning: " + e.getLocalizedMessage());
 			} 
 			
 			// Actually save file(s) to disk
@@ -231,6 +234,7 @@ public class TestFromTridas extends TestCase {
 		}
 		
 		for (String filename : files) {
+			
 			log.info("Test conversion of: " + filename);
 			
 			TridasTridas container = null;
@@ -255,8 +259,11 @@ public class TestFromTridas extends TestCase {
 			try {
 				writer.load(container);
 			} catch (ImpossibleConversionException e) {
-				e.printStackTrace();
+				log.warn("ImpossibleConversionException: "+filename);
+				log.warn(e.getLocalizedMessage());
+				continue;
 			} catch (ConversionWarningException e) {
+				log.warn("Conversion Warning: " + e.getLocalizedMessage());
 			} 
 			
 			// Actually save file(s) to disk
@@ -305,9 +312,11 @@ public class TestFromTridas extends TestCase {
 			try {
 				writer.load(container);
 			} catch (ImpossibleConversionException e) {
-				log.info(e.getLocalizedMessage());
-				return;
+				log.warn("ImpossibleConversionException: "+filename);
+				log.warn(e.getLocalizedMessage());
+				continue;
 			} catch (ConversionWarningException e) {
+				log.warn("Conversion Warning: " + e.getLocalizedMessage());
 			} 
 			
 			// Actually save file(s) to disk
@@ -353,8 +362,11 @@ public class TestFromTridas extends TestCase {
 			try {
 				writer.load(project);
 			} catch (ImpossibleConversionException e) {
-				e.printStackTrace();
+				log.warn("ImpossibleConversionException: "+filename);
+				log.warn(e.getLocalizedMessage());
+				continue;
 			} catch (ConversionWarningException e) {
+				log.warn("Conversion Warning: " + e.getLocalizedMessage());
 			} 
 			
 			// Actually save file(s) to disk
@@ -375,7 +387,6 @@ public class TestFromTridas extends TestCase {
 		}
 		
 		for (String filename : files) {
-			//if(!filename.equals("Tridas1.xml")) continue;
 			log.info("Test conversion of: " + filename);
 			
 			TridasTridas container = null;
@@ -400,9 +411,11 @@ public class TestFromTridas extends TestCase {
 			try {
 				writer.load(container);
 			} catch (ImpossibleConversionException e) {
-				log.info(e.getLocalizedMessage());
-				return;
+				log.warn("ImpossibleConversionException: "+filename);
+				log.warn(e.getLocalizedMessage());
+				continue;
 			} catch (ConversionWarningException e) {
+				log.warn("Conversion Warning: " + e.getLocalizedMessage());
 			} 
 			
 			// Actually save file(s) to disk
@@ -453,10 +466,12 @@ public class TestFromTridas extends TestCase {
 				writer.setNamingConvention(new NumericalNamingConvention());
 				writer.load(container);
 			} catch (ImpossibleConversionException e) {
-				e.printStackTrace();
+				log.warn("ImpossibleConversionException: "+filename);
+				log.warn(e.getLocalizedMessage());
+				continue;
 			} catch (ConversionWarningException e) {
+				log.warn("Conversion Warning: " + e.getLocalizedMessage());
 			} 
-			
 			// Actually save file(s) to disk
 			try {
 				writer.saveAllToDisk(outputLocation);
@@ -500,8 +515,11 @@ public class TestFromTridas extends TestCase {
 			try {
 				writer.load(container);
 			} catch (ImpossibleConversionException e) {
-				e.printStackTrace();
+				log.warn("ImpossibleConversionException: "+filename);
+				log.warn(e.getLocalizedMessage());
+				continue;
 			} catch (ConversionWarningException e) {
+				log.warn("Conversion Warning: " + e.getLocalizedMessage());
 			} 
 			
 			// Actually save file(s) to disk
@@ -547,8 +565,11 @@ public class TestFromTridas extends TestCase {
 			try {
 				writer.load(container);
 			} catch (ImpossibleConversionException e) {
-				e.printStackTrace();
+				log.warn("ImpossibleConversionException: "+filename);
+				log.warn(e.getLocalizedMessage());
+				continue;
 			} catch (ConversionWarningException e) {
+				log.warn("Conversion Warning: " + e.getLocalizedMessage());
 			} 
 			
 			// Actually save file(s) to disk
@@ -569,8 +590,9 @@ public class TestFromTridas extends TestCase {
 		}
 		
 		for (String filename : files) {
-				
-			log.info("Test conversion of: " + filename);
+			//if(!filename.equals("Extensive2.xml")) continue;
+
+			log.info("Converting TRiDaS -> ODFMatrix : " + filename);
 			
 			TridasTridas container = null;
 			
@@ -594,11 +616,11 @@ public class TestFromTridas extends TestCase {
 			try {
 				writer.load(container);
 			} catch (ImpossibleConversionException e) {
-				e.printStackTrace();
-				fail();
+				log.warn("ImpossibleConversionException: "+filename);
+				log.warn(e.getLocalizedMessage());
+				continue;
 			} catch (ConversionWarningException e) {
-				e.printStackTrace();
-				fail();
+				log.warn("Conversion Warning: " + e.getLocalizedMessage());
 			} 
 			
 			// Actually save file(s) to disk
@@ -607,6 +629,8 @@ public class TestFromTridas extends TestCase {
 			} catch (NothingToWriteException e) {
 				fail();
 			}
+			
+			log.info("                               - conversion successful!");
 		}
 	}
 	
@@ -644,11 +668,11 @@ public class TestFromTridas extends TestCase {
 			try {
 				writer.load(container);
 			} catch (ImpossibleConversionException e) {
-				e.printStackTrace();
-				fail();
+				log.warn("ImpossibleConversionException: "+filename);
+				log.warn(e.getLocalizedMessage());
+				continue;
 			} catch (ConversionWarningException e) {
-				e.printStackTrace();
-				fail();
+				log.warn("Conversion Warning: " + e.getLocalizedMessage());
 			} 
 			
 			// Actually save file(s) to disk
@@ -694,8 +718,11 @@ public class TestFromTridas extends TestCase {
 			try {
 				writer.load(container);
 			} catch (ImpossibleConversionException e) {
-				e.printStackTrace();
+				log.warn("ImpossibleConversionException: "+filename);
+				log.warn(e.getLocalizedMessage());
+				continue;
 			} catch (ConversionWarningException e) {
+				log.warn("Conversion Warning: " + e.getLocalizedMessage());
 			} 
 			
 			// Actually save file(s) to disk
@@ -741,9 +768,11 @@ public class TestFromTridas extends TestCase {
 			try {
 				writer.load(container);
 			} catch (ImpossibleConversionException e) {
-				log.info(e.getLocalizedMessage());
-				return;
+				log.warn("ImpossibleConversionException: "+filename);
+				log.warn(e.getLocalizedMessage());
+				continue;
 			} catch (ConversionWarningException e) {
+				log.warn("Conversion Warning: " + e.getLocalizedMessage());
 			} 
 			
 			// Actually save file(s) to disk
@@ -764,6 +793,7 @@ public class TestFromTridas extends TestCase {
 			}
 			
 			for (String filename : files) {
+				
 				
 				log.info("Test conversion of: " + filename);
 				
@@ -790,9 +820,11 @@ public class TestFromTridas extends TestCase {
 					writer.setNamingConvention(new SeriesCode8CharNamingConvention());
 					writer.load(container);
 				} catch (ImpossibleConversionException e) {
-					log.info(e.getLocalizedMessage());
-					return;
+					log.warn("ImpossibleConversionException: "+filename);
+					log.warn(e.getLocalizedMessage());
+					continue;
 				} catch (ConversionWarningException e) {
+					log.warn("Conversion Warning: " + e.getLocalizedMessage());
 				} 
 				
 				
@@ -840,9 +872,11 @@ public class TestFromTridas extends TestCase {
 			try {
 				writer.load(container);
 			} catch (ImpossibleConversionException e) {
-				log.info(e.getLocalizedMessage());
-				return;
+				log.warn("ImpossibleConversionException: "+filename);
+				log.warn(e.getLocalizedMessage());
+				continue;
 			} catch (ConversionWarningException e) {
+				log.warn("Conversion Warning: " + e.getLocalizedMessage());
 			} 
 			
 			// Actually save file(s) to disk
@@ -864,7 +898,6 @@ public class TestFromTridas extends TestCase {
 		
 		for (String filename : files) {
 				
-			if(!filename.equals("othervar.xml")) continue;
 			log.info("Test conversion of: " + filename);
 			
 			TridasTridas container = null;
@@ -889,9 +922,11 @@ public class TestFromTridas extends TestCase {
 			try {
 				writer.load(container);
 			} catch (ImpossibleConversionException e) {
-				e.printStackTrace();
+				log.warn("ImpossibleConversionException: "+filename);
+				log.warn(e.getLocalizedMessage());
+				continue;
 			} catch (ConversionWarningException e) {
-				e.printStackTrace();
+				log.warn("Conversion Warning: " + e.getLocalizedMessage());
 			} 
 			
 			// Actually save file(s) to disk
@@ -913,7 +948,6 @@ public class TestFromTridas extends TestCase {
 		
 		for (String filename : files) {
 				
-			if(!filename.equals("AMO Roman cedar.xml")) continue;
 			log.info("Test conversion of: " + filename);
 			
 			TridasTridas container = null;
@@ -938,8 +972,11 @@ public class TestFromTridas extends TestCase {
 			try {
 				writer.load(container);
 			} catch (ImpossibleConversionException e) {
-				e.printStackTrace();
+				log.warn("ImpossibleConversionException: "+filename);
+				log.warn(e.getLocalizedMessage());
+				continue;
 			} catch (ConversionWarningException e) {
+				log.warn("Conversion Warning: " + e.getLocalizedMessage());
 			} 
 			
 			// Actually save file(s) to disk

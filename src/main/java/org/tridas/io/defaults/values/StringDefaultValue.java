@@ -97,7 +97,7 @@ public class StringDefaultValue extends AbstractDefaultValue<String> {
 		}
 		if (getMinLength() != -1) {
 			if (value.length() < getMinLength()) {
-				log.debug(I18n.getText("fileio.defaults.stringTooSmall", value, isPadRight() + ""));
+				//log.debug(I18n.getText("fileio.defaults.stringTooSmall", value, isPadRight() + ""));
 				if (isPadRight()) {
 					return StringUtils.rightPad(value, getMinLength());
 				}
