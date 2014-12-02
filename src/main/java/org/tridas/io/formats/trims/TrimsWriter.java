@@ -53,6 +53,10 @@ public class TrimsWriter extends AbstractDendroCollectionWriter {
 			List<TridasDerivedSeries> lst = argProject.getDerivedSeries();
 			for (TridasDerivedSeries ds : lst) {
 				
+				
+				if(!ds.isSetValues()) continue;
+				if(!ds.getValues().get(0).isSetValues()) continue;
+							
 				TridasToTrimsDefaults def = (TridasToTrimsDefaults) defaults.clone();
 				def.populateFromTridasDerivedSeries(ds);
 				// Create a TrimsFile for each and add to file list
@@ -117,6 +121,10 @@ public class TrimsWriter extends AbstractDendroCollectionWriter {
 						
 						if (serList != null) {
 							for (TridasMeasurementSeries ser : serList) {
+
+								if(!ser.isSetValues()) continue;
+								if(!ser.getValues().get(0).isSetValues()) continue;
+								
 								TridasToTrimsDefaults def = (TridasToTrimsDefaults) defaults.clone();
 
 								def.populateFromTridasMeasurementSeries(ser);

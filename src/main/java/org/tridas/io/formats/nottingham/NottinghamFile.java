@@ -68,37 +68,27 @@ public class NottinghamFile implements IDendroFile {
 	@Override
 	public String[] saveToString() {
 			
-		ArrayList<String> file = new ArrayList<String>();
+		StringBuilder sb = new StringBuilder();
+		
 	
-		file.add(defaults.getStringDefaultValue(DefaultFields.SERIES_TITLE).getValue() + " " +
-				 defaults.getIntegerDefaultValue(DefaultFields.RING_COUNT).getValue());
+	
+		sb.append(defaults.getStringDefaultValue(DefaultFields.SERIES_TITLE).getValue() + " " +
+				 defaults.getIntegerDefaultValue(DefaultFields.RING_COUNT).getValue()+System.lineSeparator());
 		
 		
-		String line = "";
 		int i=1;
 		for (TridasValue val : dataValues.getValues())
 		{
 			// Add value to our line
-			line += StringUtils.leftPad(val.getValue(), 4);
+			sb.append(StringUtils.leftPad(val.getValue(), 4));
 			i++;
 			
 			// If this is the 20th value add line to file
-			if(i==20)
-			{
-				file.add(line);
-				line = "";
-				i=1;				
-			}
+			if(i==20) sb.append(System.lineSeparator());
 		}
-		
-		// Add any remaining data
-		if (line.length()>0)
-		{
-			file.add(line);
-		}
-		
+				
 		// Return array of lines
-		return file.toArray(new String[0]);
+		return sb.toString().split(System.lineSeparator());
 		
 	}
 

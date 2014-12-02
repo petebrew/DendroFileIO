@@ -47,6 +47,10 @@ public class TrimsFile implements IDendroFile {
 		} catch (NullPointerException e) {
 			throw new ConversionWarningException(new ConversionWarning(WarningType.NULL_VALUE, I18n
 					.getText("fileio.noData")));
+		} catch (IndexOutOfBoundsException e)
+		{
+			throw new ConversionWarningException(new ConversionWarning(WarningType.NULL_VALUE, I18n
+					.getText("fileio.noData")));			
 		}
 		try {
 			for (TridasValue v : valueList) {

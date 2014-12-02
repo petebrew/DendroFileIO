@@ -270,10 +270,11 @@ public class TucsonWriter extends AbstractDendroCollectionWriter {
 						}
 					}
 				}
-				naming.registerFile(file, p);
+				
 
 				if(file!=null && file.getSeries()!=null && file.getSeries().length>0)
 				{
+					naming.registerFile(file, p);
 					addToFileList(file);
 				}
 			}

@@ -101,6 +101,9 @@ public class SheffieldWriter extends AbstractDendroCollectionWriter {
 									.clone();
 							msDefaults.populateFromTridasMeasurementSeries(ms);
 							msDefaults.populateFromWoodCompleteness(ms, r);
+							
+							if(!ms.isSetValues()) continue;
+							if(ms.getValues().isEmpty()) continue;
 			
 							
 							if(ms.isSetInterpretation())
@@ -118,12 +121,17 @@ public class SheffieldWriter extends AbstractDendroCollectionWriter {
 							
 							for (int i = 0; i < ms.getValues().size(); i++) {
 								boolean skipThisGroup = false;
-
+								
 								TridasValues tvsgroup = ms.getValues().get(i);
+								
+								if(!tvsgroup.isSetValues()) continue;
+
 								
 								// Check we can handle this variable
 								if(tvsgroup.isSetVariable())
 								{
+									
+									
 									if (!tvsgroup.getVariable().isSetNormalTridas())
 									{
 										this.addWarning(new ConversionWarning(WarningType.AMBIGUOUS, I18n.getText("fileio.nonstandardVariable")));
@@ -152,7 +160,7 @@ public class SheffieldWriter extends AbstractDendroCollectionWriter {
 								TridasToSheffieldDefaults tvDefaults = (TridasToSheffieldDefaults) msDefaults.clone();
 								tvDefaults.populateFromTridasValues(tvsgroup);
 								
-								SheffieldFile file = new SheffieldFile(tvDefaults);
+								
 								
 
 								
@@ -192,9 +200,9 @@ public class SheffieldWriter extends AbstractDendroCollectionWriter {
 										throw new ImpossibleConversionException(I18n.getText("general.ringValuesNotNumbers"));
 									}
 								}
-								// Add series to file
-								file.setSeries(ms, theValues);
 								
+								SheffieldFile file = new SheffieldFile(tvDefaults, ms, theValues);
+												
 								// Set naming convention
 								naming.registerFile(file, argProject, o, e, s, r, ms);
 								
@@ -212,11 +220,16 @@ public class SheffieldWriter extends AbstractDendroCollectionWriter {
 			TridasToSheffieldDefaults dsDefaults = (TridasToSheffieldDefaults) defaults.clone();
 			dsDefaults.populateFromTridasDerivedSeries(ds);
 			
+			if(!ds.isSetValues()) continue;
+			if(ds.getValues().isEmpty()) continue;
 			
 			for (int i = 0; i < ds.getValues().size(); i++) {
 				boolean skipThisGroup = false;
 
 				TridasValues tvsgroup = ds.getValues().get(i);
+				
+				if(!tvsgroup.isSetValues()) continue;
+
 				
 				// Check we can handle this variable
 				if(tvsgroup.isSetVariable())
@@ -282,22 +295,24 @@ public class SheffieldWriter extends AbstractDendroCollectionWriter {
 					}
 				}
 				
-				SheffieldFile file = new SheffieldFile(tvDefaults);
 				
 				
 				// Convert units and add data to file
 				try {
-					file.setSeries(ds, UnitUtils.convertTridasValues(NormalTridasUnit.HUNDREDTH_MM, tvsgroup, true));
+					SheffieldFile file = new SheffieldFile(tvDefaults, ds, UnitUtils.convertTridasValues(NormalTridasUnit.HUNDREDTH_MM, tvsgroup, true));
+					
+					// Set naming convention
+					naming.registerFile(file, argProject, ds);
+					
+					// Add file to list
+					addToFileList(file);
+					
 				} catch (NumberFormatException e) {
 				} catch (ConversionWarningException e) {
 					this.addWarning(e.getWarning());
 				}
 				
-				// Set naming convention
-				naming.registerFile(file, argProject, ds);
-				
-				// Add file to list
-				addToFileList(file);
+
 			}
 			
 		}

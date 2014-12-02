@@ -17,6 +17,7 @@ package org.tridas.io.naming;
 
 import org.tridas.interfaces.ITridasSeries;
 import org.tridas.io.I18n;
+import org.tridas.io.util.FileHelper;
 import org.tridas.io.util.StringUtils;
 
 /**
@@ -31,7 +32,7 @@ public class SeriesCode8CharNamingConvention extends SeriesCodeNamingConvention 
 	@Override
 	protected String getDendroFilename(ITridasSeries argSeries) {
 	
-		return StringUtils.rightPadWithTrim(super.getDendroFilename(argSeries), 8).trim();
+		return FileHelper.sanitiseFilename(StringUtils.rightPadWithTrim(super.getDendroFilename(argSeries), 8).trim());
 
 	}
 	

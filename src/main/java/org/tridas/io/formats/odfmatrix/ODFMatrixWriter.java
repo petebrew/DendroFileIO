@@ -63,6 +63,8 @@ public class ODFMatrixWriter extends AbstractDendroCollectionWriter {
 			List<TridasDerivedSeries> lst = argProject.getDerivedSeries();
 			for (TridasDerivedSeries ds : lst) {
 			
+				if(!ds.isSetValues()) continue;
+								
 				TridasDerivedSeries newds = (TridasDerivedSeries) ds.clone();
 				newds.setValues(null);
 				
@@ -88,6 +90,8 @@ public class ODFMatrixWriter extends AbstractDendroCollectionWriter {
 		try {
 			List<TridasMeasurementSeries> lst = TridasUtils.getMeasurementSeriesFromTridasProject(argProject);
 			for (TridasMeasurementSeries ser : lst) {
+								
+				if(!ser.isSetValues()) continue;
 								
 				// add to list
 				seriesList.add(ser);

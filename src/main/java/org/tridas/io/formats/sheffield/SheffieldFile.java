@@ -29,24 +29,16 @@ import org.tridas.schema.TridasValues;
 
 public class SheffieldFile implements IDendroFile {
 	
-	private TridasToSheffieldDefaults defaults;
-	private ITridasSeries series;
-	private TridasValues dataValues;
+	private final TridasToSheffieldDefaults defaults;
+	private final ITridasSeries series;
+	private final TridasValues dataValues;
 	
-	public SheffieldFile(TridasToSheffieldDefaults argDefaults) {
+	public SheffieldFile(TridasToSheffieldDefaults argDefaults, ITridasSeries ser, TridasValues vals) throws ImpossibleConversionException {
 		defaults = argDefaults;
-	}
+		series = ser;
+		dataValues = vals;
 	
-	
-	/**
-	 * Set the series that this Sheffield file represents
-	 * @param ser
-	 * @throws ImpossibleConversionException 
-	 */
-	public void setSeries(ITridasSeries ser, TridasValues vals) throws ImpossibleConversionException
-	{
-		
-		if(vals==null)
+		if(vals==null || !vals.isSetValues())
 		{
 			throw new ImpossibleConversionException("Series contains no data values");
 			
@@ -58,10 +50,9 @@ public class SheffieldFile implements IDendroFile {
 			
 		}
 		
-		series = ser;
-		dataValues = vals;
-	}
 		
+	}
+			
 	/**
 	 * Does this line contain any special chars?
 	 * 

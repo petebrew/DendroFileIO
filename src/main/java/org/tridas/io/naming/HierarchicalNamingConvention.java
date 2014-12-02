@@ -17,6 +17,7 @@ package org.tridas.io.naming;
 
 import org.tridas.io.I18n;
 import org.tridas.io.IDendroFile;
+import org.tridas.io.util.FileHelper;
 import org.tridas.schema.TridasDerivedSeries;
 import org.tridas.schema.TridasElement;
 import org.tridas.schema.TridasMeasurementSeries;
@@ -46,45 +47,45 @@ public class HierarchicalNamingConvention extends AbstractNamingConvention {
 			name += argProject.getTitle();
 		}
 		else {
-			return name;
+			return FileHelper.sanitiseFilename(name);
 		}
 		
 		if (argObject != null) {
 			name += "-" + argObject.getTitle();
 		}
 		else {
-			return name;
+			return FileHelper.sanitiseFilename(name);
 		}
 		
 		if (argElement != null) {
 			name += "-" + argElement.getTitle();
 		}
 		else {
-			return name;
+			return FileHelper.sanitiseFilename(name);
 		}
 		
 		if (argSample != null) {
 			name += "-" + argSample.getTitle();
 		}
 		else {
-			return name;
+			return FileHelper.sanitiseFilename(name);
 		}
 		
 		if (argRadius != null) {
 			name += "-" + argRadius.getTitle();
 		}
 		else {
-			return name;
+			return FileHelper.sanitiseFilename(name);
 		}
 		
 		if (argSeries != null) {
 			name += "-" + argSeries.getTitle();
 		}
 		else {
-			return name;
+			return FileHelper.sanitiseFilename(name);
 		}
 		
-		return name;
+		return FileHelper.sanitiseFilename(name);
 	}
 	
 	@Override
@@ -95,17 +96,17 @@ public class HierarchicalNamingConvention extends AbstractNamingConvention {
 			name += argProject.getTitle();
 		}
 		else {
-			return name;
+			return FileHelper.sanitiseFilename(name);
 		}
 		
 		if (argSeries != null) {
 			name += "-" + argSeries.getTitle();
 		}
 		else {
-			return name;
+			return FileHelper.sanitiseFilename(name);
 		}
 		
-		return name;
+		return FileHelper.sanitiseFilename(name);
 	}
 	
 	@Override
