@@ -17,6 +17,7 @@ package org.tridas.io.naming;
 
 import org.tridas.io.I18n;
 import org.tridas.io.IDendroFile;
+import org.tridas.io.util.FileHelper;
 import org.tridas.schema.TridasDerivedSeries;
 import org.tridas.schema.TridasElement;
 import org.tridas.schema.TridasMeasurementSeries;
@@ -47,7 +48,8 @@ public class NumericalNamingConvention extends AbstractNamingConvention {
 	 *            the base filename to set
 	 */
 	public void setBaseFilename(String baseFilename) {
-		this.baseFilename = baseFilename;
+		
+		this.baseFilename = FileHelper.sanitiseFilename(baseFilename);
 	}
 	
 	/**
@@ -74,8 +76,12 @@ public class NumericalNamingConvention extends AbstractNamingConvention {
 		if (baseFilename != null) {
 			return baseFilename;
 		}
-		else {
+		else if(argFile!=null) {
 			return argFile.getClass().getSimpleName();
+		}
+		else
+		{
+			return "TRiCYCLE";
 		}
 	}
 	
@@ -87,8 +93,12 @@ public class NumericalNamingConvention extends AbstractNamingConvention {
 		if (baseFilename != null) {
 			return baseFilename;
 		}
-		else {
+		else if(argFile!=null) {
 			return argFile.getClass().getSimpleName();
+		}
+		else
+		{
+			return "TRiCYCLE";
 		}
 	}
 	

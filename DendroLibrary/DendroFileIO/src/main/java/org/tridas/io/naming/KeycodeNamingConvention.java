@@ -20,6 +20,7 @@ import java.util.List;
 import org.tridas.interfaces.ITridasSeries;
 import org.tridas.io.I18n;
 import org.tridas.io.IDendroFile;
+import org.tridas.io.util.FileHelper;
 import org.tridas.schema.TridasDerivedSeries;
 import org.tridas.schema.TridasElement;
 import org.tridas.schema.TridasGenericField;
@@ -35,13 +36,13 @@ public class KeycodeNamingConvention extends AbstractNamingConvention {
 	protected String getDendroFilename(IDendroFile argFile, TridasProject argProject, TridasObject argObject,
 			TridasElement argElement, TridasSample argSample, TridasRadius argRadius, TridasMeasurementSeries argSeries) {
 		
-		return getDendroFilename(argSeries);
+		return FileHelper.sanitiseFilename(getDendroFilename(argSeries));
 	}
 	
 	@Override
 	protected String getDendroFilename(IDendroFile argFile, TridasProject argProject, TridasDerivedSeries argSeries) {
 		
-		return getDendroFilename(argSeries);
+		return FileHelper.sanitiseFilename(getDendroFilename(argSeries));
 		
 	}
 	

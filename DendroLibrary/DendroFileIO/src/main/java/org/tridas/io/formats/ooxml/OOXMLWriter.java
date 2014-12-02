@@ -57,6 +57,10 @@ public class OOXMLWriter extends AbstractDendroCollectionWriter {
 		try {
 			List<TridasDerivedSeries> lst = argProject.getDerivedSeries();
 			for (TridasDerivedSeries ds : lst) {
+				
+				if(!ds.isSetValues()) continue;
+				if(ds.getValues().isEmpty()) continue;
+				
 				// add to list
 				seriesList.add(ds);
 			}
@@ -65,6 +69,10 @@ public class OOXMLWriter extends AbstractDendroCollectionWriter {
 		try {
 			List<TridasMeasurementSeries> lst = TridasUtils.getMeasurementSeriesFromTridasProject(argProject);
 			for (TridasMeasurementSeries ser : lst) {
+				
+				if(!ser.isSetValues()) continue;
+				if(ser.getValues().isEmpty()) continue;
+				
 				// add to list
 				seriesList.add(ser);
 			}

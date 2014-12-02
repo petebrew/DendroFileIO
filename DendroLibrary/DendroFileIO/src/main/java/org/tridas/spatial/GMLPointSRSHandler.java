@@ -161,6 +161,9 @@ public class GMLPointSRSHandler  {
 	{
 				
 		// Grab the srsName from the geometry if it exists.  Trim and removed spaces.
+		
+		
+		
 		String srsName = null;
 		if(point.isSetSrsName())
 		{

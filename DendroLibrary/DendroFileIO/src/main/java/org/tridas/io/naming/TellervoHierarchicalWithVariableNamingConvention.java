@@ -17,6 +17,7 @@ package org.tridas.io.naming;
 
 import org.tridas.io.I18n;
 import org.tridas.io.IDendroFile;
+import org.tridas.io.util.FileHelper;
 import org.tridas.schema.TridasDerivedSeries;
 import org.tridas.schema.TridasElement;
 import org.tridas.schema.TridasGenericField;
@@ -65,35 +66,35 @@ public class TellervoHierarchicalWithVariableNamingConvention extends AbstractNa
     		}
 		}
 		else {
-			return name;
+			return FileHelper.sanitiseFilename(name);
 		}
 		
 		if (argElement != null) {
 			name += "-" + argElement.getTitle();
 		}
 		else {
-			return name;
+			return FileHelper.sanitiseFilename(name);
 		}
 		
 		if (argSample != null) {
 			name += "-" + argSample.getTitle();
 		}
 		else {
-			return name;
+			return FileHelper.sanitiseFilename(name);
 		}
 		
 		if (argRadius != null) {
 			name += "-" + argRadius.getTitle();
 		}
 		else {
-			return name;
+			return FileHelper.sanitiseFilename(name);
 		}
 		
 		if (argSeries != null) {
 			name += "-" + argSeries.getTitle();		
 		}
 		else {
-			return name;
+			return FileHelper.sanitiseFilename(name);
 		}
 		
 		if(argValues!=null && argValues.isSetVariable())
@@ -113,7 +114,7 @@ public class TellervoHierarchicalWithVariableNamingConvention extends AbstractNa
 		}
 		
 
-		return name;
+		return FileHelper.sanitiseFilename(name);
 	}
 	
 	@Override

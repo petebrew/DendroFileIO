@@ -307,7 +307,12 @@ public class FHX2Writer extends AbstractDendroCollectionWriter {
 			
 			int difference = year.diff(getFirstYear());
 			
-			return series.getValues().get(0).getValues().get(difference);
+			try{
+				return series.getValues().get(0).getValues().get(difference);
+			} catch (Exception e)
+			{
+				return null;
+			}
 		}
 	}
 

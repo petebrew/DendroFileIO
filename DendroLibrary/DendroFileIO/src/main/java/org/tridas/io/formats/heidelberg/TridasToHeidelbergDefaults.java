@@ -261,16 +261,8 @@ public class TridasToHeidelbergDefaults extends AbstractMetadataFieldSet impleme
 			yearEnd = new SafeIntYear (getIntegerDefaultValue(DefaultFields.DATE_END).getValue());
 		} catch (Exception e)
 		{}
-		Boolean isSetYearBegin = false;
-		Boolean isSetYearEnd = false;
-		if(getIntegerDefaultValue(DefaultFields.DATE_BEGIN).getValue()!=null)
-		{
-			isSetYearBegin= true;
-		}
-		if(getIntegerDefaultValue(DefaultFields.DATE_END).getValue()!=null)
-		{
-			isSetYearEnd= true;
-		}
+		Boolean isSetYearBegin = yearBegin!=null;
+		Boolean isSetYearEnd = yearEnd!=null;
 		
 		// If one or tother is not set, calculate using the length
 		if(isSetYearBegin==true && isSetYearEnd==false)
@@ -589,8 +581,8 @@ public class TridasToHeidelbergDefaults extends AbstractMetadataFieldSet impleme
 				List<Double> points = null;
 				points = location.getLocationGeometry().getPoint().getPos().getValues();
 				if(points.size()!=2) { return;}
-				getStringDefaultValue(DefaultFields.LATITUDE).setValue(points.get(0).toString());
-				getStringDefaultValue(DefaultFields.LONGITUDE).setValue(points.get(1).toString());
+				getDoubleDefaultValue(DefaultFields.LATITUDE).setValue(points.get(0));
+				getDoubleDefaultValue(DefaultFields.LONGITUDE).setValue(points.get(1));
 			} catch (Exception ex){	}
 		}
 		

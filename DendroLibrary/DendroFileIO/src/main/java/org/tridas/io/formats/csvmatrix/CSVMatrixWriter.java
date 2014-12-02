@@ -61,6 +61,10 @@ public class CSVMatrixWriter extends AbstractDendroCollectionWriter {
 			List<TridasDerivedSeries> lst = argProject.getDerivedSeries();
 			for (TridasDerivedSeries ds : lst) {
 				
+				
+				if(!ds.isSetValues()) continue;
+				if(ds.getValues().isEmpty()) continue;
+				
 				// add to list
 				seriesList.add(ds);
 				
@@ -69,6 +73,7 @@ public class CSVMatrixWriter extends AbstractDendroCollectionWriter {
 					if(!tvsgroup.isSetValues())
 					{
 						this.addWarning(new ConversionWarning(WarningType.IGNORED, I18n.getText("fileio.noDataValues")));
+						
 					}
 				}
 				
@@ -79,6 +84,10 @@ public class CSVMatrixWriter extends AbstractDendroCollectionWriter {
 			List<TridasMeasurementSeries> lst = TridasUtils.getMeasurementSeriesFromTridasProject(argProject);
 			for (TridasMeasurementSeries ser : lst) {
 							
+				
+				if(!ser.isSetValues()) continue;
+				if(ser.getValues().isEmpty()) continue;
+				
 				// add to list
 				seriesList.add(ser);
 				
@@ -96,17 +105,20 @@ public class CSVMatrixWriter extends AbstractDendroCollectionWriter {
 			}
 		} catch (NullPointerException e) {}
 		
+		
+		if(seriesList.size()>0)
+		{
+			CSVMatrixFile file = new CSVMatrixFile(argDefaults);	
+			file.setSeriesList(seriesList);
+			addToFileList(file);
+			naming.registerFile(file, argProject, null);
+		}
+		
 		if(this.getFiles().length==0)
 		{
 			this.clearWarnings();
 			throw new ImpossibleConversionException("File conversion failed.  This output format is unable to represent the data stored in the input file.");
 		}
-		
-		CSVMatrixFile file = new CSVMatrixFile(argDefaults);
-		
-		file.setSeriesList(seriesList);
-		addToFileList(file);
-		naming.registerFile(file, argProject, null);
 		
 	}
 	
