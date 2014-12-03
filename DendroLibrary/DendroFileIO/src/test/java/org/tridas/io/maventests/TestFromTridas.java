@@ -33,13 +33,9 @@ import org.tridas.io.formats.belfastapple.BelfastAppleWriter;
 import org.tridas.io.formats.besancon.BesanconWriter;
 import org.tridas.io.formats.catras.CatrasWriter;
 import org.tridas.io.formats.corina.CorinaWriter;
-import org.tridas.io.formats.csvmatrix.CSVMatrixWriter;
 import org.tridas.io.formats.excelmatrix.ExcelMatrixWriter;
-import org.tridas.io.formats.fhx2.FHX2Writer;
 import org.tridas.io.formats.heidelberg.HeidelbergWriter;
 import org.tridas.io.formats.nottingham.NottinghamWriter;
-import org.tridas.io.formats.odfmatrix.ODFMatrixWriter;
-import org.tridas.io.formats.ooxml.OOXMLWriter;
 import org.tridas.io.formats.oxford.OxfordWriter;
 import org.tridas.io.formats.past4.Past4Writer;
 import org.tridas.io.formats.sheffield.SheffieldWriter;
@@ -55,7 +51,7 @@ import org.tridas.schema.TridasTridas;
 public class TestFromTridas extends TestCase {
 
 	private static final Logger log = LoggerFactory.getLogger(TestFromTridas.class);
-	private static final String outputFolder = System.getProperty("java.io.tmpdir")+"/out/";
+	private static final String outputFolder = System.getProperty("java.io.tmpdir")+"/DendroFileIOTests/";
 	private static final String inputFolder = "TestData/TRiDaS";
 
 	private String[] getFilesFromFolder(String folder) {
@@ -124,7 +120,7 @@ public class TestFromTridas extends TestCase {
 		}
 	}
 
-	public void testTridasToTrims() {
+	/*public void testTridasToTrims() {
 
 		try {
 			genericTest(TridasReader.class, TrimsWriter.class);
@@ -133,7 +129,7 @@ public class TestFromTridas extends TestCase {
 		} catch (IllegalAccessException e) {
 			fail();
 		}
-	}
+	}*/
 
 	public void testTridasToBelfastApple() {
 
@@ -288,6 +284,10 @@ public class TestFromTridas extends TestCase {
 		log.debug("********************************************************************************************");
 		
 		String[] files = getFilesFromFolder(inputFolder);
+		
+		//String[] files = new String[1];
+		//files[0] = "TestData/TRiDaS/StringRingValues.xml";
+		
 
 		if (files.length == 0) {
 			fail();
