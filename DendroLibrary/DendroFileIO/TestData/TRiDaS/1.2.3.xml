@@ -1,4 +1,4 @@
-<t:tridas xmlns:t="http://wwddw.tridas.org/1.2.3">
+<t:tridas xmlns:t="http://www.tridas.org/1.2.3">
    <t:project>
       <t:title>title0</t:title>
       <t:identifier domain="domain1">identifier0</t:identifier>
