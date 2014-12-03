@@ -287,7 +287,7 @@ public class TridasVersionTransformer {
 
 		if(lines==null) return null;
 		
-		StringBuilder fileString = new StringBuilder();
+		/*StringBuilder fileString = new StringBuilder();
 		Boolean firstLine = true;
 		for (String s : lines) {
 			if(firstLine)
@@ -299,16 +299,25 @@ public class TridasVersionTransformer {
 			{
 				fileString.append(s + "\n");
 			}
+		}*/
+		StringBuilder sb = new StringBuilder();
+		for (String s : lines) {
+			
+			s = s.replace("?>", "??");
+			//s = s.replace("XXXX>", "??");
+			sb.append(s);
+			if(s.contains(">")) break;
 		}
 		
-		
-		
+
+			
 		String regex = null;
 		Pattern p1;
 		Matcher m1;
 		regex = "http://www.tridas.org/[\\d.]*";
+		//regex = "xmlns:?[\\S]*=\"http://www.tridas.org/";
 		p1 = Pattern.compile(regex, Pattern.CASE_INSENSITIVE | Pattern.DOTALL);
-		String xmlfile = fileString.toString();
+		String xmlfile = sb.toString();
 		m1 = p1.matcher(xmlfile);
 		if (m1.find()) 
 		{
