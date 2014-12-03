@@ -829,6 +829,85 @@ public class TridasUtils {
 		return null;
 	}
 		
+	/**
+	 * Search a Tridas container for a entity with the specified identifier
+	 * 
+	 * @param container
+	 * @param id
+	 * @return
+	 */
+	public static ITridas findEntityInContainer(TridasTridas container, TridasIdentifier id)
+	{
+		if(container==null || id ==null ) return null;
+		
+		// Recurse through projects
+		for(TridasProject project : container.getProjects())
+		{
+			if(doesEntityMatchIdentifier(project, id))
+			{
+				return project;
+			}
+			
+			// Recurse through objects
+			for(TridasObject object : project.getObjects())
+			{
+				if(doesEntityMatchIdentifier(object, id))
+				{
+					return object;
+				}
+				
+				// Recurse through elements
+				for(TridasElement element : object.getElements())
+				{
+					if(doesEntityMatchIdentifier(element, id))
+					{
+						return element;
+					}
+					
+					// Recurse through samples
+					for(TridasSample sample : element.getSamples())
+					{
+						if(doesEntityMatchIdentifier(sample, id))
+						{
+							return sample;
+						}
+						
+						// Recurse through radii
+						for(TridasRadius radius : sample.getRadiuses())
+						{
+						
+							if(doesEntityMatchIdentifier(radius, id))
+							{
+								return radius;
+							}
+							
+							// Recurse through measurementSeries
+							for(TridasMeasurementSeries series : radius.getMeasurementSeries())
+							{
+								
+								if(doesEntityMatchIdentifier(series, id))
+								{
+									return series;
+								}
+							}
+						}
+					}
+				}
+				
+				// Recurse through derivedSeries
+				for(TridasDerivedSeries derivedSeries : project.getDerivedSeries())
+				{
+					if(doesEntityMatchIdentifier(derivedSeries, id))
+					{
+						return derivedSeries;
+					}
+				}
+			}
+		}
+
+		return null;
+	}
+	
 	
 	/**
 	 * Returns true if the TRiDaS entities identifier matches the one specified
