@@ -56,7 +56,7 @@ public class TestFromTridas extends TestCase {
 
 	private static final Logger log = LoggerFactory.getLogger(TestFromTridas.class);
 	private static final String outputFolder = System.getProperty("java.io.tmpdir")+"/out/";
-	private static final String inputFolder = "TestData/ProblemFiles";
+	private static final String inputFolder = "TestData/TRiDaS";
 
 	private String[] getFilesFromFolder(String folder) {
 		File dir = new File(folder);

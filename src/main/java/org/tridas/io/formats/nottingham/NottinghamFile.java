@@ -15,8 +15,6 @@
  */
 package org.tridas.io.formats.nottingham;
 
-import java.util.ArrayList;
-
 import org.apache.commons.lang.StringUtils;
 import org.tridas.interfaces.ITridasSeries;
 import org.tridas.io.IDendroFile;
@@ -73,7 +71,7 @@ public class NottinghamFile implements IDendroFile {
 	
 	
 		sb.append(defaults.getStringDefaultValue(DefaultFields.SERIES_TITLE).getValue() + " " +
-				 defaults.getIntegerDefaultValue(DefaultFields.RING_COUNT).getValue()+System.lineSeparator());
+				 defaults.getIntegerDefaultValue(DefaultFields.RING_COUNT).getValue()+System.getProperty("line.separator"));
 		
 		
 		int i=1;
@@ -84,11 +82,11 @@ public class NottinghamFile implements IDendroFile {
 			i++;
 			
 			// If this is the 20th value add line to file
-			if(i==20) sb.append(System.lineSeparator());
+			if(i==20) sb.append(System.getProperty("line.separator"));
 		}
 				
 		// Return array of lines
-		return sb.toString().split(System.lineSeparator());
+		return sb.toString().split(System.getProperty("line.separator"));
 		
 	}
 
