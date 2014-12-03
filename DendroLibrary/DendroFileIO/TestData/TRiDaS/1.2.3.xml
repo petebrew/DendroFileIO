@@ -1,0 +1,425 @@
+<t:tridas xmlns:t="http://wwddw.tridas.org/1.2.3">
+   <t:project>
+      <t:title>title0</t:title>
+      <t:identifier domain="domain1">identifier0</t:identifier>
+      <t:createdTimestamp certainty="unknown">2006-05-04T18:13:51.0Z</t:createdTimestamp>
+      <t:lastModifiedTimestamp certainty="unknown">2006-05-04T18:13:51.0Z</t:lastModifiedTimestamp>
+      <t:comments>comments0</t:comments>
+      <t:type lang="en-US"
+              normal="normal1"
+              normalId="normalId1"
+              normalStd="normalStd1">type0</t:type>
+      <t:type lang="en-US"
+              normal="normal3"
+              normalId="normalId3"
+              normalStd="normalStd3">type1</t:type>
+      <t:description>description0</t:description>
+      <t:file xmlns:xlink="http://www.w3.org/1999/xlink"
+              xlink:href="http://www.oxygenxml.com/"/>
+      <t:file xmlns:xlink="http://www.w3.org/1999/xlink"
+              xlink:href="http://www.oxygenxml.com/"/>
+      <t:laboratory>
+         <t:identifier domain="domain3">identifier1</t:identifier>
+         <t:name acronym="acronym1">name0</t:name>
+         <t:address>
+            <t:addressLine1>addressLine10</t:addressLine1>
+            <t:addressLine2>addressLine20</t:addressLine2>
+            <t:cityOrTown>cityOrTown0</t:cityOrTown>
+            <t:stateProvinceRegion>stateProvinceRegion0</t:stateProvinceRegion>
+            <t:postalCode>postalCode0</t:postalCode>
+            <t:country>country0</t:country>
+         </t:address>
+      </t:laboratory>
+      <t:laboratory>
+         <t:identifier domain="domain5">identifier2</t:identifier>
+         <t:name acronym="acronym3">name1</t:name>
+         <t:address>
+            <t:addressLine1>addressLine11</t:addressLine1>
+            <t:addressLine2>addressLine21</t:addressLine2>
+            <t:cityOrTown>cityOrTown1</t:cityOrTown>
+            <t:stateProvinceRegion>stateProvinceRegion1</t:stateProvinceRegion>
+            <t:postalCode>postalCode1</t:postalCode>
+            <t:country>country1</t:country>
+         </t:address>
+      </t:laboratory>
+      <t:category>category0</t:category>
+      <t:investigator>investigator0</t:investigator>
+      <t:period>period0</t:period>
+      <t:requestDate certainty="unknown">2006-05-04</t:requestDate>
+      <t:commissioner>commissioner0</t:commissioner>
+      <t:reference>reference0</t:reference>
+      <t:reference>reference1</t:reference>
+      <t:research>
+         <t:identifier domain="domain7">identifier3</t:identifier>
+         <t:description>description1</t:description>
+      </t:research>
+      <t:research>
+         <t:identifier domain="domain9">identifier4</t:identifier>
+         <t:description>description2</t:description>
+      </t:research>
+      <t:genericField name="name1" type="xs:string">genericField0</t:genericField>
+      <t:genericField name="name3" type="xs:string">genericField1</t:genericField>
+      <t:object>
+         <t:title>title1</t:title>
+         <t:identifier domain="domain11">identifier5</t:identifier>
+         <t:createdTimestamp certainty="unknown">2006-05-04T18:13:51.0Z</t:createdTimestamp>
+         <t:lastModifiedTimestamp certainty="unknown">2006-05-04T18:13:51.0Z</t:lastModifiedTimestamp>
+         <t:comments>comments1</t:comments>
+         <t:type lang="en-US"
+                 normal="normal7"
+                 normalId="normalId7"
+                 normalStd="normalStd7">type2</t:type>
+         <t:description>description3</t:description>
+         <t:linkSeries>
+            <t:preferredSeries>
+               <t:xLink xmlns:xlink="http://www.w3.org/1999/xlink" xlink:href="http://blah.com"/>
+            </t:preferredSeries>
+         </t:linkSeries>
+         <t:file xmlns:xlink="http://www.w3.org/1999/xlink"
+                 xlink:href="http://www.oxygenxml.com/"/>
+         <t:file xmlns:xlink="http://www.w3.org/1999/xlink"
+                 xlink:href="http://www.oxygenxml.com/"/>
+         <t:creator>creator0</t:creator>
+         <t:owner>owner0</t:owner>
+         <t:coverage>
+            <t:coverageTemporal>coverageTemporal0</t:coverageTemporal>
+            <t:coverageTemporalFoundation>coverageTemporalFoundation0</t:coverageTemporalFoundation>
+         </t:coverage>
+         <t:location>
+            <t:locationGeometry>
+               <gml:Point xmlns:gml="http://www.opengis.net/gml"
+                          xmlns:tridas="http://www.tridas.org/1.2.2"
+                          xmlns:xlink="http://www.w3.org/1999/xlink"
+                          srsName="EPSG:4326">
+                  <gml:pos>0.0 0.0</gml:pos>
+               </gml:Point>
+            </t:locationGeometry>
+            <t:locationType>growth location</t:locationType>
+            <t:locationPrecision>locationPrecision0</t:locationPrecision>
+            <t:locationComment>locationComment0</t:locationComment>
+            <t:address>
+               <t:addressLine1>addressLine12</t:addressLine1>
+               <t:addressLine2>addressLine22</t:addressLine2>
+               <t:cityOrTown>cityOrTown2</t:cityOrTown>
+               <t:stateProvinceRegion>stateProvinceRegion2</t:stateProvinceRegion>
+               <t:postalCode>postalCode2</t:postalCode>
+               <t:country>country2</t:country>
+            </t:address>
+         </t:location>
+         <t:genericField name="name5" type="xs:string">genericField2</t:genericField>
+         <t:genericField name="name7" type="xs:string">genericField3</t:genericField>
+         <t:element>
+            <t:title>title2</t:title>
+            <t:identifier domain="domain13">identifier6</t:identifier>
+            <t:createdTimestamp certainty="unknown">2006-05-04T18:13:51.0Z</t:createdTimestamp>
+            <t:lastModifiedTimestamp certainty="unknown">2006-05-04T18:13:51.0Z</t:lastModifiedTimestamp>
+            <t:comments>comments2</t:comments>
+            <t:type lang="en-US"
+                    normal="normal9"
+                    normalId="normalId9"
+                    normalStd="normalStd9">type3</t:type>
+            <t:description>description4</t:description>
+            <t:linkSeries>
+               <t:preferredSeries>
+                  <t:identifier domain="http://www.blah.com">12345</t:identifier>
+               </t:preferredSeries>
+            </t:linkSeries>
+            <t:file xmlns:xlink="http://www.w3.org/1999/xlink"
+                    xlink:href="http://www.oxygenxml.com/"/>
+            <t:file xmlns:xlink="http://www.w3.org/1999/xlink"
+                    xlink:href="http://www.oxygenxml.com/"/>
+            <t:taxon lang="en-US"
+                     normal="normal11"
+                     normalId="normalId11"
+                     normalStd="normalStd11">taxon0</t:taxon>
+            <t:shape lang="en-US"
+                     normal="normal13"
+                     normalId="normalId13"
+                     normalStd="normalStd13"
+                     normalTridas="whole section">shape0</t:shape>
+            <t:dimensions>
+               <t:unit lang="en-US"
+                       normal="normal15"
+                       normalId="normalId15"
+                       normalStd="normalStd15"
+                       normalTridas="micrometres">unit0</t:unit>
+               <t:height>0</t:height>
+               <t:width>0</t:width>
+               <t:depth>0</t:depth>
+            </t:dimensions>
+            <t:authenticity>authenticity0</t:authenticity>
+            <t:location>
+               <t:locationGeometry>
+                  <gml:Point xmlns:gml="http://www.opengis.net/gml"
+                             xmlns:tridas="http://www.tridas.org/1.2.2"
+                             xmlns:xlink="http://www.w3.org/1999/xlink"
+                             gml:id="ID003"
+                             srsName="http://www.oxygenxml.com/">
+                     <gml:pos>0.0</gml:pos>
+                  </gml:Point>
+               </t:locationGeometry>
+               <t:locationType>growth location</t:locationType>
+               <t:locationPrecision>locationPrecision1</t:locationPrecision>
+               <t:locationComment>locationComment1</t:locationComment>
+               <t:address>
+                  <t:addressLine1>addressLine13</t:addressLine1>
+                  <t:addressLine2>addressLine23</t:addressLine2>
+                  <t:cityOrTown>cityOrTown3</t:cityOrTown>
+                  <t:stateProvinceRegion>stateProvinceRegion3</t:stateProvinceRegion>
+                  <t:postalCode>postalCode3</t:postalCode>
+                  <t:country>country3</t:country>
+               </t:address>
+            </t:location>
+            <t:processing>processing0</t:processing>
+            <t:marks>marks0</t:marks>
+            <t:elevation>0.0</t:elevation>
+            <t:slope>
+               <t:angle>0</t:angle>
+               <t:azimuth>0</t:azimuth>
+            </t:slope>
+            <t:soil>
+               <t:description>description5</t:description>
+               <t:depth>0.0</t:depth>
+            </t:soil>
+            <t:bedrock>
+               <t:description>description6</t:description>
+            </t:bedrock>
+            <t:genericField name="name9" type="xs:string">genericField4</t:genericField>
+            <t:genericField name="name11" type="xs:string">genericField5</t:genericField>
+            <t:sample>
+               <t:title>title3</t:title>
+               <t:identifier domain="domain15">identifier7</t:identifier>
+               <t:createdTimestamp certainty="unknown">2006-05-04T18:13:51.0Z</t:createdTimestamp>
+               <t:lastModifiedTimestamp certainty="unknown">2006-05-04T18:13:51.0Z</t:lastModifiedTimestamp>
+               <t:comments>comments3</t:comments>
+               <t:type lang="en-US"
+                       normal="normal17"
+                       normalId="normalId17"
+                       normalStd="normalStd17">type4</t:type>
+               <t:description>description7</t:description>
+               <t:file xmlns:xlink="http://www.w3.org/1999/xlink"
+                       xlink:href="http://www.oxygenxml.com/"/>
+               <t:file xmlns:xlink="http://www.w3.org/1999/xlink"
+                       xlink:href="http://www.oxygenxml.com/"/>
+               <t:samplingDate certainty="unknown">2006-05-04</t:samplingDate>
+               <t:position>position0</t:position>
+               <t:state>state0</t:state>
+               <t:knots>false</t:knots>
+               <t:genericField name="name13" type="xs:string">genericField6</t:genericField>
+               <t:genericField name="name15" type="xs:string">genericField7</t:genericField>
+            </t:sample>
+            <t:sample>
+               <t:title>title4</t:title>
+               <t:identifier domain="domain17">identifier8</t:identifier>
+               <t:createdTimestamp certainty="unknown">2006-05-04T18:13:51.0Z</t:createdTimestamp>
+               <t:lastModifiedTimestamp certainty="unknown">2006-05-04T18:13:51.0Z</t:lastModifiedTimestamp>
+               <t:comments>comments4</t:comments>
+               <t:type lang="en-US"
+                       normal="normal19"
+                       normalId="normalId19"
+                       normalStd="normalStd19">type5</t:type>
+               <t:description>description8</t:description>
+               <t:file xmlns:xlink="http://www.w3.org/1999/xlink"
+                       xlink:href="http://www.oxygenxml.com/"/>
+               <t:file xmlns:xlink="http://www.w3.org/1999/xlink"
+                       xlink:href="http://www.oxygenxml.com/"/>
+               <t:samplingDate certainty="unknown">2006-05-04</t:samplingDate>
+               <t:position>position1</t:position>
+               <t:state>state1</t:state>
+               <t:knots>false</t:knots>
+               <t:genericField name="name17" type="xs:string">genericField8</t:genericField>
+               <t:genericField name="name19" type="xs:string">genericField9</t:genericField>
+               <t:radius>
+                  <t:title>title5</t:title>
+                  <t:identifier domain="domain19">identifier9</t:identifier>
+                  <t:createdTimestamp certainty="unknown">2006-05-04T18:13:51.0Z</t:createdTimestamp>
+                  <t:lastModifiedTimestamp certainty="unknown">2006-05-04T18:13:51.0Z</t:lastModifiedTimestamp>
+                  <t:comments>comments5</t:comments>
+                  <t:woodCompleteness>
+                     <t:pith presence="unknown"/>
+                     <t:heartwood presence="unknown"/>
+                     <t:sapwood presence="unknown"/>
+                     <t:bark presence="present"/>
+                  </t:woodCompleteness>
+                  <t:azimuth>0</t:azimuth>
+                  <t:genericField name="name21" type="xs:string">genericField10</t:genericField>
+                  <t:genericField name="name23" type="xs:string">genericField11</t:genericField>
+                  <t:measurementSeries id="ID007">
+                     <t:title>ABC0001</t:title>
+                     <t:analyst>Brewer, Peter</t:analyst>
+                     <t:measuringMethod lang="en-US"
+                                        normal="normal21"
+                                        normalId="normalId21"
+                                        normalStd="normalStd21"
+                                        normalTridas="measuring platform">measuringMethod0</t:measuringMethod>
+                     <t:values>
+                        <t:variable normalTridas="ring width"/>
+                        <t:unit normalTridas="1/100th millimetres"/>
+                        <t:value value="123"/>
+                        <t:value value="123"/>
+                        <t:value value="123"/>
+                        <t:value value="125"/>
+                     </t:values>
+                  </t:measurementSeries>
+               </t:radius>
+               <t:radius>
+                  <t:title>title8</t:title>
+                  <t:identifier domain="domain21">identifier10</t:identifier>
+                  <t:createdTimestamp certainty="unknown">2006-05-04T18:13:51.0Z</t:createdTimestamp>
+                  <t:lastModifiedTimestamp certainty="unknown">2006-05-04T18:13:51.0Z</t:lastModifiedTimestamp>
+                  <t:comments>comments6</t:comments>
+                  <t:woodCompleteness>
+                     <t:pith presence="unknown"/>
+                     <t:heartwood presence="unknown"/>
+                     <t:sapwood presence="unknown"/>
+                     <t:bark presence="present"/>
+                  </t:woodCompleteness>
+                  <t:azimuth>0</t:azimuth>
+                  <t:genericField name="name25" type="xs:string">genericField12</t:genericField>
+                  <t:genericField name="name27" type="xs:string">genericField13</t:genericField>
+                  <t:measurementSeries id="ID011">
+                     <t:title>ABC0002</t:title>
+                     <t:measuringMethod lang="en-US"
+                                        normal="normal21"
+                                        normalId="normalId21"
+                                        normalStd="normalStd21"
+                                        normalTridas="measuring platform">measuringMethod0</t:measuringMethod>
+                     <t:values>
+                        <t:variable normalTridas="ring width"/>
+                        <t:unit normalTridas="1/100th millimetres"/>
+                        <t:value value="123"/>
+                        <t:value value="123"/>
+                        <t:value value="123"/>
+                        <t:value value="125"/>
+                     </t:values>
+                  </t:measurementSeries>
+               </t:radius>
+            </t:sample>
+         </t:element>
+      </t:object>
+      <t:derivedSeries id="ID069">
+         <t:title>ABC0003</t:title>
+         <t:identifier domain="domain61">identifier30</t:identifier>
+         <t:createdTimestamp certainty="unknown">2006-05-04T18:13:51.0Z</t:createdTimestamp>
+         <t:lastModifiedTimestamp certainty="unknown">2006-05-04T18:13:51.0Z</t:lastModifiedTimestamp>
+         <t:comments>comments24</t:comments>
+         <t:derivationDate certainty="unknown">2006-05-04</t:derivationDate>
+         <t:type lang="en-US"
+                 normal="normal113"
+                 normalId="normalId113"
+                 normalStd="normalStd113">type17</t:type>
+         <t:linkSeries>
+            <t:series>
+               <t:idRef ref="ID007"/>
+            </t:series>
+            <t:series>
+               <t:identifier domain="domain63">identifier31</t:identifier>
+            </t:series>
+         </t:linkSeries>
+         <t:objective>objective1</t:objective>
+         <t:standardizingMethod>standardizingMethod1</t:standardizingMethod>
+         <t:author>author1</t:author>
+         <t:version>version1</t:version>
+         <t:interpretationUnsolved/>
+         <t:location>
+            <t:locationGeometry>
+               <gml:Point xmlns:gml="http://www.opengis.net/gml"
+                          xmlns:tridas="http://www.tridas.org/1.2.2"
+                          xmlns:xlink="http://www.w3.org/1999/xlink"
+                          gml:id="ID071"
+                          srsName="http://www.oxygenxml.com/">
+                  <gml:description>description3</gml:description>
+                  <gml:name codeSpace="http://www.oxygenxml.com/">name6</gml:name>
+                  <gml:name codeSpace="http://www.oxygenxml.com/">name7</gml:name>
+                  <gml:pos>0.0</gml:pos>
+               </gml:Point>
+            </t:locationGeometry>
+            <t:locationType>growth location</t:locationType>
+            <t:locationPrecision>locationPrecision7</t:locationPrecision>
+            <t:locationComment>locationComment7</t:locationComment>
+            <t:address>
+               <t:addressLine1>addressLine19</t:addressLine1>
+               <t:addressLine2>addressLine29</t:addressLine2>
+               <t:cityOrTown>cityOrTown9</t:cityOrTown>
+               <t:stateProvinceRegion>stateProvinceRegion9</t:stateProvinceRegion>
+               <t:postalCode>postalCode9</t:postalCode>
+               <t:country>country9</t:country>
+            </t:address>
+         </t:location>
+         <t:genericField name="name97" type="xs:string">genericField48</t:genericField>
+         <t:genericField name="name99" type="xs:string">genericField49</t:genericField>
+         <t:values>
+            <t:variable lang="en-US"
+                        normal="normal115"
+                        normalId="normalId115"
+                        normalStd="normalStd115"
+                        normalTridas="earlywood density">variable2</t:variable>
+            <t:unitless/>
+            <t:value count="1" value="500">
+               <t:remark inheritedCount="0"
+                         lang="en-US"
+                         normal="normal117"
+                         normalId="normalId117"
+                         normalStd="normalStd117"
+                         normalTridas="fire damage">remark8</t:remark>
+               <t:remark inheritedCount="0"
+                         lang="en-US"
+                         normal="normal119"
+                         normalId="normalId119"
+                         normalStd="normalStd119"
+                         normalTridas="fire damage">remark9</t:remark>
+            </t:value>
+            <t:value count="2" value="570">
+               <t:remark inheritedCount="0"
+                         lang="en-US"
+                         normal="normal121"
+                         normalId="normalId121"
+                         normalStd="normalStd121"
+                         normalTridas="fire damage">remark10</t:remark>
+               <t:remark inheritedCount="0"
+                         lang="en-US"
+                         normal="normal123"
+                         normalId="normalId123"
+                         normalStd="normalStd123"
+                         normalTridas="fire damage">remark11</t:remark>
+            </t:value>
+         </t:values>
+         <t:values>
+            <t:variable lang="en-US"
+                        normal="normal125"
+                        normalId="normalId125"
+                        normalStd="normalStd125"
+                        normalTridas="ring width">variable3</t:variable>
+            <t:unit>Wierd units</t:unit>
+            <t:value count="0" value="96">
+               <t:remark inheritedCount="0"
+                         lang="en-US"
+                         normal="normal129"
+                         normalId="normalId129"
+                         normalStd="normalStd129"
+                         normalTridas="fire damage">remark12</t:remark>
+               <t:remark inheritedCount="0"
+                         lang="en-US"
+                         normal="normal131"
+                         normalId="normalId131"
+                         normalStd="normalStd131"
+                         normalTridas="fire damage">remark13</t:remark>
+            </t:value>
+            <t:value count="0" value="34">
+               <t:remark inheritedCount="0"
+                         lang="en-US"
+                         normal="normal133"
+                         normalId="normalId133"
+                         normalStd="normalStd133"
+                         normalTridas="fire damage">remark14</t:remark>
+               <t:remark inheritedCount="0"
+                         lang="en-US"
+                         normal="normal135"
+                         normalId="normalId135"
+                         normalStd="normalStd135"
+                         normalTridas="fire damage">remark15</t:remark>
+            </t:value>
+         </t:values>
+      </t:derivedSeries>
+   </t:project>
+</t:tridas>
