@@ -34,11 +34,13 @@ public class TrimsFile implements IDendroFile {
 	private TridasToTrimsDefaults defaults;
 	private ArrayList<Integer> data = new ArrayList<Integer>();
 	
-	public TrimsFile(IMetadataFieldSet argDefaults) {
+	public TrimsFile(IMetadataFieldSet argDefaults, ArrayList<Integer> data) {
 		defaults = (TridasToTrimsDefaults) argDefaults;
+		this.data = data;
+
 	}
 		
-	public void setSeries(ITridasSeries series) throws ConversionWarningException {
+	private void setSeries(ITridasSeries series) throws ConversionWarningException {
 		
 		// Extract ring widths from series
 		List<TridasValue> valueList;

@@ -295,7 +295,7 @@ public class TucsonReader extends AbstractDendroFileReader {
 			// Handle line depending on type
 			TucsonLineType linetype = getLineType(line);
 			
-			log.debug("Line "+this.currentLineNumber+" = "+linetype.toString());
+			//log.debug("Line "+this.currentLineNumber+" = "+linetype.toString());
 			
 			switch (linetype) {
 			case HEADER_LINE1:

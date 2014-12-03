@@ -21,11 +21,14 @@ import java.util.List;
 import org.tridas.io.AbstractDendroCollectionWriter;
 import org.tridas.io.I18n;
 import org.tridas.io.defaults.IMetadataFieldSet;
+import org.tridas.io.exceptions.ConversionWarning;
+import org.tridas.io.exceptions.ConversionWarning.WarningType;
 import org.tridas.io.exceptions.ConversionWarningException;
 import org.tridas.io.exceptions.ImpossibleConversionException;
 import org.tridas.io.naming.INamingConvention;
 import org.tridas.io.naming.NumericalNamingConvention;
 import org.tridas.io.util.TridasUtils;
+import org.tridas.schema.NormalTridasVariable;
 import org.tridas.schema.TridasDerivedSeries;
 import org.tridas.schema.TridasElement;
 import org.tridas.schema.TridasMeasurementSeries;
@@ -33,6 +36,8 @@ import org.tridas.schema.TridasObject;
 import org.tridas.schema.TridasProject;
 import org.tridas.schema.TridasRadius;
 import org.tridas.schema.TridasSample;
+import org.tridas.schema.TridasValue;
+import org.tridas.schema.TridasValues;
 
 public class TrimsWriter extends AbstractDendroCollectionWriter {
 	
@@ -59,11 +64,62 @@ public class TrimsWriter extends AbstractDendroCollectionWriter {
 							
 				TridasToTrimsDefaults def = (TridasToTrimsDefaults) defaults.clone();
 				def.populateFromTridasDerivedSeries(ds);
-				// Create a TrimsFile for each and add to file list
-				TrimsFile file = new TrimsFile(def);
-				naming.registerFile(file, argProject, ds);
-				file.setSeries(ds);
-				addToFileList(file);
+				
+				for(TridasValues values : ds.getValues())
+				{
+					if(!values.isSetValues() || values.getValues().size()==0)
+					{
+						this.addWarning(new ConversionWarning(WarningType.NULL_VALUE, I18n.getText("fileio.noData")));
+						continue;
+					}
+					
+					if(values.isSetVariable())
+					{
+						if(values.getVariable().isSetNormalTridas() && 
+								values.getVariable().getNormalTridas().equals(NormalTridasVariable.RING_WIDTH))
+						{
+							// Great!
+						}
+						else if (values.getVariable().isSetNormalTridas())
+						{
+							this.addWarning(new ConversionWarning(WarningType.UNREPRESENTABLE, "TRIMS format does not support "+values.getVariable().getNormalTridas().toString().toLowerCase().replace("_", " ")+ " data."));
+							continue;
+
+						}
+						else 
+						{
+							this.addWarning(new ConversionWarning(WarningType.AMBIGUOUS, "Standard data variable not specified in input file.  Assuming data is whole ring widths"));
+						}
+					}
+					else
+					{
+						throw new ConversionWarningException(new ConversionWarning(WarningType.AMBIGUOUS, "Standard data variable not specified in input file.  Assuming data is whole ring widths"));
+
+					}
+					
+					
+					ArrayList<Integer> intvals = new ArrayList<Integer>();
+					
+					for(TridasValue datavals : values.getValues())
+					{
+						try{
+							intvals.add(Integer.parseInt(datavals.getValue()));
+						} catch (NumberFormatException e)
+						{
+							this.addWarning(new ConversionWarning(WarningType.UNREPRESENTABLE, "TRIMS format only supports numeric ring width data"));
+							continue;
+						}
+					}
+					
+					// Create a TrimsFile for each and add to file list
+					TrimsFile file = new TrimsFile(def, intvals);
+					naming.registerFile(file, argProject, ds);
+					addToFileList(file);
+					
+				}
+				
+				
+
 			}
 		} catch (NullPointerException e) {}
 		
@@ -120,19 +176,72 @@ public class TrimsWriter extends AbstractDendroCollectionWriter {
 						} catch (NullPointerException e) {}
 						
 						if (serList != null) {
-							for (TridasMeasurementSeries ser : serList) {
 
-								if(!ser.isSetValues()) continue;
-								if(!ser.getValues().get(0).isSetValues()) continue;
+							for (TridasMeasurementSeries ms : serList) 
+							{
 								
+							
+								if(!ms.isSetValues()) continue;
+								if(!ms.getValues().get(0).isSetValues()) continue;
+								
+								if(!ms.isSetValues()) continue;
+								if(!ms.getValues().get(0).isSetValues()) continue;
+											
 								TridasToTrimsDefaults def = (TridasToTrimsDefaults) defaults.clone();
+								def.populateFromTridasMeasurementSeries(ms);
+								
+								for(TridasValues values : ms.getValues())
+								{
+									if(!values.isSetValues() || values.getValues().size()==0)
+									{
+										this.addWarning(new ConversionWarning(WarningType.NULL_VALUE, I18n.getText("fileio.noData")));
+										continue;
+									}
+									
+									if(values.isSetVariable())
+									{
+										if(values.getVariable().isSetNormalTridas() && 
+												values.getVariable().getNormalTridas().equals(NormalTridasVariable.RING_WIDTH))
+										{
+											// Great!
+										}
+										else if (values.getVariable().isSetNormalTridas())
+										{
+											this.addWarning(new ConversionWarning(WarningType.UNREPRESENTABLE, "TRIMS format does not support "+values.getVariable().getNormalTridas().toString().toLowerCase().replace("_", " ")+ " data."));
+											continue;
 
-								def.populateFromTridasMeasurementSeries(ser);
+										}
+										else 
+										{
+											this.addWarning(new ConversionWarning(WarningType.AMBIGUOUS, "Standard data variable not specified in input file.  Assuming data is whole ring widths"));
+										}
+									}
+									else
+									{
+										throw new ConversionWarningException(new ConversionWarning(WarningType.AMBIGUOUS, "Standard data variable not specified in input file.  Assuming data is whole ring widths"));
+
+									}
+									
+									
+									ArrayList<Integer> intvals = new ArrayList<Integer>();
+									
+									for(TridasValue datavals : values.getValues())
+									{
+										try{
+											intvals.add(Integer.parseInt(datavals.getValue()));
+										} catch (NumberFormatException e)
+										{
+											this.addWarning(new ConversionWarning(WarningType.UNREPRESENTABLE, "TRIMS format only supports numeric ring width data"));
+											continue;
+										}
+									}
+								
+								
 								// Create a TrimsFile for each and add to file list
-								TrimsFile file = new TrimsFile(def);
-								naming.registerFile(file, argProject, obj, el, s, r, ser);
-								file.setSeries(ser);
+								TrimsFile file = new TrimsFile(def, intvals);
+								naming.registerFile(file, argProject, obj, el, s, r, ms);
 								addToFileList(file);
+								}
 							}
 						}
 					}

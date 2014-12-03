@@ -120,7 +120,7 @@ public class TestFromTridas extends TestCase {
 		}
 	}
 
-	/*public void testTridasToTrims() {
+	public void testTridasToTrims() {
 
 		try {
 			genericTest(TridasReader.class, TrimsWriter.class);
@@ -129,7 +129,7 @@ public class TestFromTridas extends TestCase {
 		} catch (IllegalAccessException e) {
 			fail();
 		}
-	}*/
+	}
 
 	public void testTridasToBelfastApple() {
 
