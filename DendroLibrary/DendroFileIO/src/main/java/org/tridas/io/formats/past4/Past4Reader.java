@@ -579,6 +579,7 @@ public class Past4Reader extends AbstractDendroFileReader {
 			}
 			else
 			{
+				isDerivedSeries = false;
 				series = currDefaults.getDefaultTridasMeasurementSeries();
 			}
 			
@@ -682,6 +683,11 @@ public class Past4Reader extends AbstractDendroFileReader {
 	 */
 	private List<TridasValues> extractTridasValuesInfoFromContent(String cdata, Boolean isDerivedSeries) throws InvalidDendroFileException
 	{
+		if(isDerivedSeries==null)
+		{
+			isDerivedSeries = false;
+		}
+		
 		return extractTridasValuesInfoFromContent(cdata, isDerivedSeries, false);
 	}
 	
@@ -695,7 +701,7 @@ public class Past4Reader extends AbstractDendroFileReader {
 	 * @return
 	 * @throws InvalidDendroFileException
 	 */
-	private List<TridasValues> extractTridasValuesInfoFromContent(String cdata, Boolean isDerivedSeries, Boolean getUnfilteredData) throws InvalidDendroFileException
+	private List<TridasValues> extractTridasValuesInfoFromContent(String cdata, boolean isDerivedSeries, Boolean getUnfilteredData) throws InvalidDendroFileException
 	{
 		TridasValues valuesGroup = defaults.getTridasValuesWithDefaults();
 		ArrayList<TridasValue> dataValues = new ArrayList<TridasValue>();
