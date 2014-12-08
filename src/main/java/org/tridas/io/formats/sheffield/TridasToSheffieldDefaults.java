@@ -52,7 +52,7 @@ import org.tridas.spatial.GMLPointSRSHandler;
 public class TridasToSheffieldDefaults extends AbstractMetadataFieldSet implements IMetadataFieldSet {
 	
 	public static enum DefaultFields {
-		SITE_NAME, RING_COUNT, DATE_TYPE, START_DATE, DATA_TYPE, SAPWOOD_COUNT, 
+		SITE_NAME_SAMPLE_NUMBER, RING_COUNT, DATE_TYPE, START_DATE, DATA_TYPE, SAPWOOD_COUNT, 
 		TIMBER_COUNT, EDGE_CODE, CHRONOLOGY_TYPE, COMMENT, UK_COORDS, LAT_LONG, 
 		PITH_CODE, SHAPE_CODE, MAJOR_DIM, MINOR_DIM, INNER_RING_CODE, OUTER_RING_CODE,
 		PHASE, SHORT_TITLE, PERIOD, TAXON, INTERPRETATION_COMMENT, VARIABLE_TYPE;
@@ -60,7 +60,7 @@ public class TridasToSheffieldDefaults extends AbstractMetadataFieldSet implemen
 	
 	@Override
 	public void initDefaultValues() {
-		setDefaultValue(DefaultFields.SITE_NAME, new SheffieldStringDefaultValue(I18n.getText("unnamed.object"), 1, 64));
+		setDefaultValue(DefaultFields.SITE_NAME_SAMPLE_NUMBER, new SheffieldStringDefaultValue("", 1, 64));
 		setDefaultValue(DefaultFields.RING_COUNT, new IntegerDefaultValue(1, 2147483647));
 		setDefaultValue(DefaultFields.DATE_TYPE, new GenericDefaultValue<SheffieldDateType>(SheffieldDateType.ABSOLUTE));
 		setDefaultValue(DefaultFields.START_DATE, new IntegerDefaultValue(1));
@@ -97,7 +97,7 @@ public class TridasToSheffieldDefaults extends AbstractMetadataFieldSet implemen
 		// Set site name
 		if(o.isSetTitle())
 		{
-			getSheffieldStringDefaultValue(DefaultFields.SITE_NAME).setValue(o.getTitle());
+			getSheffieldStringDefaultValue(DefaultFields.SITE_NAME_SAMPLE_NUMBER).setValue(o.getTitle());
 		}
 		
 		// Set coordinates using the projection handler to make sure we're reading correctly
@@ -117,6 +117,13 @@ public class TridasToSheffieldDefaults extends AbstractMetadataFieldSet implemen
 	@SuppressWarnings("unchecked")
 	public void populateFromTridasElement(TridasElement e) {
 
+		String line1val = getSheffieldStringDefaultValue(DefaultFields.SITE_NAME_SAMPLE_NUMBER).getStringValue();
+		
+		if(!line1val.equals("") && !line1val.equals(I18n.getText("unnamed.object")) && e.isSetTitle())
+		{
+			getSheffieldStringDefaultValue(DefaultFields.SITE_NAME_SAMPLE_NUMBER).setValue(line1val+" "+e.getTitle());
+		}
+		
 		// Element.taxon = Taxon
 		if(e.isSetTaxon())
 		{
@@ -269,7 +276,13 @@ public class TridasToSheffieldDefaults extends AbstractMetadataFieldSet implemen
 	
 	public void populateFromTridasSample(TridasSample s) {
 
-
+		String line1val = getSheffieldStringDefaultValue(DefaultFields.SITE_NAME_SAMPLE_NUMBER).getStringValue();
+		
+		if(!line1val.equals("") && !line1val.equals(I18n.getText("unnamed.object")) && s.isSetTitle())
+		{
+			getSheffieldStringDefaultValue(DefaultFields.SITE_NAME_SAMPLE_NUMBER).setValue(line1val+" "+s.getTitle());
+		}
+		
 	}
 	
 	public void populateFromTridasRadius(TridasRadius r) {
@@ -295,6 +308,10 @@ public class TridasToSheffieldDefaults extends AbstractMetadataFieldSet implemen
 		if(ms.isSetCreatedTimestamp())
 		{
 			comment+= " "+DateUtils.getFormattedDateTime(ms.getCreatedTimestamp(), new SimpleDateFormat("dd/MM/yyyy"));
+		}
+		if(ms.isSetLastModifiedTimestamp())
+		{
+			comment+= " amended "+DateUtils.getFormattedDateTime(ms.getLastModifiedTimestamp(), new SimpleDateFormat("dd/MM/yyyy"));
 		}
 		if(ms.isSetComments())
 		{
@@ -326,6 +343,15 @@ public class TridasToSheffieldDefaults extends AbstractMetadataFieldSet implemen
 		{
 			comment+= ds.getAuthor();
 		}
+		if(ds.isSetCreatedTimestamp())
+		{
+			comment+= " "+DateUtils.getFormattedDateTime(ds.getCreatedTimestamp(), new SimpleDateFormat("dd/MM/yyyy"));
+		}
+		if(ds.isSetLastModifiedTimestamp())
+		{
+			comment+= " amended "+DateUtils.getFormattedDateTime(ds.getLastModifiedTimestamp(), new SimpleDateFormat("dd/MM/yyyy"));
+		}
+			
 		if(ds.isSetComments())
 		{
 			comment+= " " +ds.getComments();
@@ -336,6 +362,12 @@ public class TridasToSheffieldDefaults extends AbstractMetadataFieldSet implemen
 	@SuppressWarnings("unchecked")
 	private void populateFromTridasSeries(ITridasSeries ser)
 	{
+		if(getSheffieldStringDefaultValue(DefaultFields.SITE_NAME_SAMPLE_NUMBER).getValue().equals("") || 
+				getSheffieldStringDefaultValue(DefaultFields.SITE_NAME_SAMPLE_NUMBER).getValue().equals(I18n.getText("unnamed.object")))
+		{
+			getSheffieldStringDefaultValue(DefaultFields.SITE_NAME_SAMPLE_NUMBER).setValue(ser.getTitle());
+		}
+		
 		// series.title = Short title
 		if (ser.isSetTitle())
 		{
