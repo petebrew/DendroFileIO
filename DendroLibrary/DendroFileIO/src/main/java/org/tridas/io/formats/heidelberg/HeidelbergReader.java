@@ -1147,8 +1147,10 @@ public class HeidelbergReader extends AbstractDendroFileReader {
 					speciesField.setValue(ITRDBTaxonConverter.getControlledVocFromCode("UNKN"));
 					this.addWarning(e.getWarning());
 				}
-				
-
+			}
+			else
+			{
+				speciesField.setValue(ITRDBTaxonConverter.getControlledVocFromCode("UNKN"));
 			}
 						
 			/*if(fileMetadata.containsKey("species")){

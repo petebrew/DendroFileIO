@@ -23,11 +23,14 @@ import org.slf4j.LoggerFactory;
 import org.tridas.io.AbstractDendroCollectionWriter;
 import org.tridas.io.I18n;
 import org.tridas.io.defaults.IMetadataFieldSet;
+import org.tridas.io.defaults.values.GenericDefaultValue;
 import org.tridas.io.exceptions.ConversionWarning;
 import org.tridas.io.exceptions.ConversionWarning.WarningType;
 import org.tridas.io.exceptions.ConversionWarningException;
 import org.tridas.io.exceptions.ImpossibleConversionException;
 import org.tridas.io.formats.sheffield.TridasToSheffieldDefaults.DefaultFields;
+import org.tridas.io.formats.sheffield.TridasToSheffieldDefaults.SheffieldEdgeCode;
+import org.tridas.io.formats.sheffield.TridasToSheffieldDefaults.SheffieldPithCode;
 import org.tridas.io.naming.INamingConvention;
 import org.tridas.io.naming.NumericalNamingConvention;
 import org.tridas.io.util.TridasUtils;
@@ -206,7 +209,16 @@ public class SheffieldWriter extends AbstractDendroCollectionWriter {
 					
 								if(startRingsRemoved>0)
 								{
-									tvDefaults.getStringDefaultValue(DefaultFields.INNER_RING_CODE).setValue("H"+startRingsRemoved);
+									GenericDefaultValue<SheffieldPithCode> pithCodeField = (GenericDefaultValue<SheffieldPithCode>) tvDefaults.getDefaultValue(DefaultFields.PITH_CODE);
+									
+									if(pithCodeField!=null)
+									{
+										tvDefaults.getStringDefaultValue(DefaultFields.INNER_RING_CODE).setValue(pithCodeField.getStringValue()+startRingsRemoved);									
+									}
+									else
+									{
+										tvDefaults.getStringDefaultValue(DefaultFields.INNER_RING_CODE).setValue("?"+startRingsRemoved);
+									}
 								}
 								
 							    
@@ -233,7 +245,16 @@ public class SheffieldWriter extends AbstractDendroCollectionWriter {
 							    
 								if(endRingsRemoved>0)
 								{
-									tvDefaults.getStringDefaultValue(DefaultFields.OUTER_RING_CODE).setValue("S"+endRingsRemoved);
+									GenericDefaultValue<SheffieldEdgeCode> edgeCodeField = (GenericDefaultValue<SheffieldEdgeCode>) tvDefaults.getDefaultValue(DefaultFields.EDGE_CODE);
+									
+									if(edgeCodeField!=null)
+									{
+										tvDefaults.getStringDefaultValue(DefaultFields.OUTER_RING_CODE).setValue(edgeCodeField.getStringValue()+endRingsRemoved);									
+									}
+									else
+									{
+										tvDefaults.getStringDefaultValue(DefaultFields.OUTER_RING_CODE).setValue("U"+endRingsRemoved);
+									}
 								}
 						
 								// Intercept missing rings and replace with 1's as Sheffield can't cope otherwise
