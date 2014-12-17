@@ -241,6 +241,8 @@ public class CatrasReader extends AbstractDendroFileReader {
 		// Species code - byte 59 - 60  (not much use without associated dictionary file)
 		defaults.getIntegerDefaultValue(DefaultFields.SPECIES_CODE)
 			.setValue(getIntFromBytePair(getSubByteArray(argFileBytes, 58, 59)));
+		//defaults.getStringDefaultValue(DefaultFields.SPECIES_CODE).setValue(new String(getSubByteArray(argFileBytes, 58, 59)));
+		
 		
 		// 61, 62, 63 creation date- dd, mm, yy respectively
 		try{
@@ -442,7 +444,7 @@ public class CatrasReader extends AbstractDendroFileReader {
 	
 		// Check for lead-in and lead-out missing rings.  If present remove
 		// them, updating ring count, start and end dates accordingly.
-		if(ringWidthValues.get(0).equals(0))
+		/*if(ringWidthValues.get(0).equals(0))
 		{
 			int numRingsToDelete = 0;
 			for(Integer val : ringWidthValues)
@@ -452,9 +454,8 @@ public class CatrasReader extends AbstractDendroFileReader {
 				ringWidthValues.remove(val);
 			}
 			
-			length = length - numRingsToDelete;
-						
-		}
+			length = length - numRingsToDelete;		
+		}*/
 		
 		// Check sample depth values count is valid
 		if (sampleDepthValues.size() > 0) {

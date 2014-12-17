@@ -124,7 +124,14 @@ public class SheffieldFile implements IDendroFile {
 			file.add(defaults.getDefaultValue(DefaultFields.EDGE_CODE).getValue().toString());
 		}
 		
+		if(defaults.getBooleanDefaultValue(DefaultFields.WARN_MISSING_RINGS_FLAG).getValue().equals(true))
+		{
+			defaults.getSheffieldStringDefaultValue(DefaultFields.COMMENT).setValue("WARNING! Missing ring(s) replaced with value of 1. " + defaults.getSheffieldStringDefaultValue(DefaultFields.COMMENT).getValue());
+		}
+		
 		file.add(defaults.getSheffieldStringDefaultValue(DefaultFields.COMMENT).getValue());
+		
+				
 		file.add(defaults.getStringDefaultValue(DefaultFields.UK_COORDS).getValue());
 		file.add(defaults.getStringDefaultValue(DefaultFields.LAT_LONG).getValue());
 		file.add(defaults.getDefaultValue(DefaultFields.PITH_CODE).getValue().toString());

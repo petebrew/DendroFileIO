@@ -33,6 +33,7 @@ import org.tridas.io.defaults.TridasMetadataFieldSet.TridasExtraField;
 import org.tridas.io.defaults.values.GenericDefaultValue;
 import org.tridas.io.exceptions.ConversionWarning;
 import org.tridas.io.exceptions.ConversionWarning.WarningType;
+import org.tridas.io.exceptions.ConversionWarningException;
 import org.tridas.io.exceptions.InvalidDendroFileException;
 import org.tridas.io.formats.heidelberg.HeidelbergToTridasDefaults.DefaultFields;
 import org.tridas.io.formats.heidelberg.HeidelbergToTridasDefaults.FHBarkType;
@@ -1115,11 +1116,42 @@ public class HeidelbergReader extends AbstractDendroFileReader {
 			if(fileMetadata.containsKey("soiltype")){
 				s.defaults.getStringDefaultValue(DefaultFields.SOIL_TYPE).setValue(fileMetadata.get("soiltype"));
 			}
-			
+
 			//SPECIES, new GenericDefaultValue<ControlledVoc>());
+			// Tries to extract meaningful info from species and speciesname fields
 			GenericDefaultValue<ControlledVoc> speciesField = (GenericDefaultValue<ControlledVoc>) s.defaults
 			.getDefaultValue(DefaultFields.SPECIES);
-			if(fileMetadata.containsKey("species")){
+			if(fileMetadata.containsKey("species") || fileMetadata.containsKey("speciesname"))
+			{
+				ArrayList<String> searchStrings = new ArrayList<String>();
+				if(fileMetadata.containsKey("species")) searchStrings.add(fileMetadata.get("species"));
+				if(fileMetadata.containsKey("speciesname")) searchStrings.add(fileMetadata.get("speciesname"));
+				ControlledVoc species;
+				try {
+					species = ITRDBTaxonConverter.getBestSpeciesMatch(searchStrings);
+					
+					if(!species.isSetNormalStd())
+					{
+						addWarning(new ConversionWarning(WarningType.AMBIGUOUS, "Non standard taxon, or unknown taxon code"));
+					}
+					
+					if(species!=null) 
+					{
+						speciesField.setValue(species);
+					}
+					else
+					{
+						speciesField.setValue(ITRDBTaxonConverter.getControlledVocFromCode("UNKN"));
+					}
+				} catch (ConversionWarningException e) {
+					speciesField.setValue(ITRDBTaxonConverter.getControlledVocFromCode("UNKN"));
+					this.addWarning(e.getWarning());
+				}
+				
+
+			}
+						
+			/*if(fileMetadata.containsKey("species")){
 				speciesField.setValue(ITRDBTaxonConverter.getControlledVocFromCode(fileMetadata.get("species")));
 			}
 			else
@@ -1128,9 +1160,11 @@ public class HeidelbergReader extends AbstractDendroFileReader {
 			}
 							
 			//SPECIES_NAME, new StringDefaultValue());
-			if(fileMetadata.containsKey("speciesname")){
+			if(fileMetadata.containsKey("speciesname")){				
 				s.defaults.getStringDefaultValue(DefaultFields.SPECIES_NAME).setValue(fileMetadata.get("speciesname"));
-			}
+			}*/
+			
+			
 			
 			//STATE, new StringDefaultValue());
 			if(fileMetadata.containsKey("state")){

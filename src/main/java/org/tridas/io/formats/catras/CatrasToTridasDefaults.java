@@ -154,10 +154,16 @@ public class CatrasToTridasDefaults extends TridasMetadataFieldSet implements IM
 		
 		if(getIntegerDefaultValue(DefaultFields.SPECIES_CODE).getValue()!=null)
 		{
+			ControlledVoc taxon = new ControlledVoc();
+			taxon.setNormalStd("CATRAS");
+			taxon.setNormalId(getIntegerDefaultValue(DefaultFields.SPECIES_CODE).getValue().toString());			
+			taxon.setNormal("Unknown");
+			e.setTaxon(taxon);
+			
 			TridasGenericField gf = new TridasGenericField();
 			gf.setName("catras.labSpecificSpeciesCode");
 			gf.setType("xs:int");
-			gf.setValue(String.valueOf(getIntegerDefaultValue(DefaultFields.SPECIES_CODE).getValue()));
+			gf.setValue(getIntegerDefaultValue(DefaultFields.SPECIES_CODE).getValue().toString());
 			ArrayList<TridasGenericField> gfList = new ArrayList<TridasGenericField>();
 			gfList.add(gf);
 			e.setGenericFields(gfList);

@@ -681,6 +681,7 @@ public class HeidelbergToTridasDefaults extends TridasMetadataFieldSet {
 		if((getDefaultValue(DefaultFields.LATITUDE).getValue()!=null &&
 		   getDefaultValue(DefaultFields.LONGITUDE).getValue()!=null)
 		   || getStringDefaultValue(DefaultFields.COUNTRY).getValue()!=null
+		   || getStringDefaultValue(DefaultFields.LOCATION).getValue()!=null
 		   || getStringDefaultValue(DefaultFields.TOWN).getValue()!=null
 		   || getStringDefaultValue(DefaultFields.TOWN_ZIP_CODE).getValue()!=null
 		   || getStringDefaultValue(DefaultFields.STATE).getValue()!=null
@@ -753,9 +754,19 @@ public class HeidelbergToTridasDefaults extends TridasMetadataFieldSet {
 				location.setAddress(address);
 		   }
 			
-			if(getStringDefaultValue(DefaultFields.LOCATION_CHARACTERISTICS).getValue()!=null)
+			
+			String locComment = "";
+			if(getStringDefaultValue(DefaultFields.LOCATION).getValue()!=null )
 			{
-				location.setLocationComment(getStringDefaultValue(DefaultFields.LOCATION_CHARACTERISTICS).getValue());
+				locComment = getStringDefaultValue(DefaultFields.LOCATION).getValue();
+			}
+			if(getStringDefaultValue(DefaultFields.LOCATION_CHARACTERISTICS).getValue()!=null )
+			{
+				locComment = locComment + " " +getStringDefaultValue(DefaultFields.LOCATION_CHARACTERISTICS).getValue();
+			}
+			if (locComment!="")
+			{
+				location.setLocationComment(locComment.trim());
 			}
 			
 			e.setLocation(location);
