@@ -25,9 +25,9 @@ import org.tridas.io.AbstractDendroCollectionWriter;
 import org.tridas.io.I18n;
 import org.tridas.io.defaults.IMetadataFieldSet;
 import org.tridas.io.exceptions.ConversionWarning;
+import org.tridas.io.exceptions.ConversionWarning.WarningType;
 import org.tridas.io.exceptions.ConversionWarningException;
 import org.tridas.io.exceptions.ImpossibleConversionException;
-import org.tridas.io.exceptions.ConversionWarning.WarningType;
 import org.tridas.io.naming.INamingConvention;
 import org.tridas.io.naming.NumericalNamingConvention;
 import org.tridas.io.util.TridasUtils;
@@ -53,8 +53,6 @@ public class CSVMatrixWriter extends AbstractDendroCollectionWriter {
 		defaults = argDefaults;
 		
 		ArrayList<ITridasSeries> seriesList = new ArrayList<ITridasSeries>();
-		
-		Boolean hasgroup = false;
 		
 		// Grab all derivedSeries from project
 		try {

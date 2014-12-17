@@ -24,6 +24,7 @@ import org.tridas.interfaces.ITridasSeries;
 import org.tridas.io.I18n;
 import org.tridas.io.defaults.AbstractMetadataFieldSet;
 import org.tridas.io.defaults.IMetadataFieldSet;
+import org.tridas.io.defaults.values.BooleanDefaultValue;
 import org.tridas.io.defaults.values.GenericDefaultValue;
 import org.tridas.io.defaults.values.IntegerDefaultValue;
 import org.tridas.io.defaults.values.SheffieldStringDefaultValue;
@@ -33,6 +34,7 @@ import org.tridas.io.util.ITRDBTaxonConverter;
 import org.tridas.io.util.SafeIntYear;
 import org.tridas.io.util.UnitUtils;
 import org.tridas.schema.ComplexPresenceAbsence;
+import org.tridas.schema.ControlledVoc;
 import org.tridas.schema.NormalTridasDatingType;
 import org.tridas.schema.NormalTridasUnit;
 import org.tridas.schema.PresenceAbsence;
@@ -55,7 +57,7 @@ public class TridasToSheffieldDefaults extends AbstractMetadataFieldSet implemen
 		SITE_NAME_SAMPLE_NUMBER, RING_COUNT, DATE_TYPE, START_DATE, DATA_TYPE, SAPWOOD_COUNT, 
 		TIMBER_COUNT, EDGE_CODE, CHRONOLOGY_TYPE, COMMENT, UK_COORDS, LAT_LONG, 
 		PITH_CODE, SHAPE_CODE, MAJOR_DIM, MINOR_DIM, INNER_RING_CODE, OUTER_RING_CODE,
-		PHASE, SHORT_TITLE, PERIOD, TAXON, INTERPRETATION_COMMENT, VARIABLE_TYPE;
+		PHASE, SHORT_TITLE, PERIOD, TAXON, INTERPRETATION_COMMENT, VARIABLE_TYPE, WARN_MISSING_RINGS_FLAG;
 	}
 	
 	@Override
@@ -84,6 +86,7 @@ public class TridasToSheffieldDefaults extends AbstractMetadataFieldSet implemen
 		setDefaultValue(DefaultFields.TAXON, new StringDefaultValue("UNKN", 4, 4));
 		setDefaultValue(DefaultFields.INTERPRETATION_COMMENT, new SheffieldStringDefaultValue("?", 1, 64));
 		setDefaultValue(DefaultFields.VARIABLE_TYPE, new GenericDefaultValue<SheffieldVariableCode>(SheffieldVariableCode.RING_WIDTHS));
+		setDefaultValue(DefaultFields.WARN_MISSING_RINGS_FLAG, new BooleanDefaultValue(false));
 	}
 	
 
@@ -95,9 +98,14 @@ public class TridasToSheffieldDefaults extends AbstractMetadataFieldSet implemen
 	public void populateFromTridasObject(TridasObject o) {
 
 		// Set site name
-		if(o.isSetTitle())
+		if(o.isSetTitle() && !o.getTitle().equals(I18n.getText("unnamed.object")))
 		{
 			getSheffieldStringDefaultValue(DefaultFields.SITE_NAME_SAMPLE_NUMBER).setValue(o.getTitle());
+		}
+		else if (o.equals(I18n.getText("unnamed.object")) && o.isSetLocation() && o.getLocation().isSetLocationComment())
+		{
+			// No title so use Location info instead
+			getSheffieldStringDefaultValue(DefaultFields.SITE_NAME_SAMPLE_NUMBER).setValue(o.getLocation().getLocationComment());
 		}
 		
 		// Set coordinates using the projection handler to make sure we're reading correctly
@@ -119,15 +127,26 @@ public class TridasToSheffieldDefaults extends AbstractMetadataFieldSet implemen
 
 		String line1val = getSheffieldStringDefaultValue(DefaultFields.SITE_NAME_SAMPLE_NUMBER).getStringValue();
 		
-		if(!line1val.equals("") && !line1val.equals(I18n.getText("unnamed.object")) && e.isSetTitle())
+		if(!line1val.equals("") && !line1val.equals(I18n.getText("unnamed.object")) && e.isSetTitle() && !e.getTitle().equals(I18n.getText("unnamed.element")))
 		{
 			getSheffieldStringDefaultValue(DefaultFields.SITE_NAME_SAMPLE_NUMBER).setValue(line1val+" "+e.getTitle());
+		}
+		else if ((line1val.equals("") || line1val.equals(I18n.getText("unnamed.object"))) && e.isSetLocation() && e.getLocation().isSetLocationComment())
+		{
+			// No title so use Location info instead
+			getSheffieldStringDefaultValue(DefaultFields.SITE_NAME_SAMPLE_NUMBER).setValue(e.getLocation().getLocationComment());
 		}
 		
 		// Element.taxon = Taxon
 		if(e.isSetTaxon())
 		{
-			if(e.getTaxon().isSetNormal())
+			ControlledVoc taxon = e.getTaxon();
+			if(taxon.isSetNormalStd() && taxon.getNormalStd().equals("CATRAS"))
+			{
+				// CATRAS specific code
+				getStringDefaultValue(DefaultFields.TAXON).setValue("C"+taxon.getNormalId());
+			}
+			else if(taxon.isSetNormal())
 			{
 				// Try from normalised field first
 				getStringDefaultValue(DefaultFields.TAXON).setValue(ITRDBTaxonConverter.getNormalisedCode(e.getTaxon().getNormalId()));
@@ -278,7 +297,7 @@ public class TridasToSheffieldDefaults extends AbstractMetadataFieldSet implemen
 
 		String line1val = getSheffieldStringDefaultValue(DefaultFields.SITE_NAME_SAMPLE_NUMBER).getStringValue();
 		
-		if(!line1val.equals("") && !line1val.equals(I18n.getText("unnamed.object")) && s.isSetTitle())
+		if(!line1val.equals("") && !line1val.equals(I18n.getText("unnamed.object")) && s.isSetTitle() && !s.getTitle().equals(I18n.getText("unnamed.sample")))
 		{
 			getSheffieldStringDefaultValue(DefaultFields.SITE_NAME_SAMPLE_NUMBER).setValue(line1val+" "+s.getTitle());
 		}
@@ -301,6 +320,12 @@ public class TridasToSheffieldDefaults extends AbstractMetadataFieldSet implemen
 				
 		// Author and comment
 		String comment ="";
+		
+		if(getSheffieldStringDefaultValue(DefaultFields.COMMENT).getValue()!=null)
+		{
+			// Get any existing comments
+			comment = getSheffieldStringDefaultValue(DefaultFields.COMMENT).getStringValue() + " ";
+		}
 		if(ms.isSetDendrochronologist())
 		{
 			comment+= ms.getDendrochronologist();
@@ -320,7 +345,7 @@ public class TridasToSheffieldDefaults extends AbstractMetadataFieldSet implemen
 		
 		if(comment.length()>0)
 		{
-			getSheffieldStringDefaultValue(DefaultFields.COMMENT).setValue(comment);
+			getSheffieldStringDefaultValue(DefaultFields.COMMENT).setValue(comment.trim());
 		}
 	}
 	
@@ -339,6 +364,12 @@ public class TridasToSheffieldDefaults extends AbstractMetadataFieldSet implemen
 		
 		// Author and comment
 		String comment ="";
+		
+		if(getSheffieldStringDefaultValue(DefaultFields.COMMENT).getValue()!=null)
+		{
+			// Get any existing comments
+			comment = getSheffieldStringDefaultValue(DefaultFields.COMMENT).getStringValue() + " ";
+		}
 		if(ds.isSetAuthor())
 		{
 			comment+= ds.getAuthor();
@@ -356,7 +387,12 @@ public class TridasToSheffieldDefaults extends AbstractMetadataFieldSet implemen
 		{
 			comment+= " " +ds.getComments();
 		}
-		getSheffieldStringDefaultValue(DefaultFields.COMMENT).setValue(comment);
+		
+
+		if(comment.length()>0)
+		{
+			getSheffieldStringDefaultValue(DefaultFields.COMMENT).setValue(comment.trim());
+		}
 	}
 	
 	@SuppressWarnings("unchecked")
@@ -398,7 +434,7 @@ public class TridasToSheffieldDefaults extends AbstractMetadataFieldSet implemen
 	
 	@SuppressWarnings("unchecked")
 	public void populateFromTridasValues(TridasValues argValues) {
-
+		
 		// Data type (variable) = values.variable.normaltridas
 		GenericDefaultValue<SheffieldVariableCode> variableField = (GenericDefaultValue<SheffieldVariableCode>)getDefaultValue(DefaultFields.VARIABLE_TYPE);
 		if(argValues.isSetVariable())
@@ -441,8 +477,7 @@ public class TridasToSheffieldDefaults extends AbstractMetadataFieldSet implemen
 				
 		// Count of values = number of rings
 		getIntegerDefaultValue(DefaultFields.RING_COUNT).setValue(argValues.getValues().size());
-		
-		
+				
 	}
 	
 	@SuppressWarnings("unchecked")

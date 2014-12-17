@@ -15,13 +15,19 @@
  */
 package org.tridas.io.formats.sheffield;
 
+import java.util.Iterator;
+import java.util.ListIterator;
+
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.tridas.io.AbstractDendroCollectionWriter;
 import org.tridas.io.I18n;
 import org.tridas.io.defaults.IMetadataFieldSet;
 import org.tridas.io.exceptions.ConversionWarning;
+import org.tridas.io.exceptions.ConversionWarning.WarningType;
 import org.tridas.io.exceptions.ConversionWarningException;
 import org.tridas.io.exceptions.ImpossibleConversionException;
-import org.tridas.io.exceptions.ConversionWarning.WarningType;
+import org.tridas.io.formats.sheffield.TridasToSheffieldDefaults.DefaultFields;
 import org.tridas.io.naming.INamingConvention;
 import org.tridas.io.naming.NumericalNamingConvention;
 import org.tridas.io.util.TridasUtils;
@@ -39,6 +45,8 @@ import org.tridas.schema.TridasValue;
 import org.tridas.schema.TridasValues;
 
 public class SheffieldWriter extends AbstractDendroCollectionWriter {
+
+	private static final Logger log = LoggerFactory.getLogger(SheffieldWriter.class);
 
 	private TridasToSheffieldDefaults defaults;
 	private INamingConvention naming = new NumericalNamingConvention();
@@ -175,6 +183,58 @@ public class SheffieldWriter extends AbstractDendroCollectionWriter {
 									this.addWarning(e1.getWarning());
 									theValues = tvsgroup;
 								}
+								
+								// Remove unmeasured start rings
+								Integer startRingsRemoved = 0;
+								try
+								{
+									Iterator<TridasValue> it = theValues.getValues().iterator();
+								    while (it.hasNext()) {
+								    	TridasValue val = it.next();
+								    	Double dblval = Double.parseDouble(val.getValue());
+								        if (dblval.compareTo(0.0)<=0) {
+								            it.remove();
+								            startRingsRemoved++;
+								            log.debug("Removing unmeasured rings at start of sequence");
+								        }
+								        else
+								        {
+								        	break;
+								        }
+								    }
+								} catch (NumberFormatException ex) {} 
+					
+								if(startRingsRemoved>0)
+								{
+									tvDefaults.getStringDefaultValue(DefaultFields.INNER_RING_CODE).setValue("H"+startRingsRemoved);
+								}
+								
+							    
+							    // Remove unmeasured end rings
+								Integer endRingsRemoved = 0;
+								try
+								{
+									ListIterator<TridasValue> it = theValues.getValues().listIterator(theValues.getValues().size());
+								    while (it.hasPrevious()) {
+								    	TridasValue val = it.previous();	
+								    	Double dblval = Double.parseDouble(val.getValue());
+								        if (dblval.compareTo(0.0)<=0) {
+								        	
+								            it.remove();
+								            endRingsRemoved++;
+								            log.debug("Removing unmeasured rings at end of sequence");
+								        }
+								        else
+								        {
+								        	break;
+								        }
+								    }
+								} catch (NumberFormatException ex) {}
+							    
+								if(endRingsRemoved>0)
+								{
+									tvDefaults.getStringDefaultValue(DefaultFields.OUTER_RING_CODE).setValue("S"+endRingsRemoved);
+								}
 						
 								// Intercept missing rings and replace with 1's as Sheffield can't cope otherwise
 								for(TridasValue val : theValues.getValues())
@@ -187,12 +247,14 @@ public class SheffieldWriter extends AbstractDendroCollectionWriter {
 											val.setValue("1");
 											this.addWarning(new ConversionWarning(WarningType.UNREPRESENTABLE, 
 													I18n.getText("sheffield.missingRingHandling")));
+											tvDefaults.getBooleanDefaultValue(DefaultFields.WARN_MISSING_RINGS_FLAG).setValue(true);
 										}
 										else if (dblval.compareTo(0.0)<0)
 										{
 											val.setValue("1");
 											this.addWarning(new ConversionWarning(WarningType.UNREPRESENTABLE, 
 													I18n.getText("sheffield.negativeRingHandling")));
+											tvDefaults.getBooleanDefaultValue(DefaultFields.WARN_MISSING_RINGS_FLAG).setValue(true);
 										}
 									}
 									catch (Exception e2)

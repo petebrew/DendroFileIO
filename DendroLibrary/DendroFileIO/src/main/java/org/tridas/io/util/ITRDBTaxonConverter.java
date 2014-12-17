@@ -15,8 +15,14 @@
  */
 package org.tridas.io.util;
 
+import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.HashSet;
+import java.util.Iterator;
 
+import org.tridas.io.exceptions.ConversionWarning;
+import org.tridas.io.exceptions.ConversionWarningException;
+import org.tridas.io.exceptions.ConversionWarning.WarningType;
 import org.tridas.schema.ControlledVoc;
 
 /**
@@ -27,29 +33,92 @@ import org.tridas.schema.ControlledVoc;
  */
 public class ITRDBTaxonConverter {
 	
-	private static HashMap<String, String> convertionMap = null;
-	private static HashMap<String, String> convertionMapToCode = null;
+	private static HashMap<String, String> codeToNameMap = null;
+	private static HashMap<String, String> nameToCodeMap = null;
+	private static HashMap<String, String> namenoauthToCodeMap = null;
 	private static String defaultCode = "UNKN";
 	private static String defaultTaxon = "Plantae";
 	private static String defaultDictionary = "ITRDB/WSL Dendrochronology Species Database";
 	
 	private ITRDBTaxonConverter() {}
 	
+	
 	private static void initializeMap() {
 		FileHelper fh = new FileHelper();
 		String[] file = fh.loadStrings("spmap.csv");
 		HashMap<String, String> map = new HashMap<String, String>();
 		HashMap<String, String> map2 = new HashMap<String, String>();
+		HashMap<String, String> map3 = new HashMap<String, String>();
+
 		for (String s : file) {
 			String key = s.substring(0, s.indexOf(","));
 			String value = s.substring(s.indexOf(",") + 1).trim();
+			
+			int secondspacepos = org.apache.commons.lang.StringUtils.ordinalIndexOf(value, " ", 2);
+			
+			if(secondspacepos>0)
+			{
+				map3.put(value.substring(0, secondspacepos), key);
+			}
+			
 			if (key != null && value != null) {
 				map.put(key, value);
 				map2.put(value, key);
 			}
 		}
-		convertionMap = map;
-		convertionMapToCode = map2;
+		codeToNameMap = map;
+		nameToCodeMap = map2;
+		namenoauthToCodeMap = map3;
+	}
+	
+	/**
+	 * Returns a ControlledVoc of the best match from the ITRDB taxon dictionary.  Takes a string ArrayList
+	 * of possible search terms which can be codes and/or full names.  If conflicting search terms are 
+	 * provided (e.g. QUER, Pinus sylvestris) then it returns null.  If no matches are found then it returns null.
+	 * 
+	 * @param searchStrings
+	 * @return
+	 */
+	public static ControlledVoc getBestSpeciesMatch(ArrayList<String> searchStrings) throws ConversionWarningException
+	{
+		if (searchStrings==null || searchStrings.size()==0) return ITRDBTaxonConverter.getControlledVocFromCode("UNKN");
+		
+		HashSet<String> codelist = new HashSet<String>();
+
+		for(String str : searchStrings)
+		{
+			if(str==null) continue;
+			if(str.length()==0) continue;
+		
+			if(!getNameFromCode(str).equals(str.toUpperCase()))
+			{
+				codelist.add(str);
+			}
+			else if (!getCodeFromName(str).equals(str))
+			{
+				codelist.add(getCodeFromName(str));
+			}
+		}
+		
+		if(codelist.size()==0) 
+		{
+			// None of the search strings matched 
+			if(searchStrings.size()==1)
+			{
+				return getControlledVocFromName(searchStrings.get(0));
+			}
+			else
+			{
+				throw new ConversionWarningException(new ConversionWarning(WarningType.AMBIGUOUS, "Ambiguous taxon information supplied."));
+			}
+		}
+		if(codelist.size()>1)
+		{
+			throw new ConversionWarningException(new ConversionWarning(WarningType.AMBIGUOUS, "Ambiguous taxon information supplied."));
+		}
+		
+		Iterator<String> itr = codelist.iterator();
+		return getControlledVocFromCode(itr.next());
 	}
 	
 	/**
@@ -61,10 +130,10 @@ public class ITRDBTaxonConverter {
 	 */
 	public static String getNormalisedCode(String argCode)
 	{
-		if (convertionMap == null) {
+		if (codeToNameMap == null) {
 			initializeMap();
 		}
-		if (convertionMap.containsKey(argCode)) {
+		if (codeToNameMap.containsKey(argCode)) {
 			return argCode.toUpperCase();
 		}
 		else {
@@ -86,11 +155,11 @@ public class ITRDBTaxonConverter {
 		//Upper case the code
 		argCode = argCode.toUpperCase();
 		
-		if (convertionMap == null) {
+		if (codeToNameMap == null) {
 			initializeMap();
 		}
-		if (convertionMap.containsKey(argCode)) {
-			return convertionMap.get(argCode);
+		if (codeToNameMap.containsKey(argCode)) {
+			return codeToNameMap.get(argCode);
 		}
 		else {
 			return argCode;
@@ -131,18 +200,23 @@ public class ITRDBTaxonConverter {
 	/**
 	 * Get the four letter code for this latin name. Note that this is
 	 * a simple text string match so the latin name must be precisely
-	 * the same (including authority) to get a hit.
+	 * the same to get a hit.  However, names can be with or without 
+	 * authority 
 	 * 
 	 * @param argName
 	 * @return
 	 */
 	public static String getCodeFromName(String argName) {
-		if (convertionMapToCode == null) {
+		if (nameToCodeMap == null) {
 			initializeMap();
 		}
 		
-		if (convertionMapToCode.containsKey(argName)) {
-			return convertionMapToCode.get(argName);
+		if (nameToCodeMap.containsKey(argName)) {
+			return nameToCodeMap.get(argName);
+		}
+		else if (namenoauthToCodeMap.containsKey(argName))
+		{
+			return namenoauthToCodeMap.get(argName);
 		}
 		else {
 			return argName;
