@@ -105,14 +105,21 @@ public class ITRDBTaxonConverter {
 			// None of the search strings matched 
 			if(searchStrings.size()==1)
 			{
+				// Only one string passed to this function so just return as an non-standard string
 				return getControlledVocFromName(searchStrings.get(0));
 			}
 			else
 			{
+				// Multiple strings passed so we have no way of knowing which is valid
 				throw new ConversionWarningException(new ConversionWarning(WarningType.AMBIGUOUS, "Ambiguous taxon information supplied."));
 			}
 		}
-		if(codelist.size()>1)
+		else if(codelist.size()==2 && codelist.contains("UNKN"))
+		{
+			// List contains 2 values, one of which is UNKN.  Just remove it and use the other
+			codelist.remove("UNKN");
+		}
+		else if(codelist.size()>1)
 		{
 			throw new ConversionWarningException(new ConversionWarning(WarningType.AMBIGUOUS, "Ambiguous taxon information supplied."));
 		}

@@ -256,6 +256,16 @@ public class SheffieldWriter extends AbstractDendroCollectionWriter {
 										tvDefaults.getStringDefaultValue(DefaultFields.OUTER_RING_CODE).setValue("U"+endRingsRemoved);
 									}
 								}
+								
+								
+								// Fix ring count to account for rings being removed
+								if(endRingsRemoved+startRingsRemoved > 0)
+								{
+									tvDefaults.getIntegerDefaultValue(DefaultFields.RING_COUNT).setValue(
+											tvDefaults.getIntegerDefaultValue(DefaultFields.RING_COUNT).getValue()
+											+endRingsRemoved
+											+startRingsRemoved);
+								}
 						
 								// Intercept missing rings and replace with 1's as Sheffield can't cope otherwise
 								for(TridasValue val : theValues.getValues())
