@@ -16,6 +16,7 @@
 package org.tridas.io.formats.catras;
 
 import java.io.IOException;
+import java.io.UnsupportedEncodingException;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
@@ -165,16 +166,31 @@ public class CatrasReader extends AbstractDendroFileReader {
 		
 		
 		// Series Title - bytes 1-32
-		defaults.getStringDefaultValue(DefaultFields.SERIES_NAME)
-			.setValue(new String(getSubByteArray(argFileBytes, 0, 31)).trim());
+		try {
+			defaults.getStringDefaultValue(DefaultFields.SERIES_NAME)
+				.setValue(new String(getSubByteArray(argFileBytes, 0, 31), "Cp437").trim());
+		} catch (UnsupportedEncodingException e2) {
+			// TODO Auto-generated catch block
+			e2.printStackTrace();
+		}
 		
 		// Series code - bytes 33-40
-		defaults.getStringDefaultValue(DefaultFields.SERIES_CODE)
-			.setValue(new String(getSubByteArray(argFileBytes, 32, 39)).trim());
+		try {
+			defaults.getStringDefaultValue(DefaultFields.SERIES_CODE)
+				.setValue(new String(getSubByteArray(argFileBytes, 32, 39), "Cp437").trim());
+		} catch (UnsupportedEncodingException e1) {
+			// TODO Auto-generated catch block
+			e1.printStackTrace();
+		}
 		
 		// File extension - bytes 41-44
-		defaults.getStringDefaultValue(DefaultFields.FILE_EXTENSION)
-			.setValue(new String(getSubByteArray(argFileBytes, 40, 43)));
+		try {
+			defaults.getStringDefaultValue(DefaultFields.FILE_EXTENSION)
+				.setValue(new String(getSubByteArray(argFileBytes, 40, 43), "Cp437"));
+		} catch (UnsupportedEncodingException e1) {
+			// TODO Auto-generated catch block
+			e1.printStackTrace();
+		}
 		
 		// Length of series - bytes 45-46
 		defaults.getIntegerDefaultValue(DefaultFields.SERIES_LENGTH)
@@ -318,8 +334,13 @@ public class CatrasReader extends AbstractDendroFileReader {
 		}		
 		
 		// Userid - bytes 85-88
-		defaults.getStringDefaultValue(DefaultFields.USER_ID)
-			.setValue(new String(getSubByteArray(argFileBytes, 84, 87)).trim());
+		try {
+			defaults.getStringDefaultValue(DefaultFields.USER_ID)
+				.setValue(new String(getSubByteArray(argFileBytes, 84, 87), "Cp437").trim());
+		} catch (UnsupportedEncodingException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
 		
 		// 89-128 Statistics - 
 		// Ignored
@@ -798,7 +819,12 @@ public class CatrasReader extends AbstractDendroFileReader {
 		for (int i=first; i<=last; i++)
 		{
 			byte[] byteArray = getSubByteArray(argFileBytes, i, i+1);
-			log.debug("As String  - Byte pair " + String.valueOf(i)+": "+ new String(byteArray));	
+			try {
+				log.debug("As String  - Byte pair " + String.valueOf(i)+": "+ new String(byteArray, "Cp437"));
+			} catch (UnsupportedEncodingException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}	
 
 		}
 	}
