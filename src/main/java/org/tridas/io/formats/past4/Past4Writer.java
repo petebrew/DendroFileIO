@@ -102,12 +102,15 @@ public class Past4Writer extends AbstractDendroCollectionWriter {
 					{
 						TridasToPast4Defaults radiusDefaults = (TridasToPast4Defaults) sampleDefaults.clone();
 						radiusDefaults.populateFromTridasRadius(r);
+						
 												
 						for (TridasMeasurementSeries ms : r.getMeasurementSeries()) 
 						{
 							TridasToPast4Defaults msDefaults = (TridasToPast4Defaults) radiusDefaults
 									.clone();
 							msDefaults.populateFromTridasMeasurementSeries(ms);
+							
+							msDefaults.populateFromWoodCompleteness(ms, r);
 	
 							TridasToPast4Defaults tvDefaults = (TridasToPast4Defaults) msDefaults.clone();
 							for (int i = 0; i < ms.getValues().size(); i++) 
