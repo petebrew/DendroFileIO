@@ -70,6 +70,7 @@ public class TridasToPast4Defaults extends AbstractMetadataFieldSet implements
 		GRP_OWNER,
 		GRP_DESCRIPTION,
 		KEYCODE,
+		SERIES_TITLE,
 		LENGTH,
 		OWNER,
 		CHRONO,
@@ -131,6 +132,7 @@ public class TridasToPast4Defaults extends AbstractMetadataFieldSet implements
 		setDefaultValue(DefaultFields.GRP_DESCRIPTION, new StringDefaultValue());
 
 		setDefaultValue(DefaultFields.KEYCODE, new StringDefaultValue(I18n.getText("unnamed.series")));
+		setDefaultValue(DefaultFields.SERIES_TITLE, new StringDefaultValue());
 		setDefaultValue(DefaultFields.LENGTH, new IntegerDefaultValue());
 		setDefaultValue(DefaultFields.OWNER, new IntegerDefaultValue(0));
 		setDefaultValue(DefaultFields.CHRONO, new Past4BooleanDefaultValue(false));
@@ -263,6 +265,11 @@ public class TridasToPast4Defaults extends AbstractMetadataFieldSet implements
 		else if (series.isSetTitle())
 		{
 			getStringDefaultValue(DefaultFields.KEYCODE).setValue(series.getTitle());
+		}
+		
+		if(series.isSetTitle())
+		{
+			getStringDefaultValue(DefaultFields.SERIES_TITLE).setValue(series.getTitle());
 		}
 		
 		if(series.isSetInterpretation())
