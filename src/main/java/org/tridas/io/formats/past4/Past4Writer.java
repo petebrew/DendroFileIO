@@ -323,6 +323,11 @@ public class Past4Writer extends AbstractDendroCollectionWriter {
 		record += ">\n";
 		record += "<HEADER><![CDATA[";
 		
+		if(defaults.getStringDefaultValue(DefaultFields.SERIES_TITLE).getValue()!=null)
+		{
+			record += "SeriesTitle="+defaults.getStringDefaultValue(DefaultFields.SERIES_TITLE).getValue()+"\n";
+		}
+		
 		if(tvsgroup.isSetUnit())
 		{
 			if(tvsgroup.getUnit().isSetNormalTridas())
@@ -342,6 +347,7 @@ public class Past4Writer extends AbstractDendroCollectionWriter {
 		{
 			record += "Unit=Unitless\n";
 		}
+
 		record += "]]></HEADER>\n";
 		record += "<DATA><![CDATA[";
 		
