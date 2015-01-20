@@ -16,95 +16,26 @@
 package org.tridas.io.formats.ooxml;
 
 import java.io.IOException;
-import java.util.ArrayList;
-import java.util.List;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import org.tridas.interfaces.ITridasSeries;
-import org.tridas.io.AbstractDendroCollectionWriter;
-import org.tridas.io.I18n;
 import org.tridas.io.IDendroFile;
 import org.tridas.io.defaults.IMetadataFieldSet;
-import org.tridas.io.exceptions.ConversionWarningException;
-import org.tridas.io.exceptions.ImpossibleConversionException;
+import org.tridas.io.formats.csvmatrix.CSVMatrixWriter;
+import org.tridas.io.formats.csvmatrix.TridasToMatrixDefaults;
 import org.tridas.io.naming.INamingConvention;
 import org.tridas.io.naming.NumericalNamingConvention;
 import org.tridas.io.util.FileHelper;
-import org.tridas.io.util.TridasUtils;
-import org.tridas.schema.TridasDerivedSeries;
-import org.tridas.schema.TridasMeasurementSeries;
-import org.tridas.schema.TridasProject;
 
-public class OOXMLWriter extends AbstractDendroCollectionWriter {
+public class OOXMLWriter extends CSVMatrixWriter {
 	private static final Logger log = LoggerFactory.getLogger(OOXMLWriter.class);
 	
 	IMetadataFieldSet defaults;
 	INamingConvention naming = new NumericalNamingConvention();
 	
 	public OOXMLWriter() {
-		super(TridasToOOXMLDefaults.class, new OOXMLFormat());
-	}
-	
-	@Override
-	protected void parseTridasProject(TridasProject argProject, IMetadataFieldSet argDefaults)
-			throws ImpossibleConversionException, ConversionWarningException {
-		defaults = argDefaults;
-		
-		ArrayList<ITridasSeries> seriesList = new ArrayList<ITridasSeries>();
-		
-		// Grab all derivedSeries from project
-		try {
-			List<TridasDerivedSeries> lst = argProject.getDerivedSeries();
-			for (TridasDerivedSeries ds : lst) {
-				
-				if(!ds.isSetValues()) continue;
-				if(ds.getValues().isEmpty()) continue;
-				
-				// add to list
-				seriesList.add(ds);
-			}
-		} catch (NullPointerException e) {}
-		
-		try {
-			List<TridasMeasurementSeries> lst = TridasUtils.getMeasurementSeriesFromTridasProject(argProject);
-			for (TridasMeasurementSeries ser : lst) {
-				
-				if(!ser.isSetValues()) continue;
-				if(ser.getValues().isEmpty()) continue;
-				
-				// add to list
-				seriesList.add(ser);
-			}
-		} catch (NullPointerException e) {}
-		
-		// No series found
-		if (seriesList.size() == 0) {
-			clearWarnings();
-			throw new ImpossibleConversionException(I18n.getText("fileio.noData"));
-		}
-		
-		OOXMLFile file = new OOXMLFile(argDefaults);
-		
-		file.setSeriesList(seriesList);
-		addToFileList(file);
-		naming.registerFile(file, argProject, null);
-		
-	}
-	
-	@Override
-	public IMetadataFieldSet getDefaults() {
-		return defaults;
-	}
-		
-	@Override
-	public INamingConvention getNamingConvention() {
-		return naming;
-	}
-	
-	@Override
-	public void setNamingConvention(INamingConvention argConvention) {
-		naming = argConvention;
+		super(TridasToMatrixDefaults.class, new OOXMLFormat());
+		clazz = OOXMLFile.class;
 	}
 	
 	@Override

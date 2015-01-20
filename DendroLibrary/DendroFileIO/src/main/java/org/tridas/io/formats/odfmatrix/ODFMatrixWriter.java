@@ -16,115 +16,26 @@
 package org.tridas.io.formats.odfmatrix;
 
 import java.io.IOException;
-import java.util.ArrayList;
-import java.util.List;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import org.tridas.interfaces.ITridasSeries;
-import org.tridas.io.AbstractDendroCollectionWriter;
-import org.tridas.io.I18n;
 import org.tridas.io.IDendroFile;
 import org.tridas.io.defaults.IMetadataFieldSet;
-import org.tridas.io.exceptions.ConversionWarning;
-import org.tridas.io.exceptions.ConversionWarningException;
-import org.tridas.io.exceptions.ImpossibleConversionException;
-import org.tridas.io.exceptions.ConversionWarning.WarningType;
+import org.tridas.io.formats.csvmatrix.CSVMatrixWriter;
+import org.tridas.io.formats.csvmatrix.TridasToMatrixDefaults;
 import org.tridas.io.naming.INamingConvention;
 import org.tridas.io.naming.NumericalNamingConvention;
 import org.tridas.io.util.FileHelper;
-import org.tridas.io.util.TridasUtils;
-import org.tridas.io.util.UnitUtils;
-import org.tridas.schema.NormalTridasUnit;
-import org.tridas.schema.TridasDerivedSeries;
-import org.tridas.schema.TridasMeasurementSeries;
-import org.tridas.schema.TridasProject;
-import org.tridas.schema.TridasValues;
 
-public class ODFMatrixWriter extends AbstractDendroCollectionWriter {
+public class ODFMatrixWriter extends CSVMatrixWriter {
 	private static final Logger log = LoggerFactory.getLogger(ODFMatrixWriter.class);
 	
 	IMetadataFieldSet defaults;
 	INamingConvention naming = new NumericalNamingConvention();
 	
 	public ODFMatrixWriter() {
-		super(TridasToODFMatrixDefaults.class, new ODFMatrixFormat());
-	}
-	
-	@Override
-	protected void parseTridasProject(TridasProject argProject, IMetadataFieldSet argDefaults)
-			throws ImpossibleConversionException, ConversionWarningException {
- 		defaults = argDefaults;
-		
-		ArrayList<ITridasSeries> seriesList = new ArrayList<ITridasSeries>();
-		
-		// Grab all derivedSeries from project
-		try {
-			List<TridasDerivedSeries> lst = argProject.getDerivedSeries();
-			for (TridasDerivedSeries ds : lst) {
-			
-				if(!ds.isSetValues()) continue;
-								
-				TridasDerivedSeries newds = (TridasDerivedSeries) ds.clone();
-				newds.setValues(null);
-				
-				for(TridasValues tv : ds.getValues())
-				{
-					try {
-						//UnitUtils.convertTridasValues(NormalTridasUnit.MILLIMETRES, tv, false);
-						newds.getValues().add(tv);
-					} catch (NumberFormatException e) {
-						this.addWarning(new ConversionWarning(
-								WarningType.AMBIGUOUS, "Trouble converting units"));
-					} /*
-					catch (ConversionWarningException e) {
-						this.addWarning(e.getWarning());
-					} */
-				}
-
-				// add to list
-				if(newds.getValues()!=null && newds.getValues().size()>0) seriesList.add(newds);
-			}
-		} catch (NullPointerException e) {}
-		
-		try {
-			List<TridasMeasurementSeries> lst = TridasUtils.getMeasurementSeriesFromTridasProject(argProject);
-			for (TridasMeasurementSeries ser : lst) {
-								
-				if(!ser.isSetValues()) continue;
-								
-				// add to list
-				seriesList.add(ser);
-			}
-		} catch (NullPointerException e) {}
-		
-		// No series found
-		if (seriesList.size() == 0) {
-			clearWarnings();
-			throw new ImpossibleConversionException(I18n.getText("fileio.noData"));
-		}
-		
-		ODFMatrixFile file = new ODFMatrixFile(argDefaults);
-		
-		file.setSeriesList(seriesList);
-		addToFileList(file);
-		naming.registerFile(file, argProject, null);
-		
-	}
-	
-	@Override
-	public IMetadataFieldSet getDefaults() {
-		return defaults;
-	}
-	
-	@Override
-	public INamingConvention getNamingConvention() {
-		return naming;
-	}
-	
-	@Override
-	public void setNamingConvention(INamingConvention argConvention) {
-		naming = argConvention;
+		super(TridasToMatrixDefaults.class, new ODFMatrixFormat());
+		clazz = ODFMatrixFile.class;
 	}
 	
 	@Override
@@ -148,4 +59,5 @@ public class ODFMatrixWriter extends AbstractDendroCollectionWriter {
 			log.error("Error saving file to disk", e);
 		}
 	}
+
 }
