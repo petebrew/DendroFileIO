@@ -67,7 +67,7 @@ public class TridasToMatrixDefaults extends AbstractMetadataFieldSet implements
 		
 		if(values.getVariable().isSetNormalTridas())
 		{
-			getStringDefaultValue(DefaultFields.VARIABLE).setValue(values.getVariable().getNormalTridas().toString());
+			getStringDefaultValue(DefaultFields.VARIABLE).setValue(values.getVariable().getNormalTridas().value().toString());
 		}
 		else if (values.getVariable().isSetNormal())
 		{

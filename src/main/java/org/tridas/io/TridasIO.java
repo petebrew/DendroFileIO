@@ -42,7 +42,7 @@ import org.tridas.io.formats.corina.CorinaReader;
 import org.tridas.io.formats.corina.CorinaRecursiveReader;
 import org.tridas.io.formats.corina.CorinaWriter;
 import org.tridas.io.formats.cracow.CracowReader;
-import org.tridas.io.formats.csvmatrix.CSVMatrixReader;
+//import org.tridas.io.formats.csvmatrix.CSVMatrixReader;
 import org.tridas.io.formats.csvmatrix.CSVMatrixWriter;
 import org.tridas.io.formats.dendrodb.DendroDBReader;
 import org.tridas.io.formats.excelmatrix.ExcelMatrixReader;
@@ -122,7 +122,7 @@ public class TridasIO {
 		registerFileReader(CorinaReader.class);
 		registerFileReader(CorinaRecursiveReader.class);
 		registerFileReader(CracowReader.class);
-		registerFileReader(CSVMatrixReader.class);
+		//registerFileReader(CSVMatrixReader.class);
 		registerFileReader(DendroDBReader.class);
 		registerFileReader(ExcelMatrixReader.class);
 		registerFileReader(FHX2Reader.class);

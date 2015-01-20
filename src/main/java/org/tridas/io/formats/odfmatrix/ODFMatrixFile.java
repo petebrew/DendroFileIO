@@ -17,6 +17,7 @@ package org.tridas.io.formats.odfmatrix;
 
 import java.io.IOException;
 import java.io.OutputStream;
+import java.util.ArrayList;
 
 import org.odftoolkit.odfdom.doc.OdfSpreadsheetDocument;
 import org.odftoolkit.odfdom.doc.table.OdfTable;
@@ -64,7 +65,22 @@ public class ODFMatrixFile extends CSVMatrixFile {
 			table = outputDocument.getTableByName("Sheet1");
 			table.setTableName(I18n.getText("general.data"));
 
-			for(int rowind=0; rowind<getMatrix().size(); rowind++)
+			ArrayList<String[]> matrix = getMatrix();
+			
+			for(int rowind=0; rowind<matrix.get(0).length; rowind++)
+			{
+				for(int colind=0; colind<matrix.size(); colind++)
+				{
+					if(matrix.get(colind)[rowind]!=null )
+					{
+						table.getCellByPosition(colind, rowind).setStringValue(matrix.get(colind)[rowind]);
+					}
+
+				}
+			}
+			
+			
+			/*for(int rowind=0; rowind<getMatrix().size(); rowind++)
 			{
 				String[] row = getMatrix().get(rowind);
 				for(int colind=0; colind<row.length; colind++)
@@ -72,7 +88,7 @@ public class ODFMatrixFile extends CSVMatrixFile {
 					table.getCellByPosition(colind, rowind).setStringValue(row[colind]);
 				}
 				
-			}
+			}*/
 						
 			outputDocument.save(os);
 			

@@ -17,12 +17,14 @@ package org.tridas.io.formats.csvmatrix;
 
 import org.tridas.interfaces.ITridasSeries;
 import org.tridas.io.AbstractDendroCollectionWriter;
+import org.tridas.io.AbstractDendroFormat;
 import org.tridas.io.I18n;
 import org.tridas.io.defaults.IMetadataFieldSet;
 import org.tridas.io.exceptions.ConversionWarning;
 import org.tridas.io.exceptions.ConversionWarningException;
 import org.tridas.io.exceptions.ImpossibleConversionException;
 import org.tridas.io.exceptions.ConversionWarning.WarningType;
+import org.tridas.io.formats.csvmatrix.CSVMatrixFile.MatrixSeries;
 import org.tridas.io.naming.INamingConvention;
 import org.tridas.io.naming.NamingConventionGrouper;
 import org.tridas.io.naming.NumericalNamingConvention;
@@ -43,11 +45,18 @@ public class CSVMatrixWriter extends AbstractDendroCollectionWriter {
 	private TridasToMatrixDefaults defaults;
 	private INamingConvention naming = new NumericalNamingConvention();
 	protected Class<? extends CSVMatrixFile> clazz;
+	private boolean seriesAddedFlag = false;
 	
 	public CSVMatrixWriter() {
 		super(TridasToMatrixDefaults.class, new CSVMatrixFormat());
 		clazz = CSVMatrixFile.class;
 	}
+	
+	
+	public CSVMatrixWriter(Class<? extends IMetadataFieldSet> argDefaultFieldsClass, AbstractDendroFormat format) {
+		super(argDefaultFieldsClass, format);
+	}
+	
 	
 	@Override
 	public IMetadataFieldSet getDefaults() {
@@ -97,9 +106,9 @@ public class CSVMatrixWriter extends AbstractDendroCollectionWriter {
 				} catch (ConversionWarningException ex) {
 					this.addWarning(ex.getWarning());
 				}
-				
-				seriesAddedFlag = true;
+								
 				file.addSeries(valuesDefaults, series, tvsgroup);
+				seriesAddedFlag = true;
 				
 			}
 			
@@ -113,7 +122,7 @@ public class CSVMatrixWriter extends AbstractDendroCollectionWriter {
 		
 		defaults = (TridasToMatrixDefaults) argDefaults;
 		
-		boolean seriesAddedFlag = false;
+		
 		CSVMatrixFile file = null;	
 		try {
 			file = clazz.newInstance();
@@ -178,11 +187,15 @@ public class CSVMatrixWriter extends AbstractDendroCollectionWriter {
 			}				
 			
 		}
-
-		if(this.getFiles().length==0)
+		
+		if(!seriesAddedFlag)
 		{
 			this.clearWarnings();
 			throw new ImpossibleConversionException("The input file contains no data series that can be represented in this format.");
+		}
+		else
+		{
+			this.addToFileList(file);
 		}
 		
 	}
