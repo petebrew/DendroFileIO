@@ -17,6 +17,7 @@ package org.tridas.io.formats.ooxml;
 
 import java.io.IOException;
 import java.io.OutputStream;
+import java.util.ArrayList;
 
 import jxl.write.WriteException;
 
@@ -24,7 +25,6 @@ import org.apache.poi.ss.usermodel.Row;
 import org.apache.poi.ss.usermodel.Sheet;
 import org.apache.poi.ss.usermodel.Workbook;
 import org.apache.poi.xssf.usermodel.XSSFWorkbook;
-import org.tridas.interfaces.ITridasSeries;
 import org.tridas.io.I18n;
 import org.tridas.io.formats.csvmatrix.CSVMatrixFile;
 
@@ -37,12 +37,6 @@ public class OOXMLFile extends CSVMatrixFile {
 	@Override
 	public String getExtension() {
 		return "xlsx";
-	}
-	
-	@Override
-	public ITridasSeries[] getSeries() {
-		return seriesList.toArray(new ITridasSeries[0]);
-
 	}
 	
 	@Override
@@ -64,14 +58,40 @@ public class OOXMLFile extends CSVMatrixFile {
 		Workbook workbook = new XSSFWorkbook(); 	
 		Sheet dataSheet = workbook.createSheet(I18n.getText("general.data"));
 	
-		for(int rowind=0; rowind<getMatrix().size(); rowind++)
+		ArrayList<String[]> matrix = getMatrix();
+				
+		for(int rowind=0; rowind<matrix.get(0).length; rowind++)
 		{
-			String[] row = getMatrix().get(rowind);
 			Row rw = dataSheet.createRow(rowind);
 			
-			for(int colind=0; colind<row.length; colind++)
+			for(int colind=0; colind<matrix.size(); colind++)
 			{
-				rw.createCell(colind).setCellValue(row[colind]);
+				if(rowind==0)
+				{
+					rw.createCell(colind).setCellValue(matrix.get(colind)[rowind]);
+
+				}
+				else if(colind==0)
+				{
+					rw.createCell(colind).setCellValue(Integer.valueOf(matrix.get(colind)[rowind]));
+
+				}
+				else 
+				{
+					try{
+						rw.createCell(colind).setCellValue(Double.valueOf(matrix.get(colind)[rowind]));
+					} catch (Exception e)
+					{
+						try{
+							rw.createCell(colind).setCellValue(Integer.valueOf(matrix.get(colind)[rowind]));
+						} catch (Exception e2)
+						{
+							rw.createCell(colind).setCellValue(matrix.get(colind)[rowind]);
+						}
+					}
+				}
+				
+				
 			}
 			
 		}

@@ -33,9 +33,12 @@ import org.tridas.io.formats.belfastapple.BelfastAppleWriter;
 import org.tridas.io.formats.besancon.BesanconWriter;
 import org.tridas.io.formats.catras.CatrasWriter;
 import org.tridas.io.formats.corina.CorinaWriter;
+import org.tridas.io.formats.csvmatrix.CSVMatrixWriter;
 import org.tridas.io.formats.excelmatrix.ExcelMatrixWriter;
 import org.tridas.io.formats.heidelberg.HeidelbergWriter;
 import org.tridas.io.formats.nottingham.NottinghamWriter;
+import org.tridas.io.formats.odfmatrix.ODFMatrixWriter;
+import org.tridas.io.formats.ooxml.OOXMLWriter;
 import org.tridas.io.formats.oxford.OxfordWriter;
 import org.tridas.io.formats.past4.Past4Writer;
 import org.tridas.io.formats.sheffield.SheffieldWriter;
@@ -76,17 +79,28 @@ public class TestFromTridas extends TestCase {
 		}
 	}*/
 
-	/*public void testTridasToCSV() {
+	public void testTridasToODFMatrix() {
 
 		try {
-			genericTest(TridasReader.class, CSVMatrixWriter.class);
+			genericTest(TridasReader.class, ODFMatrixWriter.class);
 		} catch (InstantiationException e) {
 			fail();
 		} catch (IllegalAccessException e) {
 			fail();
 		}
-	}*/
+	}
 
+	public void testTridasToOOXMLMatrix() {
+
+		try {
+			genericTest(TridasReader.class, OOXMLWriter.class);
+		} catch (InstantiationException e) {
+			fail();
+		} catch (IllegalAccessException e) {
+			fail();
+		}
+	}
+	
 	public void testTridasToTucson() {
 
 		try {
@@ -120,6 +134,17 @@ public class TestFromTridas extends TestCase {
 		}
 	}
 
+	public void testTridasToCSVMatrix() {
+
+		try {
+			genericTest(TridasReader.class, CSVMatrixWriter.class);
+		} catch (InstantiationException e) {
+			fail();
+		} catch (IllegalAccessException e) {
+			fail();
+		}
+	}
+	
 	public void testTridasToTrims() {
 
 		try {
@@ -286,7 +311,7 @@ public class TestFromTridas extends TestCase {
 		String[] files = getFilesFromFolder(inputFolder);
 		
 		//String[] files = new String[1];
-		//files[0] = "TestData/TRiDaS/StringRingValues.xml";
+		//files[0] = "TestData/TRiDaS/TridasUK.xml";
 		
 
 		if (files.length == 0) {

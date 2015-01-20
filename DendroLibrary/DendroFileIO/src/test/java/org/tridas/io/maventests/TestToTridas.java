@@ -35,7 +35,6 @@ import org.tridas.io.formats.besancon.BesanconReader;
 import org.tridas.io.formats.catras.CatrasReader;
 import org.tridas.io.formats.corina.CorinaReader;
 import org.tridas.io.formats.cracow.CracowReader;
-import org.tridas.io.formats.csvmatrix.CSVMatrixReader;
 import org.tridas.io.formats.dendrodb.DendroDBReader;
 import org.tridas.io.formats.excelmatrix.ExcelMatrixReader;
 import org.tridas.io.formats.fhx2.FHX2Reader;
@@ -1253,7 +1252,7 @@ public class TestToTridas extends TestCase {
 		}
 	}
 	
-	public void testCSVMatrixToTridas() {
+	/*public void testCSVMatrixToTridas() {
 		String folder = "TestData/CSVMatrix";
 		String[] files = getFilesFromFolder(folder);
 		
@@ -1305,7 +1304,7 @@ public class TestToTridas extends TestCase {
 			};
 			
 		}
-	}
+	}*/
 	
 	public void testExcelMatrixToTridas() {
 		String folder = "TestData/ExcelMatrix";
