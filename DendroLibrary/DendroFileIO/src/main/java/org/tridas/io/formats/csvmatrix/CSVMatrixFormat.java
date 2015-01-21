@@ -10,7 +10,7 @@ public class CSVMatrixFormat extends AbstractDendroFormat{
 	 */
 	@Override
 	public String getDescription() {
-		return I18n.getText("csvmatrix.about.description");
+		return I18n.getText("csv.about.description");
 	}
 	
 	/**
@@ -18,7 +18,7 @@ public class CSVMatrixFormat extends AbstractDendroFormat{
 	 */
 	@Override
 	public String getFullName() {
-		return I18n.getText("csvmatrix.about.fullName");
+		return I18n.getText("csv.about.fullName");
 	}
 	
 	/**
@@ -26,7 +26,7 @@ public class CSVMatrixFormat extends AbstractDendroFormat{
 	 */
 	@Override
 	public String getShortName() {
-		return I18n.getText("csvmatrix.about.shortName");
+		return I18n.getText("csv.about.shortName");
 		
 	}
 
