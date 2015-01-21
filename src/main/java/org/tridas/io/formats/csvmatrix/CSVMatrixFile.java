@@ -9,7 +9,6 @@ import org.tridas.interfaces.ITridasSeries;
 import org.tridas.io.IDendroFile;
 import org.tridas.io.defaults.IMetadataFieldSet;
 import org.tridas.io.formats.csvmatrix.TridasToMatrixDefaults.DefaultFields;
-import org.tridas.io.formats.nottingham.TridasToNottinghamDefaults;
 import org.tridas.io.util.SafeIntYear;
 import org.tridas.io.util.YearRange;
 import org.tridas.schema.TridasValues;
@@ -17,9 +16,19 @@ import org.tridas.schema.TridasValues;
 public class CSVMatrixFile implements IDendroFile {
 	private static final Logger log = LoggerFactory.getLogger(CSVMatrixFile.class);
 
-	private TridasToNottinghamDefaults defaults;
+	private TridasToMatrixDefaults defaults = new TridasToMatrixDefaults();
 	private ArrayList<MatrixSeries> seriesList = new ArrayList<MatrixSeries>();
 	private YearRange fileYearRange;
+	
+	public CSVMatrixFile()
+	{
+		
+	}
+	
+	public void setDefaults(TridasToMatrixDefaults defaults)
+	{
+		this.defaults = defaults;
+	}
 	
 	@Override
 	public String[] saveToString() {
@@ -93,7 +102,11 @@ public class CSVMatrixFile implements IDendroFile {
 		
 		// First column - year headers
 		String[] yearcolumn = new String[fileYearRange.span()+1];
-		yearcolumn[0] = "Years";
+		yearcolumn[0] = "Years ";
+		if(defaults.getStringDefaultValue(DefaultFields.DATING_TYPE).getValue()!=null)
+		{
+			yearcolumn[0] = yearcolumn[0] + "("+defaults.getStringDefaultValue(DefaultFields.DATING_TYPE).getValue()+")";
+		}
 		int ind = 1;
 		
 		SafeIntYear start = fileYearRange.getStart();
@@ -136,7 +149,6 @@ public class CSVMatrixFile implements IDendroFile {
 			// Data values
 			if(s.values.getValues().size()>0)
 			{	
-				
 				int yearIndex = fileYearRange.getStart().diff(s.range.getStart())+1;
 				if(yearIndex<0) yearIndex = 0- yearIndex+2;
 							
@@ -168,16 +180,23 @@ public class CSVMatrixFile implements IDendroFile {
 			this.series = series;
 			this.values = values;
 			
+			SafeIntYear startYear = null;
+			Integer years = null;
 			try{
-				SafeIntYear startYear = new SafeIntYear(series.getInterpretation().getFirstYear());
-				int years = values.getValues().size();
-				
-				range = new YearRange(startYear, years);
-				
+				startYear = new SafeIntYear(series.getInterpretation().getFirstYear());
 			} catch (NullPointerException e)
 			{
-				return;
+				startYear = new SafeIntYear(1);
 			}
+			
+			try{
+				years = values.getValues().size();
+			} catch (NullPointerException e)
+			{
+				years =0;
+			}
+			
+			range = new YearRange(startYear, years);
 		}
 		
 		

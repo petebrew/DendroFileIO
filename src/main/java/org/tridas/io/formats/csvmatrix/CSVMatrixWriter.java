@@ -15,21 +15,25 @@
  */
 package org.tridas.io.formats.csvmatrix;
 
+import java.util.HashSet;
+import java.util.Iterator;
+
 import org.tridas.interfaces.ITridasSeries;
 import org.tridas.io.AbstractDendroCollectionWriter;
 import org.tridas.io.AbstractDendroFormat;
 import org.tridas.io.I18n;
 import org.tridas.io.defaults.IMetadataFieldSet;
 import org.tridas.io.exceptions.ConversionWarning;
+import org.tridas.io.exceptions.ConversionWarning.WarningType;
 import org.tridas.io.exceptions.ConversionWarningException;
 import org.tridas.io.exceptions.ImpossibleConversionException;
-import org.tridas.io.exceptions.ConversionWarning.WarningType;
-import org.tridas.io.formats.csvmatrix.CSVMatrixFile.MatrixSeries;
+import org.tridas.io.formats.csvmatrix.TridasToMatrixDefaults.DefaultFields;
 import org.tridas.io.naming.INamingConvention;
 import org.tridas.io.naming.NamingConventionGrouper;
 import org.tridas.io.naming.NumericalNamingConvention;
 import org.tridas.io.util.TridasUtils;
 import org.tridas.io.util.UnitUtils;
+import org.tridas.schema.DatingSuffix;
 import org.tridas.schema.NormalTridasUnit;
 import org.tridas.schema.TridasDerivedSeries;
 import org.tridas.schema.TridasElement;
@@ -46,6 +50,8 @@ public class CSVMatrixWriter extends AbstractDendroCollectionWriter {
 	private INamingConvention naming = new NumericalNamingConvention();
 	protected Class<? extends CSVMatrixFile> clazz;
 	private boolean seriesAddedFlag = false;
+	private HashSet<DatingSuffix> datingTypes = new HashSet<DatingSuffix>();
+	
 	
 	public CSVMatrixWriter() {
 		super(TridasToMatrixDefaults.class, new CSVMatrixFormat());
@@ -76,6 +82,13 @@ public class CSVMatrixWriter extends AbstractDendroCollectionWriter {
 	{
 		TridasToMatrixDefaults msDefaults = (TridasToMatrixDefaults) defaults.clone();
 		msDefaults.populateFromTridasSeries(series);
+		
+		try{
+			datingTypes.add(series.getInterpretation().getFirstYear().getSuffix());
+		} catch (NullPointerException e)
+		{
+			datingTypes.add(DatingSuffix.RELATIVE);
+		}
 		
 		for (int i = 0; i < series.getValues().size(); i++) {
 			
@@ -126,6 +139,7 @@ public class CSVMatrixWriter extends AbstractDendroCollectionWriter {
 		CSVMatrixFile file = null;	
 		try {
 			file = clazz.newInstance();
+			file.setDefaults(defaults);
 		} catch (InstantiationException e1) {
 			throw new ImpossibleConversionException("Failed to instantiate CSVMatrixFile class");
 		} catch (IllegalAccessException e1) {
@@ -195,6 +209,34 @@ public class CSVMatrixWriter extends AbstractDendroCollectionWriter {
 		}
 		else
 		{
+			
+			if(datingTypes.size()>1 && (datingTypes.contains(DatingSuffix.BP) || datingTypes.contains(DatingSuffix.RELATIVE)))
+			{
+				throw new ImpossibleConversionException("This format cannot store series with a mixture of dating types.  All series must be either dated or undated.");
+			}
+			else if (datingTypes.size()==2)
+			{
+				defaults.getStringDefaultValue(DefaultFields.DATING_TYPE).setValue("AD/BC");
+			}
+			else if (datingTypes.size()==1)
+			{
+				Iterator<DatingSuffix> it = datingTypes.iterator();
+				while(it.hasNext())
+				{
+					DatingSuffix ds = it.next();
+					if(ds.equals(DatingSuffix.RELATIVE))
+					{
+						defaults.getStringDefaultValue(DefaultFields.DATING_TYPE).setValue(ds.toString().toLowerCase());
+					}
+					else 
+					{
+						defaults.getStringDefaultValue(DefaultFields.DATING_TYPE).setValue(ds.toString());
+					}
+				}
+			}
+			
+			
+			file.setDefaults(defaults);
 			this.addToFileList(file);
 		}
 		

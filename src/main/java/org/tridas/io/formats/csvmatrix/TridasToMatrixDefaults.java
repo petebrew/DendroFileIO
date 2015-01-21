@@ -30,7 +30,8 @@ public class TridasToMatrixDefaults extends AbstractMetadataFieldSet implements
 	public static enum DefaultFields {
 		
 		SERIES_TITLE,
-		VARIABLE;
+		VARIABLE,
+		DATING_TYPE;
 
 	}
 	
@@ -40,6 +41,7 @@ public class TridasToMatrixDefaults extends AbstractMetadataFieldSet implements
 
 		setDefaultValue(DefaultFields.SERIES_TITLE, new StringDefaultValue(I18n.getText("unnamed")));
 		setDefaultValue(DefaultFields.VARIABLE, new StringDefaultValue());
+		setDefaultValue(DefaultFields.DATING_TYPE, new StringDefaultValue());
 	}
 
 	public void populateFromTridasMeasurementSeries(TridasMeasurementSeries argSeries) {
