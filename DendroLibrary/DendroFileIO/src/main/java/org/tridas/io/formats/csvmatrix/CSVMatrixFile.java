@@ -96,6 +96,8 @@ public class CSVMatrixFile implements IDendroFile {
 		}
 	}
 	
+
+	
 	public ArrayList<String[]> getMatrix()
 	{
 		ArrayList<String[]> matrix = new ArrayList<String[]>();

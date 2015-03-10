@@ -28,6 +28,7 @@ import org.tridas.io.exceptions.ConversionWarningException;
 import org.tridas.io.exceptions.ImpossibleConversionException;
 import org.tridas.io.exceptions.ConversionWarning.WarningType;
 import org.tridas.schema.NormalTridasUnit;
+import org.tridas.schema.TridasUnit;
 import org.tridas.schema.TridasValue;
 import org.tridas.schema.TridasValues;
 
@@ -386,6 +387,11 @@ public class UnitUtils {
 				value.setValue(String.valueOf(dformat.format(dblvalue)));
 			}
 		}
+		
+		// Make sure the unit description is set correctly
+		TridasUnit unit = new TridasUnit();
+		unit.setNormalTridas(outputunits);
+		tv.setUnit(unit);
 		
 		return tv;
 	}

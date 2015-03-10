@@ -55,8 +55,6 @@ public class ODFMatrixFile extends CSVMatrixFile {
 	public void saveToDisk(OutputStream os) throws IOException {
 		OdfSpreadsheetDocument outputDocument;
 
-		
-		
 		try {
 			outputDocument = OdfSpreadsheetDocument.newSpreadsheetDocument();
 			
@@ -78,21 +76,9 @@ public class ODFMatrixFile extends CSVMatrixFile {
 
 				}
 			}
-			
-			
-			/*for(int rowind=0; rowind<getMatrix().size(); rowind++)
-			{
-				String[] row = getMatrix().get(rowind);
-				for(int colind=0; colind<row.length; colind++)
-				{
-					table.getCellByPosition(colind, rowind).setStringValue(row[colind]);
-				}
-				
-			}*/
 						
 			outputDocument.save(os);
-			
-			
+
 			
 		} catch (Exception e) {
 
