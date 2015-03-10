@@ -308,10 +308,10 @@ public class TestFromTridas extends TestCase {
 		log.debug("*** TESTING CONVERSION --- "+readerClass.getSimpleName()+" to "+writerClass.getSimpleName()+" ***");
 		log.debug("********************************************************************************************");
 		
-		//String[] files = getFilesFromFolder(inputFolder);
+		String[] files = getFilesFromFolder(inputFolder);
 		
-		String[] files = new String[1];
-		files[0] = "TestData/TRiDaS/Tridas5.xml";
+		//String[] files = new String[1];
+		//files[0] = "TestData/TRiDaS/Tridas5.xml";
 		
 
 		if (files.length == 0) {

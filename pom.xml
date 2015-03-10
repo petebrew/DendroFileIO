@@ -180,6 +180,11 @@
         	<artifactId>opencsv</artifactId>
         	<version>2.3</version>
         </dependency>
+        <dependency>
+        	<groupId>org.apache.odftoolkit</groupId>
+        	<artifactId>simple-odf</artifactId>
+        	<version>0.7-incubating</version>
+        </dependency>
 	</dependencies>
 	
 	
