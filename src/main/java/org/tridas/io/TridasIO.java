@@ -393,6 +393,7 @@ public class TridasIO {
 	public synchronized static AbstractDendroCollectionWriter getFileWriter(String argFormatName) {
 		TridasIOEntry e = converterMap.get(argFormatName.toLowerCase());
 		if (e == null || e.fileWriter == null) {
+			log.error("Writer for the format "+argFormatName+" was not found");
 			return null;
 		}
 		try {

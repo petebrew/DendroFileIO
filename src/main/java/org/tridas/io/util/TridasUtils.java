@@ -1196,6 +1196,38 @@ public class TridasUtils {
 		return null;
 		
 	}
+
+	public static void setObjectCode(TridasObjectEx object, String code) {
+		
+		TridasGenericField gf = null;
+		if(object.isSetGenericFields())
+		{
+		
+			for(TridasGenericField field: object.getGenericFields())
+			{
+				if(field.getName().equals(code)) 
+				{
+					gf = field;
+				}
+			}
+		}
+		
+		if(gf==null)
+		{
+			
+			gf = new TridasGenericField();
+			gf.setName(GENERIC_FIELD_STRING_OBJECTCODE);
+			gf.setType("xs:string");
+			object.getGenericFields().add(gf);
+		}
+		
+		gf.setValue(code);
+	}
 	
+	public static String GENERIC_FIELD_STRING_OBJECTCODE = "tellervo.objectLabCode";
+	public static String GENERIC_FIELD_STRING_ELEMENTCODE = "tellervo.elementLabCode";
+	public static String GENERIC_FIELD_STRING_BOXCODE = "tellervo.boxCode";
+	public static String GENERIC_FIELD_STRING_CURATION_LOCATION = "tellervo.boxCurationLocation";
+	public static String GENERIC_FIELD_STRING_BOX_TRACKING_LOCATION = "tellervo.boxTrackingLocation";
 }
 
