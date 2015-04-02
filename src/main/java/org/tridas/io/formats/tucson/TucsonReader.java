@@ -87,6 +87,7 @@ public class TucsonReader extends AbstractDendroFileReader {
 	private Integer maxLineLength = 0;
 	private Integer modeLineLength = 0;
 	private boolean fileContainsMinus9999Flag = false;
+	private boolean fileContains999Flag = false;
 
 
 
@@ -277,9 +278,7 @@ public class TucsonReader extends AbstractDendroFileReader {
 		String headercache3 = null; // Strings to cache potential header lines
 		Boolean withinChronologyBlock = false; // Whether we're in a chronology
 												// block or not
-		
-		Integer countOf999 = 0;
-		Integer countOfMinus9999 = 0;
+
 
 		// Check that the file is valid
 		checkValidFile(argFileString);
@@ -298,16 +297,6 @@ public class TucsonReader extends AbstractDendroFileReader {
 				continue;
 			}
 			
-			// Count 999 and -9999 indicators
-			if(line.contains("999"))
-			{
-				countOf999++;
-			}
-			if(line.contains("-9999"))
-			{
-				countOfMinus9999++;
-			}
-
 			// Handle line depending on type
 			TucsonLineType linetype = getLineType(line);
 			
@@ -590,6 +579,13 @@ public class TucsonReader extends AbstractDendroFileReader {
 			if(line.contains(" -9999"))
 			{
 				fileContainsMinus9999Flag = true;
+				if(fileContains999Flag) this.addWarning(new ConversionWarning(WarningType.INFORMATION, "The data in this file appears to be in microns with one or more values of 999.  If, however, there is a mix of hundredth mm and micron data in the file, then it is being interpretted incorrectly. "));
+			}
+			
+			if(line.contains(" 999"))
+			{
+				fileContains999Flag = true;
+				if(fileContainsMinus9999Flag) this.addWarning(new ConversionWarning(WarningType.INFORMATION, "The data in this file appears to be in microns with one or more values of 999.  If, however, there is a mix of hundredth mm and micron data in the file, then it is being interpretted incorrectly. "));
 			}
 		}
 
