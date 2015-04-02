@@ -90,7 +90,6 @@ public class TestBetweenFormats extends TestCase {
 				writer.load(container);
 				writer.saveAllToDisk(outputLocation);
 			} catch (ImpossibleConversionException e) {
-				fail();
 			} catch (ConversionWarningException e) {
 			} catch (NothingToWriteException e) {
 				// TODO Auto-generated catch block
