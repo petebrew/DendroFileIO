@@ -86,6 +86,9 @@ public class TucsonReader extends AbstractDendroFileReader {
 	private Integer minLineLength = 0;
 	private Integer maxLineLength = 0;
 	private Integer modeLineLength = 0;
+	private boolean fileContainsMinus9999Flag = false;
+
+
 
 	/**
 	 * Officially Tucson format uses Astronomical Date format for all years.
@@ -274,6 +277,9 @@ public class TucsonReader extends AbstractDendroFileReader {
 		String headercache3 = null; // Strings to cache potential header lines
 		Boolean withinChronologyBlock = false; // Whether we're in a chronology
 												// block or not
+		
+		Integer countOf999 = 0;
+		Integer countOfMinus9999 = 0;
 
 		// Check that the file is valid
 		checkValidFile(argFileString);
@@ -290,6 +296,16 @@ public class TucsonReader extends AbstractDendroFileReader {
 			// Skip blank lines
 			if ((line == null) || (line.equals(""))) {
 				continue;
+			}
+			
+			// Count 999 and -9999 indicators
+			if(line.contains("999"))
+			{
+				countOf999++;
+			}
+			if(line.contains("-9999"))
+			{
+				countOfMinus9999++;
 			}
 
 			// Handle line depending on type
@@ -474,6 +490,7 @@ public class TucsonReader extends AbstractDendroFileReader {
 
 		// Add remaining series to list
 		this.seriesList.add(currentSeries);
+
 	}
 
 	/**
@@ -568,6 +585,11 @@ public class TucsonReader extends AbstractDendroFileReader {
 			}
 			if (matchesLineType(TucsonLineType.HEADER, line)) {
 				headerLines++;
+			}
+			
+			if(line.contains(" -9999"))
+			{
+				fileContainsMinus9999Flag = true;
 			}
 		}
 
@@ -772,7 +794,7 @@ public class TucsonReader extends AbstractDendroFileReader {
 		// Intercept no data values and stop markers
 		for (String value : vals) {
 
-			if (value.equals("999")) {
+			if (value.equals("999") && !this.fileContainsMinus9999Flag) {
 				// 0.01mm stop marker
 				unitField.setValue(NormalTridasUnit.HUNDREDTH_MM);
 				lastYearReached = true;
@@ -1345,6 +1367,7 @@ public class TucsonReader extends AbstractDendroFileReader {
 		private TucsonSeries(TucsonToTridasDefaults df) {
 			defaults = df;
 		}
+		
 	}
 	
 	/**
