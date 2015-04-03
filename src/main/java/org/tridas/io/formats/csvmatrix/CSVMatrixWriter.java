@@ -51,7 +51,7 @@ public class CSVMatrixWriter extends AbstractDendroCollectionWriter {
 	protected Class<? extends CSVMatrixFile> clazz;
 	private boolean seriesAddedFlag = false;
 	private HashSet<DatingSuffix> datingTypes = new HashSet<DatingSuffix>();
-	
+	private boolean skipDataParsing = false;
 	
 	public CSVMatrixWriter() {
 		super(TridasToMatrixDefaults.class, new CSVMatrixFormat());
@@ -80,6 +80,8 @@ public class CSVMatrixWriter extends AbstractDendroCollectionWriter {
 
 	private void parseSeries(ITridasSeries series, CSVMatrixFile file)
 	{
+		
+		
 		TridasToMatrixDefaults msDefaults = (TridasToMatrixDefaults) defaults.clone();
 		msDefaults.populateFromTridasSeries(series);
 		
@@ -103,29 +105,32 @@ public class CSVMatrixWriter extends AbstractDendroCollectionWriter {
 				valuesDefaults.populateFromTridasValues(tvsgroup);
 				
 				// Warn if non-standard variable
-				if (!tvsgroup.getVariable().isSetNormalTridas())
+				if (!skipDataParsing && !tvsgroup.getVariable().isSetNormalTridas())
 				{
 					valuesDefaults.addConversionWarning(new ConversionWarning(WarningType.AMBIGUOUS, I18n.getText("fileio.nonstandardVariable")));
 				}
 				
 				// Convert units if possible
-				try
+				if(!skipDataParsing)
 				{
-					tvsgroup = UnitUtils.convertTridasValues(NormalTridasUnit.HUNDREDTH_MM, tvsgroup, 4);
-				
-				} catch (NumberFormatException ex)
-				{
-					this.addWarning(new ConversionWarning(WarningType.IGNORED, ex.getLocalizedMessage()));
-				} catch (ConversionWarningException ex) {
-					this.addWarning(ex.getWarning());
-				}
-								
+					try
+					{
+						tvsgroup = UnitUtils.convertTridasValues(NormalTridasUnit.HUNDREDTH_MM, tvsgroup, 4);
+					
+					} catch (NumberFormatException ex)
+					{
+						this.addWarning(new ConversionWarning(WarningType.IGNORED, ex.getLocalizedMessage()));
+					} catch (ConversionWarningException ex) {
+						this.addWarning(ex.getWarning());
+					}
+				}				
 				file.addSeries(valuesDefaults, series, tvsgroup);
 				seriesAddedFlag = true;
 				
 			}
 			
 		}
+		
 	}
 	
 	@Override
@@ -150,8 +155,10 @@ public class CSVMatrixWriter extends AbstractDendroCollectionWriter {
 		ncgroup.add(argProject);
 		
 		for (TridasObject o : TridasUtils.getObjectList(argProject)) {			
+			defaults.populateFromTridasObject(o);
 			ncgroup.add(o);
-			for (TridasElement e : o.getElements()) {		
+			for (TridasElement e : o.getElements()) {
+				defaults.populateFromTridasElement(e);
 				ncgroup.add(e);
 				for (TridasSample s : e.getSamples()) {
 					ncgroup.add(s);
@@ -249,5 +256,10 @@ public class CSVMatrixWriter extends AbstractDendroCollectionWriter {
 	@Override
 	public void setNamingConvention(INamingConvention argConvension) {
 		naming = argConvension;
+	}
+
+
+	public void setSkipDataParsing(boolean skipDataParsing) {
+		this.skipDataParsing = skipDataParsing;
 	}
 }

@@ -320,6 +320,8 @@ public class TestFromTridas extends TestCase {
 
 		for (String filename : files) {
 
+			//if(!filename.equals("Extensive.xml")) continue;
+			
 			log.info(" ");
 			log.info("Converting file: " + filename);
 
