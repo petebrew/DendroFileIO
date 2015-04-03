@@ -66,6 +66,9 @@ public class OOXMLFile extends CSVMatrixFile {
 			
 			for(int colind=0; colind<matrix.size(); colind++)
 			{
+				
+				if(matrix.get(colind)[rowind]==null || matrix.get(colind)[rowind].getBytes().length==0) continue;
+				
 				if(rowind==0)
 				{
 					rw.createCell(colind).setCellValue(matrix.get(colind)[rowind]);
