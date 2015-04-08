@@ -1235,10 +1235,63 @@ public class TridasUtils {
 	
 	public static void debugTridasProject(TridasProject t)
 	{
-		log.debug("  - Project" + t.getTitle());
-		FINISH THIS!
+		log.debug("  - Project -" + t.getTitle());
+		for(TridasObject o : t.getObjects())
+		{
+			debugTridasObject(o);
+		}
+		for(TridasDerivedSeries o : t.getDerivedSeries())
+		{
+			debugTridasDerivedSeries(o);
+		}
 	}
 	
+	public static void debugTridasObject(TridasObject t)
+	{
+		log.debug("     - Object -" + t.getTitle());
+		for(TridasElement o : t.getElements())
+		{
+			debugTridasElement(o);
+		}
+	}
+	
+	public static void debugTridasElement(TridasElement t)
+	{
+		log.debug("        - Element -" + t.getTitle());
+		for(TridasSample o : t.getSamples())
+		{
+			debugTridasSample(o);
+		}
+	}
+	
+	public static void debugTridasSample(TridasSample t)
+	{
+		log.debug("           - Sample -" + t.getTitle());
+		for(TridasRadius o : t.getRadiuses())
+		{
+			debugTridasRadius(o);
+		}
+	}
+	
+	public static void debugTridasRadius(TridasRadius t)
+	{
+		log.debug("              - Radius -" + t.getTitle());
+		for(TridasMeasurementSeries o : t.getMeasurementSeries())
+		{
+			debugTridasMeasurementSeries(o);
+		}
+	}
+	
+	
+	public static void debugTridasMeasurementSeries(TridasMeasurementSeries t)
+	{
+		log.debug("                 - MSeries -" + t.getTitle());
+	}
+	
+	public static void debugTridasDerivedSeries(TridasDerivedSeries t)
+	{
+		log.debug("     - DSeries -" + t.getTitle());
+	}
 	
 	public static String GENERIC_FIELD_STRING_OBJECTCODE = "tellervo.objectLabCode";
 	public static String GENERIC_FIELD_STRING_ELEMENTCODE = "tellervo.elementLabCode";
