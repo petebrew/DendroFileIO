@@ -392,7 +392,11 @@ public class TridasIO {
 	public synchronized static AbstractDendroCollectionWriter getFileWriter(String argFormatName) {
 		TridasIOEntry e = converterMap.get(argFormatName.toLowerCase());
 		if (e == null || e.fileWriter == null) {
-			log.error("Writer for the format "+argFormatName+" was not found");
+			log.error("Writer for the format "+argFormatName+" was not found.  Possible options are:");
+			for(DendroFileFilter writer : getFileWritingFilterArray())
+			{
+				log.error("  * "+writer.getFormatName().toLowerCase());
+			}
 			return null;
 		}
 		try {
@@ -421,6 +425,106 @@ public class TridasIO {
 			log.error(I18n.getText("fileio.creationError", e.fileReader.getName()), e1);
 			return null;
 		}
+	}
+	
+	public synchronized static AbstractDendroFileReader getFileReaderFromFormatName(String argFormatName) {
+		
+		return getFileReader(argFormatName);
+	}
+	
+	public synchronized static AbstractDendroFileReader getFileReaderFromFormat(AbstractDendroFormat format) {
+		Iterator it = converterMap.entrySet().iterator();
+	    while (it.hasNext()) {
+	        Map.Entry pairs = (Map.Entry)it.next();
+	        TridasIOEntry e = (TridasIOEntry) pairs.getValue();
+	        try {
+	        	if(e.fileReader==null) continue;
+	        		
+				AbstractDendroFileReader reader = e.fileReader.newInstance();
+				if(reader.getFormat().compareTo(format)==0)
+				{
+					return reader;
+				}
+			} catch (Exception e1) {
+				
+			}
+	    }
+	    return null;
+	}
+	
+	public synchronized static AbstractDendroFileReader getFileReaderFromDendroFileFilter(DendroFileFilter filter) {
+		Iterator it = converterMap.entrySet().iterator();
+	    while (it.hasNext()) {
+	        Map.Entry pairs = (Map.Entry)it.next();
+	        TridasIOEntry e = (TridasIOEntry) pairs.getValue();
+	        try {
+				AbstractDendroFileReader reader = e.fileReader.newInstance();
+				
+				if(reader.getDendroFileFilter().toString().equals(filter.toString()))
+				{
+					return reader;
+				}
+			} catch (Exception e1) {
+				
+			}
+	    }
+	    return null;
+	}
+	
+	public synchronized static AbstractDendroCollectionWriter getFileWriterFromDendroFileFilter(DendroFileFilter filter) {
+		Iterator it = converterMap.entrySet().iterator();
+	    while (it.hasNext()) {
+	        Map.Entry pairs = (Map.Entry)it.next();
+	        TridasIOEntry e = (TridasIOEntry) pairs.getValue();
+	        try {
+	        	if(e.fileWriter==null) continue;
+				AbstractDendroCollectionWriter writer = e.fileWriter.newInstance();
+
+				if(filter.compareTo(writer.getDendroFileFilter())==0)
+				{
+					return writer;
+				}
+			} catch (Exception e1) {
+				e1.printStackTrace();
+			}
+	    }
+	    return null;
+	}
+	
+	public synchronized static AbstractDendroFormat getDendroFormatFromDendroFileFilter(DendroFileFilter filter) {
+		
+		AbstractDendroCollectionWriter writer = getFileWriterFromDendroFileFilter(filter);
+				
+		if(writer ==null){
+			log.debug("Unable to find format for filter '"+filter.getFormatName()+"'. Valid filters include:");
+			for(DendroFileFilter f : TridasIO.getFileReadingFilterArray())
+			{
+				log.debug("  * "+f.getFormatName());
+			}
+				
+			return null;
+		}
+		return writer.getFormat();
+	}
+	
+	
+	public synchronized static AbstractDendroCollectionWriter getFileWriterFromFormat(AbstractDendroFormat format) {
+		Iterator it = converterMap.entrySet().iterator();
+	    while (it.hasNext()) {
+	        Map.Entry pairs = (Map.Entry)it.next();
+	        TridasIOEntry e = (TridasIOEntry) pairs.getValue();
+	        try {
+	        	if(e.fileWriter==null) continue;
+	        	AbstractDendroCollectionWriter writer = e.fileWriter.newInstance();
+				if(writer.getFormat().compareTo(format)==0)
+				{
+					return writer;
+				}
+			} catch (Exception e1) {
+				
+			}
+	    }
+	    return null;
 	}
 	
 	
@@ -521,6 +625,30 @@ public class TridasIO {
 		}
 		Collections.sort(list);
 		return list.toArray(new String[0]);
+	}
+	
+	public synchronized static ArrayList<Class<? extends AbstractDendroFileReader>> getSupportedReaders() {
+		ArrayList<Class<? extends AbstractDendroFileReader>> list = new ArrayList<Class<? extends AbstractDendroFileReader>>();
+		for (String extension : converterMap.keySet()) {
+			TridasIOEntry entry = converterMap.get(extension);
+			if (entry.fileReader != null) {
+				
+				list.add(entry.fileReader);
+			}
+		}
+		return list;
+	}
+	
+	public synchronized static ArrayList<Class<? extends AbstractDendroCollectionWriter>> getSupportedWriters() {
+		ArrayList<Class<? extends AbstractDendroCollectionWriter>> list = new ArrayList<Class<? extends AbstractDendroCollectionWriter>>();
+		for (String extension : converterMap.keySet()) {
+			TridasIOEntry entry = converterMap.get(extension);
+			if (entry.fileReader != null) {
+				
+				list.add(entry.fileWriter);
+			}
+		}
+		return list;
 	}
 	
 	/**

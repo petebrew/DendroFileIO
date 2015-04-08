@@ -281,7 +281,7 @@ public class ITRDBTaxonConverter {
 		
 		ControlledVoc taxon = new ControlledVoc();
 		
-		if (name.equals("") || name == null) {
+		if (name == null || name.equals("") ) {
 			name = defaultTaxon;
 		}
 		

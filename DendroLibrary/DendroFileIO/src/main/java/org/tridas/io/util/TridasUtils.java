@@ -1224,6 +1224,22 @@ public class TridasUtils {
 		gf.setValue(code);
 	}
 	
+	public static void debugTridasTridas(TridasTridas container)
+	{
+		log.debug("Container");
+		for(TridasProject p : container.getProjects())
+		{
+			debugTridasProject(p);
+		}
+	}
+	
+	public static void debugTridasProject(TridasProject t)
+	{
+		log.debug("  - Project" + t.getTitle());
+		FINISH THIS!
+	}
+	
+	
 	public static String GENERIC_FIELD_STRING_OBJECTCODE = "tellervo.objectLabCode";
 	public static String GENERIC_FIELD_STRING_ELEMENTCODE = "tellervo.elementLabCode";
 	public static String GENERIC_FIELD_STRING_BOXCODE = "tellervo.boxCode";

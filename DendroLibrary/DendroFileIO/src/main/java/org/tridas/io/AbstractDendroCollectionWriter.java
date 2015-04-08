@@ -35,7 +35,7 @@ import org.tridas.schema.TridasTridas;
 /**
  * @author Daniel Murphy
  */
-public abstract class AbstractDendroCollectionWriter{
+public abstract class AbstractDendroCollectionWriter implements Comparable<AbstractDendroCollectionWriter>{
 	private static final Logger log = LoggerFactory.getLogger(AbstractDendroCollectionWriter.class);
 
 	private final AbstractDendroFormat format;
@@ -473,5 +473,29 @@ public abstract class AbstractDendroCollectionWriter{
 	public DendroFileFilter getDendroFileFilter()
 	{
 		return format.getDendroFileFilter();
+	}
+	
+	public AbstractDendroFormat getFormat()
+	{
+		return format;
+	}
+	
+	@Override
+	public int compareTo(AbstractDendroCollectionWriter other) {
+		if(this.getFullName().equals(other.getFullName()))
+		{
+			if(this.getDescription().equals(other.getDescription()))
+			{
+				return 0;
+			}
+			else
+			{
+				return this.getDescription().compareTo(other.getDescription());
+			}
+		}
+		else 
+		{
+			return this.getFullName().compareTo(other.getFullName());
+		}
 	}
 }

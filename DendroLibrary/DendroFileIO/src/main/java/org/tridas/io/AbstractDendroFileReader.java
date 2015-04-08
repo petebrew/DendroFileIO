@@ -17,6 +17,7 @@ package org.tridas.io;
 
 import java.io.IOException;
 import java.util.ArrayList;
+import java.util.Comparator;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -29,7 +30,7 @@ import org.tridas.schema.TridasProject;
 import org.tridas.schema.TridasTridas;
 
 
-public abstract class AbstractDendroFileReader{
+public abstract class AbstractDendroFileReader implements Comparable<AbstractDendroFileReader>{
 	private static final Logger log = LoggerFactory.getLogger(AbstractDendroFileReader.class);
 	
 	private final AbstractDendroFormat format;
@@ -375,4 +376,28 @@ public abstract class AbstractDendroFileReader{
 		return format.getDendroFileFilter();
 	}
 	
+	public AbstractDendroFormat getFormat()
+	{
+		return format;
+	}
+
+	@Override
+	public int compareTo(AbstractDendroFileReader other) {
+		
+		if(this.getFullName().equals(other.getFullName()))
+		{
+			if(this.getDescription().equals(other.getDescription()))
+			{
+				return 0;
+			}
+			else
+			{
+				return this.getDescription().compareTo(other.getDescription());
+			}
+		}
+		else 
+		{
+			return this.getFullName().compareTo(other.getFullName());
+		}
+	}
 }
