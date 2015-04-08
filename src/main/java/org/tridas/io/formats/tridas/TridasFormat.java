@@ -23,7 +23,14 @@ public class TridasFormat extends AbstractDendroFormat{
 	 */
 	@Override
 	public String getDescription() {
-		return I18n.getText("tridas.about.description");
+		if(version!=null)
+		{
+			return I18n.getText("tridas.about.description")+" v."+version.getVersionString();
+		}
+		else
+		{
+			return I18n.getText("tridas.about.description");
+		}
 	}
 	
 	/**
@@ -63,4 +70,5 @@ public class TridasFormat extends AbstractDendroFormat{
 	public String[] getFileExtensions() {
 		return new String[]{"xml"};
 	}
+	
 }
