@@ -93,7 +93,7 @@ public class HeidelbergFile implements IDendroFile {
 			file.add("HEADER:");
 			
 			addIfNotNull(ser.defaults, "Bark", DefaultFields.BARK, file);
-			addIfNotNull(ser.defaults, "CoreNo", DefaultFields.CORE_NUMBER, file);
+			addIfNotNull(ser.defaults, "CoreNo", DefaultFields.CORE_NUMBER, file, I18n.getText("unnamed.element"));
 			addIfNotNull(ser.defaults, "Country", DefaultFields.COUNTRY, file);
 			addIfNotNull(ser.defaults, "DataFormat", DefaultFields.DATA_FORMAT, file);
 			addIfNotNull(ser.defaults, "DataType", DefaultFields.DATA_TYPE, file);
@@ -120,9 +120,9 @@ public class HeidelbergFile implements IDendroFile {
 			addIfNotNull(ser.defaults, "MissingRingsBefore", DefaultFields.MISSING_RINGS_BEFORE, file);
 			addIfNotNull(ser.defaults, "PersID", DefaultFields.PERS_ID, file);
 			addIfNotNull(ser.defaults, "Pith", DefaultFields.PITH, file);
-			addIfNotNull(ser.defaults, "Project", DefaultFields.PROJECT, file);
+			addIfNotNull(ser.defaults, "Project", DefaultFields.PROJECT, file, I18n.getText("unnamed.project"));
 			addIfNotNull(ser.defaults, "Province", DefaultFields.PROVINCE, file);
-			addIfNotNull(ser.defaults, "RadiusNo", DefaultFields.RADIUS_NUMBER, file);
+			addIfNotNull(ser.defaults, "RadiusNo", DefaultFields.RADIUS_NUMBER, file, I18n.getText("unnamed.radius"));
 			addIfNotNull(ser.defaults, "SamplingHeight", DefaultFields.SAMPLING_HEIGHT, file);
 			addIfNotNull(ser.defaults, "SamplingPoint", DefaultFields.SAMPLING_POINT, file);
 			addIfNotNull(ser.defaults, "SapwoodRings", DefaultFields.SAPWOOD_RINGS, file);
@@ -130,19 +130,19 @@ public class HeidelbergFile implements IDendroFile {
 			addIfNotNull(ser.defaults, "SeriesStart", DefaultFields.SERIES_START, file);
 			addIfNotNull(ser.defaults, "SeriesType", DefaultFields.SERIES_TYPE, file);
 			addIfNotNull(ser.defaults, "ShapeOfSample", DefaultFields.SHAPE_OF_SAMPLE, file);
-			addIfNotNull(ser.defaults, "SiteCode", DefaultFields.SITE_CODE, file);
+			addIfNotNull(ser.defaults, "SiteCode", DefaultFields.SITE_CODE, file, I18n.getText("unnamed.object"));
 			addIfNotNull(ser.defaults, "SoilType", DefaultFields.SOIL_TYPE, file);
 			addIfNotNull(ser.defaults, "Species", DefaultFields.SPECIES, file);
 			addIfNotNull(ser.defaults, "SpeciesName", DefaultFields.SPECIES_NAME, file);
 			addIfNotNull(ser.defaults, "State", DefaultFields.STATE, file);
-			addIfNotNull(ser.defaults, "StemDiskNo", DefaultFields.STEM_DISK_NUMBER, file);
+			addIfNotNull(ser.defaults, "StemDiskNo", DefaultFields.STEM_DISK_NUMBER, file, I18n.getText("unnamed.element"));
 			addIfNotNull(ser.defaults, "Street", DefaultFields.STREET, file);
 			addIfNotNull(ser.defaults, "TimberHeight", DefaultFields.TIMBER_HEIGHT, file);
 			addIfNotNull(ser.defaults, "TimberWidth", DefaultFields.TIMBER_WIDTH, file);
 			addIfNotNull(ser.defaults, "Town", DefaultFields.TOWN, file);
 			addIfNotNull(ser.defaults, "TownZipCode", DefaultFields.TOWN_ZIP_CODE, file);
 			addIfNotNull(ser.defaults, "TreeHeight", DefaultFields.TREE_HEIGHT, file);
-			addIfNotNull(ser.defaults, "TreeNo", DefaultFields.TREE_NUMBER, file);
+			addIfNotNull(ser.defaults, "TreeNo", DefaultFields.TREE_NUMBER, file, I18n.getText("unnamed.element"));
 			addIfNotNull(ser.defaults, "Unit", DefaultFields.UNIT, file);
 			addIfNotNull(ser.defaults, "WaldKante", DefaultFields.WALDKANTE, file);
 					
@@ -174,8 +174,17 @@ public class HeidelbergFile implements IDendroFile {
 		return file.toArray(new String[0]);
 	}
 	
-	private void addIfNotNull(TridasToHeidelbergDefaults defaults, String argKeyString, DefaultFields argEnum, ArrayList<String> argList) {
+	private void addIfNotNull(TridasToHeidelbergDefaults defaults, String argKeyString, DefaultFields argEnum, ArrayList<String> argList) 
+	{
+			addIfNotNull(defaults, argKeyString, argEnum, argList, null);
+	}
+	
+	private void addIfNotNull(TridasToHeidelbergDefaults defaults, String argKeyString, DefaultFields argEnum, ArrayList<String> argList, String defaultValue) {
 		if (defaults.getDefaultValue(argEnum).getStringValue().equals("")) {
+			return;
+		}
+		if(defaultValue!=null && defaults.getDefaultValue(argEnum).getStringValue().equals(defaultValue))
+		{
 			return;
 		}
 		argList.add(argKeyString + "=" + defaults.getDefaultValue(argEnum).getStringValue().replaceAll("\\n", "; "));
