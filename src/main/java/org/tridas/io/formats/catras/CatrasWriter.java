@@ -32,6 +32,7 @@ import org.tridas.io.exceptions.ConversionWarning.WarningType;
 import org.tridas.io.naming.INamingConvention;
 import org.tridas.io.naming.SeriesCode8CharNamingConvention;
 import org.tridas.io.util.FileHelper;
+import org.tridas.io.util.FilePermissionException;
 import org.tridas.io.util.TridasUtils;
 import org.tridas.io.util.UnitUtils;
 import org.tridas.schema.NormalTridasUnit;
@@ -308,7 +309,7 @@ public class CatrasWriter extends AbstractDendroCollectionWriter {
 	}
 	
 	@Override
-	public void saveFileToDisk(String argOutputFolder, String argFilename, IDendroFile argFile) {
+	public void saveFileToDisk(String argOutputFolder, String argFilename, IDendroFile argFile) throws FilePermissionException {
 		
 		FileHelper helper;
 		

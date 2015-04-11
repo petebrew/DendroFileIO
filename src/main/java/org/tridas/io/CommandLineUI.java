@@ -33,6 +33,7 @@ import org.tridas.io.naming.HierarchicalNamingConvention;
 import org.tridas.io.naming.INamingConvention;
 import org.tridas.io.naming.UUIDNamingConvention;
 import org.tridas.io.util.FileHelper;
+import org.tridas.io.util.FilePermissionException;
 import org.tridas.io.util.IOUtils;
 import org.tridas.io.util.StringUtils;
 import org.tridas.schema.TridasTridas;
@@ -251,7 +252,12 @@ public class CommandLineUI {
 				temp = File.createTempFile("tmpfolder", "fld");
 				temp.delete();
 				temp.mkdir();
-				writer.saveAllToDisk(temp.getAbsolutePath());
+				try {
+					writer.saveAllToDisk(temp.getAbsolutePath());
+				} catch (FilePermissionException e2) {
+					// TODO Auto-generated catch block
+					e2.printStackTrace();
+				}
 				
 				files = getFilesFromFolder(temp.getAbsolutePath());
 				
@@ -332,6 +338,9 @@ public class CommandLineUI {
 			} catch (ConversionWarningException e) {
 				System.out.println(e.toString());
 			} catch (NothingToWriteException e) {
+				System.out.println(e.toString());
+				e.printStackTrace();
+			} catch (FilePermissionException e) {
 				System.out.println(e.toString());
 				e.printStackTrace();
 			} 

@@ -49,6 +49,7 @@ import org.tridas.io.formats.tucson.TucsonWriter;
 import org.tridas.io.formats.tucsoncompact.TucsonCompactWriter;
 import org.tridas.io.formats.vformat.VFormatWriter;
 import org.tridas.io.naming.NumericalNamingConvention;
+import org.tridas.io.util.FilePermissionException;
 import org.tridas.schema.TridasTridas;
 
 public class TestFromTridas extends TestCase {
@@ -359,6 +360,9 @@ public class TestFromTridas extends TestCase {
 			try {
 				writer.saveAllToDisk(outputFolder);
 			} catch (NothingToWriteException e) {
+				fail();
+			} catch (FilePermissionException e) {
+				log.error(e.getLocalizedMessage());
 				fail();
 			}
 		}

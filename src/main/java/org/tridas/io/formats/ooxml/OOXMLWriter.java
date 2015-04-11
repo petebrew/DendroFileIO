@@ -26,6 +26,7 @@ import org.tridas.io.formats.csvmatrix.TridasToMatrixDefaults;
 import org.tridas.io.naming.INamingConvention;
 import org.tridas.io.naming.NumericalNamingConvention;
 import org.tridas.io.util.FileHelper;
+import org.tridas.io.util.FilePermissionException;
 
 public class OOXMLWriter extends CSVMatrixWriter {
 	private static final Logger log = LoggerFactory.getLogger(OOXMLWriter.class);
@@ -39,7 +40,7 @@ public class OOXMLWriter extends CSVMatrixWriter {
 	}
 	
 	@Override
-	public void saveFileToDisk(String argOutputFolder, String argFilename, IDendroFile argFile) {
+	public void saveFileToDisk(String argOutputFolder, String argFilename, IDendroFile argFile) throws FilePermissionException {
 		
 		FileHelper helper;
 		
