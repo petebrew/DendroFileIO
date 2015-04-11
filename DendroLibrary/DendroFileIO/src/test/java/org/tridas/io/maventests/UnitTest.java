@@ -43,6 +43,7 @@ import org.tridas.io.formats.tridas.TridasReader;
 import org.tridas.io.formats.tridas.TridasWriter;
 import org.tridas.io.formats.tucson.TridasToTucsonDefaults;
 import org.tridas.io.formats.tucson.TucsonWriter;
+import org.tridas.io.util.FilePermissionException;
 import org.tridas.schema.TridasObject;
 import org.tridas.schema.TridasTridas;
 import org.tridas.spatial.GMLPointSRSHandler;
@@ -152,6 +153,9 @@ public class UnitTest extends TestCase {
 			e.printStackTrace();
 		} catch (NothingToWriteException e) {
 			fail();
+		} catch (FilePermissionException e) {
+			log.error(e.getLocalizedMessage());
+			fail();
 		} 
 		
 	}
@@ -234,7 +238,10 @@ public class UnitTest extends TestCase {
 			tucsonwriter.saveAllToDisk("target/TestOutput");
 		} catch (NothingToWriteException e) {
 			fail();
-		}
+		} catch (FilePermissionException e) {
+			log.error(e.getLocalizedMessage());
+			fail();
+		} 
 		
 	}
 	

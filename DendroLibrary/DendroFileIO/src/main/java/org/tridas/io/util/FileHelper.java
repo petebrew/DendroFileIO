@@ -32,6 +32,7 @@ import java.util.zip.GZIPInputStream;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.tridas.io.util.UnicodeBOMInputStream;
+import org.tridas.io.util.FilePermissionException.PermissionType;
 
 import com.ibm.icu.text.CharsetDetector;
 import com.ibm.icu.text.CharsetMatch;
@@ -92,8 +93,9 @@ public class FileHelper {
 	
 	/**
 	 * I want to print lines to a file.
+	 * @throws FilePermissionException 
 	 */
-	public PrintWriter createWriter(String filename) {
+	public PrintWriter createWriter(String filename) throws FilePermissionException {
 		return IOUtils.createWriter(saveFile(filename));
 	}
 	
@@ -346,11 +348,11 @@ public class FileHelper {
 		return input;
 	}
 	
-	public void saveStrings(String filename, String strings[]) {
+	public void saveStrings(String filename, String strings[]) throws FilePermissionException {
 		IOUtils.saveStrings(saveFile(filename), strings);
 	}
 	
-	public void saveStrings(String filename, String strings[], String argEncoding) throws UnsupportedEncodingException {
+	public void saveStrings(String filename, String strings[], String argEncoding) throws UnsupportedEncodingException, FilePermissionException {
 		IOUtils.saveStrings(saveFile(filename), strings, argEncoding);
 	}
 	
@@ -361,8 +363,9 @@ public class FileHelper {
 	 * can be a
 	 * relative path, i.e. "hey/more/directories/wowbytes.txt" would save the "hey"
 	 * directory in the Environment path.
+	 * @throws FilePermissionException 
 	 */
-	public void saveBytes(String filename, byte buffer[]) {
+	public void saveBytes(String filename, byte buffer[]) throws FilePermissionException {
 		IOUtils.saveBytes(saveFile(filename), buffer);
 	}
 	
@@ -380,8 +383,9 @@ public class FileHelper {
 	 * but can be customized with the {@link #FileHelper(String)} constructor. This is
 	 * basically saveBytes(blah, loadBytes()), but done in a less confusing
 	 * manner.
+	 * @throws FilePermissionException 
 	 */
-	public void saveStream(String targetFilename, String sourceLocation) {
+	public void saveStream(String targetFilename, String sourceLocation) throws FilePermissionException {
 		saveStream(saveFile(targetFilename), sourceLocation);
 	}
 	
@@ -392,8 +396,9 @@ public class FileHelper {
 	 * <p/>
 	 * If the path does not exist, intermediate folders will be created. If an exception
 	 * occurs, it will be printed to the console, and null will be returned.
+	 * @throws FilePermissionException 
 	 */
-	public OutputStream createOutput(String filename) {
+	public OutputStream createOutput(String filename) throws FilePermissionException {
 		return IOUtils.createOutput(saveFile(filename));
 	}
 	
@@ -435,9 +440,20 @@ public class FileHelper {
 	
 	/**
 	 * Identical to savePath(), but returns a File object.
+	 * @throws FilePermissionException 
 	 */
-	public File saveFile(String where) {
-		return new File(savePath(where));
+	public File saveFile(String where) throws FilePermissionException {
+		File file = new File(savePath(where));
+		
+		if(file.canWrite())
+		{
+			return file;
+		}
+		else
+		{
+			throw new FilePermissionException(file, PermissionType.WRITE);
+		}
+		
 	}
 	
 	

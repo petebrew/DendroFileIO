@@ -29,6 +29,7 @@ import org.tridas.io.exceptions.IncorrectDefaultFieldsException;
 import org.tridas.io.exceptions.NothingToWriteException;
 import org.tridas.io.naming.INamingConvention;
 import org.tridas.io.util.FileHelper;
+import org.tridas.io.util.FilePermissionException;
 import org.tridas.schema.TridasProject;
 import org.tridas.schema.TridasTridas;
 
@@ -231,10 +232,11 @@ public abstract class AbstractDendroCollectionWriter implements Comparable<Abstr
 	/**
 	 * Save all associated files to the disk
 	 * in the same folder as the jar.
+	 * @throws FilePermissionException 
 	 * 
 	 * @throws ImpossibleConversionException 
 	 */
-	public void saveAllToDisk() throws NothingToWriteException {
+	public void saveAllToDisk() throws NothingToWriteException, FilePermissionException {
 		saveAllToDisk("");
 	}
 	
@@ -243,9 +245,10 @@ public abstract class AbstractDendroCollectionWriter implements Comparable<Abstr
 	 * 
 	 * @param argOutputFolder
 	 *            the folder to save the files to
+	 * @throws FilePermissionException 
 	 * @throws ImpossibleConversionException 
 	 */
-	public void saveAllToDisk(String argOutputFolder) throws NothingToWriteException {
+	public void saveAllToDisk(String argOutputFolder) throws NothingToWriteException, FilePermissionException {
 		
 		if (!argOutputFolder.endsWith(File.separator) && !argOutputFolder.equals("")) {
 			argOutputFolder += File.separator;
@@ -269,10 +272,11 @@ public abstract class AbstractDendroCollectionWriter implements Comparable<Abstr
 	 * @param argOutputFolder
 	 * @param argFile
 	 *            must be a file from this writer
+	 * @throws FilePermissionException 
 	 * @throws RuntimeException
 	 *             if the file is not in this writer's filelist
 	 */
-	public void saveFileToDisk(String argOutputFolder, IDendroFile argFile) {
+	public void saveFileToDisk(String argOutputFolder, IDendroFile argFile) throws FilePermissionException {
 		if (!fileList.contains(argFile)) {
 			throw new RuntimeException("File not found in file list.");
 		}
@@ -290,13 +294,14 @@ public abstract class AbstractDendroCollectionWriter implements Comparable<Abstr
 	 *            filename of the file (without extension)
 	 * @param argFile
 	 *            a dendro file of this writer
+	 * @throws FilePermissionException 
 	 */
-	protected void saveFileToDisk(String argOutputFolder, String argFilename, IDendroFile argFile) 
+	protected void saveFileToDisk(String argOutputFolder, String argFilename, IDendroFile argFile) throws FilePermissionException 
 	{
 		saveFileToDisk(argOutputFolder, argFilename, null, argFile);
 	}
 		
-	protected void saveFileToDisk(String argOutputFolder, String argFilename, String forceExtension, IDendroFile argFile) {
+	protected void saveFileToDisk(String argOutputFolder, String argFilename, String forceExtension, IDendroFile argFile) throws FilePermissionException {
 		FileHelper helper;
 		boolean absolute = (new File(argOutputFolder)).isAbsolute();
 		

@@ -32,6 +32,7 @@ import org.tridas.io.formats.trims.TrimsWriter;
 import org.tridas.io.formats.tucson.TucsonReader;
 import org.tridas.io.formats.tucson.TucsonToTridasDefaults;
 import org.tridas.io.naming.UUIDNamingConvention;
+import org.tridas.io.util.FilePermissionException;
 import org.tridas.schema.TridasTridas;
 
 public class TestBetweenFormats extends TestCase {
@@ -94,6 +95,9 @@ public class TestBetweenFormats extends TestCase {
 			} catch (NothingToWriteException e) {
 				// TODO Auto-generated catch block
 				e.printStackTrace();
+			} catch (FilePermissionException e) {
+				log.debug(e.getLocalizedMessage());
+				fail();
 			} 
 			
 			

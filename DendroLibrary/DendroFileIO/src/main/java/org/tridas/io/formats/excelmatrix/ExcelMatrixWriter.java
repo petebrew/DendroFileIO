@@ -33,6 +33,7 @@ import org.tridas.io.exceptions.ImpossibleConversionException;
 import org.tridas.io.naming.INamingConvention;
 import org.tridas.io.naming.NumericalNamingConvention;
 import org.tridas.io.util.FileHelper;
+import org.tridas.io.util.FilePermissionException;
 import org.tridas.io.util.TridasUtils;
 import org.tridas.schema.TridasDerivedSeries;
 import org.tridas.schema.TridasMeasurementSeries;
@@ -132,6 +133,8 @@ public class ExcelMatrixWriter extends AbstractDendroCollectionWriter {
 			log.error("Error saving file to disk", e);
 		} catch (IOException e) {
 			log.error("Error saving file to disk", e);
+		} catch (FilePermissionException e) {
+			log.error(e.getLocalizedMessage());
 		}
 	}
 }
