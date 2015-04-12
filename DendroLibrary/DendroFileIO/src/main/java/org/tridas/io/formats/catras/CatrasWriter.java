@@ -325,11 +325,9 @@ public class CatrasWriter extends AbstractDendroCollectionWriter {
 		
 		try {
 			((CatrasFile) argFile).saveToDisk(helper.createOutput(argFilename + "." + argFile.getExtension()));
-		} catch (WriteException e) {
+		} catch (Exception e) {
 			log.error("Error saving file to disk", e);
-		} catch (IOException e) {
-			log.error("Error saving file to disk", e);
-		}
+		} 
 	}
 	
 

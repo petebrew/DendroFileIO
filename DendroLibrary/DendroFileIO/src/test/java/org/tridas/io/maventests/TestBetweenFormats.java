@@ -98,7 +98,10 @@ public class TestBetweenFormats extends TestCase {
 			} catch (FilePermissionException e) {
 				log.debug(e.getLocalizedMessage());
 				fail();
-			} 
+			} catch (Exception e){
+				e.printStackTrace();
+				fail();
+			}
 			
 			
 		}

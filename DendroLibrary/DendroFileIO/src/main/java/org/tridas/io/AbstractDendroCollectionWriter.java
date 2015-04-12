@@ -236,7 +236,7 @@ public abstract class AbstractDendroCollectionWriter implements Comparable<Abstr
 	 * 
 	 * @throws ImpossibleConversionException 
 	 */
-	public void saveAllToDisk() throws NothingToWriteException, FilePermissionException {
+	public void saveAllToDisk() throws NothingToWriteException, FilePermissionException, Exception {
 		saveAllToDisk("");
 	}
 	
@@ -248,7 +248,7 @@ public abstract class AbstractDendroCollectionWriter implements Comparable<Abstr
 	 * @throws FilePermissionException 
 	 * @throws ImpossibleConversionException 
 	 */
-	public void saveAllToDisk(String argOutputFolder) throws NothingToWriteException, FilePermissionException {
+	public void saveAllToDisk(String argOutputFolder) throws NothingToWriteException, FilePermissionException, Exception {
 		
 		if (!argOutputFolder.endsWith(File.separator) && !argOutputFolder.equals("")) {
 			argOutputFolder += File.separator;
@@ -276,7 +276,7 @@ public abstract class AbstractDendroCollectionWriter implements Comparable<Abstr
 	 * @throws RuntimeException
 	 *             if the file is not in this writer's filelist
 	 */
-	public void saveFileToDisk(String argOutputFolder, IDendroFile argFile) throws FilePermissionException {
+	public void saveFileToDisk(String argOutputFolder, IDendroFile argFile) throws FilePermissionException, Exception {
 		if (!fileList.contains(argFile)) {
 			throw new RuntimeException("File not found in file list.");
 		}
@@ -296,12 +296,12 @@ public abstract class AbstractDendroCollectionWriter implements Comparable<Abstr
 	 *            a dendro file of this writer
 	 * @throws FilePermissionException 
 	 */
-	protected void saveFileToDisk(String argOutputFolder, String argFilename, IDendroFile argFile) throws FilePermissionException 
+	protected void saveFileToDisk(String argOutputFolder, String argFilename, IDendroFile argFile) throws FilePermissionException, Exception
 	{
 		saveFileToDisk(argOutputFolder, argFilename, null, argFile);
 	}
 		
-	protected void saveFileToDisk(String argOutputFolder, String argFilename, String forceExtension, IDendroFile argFile) throws FilePermissionException {
+	protected void saveFileToDisk(String argOutputFolder, String argFilename, String forceExtension, IDendroFile argFile) throws Exception {
 		FileHelper helper;
 		boolean absolute = (new File(argOutputFolder)).isAbsolute();
 		
@@ -347,7 +347,7 @@ public abstract class AbstractDendroCollectionWriter implements Comparable<Abstr
 					// shouldn't happen, but
 					// TODO add warning, log message
 					e.printStackTrace();
-				}
+				} 
 			}
 			helper.saveStrings(fullfilename, file);
 			
