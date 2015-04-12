@@ -361,10 +361,10 @@ public class TestFromTridas extends TestCase {
 				writer.saveAllToDisk(outputFolder);
 			} catch (NothingToWriteException e) {
 				fail();
-			} catch (FilePermissionException e) {
+			} catch (Exception e) {
 				log.error(e.getLocalizedMessage());
 				fail();
-			}
+			} 
 		}
 		
 	}

@@ -56,7 +56,7 @@ public class ODFMatrixWriter extends CSVMatrixWriter {
 		
 		try {
 			((ODFMatrixFile) argFile).saveToDisk(helper.createOutput(argFilename + "." + argFile.getExtension()));
-		} catch (IOException e) {
+		} catch (Exception e) {
 			log.error("Error saving file to disk", e);
 		}
 	}

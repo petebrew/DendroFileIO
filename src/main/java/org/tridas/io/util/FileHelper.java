@@ -95,7 +95,7 @@ public class FileHelper {
 	 * I want to print lines to a file.
 	 * @throws FilePermissionException 
 	 */
-	public PrintWriter createWriter(String filename) throws FilePermissionException {
+	public PrintWriter createWriter(String filename) throws FilePermissionException, Exception {
 		return IOUtils.createWriter(saveFile(filename));
 	}
 	
@@ -348,11 +348,11 @@ public class FileHelper {
 		return input;
 	}
 	
-	public void saveStrings(String filename, String strings[]) throws FilePermissionException {
+	public void saveStrings(String filename, String strings[]) throws FilePermissionException, Exception {
 		IOUtils.saveStrings(saveFile(filename), strings);
 	}
 	
-	public void saveStrings(String filename, String strings[], String argEncoding) throws UnsupportedEncodingException, FilePermissionException {
+	public void saveStrings(String filename, String strings[], String argEncoding) throws UnsupportedEncodingException, FilePermissionException, Exception {
 		IOUtils.saveStrings(saveFile(filename), strings, argEncoding);
 	}
 	
@@ -365,7 +365,7 @@ public class FileHelper {
 	 * directory in the Environment path.
 	 * @throws FilePermissionException 
 	 */
-	public void saveBytes(String filename, byte buffer[]) throws FilePermissionException {
+	public void saveBytes(String filename, byte buffer[]) throws FilePermissionException, Exception {
 		IOUtils.saveBytes(saveFile(filename), buffer);
 	}
 	
@@ -385,7 +385,7 @@ public class FileHelper {
 	 * manner.
 	 * @throws FilePermissionException 
 	 */
-	public void saveStream(String targetFilename, String sourceLocation) throws FilePermissionException {
+	public void saveStream(String targetFilename, String sourceLocation) throws FilePermissionException, Exception {
 		saveStream(saveFile(targetFilename), sourceLocation);
 	}
 	
@@ -398,7 +398,7 @@ public class FileHelper {
 	 * occurs, it will be printed to the console, and null will be returned.
 	 * @throws FilePermissionException 
 	 */
-	public OutputStream createOutput(String filename) throws FilePermissionException {
+	public OutputStream createOutput(String filename) throws FilePermissionException, Exception {
 		return IOUtils.createOutput(saveFile(filename));
 	}
 	
@@ -440,20 +440,39 @@ public class FileHelper {
 	
 	/**
 	 * Identical to savePath(), but returns a File object.
-	 * @throws FilePermissionException 
+	 * @throws Exception 
 	 */
-	public File saveFile(String where) throws FilePermissionException {
+	public File saveFile(String where) throws FilePermissionException, Exception {
 		File file = new File(savePath(where));
 		
-		if(file.canWrite())
-		{
-			return file;
+		if(file.exists())
+		{	
+			if(file.canWrite())
+			{
+				return file;
+			}
+			else
+			{
+				throw new FilePermissionException(file, PermissionType.WRITE);
+			}
 		}
 		else
 		{
-			throw new FilePermissionException(file, PermissionType.WRITE);
+
+			try {
+				if(file.createNewFile())
+				{
+					return file;
+				}
+				else
+				{
+					throw new Exception("Cannot create "+file.getAbsolutePath()+".  File already exists.");
+				}
+			} catch (Exception e) {
+				throw new FilePermissionException(file, PermissionType.WRITE);
+			}
+
 		}
-		
 	}
 	
 	

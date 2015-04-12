@@ -491,6 +491,12 @@ public class TridasIO {
 	    return null;
 	}
 	
+	/**
+	 * Get the AbstractDendroFromat for the given DendroFileFilter
+	 * 
+	 * @param filter
+	 * @return
+	 */
 	public synchronized static AbstractDendroFormat getDendroFormatFromDendroFileFilter(DendroFileFilter filter) {
 		
 		AbstractDendroCollectionWriter writer = getFileWriterFromDendroFileFilter(filter);
@@ -508,6 +514,12 @@ public class TridasIO {
 	}
 	
 	
+	/**
+	 * Get the Writer for the specified AbstractDendroFormat
+	 * 
+	 * @param format
+	 * @return
+	 */
 	public synchronized static AbstractDendroCollectionWriter getFileWriterFromFormat(AbstractDendroFormat format) {
 		Iterator it = converterMap.entrySet().iterator();
 	    while (it.hasNext()) {
@@ -585,7 +597,7 @@ public class TridasIO {
 	}
 	
 	/**
-	 * Gets the reader from the given extension.
+	 * Gets the reader from the given extension. Warning - many formats use the same extension
 	 * 
 	 * @param argExtension
 	 * @return
@@ -598,7 +610,7 @@ public class TridasIO {
 	}
 	
 	/**
-	 * Gets the writer from the given extension.
+	 * Gets the writer from the given extension.  Warning - many formats use the same extension
 	 * 
 	 * @param argExtension
 	 * @return
@@ -611,7 +623,7 @@ public class TridasIO {
 	}
 	
 	/**
-	 * Get all supported reading formats.
+	 * Get an array of the names of all the supported reading formats.
 	 * 
 	 * @return
 	 */
@@ -627,6 +639,11 @@ public class TridasIO {
 		return list.toArray(new String[0]);
 	}
 	
+	/**
+	 * Can an array of all the AbstractDendroFileReader classes supported by this library
+	 *    
+	 * @return
+	 */
 	public synchronized static ArrayList<Class<? extends AbstractDendroFileReader>> getSupportedReaders() {
 		ArrayList<Class<? extends AbstractDendroFileReader>> list = new ArrayList<Class<? extends AbstractDendroFileReader>>();
 		for (String extension : converterMap.keySet()) {
@@ -637,6 +654,36 @@ public class TridasIO {
 			}
 		}
 		return list;
+	}
+	
+	/**
+	 * Get an array of instantiated AbstractDendroFileReaders that are supported by this library
+	 * 
+	 * @return
+	 */
+	public synchronized static ArrayList<AbstractDendroFileReader> getInstantiatedReaders()
+	{
+		ArrayList<AbstractDendroFileReader> readers = new ArrayList<AbstractDendroFileReader>();
+
+		for (Class<? extends AbstractDendroFileReader> clazz : TridasIO.getSupportedReaders()) {
+
+			AbstractDendroFileReader reader;
+			try {
+				reader = clazz.newInstance();
+			} catch (InstantiationException e) {
+				
+				continue;
+			}
+			catch (IllegalAccessException e1)
+			{
+				continue;
+			}
+			
+			readers.add(reader);
+		}
+		
+
+		return readers;
 	}
 	
 	public synchronized static ArrayList<Class<? extends AbstractDendroCollectionWriter>> getSupportedWriters() {

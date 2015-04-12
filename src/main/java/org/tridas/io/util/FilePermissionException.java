@@ -33,7 +33,7 @@ public class FilePermissionException extends Exception {
 	@Override
 	public String getLocalizedMessage()
 	{
-		return "Permission to "+type.toString().toLowerCase()+" to file "+file+" was denied.";
+		return "You do not have permission to "+type.toString().toLowerCase()+" the file:\n\n"+file;
 	
 	}
 	

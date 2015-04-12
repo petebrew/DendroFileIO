@@ -254,7 +254,7 @@ public class CommandLineUI {
 				temp.mkdir();
 				try {
 					writer.saveAllToDisk(temp.getAbsolutePath());
-				} catch (FilePermissionException e2) {
+				} catch (Exception e2) {
 					// TODO Auto-generated catch block
 					e2.printStackTrace();
 				}
@@ -283,7 +283,7 @@ public class CommandLineUI {
 				}
 			} catch (IOException e1) {
 				e1.printStackTrace();
-			} catch (NothingToWriteException e2) {
+			} catch (Exception e2) {
 				// TODO Auto-generated catch block
 				e2.printStackTrace();
 			} finally {
@@ -332,15 +332,7 @@ public class CommandLineUI {
 				writer.load(s.reader.getTridasContainer());
 								
 				writer.saveAllToDisk(outputFolder);
-			} catch (ImpossibleConversionException e) {
-				System.out.println(e.toString());
-				e.printStackTrace();
-			} catch (ConversionWarningException e) {
-				System.out.println(e.toString());
-			} catch (NothingToWriteException e) {
-				System.out.println(e.toString());
-				e.printStackTrace();
-			} catch (FilePermissionException e) {
+			}catch (Exception e) {
 				System.out.println(e.toString());
 				e.printStackTrace();
 			} 

@@ -129,12 +129,8 @@ public class ExcelMatrixWriter extends AbstractDendroCollectionWriter {
 		
 		try {
 			((ExcelMatrixFile) argFile).saveToDisk(helper.createOutput(argFilename + "." + argFile.getExtension()));
-		} catch (WriteException e) {
+		} catch (Exception e) {
 			log.error("Error saving file to disk", e);
-		} catch (IOException e) {
-			log.error("Error saving file to disk", e);
-		} catch (FilePermissionException e) {
-			log.error(e.getLocalizedMessage());
-		}
+		} 
 	}
 }

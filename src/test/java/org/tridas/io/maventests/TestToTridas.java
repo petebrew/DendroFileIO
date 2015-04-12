@@ -125,7 +125,7 @@ public class TestToTridas extends TestCase {
 				writer.saveAllToDisk(outputLocation);
 			} catch (NothingToWriteException e) {
 				fail();
-			} catch (FilePermissionException e) {
+			} catch (Exception e) {
 				log.error(e.getLocalizedMessage());
 				fail();
 			};
@@ -184,7 +184,7 @@ public class TestToTridas extends TestCase {
 				writer.saveAllToDisk(outputLocation);
 			} catch (NothingToWriteException e) {
 				fail();
-			} catch (FilePermissionException e) {
+			} catch (Exception e) {
 				log.error(e.getLocalizedMessage());
 				fail();
 			};
@@ -245,7 +245,7 @@ public class TestToTridas extends TestCase {
 				writer.saveAllToDisk(outputLocation);
 			} catch (NothingToWriteException e) {
 				fail();
-			} catch (FilePermissionException e) {
+			} catch (Exception e) {
 				log.error(e.getLocalizedMessage());
 				fail();
 			};
@@ -303,7 +303,7 @@ public class TestToTridas extends TestCase {
 				writer.saveAllToDisk(outputLocation);
 			} catch (NothingToWriteException e) {
 				fail();
-			} catch (FilePermissionException e) {
+			} catch (Exception e) {
 				log.error(e.getLocalizedMessage());
 				fail();
 			};
@@ -359,7 +359,7 @@ public class TestToTridas extends TestCase {
 				writer.saveAllToDisk(outputLocation);
 			} catch (NothingToWriteException e) {
 				fail();
-			} catch (FilePermissionException e) {
+			} catch (Exception e) {
 				log.error(e.getLocalizedMessage());
 				fail();
 			};
@@ -415,7 +415,7 @@ public class TestToTridas extends TestCase {
 				writer.saveAllToDisk(outputLocation);
 			} catch (NothingToWriteException e) {
 				fail();
-			} catch (FilePermissionException e) {
+			} catch (Exception e) {
 				log.error(e.getLocalizedMessage());
 				fail();
 			};
@@ -471,7 +471,7 @@ public class TestToTridas extends TestCase {
 				writer.saveAllToDisk(outputLocation);
 			} catch (NothingToWriteException e) {
 				fail();
-			} catch (FilePermissionException e) {
+			} catch (Exception e) {
 				log.error(e.getLocalizedMessage());
 				fail();
 			};
@@ -525,7 +525,7 @@ public class TestToTridas extends TestCase {
 				writer.saveAllToDisk(outputLocation);
 			} catch (NothingToWriteException e) {
 				fail();
-			} catch (FilePermissionException e) {
+			} catch (Exception e) {
 				log.error(e.getLocalizedMessage());
 				fail();
 			};
@@ -579,7 +579,7 @@ public class TestToTridas extends TestCase {
 				writer.saveAllToDisk(outputLocation);
 			} catch (NothingToWriteException e) {
 				fail();
-			} catch (FilePermissionException e) {
+			} catch (Exception e) {
 				log.error(e.getLocalizedMessage());
 				fail();
 			};
@@ -633,7 +633,7 @@ public class TestToTridas extends TestCase {
 				writer.saveAllToDisk(outputLocation);
 			} catch (NothingToWriteException e) {
 				fail();
-			} catch (FilePermissionException e) {
+			} catch (Exception e) {
 				log.error(e.getLocalizedMessage());
 				fail();
 			};
@@ -688,7 +688,7 @@ public class TestToTridas extends TestCase {
 				writer.saveAllToDisk(outputLocation);
 			} catch (NothingToWriteException e) {
 				fail();
-			} catch (FilePermissionException e) {
+			} catch (Exception e) {
 				log.error(e.getLocalizedMessage());
 				fail();
 			};
@@ -744,7 +744,7 @@ public class TestToTridas extends TestCase {
 				writer.saveAllToDisk(outputLocation);
 			} catch (NothingToWriteException e) {
 				fail();
-			} catch (FilePermissionException e) {
+			} catch (Exception e) {
 				log.error(e.getLocalizedMessage());
 				fail();
 			};
@@ -804,7 +804,7 @@ public class TestToTridas extends TestCase {
 				writer.saveAllToDisk(outputLocation);
 			} catch (NothingToWriteException e) {
 				fail();
-			} catch (FilePermissionException e) {
+			} catch (Exception e) {
 				log.error(e.getLocalizedMessage());
 				fail();
 			};
@@ -860,7 +860,7 @@ public class TestToTridas extends TestCase {
 				writer.saveAllToDisk(outputLocation);
 			} catch (NothingToWriteException e) {
 				fail();
-			} catch (FilePermissionException e) {
+			} catch (Exception e) {
 				log.error(e.getLocalizedMessage());
 				fail();
 			};
@@ -917,7 +917,7 @@ public class TestToTridas extends TestCase {
 				writer.saveAllToDisk(outputLocation);
 			} catch (NothingToWriteException e) {
 				fail();
-			} catch (FilePermissionException e) {
+			} catch (Exception e) {
 				log.error(e.getLocalizedMessage());
 				fail();
 			};
@@ -973,7 +973,7 @@ public class TestToTridas extends TestCase {
 				writer.saveAllToDisk(outputLocation);
 			} catch (NothingToWriteException e) {
 				fail();
-			} catch (FilePermissionException e) {
+			} catch (Exception e) {
 				log.error(e.getLocalizedMessage());
 				fail();
 			};
@@ -1029,7 +1029,7 @@ public class TestToTridas extends TestCase {
 				writer.saveAllToDisk(outputLocation);
 			} catch (NothingToWriteException e) {
 				fail();
-			} catch (FilePermissionException e) {
+			} catch (Exception e) {
 				log.error(e.getLocalizedMessage());
 				fail();
 			};
@@ -1085,7 +1085,7 @@ public class TestToTridas extends TestCase {
 				writer.saveAllToDisk(outputLocation);
 			} catch (NothingToWriteException e) {
 				fail();
-			} catch (FilePermissionException e) {
+			} catch (Exception e) {
 				log.error(e.getLocalizedMessage());
 				fail();
 			};
@@ -1141,7 +1141,7 @@ public class TestToTridas extends TestCase {
 				writer.saveAllToDisk(outputLocation);
 			} catch (NothingToWriteException e) {
 				fail();
-			} catch (FilePermissionException e) {
+			} catch (Exception e) {
 				log.error(e.getLocalizedMessage());
 				fail();
 			};
@@ -1197,7 +1197,7 @@ public class TestToTridas extends TestCase {
 				writer.saveAllToDisk(outputLocation);
 			} catch (NothingToWriteException e) {
 				fail();
-			} catch (FilePermissionException e) {
+			} catch (Exception e) {
 				log.error(e.getLocalizedMessage());
 				fail();
 			};
@@ -1308,7 +1308,7 @@ public class TestToTridas extends TestCase {
 				writer.saveAllToDisk(outputLocation);
 			} catch (NothingToWriteException e) {
 				fail();
-			} catch (FilePermissionException e) {
+			} catch (Exception e) {
 				log.error(e.getLocalizedMessage());
 				fail();
 			};
@@ -1419,7 +1419,7 @@ public class TestToTridas extends TestCase {
 				writer.saveAllToDisk(outputLocation);
 			} catch (NothingToWriteException e) {
 				fail();
-			} catch (FilePermissionException e) {
+			} catch (Exception e) {
 				log.error(e.getLocalizedMessage());
 				fail();
 			};

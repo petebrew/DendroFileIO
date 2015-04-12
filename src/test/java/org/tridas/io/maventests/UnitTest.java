@@ -153,7 +153,7 @@ public class UnitTest extends TestCase {
 			e.printStackTrace();
 		} catch (NothingToWriteException e) {
 			fail();
-		} catch (FilePermissionException e) {
+		} catch (Exception e) {
 			log.error(e.getLocalizedMessage());
 			fail();
 		} 
@@ -238,7 +238,7 @@ public class UnitTest extends TestCase {
 			tucsonwriter.saveAllToDisk("target/TestOutput");
 		} catch (NothingToWriteException e) {
 			fail();
-		} catch (FilePermissionException e) {
+		} catch (Exception e) {
 			log.error(e.getLocalizedMessage());
 			fail();
 		} 
