@@ -98,8 +98,48 @@ public class OOXMLFile extends CSVMatrixFile {
 			}
 			
 		}
+		
+		Sheet metadataSheet = workbook.createSheet(I18n.getText("general.metadata"));
+	
+		matrix = this.getMetadataMatrix();
+				
+		for(int rowind=0; rowind<matrix.get(0).length; rowind++)
+		{
+			Row rw = metadataSheet.createRow(rowind);
+			
+			for(int colind=0; colind<matrix.size(); colind++)
+			{
+				
+				if(matrix.get(colind)[rowind]==null || matrix.get(colind)[rowind].getBytes().length==0) continue;
+				
+				if(rowind==0)
+				{
+					rw.createCell(colind).setCellValue(matrix.get(colind)[rowind]);
+
+				}
+				else 
+				{
+					try{
+						rw.createCell(colind).setCellValue(Double.valueOf(matrix.get(colind)[rowind]));
+					} catch (Exception e)
+					{
+						try{
+							rw.createCell(colind).setCellValue(Integer.valueOf(matrix.get(colind)[rowind]));
+						} catch (Exception e2)
+						{
+							rw.createCell(colind).setCellValue(matrix.get(colind)[rowind]);
+						}
+					}
+				}
+				
+				
+			}
+			
+		}
 				
 		workbook.write(os);
+		
+		
 		os.close();
 		
 	}

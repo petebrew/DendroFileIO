@@ -47,7 +47,11 @@ public class BooleanDefaultValue extends AbstractDefaultValue<Boolean> {
 	
 	@Override
 	public String getStringValue() {
-		if (value == true) {
+		if(value==null)
+		{
+			return "";
+		}
+		else if (value == true) {
 			return "true";
 		}
 		else if (value == false) {
