@@ -139,7 +139,7 @@ public class CSVMatrixWriter extends AbstractDendroCollectionWriter {
 			throws ImpossibleConversionException {
 		
 		defaults = (TridasToMatrixDefaults) argDefaults;
-		
+		defaults.populateFromTridasProject(argProject);
 		
 		CSVMatrixFile file = null;	
 		try {
@@ -161,8 +161,10 @@ public class CSVMatrixWriter extends AbstractDendroCollectionWriter {
 				defaults.populateFromTridasElement(e);
 				ncgroup.add(e);
 				for (TridasSample s : e.getSamples()) {
+					defaults.populateFromTridasSample(s);
 					ncgroup.add(s);
 					for (TridasRadius r : s.getRadiuses()) {
+						defaults.populateFromTridasRadius(r);
 						ncgroup.add(r);
 						for (TridasMeasurementSeries ms : r.getMeasurementSeries()) {
 							ncgroup.add(ms);

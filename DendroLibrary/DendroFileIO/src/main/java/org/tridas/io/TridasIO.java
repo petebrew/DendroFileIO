@@ -458,9 +458,12 @@ public class TridasIO {
 	        Map.Entry pairs = (Map.Entry)it.next();
 	        TridasIOEntry e = (TridasIOEntry) pairs.getValue();
 	        try {
+	        	if(e.fileReader==null) continue;
+	        	
 				AbstractDendroFileReader reader = e.fileReader.newInstance();
+				DendroFileFilter thisfilter = reader.getDendroFileFilter();
 				
-				if(reader.getDendroFileFilter().toString().equals(filter.toString()))
+				if(filter.compareTo(reader.getDendroFileFilter())==0)
 				{
 					return reader;
 				}
@@ -502,15 +505,28 @@ public class TridasIO {
 		AbstractDendroCollectionWriter writer = getFileWriterFromDendroFileFilter(filter);
 				
 		if(writer ==null){
-			log.debug("Unable to find format for filter '"+filter.getFormatName()+"'. Valid filters include:");
-			for(DendroFileFilter f : TridasIO.getFileReadingFilterArray())
+			
+			AbstractDendroFileReader reader = getFileReaderFromDendroFileFilter(filter);
+			
+			if(reader==null)
 			{
-				log.debug("  * "+f.getFormatName());
+				log.debug("Unable to find format for filter '"+filter.getFormatName()+"'. Valid filters include:");
+				for(DendroFileFilter f : TridasIO.getFileReadingFilterArray())
+				{
+					log.debug("  * "+f.getFormatName());
+				}
+					
+				return null;
 			}
-				
-			return null;
+			else
+			{
+				return reader.getFormat();
+			}
 		}
-		return writer.getFormat();
+		else
+		{
+			return writer.getFormat();
+		}
 	}
 	
 	
