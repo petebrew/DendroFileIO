@@ -240,105 +240,104 @@ public class CSVMatrixFile implements IDendroFile {
 			
 			
 			// Field values
-			
-			valuecolumns[1]  = s.def.getStringDefaultValue(DefaultFields.PROJECT_TITLE).getStringValue();
-			valuecolumns[2]  = s.def.getStringDefaultValue(DefaultFields.PROJECT_IDENTIFIER).getStringValue();
-			valuecolumns[3]  = s.def.getDateTimeDefaultValue(DefaultFields.PROJECT_CREATED_TIMESTAMP).getStringValue();
-			valuecolumns[4]  = s.def.getDateTimeDefaultValue(DefaultFields.PROJECT_UPDATED_TIMESTAMP).getStringValue();				
-			valuecolumns[5]  = s.def.getStringDefaultValue(DefaultFields.PROJECT_COMMENTS).getStringValue();				
-			valuecolumns[6]  = s.def.getStringDefaultValue(DefaultFields.PROJECT_TYPE).getStringValue();
-			valuecolumns[7]  = s.def.getStringDefaultValue(DefaultFields.PROJECT_DESCRIPTION).getStringValue();
-			valuecolumns[8]  = s.def.getStringDefaultValue(DefaultFields.PROJECT_CATEGORY).getStringValue();
-			valuecolumns[9]  = s.def.getStringDefaultValue(DefaultFields.PROJECT_INVESTIGATOR).getStringValue();
-			valuecolumns[10]  = s.def.getStringDefaultValue(DefaultFields.PROJECT_PERIOD).getStringValue();
-			valuecolumns[11]  = s.def.getStringDefaultValue(DefaultFields.PROJECT_REQUEST_DATE).getStringValue();
-			valuecolumns[12]  = s.def.getStringDefaultValue(DefaultFields.PROJECT_COMMISSIONER).getStringValue();
-			valuecolumns[13]  = s.def.getStringDefaultValue(DefaultFields.OBJECT_TITLE).getStringValue();
-			valuecolumns[14]  = s.def.getStringDefaultValue(DefaultFields.OBJECT_IDENTIFIER).getStringValue();
-			valuecolumns[15]  = s.def.getDateTimeDefaultValue(DefaultFields.OBJECT_CREATED_TIMESTAMP).getStringValue();
-			valuecolumns[16]  = s.def.getDateTimeDefaultValue(DefaultFields.OBJECT_UPDATED_TIMESTAMP).getStringValue();				
-			valuecolumns[17]  = s.def.getStringDefaultValue(DefaultFields.OBJECT_COMMENTS).getStringValue();				
-			valuecolumns[18]  = s.def.getStringDefaultValue(DefaultFields.OBJECT_TYPE).getStringValue();
-			valuecolumns[19]  = s.def.getStringDefaultValue(DefaultFields.OBJECT_DESCRIPTION).getStringValue();
-			valuecolumns[20]  = s.def.getDoubleDefaultValue(DefaultFields.OBJECT_LOCATION_LAT).getStringValue();
-			valuecolumns[21]  = s.def.getDoubleDefaultValue(DefaultFields.OBJECT_LOCATION_LON).getStringValue();
-			valuecolumns[22] = s.def.getStringDefaultValue(DefaultFields.OBJECT_LOCATION_TYPE).getStringValue();
-			valuecolumns[23] = s.def.getStringDefaultValue(DefaultFields.OBJECT_LOCATION_PRECISION).getStringValue();
-			valuecolumns[24] = s.def.getStringDefaultValue(DefaultFields.OBJECT_LOCATION_COMMENT).getStringValue();
-			valuecolumns[25] = s.def.getStringDefaultValue(DefaultFields.OBJECT_LOCATION_CITYTOWN).getStringValue();
-			valuecolumns[26] = s.def.getStringDefaultValue(DefaultFields.OBJECT_LOCATION_STATE).getStringValue();
-			valuecolumns[27] = s.def.getStringDefaultValue(DefaultFields.OBJECT_LOCATION_COUNTRY).getStringValue();
-			valuecolumns[28] = s.def.getStringDefaultValue(DefaultFields.ELEMENT_TITLE).getStringValue();
-			valuecolumns[29] = s.def.getStringDefaultValue(DefaultFields.ELEMENT_IDENTIFIER).getStringValue();
-			valuecolumns[30] = s.def.getDateTimeDefaultValue(DefaultFields.ELEMENT_CREATED_TIMESTAMP).getStringValue();
-			valuecolumns[31] = s.def.getDateTimeDefaultValue(DefaultFields.ELEMENT_UPDATED_TIMESTAMP).getStringValue();
-			valuecolumns[32] = s.def.getStringDefaultValue(DefaultFields.ELEMENT_COMMENTS).getStringValue();
-			valuecolumns[33] = s.def.getStringDefaultValue(DefaultFields.ELEMENT_TYPE).getStringValue();
-			valuecolumns[34] = s.def.getStringDefaultValue(DefaultFields.ELEMENT_DESCRIPTION).getStringValue();
-			valuecolumns[35] = s.def.getStringDefaultValue(DefaultFields.ELEMENT_TAXON).getStringValue();
-			valuecolumns[36] = s.def.getStringDefaultValue(DefaultFields.ELEMENT_SHAPE).getStringValue();
-			valuecolumns[37] = s.def.getStringDefaultValue(DefaultFields.ELEMENT_DIMENSIONS_UNIT).getStringValue();
-			valuecolumns[38] = s.def.getDoubleDefaultValue(DefaultFields.ELEMENT_DIMENSIONS_HEIGHT).getStringValue();
-			valuecolumns[39] = s.def.getDoubleDefaultValue(DefaultFields.ELEMENT_DIMENSIONS_WIDTH).getStringValue();
-			valuecolumns[40] = s.def.getDoubleDefaultValue(DefaultFields.ELEMENT_DIMENSIONS_DEPTH).getStringValue();
-			valuecolumns[41] = s.def.getDoubleDefaultValue(DefaultFields.ELEMENT_DIMENSIONS_DIAMETER).getStringValue();
-			valuecolumns[42] = s.def.getStringDefaultValue(DefaultFields.ELEMENT_AUTHENTICITY).getStringValue();
-			valuecolumns[43] = s.def.getDoubleDefaultValue(DefaultFields.ELEMENT_LOCATION_LAT).getStringValue();
-			valuecolumns[44] = s.def.getDoubleDefaultValue(DefaultFields.ELEMENT_LOCATION_LON).getStringValue();
-			valuecolumns[45] = s.def.getStringDefaultValue(DefaultFields.ELEMENT_LOCAITON_TYPE).getStringValue();
-			valuecolumns[46] = s.def.getStringDefaultValue(DefaultFields.ELEMENT_LOCATION_PRECISION).getStringValue();
-			valuecolumns[47] = s.def.getStringDefaultValue(DefaultFields.ELEMENT_LOCATION_COMMENT).getStringValue();
-			valuecolumns[48] = s.def.getStringDefaultValue(DefaultFields.ELEMENT_LOCATION_CITYTOWN).getStringValue();
-			valuecolumns[49] = s.def.getStringDefaultValue(DefaultFields.ELEMENT_LOCATION_STATE).getStringValue();
-			valuecolumns[50] = s.def.getStringDefaultValue(DefaultFields.ELEMENT_LOCATION_COUNTRY).getStringValue();
-			valuecolumns[51] = s.def.getStringDefaultValue(DefaultFields.ELEMENT_PROCESSING).getStringValue();
-			valuecolumns[52] = s.def.getStringDefaultValue(DefaultFields.ELEMENT_MARKS).getStringValue();
-			valuecolumns[53] = s.def.getDoubleDefaultValue(DefaultFields.ELEMENT_ELEVATION).getStringValue();
-			valuecolumns[54] = s.def.getIntegerDefaultValue(DefaultFields.ELEMENT_SLOPE_ANGLE).getStringValue();
-			valuecolumns[55] = s.def.getIntegerDefaultValue(DefaultFields.ELEMENT_SLOPE_AZIMUTH).getStringValue();
-			valuecolumns[56] = s.def.getDoubleDefaultValue(DefaultFields.ELEMENT_SOIL_DEPTH).getStringValue();
-			valuecolumns[57] = s.def.getStringDefaultValue(DefaultFields.ELEMENT_SOIL_DESCRIPTION).getStringValue();
-			valuecolumns[58] = s.def.getStringDefaultValue(DefaultFields.ELEMENT_BEDROCK).getStringValue();
-			valuecolumns[59] = s.def.getStringDefaultValue(DefaultFields.SAMPLE_TITLE).getStringValue();
-			valuecolumns[60] = s.def.getStringDefaultValue(DefaultFields.SAMPLE_IDENTIFIER).getStringValue();
-			valuecolumns[61] = s.def.getDateTimeDefaultValue(DefaultFields.SAMPLE_CREATED_TIMESTAMP).getStringValue();
-			valuecolumns[62] = s.def.getDateTimeDefaultValue(DefaultFields.SAMPLE_UPDATED_TIMESTAMP).getStringValue();
-			valuecolumns[63] = s.def.getStringDefaultValue(DefaultFields.SAMPLE_COMMENTS).getStringValue();
-			valuecolumns[64] = s.def.getStringDefaultValue(DefaultFields.SAMPLE_TYPE).getStringValue();
-			valuecolumns[65] = s.def.getStringDefaultValue(DefaultFields.SAMPLE_DESCRIPTION).getStringValue();
-			valuecolumns[66] = s.def.getStringDefaultValue(DefaultFields.SAMPLE_SAMPLING_DATE).getStringValue();
-			valuecolumns[67] = s.def.getStringDefaultValue(DefaultFields.SAMPLE_POSITION).getStringValue();
-			valuecolumns[68] = s.def.getStringDefaultValue(DefaultFields.SAMPLE_STATE).getStringValue();
-			valuecolumns[69] = s.def.getBooleanDefaultValue(DefaultFields.SAMPLE_KNOTS).getStringValue();
-			valuecolumns[70] = s.def.getStringDefaultValue(DefaultFields.RADIUS_TITLE).getStringValue();
-			valuecolumns[71] = s.def.getStringDefaultValue(DefaultFields.RADIUS_IDENTIFIER).getStringValue();
-			valuecolumns[72] = s.def.getDateTimeDefaultValue(DefaultFields.RADIUS_CREATED_TIMESTAMP).getStringValue();
-			valuecolumns[73] = s.def.getDateTimeDefaultValue(DefaultFields.RADIUS_UPDATED_TIMESTAMP).getStringValue();
-			valuecolumns[74] = s.def.getStringDefaultValue(DefaultFields.RADIUS_COMMENTS).getStringValue();
-			valuecolumns[75] = s.def.getIntegerDefaultValue(DefaultFields.RADIUS_WC_RING_COUNT).getStringValue();
-			valuecolumns[76] = s.def.getDoubleDefaultValue(DefaultFields.RADIUS_WC_AVERAGE_RING_WIDTH).getStringValue();
-			valuecolumns[77] = s.def.getIntegerDefaultValue(DefaultFields.RADIUS_WC_NR_UNMEASURED_INNER_RINGS).getStringValue();
-			valuecolumns[78] = s.def.getIntegerDefaultValue(DefaultFields.RADIUS_WC_NR_UNMEASURED_OUTER_RINGS).getStringValue();
-			valuecolumns[79] = s.def.getStringDefaultValue(DefaultFields.RADIUS_WC_PITH).getStringValue();
-			valuecolumns[80] = s.def.getStringDefaultValue(DefaultFields.RADIUS_WC_HEARTWOOD_PRESENCE).getStringValue();
-			valuecolumns[81] = s.def.getIntegerDefaultValue(DefaultFields.RADIUS_WC_HEARTWOOD_MISSING_RINGS_TO_PITH).getStringValue();
-			valuecolumns[82] = s.def.getStringDefaultValue(DefaultFields.RADIUS_WC_HEARTWOOD_MISSING_RINGS_TO_PITH_FOUNDATION).getStringValue();
-			valuecolumns[83] = s.def.getStringDefaultValue(DefaultFields.RADIUS_WC_SAPWOOD_PRESENCE).getStringValue();
-			valuecolumns[84] = s.def.getIntegerDefaultValue(DefaultFields.RADIUS_WC_SAPWOOD_NR_SAPWOOD_RINGS).getStringValue();
-			valuecolumns[85] = s.def.getStringDefaultValue(DefaultFields.RADIUS_WC_SAPWOOD_LAST_RING_UNDER_BARK_PRESENCE).getStringValue();
-			valuecolumns[86] = s.def.getIntegerDefaultValue(DefaultFields.RADIUS_WC_SAPWOOD_MISSING_SAPWOOD_RINGS_TO_BARK).getStringValue();
-			valuecolumns[87] = s.def.getStringDefaultValue(DefaultFields.RADIUS_WC_SAPWOOD_MISSING_SAPWOOD_RINGS_TO_BARK_FOUNDATION).getStringValue();
-			valuecolumns[88] = s.def.getStringDefaultValue(DefaultFields.RADIUS_WC_BARK).getStringValue();
-			valuecolumns[89] = s.def.getDoubleDefaultValue(DefaultFields.RADIUS_AZIMUTH).getStringValue();
-			valuecolumns[90] = s.def.getStringDefaultValue(DefaultFields.SERIES_TITLE).getStringValue();
-			valuecolumns[91] = s.def.getStringDefaultValue(DefaultFields.SERIES_IDENTIFIER).getStringValue();
-			valuecolumns[92] = s.def.getDateTimeDefaultValue(DefaultFields.SERIES_CREATED_TIMESTAMP).getStringValue();
-			valuecolumns[93] = s.def.getDateTimeDefaultValue(DefaultFields.SERIES_UPDATED_TIMESTAMP).getStringValue();
-			valuecolumns[94] = s.def.getStringDefaultValue(DefaultFields.SERIES_COMMENTS).getStringValue();
-			valuecolumns[95] = s.def.getStringDefaultValue(DefaultFields.SERIES_MEASURING_DATE).getStringValue();
-			valuecolumns[96] = s.def.getStringDefaultValue(DefaultFields.SERIES_ANALYST).getStringValue();
-			valuecolumns[97] = s.def.getStringDefaultValue(DefaultFields.SERIES_DENDROCHRONOLOGIST).getStringValue();
-			valuecolumns[98] = s.def.getStringDefaultValue(DefaultFields.SERIES_MEASURING_METHOD).getStringValue();
+			int index=1;
+			addValueToColumn(valuecolumns, s.def.getStringDefaultValue(DefaultFields.PROJECT_IDENTIFIER).getStringValue(), index);  index++;
+			addValueToColumn(valuecolumns, s.def.getDateTimeDefaultValue(DefaultFields.PROJECT_CREATED_TIMESTAMP).getStringValue(), index);  index++;
+			addValueToColumn(valuecolumns, s.def.getDateTimeDefaultValue(DefaultFields.PROJECT_UPDATED_TIMESTAMP).getStringValue(), index);  index++;
+			addValueToColumn(valuecolumns, s.def.getStringDefaultValue(DefaultFields.PROJECT_COMMENTS).getStringValue(), index);  index++;
+			addValueToColumn(valuecolumns, s.def.getStringDefaultValue(DefaultFields.PROJECT_TYPE).getStringValue(), index);  index++;
+			addValueToColumn(valuecolumns, s.def.getStringDefaultValue(DefaultFields.PROJECT_DESCRIPTION).getStringValue(), index);  index++;
+			addValueToColumn(valuecolumns, s.def.getStringDefaultValue(DefaultFields.PROJECT_CATEGORY).getStringValue(), index);  index++;
+			addValueToColumn(valuecolumns, s.def.getStringDefaultValue(DefaultFields.PROJECT_INVESTIGATOR).getStringValue(), index);  index++;
+			addValueToColumn(valuecolumns, s.def.getStringDefaultValue(DefaultFields.PROJECT_PERIOD).getStringValue(), index);  index++;
+			addValueToColumn(valuecolumns, s.def.getStringDefaultValue(DefaultFields.PROJECT_REQUEST_DATE).getStringValue(), index);  index++;
+			addValueToColumn(valuecolumns, s.def.getStringDefaultValue(DefaultFields.PROJECT_COMMISSIONER).getStringValue(), index);  index++;
+			addValueToColumn(valuecolumns, s.def.getStringDefaultValue(DefaultFields.OBJECT_TITLE).getStringValue(), index);  index++;
+			addValueToColumn(valuecolumns, s.def.getStringDefaultValue(DefaultFields.OBJECT_IDENTIFIER).getStringValue(), index);  index++;
+			addValueToColumn(valuecolumns, s.def.getDateTimeDefaultValue(DefaultFields.OBJECT_CREATED_TIMESTAMP).getStringValue(), index);  index++;
+			addValueToColumn(valuecolumns, s.def.getDateTimeDefaultValue(DefaultFields.OBJECT_UPDATED_TIMESTAMP).getStringValue(), index);  index++;
+			addValueToColumn(valuecolumns, s.def.getStringDefaultValue(DefaultFields.OBJECT_COMMENTS).getStringValue(), index);  index++;
+			addValueToColumn(valuecolumns, s.def.getStringDefaultValue(DefaultFields.OBJECT_TYPE).getStringValue(), index);  index++;
+			addValueToColumn(valuecolumns, s.def.getStringDefaultValue(DefaultFields.OBJECT_DESCRIPTION).getStringValue(), index);  index++;
+			addValueToColumn(valuecolumns, s.def.getDoubleDefaultValue(DefaultFields.OBJECT_LOCATION_LAT).getStringValue(), index);  index++;
+			addValueToColumn(valuecolumns, s.def.getDoubleDefaultValue(DefaultFields.OBJECT_LOCATION_LON).getStringValue(), index);  index++;
+			addValueToColumn(valuecolumns, s.def.getStringDefaultValue(DefaultFields.OBJECT_LOCATION_TYPE).getStringValue(), index);  index++;
+			addValueToColumn(valuecolumns, s.def.getStringDefaultValue(DefaultFields.OBJECT_LOCATION_PRECISION).getStringValue(), index);  index++;
+			addValueToColumn(valuecolumns, s.def.getStringDefaultValue(DefaultFields.OBJECT_LOCATION_COMMENT).getStringValue(), index);  index++;
+			addValueToColumn(valuecolumns, s.def.getStringDefaultValue(DefaultFields.OBJECT_LOCATION_CITYTOWN).getStringValue(), index);  index++;
+			addValueToColumn(valuecolumns, s.def.getStringDefaultValue(DefaultFields.OBJECT_LOCATION_STATE).getStringValue(), index);  index++;
+			addValueToColumn(valuecolumns, s.def.getStringDefaultValue(DefaultFields.OBJECT_LOCATION_COUNTRY).getStringValue(), index);  index++;
+			addValueToColumn(valuecolumns, s.def.getStringDefaultValue(DefaultFields.ELEMENT_TITLE).getStringValue(), index);  index++;
+			addValueToColumn(valuecolumns, s.def.getStringDefaultValue(DefaultFields.ELEMENT_IDENTIFIER).getStringValue(), index);  index++;
+			addValueToColumn(valuecolumns, s.def.getDateTimeDefaultValue(DefaultFields.ELEMENT_CREATED_TIMESTAMP).getStringValue(), index);  index++;
+			addValueToColumn(valuecolumns, s.def.getDateTimeDefaultValue(DefaultFields.ELEMENT_UPDATED_TIMESTAMP).getStringValue(), index);  index++;
+			addValueToColumn(valuecolumns, s.def.getStringDefaultValue(DefaultFields.ELEMENT_COMMENTS).getStringValue(), index);  index++;
+			addValueToColumn(valuecolumns, s.def.getStringDefaultValue(DefaultFields.ELEMENT_TYPE).getStringValue(), index);  index++;
+			addValueToColumn(valuecolumns, s.def.getStringDefaultValue(DefaultFields.ELEMENT_DESCRIPTION).getStringValue(), index);  index++;
+			addValueToColumn(valuecolumns, s.def.getStringDefaultValue(DefaultFields.ELEMENT_TAXON).getStringValue(), index);  index++;
+			addValueToColumn(valuecolumns, s.def.getStringDefaultValue(DefaultFields.ELEMENT_SHAPE).getStringValue(), index);  index++;
+			addValueToColumn(valuecolumns, s.def.getStringDefaultValue(DefaultFields.ELEMENT_DIMENSIONS_UNIT).getStringValue(), index);  index++;
+			addValueToColumn(valuecolumns, s.def.getDoubleDefaultValue(DefaultFields.ELEMENT_DIMENSIONS_HEIGHT).getStringValue(), index);  index++;
+			addValueToColumn(valuecolumns, s.def.getDoubleDefaultValue(DefaultFields.ELEMENT_DIMENSIONS_WIDTH).getStringValue(), index);  index++;
+			addValueToColumn(valuecolumns, s.def.getDoubleDefaultValue(DefaultFields.ELEMENT_DIMENSIONS_DEPTH).getStringValue(), index);  index++;
+			addValueToColumn(valuecolumns, s.def.getDoubleDefaultValue(DefaultFields.ELEMENT_DIMENSIONS_DIAMETER).getStringValue(), index);  index++;
+			addValueToColumn(valuecolumns, s.def.getStringDefaultValue(DefaultFields.ELEMENT_AUTHENTICITY).getStringValue(), index);  index++;
+			addValueToColumn(valuecolumns, s.def.getDoubleDefaultValue(DefaultFields.ELEMENT_LOCATION_LAT).getStringValue(), index);  index++;
+			addValueToColumn(valuecolumns, s.def.getDoubleDefaultValue(DefaultFields.ELEMENT_LOCATION_LON).getStringValue(), index);  index++;
+			addValueToColumn(valuecolumns, s.def.getStringDefaultValue(DefaultFields.ELEMENT_LOCAITON_TYPE).getStringValue(), index);  index++;
+			addValueToColumn(valuecolumns, s.def.getStringDefaultValue(DefaultFields.ELEMENT_LOCATION_PRECISION).getStringValue(), index);  index++;
+			addValueToColumn(valuecolumns, s.def.getStringDefaultValue(DefaultFields.ELEMENT_LOCATION_COMMENT).getStringValue(), index);  index++;
+			addValueToColumn(valuecolumns, s.def.getStringDefaultValue(DefaultFields.ELEMENT_LOCATION_CITYTOWN).getStringValue(), index);  index++;
+			addValueToColumn(valuecolumns, s.def.getStringDefaultValue(DefaultFields.ELEMENT_LOCATION_STATE).getStringValue(), index);  index++;
+			addValueToColumn(valuecolumns, s.def.getStringDefaultValue(DefaultFields.ELEMENT_LOCATION_COUNTRY).getStringValue(), index);  index++;
+			addValueToColumn(valuecolumns, s.def.getStringDefaultValue(DefaultFields.ELEMENT_PROCESSING).getStringValue(), index);  index++;
+			addValueToColumn(valuecolumns, s.def.getStringDefaultValue(DefaultFields.ELEMENT_MARKS).getStringValue(), index);  index++;
+			addValueToColumn(valuecolumns, s.def.getDoubleDefaultValue(DefaultFields.ELEMENT_ELEVATION).getStringValue(), index);  index++;
+			addValueToColumn(valuecolumns, s.def.getIntegerDefaultValue(DefaultFields.ELEMENT_SLOPE_ANGLE).getStringValue(), index);  index++;
+			addValueToColumn(valuecolumns, s.def.getIntegerDefaultValue(DefaultFields.ELEMENT_SLOPE_AZIMUTH).getStringValue(), index);  index++;
+			addValueToColumn(valuecolumns, s.def.getDoubleDefaultValue(DefaultFields.ELEMENT_SOIL_DEPTH).getStringValue(), index);  index++;
+			addValueToColumn(valuecolumns, s.def.getStringDefaultValue(DefaultFields.ELEMENT_SOIL_DESCRIPTION).getStringValue(), index);  index++;
+			addValueToColumn(valuecolumns, s.def.getStringDefaultValue(DefaultFields.ELEMENT_BEDROCK).getStringValue(), index);  index++;
+			addValueToColumn(valuecolumns, s.def.getStringDefaultValue(DefaultFields.SAMPLE_TITLE).getStringValue(), index);  index++;
+			addValueToColumn(valuecolumns, s.def.getStringDefaultValue(DefaultFields.SAMPLE_IDENTIFIER).getStringValue(), index);  index++;
+			addValueToColumn(valuecolumns, s.def.getDateTimeDefaultValue(DefaultFields.SAMPLE_CREATED_TIMESTAMP).getStringValue(), index);  index++;
+			addValueToColumn(valuecolumns, s.def.getDateTimeDefaultValue(DefaultFields.SAMPLE_UPDATED_TIMESTAMP).getStringValue(), index);  index++;
+			addValueToColumn(valuecolumns, s.def.getStringDefaultValue(DefaultFields.SAMPLE_COMMENTS).getStringValue(), index);  index++;
+			addValueToColumn(valuecolumns, s.def.getStringDefaultValue(DefaultFields.SAMPLE_TYPE).getStringValue(), index);  index++;
+			addValueToColumn(valuecolumns, s.def.getStringDefaultValue(DefaultFields.SAMPLE_DESCRIPTION).getStringValue(), index);  index++;
+			addValueToColumn(valuecolumns, s.def.getStringDefaultValue(DefaultFields.SAMPLE_SAMPLING_DATE).getStringValue(), index);  index++;
+			addValueToColumn(valuecolumns, s.def.getStringDefaultValue(DefaultFields.SAMPLE_POSITION).getStringValue(), index);  index++;
+			addValueToColumn(valuecolumns, s.def.getStringDefaultValue(DefaultFields.SAMPLE_STATE).getStringValue(), index);  index++;
+			addValueToColumn(valuecolumns, s.def.getBooleanDefaultValue(DefaultFields.SAMPLE_KNOTS).getStringValue(), index);  index++;
+			addValueToColumn(valuecolumns, s.def.getStringDefaultValue(DefaultFields.RADIUS_TITLE).getStringValue(), index);  index++;
+			addValueToColumn(valuecolumns, s.def.getStringDefaultValue(DefaultFields.RADIUS_IDENTIFIER).getStringValue(), index);  index++;
+			addValueToColumn(valuecolumns, s.def.getDateTimeDefaultValue(DefaultFields.RADIUS_CREATED_TIMESTAMP).getStringValue(), index);  index++;
+			addValueToColumn(valuecolumns, s.def.getDateTimeDefaultValue(DefaultFields.RADIUS_UPDATED_TIMESTAMP).getStringValue(), index);  index++;
+			addValueToColumn(valuecolumns, s.def.getStringDefaultValue(DefaultFields.RADIUS_COMMENTS).getStringValue(), index);  index++;
+			addValueToColumn(valuecolumns, s.def.getIntegerDefaultValue(DefaultFields.RADIUS_WC_RING_COUNT).getStringValue(), index);  index++;
+			addValueToColumn(valuecolumns, s.def.getDoubleDefaultValue(DefaultFields.RADIUS_WC_AVERAGE_RING_WIDTH).getStringValue(), index);  index++;
+			addValueToColumn(valuecolumns, s.def.getIntegerDefaultValue(DefaultFields.RADIUS_WC_NR_UNMEASURED_INNER_RINGS).getStringValue(), index);  index++;
+			addValueToColumn(valuecolumns, s.def.getIntegerDefaultValue(DefaultFields.RADIUS_WC_NR_UNMEASURED_OUTER_RINGS).getStringValue(), index);  index++;
+			addValueToColumn(valuecolumns, s.def.getStringDefaultValue(DefaultFields.RADIUS_WC_PITH).getStringValue(), index);  index++;
+			addValueToColumn(valuecolumns, s.def.getStringDefaultValue(DefaultFields.RADIUS_WC_HEARTWOOD_PRESENCE).getStringValue(), index);  index++;
+			addValueToColumn(valuecolumns, s.def.getIntegerDefaultValue(DefaultFields.RADIUS_WC_HEARTWOOD_MISSING_RINGS_TO_PITH).getStringValue(), index);  index++;
+			addValueToColumn(valuecolumns, s.def.getStringDefaultValue(DefaultFields.RADIUS_WC_HEARTWOOD_MISSING_RINGS_TO_PITH_FOUNDATION).getStringValue(), index);  index++;
+			addValueToColumn(valuecolumns, s.def.getStringDefaultValue(DefaultFields.RADIUS_WC_SAPWOOD_PRESENCE).getStringValue(), index);  index++;
+			addValueToColumn(valuecolumns, s.def.getIntegerDefaultValue(DefaultFields.RADIUS_WC_SAPWOOD_NR_SAPWOOD_RINGS).getStringValue(), index);  index++;
+			addValueToColumn(valuecolumns, s.def.getStringDefaultValue(DefaultFields.RADIUS_WC_SAPWOOD_LAST_RING_UNDER_BARK_PRESENCE).getStringValue(), index);  index++;
+			addValueToColumn(valuecolumns, s.def.getIntegerDefaultValue(DefaultFields.RADIUS_WC_SAPWOOD_MISSING_SAPWOOD_RINGS_TO_BARK).getStringValue(), index);  index++;
+			addValueToColumn(valuecolumns, s.def.getStringDefaultValue(DefaultFields.RADIUS_WC_SAPWOOD_MISSING_SAPWOOD_RINGS_TO_BARK_FOUNDATION).getStringValue(), index);  index++;
+			addValueToColumn(valuecolumns, s.def.getStringDefaultValue(DefaultFields.RADIUS_WC_BARK).getStringValue(), index);  index++;
+			addValueToColumn(valuecolumns, s.def.getDoubleDefaultValue(DefaultFields.RADIUS_AZIMUTH).getStringValue(), index);  index++;
+			addValueToColumn(valuecolumns, s.def.getStringDefaultValue(DefaultFields.SERIES_TITLE).getStringValue(), index);  index++;
+			addValueToColumn(valuecolumns, s.def.getStringDefaultValue(DefaultFields.SERIES_IDENTIFIER).getStringValue(), index);  index++;
+			addValueToColumn(valuecolumns, s.def.getDateTimeDefaultValue(DefaultFields.SERIES_CREATED_TIMESTAMP).getStringValue(), index);  index++;
+			addValueToColumn(valuecolumns, s.def.getDateTimeDefaultValue(DefaultFields.SERIES_UPDATED_TIMESTAMP).getStringValue(), index);  index++;
+			addValueToColumn(valuecolumns, s.def.getStringDefaultValue(DefaultFields.SERIES_COMMENTS).getStringValue(), index);  index++;
+			addValueToColumn(valuecolumns, s.def.getStringDefaultValue(DefaultFields.SERIES_MEASURING_DATE).getStringValue(), index);  index++;
+			addValueToColumn(valuecolumns, s.def.getStringDefaultValue(DefaultFields.SERIES_ANALYST).getStringValue(), index);  index++;
+			addValueToColumn(valuecolumns, s.def.getStringDefaultValue(DefaultFields.SERIES_DENDROCHRONOLOGIST).getStringValue(), index);  index++;
+			addValueToColumn(valuecolumns, s.def.getStringDefaultValue(DefaultFields.SERIES_MEASURING_METHOD).getStringValue(), index);  index++;
 
 
 			
@@ -349,6 +348,19 @@ public class CSVMatrixFile implements IDendroFile {
 		return matrix;
 	}
 	
+	
+	private static void addValueToColumn(String[] matrix, String value, int index)
+	{
+		
+		if(value==null)
+		{
+			matrix[index] = "NULL";
+		}
+		else
+		{
+			matrix[index] = value;
+		}
+	}
 	
 	
 	public ArrayList<String[]> getMatrix()
