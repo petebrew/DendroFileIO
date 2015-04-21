@@ -100,7 +100,7 @@ public class CSVMatrixFile implements IDendroFile {
 	}
 	
 	
-	public String[] fieldnames = new String[]{"Field",
+	public String[] fieldnames = new String[]{" ",
 			
 			"Project title", 
 			"Project identifier",
@@ -177,22 +177,22 @@ public class CSVMatrixFile implements IDendroFile {
 			"Radius created timestamp",
 			"Radius updated timestamp",
 			"Radius comments",
-			"Radius ring count",
-			"Radius average ring width",
-			"Radius nr unmeasured inner rings",
-			"Radius nr unmeasured outer rings",
-			"Radius pith",
-			"Radius heartwood presence",
-			"Radius heartwood missing rings to pith",
-			"Radius heartwood missing rings to pith foundation",
-			"Radius sapwood presence",
-			"Radius sapwood nr sapwood rings",
-			"Radius sapwood last ring under bark presence",
-			"Radius sapwood last ring under bark content",
-			"Radius sapwood missing sapwood rings to bark",
-			"Radius sapwood missing sapwood rings to bark foundation",
-			"Radius bark",
 			"Radius azimuth",
+			"Ring count",
+			"Average ring width",
+			"Nr unmeasured inner rings",
+			"Nr unmeasured outer rings",
+			"Pith",
+			"Heartwood presence",
+			"Heartwood missing rings to pith",
+			"Heartwood missing rings to pith foundation",
+			"Sapwood presence",
+			"Sapwood nr sapwood rings",
+			"Sapwood last ring under bark presence",
+			"Sapwood last ring under bark content",
+			"Sapwood missing sapwood rings to bark",
+			"Sapwood missing sapwood rings to bark foundation",
+			"Bark",
 			"Series title",
 			"Series identifier",
 			"Series created timestamp",
@@ -241,6 +241,7 @@ public class CSVMatrixFile implements IDendroFile {
 			
 			// Field values
 			int index=1;
+			addValueToColumn(valuecolumns, s.def.getStringDefaultValue(DefaultFields.PROJECT_TITLE).getStringValue(), index);  index++;
 			addValueToColumn(valuecolumns, s.def.getStringDefaultValue(DefaultFields.PROJECT_IDENTIFIER).getStringValue(), index);  index++;
 			addValueToColumn(valuecolumns, s.def.getDateTimeDefaultValue(DefaultFields.PROJECT_CREATED_TIMESTAMP).getStringValue(), index);  index++;
 			addValueToColumn(valuecolumns, s.def.getDateTimeDefaultValue(DefaultFields.PROJECT_UPDATED_TIMESTAMP).getStringValue(), index);  index++;
@@ -314,21 +315,22 @@ public class CSVMatrixFile implements IDendroFile {
 			addValueToColumn(valuecolumns, s.def.getDateTimeDefaultValue(DefaultFields.RADIUS_CREATED_TIMESTAMP).getStringValue(), index);  index++;
 			addValueToColumn(valuecolumns, s.def.getDateTimeDefaultValue(DefaultFields.RADIUS_UPDATED_TIMESTAMP).getStringValue(), index);  index++;
 			addValueToColumn(valuecolumns, s.def.getStringDefaultValue(DefaultFields.RADIUS_COMMENTS).getStringValue(), index);  index++;
-			addValueToColumn(valuecolumns, s.def.getIntegerDefaultValue(DefaultFields.RADIUS_WC_RING_COUNT).getStringValue(), index);  index++;
-			addValueToColumn(valuecolumns, s.def.getDoubleDefaultValue(DefaultFields.RADIUS_WC_AVERAGE_RING_WIDTH).getStringValue(), index);  index++;
-			addValueToColumn(valuecolumns, s.def.getIntegerDefaultValue(DefaultFields.RADIUS_WC_NR_UNMEASURED_INNER_RINGS).getStringValue(), index);  index++;
-			addValueToColumn(valuecolumns, s.def.getIntegerDefaultValue(DefaultFields.RADIUS_WC_NR_UNMEASURED_OUTER_RINGS).getStringValue(), index);  index++;
-			addValueToColumn(valuecolumns, s.def.getStringDefaultValue(DefaultFields.RADIUS_WC_PITH).getStringValue(), index);  index++;
-			addValueToColumn(valuecolumns, s.def.getStringDefaultValue(DefaultFields.RADIUS_WC_HEARTWOOD_PRESENCE).getStringValue(), index);  index++;
-			addValueToColumn(valuecolumns, s.def.getIntegerDefaultValue(DefaultFields.RADIUS_WC_HEARTWOOD_MISSING_RINGS_TO_PITH).getStringValue(), index);  index++;
-			addValueToColumn(valuecolumns, s.def.getStringDefaultValue(DefaultFields.RADIUS_WC_HEARTWOOD_MISSING_RINGS_TO_PITH_FOUNDATION).getStringValue(), index);  index++;
-			addValueToColumn(valuecolumns, s.def.getStringDefaultValue(DefaultFields.RADIUS_WC_SAPWOOD_PRESENCE).getStringValue(), index);  index++;
-			addValueToColumn(valuecolumns, s.def.getIntegerDefaultValue(DefaultFields.RADIUS_WC_SAPWOOD_NR_SAPWOOD_RINGS).getStringValue(), index);  index++;
-			addValueToColumn(valuecolumns, s.def.getStringDefaultValue(DefaultFields.RADIUS_WC_SAPWOOD_LAST_RING_UNDER_BARK_PRESENCE).getStringValue(), index);  index++;
-			addValueToColumn(valuecolumns, s.def.getIntegerDefaultValue(DefaultFields.RADIUS_WC_SAPWOOD_MISSING_SAPWOOD_RINGS_TO_BARK).getStringValue(), index);  index++;
-			addValueToColumn(valuecolumns, s.def.getStringDefaultValue(DefaultFields.RADIUS_WC_SAPWOOD_MISSING_SAPWOOD_RINGS_TO_BARK_FOUNDATION).getStringValue(), index);  index++;
-			addValueToColumn(valuecolumns, s.def.getStringDefaultValue(DefaultFields.RADIUS_WC_BARK).getStringValue(), index);  index++;
 			addValueToColumn(valuecolumns, s.def.getDoubleDefaultValue(DefaultFields.RADIUS_AZIMUTH).getStringValue(), index);  index++;
+			addValueToColumn(valuecolumns, s.def.getIntegerDefaultValue(DefaultFields.SERIES_WC_RING_COUNT).getStringValue(), index);  index++;
+			addValueToColumn(valuecolumns, s.def.getDoubleDefaultValue(DefaultFields.SERIES_WC_AVERAGE_RING_WIDTH).getStringValue(), index);  index++;
+			addValueToColumn(valuecolumns, s.def.getIntegerDefaultValue(DefaultFields.SERIES_WC_NR_UNMEASURED_INNER_RINGS).getStringValue(), index);  index++;
+			addValueToColumn(valuecolumns, s.def.getIntegerDefaultValue(DefaultFields.SERIES_WC_NR_UNMEASURED_OUTER_RINGS).getStringValue(), index);  index++;
+			addValueToColumn(valuecolumns, s.def.getStringDefaultValue(DefaultFields.SERIES_WC_PITH).getStringValue(), index);  index++;
+			addValueToColumn(valuecolumns, s.def.getStringDefaultValue(DefaultFields.SERIES_WC_HEARTWOOD_PRESENCE).getStringValue(), index);  index++;
+			addValueToColumn(valuecolumns, s.def.getIntegerDefaultValue(DefaultFields.SERIES_WC_HEARTWOOD_MISSING_RINGS_TO_PITH).getStringValue(), index);  index++;
+			addValueToColumn(valuecolumns, s.def.getStringDefaultValue(DefaultFields.SERIES_WC_HEARTWOOD_MISSING_RINGS_TO_PITH_FOUNDATION).getStringValue(), index);  index++;
+			addValueToColumn(valuecolumns, s.def.getStringDefaultValue(DefaultFields.SERIES_WC_SAPWOOD_PRESENCE).getStringValue(), index);  index++;
+			addValueToColumn(valuecolumns, s.def.getIntegerDefaultValue(DefaultFields.SERIES_WC_SAPWOOD_NR_SAPWOOD_RINGS).getStringValue(), index);  index++;
+			addValueToColumn(valuecolumns, s.def.getStringDefaultValue(DefaultFields.SERIES_WC_SAPWOOD_LAST_RING_UNDER_BARK_PRESENCE).getStringValue(), index);  index++;
+			addValueToColumn(valuecolumns, s.def.getStringDefaultValue(DefaultFields.SERIES_WC_SAPWOOD_LAST_RING_UNDER_BARK_CONTENT).getStringValue(), index);  index++;
+			addValueToColumn(valuecolumns, s.def.getIntegerDefaultValue(DefaultFields.SERIES_WC_SAPWOOD_MISSING_SAPWOOD_RINGS_TO_BARK).getStringValue(), index);  index++;
+			addValueToColumn(valuecolumns, s.def.getStringDefaultValue(DefaultFields.SERIES_WC_SAPWOOD_MISSING_SAPWOOD_RINGS_TO_BARK_FOUNDATION).getStringValue(), index);  index++;
+			addValueToColumn(valuecolumns, s.def.getStringDefaultValue(DefaultFields.SERIES_WC_BARK).getStringValue(), index);  index++;
 			addValueToColumn(valuecolumns, s.def.getStringDefaultValue(DefaultFields.SERIES_TITLE).getStringValue(), index);  index++;
 			addValueToColumn(valuecolumns, s.def.getStringDefaultValue(DefaultFields.SERIES_IDENTIFIER).getStringValue(), index);  index++;
 			addValueToColumn(valuecolumns, s.def.getDateTimeDefaultValue(DefaultFields.SERIES_CREATED_TIMESTAMP).getStringValue(), index);  index++;
@@ -354,7 +356,7 @@ public class CSVMatrixFile implements IDendroFile {
 		
 		if(value==null)
 		{
-			matrix[index] = "NULL";
+			matrix[index] = " ";
 		}
 		else
 		{

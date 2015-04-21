@@ -47,6 +47,7 @@ import org.tridas.io.formats.heidelberg.HeidelbergToTridasDefaults.FHWaldKante;
 import org.tridas.io.util.DateUtils;
 import org.tridas.io.util.ITRDBTaxonConverter;
 import org.tridas.io.util.SafeIntYear;
+import org.tridas.io.util.TridasUtils;
 import org.tridas.io.util.UnitUtils;
 import org.tridas.schema.ControlledVoc;
 import org.tridas.schema.DateTime;
@@ -1279,6 +1280,8 @@ public class HeidelbergReader extends AbstractDendroFileReader {
 			}
 			
 			s.defaults.getIntegerDefaultValue(DefaultFields.RING_COUNT).setValue(dataRingCount);
+			s.defaults.getDoubleDefaultValue(DefaultFields.AV_RING_WIDTH).setValue(TridasUtils.getAverageRingCount(s.dataVals));
+
 		}
 	}
 	

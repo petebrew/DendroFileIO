@@ -218,7 +218,8 @@ public class HeidelbergToTridasDefaults extends TridasMetadataFieldSet {
 		WALDKANTE,						//***
 		WOOD_MATERIAL_TYPE,
 		WORK_TRACES,
-		RING_COUNT
+		RING_COUNT,
+		AV_RING_WIDTH
 	}
 	
 	@Override
@@ -279,6 +280,7 @@ public class HeidelbergToTridasDefaults extends TridasMetadataFieldSet {
 		setDefaultValue(DefaultFields.UNIT, new GenericDefaultValue<TridasUnit>());	
 		setDefaultValue(DefaultFields.WALDKANTE, new GenericDefaultValue<FHWaldKante>());
 		setDefaultValue(DefaultFields.RING_COUNT, new IntegerDefaultValue());
+		setDefaultValue(DefaultFields.AV_RING_WIDTH, new DoubleDefaultValue());
 
 	}
 		
@@ -481,6 +483,12 @@ public class HeidelbergToTridasDefaults extends TridasMetadataFieldSet {
 		{
 			wc.setRingCount(getIntegerDefaultValue(DefaultFields.RING_COUNT).getValue());
 		}
+		
+		if(getDoubleDefaultValue(DefaultFields.AV_RING_WIDTH).getValue()!=null)
+		{
+			wc.setAverageRingWidth(getDoubleDefaultValue(DefaultFields.AV_RING_WIDTH).getValue());
+		}
+		
 		
 		GenericDefaultValue<FHPith> pithField = (GenericDefaultValue<FHPith>) getDefaultValue(DefaultFields.PITH);
 		if(pithField!=null && pithField.getValue()!=null)
