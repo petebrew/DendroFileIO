@@ -16,6 +16,7 @@
 package org.tridas.io.util;
 
 import java.util.ArrayList;
+import java.util.Collection;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
@@ -27,7 +28,6 @@ import org.tridas.interfaces.ITridasGeneric;
 import org.tridas.interfaces.ITridasSeries;
 import org.tridas.interfaces.NormalTridasVoc;
 import org.tridas.io.I18n;
-import org.tridas.io.formats.tridas.TridasReader;
 import org.tridas.schema.ControlledVoc;
 import org.tridas.schema.DatingSuffix;
 import org.tridas.schema.NormalTridasRemark;
@@ -43,6 +43,7 @@ import org.tridas.schema.TridasRadius;
 import org.tridas.schema.TridasRemark;
 import org.tridas.schema.TridasSample;
 import org.tridas.schema.TridasTridas;
+import org.tridas.schema.TridasUnit;
 import org.tridas.schema.TridasValue;
 import org.tridas.schema.TridasValues;
 import org.tridas.schema.TridasVariable;
@@ -1292,6 +1293,76 @@ public class TridasUtils {
 	{
 		log.debug("     - DSeries -" + t.getTitle());
 	}
+	
+	public static Integer getRingCount(TridasValues values)
+	{
+		if(values==null || values.getValues()==null) return null;
+		
+		return values.getValues().size();
+	}
+	
+	public static Double getAverageRingCount(TridasValues values) throws NumberFormatException
+	{
+		if(values==null || values.getValues()==null || values.getValues().size()==0) return null;
+			
+		TridasUnit units = null;
+		if(values.isSetUnit())
+		{
+			units = values.getUnit();
+		}
+		return getAverageRingCount(values.getValues());
+	}
+	
+	public static String getAverageRingCountWithUnits(Collection<TridasValue> values, TridasUnit units) throws NumberFormatException
+	{
+		if(values==null || values.size()==0) return null;
+		
+		Integer ringCount =  values.size();
+		Double totalLength = 0.0;
+		for(TridasValue value : values)
+		{
+				Double thisval = Double.valueOf(value.getValue());
+				totalLength = totalLength+thisval;
+		}
+		
+		Double val =  totalLength / ringCount;
+		
+		if(units==null)
+		{
+			return val+"";
+		}
+		else if (units.isSetNormalTridas())
+		{
+			return val + " " +units.getNormalTridas().name();
+		}
+		else if (units.isSetNormal())
+		{
+			return val + " " +units.getNormal();
+
+		}
+		
+		return val+"";
+			
+	}
+	
+	
+	public static Double getAverageRingCount(Collection<TridasValue> values) throws NumberFormatException
+	{
+		if(values==null || values.size()==0) return null;
+		
+		Integer ringCount =  values.size();
+		Double totalLength = 0.0;
+		for(TridasValue value : values)
+		{
+				Double thisval = Double.valueOf(value.getValue());
+				totalLength = totalLength+thisval;
+		}
+		
+		return totalLength / ringCount;
+		
+
+	}
+	
 	
 	public static String GENERIC_FIELD_STRING_OBJECTCODE = "tellervo.objectLabCode";
 	public static String GENERIC_FIELD_STRING_ELEMENTCODE = "tellervo.elementLabCode";

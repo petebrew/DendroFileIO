@@ -141,21 +141,21 @@ public class TridasToMatrixDefaults extends AbstractMetadataFieldSet implements
 		RADIUS_CREATED_TIMESTAMP,
 		RADIUS_UPDATED_TIMESTAMP,
 		RADIUS_COMMENTS,
-		RADIUS_WC_RING_COUNT,
-		RADIUS_WC_AVERAGE_RING_WIDTH,
-		RADIUS_WC_NR_UNMEASURED_INNER_RINGS,
-		RADIUS_WC_NR_UNMEASURED_OUTER_RINGS,
-		RADIUS_WC_PITH,
-		RADIUS_WC_HEARTWOOD_PRESENCE,
-		RADIUS_WC_HEARTWOOD_MISSING_RINGS_TO_PITH,
-		RADIUS_WC_HEARTWOOD_MISSING_RINGS_TO_PITH_FOUNDATION,
-		RADIUS_WC_SAPWOOD_PRESENCE,
-		RADIUS_WC_SAPWOOD_NR_SAPWOOD_RINGS,
-		RADIUS_WC_SAPWOOD_LAST_RING_UNDER_BARK_PRESENCE,
-		RADIUS_WC_SAPWOOD_LAST_RING_UNDER_BARK_CONTENT,
-		RADIUS_WC_SAPWOOD_MISSING_SAPWOOD_RINGS_TO_BARK,
-		RADIUS_WC_SAPWOOD_MISSING_SAPWOOD_RINGS_TO_BARK_FOUNDATION,
-		RADIUS_WC_BARK,
+		SERIES_WC_RING_COUNT,
+		SERIES_WC_AVERAGE_RING_WIDTH,
+		SERIES_WC_NR_UNMEASURED_INNER_RINGS,
+		SERIES_WC_NR_UNMEASURED_OUTER_RINGS,
+		SERIES_WC_PITH,
+		SERIES_WC_HEARTWOOD_PRESENCE,
+		SERIES_WC_HEARTWOOD_MISSING_RINGS_TO_PITH,
+		SERIES_WC_HEARTWOOD_MISSING_RINGS_TO_PITH_FOUNDATION,
+		SERIES_WC_SAPWOOD_PRESENCE,
+		SERIES_WC_SAPWOOD_NR_SAPWOOD_RINGS,
+		SERIES_WC_SAPWOOD_LAST_RING_UNDER_BARK_PRESENCE,
+		SERIES_WC_SAPWOOD_LAST_RING_UNDER_BARK_CONTENT,
+		SERIES_WC_SAPWOOD_MISSING_SAPWOOD_RINGS_TO_BARK,
+		SERIES_WC_SAPWOOD_MISSING_SAPWOOD_RINGS_TO_BARK_FOUNDATION,
+		SERIES_WC_BARK,
 		RADIUS_AZIMUTH,
 		
 		
@@ -258,21 +258,21 @@ public class TridasToMatrixDefaults extends AbstractMetadataFieldSet implements
 		setDefaultValue(DefaultFields.RADIUS_CREATED_TIMESTAMP, new DateTimeDefaultValue());
 		setDefaultValue(DefaultFields.RADIUS_UPDATED_TIMESTAMP, new DateTimeDefaultValue());
 		setDefaultValue(DefaultFields.RADIUS_COMMENTS, new StringDefaultValue());
-		setDefaultValue(DefaultFields.RADIUS_WC_RING_COUNT, new IntegerDefaultValue());
-		setDefaultValue(DefaultFields.RADIUS_WC_AVERAGE_RING_WIDTH, new DoubleDefaultValue(null, 0.0, Double.MAX_VALUE));
-		setDefaultValue(DefaultFields.RADIUS_WC_NR_UNMEASURED_INNER_RINGS, new IntegerDefaultValue());
-		setDefaultValue(DefaultFields.RADIUS_WC_NR_UNMEASURED_OUTER_RINGS, new IntegerDefaultValue());
-		setDefaultValue(DefaultFields.RADIUS_WC_PITH, new StringDefaultValue());
-		setDefaultValue(DefaultFields.RADIUS_WC_HEARTWOOD_PRESENCE, new StringDefaultValue());
-		setDefaultValue(DefaultFields.RADIUS_WC_HEARTWOOD_MISSING_RINGS_TO_PITH, new IntegerDefaultValue());
-		setDefaultValue(DefaultFields.RADIUS_WC_HEARTWOOD_MISSING_RINGS_TO_PITH_FOUNDATION, new StringDefaultValue());
-		setDefaultValue(DefaultFields.RADIUS_WC_SAPWOOD_PRESENCE, new StringDefaultValue());
-		setDefaultValue(DefaultFields.RADIUS_WC_SAPWOOD_NR_SAPWOOD_RINGS, new IntegerDefaultValue());
-		setDefaultValue(DefaultFields.RADIUS_WC_SAPWOOD_LAST_RING_UNDER_BARK_PRESENCE, new StringDefaultValue());
-		setDefaultValue(DefaultFields.RADIUS_WC_SAPWOOD_LAST_RING_UNDER_BARK_CONTENT, new StringDefaultValue());
-		setDefaultValue(DefaultFields.RADIUS_WC_SAPWOOD_MISSING_SAPWOOD_RINGS_TO_BARK, new IntegerDefaultValue());
-		setDefaultValue(DefaultFields.RADIUS_WC_SAPWOOD_MISSING_SAPWOOD_RINGS_TO_BARK_FOUNDATION, new StringDefaultValue());
-		setDefaultValue(DefaultFields.RADIUS_WC_BARK, new StringDefaultValue());
+		setDefaultValue(DefaultFields.SERIES_WC_RING_COUNT, new IntegerDefaultValue());
+		setDefaultValue(DefaultFields.SERIES_WC_AVERAGE_RING_WIDTH, new DoubleDefaultValue(null, 0.0, Double.MAX_VALUE));
+		setDefaultValue(DefaultFields.SERIES_WC_NR_UNMEASURED_INNER_RINGS, new IntegerDefaultValue());
+		setDefaultValue(DefaultFields.SERIES_WC_NR_UNMEASURED_OUTER_RINGS, new IntegerDefaultValue());
+		setDefaultValue(DefaultFields.SERIES_WC_PITH, new StringDefaultValue());
+		setDefaultValue(DefaultFields.SERIES_WC_HEARTWOOD_PRESENCE, new StringDefaultValue());
+		setDefaultValue(DefaultFields.SERIES_WC_HEARTWOOD_MISSING_RINGS_TO_PITH, new IntegerDefaultValue());
+		setDefaultValue(DefaultFields.SERIES_WC_HEARTWOOD_MISSING_RINGS_TO_PITH_FOUNDATION, new StringDefaultValue());
+		setDefaultValue(DefaultFields.SERIES_WC_SAPWOOD_PRESENCE, new StringDefaultValue());
+		setDefaultValue(DefaultFields.SERIES_WC_SAPWOOD_NR_SAPWOOD_RINGS, new IntegerDefaultValue());
+		setDefaultValue(DefaultFields.SERIES_WC_SAPWOOD_LAST_RING_UNDER_BARK_PRESENCE, new StringDefaultValue());
+		setDefaultValue(DefaultFields.SERIES_WC_SAPWOOD_LAST_RING_UNDER_BARK_CONTENT, new StringDefaultValue());
+		setDefaultValue(DefaultFields.SERIES_WC_SAPWOOD_MISSING_SAPWOOD_RINGS_TO_BARK, new IntegerDefaultValue());
+		setDefaultValue(DefaultFields.SERIES_WC_SAPWOOD_MISSING_SAPWOOD_RINGS_TO_BARK_FOUNDATION, new StringDefaultValue());
+		setDefaultValue(DefaultFields.SERIES_WC_BARK, new StringDefaultValue());
 		setDefaultValue(DefaultFields.RADIUS_AZIMUTH, new DoubleDefaultValue(null, 0.0, Double.MAX_VALUE));
 
 		setDefaultValue(DefaultFields.SERIES_IDENTIFIER, new StringDefaultValue());
@@ -313,6 +313,92 @@ public class TridasToMatrixDefaults extends AbstractMetadataFieldSet implements
 		if(argSeries.isSetMeasuringMethod())
 		{
 			getStringDefaultValue(DefaultFields.SERIES_MEASURING_METHOD).setValue(TridasUtils.controlledVocToString(argSeries.getMeasuringMethod()));
+		}
+		
+		if(argSeries.isSetWoodCompleteness())
+		{
+			TridasWoodCompleteness wc = argSeries.getWoodCompleteness();
+			
+			if(wc.isSetRingCount())
+			{
+				getIntegerDefaultValue(DefaultFields.SERIES_WC_RING_COUNT).setValue(wc.getRingCount());
+			}
+			
+			if(wc.isSetAverageRingWidth())
+			{
+				getDoubleDefaultValue(DefaultFields.SERIES_WC_AVERAGE_RING_WIDTH).setValue(wc.getAverageRingWidth());
+			}
+			
+			if(wc.isSetNrOfUnmeasuredInnerRings())
+			{
+				getIntegerDefaultValue(DefaultFields.SERIES_WC_NR_UNMEASURED_INNER_RINGS).setValue(wc.getNrOfUnmeasuredInnerRings());
+			}
+			
+			if(wc.isSetNrOfUnmeasuredOuterRings())
+			{
+				getIntegerDefaultValue(DefaultFields.SERIES_WC_NR_UNMEASURED_OUTER_RINGS).setValue(wc.getNrOfUnmeasuredOuterRings());
+			}
+			
+			if(wc.isSetPith() && wc.getPith().isSetPresence())
+			{
+				getStringDefaultValue(DefaultFields.SERIES_WC_PITH).setValue(wc.getPith().getPresence().value());
+			}
+			
+			if(wc.isSetHeartwood())
+			{
+				TridasHeartwood hw = wc.getHeartwood();
+				if(hw.isSetPresence())
+				{
+					getStringDefaultValue(DefaultFields.SERIES_WC_HEARTWOOD_PRESENCE).setValue(hw.getPresence().value());
+				}
+				if(hw.isSetMissingHeartwoodRingsToPith())
+				{
+					getIntegerDefaultValue(DefaultFields.SERIES_WC_HEARTWOOD_MISSING_RINGS_TO_PITH).setValue(hw.getMissingHeartwoodRingsToPith());
+				}
+				if(hw.isSetMissingHeartwoodRingsToPithFoundation())
+				{
+					getStringDefaultValue(DefaultFields.SERIES_WC_HEARTWOOD_MISSING_RINGS_TO_PITH_FOUNDATION).setValue(hw.getMissingHeartwoodRingsToPithFoundation());
+				}
+			}
+			if(wc.isSetSapwood())
+			{
+				TridasSapwood sw = wc.getSapwood();
+				if(sw.isSetPresence())
+				{
+					getStringDefaultValue(DefaultFields.SERIES_WC_SAPWOOD_PRESENCE).setValue(sw.getPresence().value());
+				}
+				if(sw.isSetMissingSapwoodRingsToBark())
+				{
+					getIntegerDefaultValue(DefaultFields.SERIES_WC_SAPWOOD_MISSING_SAPWOOD_RINGS_TO_BARK).setValue(sw.getMissingSapwoodRingsToBark());
+				}
+				if(sw.isSetMissingSapwoodRingsToBarkFoundation())
+				{
+					getStringDefaultValue(DefaultFields.SERIES_WC_SAPWOOD_MISSING_SAPWOOD_RINGS_TO_BARK_FOUNDATION).setValue(sw.getMissingSapwoodRingsToBarkFoundation());
+				}
+				if(sw.isSetNrOfSapwoodRings())
+				{
+					getIntegerDefaultValue(DefaultFields.SERIES_WC_SAPWOOD_NR_SAPWOOD_RINGS).setValue(sw.getNrOfSapwoodRings());
+				}
+				if(sw.isSetLastRingUnderBark())
+				{
+					if(sw.getLastRingUnderBark().isSetPresence())
+					{
+						getStringDefaultValue(DefaultFields.SERIES_WC_SAPWOOD_LAST_RING_UNDER_BARK_PRESENCE).setValue(sw.getLastRingUnderBark().getPresence().value());
+					}
+					if(sw.getLastRingUnderBark().isSetContent())
+					{
+						getStringDefaultValue(DefaultFields.SERIES_WC_SAPWOOD_LAST_RING_UNDER_BARK_CONTENT).setValue(sw.getLastRingUnderBark().getContent());
+					}
+				}
+			}
+			if(wc.isSetBark())
+			{
+				if(wc.getBark().isSetPresence())
+				{
+					getStringDefaultValue(DefaultFields.SERIES_WC_BARK).setValue(wc.getBark().getPresence().value());
+				}
+			}
+			
 		}
 
 	}
@@ -391,91 +477,7 @@ public class TridasToMatrixDefaults extends AbstractMetadataFieldSet implements
 			getStringDefaultValue(DefaultFields.RADIUS_COMMENTS).setValue(radius.getComments());
 		}
 		
-		if(radius.isSetWoodCompleteness())
-		{
-			TridasWoodCompleteness wc = radius.getWoodCompleteness();
-			
-			if(wc.isSetRingCount())
-			{
-				getIntegerDefaultValue(DefaultFields.RADIUS_WC_RING_COUNT).setValue(wc.getRingCount());
-			}
-			
-			if(wc.isSetAverageRingWidth())
-			{
-				getDoubleDefaultValue(DefaultFields.RADIUS_WC_AVERAGE_RING_WIDTH).setValue(wc.getAverageRingWidth());
-			}
-			
-			if(wc.isSetNrOfUnmeasuredInnerRings())
-			{
-				getIntegerDefaultValue(DefaultFields.RADIUS_WC_NR_UNMEASURED_INNER_RINGS).setValue(wc.getNrOfUnmeasuredInnerRings());
-			}
-			
-			if(wc.isSetNrOfUnmeasuredOuterRings())
-			{
-				getIntegerDefaultValue(DefaultFields.RADIUS_WC_NR_UNMEASURED_OUTER_RINGS).setValue(wc.getNrOfUnmeasuredOuterRings());
-			}
-			
-			if(wc.isSetPith() && wc.getPith().isSetPresence())
-			{
-				getStringDefaultValue(DefaultFields.RADIUS_WC_PITH).setValue(wc.getPith().getPresence().value());
-			}
-			
-			if(wc.isSetHeartwood())
-			{
-				TridasHeartwood hw = wc.getHeartwood();
-				if(hw.isSetPresence())
-				{
-					getStringDefaultValue(DefaultFields.RADIUS_WC_HEARTWOOD_PRESENCE).setValue(hw.getPresence().value());
-				}
-				if(hw.isSetMissingHeartwoodRingsToPith())
-				{
-					getIntegerDefaultValue(DefaultFields.RADIUS_WC_HEARTWOOD_MISSING_RINGS_TO_PITH).setValue(hw.getMissingHeartwoodRingsToPith());
-				}
-				if(hw.isSetMissingHeartwoodRingsToPithFoundation())
-				{
-					getStringDefaultValue(DefaultFields.RADIUS_WC_HEARTWOOD_MISSING_RINGS_TO_PITH_FOUNDATION).setValue(hw.getMissingHeartwoodRingsToPithFoundation());
-				}
-			}
-			if(wc.isSetSapwood())
-			{
-				TridasSapwood sw = wc.getSapwood();
-				if(sw.isSetPresence())
-				{
-					getStringDefaultValue(DefaultFields.RADIUS_WC_SAPWOOD_PRESENCE).setValue(sw.getPresence().value());
-				}
-				if(sw.isSetMissingSapwoodRingsToBark())
-				{
-					getIntegerDefaultValue(DefaultFields.RADIUS_WC_SAPWOOD_MISSING_SAPWOOD_RINGS_TO_BARK).setValue(sw.getMissingSapwoodRingsToBark());
-				}
-				if(sw.isSetMissingSapwoodRingsToBarkFoundation())
-				{
-					getStringDefaultValue(DefaultFields.RADIUS_WC_SAPWOOD_MISSING_SAPWOOD_RINGS_TO_BARK_FOUNDATION).setValue(sw.getMissingSapwoodRingsToBarkFoundation());
-				}
-				if(sw.isSetNrOfSapwoodRings())
-				{
-					getIntegerDefaultValue(DefaultFields.RADIUS_WC_SAPWOOD_NR_SAPWOOD_RINGS).setValue(sw.getNrOfSapwoodRings());
-				}
-				if(sw.isSetLastRingUnderBark())
-				{
-					if(sw.getLastRingUnderBark().isSetPresence())
-					{
-						getStringDefaultValue(DefaultFields.RADIUS_WC_SAPWOOD_LAST_RING_UNDER_BARK_PRESENCE).setValue(sw.getLastRingUnderBark().getPresence().value());
-					}
-					if(sw.getLastRingUnderBark().isSetContent())
-					{
-						getStringDefaultValue(DefaultFields.RADIUS_WC_SAPWOOD_LAST_RING_UNDER_BARK_CONTENT).setValue(sw.getLastRingUnderBark().getContent());
-					}
-				}
-			}
-			if(wc.isSetBark())
-			{
-				if(wc.getBark().isSetPresence())
-				{
-					getStringDefaultValue(DefaultFields.RADIUS_WC_BARK).setValue(wc.getBark().getPresence().value());
-				}
-			}
-			
-		}
+		
 		if(radius.isSetAzimuth())
 		{
 			getDoubleDefaultValue(DefaultFields.RADIUS_AZIMUTH).setValue(radius.getAzimuth().doubleValue());
@@ -843,6 +845,10 @@ public class TridasToMatrixDefaults extends AbstractMetadataFieldSet implements
 		for(ControlledVoc type : project.getTypes())
 		{
 			types += TridasUtils.controlledVocToString(type)+"; ";
+		}
+		if(types.length()>0)
+		{
+			types = types.substring(0, types.length()-2);
 		}
 		getStringDefaultValue(DefaultFields.PROJECT_TYPE).setValue(types);
 		

@@ -16,7 +16,6 @@
 package org.tridas.io.formats.tucson;
 
 import java.util.ArrayList;
-import java.util.List;
 import java.util.UUID;
 
 import org.tridas.io.I18n;
@@ -25,6 +24,7 @@ import org.tridas.io.defaults.TridasMetadataFieldSet;
 import org.tridas.io.defaults.values.DateTimeDefaultValue;
 import org.tridas.io.defaults.values.DoubleDefaultValue;
 import org.tridas.io.defaults.values.GenericDefaultValue;
+import org.tridas.io.defaults.values.IntegerDefaultValue;
 import org.tridas.io.defaults.values.SafeIntYearDefaultValue;
 import org.tridas.io.defaults.values.StringDefaultValue;
 import org.tridas.io.util.ITRDBTaxonConverter;
@@ -50,6 +50,7 @@ import org.tridas.schema.TridasUnit;
 import org.tridas.schema.TridasUnitless;
 import org.tridas.schema.TridasValues;
 import org.tridas.schema.TridasVariable;
+import org.tridas.schema.TridasWoodCompleteness;
 
 /**
  * here for the library user to create and pass in the loadFile() arguments
@@ -60,7 +61,7 @@ public class TucsonToTridasDefaults extends TridasMetadataFieldSet implements IM
 	
 	public enum TucsonDefaultField {
 		SITE_CODE, SITE_NAME, SPECIES_CODE, SPECIES_NAME, INVESTIGATOR, ELEVATION, LATLONG, 
-		STATE_COUNTRY, COMP_DATE, UNITS, VARIABLE, NOSTD_VAR, SERIES_CODE, FIRST_YEAR, LAST_YEAR;
+		STATE_COUNTRY, COMP_DATE, UNITS, VARIABLE, NOSTD_VAR, SERIES_CODE, FIRST_YEAR, LAST_YEAR, RING_COUNT, AV_RING_WIDTH;
 	}
 	
 	/**
@@ -84,6 +85,9 @@ public class TucsonToTridasDefaults extends TridasMetadataFieldSet implements IM
 		setDefaultValue(TucsonDefaultField.SERIES_CODE, new StringDefaultValue(UUID.randomUUID().toString()));
 		setDefaultValue(TucsonDefaultField.FIRST_YEAR, new SafeIntYearDefaultValue());
 		setDefaultValue(TucsonDefaultField.LAST_YEAR, new SafeIntYearDefaultValue());		
+		setDefaultValue(TucsonDefaultField.RING_COUNT, new IntegerDefaultValue());		
+		setDefaultValue(TucsonDefaultField.AV_RING_WIDTH, new DoubleDefaultValue());		
+
 	}
 
 	
@@ -219,6 +223,22 @@ public class TucsonToTridasDefaults extends TridasMetadataFieldSet implements IM
 			interp.setDating(dating);
 		}
 		ms.setInterpretation(interp);
+		
+		
+		TridasWoodCompleteness wc = new TridasWoodCompleteness();
+		
+		if(getIntegerDefaultValue(TucsonDefaultField.RING_COUNT).getValue()!=null)
+		{
+			wc.setRingCount(getIntegerDefaultValue(TucsonDefaultField.RING_COUNT).getValue());
+		}
+		
+		if(getDoubleDefaultValue(TucsonDefaultField.AV_RING_WIDTH).getValue()!=null)
+		{
+			wc.setAverageRingWidth(getDoubleDefaultValue(TucsonDefaultField.AV_RING_WIDTH).getValue());
+		}
+		
+		
+		ms.setWoodCompleteness(wc);
 		
 		// Keycode
 		TridasGenericField gf = new TridasGenericField();

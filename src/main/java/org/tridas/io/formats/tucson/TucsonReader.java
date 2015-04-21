@@ -391,6 +391,7 @@ public class TucsonReader extends AbstractDendroFileReader {
 
 					// Add current series to list if applicable
 					if (currentSeries != null) {
+						currentSeries.setCalculatedFields();
 						this.seriesList.add(currentSeries);
 					}
 
@@ -437,6 +438,7 @@ public class TucsonReader extends AbstractDendroFileReader {
 
 					// Add current series to list if applicable
 					if (currentSeries != null) {
+						currentSeries.setCalculatedFields();
 						this.seriesList.add(currentSeries);
 					}
 
@@ -478,6 +480,7 @@ public class TucsonReader extends AbstractDendroFileReader {
 		}
 
 		// Add remaining series to list
+		currentSeries.setCalculatedFields();
 		this.seriesList.add(currentSeries);
 
 	}
@@ -1362,6 +1365,23 @@ public class TucsonReader extends AbstractDendroFileReader {
 
 		private TucsonSeries(TucsonToTridasDefaults df) {
 			defaults = df;
+		}
+		
+		public void setCalculatedFields()
+		{
+			if(dataInts.size()>0)
+			{
+				defaults.getIntegerDefaultValue(TucsonDefaultField.RING_COUNT).setValue(dataInts.size());
+			
+				Integer count = dataInts.size();
+				Double sum = 0.0;
+				for(Integer val : dataInts)
+				{
+					sum = sum+val;
+				}
+				
+				defaults.getDoubleDefaultValue(TucsonDefaultField.AV_RING_WIDTH).setValue(sum/count);
+			}
 		}
 		
 	}
