@@ -3,17 +3,49 @@ package org.tridas.io.util;
 import java.util.ArrayList;
 
 import org.tridas.io.I18n;
+import org.tridas.schema.ComplexPresenceAbsence;
 import org.tridas.schema.ControlledVoc;
+import org.tridas.schema.PresenceAbsence;
 import org.tridas.schema.TridasAddress;
+import org.tridas.schema.TridasBark;
 import org.tridas.schema.TridasElement;
+import org.tridas.schema.TridasHeartwood;
 import org.tridas.schema.TridasLaboratory;
+import org.tridas.schema.TridasPith;
 import org.tridas.schema.TridasProject;
 import org.tridas.schema.TridasRadius;
 import org.tridas.schema.TridasSample;
+import org.tridas.schema.TridasSapwood;
+import org.tridas.schema.TridasWoodCompleteness;
 import org.tridas.util.TridasObjectEx;
 
 public class TridasFactory {
 
+	
+	public static TridasWoodCompleteness getWoodCompleteness()
+	{
+		TridasWoodCompleteness wc = new TridasWoodCompleteness();
+		
+		TridasPith pith = new TridasPith();
+		TridasHeartwood hw = new TridasHeartwood();
+		TridasSapwood sw = new TridasSapwood();
+		TridasBark bark = new TridasBark();
+		
+		pith.setPresence(ComplexPresenceAbsence.UNKNOWN);
+		bark.setPresence(PresenceAbsence.UNKNOWN);
+		hw.setPresence(ComplexPresenceAbsence.UNKNOWN);
+		sw.setPresence(ComplexPresenceAbsence.UNKNOWN);
+		
+		wc.setPith(pith);
+		wc.setHeartwood(hw);
+		wc.setSapwood(sw);
+		wc.setBark(bark);
+		
+		
+		
+		return wc;
+		
+	}
 	
 	public static TridasProject getNewTridasProject()
 	{

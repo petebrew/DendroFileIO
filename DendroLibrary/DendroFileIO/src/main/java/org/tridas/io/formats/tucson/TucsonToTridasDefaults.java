@@ -28,6 +28,7 @@ import org.tridas.io.defaults.values.IntegerDefaultValue;
 import org.tridas.io.defaults.values.SafeIntYearDefaultValue;
 import org.tridas.io.defaults.values.StringDefaultValue;
 import org.tridas.io.util.ITRDBTaxonConverter;
+import org.tridas.io.util.TridasFactory;
 import org.tridas.schema.ControlledVoc;
 import org.tridas.schema.DatingSuffix;
 import org.tridas.schema.NormalTridasDatingType;
@@ -213,19 +214,19 @@ public class TucsonToTridasDefaults extends TridasMetadataFieldSet implements IM
 		
 		TridasInterpretation interp = new TridasInterpretation();
 		
+		// Dating type
+		TridasDating dating = new TridasDating();
+		dating.setType(NormalTridasDatingType.ABSOLUTE);
+		interp.setDating(dating);
+		
 		if(getSafeIntYearDefaultValue(TucsonDefaultField.FIRST_YEAR).getValue()!=null)
 		{
 			interp.setFirstYear(getSafeIntYearDefaultValue(TucsonDefaultField.FIRST_YEAR).getValue().toTridasYear(DatingSuffix.AD));
-			
-			// Dating type
-			TridasDating dating = new TridasDating();
-			dating.setType(NormalTridasDatingType.ABSOLUTE);
-			interp.setDating(dating);
 		}
 		ms.setInterpretation(interp);
 		
 		
-		TridasWoodCompleteness wc = new TridasWoodCompleteness();
+		TridasWoodCompleteness wc = TridasFactory.getWoodCompleteness();
 		
 		if(getIntegerDefaultValue(TucsonDefaultField.RING_COUNT).getValue()!=null)
 		{
@@ -236,7 +237,7 @@ public class TucsonToTridasDefaults extends TridasMetadataFieldSet implements IM
 		{
 			wc.setAverageRingWidth(getDoubleDefaultValue(TucsonDefaultField.AV_RING_WIDTH).getValue());
 		}
-		
+			
 		
 		ms.setWoodCompleteness(wc);
 		
