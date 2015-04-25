@@ -213,8 +213,7 @@ public class TucsonReader extends AbstractDendroFileReader {
 				// Measurement Series
 
 				TridasRadius r = series.defaults.getRadiusWithDefaults(false);
-				TridasMeasurementSeries ms = series.defaults
-						.getMeasurementSeriesWithDefaults();
+				TridasMeasurementSeries ms = series.defaults.getDefaultTridasMeasurementSeries();
 				ArrayList<TridasValues> valuesGroupList = new ArrayList<TridasValues>();
 				TridasValues values = series.defaults.getDefaultTridasValues();
 				ArrayList<TridasValue> valuesList = new ArrayList<TridasValue>();
@@ -229,7 +228,7 @@ public class TucsonReader extends AbstractDendroFileReader {
 				valuesGroupList.add(values);
 				ms.setValues(valuesGroupList);
 
-				TridasInterpretation interp = new TridasInterpretation();
+				TridasInterpretation interp = ms.getInterpretation();
 				interp.setFirstYear(series.firstYear
 						.toTridasYear(DatingSuffix.AD));
 				interp.setLastYear(series.firstYear.add(series.dataInts.size()-1)
