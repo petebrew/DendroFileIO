@@ -44,12 +44,12 @@ import org.tridas.io.formats.past4.Past4Writer;
 import org.tridas.io.formats.sheffield.SheffieldWriter;
 import org.tridas.io.formats.topham.TophamWriter;
 import org.tridas.io.formats.tridas.TridasReader;
+import org.tridas.io.formats.tridasjson.TridasJSONWriter;
 import org.tridas.io.formats.trims.TrimsWriter;
 import org.tridas.io.formats.tucson.TucsonWriter;
 import org.tridas.io.formats.tucsoncompact.TucsonCompactWriter;
 import org.tridas.io.formats.vformat.VFormatWriter;
 import org.tridas.io.naming.NumericalNamingConvention;
-import org.tridas.io.util.FilePermissionException;
 import org.tridas.schema.TridasTridas;
 
 public class TestFromTridas extends TestCase {
@@ -277,6 +277,18 @@ public class TestFromTridas extends TestCase {
 			fail();
 		}
 	}
+	
+	public void testTridasToJSON() {
+
+		try {
+			genericTest(TridasReader.class, TridasJSONWriter.class);
+		} catch (InstantiationException e) {
+			fail();
+		} catch (IllegalAccessException e) {
+			fail();
+		}
+	}
+
 
 	public void testTridasToPast4() {
 
@@ -321,7 +333,7 @@ public class TestFromTridas extends TestCase {
 
 		for (String filename : files) {
 
-			//if(!filename.equals("Extensive.xml")) continue;
+			if(!filename.equals("Extensive.xml")) continue;
 			
 			log.info(" ");
 			log.info("Converting file: " + filename);
