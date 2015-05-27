@@ -73,6 +73,7 @@ import org.tridas.io.formats.topham.TophamWriter;
 import org.tridas.io.formats.tridas.TridasReader;
 import org.tridas.io.formats.tridas.TridasWriter1_2_2;
 import org.tridas.io.formats.tridas.TridasWriter1_2_3;
+import org.tridas.io.formats.tridasjson.TridasJSONWriter;
 import org.tridas.io.formats.trims.TrimsReader;
 import org.tridas.io.formats.trims.TrimsWriter;
 import org.tridas.io.formats.tucson.TucsonReader;
@@ -162,6 +163,7 @@ public class TridasIO {
 		registerFileWriter(TophamWriter.class);
 		registerFileWriter(TridasWriter1_2_2.class);
 		registerFileWriter(TridasWriter1_2_3.class);
+		registerFileWriter(TridasJSONWriter.class);
 		registerFileWriter(TrimsWriter.class);
 		registerFileWriter(TucsonWriter.class);
 		registerFileWriter(TucsonUnstackedWriter.class);
