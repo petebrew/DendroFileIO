@@ -37,11 +37,16 @@ import org.tridas.io.TridasIO;
 import org.tridas.io.TridasNamespacePrefixMapper;
 import org.tridas.io.defaults.IMetadataFieldSet;
 import org.tridas.io.exceptions.ImpossibleConversionException;
+import org.tridas.io.formats.heidelberg.HeidelbergToTridasDefaults.DefaultFields;
 import org.tridas.io.transform.TridasVersionTransformer.TridasVersion;
 import org.tridas.io.util.IOUtils;
+import org.tridas.io.util.TridasUtils;
+import org.tridas.schema.ControlledVoc;
 import org.tridas.schema.NormalTridasVariable;
 import org.tridas.schema.TridasElement;
 import org.tridas.schema.TridasEntity;
+import org.tridas.schema.TridasFile;
+import org.tridas.schema.TridasLocation;
 import org.tridas.schema.TridasMeasurementSeries;
 import org.tridas.schema.TridasObject;
 import org.tridas.schema.TridasProject;
@@ -50,6 +55,7 @@ import org.tridas.schema.TridasSample;
 import org.tridas.schema.TridasTridas;
 import org.tridas.schema.TridasValue;
 import org.tridas.schema.TridasValues;
+import org.tridas.spatial.GMLPointSRSHandler;
 import org.xml.sax.SAXException;
 
 import com.google.gson.Gson;
@@ -74,6 +80,8 @@ public class TridasJSONFile implements IDendroFile {
 	
 	private IMetadataFieldSet defaults;
 	private StringWriter swriter;
+	private Gson gson = new Gson();
+	private Gson gsondate = new GsonBuilder().setDateFormat("yyyy-MM-dd'T'HH:mm:ss.SSS'Z'").create();
 	
 	private TridasVersion outputVersion = TridasIO.tridasVersionUsedInternally;
 	
@@ -147,9 +155,6 @@ public class TridasJSONFile implements IDendroFile {
 	@SuppressWarnings("unchecked")
 	private void writeTridasEntityToJSON(JSONObject output, TridasEntity entity)
 	{
-		Gson gson = new Gson();
-		Gson gsondate = new GsonBuilder().setDateFormat("yyyy-MM-dd'T'HH:mm:ss.SSS'Z'").create();
-
 		String prefix = "";
 		
 		if(entity instanceof TridasProject)
@@ -160,9 +165,18 @@ public class TridasJSONFile implements IDendroFile {
 		{
 			prefix = "object";
 		}
-		
-		
-		
+		else if(entity instanceof TridasElement)
+		{
+			prefix = "element";
+		}
+		else if(entity instanceof TridasSample)
+		{
+			prefix = "sample";
+		}
+		else if(entity instanceof TridasRadius)
+		{
+			prefix = "radius";
+		}
 		
 		try{ 
 			output.put(prefix+".title", entity.getTitle());
@@ -172,7 +186,7 @@ public class TridasJSONFile implements IDendroFile {
 		}
 		
 		try{
-			output.put(prefix+".identifier", gson.toJson(entity.getIdentifier().getValue()));
+			output.put(prefix+".identifier", entity.getIdentifier().getValue());
 		} catch (NullPointerException e)
 		{
 			output.put(prefix+".identifier", null);
@@ -203,24 +217,104 @@ public class TridasJSONFile implements IDendroFile {
 	@SuppressWarnings("unchecked")
 	private void writeProjectToJSON(JSONObject output, TridasProject project)
 	{
-		Gson gson = new Gson();
-
 		writeTridasEntityToJSON(output, project);
-		
+				
+		try{
+			if(project.isSetTypes())
+			{
+				ArrayList<String> values = new ArrayList<String>();
+				
+				for(ControlledVoc type : project.getTypes())
+				{
+					values.add(TridasUtils.controlledVocToString(type));
+				}
+				
+				output.put("project.types", gson.toJson(values));
+			}
+		} catch (NullPointerException e)
+		{
+			output.put("project.types", null);
+		}
+
 		try{
 			output.put("project.description", gson.toJson(project.getDescription()));
 		} catch (NullPointerException e)
 		{
 			output.put("project.description", null);
 		}
+		
+		try{
+			if(project.isSetFiles())
+			{
+				ArrayList<String> values = new ArrayList<String>();
+				
+				for(TridasFile file : project.getFiles() )
+				{
+					values.add(file.getHref());
+				}
+				
+				output.put("project.files", gson.toJson(values));
+			}
+		} catch (NullPointerException e)
+		{
+			output.put("project.files", null);
+		}
+		
+		// Laboratory missing
+		
+		try{
+			output.put("project.category", gson.toJson(TridasUtils.controlledVocToString(project.getCategory())));
+		} catch (NullPointerException e)
+		{
+			output.put("project.category", null);
+		}
+		
+		try{
+			output.put("project.investigator", gson.toJson(project.getInvestigator()));
+		} catch (NullPointerException e)
+		{
+			output.put("project.investigator", null);
+		}
+		
+		try{
+			output.put("project.period", gson.toJson(project.getPeriod()));
+		} catch (NullPointerException e)
+		{
+			output.put("project.period", null);
+		}
+		
+		try{
+			output.put("project.requestdate", gsondate.toJson(project.getRequestDate()));
+		} catch (NullPointerException e)
+		{
+			output.put("project.requestdate", null);
+		}
+		
+		try{
+			output.put("project.commissioner", gson.toJson(project.getCommissioner()));
+		} catch (NullPointerException e)
+		{
+			output.put("project.commissioner", null);
+		}
+		
+		// Reference missing
+
+		
+		// Research missing
+
 	}
 	
 	@SuppressWarnings("unchecked")
 	private void writeObjectToJSON(JSONObject output, TridasObject object)
 	{
-		Gson gson = new Gson();
-
 		writeTridasEntityToJSON(output, object);
+		
+		try{
+			output.put("object.type", gson.toJson(TridasUtils.controlledVocToString(object.getType())));
+		} catch (NullPointerException e)
+		{
+			output.put("object.type", null);
+		}
 		
 		try{
 			output.put("object.description", gson.toJson(object.getDescription()));
@@ -228,14 +322,474 @@ public class TridasJSONFile implements IDendroFile {
 		{
 			output.put("object.description", null);
 		}
+		
+		// Link series missing
+		
+		try{
+			if(object.isSetFiles())
+			{
+				ArrayList<String> values = new ArrayList<String>();
+				
+				for(TridasFile file : object.getFiles() )
+				{
+					values.add(file.getHref());
+				}
+				
+				output.put("object.files", gson.toJson(values));
+			}
+		} catch (NullPointerException e)
+		{
+			output.put("object.files", null);
+		}
+		
+		try{
+			output.put("object.owner", gson.toJson(object.getOwner()));
+		} catch (NullPointerException e)
+		{
+			output.put("object.owner", null);
+		}
+		
+		try{
+			output.put("object.creator", gson.toJson(object.getCreator()));
+		} catch (NullPointerException e)
+		{
+			output.put("object.creator", null);
+		}
+		
+		try{
+			output.put("object.coverage.coverageTemporal", gson.toJson(object.getCoverage().getCoverageTemporal()));
+		} catch (NullPointerException e)
+		{
+			output.put("object.coverage.coverageTemporal", null);
+		}
+		
+		try{
+			output.put("object.coverage.coverageTemporalFoundation", gson.toJson(object.getCoverage().getCoverageTemporalFoundation()));
+		} catch (NullPointerException e)
+		{
+			output.put("object.coverage.coverageTemporalFoundation", null);
+		}
+		
+		
+		TridasLocation location = null;
+		if(object.isSetLocation())
+		{
+			location = object.getLocation();
+		}	
+		writeLocationToJSON(output, location, "object");
+		
+		
+	}
+	
+	@SuppressWarnings("unchecked")
+	private void writeElementToJSON(JSONObject output, TridasElement element)
+	{
+		writeTridasEntityToJSON(output, element);
+		
+		try{
+			output.put("element.type", gson.toJson(TridasUtils.controlledVocToString(element.getType())));
+		} catch (NullPointerException e)
+		{
+			output.put("element.type", null);
+		}
+		
+		try{
+			output.put("element.description", gson.toJson(element.getDescription()));
+		} catch (NullPointerException e)
+		{
+			output.put("element.description", null);
+		}
+		
+		// LinkSeries missing
+		
+		try{
+			if(element.isSetFiles())
+			{
+				ArrayList<String> values = new ArrayList<String>();
+				
+				for(TridasFile file : element.getFiles() )
+				{
+					values.add(file.getHref());
+				}
+				
+				output.put("element.files", gson.toJson(values));
+			}
+		} catch (NullPointerException e)
+		{
+			output.put("element.files", null);
+		}
+		
+		try{
+			output.put("element.taxon", gson.toJson(TridasUtils.controlledVocToString(element.getTaxon())));
+		} catch (NullPointerException e)
+		{
+			output.put("element.taxon", null);
+		}
+		
+		try{
+			output.put("element.shape", gson.toJson(TridasUtils.controlledVocToString(element.getShape())));
+		} catch (NullPointerException e)
+		{
+			output.put("element.shape", null);
+		}
+		
+		try{
+			output.put("element.dimensions.unit", gson.toJson(TridasUtils.controlledVocToString(element.getDimensions().getUnit())));
+		} catch (NullPointerException e)
+		{
+			output.put("element.dimensions.unit", null);
+		}
+		
+		try{
+			output.put("element.dimensions.height", gson.toJson(element.getDimensions().getHeight()));
+		} catch (NullPointerException e)
+		{
+			output.put("element.dimensions.height", null);
+		}
+		
+		try{
+			output.put("element.dimensions.diameter", gson.toJson(element.getDimensions().getDiameter()));
+		} catch (NullPointerException e)
+		{
+			output.put("element.dimensions.diameter", null);
+		}
+		
+		try{
+			output.put("element.dimensions.width", gson.toJson(element.getDimensions().getWidth()));
+		} catch (NullPointerException e)
+		{
+			output.put("element.dimensions.width", null);
+		}
+		
+		try{
+			output.put("element.dimensions.depth", gson.toJson(element.getDimensions().getDepth()));
+		} catch (NullPointerException e)
+		{
+			output.put("element.dimensions.depth", null);
+		}
+		
+		try{
+			output.put("element.authenticity", gson.toJson(element.getAuthenticity()));
+		} catch (NullPointerException e)
+		{
+			output.put("element.authenticity", null);
+		}
+		
+		TridasLocation location = null;
+		if(element.isSetLocation())
+		{
+			location = element.getLocation();
+		}	
+		writeLocationToJSON(output, location, "element");
+		
+		try{
+			output.put("element.processing", gson.toJson(element.getProcessing()));
+		} catch (NullPointerException e)
+		{
+			output.put("element.processing", null);
+		}
+		
+		try{
+			output.put("element.marks", gson.toJson(element.getMarks()));
+		} catch (NullPointerException e)
+		{
+			output.put("element.marks", null);
+		}
+		
+		try{
+			output.put("element.altitude", gson.toJson(element.getAltitude()));
+		} catch (NullPointerException e)
+		{
+			output.put("element.altitude", null);
+		}
+		
+		try{
+			output.put("element.slope.angle", gson.toJson(element.getSlope().getAngle()));
+		} catch (NullPointerException e)
+		{
+			output.put("element.slope.angle", null);
+		}
+		
+		try{
+			output.put("element.slope.azimuth", gson.toJson(element.getSlope().getAzimuth()));
+		} catch (NullPointerException e)
+		{
+			output.put("element.slope.azimuth", null);
+		}
+		
+		try{
+			output.put("element.soil.description", gson.toJson(element.getSoil().getDescription()));
+		} catch (NullPointerException e)
+		{
+			output.put("element.soil.description", null);
+		}
+		
+		try{
+			output.put("element.soil.depth", gson.toJson(element.getSoil().getDepth()));
+		} catch (NullPointerException e)
+		{
+			output.put("element.soil.depth", null);
+		}
+		
+		try{
+			output.put("element.bedrock.description", gson.toJson(element.getBedrock().getDescription()));
+		} catch (NullPointerException e)
+		{
+			output.put("element.bedrock.description", null);
+		}
+
+	}
+	
+	@SuppressWarnings("unchecked")
+	private void writeSampleToJSON(JSONObject output, TridasSample sample)
+	{
+		writeTridasEntityToJSON(output, sample);
+		
+		try{
+			output.put("sample.type", gson.toJson(TridasUtils.controlledVocToString(sample.getType())));
+		} catch (NullPointerException e)
+		{
+			output.put("sample.type", null);
+		}
+		
+		try{
+			output.put("sample.description", gson.toJson(sample.getDescription()));
+		} catch (NullPointerException e)
+		{
+			output.put("sample.description", null);
+		}
+			
+		try{
+			if(sample.isSetFiles())
+			{
+				ArrayList<String> values = new ArrayList<String>();
+				
+				for(TridasFile file : sample.getFiles() )
+				{
+					values.add(file.getHref());
+				}
+				
+				output.put("sample.files", gson.toJson(values));
+			}
+		} catch (NullPointerException e)
+		{
+			output.put("sample.files", null);
+		}
+		
+		try{
+			output.put("sample.samplingdate", gsondate.toJson(sample.getSamplingDate()));
+		} catch (NullPointerException e)
+		{
+			output.put("sample.samplingdate", null);
+		}
+		
+		try{
+			output.put("sample.position", gson.toJson(sample.getPosition()));
+		} catch (NullPointerException e)
+		{
+			output.put("sample.position", null);
+		}
+		
+		try{
+			output.put("sample.state", gson.toJson(sample.getState()));
+		} catch (NullPointerException e)
+		{
+			output.put("sample.state", null);
+		}
+		
+		try{
+			output.put("sample.knots", gson.toJson(sample.isKnots()));
+		} catch (NullPointerException e)
+		{
+			output.put("sample.knots", null);
+		}
+	}
+	
+	@SuppressWarnings("unchecked")
+	private void writeRadiusToJSON(JSONObject output, TridasRadius radius)
+	{
+		
+		// Deliberately missing ring count
+		// Deliberately missing average ring width
+		
+		try{
+			output.put("radius.woodcompleteness.nrofunmeasuredinnerrings", gson.toJson(radius.getWoodCompleteness().getNrOfUnmeasuredInnerRings()));
+		} catch (NullPointerException e)
+		{
+			output.put("radius.woodcompleteness.nrofunmeasuredinnerrings", null);
+		}
+		
+		try{
+			output.put("radius.woodcompleteness.nrofunmeasuredouterrings", gson.toJson(radius.getWoodCompleteness().getNrOfUnmeasuredOuterRings()));
+		} catch (NullPointerException e)
+		{
+			output.put("radius.woodcompleteness.nrofunmeasuredouterrings", null);
+		}
+		
+		try{
+			output.put("radius.woodcompleteness.pith", gson.toJson(radius.getWoodCompleteness().getPith().getPresence().toString()));
+		} catch (NullPointerException e)
+		{
+			output.put("radius.woodcompleteness.pith", null);
+		}
+		
+		try{
+			output.put("radius.woodcompleteness.heartwood", gson.toJson(radius.getWoodCompleteness().getHeartwood().getPresence().toString()));
+		} catch (NullPointerException e)
+		{
+			output.put("radius.woodcompleteness.heartwood", null);
+		}
+		
+		try{
+			output.put("radius.woodcompleteness.heartwood.missingheartwoodringstopith", gson.toJson(radius.getWoodCompleteness().getHeartwood().getMissingHeartwoodRingsToPith()));
+		} catch (NullPointerException e)
+		{
+			output.put("radius.woodcompleteness.heartwood.missingheartwoodringstopith", null);
+		}
+
+		try{
+			output.put("radius.woodcompleteness.heartwood.missingheartwoodringstopithfoundation", gson.toJson(radius.getWoodCompleteness().getHeartwood().getMissingHeartwoodRingsToPithFoundation()));
+		} catch (NullPointerException e)
+		{
+			output.put("radius.woodcompleteness.heartwood.missingheartwoodringstopithfoundation", null);
+		}
+
+		try{
+			output.put("radius.woodcompleteness.sapwood", gson.toJson(radius.getWoodCompleteness().getSapwood().getPresence().toString()));
+		} catch (NullPointerException e)
+		{
+			output.put("radius.woodcompleteness.sapwood", null);
+		}
+		
+		try{
+			output.put("radius.woodcompleteness.sapwood.nrofsapwoodrings", gson.toJson(radius.getWoodCompleteness().getSapwood().getNrOfSapwoodRings()));
+		} catch (NullPointerException e)
+		{
+			output.put("radius.woodcompleteness.sapwood.nrofsapwoodrings", null);
+		}
+		
+		try{
+			output.put("radius.woodcompleteness.sapwood.lastringunderbark", gson.toJson(radius.getWoodCompleteness().getSapwood().getLastRingUnderBark().toString()));
+		} catch (NullPointerException e)
+		{
+			output.put("radius.woodcompleteness.sapwood.lastringunderbark", null);
+		}
+		
+		try{
+			output.put("radius.woodcompleteness.sapwood.missingsapwoodringstobark", gson.toJson(radius.getWoodCompleteness().getSapwood().getMissingSapwoodRingsToBark()));
+		} catch (NullPointerException e)
+		{
+			output.put("radius.woodcompleteness.sapwood.missingsapwoodringstobark", null);
+		}
+		
+		try{
+			output.put("radius.woodcompleteness.sapwood.missingsapwoodringstobarkfoundation", gson.toJson(radius.getWoodCompleteness().getSapwood().getMissingSapwoodRingsToBarkFoundation()));
+		} catch (NullPointerException e)
+		{
+			output.put("radius.woodcompleteness.sapwood.missingsapwoodringstobarkfoundation", null);
+		}
+		
+		try{
+			output.put("radius.woodcompleteness.bark", gson.toJson(radius.getWoodCompleteness().getBark().getPresence().toString()));
+		} catch (NullPointerException e)
+		{
+			output.put("radius.woodcompleteness.bark", null);
+		}
+		
+		try{
+			output.put("radius.azimuth", gson.toJson(radius.getAzimuth()));
+		} catch (NullPointerException e)
+		{
+			output.put("radius.azimuth", null);
+		}
+	}
+	
+	@SuppressWarnings("unchecked")
+	private void writeLocationToJSON(JSONObject output, TridasLocation location, String prefix)
+	{	
+		try{
+			GMLPointSRSHandler tph = new GMLPointSRSHandler(location.getLocationGeometry().getPoint());
+			output.put(prefix+".location.latitude", gson.toJson(tph.getWGS84LatCoord()));
+		} catch (NullPointerException e)
+		{
+			output.put(prefix+".location.latitude", null);
+		}
+		
+		try{
+			GMLPointSRSHandler tph = new GMLPointSRSHandler(location.getLocationGeometry().getPoint());
+			output.put(prefix+".location.longitude", gson.toJson(tph.getWGS84LongCoord()));
+		} catch (NullPointerException e)
+		{
+			output.put(prefix+".location.longitude", null);
+		}
+		
+		try{
+			output.put(prefix+".location.locationtype", gson.toJson(location.getLocationType().toString()));
+		} catch (NullPointerException e)
+		{
+			output.put(prefix+".location.locationtype", null);
+		}
+		
+		try{
+			output.put(prefix+".location.locationprecision", gson.toJson(location.getLocationPrecision()));
+		} catch (NullPointerException e)
+		{
+			output.put(prefix+".location.locationprecision", null);
+		}
+		
+		try{
+			output.put(prefix+".location.locationcomment", gson.toJson(location.getLocationComment()));
+		} catch (NullPointerException e)
+		{
+			output.put(prefix+".location.locationcomment", null);
+		}
+		
+		try{
+			output.put(prefix+".location.address.addressline1", gson.toJson(location.getAddress().getAddressLine1()));
+		} catch (NullPointerException e)
+		{
+			output.put(prefix+".location.address.addressline1", null);
+		}
+		
+		try{
+			output.put(prefix+".location.address.addressline2", gson.toJson(location.getAddress().getAddressLine2()));
+		} catch (NullPointerException e)
+		{
+			output.put(prefix+".location.address.addressline2", null);
+		}
+		
+		try{
+			output.put(prefix+".location.address.cityortown", gson.toJson(location.getAddress().getCityOrTown()));
+		} catch (NullPointerException e)
+		{
+			output.put(prefix+".location.address.cityortown", null);
+		}
+		
+		try{
+			output.put(prefix+".location.address.stateprovinceregion", gson.toJson(location.getAddress().getStateProvinceRegion()));
+		} catch (NullPointerException e)
+		{
+			output.put(prefix+".location.address.stateprovinceregion", null);
+		}
+		
+		try{
+			output.put(prefix+".location.address.postalcode", gson.toJson(location.getAddress().getPostalCode()));
+		} catch (NullPointerException e)
+		{
+			output.put(prefix+".location.address.postalcode", null);
+		}
+		
+		try{
+			output.put(prefix+".location.address.country", gson.toJson(location.getAddress().getCountry()));
+		} catch (NullPointerException e)
+		{
+			output.put(prefix+".location.address.country", null);
+		}
 	}
 	
 	@SuppressWarnings("unchecked")
 	private void writeMeasurementSeriesToJSON(JSONObject output, TridasMeasurementSeries measurementseries)
 	{
-		Gson gson = new Gson();
-		Gson gsondate = new GsonBuilder().setDateFormat("yyyy-MM-dd'T'HH:mm:ss.SSS'Z'").create();
-
 		try{
 			output.put("measurementseries.title", gson.toJson(measurementseries.getTitle()));
 		} catch (NullPointerException e)
@@ -292,22 +846,37 @@ public class TridasJSONFile implements IDendroFile {
 		
 		JSONObject root = new JSONObject();
 
+		String labcode = "";
 		for(TridasProject project : projects)
 		{
 			
 			for(TridasObject object : project.getObjects())
 			{
+				try{
+					labcode = TridasUtils.getGenericFieldByName(object, "tellervo.objectLabCode").getValue();
+				} catch (NullPointerException e)
+				{
+					labcode = object.getTitle();
+				}
+				
 				for(TridasElement element : object.getElements())
 				{
+					labcode+="-"+element.getTitle();
 					for(TridasSample sample : element.getSamples())
 					{
+						labcode+="-"+sample.getTitle();
 						for(TridasRadius radius : sample.getRadiuses())
 						{
+							labcode+="-"+radius.getTitle();
 							for(TridasMeasurementSeries measurementseries : radius.getMeasurementSeries())
 							{
+								labcode+="-"+measurementseries.getTitle();
 								JSONObject output = new JSONObject();
 								writeProjectToJSON(output, project);
 								writeObjectToJSON(output, object);
+								writeElementToJSON(output, element);
+								writeSampleToJSON(output, sample);
+								writeRadiusToJSON(output, radius);
 								writeMeasurementSeriesToJSON(output, measurementseries);
 								for( TridasValues valuesgroup : measurementseries.getValues())
 								{
@@ -328,7 +897,7 @@ public class TridasJSONFile implements IDendroFile {
 									
 								}	
 								
-								root.put(measurementseries.getTitle(), output);
+								root.put(labcode, output);
 								gotData = true;
 							}	
 						}	
