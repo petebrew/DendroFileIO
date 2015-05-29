@@ -26,7 +26,6 @@ import javax.xml.bind.Marshaller;
 import javax.xml.validation.Schema;
 import javax.xml.validation.SchemaFactory;
 
-import org.json.simple.JSONArray;
 import org.json.simple.JSONObject;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -37,15 +36,14 @@ import org.tridas.io.TridasIO;
 import org.tridas.io.TridasNamespacePrefixMapper;
 import org.tridas.io.defaults.IMetadataFieldSet;
 import org.tridas.io.exceptions.ImpossibleConversionException;
-import org.tridas.io.formats.heidelberg.HeidelbergToTridasDefaults.DefaultFields;
 import org.tridas.io.transform.TridasVersionTransformer.TridasVersion;
 import org.tridas.io.util.IOUtils;
 import org.tridas.io.util.TridasUtils;
 import org.tridas.schema.ControlledVoc;
-import org.tridas.schema.NormalTridasVariable;
 import org.tridas.schema.TridasElement;
 import org.tridas.schema.TridasEntity;
 import org.tridas.schema.TridasFile;
+import org.tridas.schema.TridasLaboratory;
 import org.tridas.schema.TridasLocation;
 import org.tridas.schema.TridasMeasurementSeries;
 import org.tridas.schema.TridasObject;
@@ -155,6 +153,12 @@ public class TridasJSONFile implements IDendroFile {
 	@SuppressWarnings("unchecked")
 	private void writeTridasEntityToJSON(JSONObject output, TridasEntity entity)
 	{
+		writeTridasEntityToJSON(output, entity, null);
+	}
+	
+	@SuppressWarnings("unchecked")
+	private void writeTridasEntityToJSON(JSONObject output, TridasEntity entity, Integer level)
+	{
 		String prefix = "";
 		
 		if(entity instanceof TridasProject)
@@ -164,6 +168,10 @@ public class TridasJSONFile implements IDendroFile {
 		else if(entity instanceof TridasObject)
 		{
 			prefix = "object";
+			if(level!=null && level>0)
+			{
+				prefix+="["+level+"]";
+			}
 		}
 		else if(entity instanceof TridasElement)
 		{
@@ -260,7 +268,28 @@ public class TridasJSONFile implements IDendroFile {
 			output.put("project.files", null);
 		}
 		
-		// Laboratory missing
+		try{
+			ArrayList<String> labs = new ArrayList<String>();
+			for(TridasLaboratory lab : project.getLaboratories())
+			{
+				String  str =lab.getName().getValue();
+				if(lab.getName().isSetAcronym()) str += "("+lab.getName().getAcronym()+")";
+				labs.add(str);
+			}
+			
+			if(labs.size()>0)
+			{
+				output.put("project.laboratories", gson.toJson(labs));
+			}
+			else
+			{
+				output.put("project.laboratories", null);
+			}
+		} catch (NullPointerException e)
+		{
+			output.put("project.laboratories", null);
+		}
+
 		
 		try{
 			output.put("project.category", gson.toJson(TridasUtils.controlledVocToString(project.getCategory())));
@@ -297,7 +326,21 @@ public class TridasJSONFile implements IDendroFile {
 			output.put("project.commissioner", null);
 		}
 		
-		// Reference missing
+		try{
+						
+			if(project.getReferences().size()>0)
+			{
+				output.put("project.references", gson.toJson(project.getReferences()));
+			}
+			else
+			{
+				output.put("project.references", null);
+			}
+		} catch (NullPointerException e)
+		{
+			output.put("project.references", null);
+		}
+
 
 		
 		// Research missing
@@ -307,7 +350,13 @@ public class TridasJSONFile implements IDendroFile {
 	@SuppressWarnings("unchecked")
 	private void writeObjectToJSON(JSONObject output, TridasObject object)
 	{
-		writeTridasEntityToJSON(output, object);
+		writeObjectToJSON(output, object, 0);
+	}
+	
+	@SuppressWarnings("unchecked")
+	private void writeObjectToJSON(JSONObject output, TridasObject object, Integer level)
+	{
+		writeTridasEntityToJSON(output, object, level);
 		
 		try{
 			output.put("object.type", gson.toJson(TridasUtils.controlledVocToString(object.getType())));
@@ -377,6 +426,15 @@ public class TridasJSONFile implements IDendroFile {
 			location = object.getLocation();
 		}	
 		writeLocationToJSON(output, location, "object");
+		
+		if(object.isSetObjects())
+		{
+			for(TridasObject o : object.getObjects())
+			{
+				level++;
+				writeObjectToJSON(output, o, level);
+			}
+		}
 		
 		
 	}
@@ -577,7 +635,7 @@ public class TridasJSONFile implements IDendroFile {
 		}
 		
 		try{
-			output.put("sample.samplingdate", gsondate.toJson(sample.getSamplingDate()));
+			output.put("sample.samplingdate", gsondate.toJson(sample.getSamplingDate().getValue().toGregorianCalendar().getTime()));
 		} catch (NullPointerException e)
 		{
 			output.put("sample.samplingdate", null);
@@ -859,7 +917,9 @@ public class TridasJSONFile implements IDendroFile {
 					labcode = object.getTitle();
 				}
 				
-				for(TridasElement element : object.getElements())
+				ArrayList<TridasElement> elementList = TridasUtils.getElementList(object);
+				
+				for(TridasElement element : elementList)
 				{
 					labcode+="-"+element.getTitle();
 					for(TridasSample sample : element.getSamples())
@@ -871,13 +931,7 @@ public class TridasJSONFile implements IDendroFile {
 							for(TridasMeasurementSeries measurementseries : radius.getMeasurementSeries())
 							{
 								labcode+="-"+measurementseries.getTitle();
-								JSONObject output = new JSONObject();
-								writeProjectToJSON(output, project);
-								writeObjectToJSON(output, object);
-								writeElementToJSON(output, element);
-								writeSampleToJSON(output, sample);
-								writeRadiusToJSON(output, radius);
-								writeMeasurementSeriesToJSON(output, measurementseries);
+
 								for( TridasValues valuesgroup : measurementseries.getValues())
 								{
 									
@@ -886,19 +940,73 @@ public class TridasJSONFile implements IDendroFile {
 									{
 										data.add(Integer.parseInt(value.getValue()));
 									}
-									
-									/*if(valuesgroup.getVariable().getNormalTridas().equals(NormalTridasVariable.RING_WIDTH))
+
+									JSONObject output = new JSONObject();
+									writeProjectToJSON(output, project);
+									writeObjectToJSON(output, object);
+									writeElementToJSON(output, element);
+									writeSampleToJSON(output, sample);
+									writeRadiusToJSON(output, radius);
+									writeMeasurementSeriesToJSON(output, measurementseries);
+									String variable = "";
+									if(valuesgroup.isSetVariable())
 									{
-										output.put("ring-widths", data);
-									}*/
-									 
+										if(valuesgroup.getVariable().isSetNormalTridas())
+										{
+											if(measurementseries.getValues().size()>1) {
+												labcode+="-"+valuesgroup.getVariable().getNormalTridas().value();
+												variable = "-"+valuesgroup.getVariable().getNormalTridas().value();
+											}
+											output.put("measurementseries.values.variable", valuesgroup.getVariable().getNormalTridas().value());
+										}
+										else if (valuesgroup.getVariable().isSetNormal())
+										{
+											if(measurementseries.getValues().size()>1) {
+												labcode+="-"+valuesgroup.getVariable().getNormal();
+												variable = "-"+valuesgroup.getVariable().getNormal();
+											}
+											output.put("measurementseries.values.variable", valuesgroup.getVariable().getNormal());
+										}
+										else
+										{
+											if(measurementseries.getValues().size()>1) {
+												labcode+="-"+valuesgroup.getVariable().getValue();
+												variable = "-"+valuesgroup.getVariable().getValue();
+											}
+											output.put("measurementseries.values.variable", valuesgroup.getVariable().getValue());
+										}
+
+									}
+									else
+									{
+										output.put("measurementseries.values.variable", "unknown");
+
+									}
 									
-									output.put("ring-widths", data);
+									if(valuesgroup.isSetUnit())
+									{
+										if(valuesgroup.getUnit().isSetNormalTridas())
+										{
+											output.put("measurementseries.values.units", valuesgroup.getUnit().getNormalTridas().value());
+										}
+										else if (valuesgroup.getUnit().isSetNormal()){
+											output.put("measurementseries.values.units", valuesgroup.getUnit().getNormal().toString());
+										}
+										else{
+											output.put("measurementseries.values.units", valuesgroup.getUnit().getValue().toString());
+										}
+										
+									}
+									else
+									{
+										output.put("measurementseries.units", "unitless");
+									}
+									
+									output.put("measurementseries.values", data);
+									root.put(measurementseries.getIdentifier().getValue()+variable, output);
+									gotData = true;
 									
 								}	
-								
-								root.put(labcode, output);
-								gotData = true;
 							}	
 						}	
 					}	
