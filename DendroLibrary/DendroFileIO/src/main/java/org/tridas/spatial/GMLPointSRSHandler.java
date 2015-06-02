@@ -55,6 +55,16 @@ public class GMLPointSRSHandler  {
 	}
 	
 	/**
+	 * Whether there is point data 
+	 * 
+	 * @return
+	 */
+	public boolean hasPointData()
+	{
+		return point!=null;
+	}
+	
+	/**
 	 * Standard constructor.  Takes a GML PointType.
 	 * @param point
 	 * @throws ProjectionException
