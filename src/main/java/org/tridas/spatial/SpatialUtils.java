@@ -45,7 +45,7 @@ public class SpatialUtils {
 	// the correct URN style
 	
 	// Full URN requires coordinates in y,x or lat,long order
-	//public static String WGS84_FULL_URN = "urn:ogc:def:crs:EPSG:6.6:4326";
+	public static String WGS84_FULL_URN = "urn:ogc:def:crs:EPSG:6.6:4326";
 	
 	// Simplified reference requires coordinates in x,y or long,lat order
 	public static String WGS84 = "EPSG:4326";
@@ -191,15 +191,41 @@ public class SpatialUtils {
 	}
 	
 	/**
-	 * Create a TridasLocationGeometry from decimal latitude and longitudes in WGS84
+	 * Create a TridasLocationGeometry from decimal latitude and longitudes in WGS84.  GML returned
+	 * uses the sort WGS84 style URI for the coordinate system.
 	 * 
 	 * @param latitude
 	 * @param longitude
 	 * @return
 	 */
 	public static TridasLocationGeometry getWGS84LocationGeometry(Double latitude, Double longitude) {
+	
+		return getWGS84LocationGeometry(latitude, longitude, false);
+	}
+	
+	/**
+	 * Create a TridasLocationGeometry from decimal latitude and longitudes in WGS84.  The URI used for the 
+	 * coordinate system depends on whether fullCRSURI is true or false 
+	 * 
+	 * @param latitude
+	 * @param longitude
+	 * @param fullCRSURI
+	 * @return
+	 */
+	public static TridasLocationGeometry getWGS84LocationGeometry(Double latitude, Double longitude, boolean fullCRSURI) {
+
 		if (latitude == null || longitude == null) {
 			return null;
+		}
+		
+		if(latitude>90 || latitude<-90)
+		{
+			throw new NumberFormatException("Latitude must be between -90 and 90.");
+		}
+		
+		if(longitude>180 || longitude<-180)
+		{
+			throw new NumberFormatException("Longitude must be between -180 and 180.");
 		}
 		
 		Pos pos = new Pos();
@@ -209,15 +235,20 @@ public class SpatialUtils {
 		PointType point = new PointType();
 		
 		
-		// Lat,Long order when using full URN coordinate reference
-		//point.setSrsName(SpatialUtils.WGS84_FULL_URN);
-		//values.add(latitude);
-		//values.add(longitude);
-
-		// Long,Lat order when using simplied WGS84 coordinate reference
-		point.setSrsName(SpatialUtils.WGS84);
-		values.add(longitude);
-		values.add(latitude);
+		if(fullCRSURI)
+		{
+			// Lat,Long order when using full URN coordinate reference
+			point.setSrsName(SpatialUtils.WGS84_FULL_URN);
+			values.add(latitude);
+			values.add(longitude);
+		}
+		else
+		{
+			// Long,Lat order when using simplied WGS84 coordinate reference
+			point.setSrsName(SpatialUtils.WGS84);
+			values.add(longitude);
+			values.add(latitude);
+		}
 		
 		pos.setValues(values);
 		

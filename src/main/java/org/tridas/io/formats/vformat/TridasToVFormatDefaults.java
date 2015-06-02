@@ -439,11 +439,14 @@ public class TridasToVFormatDefaults extends AbstractMetadataFieldSet implements
 		if(location.isSetLocationGeometry())
 		{	
 			try{
-				List<Double> points = null;
-				points = location.getLocationGeometry().getPoint().getPos().getValues();
-				if(points.size()!=2) { return;}
-				getDoubleDefaultValue(DefaultFields.LATITUDE).setValue(points.get(0));
-				getDoubleDefaultValue(DefaultFields.LONGITUDE).setValue(points.get(1));
+				
+				GMLPointSRSHandler tph = new GMLPointSRSHandler(location.getLocationGeometry().getPoint());
+				
+				if(tph.hasPointData())
+				{
+					getDoubleDefaultValue(DefaultFields.LATITUDE).setValue(tph.getWGS84LatCoord());
+					getDoubleDefaultValue(DefaultFields.LONGITUDE).setValue(tph.getWGS84LongCoord());
+				}
 			} catch (Exception ex){	}
 		}
 		
