@@ -62,13 +62,11 @@ import com.google.gson.JsonElement;
 import com.google.gson.JsonParser;
 
 /**
- * The TRiDaS file format is our standard format <h3>Reference</h3>
- * <p>
- * See the <a href="http://www.tridas.org">Tree Ring Data Standard</a> website for futher
- * information.
- * </p>
+ * TRiDaS JSON is a simplified (flattened) form of TRiDaS in JSON notation.  It is aimed primarily 
+ * at users of dendro data in stats/scripting environments such as R.
  * 
- * @author peterbrewer
+ * @author pbrewer
+ *
  */
 public class TridasJSONFile implements IDendroFile {
 	
