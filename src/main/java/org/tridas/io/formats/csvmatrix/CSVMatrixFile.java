@@ -21,7 +21,7 @@ public class CSVMatrixFile implements IDendroFile {
 
 	private TridasToMatrixDefaults defaults = new TridasToMatrixDefaults();
 	private ArrayList<MatrixSeries> seriesList = new ArrayList<MatrixSeries>();
-	private YearRange fileYearRange;
+	protected YearRange fileYearRange;
 	
 	public CSVMatrixFile()
 	{
