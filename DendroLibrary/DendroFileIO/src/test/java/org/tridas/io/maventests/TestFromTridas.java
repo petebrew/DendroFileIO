@@ -36,6 +36,7 @@ import org.tridas.io.formats.corina.CorinaWriter;
 import org.tridas.io.formats.csvmatrix.CSVMatrixWriter;
 import org.tridas.io.formats.excelmatrix.ExcelMatrixWriter;
 import org.tridas.io.formats.heidelberg.HeidelbergWriter;
+import org.tridas.io.formats.lipd.LiPDWriter;
 import org.tridas.io.formats.nottingham.NottinghamWriter;
 import org.tridas.io.formats.odfmatrix.ODFMatrixWriter;
 import org.tridas.io.formats.ooxml.OOXMLWriter;
@@ -282,6 +283,17 @@ public class TestFromTridas extends TestCase {
 
 		try {
 			genericTest(TridasReader.class, TridasJSONWriter.class);
+		} catch (InstantiationException e) {
+			fail();
+		} catch (IllegalAccessException e) {
+			fail();
+		}
+	}
+	
+	public void testTridasToLiPD() {
+
+		try {
+			genericTest(TridasReader.class, LiPDWriter.class);
 		} catch (InstantiationException e) {
 			fail();
 		} catch (IllegalAccessException e) {
