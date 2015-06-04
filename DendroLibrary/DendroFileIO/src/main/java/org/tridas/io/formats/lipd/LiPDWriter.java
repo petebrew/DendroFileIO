@@ -17,18 +17,13 @@ package org.tridas.io.formats.lipd;
 
 import java.util.ArrayList;
 
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
-import org.tridas.io.AbstractDendroCollectionWriter;
 import org.tridas.io.IDendroFile;
 import org.tridas.io.defaults.IMetadataFieldSet;
-import org.tridas.io.defaults.TridasMetadataFieldSet;
 import org.tridas.io.exceptions.ConversionWarningException;
 import org.tridas.io.exceptions.ImpossibleConversionException;
-import org.tridas.io.formats.catras.CatrasFile;
 import org.tridas.io.formats.csvmatrix.TridasToMatrixDefaults;
-import org.tridas.io.naming.INamingConvention;
-import org.tridas.io.naming.NumericalNamingConvention;
+import org.tridas.io.formats.lipdmetadata.LiPDMetadataFile;
+import org.tridas.io.formats.lipdmetadata.LiPDMetadataWriter;
 import org.tridas.io.util.FileHelper;
 import org.tridas.io.util.FilePermissionException;
 import org.tridas.io.util.TridasUtils;
@@ -38,7 +33,6 @@ import org.tridas.schema.TridasObject;
 import org.tridas.schema.TridasProject;
 import org.tridas.schema.TridasRadius;
 import org.tridas.schema.TridasSample;
-import org.tridas.schema.TridasTridas;
 import org.tridas.schema.TridasValues;
 
 /**
@@ -46,35 +40,15 @@ import org.tridas.schema.TridasValues;
  * 
  * @author peterbrewer
  */
-public class LiPDWriter extends AbstractDendroCollectionWriter {
-	private static final Logger log = LoggerFactory.getLogger(LiPDWriter.class);
+public class LiPDWriter extends LiPDMetadataWriter{
 
-	private INamingConvention naming = new NumericalNamingConvention();
 	
 	public LiPDWriter()
 	{
-		super(TridasMetadataFieldSet.class, new LiPDFormat());
+		super(TridasToLiPDDefaults.class, new LiPDFormat());
 	}
 		
-	@Override
-	public void parseTridasContainer(TridasTridas argContainer,
-			IMetadataFieldSet argDefaults)
-			throws ImpossibleConversionException, ConversionWarningException {
-		
-		if (argContainer == null) {
-			throw new ImpossibleConversionException("Tridas container is null!");
-			
-		}
 
-		for(TridasProject project : argContainer.getProjects())
-		{
-			parseTridasProject(project, argDefaults);
-		}
-		 
-	
-		
-	}
-	
 	@Override
 	public void parseTridasProject(TridasProject p, IMetadataFieldSet argDefaults)
 			throws ImpossibleConversionException, ConversionWarningException {
@@ -131,33 +105,8 @@ public class LiPDWriter extends AbstractDendroCollectionWriter {
 
 	}
 	
-	/**
-	 * @see org.tridas.io.IDendroCollectionWriter#getNamingConvention()
-	 */
 	@Override
-	public INamingConvention getNamingConvention() {
-		return naming;
-	}
-	
-	/**
-	 * @see org.tridas.io.IDendroCollectionWriter#setNamingConvention(org.tridas.io.naming.INamingConvention)
-	 */
-	@Override
-	public void setNamingConvention(INamingConvention argConvension) {
-		naming = argConvension;
-	}
-	
-	/**
-	 * @see org.tridas.io.IDendroCollectionWriter#getDefaults()
-	 */
-	@Override
-	public IMetadataFieldSet getDefaults() {
-		return null;
-	}
-	
-	
-	@Override
-	public void saveFileToDisk(String argOutputFolder, String argFilename, IDendroFile argFile) throws FilePermissionException {
+	protected void saveFileToDisk(String argOutputFolder, String argFilename, IDendroFile argFile) throws FilePermissionException, Exception {
 		
 		FileHelper helper;
 		
@@ -177,6 +126,5 @@ public class LiPDWriter extends AbstractDendroCollectionWriter {
 			log.error("Error saving file to disk", e);
 		} 
 	}
-	
 
 }

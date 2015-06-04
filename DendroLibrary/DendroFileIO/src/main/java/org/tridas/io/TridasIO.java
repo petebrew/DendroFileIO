@@ -57,6 +57,7 @@ import org.tridas.io.formats.heikkenensingle.HeikkenenSingleReader;
 import org.tridas.io.formats.heikkenensingle.HeikkenenSingleWriter;
 import org.tridas.io.formats.kinsys.KinsysReader;
 import org.tridas.io.formats.lipd.LiPDWriter;
+import org.tridas.io.formats.lipdmetadata.LiPDMetadataWriter;
 import org.tridas.io.formats.nottingham.NottinghamReader;
 import org.tridas.io.formats.nottingham.NottinghamWriter;
 import org.tridas.io.formats.odfmatrix.ODFMatrixReader;
@@ -157,6 +158,7 @@ public class TridasIO {
 		registerFileWriter(HeidelbergUnstackedWriter.class);
 		registerFileWriter(HeikkenenSingleWriter.class);
 		registerFileWriter(LiPDWriter.class);
+		registerFileWriter(LiPDMetadataWriter.class);
 		registerFileWriter(NottinghamWriter.class);
 		registerFileWriter(ODFMatrixWriter.class);
 		registerFileWriter(OOXMLWriter.class);
