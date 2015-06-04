@@ -16,7 +16,6 @@
 package org.tridas.io.formats.lipd;
 
 import java.io.ByteArrayInputStream;
-import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.OutputStream;
 import java.io.StringWriter;
@@ -30,16 +29,11 @@ import jxl.write.WriteException;
 
 import org.json.simple.JSONArray;
 import org.json.simple.JSONObject;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 import org.tridas.interfaces.ITridasSeries;
 import org.tridas.io.I18n;
-import org.tridas.io.IDendroFile;
-import org.tridas.io.TridasIO;
 import org.tridas.io.defaults.IMetadataFieldSet;
 import org.tridas.io.formats.csvmatrix.CSVMatrixFile;
 import org.tridas.io.formats.lipd.TridasToLiPDDefaults.DefaultFields;
-import org.tridas.io.transform.TridasVersionTransformer.TridasVersion;
 import org.tridas.io.util.TridasUtils;
 import org.tridas.schema.TridasValues;
 
@@ -56,17 +50,9 @@ import com.google.gson.JsonParser;
  */
 public class LiPDFile  extends CSVMatrixFile {
 	
-	private final static Logger log = LoggerFactory.getLogger(LiPDFile.class);
-	
-	
 	private TridasToLiPDDefaults defaults;
 	private List<TridasValues> values;
-	
-	private Gson gson = new Gson();
-	private Gson gsondate = new GsonBuilder().setDateFormat("yyyy-MM-dd'T'HH:mm:ss.SSS'Z'").create();
-	
-	private TridasVersion outputVersion = TridasIO.tridasVersionUsedInternally;
-	
+		
 	public LiPDFile(TridasToLiPDDefaults argDefaults, List<TridasValues> values) {
 		defaults = (TridasToLiPDDefaults) argDefaults;
 		this.values = values;
@@ -210,29 +196,25 @@ public class LiPDFile  extends CSVMatrixFile {
           // Create CSV File
           out.putNextEntry(new ZipEntry("lipd-data.csv"));
           String[] matrix = flipMatrix();
-          // remove header
-
           String data = "";
-          for (String s : matrix)
+          
+          // Remove header
+          for (int i=1; i<matrix.length; i++)
           {
-
-        	  data += s + "\n";
-        	  
-        
+        	  data += matrix[i] + "\n";
           }
           in =  new ByteArrayInputStream(data.getBytes(StandardCharsets.UTF_8));    
           // Transfer bytes from the file to the ZIP file
-        
           while ((len = in.read(buf)) > 0) {
               out.write(buf, 0, len);
           }
           // Complete the entry
           out.closeEntry();
           in.close();
+          
 
         // Complete the ZIP file
         out.close();
-		
 
 	}
 	
