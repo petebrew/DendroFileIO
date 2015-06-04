@@ -301,6 +301,9 @@ public abstract class AbstractDendroCollectionWriter implements Comparable<Abstr
 		saveFileToDisk(argOutputFolder, argFilename, null, argFile);
 	}
 		
+	
+
+	
 	protected void saveFileToDisk(String argOutputFolder, String argFilename, String forceExtension, IDendroFile argFile) throws Exception {
 		FileHelper helper;
 		boolean absolute = (new File(argOutputFolder)).isAbsolute();

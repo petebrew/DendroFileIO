@@ -32,8 +32,8 @@ import org.json.simple.JSONObject;
 import org.tridas.interfaces.ITridasSeries;
 import org.tridas.io.I18n;
 import org.tridas.io.defaults.IMetadataFieldSet;
-import org.tridas.io.formats.csvmatrix.CSVMatrixFile;
 import org.tridas.io.formats.lipd.TridasToLiPDDefaults.DefaultFields;
+import org.tridas.io.formats.lipdmetadata.LiPDMetadataFile;
 import org.tridas.io.util.TridasUtils;
 import org.tridas.schema.TridasValues;
 
@@ -48,112 +48,14 @@ import com.google.gson.JsonParser;
  * @author pbrewer
  *
  */
-public class LiPDFile  extends CSVMatrixFile {
+public class LiPDFile  extends LiPDMetadataFile {
 	
-	private TridasToLiPDDefaults defaults;
-	private List<TridasValues> values;
 		
 	public LiPDFile(TridasToLiPDDefaults argDefaults, List<TridasValues> values) {
-		defaults = (TridasToLiPDDefaults) argDefaults;
-		this.values = values;
+		super(argDefaults, values);
 	}
 	
-	@SuppressWarnings("unchecked")
-	private String getJSONFileString()
-	{
-		JSONObject root = new JSONObject();
-
-		// ROOT
-		root.put("@context", "context.jsonld");
-		root.put("dataSetName", defaults.getStringDefaultValue(DefaultFields.DATA_SET_NAME).getStringValue());
-		root.put("archiveType", "Tree rings");
-		root.put("investigators", defaults.getStringDefaultValue(DefaultFields.INVESTIGATORS).getStringValue());
-		root.put("dataDOI", defaults.getStringDefaultValue(DefaultFields.DATA_DOI).getStringValue());
-		root.put("version", defaults.getStringDefaultValue(DefaultFields.VERSION).getStringValue());		
-		
-		// FUNDING
-		JSONObject funding = new JSONObject();
-		funding.put("agency", null);
-		funding.put("grant", null);
-		root.put("funding", funding);
-		
-		// PUB
-		//JSONObject pub = new JSONObject();
-		//JSONObject author = new JSONObject();
-
-		// GEO
-		JSONObject geo = new JSONObject();
-		geo.put("type", "Feature");
-		JSONObject geometry = new JSONObject();
-		geometry.put("type", "Point");
-		ArrayList<Double> coords = new ArrayList<Double>();
-		coords.add(defaults.getDoubleDefaultValue(DefaultFields.LONGITUDE).getValue());
-		coords.add(defaults.getDoubleDefaultValue(DefaultFields.LATITUDE).getValue());
-		coords.add(defaults.getDoubleDefaultValue(DefaultFields.ELEVATION).getValue());
-		geometry.put("coordinates", coords);
-		geo.put("geometry", geometry);
-		JSONObject properties = new JSONObject();
-		properties.put("siteName", defaults.getStringDefaultValue(DefaultFields.SITE_NAME).getStringValue());
-		geo.put("properties", properties);
-		root.put("geo", geo);
-		
-		//PaleoData
-		JSONObject paleoData = new JSONObject();
-		paleoData.put("paleoDataTableName", "data");
-		paleoData.put("filename", "lipd-data.csv");
-		JSONArray columns = new JSONArray();
-		
-		JSONObject col1 = new JSONObject();
-		col1.put("number", 1);
-		col1.put("parameter", "year");
-		col1.put("parameterType", "measured");
-		col1.put("description", "calendar year AD");
-		col1.put("units", " AD");
-		col1.put("datatype", "csvw:NumericFormat");
-		columns.add(col1);
-		
-		int col=1;
-		for(TridasValues valuegroup : values)
-		{
-			col++;
-			
-			String param = TridasUtils.controlledVocToString(valuegroup.getVariable());
-			String units = TridasUtils.controlledVocToString(valuegroup.getUnit());
-			
-			JSONObject datacol = new JSONObject();
-			datacol.put("number", col);
-			datacol.put("parameter", param);
-			datacol.put("parameterType", "measured");
-			datacol.put("units", units);
-			datacol.put("datatype", "csvw:NumericFormat");
-			columns.add(datacol);	
-		}
-
-		paleoData.put("columns", columns);
-
-		root.put("paleoData", paleoData);
-		
-
-		// Output JSON
-		try {
-			
-			StringWriter swriter = new StringWriter();
-			Gson gson = new GsonBuilder().setPrettyPrinting().create();
-			JsonParser jp = new JsonParser();
-
-			root.writeJSONString(swriter);
-			JsonElement je = jp.parse(swriter.getBuffer().toString());
-			return gson.toJson(je);
-
-
-		} catch (IOException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		}
-
-		return null;
-		
-	}
+	
 	
 	@Override
 	public String[] saveToString() {
