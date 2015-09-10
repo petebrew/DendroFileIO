@@ -279,7 +279,7 @@ public class TestFromTridas extends TestCase {
 		}
 	}
 	
-	public void testTridasToJSON() {
+	/*public void testTridasToJSON() {
 
 		try {
 			genericTest(TridasReader.class, TridasJSONWriter.class);
@@ -288,7 +288,7 @@ public class TestFromTridas extends TestCase {
 		} catch (IllegalAccessException e) {
 			fail();
 		}
-	}
+	}*/
 	
 	public void testTridasToLiPD() {
 
