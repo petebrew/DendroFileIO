@@ -1,5 +1,7 @@
 package org.tridas.io.util;
 
+import java.io.File;
+
 public class FileUtils {
 
 	  public static final int DEFAULT_SHORTENER_THRESHOLD = 4;
@@ -143,4 +145,17 @@ public class FileUtils {
 	  }
 
 
+	  /**
+	   * Get the parent folder name
+	   * 
+	   * @param file
+	   * @return
+	   */
+	  public static String getFileParentName(File file) {
+		    if (file != null && file.getParentFile() != null) {
+		        return file.getParentFile().getName();
+		    }
+		    return null; // no parent for file
+		}
+	  
 	}

@@ -1363,6 +1363,25 @@ public class TridasUtils {
 
 	}
 	
+	public static String getStringOfControlledVoc(ControlledVoc cv)
+	{
+		if(cv ==null) return null;
+		
+		if(cv.isSetNormal())
+		{
+			return cv.getNormal();
+		}
+		else if (cv.isSetValue())
+		{
+			return cv.getValue();
+		}
+		
+		
+		
+		return null;
+		
+	}
+	
 	
 	public static String GENERIC_FIELD_STRING_OBJECTCODE = "tellervo.objectLabCode";
 	public static String GENERIC_FIELD_STRING_ELEMENTCODE = "tellervo.elementLabCode";

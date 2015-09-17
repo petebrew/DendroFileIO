@@ -442,7 +442,7 @@ public class SheffieldReader extends AbstractDendroFileReader {
 					}
 					
 					for (int i = 0; i < notesArray.length; i = i + 3) {
-						if (!notesArray[i].equalsIgnoreCase("I") || !notesArray[i].equalsIgnoreCase("A")) {
+						if (!notesArray[i].equalsIgnoreCase("I") && !notesArray[i].equalsIgnoreCase("A")) {
 							// Each note must begin with an I (interpretation) or an A
 							// (anatomy)
 							addWarning(new ConversionWarning(WarningType.INVALID, I18n

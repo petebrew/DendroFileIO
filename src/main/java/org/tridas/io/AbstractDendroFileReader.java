@@ -180,6 +180,8 @@ public abstract class AbstractDendroFileReader implements Comparable<AbstractDen
 			loadFile(argFilename, constructDefaultMetadata());
 		} catch (IncorrectDefaultFieldsException e) {
 			// not gonna happen
+			log.debug("Not sure how you got here!");
+			e.printStackTrace();
 		}
 	}
 	
