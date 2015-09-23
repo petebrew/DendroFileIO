@@ -62,7 +62,7 @@ import org.tridas.schema.TridasTridas;
 public class TestToTridas extends TestCase {
 	
 	private static final Logger log = LoggerFactory.getLogger(TestToTridas.class);
-	private static final String outputLocation = "TestData/TRiCYCLE-Output-From-Legacy";
+	private static final String outputLocation = System.getProperty("java.io.tmpdir")+"/DendroFileIOTests/TRiCYCLE-Output-From-Legacy";
 	
 	private String[] getFilesFromFolder(String folder) {
 		File dir = new File(folder);
