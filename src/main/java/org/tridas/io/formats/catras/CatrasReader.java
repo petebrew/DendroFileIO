@@ -228,23 +228,9 @@ public class CatrasReader extends AbstractDendroFileReader {
 		}
 		
 		// Start year- bytes 55-56
-		Integer startYear = getIntFromBytePairByPos(argFileBytes, 54);
-		/*byte[] bp = getBytePairByPos(argFileBytes, 54);
-		log.debug("Start year read from CATRAS as Integer = "+startYear);
-		Byte byteOne = new Byte(bp[0]);
-		Byte byteTwo = new Byte(bp[1]);
-		log.debug("Hex value of first byte = "+Integer.toHexString(byteOne.intValue()));
-		log.debug("Hex value of second byte = "+Integer.toHexString(byteTwo.intValue()));
-		log.debug("Int value of second byte = "+byteOne.intValue());
-		log.debug("Int value of second byte = "+byteTwo.intValue());
-
-		log.debug("First byte from pair = "+bp[0]);
-		log.debug("Second byte from pair = "+bp[1]);
-		log.debug("Byte pair = "+bp);*/
-		
-		defaults.getSafeIntYearDefaultValue(DefaultFields.START_YEAR)
-			.setValue(new SafeIntYear(startYear));
-		log.debug("Start year converted to safeintyear = "+new SafeIntYear(startYear).toString());
+		Integer startYear = getIntFromBytePairByPos(argFileBytes, 54);		
+		defaults.getIntegerDefaultValue(DefaultFields.START_YEAR)
+			.setValue(startYear);
 		
 		// Number of characters in series name - byte 57
 		defaults.getIntegerDefaultValue(DefaultFields.NUMBER_OF_CHARS_IN_TITLE)
@@ -498,13 +484,14 @@ public class CatrasReader extends AbstractDendroFileReader {
 		}
 		
 		// Set end date 
-		if (defaults.getSafeIntYearDefaultValue(DefaultFields.START_YEAR).getValue()!=null)
+		if (defaults.getIntegerDefaultValue(DefaultFields.START_YEAR).getValue()!=null &&
+				defaults.getIntegerDefaultValue(DefaultFields.START_YEAR).getValue()!=0)
 		{
 			if(defaults.getIntegerDefaultValue(DefaultFields.SERIES_LENGTH).getValue()!=null)
 			{
-				defaults.getSafeIntYearDefaultValue(DefaultFields.END_YEAR).setValue(
-						defaults.getSafeIntYearDefaultValue(DefaultFields.START_YEAR).getValue()
-							.add(defaults.getIntegerDefaultValue(DefaultFields.SERIES_LENGTH).getValue()-1));				
+				int val = defaults.getIntegerDefaultValue(DefaultFields.START_YEAR).getValue();
+				int val2 = defaults.getIntegerDefaultValue(DefaultFields.SERIES_LENGTH).getValue();
+				defaults.getSafeIntYearDefaultValue(DefaultFields.END_YEAR).setValue(val+val2-1);				
 			}
 		}
 		

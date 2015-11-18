@@ -180,7 +180,7 @@ public class CatrasFile implements IDendroFile {
 		insertIntoArray(file, 
 			CatrasFile.getIntAsByteArray(((GenericDefaultValue<CATRASLastRing>) defaults.getDefaultValue(DefaultFields.LAST_RING)).getValue().toCode()),
 			53, 53);
-		Integer startyear = Integer.parseInt(defaults.getSafeIntYearDefaultValue(DefaultFields.START_YEAR).getValue().toString());
+		Integer startyear = defaults.getIntegerDefaultValue(DefaultFields.START_YEAR).getValue();
 		log.debug("Writing year to CATRAS file as "+startyear);
 		insertIntoArray(file,
 			CatrasFile.getIntAsBytePair(startyear),

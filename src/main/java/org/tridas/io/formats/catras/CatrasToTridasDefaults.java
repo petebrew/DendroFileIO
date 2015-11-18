@@ -100,7 +100,7 @@ public class CatrasToTridasDefaults extends TridasMetadataFieldSet implements IM
 		setDefaultValue(DefaultFields.NUMBER_OF_CHARS_IN_TITLE, new IntegerDefaultValue());
 		setDefaultValue(DefaultFields.QUALITY_CODE, new IntegerDefaultValue());
 				
-		setDefaultValue(DefaultFields.START_YEAR, new SafeIntYearDefaultValue(null));
+		setDefaultValue(DefaultFields.START_YEAR, new IntegerDefaultValue(null));
 		setDefaultValue(DefaultFields.END_YEAR, new SafeIntYearDefaultValue(null));
 		setDefaultValue(DefaultFields.SPECIES_CODE, new IntegerDefaultValue());
 		setDefaultValue(DefaultFields.CREATION_DATE, new DateTimeDefaultValue());
@@ -393,28 +393,28 @@ public class CatrasToTridasDefaults extends TridasMetadataFieldSet implements IM
 		// Build interpretation group for series
 		TridasInterpretation interp = new TridasInterpretation();
 		
+		
 		// Start and End Years
-		if(getSafeIntYearDefaultValue(DefaultFields.START_YEAR).getValue()!=null)
+		TridasDating dating = new TridasDating();
+		if(getIntegerDefaultValue(DefaultFields.START_YEAR).getValue()==null || getIntegerDefaultValue(DefaultFields.START_YEAR).getValue().equals(0))
 		{
-			TridasDating dating = new TridasDating();
-			if(getSafeIntYearDefaultValue(DefaultFields.START_YEAR).getValue().equals(new SafeIntYear(0)))
-			{
-				//dating.setType(NormalTridasDatingType.RELATIVE);
-			}
-			else
-			{
-				dating.setType(NormalTridasDatingType.ABSOLUTE);
-				interp.setFirstYear(getSafeIntYearDefaultValue(DefaultFields.START_YEAR).getValue().toTridasYear(DatingSuffix.AD));
-				
-				// End Year
-				if(getSafeIntYearDefaultValue(DefaultFields.END_YEAR).getValue()!=null)
-				{
-					interp.setLastYear(getSafeIntYearDefaultValue(DefaultFields.END_YEAR).getValue().toTridasYear(DatingSuffix.AD));
-				}
-				interp.setDating(dating);
-			}
-			
+			dating.setType(NormalTridasDatingType.RELATIVE);	
+			interp.setDating(dating);
 		}
+		else
+		{
+			SafeIntYear frstyear = new SafeIntYear(getIntegerDefaultValue(DefaultFields.START_YEAR).getValue());
+			dating.setType(NormalTridasDatingType.ABSOLUTE);
+			interp.setFirstYear(frstyear.toTridasYear(DatingSuffix.AD));
+			
+			// End Year
+			if(getSafeIntYearDefaultValue(DefaultFields.END_YEAR).getValue()!=null)
+			{
+				interp.setLastYear(getSafeIntYearDefaultValue(DefaultFields.END_YEAR).getValue().toTridasYear(DatingSuffix.AD));
+			}
+			interp.setDating(dating);
+		}
+		
 	
 		series.setInterpretation(interp);
 		
