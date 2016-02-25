@@ -354,7 +354,8 @@ public class Past4Reader extends AbstractDendroFileReader {
 		{
 			if (!projTag.getAttribute("Version").toString().equals("400"))
 			{
-				throw new InvalidDendroFileException(I18n.getText("past4.onlyVersion4Supported"));
+				//throw new InvalidDendroFileException(I18n.getText("past4.onlyVersion4Supported"));
+				this.addWarning(new ConversionWarning(WarningType.NOT_STRICT, "This is a newer version of data file than TRiCYCLE was designed to read."));
 			}
 		}
 		
@@ -654,7 +655,9 @@ public class Past4Reader extends AbstractDendroFileReader {
 	 */
 	private void extractMetadataFromHeader(Element header)
 	{
-		String blah = header.getFirstChild().getTextContent();
+		try{
+			String blah = header.getFirstChild().getTextContent();
+		
 		String[] lines = blah.split(System.getProperty("line.separator"));
 		
 		for (String line : lines)
@@ -669,6 +672,11 @@ public class Past4Reader extends AbstractDendroFileReader {
 			
 				
 			
+		}
+		}
+		 catch (Exception e)
+		{
+			 log.debug("Unable to extract header information from PAST4 file");
 		}
 		
 	}
