@@ -463,9 +463,9 @@ public class TucsonReader extends AbstractDendroFileReader {
 
 				// Extract actual data listening for last year flag
 				if (isChronology) {
-					loadCRNDataFromDataLine(line, currentSeries);
+					loadCRNDataFromDataLine(line, index, argFileString, currentSeries);
 				} else {
-					loadRWLDataFromDataLine(line, currentSeries);
+					loadRWLDataFromDataLine(line, index, argFileString, currentSeries);
 				}
 				break;
 
@@ -755,7 +755,7 @@ public class TucsonReader extends AbstractDendroFileReader {
 	 * @throws InvalidDendroFileException
 	 */
 	@SuppressWarnings("unchecked")
-	private void loadRWLDataFromDataLine(String line, TucsonSeries series)
+	private void loadRWLDataFromDataLine(String line, int lineindex, String[] argLineStrings, TucsonSeries series)
 			throws InvalidDendroFileException {
 
 		try{
@@ -789,14 +789,40 @@ public class TucsonReader extends AbstractDendroFileReader {
 		GenericDefaultValue<NormalTridasUnit> unitField = (GenericDefaultValue<NormalTridasUnit>) series.defaults
 				.getDefaultValue(TucsonDefaultField.UNITS);
 
+		int colnum = 0;
 		// Intercept no data values and stop markers
 		for (String value : vals) {
 
-			if (value.equals("999") && !this.fileContainsMinus9999Flag) {
-				// 0.01mm stop marker
-				unitField.setValue(NormalTridasUnit.HUNDREDTH_MM);
-				lastYearReached = true;
-				break;
+			
+			colnum++;
+			
+			if (value.equals("999"))
+			{
+				// 999 marker found - beware!  Could be:
+				// a) a ring of width 999 in a micron unit series
+				// b) an end of series marker in a 1/100th unit series
+								
+				if(colnum==vals.size() && !doesNextLineYearSequenceFollow(argLineStrings, lineindex))
+				{
+					// This is the last column in the line and the next line year marker isn't in sequence
+					// We can therefore be certain this is a 1/100th mm end of series marker
+					unitField.setValue(NormalTridasUnit.HUNDREDTH_MM);
+					lastYearReached = true;
+					break;
+				}
+				else
+				{
+					// Standard numerical ring width value
+					try {
+						dataValues.add(Integer.parseInt(value));
+					} catch (NumberFormatException e) {
+						// addWarning(new ConversionWarning();
+						throw new InvalidDendroFileException(I18n
+								.getText("fileio.invalidDataValue"),
+								currentLineNumber);
+					}
+				}
+				
 			} else if (value.equals("-9999")) {
 				// 0.001mm stop marker
 				unitField.setValue(NormalTridasUnit.MICROMETRES);
@@ -812,7 +838,16 @@ public class TucsonReader extends AbstractDendroFileReader {
 			} else {
 				// Standard numerical ring width value
 				try {
-					dataValues.add(Integer.parseInt(value));
+					Integer intval = Integer.parseInt(value);
+					
+					if(intval<0) {
+						
+						//Treat as missing ring value
+						this.addWarning(new ConversionWarning(WarningType.AMBIGUOUS, "Negative ring width value has been treated as missing ring."));;
+						dataValues.add(0);
+					}
+					
+					dataValues.add(intval);
 				} catch (NumberFormatException e) {
 					// addWarning(new ConversionWarning();
 					throw new InvalidDendroFileException(I18n
@@ -828,13 +863,57 @@ public class TucsonReader extends AbstractDendroFileReader {
 	}
 
 	/**
+	 * Look forward to the next line to see if the year number is likely in sequence indicating
+	 * that we've not come to the end of the series yet
+	 * 
+	 * @param argFileString
+	 * @param currentlineindex
+	 * @return
+	 */
+	private boolean doesNextLineYearSequenceFollow(String[] argFileString, int currentlineindex)
+	{
+		String currentYearMarker = argFileString[currentlineindex].substring(8, 12);
+		String nextYearMarker ="";
+		Integer currentYearValue;
+		Integer nextYearValue;
+		
+		log.debug("Line count in file " + argFileString.length);
+		
+		if(argFileString.length > currentlineindex+1)
+		{
+			nextYearMarker = argFileString[currentlineindex+1].substring(8, 12);
+		}
+		else
+		{
+			// Current line is last in file, so return true
+			return true;
+		}
+		
+		try{
+			currentYearValue = Integer.parseInt(currentYearMarker);
+			nextYearValue = Integer.parseInt(nextYearMarker);
+		} catch (NumberFormatException e )
+		{
+			log.debug(e.getMessage());
+			return false;
+		}
+		
+		if(nextYearValue>currentYearValue && nextYearValue<=(currentYearValue+10))
+		{
+			return true;
+		}
+		
+		return false;
+	}
+	
+	/**
 	 * Attempts to read a line of CRN style chronology data. The validity of the
 	 * line's format should have been checked previously using
 	 * matchesLineType().
 	 * 
 	 * @param line
 	 */
-	private void loadCRNDataFromDataLine(String line, TucsonSeries series)
+	private void loadCRNDataFromDataLine(String line, int lineindex, String[] argLineStrings, TucsonSeries series)
 			throws InvalidDendroFileException {
 
 		if(modeLineLength > 80 && modeLineLength < 87)
