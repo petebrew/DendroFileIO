@@ -111,6 +111,10 @@ public class TellervoHierarchicalWithVariableNamingConvention extends AbstractNa
 			{
 				name += "-"+ argValues.getVariable().getValue();
 			}
+			else
+			{
+				name += "- unknown variable";
+			}
 		}
 		
 
@@ -130,6 +134,29 @@ public class TellervoHierarchicalWithVariableNamingConvention extends AbstractNa
 		
 		if (argSeries != null) {
 			name += "-" + argSeries.getTitle();
+			
+			
+			if(argSeries.isSetValues() && argSeries.getValues().size()==1)
+			{
+				TridasValues argValues = argSeries.getValues().get(0);
+				if(argValues.getVariable().isSetNormalTridas())
+				{
+					name += "-"+ argValues.getVariable().getNormalTridas().value();
+				}
+				else if (argValues.getVariable().isSetNormal())
+				{
+					name += "-"+ argValues.getVariable().getNormal();
+				}
+				else if (argValues.getVariable().isSetValue())
+				{
+					name += "-"+ argValues.getVariable().getValue();
+				}
+				else
+				{
+					name += "- unknown variable";
+				}
+			}
+			
 		}
 		else {
 			return name;
@@ -140,12 +167,12 @@ public class TellervoHierarchicalWithVariableNamingConvention extends AbstractNa
 	
 	@Override
 	public String getDescription() {
-		return I18n.getText("namingconvention.tellervohierarchical.description");
+		return I18n.getText("namingconvention.tellervohierarchicalwithvariable.description");
 	}
 	
 	@Override
 	public String getName() {
-		return I18n.getText("namingconvention.tellervohierarchical");
+		return I18n.getText("namingconvention.tellervohierarchicalwithvariable");
 	}
 	
 }

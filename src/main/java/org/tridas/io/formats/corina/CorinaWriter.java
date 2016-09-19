@@ -23,6 +23,7 @@ import org.tridas.io.exceptions.ConversionWarning;
 import org.tridas.io.exceptions.ConversionWarning.WarningType;
 import org.tridas.io.exceptions.ConversionWarningException;
 import org.tridas.io.exceptions.ImpossibleConversionException;
+import org.tridas.io.formats.corina.CorinaToTridasDefaults.DefaultFields;
 import org.tridas.io.naming.INamingConvention;
 import org.tridas.io.naming.NumericalNamingConvention;
 import org.tridas.io.util.TridasUtils;
@@ -37,6 +38,7 @@ import org.tridas.schema.TridasProject;
 import org.tridas.schema.TridasRadius;
 import org.tridas.schema.TridasSample;
 import org.tridas.schema.TridasValues;
+import org.tridas.schema.TridasVariable;
 
 public class CorinaWriter extends AbstractDendroCollectionWriter {
 
@@ -175,8 +177,20 @@ public class CorinaWriter extends AbstractDendroCollectionWriter {
 					}
 					else if (!tvsgroup.getVariable().isSetNormalTridas())
 					{
-						dsDefaults.addConversionWarning(new ConversionWarning(WarningType.AMBIGUOUS, I18n.getText("fileio.nonstandardVariable")));
-						skipThisGroup=true;
+						TridasVariable variable = tvsgroup.getVariable();
+						
+						if(variable.isSetNormalStd() && variable.getNormalStd().equals("ARSTAN"))
+						{
+							dsDefaults.getStringDefaultValue(DefaultFields.FORMAT).setValue("I");
+							if(variable.isSetValue()){
+								dsDefaults.getStringDefaultValue(DefaultFields.COMMENTS).setValue("Data variable is "+variable.getValue());
+							}
+						}
+						else
+						{
+							dsDefaults.addConversionWarning(new ConversionWarning(WarningType.AMBIGUOUS, I18n.getText("fileio.nonstandardVariable")));
+							skipThisGroup=true;
+						}
 					}
 					else
 					{

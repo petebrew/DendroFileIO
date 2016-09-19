@@ -86,9 +86,6 @@ public class TucsonReader extends AbstractDendroFileReader {
 	private Integer minLineLength = 0;
 	private Integer maxLineLength = 0;
 	private Integer modeLineLength = 0;
-	private boolean fileContainsMinus9999Flag = false;
-	private boolean fileContains999Flag = false;
-
 
 
 	/**
@@ -304,6 +301,12 @@ public class TucsonReader extends AbstractDendroFileReader {
 			switch (linetype) {
 			case HEADER_LINE1:
 				if (withinChronologyBlock) {
+					// Add current series to list if applicable
+					if (currentSeries != null) {
+						currentSeries.setCalculatedFields();
+						this.seriesList.add(currentSeries);
+					}
+					currentSeries=null;	
 					break;
 				}
 				headercache1 = line;
@@ -313,6 +316,12 @@ public class TucsonReader extends AbstractDendroFileReader {
 
 			case HEADER_LINE2:
 				if (withinChronologyBlock) {
+					// Add current series to list if applicable
+					if (currentSeries != null) {
+						currentSeries.setCalculatedFields();
+						this.seriesList.add(currentSeries);
+					}
+					currentSeries=null;	
 					break;
 				}
 				if (headercache1 != null && headercache2 == null) {
@@ -345,6 +354,12 @@ public class TucsonReader extends AbstractDendroFileReader {
 
 			case HEADER_LINE3:
 				if (withinChronologyBlock) {
+					// Add current series to list if applicable
+					if (currentSeries != null) {
+						currentSeries.setCalculatedFields();
+						this.seriesList.add(currentSeries);
+					}
+					currentSeries=null;	
 					break;
 				}
 				if (headercache2 != null && headercache3 == null) {
@@ -470,11 +485,18 @@ public class TucsonReader extends AbstractDendroFileReader {
 				break;
 
 			default:
-				// Line is not a standard header or data line so warn
-				addWarning(new ConversionWarning(WarningType.IGNORED, I18n
-						.getText("tucson.nonstandardHeaderLine")
-						+ ": " + line));
-				break;
+				
+				if(line.contains(" itrdb line missing"))
+				{
+					// Standard missing header line.  No need to warn
+				}
+				else
+				{
+					// Line is not a standard header or data line so warn
+					addWarning(new ConversionWarning(WarningType.IGNORED, I18n
+							.getText("tucson.nonstandardHeaderLine")
+							+ ": " + line));
+				}
 			}
 		}
 
@@ -578,17 +600,6 @@ public class TucsonReader extends AbstractDendroFileReader {
 				headerLines++;
 			}
 			
-			if(line.contains(" -9999"))
-			{
-				fileContainsMinus9999Flag = true;
-				if(fileContains999Flag) this.addWarning(new ConversionWarning(WarningType.INFORMATION, "The data in this file appears to be in microns with one or more values of 999.  If, however, there is a mix of hundredth mm and micron data in the file, then it is being interpretted incorrectly. "));
-			}
-			
-			if(line.contains(" 999"))
-			{
-				fileContains999Flag = true;
-				if(fileContainsMinus9999Flag) this.addWarning(new ConversionWarning(WarningType.INFORMATION, "The data in this file appears to be in microns with one or more values of 999.  If, however, there is a mix of hundredth mm and micron data in the file, then it is being interpretted incorrectly. "));
-			}
 		}
 
 		if (crnLines == 0 && rwlLines == 0) {
@@ -885,8 +896,8 @@ public class TucsonReader extends AbstractDendroFileReader {
 		}
 		else
 		{
-			// Current line is last in file, so return true
-			return true;
+			// Current line is last in file, so return false
+			return false;
 		}
 		
 		try{
@@ -976,6 +987,7 @@ public class TucsonReader extends AbstractDendroFileReader {
 				} else {
 					// Must be lead out no-data value
 					series.lastYear.add(0 - (i + 1));
+					lastYearReached = true;
 					break;
 				}
 			} else {

@@ -319,7 +319,39 @@ public class TucsonToTridasDefaults extends TridasMetadataFieldSet implements IM
 		}
 		else
 		{
-			variable.setValue(getStringDefaultValue(TucsonDefaultField.NOSTD_VAR).getStringValue());
+			String var = getStringDefaultValue(TucsonDefaultField.NOSTD_VAR).getStringValue();
+			
+			if(var.equals("std"))
+			{
+				variable.setNormalStd("ARSTAN");
+				variable.setNormalId("std");
+				variable.setNormal("std");
+				variable.setValue("ARSTAN Standard Chronology");
+			}
+			else if(var.equals("ars"))
+			{
+				variable.setNormalStd("ARSTAN");
+				variable.setNormalId("ars");
+				variable.setNormal("ars");
+				variable.setValue("ARSTAN Chronology");
+			}
+			else if(var.equals("res"))
+			{
+				variable.setNormalStd("ARSTAN");
+				variable.setNormalId("res");
+				variable.setNormal("res");
+				variable.setValue("ARSTAN Residuals Chronology");
+			}
+			else if(var.equals("trn"))
+			{
+				variable.setNormalStd("ARSTAN");
+				variable.setNormalId("trn");
+				variable.setNormal("trn");
+			}
+			else
+			{
+				variable.setValue(var);
+			}
 		}
 		values.setVariable(variable);
 		

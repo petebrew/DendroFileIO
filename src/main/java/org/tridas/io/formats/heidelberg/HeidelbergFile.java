@@ -145,6 +145,7 @@ public class HeidelbergFile implements IDendroFile {
 			addIfNotNull(ser.defaults, "TreeNo", DefaultFields.TREE_NUMBER, file, I18n.getText("unnamed.element"));
 			addIfNotNull(ser.defaults, "Unit", DefaultFields.UNIT, file);
 			addIfNotNull(ser.defaults, "WaldKante", DefaultFields.WALDKANTE, file);
+			
 					
 			if (ser.chrono) {
 				file.add("DATA:HalfChrono");
