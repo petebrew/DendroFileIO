@@ -40,6 +40,7 @@ import org.tridas.io.transform.TridasVersionTransformer.TridasVersion;
 import org.tridas.io.util.IOUtils;
 import org.tridas.io.util.TridasUtils;
 import org.tridas.schema.ControlledVoc;
+import org.tridas.schema.TridasDerivedSeries;
 import org.tridas.schema.TridasElement;
 import org.tridas.schema.TridasEntity;
 import org.tridas.schema.TridasFile;
@@ -844,48 +845,48 @@ public class TridasJSONFile implements IDendroFile {
 	}
 	
 	@SuppressWarnings("unchecked")
-	private void writeMeasurementSeriesToJSON(JSONObject output, TridasMeasurementSeries measurementseries)
+	private void writeSeriesToJSON(JSONObject output, ITridasSeries series)
 	{
 		try{
-			output.put("measurementseries.title", gson.toJson(measurementseries.getTitle()));
+			output.put("series.title", gson.toJson(series.getTitle()));
 		} catch (NullPointerException e)
 		{
-			output.put("measurementseries.title", null);
+			output.put("series.title", null);
 		}
 		
 		try{
-			output.put("measurementseries.identifier", gson.toJson(measurementseries.getIdentifier().getValue()));
+			output.put("series.identifier", gson.toJson(series.getIdentifier().getValue()));
 		} catch (NullPointerException e)
 		{
-			output.put("measurementseries.identifier", null);
+			output.put("series.identifier", null);
 		}
 		
 		try{
-			output.put("measurementseries.createdtimestamp", gsondate.toJson(measurementseries.getCreatedTimestamp().getValue().toGregorianCalendar().getTime()));
+			output.put("series.createdtimestamp", gsondate.toJson(series.getCreatedTimestamp().getValue().toGregorianCalendar().getTime()));
 		} catch (NullPointerException e)
 		{
-			output.put("measurementseries.createdtimestamp", null);
+			output.put("series.createdtimestamp", null);
 		}
 		
 		try{
-			output.put("measurementseries.lastmodifiedtimestamp", gsondate.toJson(measurementseries.getLastModifiedTimestamp().getValue().toGregorianCalendar().getTime()));
+			output.put("series.lastmodifiedtimestamp", gsondate.toJson(series.getLastModifiedTimestamp().getValue().toGregorianCalendar().getTime()));
 		} catch (NullPointerException e)
 		{
-			output.put("measurementseries.lastmodifiedtimestamp", null);
+			output.put("series.lastmodifiedtimestamp", null);
 		}
 		
 		try{
-			output.put("measurementseries.comments", gson.toJson(measurementseries.getComments()));
+			output.put("series.comments", gson.toJson(series.getComments()));
 		} catch (NullPointerException e)
 		{
-			output.put("measurementseries.comments", null);
+			output.put("series.comments", null);
 		}
 		
 		try{
-			output.put("measurementseries.interpretation.firstyear", measurementseries.getInterpretation().getFirstYear().getValue());
+			output.put("series.interpretation.firstyear", series.getInterpretation().getFirstYear().getValue());
 		} catch (NullPointerException e)
 		{
-			output.put("measurementseries.interpretation.firstyear", null);
+			output.put("series.interpretation.firstyear", null);
 		}
 		
 	}
@@ -945,7 +946,7 @@ public class TridasJSONFile implements IDendroFile {
 									writeElementToJSON(output, element);
 									writeSampleToJSON(output, sample);
 									writeRadiusToJSON(output, radius);
-									writeMeasurementSeriesToJSON(output, measurementseries);
+									writeSeriesToJSON(output, measurementseries);
 									String variable = "";
 									if(valuesgroup.isSetVariable())
 									{
@@ -955,7 +956,7 @@ public class TridasJSONFile implements IDendroFile {
 												labcode+="-"+valuesgroup.getVariable().getNormalTridas().value();
 												variable = "-"+valuesgroup.getVariable().getNormalTridas().value();
 											}
-											output.put("measurementseries.values.variable", valuesgroup.getVariable().getNormalTridas().value());
+											output.put("series.values.variable", valuesgroup.getVariable().getNormalTridas().value());
 										}
 										else if (valuesgroup.getVariable().isSetNormal())
 										{
@@ -963,7 +964,7 @@ public class TridasJSONFile implements IDendroFile {
 												labcode+="-"+valuesgroup.getVariable().getNormal();
 												variable = "-"+valuesgroup.getVariable().getNormal();
 											}
-											output.put("measurementseries.values.variable", valuesgroup.getVariable().getNormal());
+											output.put("series.values.variable", valuesgroup.getVariable().getNormal());
 										}
 										else
 										{
@@ -971,13 +972,13 @@ public class TridasJSONFile implements IDendroFile {
 												labcode+="-"+valuesgroup.getVariable().getValue();
 												variable = "-"+valuesgroup.getVariable().getValue();
 											}
-											output.put("measurementseries.values.variable", valuesgroup.getVariable().getValue());
+											output.put("series.values.variable", valuesgroup.getVariable().getValue());
 										}
 
 									}
 									else
 									{
-										output.put("measurementseries.values.variable", "unknown");
+										output.put("series.values.variable", "unknown");
 
 									}
 									
@@ -985,22 +986,22 @@ public class TridasJSONFile implements IDendroFile {
 									{
 										if(valuesgroup.getUnit().isSetNormalTridas())
 										{
-											output.put("measurementseries.values.units", valuesgroup.getUnit().getNormalTridas().value());
+											output.put("series.values.units", valuesgroup.getUnit().getNormalTridas().value());
 										}
 										else if (valuesgroup.getUnit().isSetNormal()){
-											output.put("measurementseries.values.units", valuesgroup.getUnit().getNormal().toString());
+											output.put("series.values.units", valuesgroup.getUnit().getNormal().toString());
 										}
 										else{
-											output.put("measurementseries.values.units", valuesgroup.getUnit().getValue().toString());
+											output.put("series.values.units", valuesgroup.getUnit().getValue().toString());
 										}
 										
 									}
 									else
 									{
-										output.put("measurementseries.units", "unitless");
+										output.put("series.units", "unitless");
 									}
 									
-									output.put("measurementseries.values", data);
+									output.put("series.values", data);
 									root.put(measurementseries.getIdentifier().getValue()+variable, output);
 									gotData = true;
 									
@@ -1010,6 +1011,85 @@ public class TridasJSONFile implements IDendroFile {
 					}	
 				}
 			}
+			
+			// DERIVED SERIES
+			for (TridasDerivedSeries derivedSeries : project.getDerivedSeries())
+			{	
+				labcode+= derivedSeries.getTitle();
+
+				for( TridasValues valuesgroup : derivedSeries.getValues())
+				{
+					
+					ArrayList<Integer> data = new ArrayList<Integer>();
+					for(TridasValue value : valuesgroup.getValues())		
+					{
+						data.add(Integer.parseInt(value.getValue()));
+					}
+
+					JSONObject output = new JSONObject();
+					writeProjectToJSON(output, project);
+					writeSeriesToJSON(output, derivedSeries);
+					String variable = "";
+					if(valuesgroup.isSetVariable())
+					{
+						if(valuesgroup.getVariable().isSetNormalTridas())
+						{
+							if(derivedSeries.getValues().size()>1) {
+								labcode+="-"+valuesgroup.getVariable().getNormalTridas().value();
+								variable = "-"+valuesgroup.getVariable().getNormalTridas().value();
+							}
+							output.put("series.values.variable", valuesgroup.getVariable().getNormalTridas().value());
+						}
+						else if (valuesgroup.getVariable().isSetNormal())
+						{
+							if(derivedSeries.getValues().size()>1) {
+								labcode+="-"+valuesgroup.getVariable().getNormal();
+								variable = "-"+valuesgroup.getVariable().getNormal();
+							}
+							output.put("series.values.variable", valuesgroup.getVariable().getNormal());
+						}
+						else
+						{
+							if(derivedSeries.getValues().size()>1) {
+								labcode+="-"+valuesgroup.getVariable().getValue();
+								variable = "-"+valuesgroup.getVariable().getValue();
+							}
+							output.put("series.values.variable", valuesgroup.getVariable().getValue());
+						}
+
+					}
+					else
+					{
+						output.put("series.values.variable", "unknown");
+
+					}
+					
+					if(valuesgroup.isSetUnit())
+					{
+						if(valuesgroup.getUnit().isSetNormalTridas())
+						{
+							output.put("series.values.units", valuesgroup.getUnit().getNormalTridas().value());
+						}
+						else if (valuesgroup.getUnit().isSetNormal()){
+							output.put("series.values.units", valuesgroup.getUnit().getNormal().toString());
+						}
+						else{
+							output.put("series.values.units", valuesgroup.getUnit().getValue().toString());
+						}
+						
+					}
+					else
+					{
+						output.put("series.units", "unitless");
+					}
+					
+					output.put("series.values", data);
+					root.put(derivedSeries.getIdentifier().getValue()+variable, output);
+					gotData = true;
+					
+				}	
+			}
+			
 		}
 		
 		if(!gotData)
