@@ -125,7 +125,7 @@ public class TellervoHierarchicalWithVariableNamingConvention extends AbstractNa
 	protected String getDendroFilename(IDendroFile argFile, TridasProject argProject, TridasDerivedSeries argSeries) {
 		String name = "";
 		
-		if (argProject != null) {
+		if (argProject != null && !argProject.getTitle().equals("Unnamed project")) {
 			name += argProject.getTitle();
 		}
 		else {
@@ -133,7 +133,14 @@ public class TellervoHierarchicalWithVariableNamingConvention extends AbstractNa
 		}
 		
 		if (argSeries != null) {
-			name += "-" + argSeries.getTitle();
+			if(name!="")
+			{
+				name += "-" + argSeries.getTitle();
+			}
+			else
+			{
+				name = argSeries.getTitle();
+			}
 			
 			
 			if(argSeries.isSetValues() && argSeries.getValues().size()==1)

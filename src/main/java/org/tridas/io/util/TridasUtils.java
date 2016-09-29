@@ -457,6 +457,62 @@ public class TridasUtils {
 	}
 	
 	/**
+	 * Attempts to merge series together with the same title.  If count of underlying data values doesn't match, then
+	 * the original series list is left untouched as it could cause major problems.
+	 * 
+	 * @param 
+	 * @return
+	 */
+	public static ArrayList<TridasDerivedSeries> consolidateDerivedSeries(ArrayList<TridasDerivedSeries> series)
+	{
+		ArrayList<ITridas> returnSeries = new ArrayList<ITridas>();
+		
+		// First consolidate series
+		for(TridasDerivedSeries s1 : series)
+		{
+			if(getMatchInArrayByTitle(returnSeries, s1)==null)
+			{
+				// Series not in return list, so add
+				returnSeries.add(s1);
+			}
+			else
+			{
+				// Series is in return list, so grab 
+				TridasDerivedSeries s2 = (TridasDerivedSeries) getMatchInArrayByTitle(returnSeries, s1);
+				
+				
+				// Make sure the list of values is the same, otherwise skip merge
+				if(s1.getValues().get(0).getValues().size()==s2.getValues().get(0).getValues().size())
+				{		
+					// Remove existing from list
+					returnSeries = removeEntriesThatMatchTitle(returnSeries, s1);
+					
+					// Append extra values groups
+					s2.getValues().addAll(s1.getValues());
+					
+					// Add back to list
+					returnSeries.add(s2);
+				}
+				else
+				{
+					return series;
+				}
+			}
+		}
+			
+		ArrayList<TridasDerivedSeries> returnSeries2 = new ArrayList<TridasDerivedSeries>();
+		
+		for(ITridas s : returnSeries)
+		{
+			returnSeries2.add((TridasDerivedSeries) s);
+		}
+		
+		return returnSeries2;
+	}
+
+	
+	
+	/**
 	 * Takes a list of samples and merges those together than have the same title
 	 * 
 	 * @param elements
@@ -641,7 +697,7 @@ public class TridasUtils {
 
 	
 	/**
-	 * Checks to see whether a TridasValues block contains only only values
+	 * Checks to see whether a TridasValues block contains only values
 	 * of a certain data type. If tests cannot be completed, (e.g. argValues 
 	 * is empty) then it returns null.
 	 * 

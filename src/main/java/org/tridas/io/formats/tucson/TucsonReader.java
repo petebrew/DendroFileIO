@@ -35,6 +35,7 @@ import org.tridas.io.formats.tucson.TucsonToTridasDefaults.TucsonDefaultField;
 import org.tridas.io.util.DateUtils;
 import org.tridas.io.util.SafeIntYear;
 import org.tridas.io.util.StatsUtil;
+import org.tridas.io.util.TridasUtils;
 import org.tridas.io.util.YearRange;
 import org.tridas.schema.DatingSuffix;
 import org.tridas.schema.NormalTridasUnit;
@@ -248,7 +249,9 @@ public class TucsonReader extends AbstractDendroFileReader {
 			}
 
 		}
-
+		olist = TridasUtils.consolidateObjects(olist);
+		dslist = TridasUtils.consolidateDerivedSeries(dslist);
+		
 		project.setObjects(olist);
 		project.setDerivedSeries(dslist);
 		return project;

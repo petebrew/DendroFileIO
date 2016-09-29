@@ -173,7 +173,7 @@ public class FHX2Writer extends AbstractDendroCollectionWriter {
 		// No series found
 		if (seriesList.size() == 0) {
 			clearWarnings();
-			throw new ImpossibleConversionException(I18n.getText("fileio.noData"));
+			throw new ImpossibleConversionException("This file doesn't include fire history data.  FHX format is specifically for fire history and related data only.");
 		}
 				
 		file.setSeriesList(seriesList);

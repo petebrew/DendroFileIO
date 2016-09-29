@@ -203,7 +203,7 @@ public class TucsonToTridasDefaults extends TridasMetadataFieldSet implements IM
 		TridasMeasurementSeries ms = super.getDefaultTridasMeasurementSeries();
 		TridasIdentifier id = new TridasIdentifier();
 		id.setDomain(getStringDefaultValue(TridasMandatoryField.IDENTIFIER_DOMAIN).getValue());
-		id.setValue(getStringDefaultValue(TucsonDefaultField.SERIES_CODE).getValue());
+		id.setValue(getStringDefaultValue(TridasMandatoryField.MEASUREMENTSERIES_IDENTIFIER).getValue());
 		ms.setIdentifier(id);
 		ms.setTitle(getStringDefaultValue(TucsonDefaultField.SERIES_CODE).getValue());
 		// Investigator
@@ -259,7 +259,7 @@ public class TucsonToTridasDefaults extends TridasMetadataFieldSet implements IM
 		TridasDerivedSeries ds = super.getDefaultTridasDerivedSeries();
 		TridasIdentifier id = new TridasIdentifier();
 		id.setDomain(getStringDefaultValue(TridasMandatoryField.IDENTIFIER_DOMAIN).getValue());
-		id.setValue(getStringDefaultValue(TucsonDefaultField.SERIES_CODE).getValue());
+		id.setValue(getStringDefaultValue(TridasMandatoryField.MEASUREMENTSERIES_IDENTIFIER).getValue());
 		ds.setIdentifier(id);
 		ds.setTitle(getStringDefaultValue(TucsonDefaultField.SERIES_CODE).getValue());
 		
@@ -326,27 +326,28 @@ public class TucsonToTridasDefaults extends TridasMetadataFieldSet implements IM
 				variable.setNormalStd("ARSTAN");
 				variable.setNormalId("std");
 				variable.setNormal("std");
-				variable.setValue("ARSTAN Standard Chronology");
+				variable.setValue("ARSTAN Standard Chronology (STD)");
 			}
 			else if(var.equals("ars"))
 			{
 				variable.setNormalStd("ARSTAN");
 				variable.setNormalId("ars");
 				variable.setNormal("ars");
-				variable.setValue("ARSTAN Chronology");
+				variable.setValue("ARSTAN Chronology (ARS)");
 			}
 			else if(var.equals("res"))
 			{
 				variable.setNormalStd("ARSTAN");
 				variable.setNormalId("res");
 				variable.setNormal("res");
-				variable.setValue("ARSTAN Residuals Chronology");
+				variable.setValue("ARSTAN Residuals Chronology (RES)");
 			}
 			else if(var.equals("trn"))
 			{
 				variable.setNormalStd("ARSTAN");
 				variable.setNormalId("trn");
 				variable.setNormal("trn");
+				variable.setValue("ARSTAN Adaptive Power Transform (TRN)");
 			}
 			else
 			{

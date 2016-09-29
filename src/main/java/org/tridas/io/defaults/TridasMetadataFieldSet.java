@@ -64,7 +64,7 @@ public class TridasMetadataFieldSet extends AbstractTridasMetadataFieldSet {
 		PROJECT_CATEGORY, 
 		PROJECT_INVESTIGATOR, 
 		PROJECT_PERIOD, 
-		OBJECT_TITLE, OBJECT_TYPE, ELEMENT_TITLE, ELEMENT_TAXON, SAMPLE_TITLE, SAMPLE_TYPE, RADIUS_TITLE, MEASUREMENTSERIES_TITLE, MEASUREMENTSERIES_MEASURINGMETHOD, MEASUREMENTSERIES_VARIABLE, DERIVEDSERIES_TITLE, DERIVEDSERIES_TYPE, DERIVEDSERIES_IDENTIFIER, 
+		OBJECT_TITLE, OBJECT_TYPE, ELEMENT_TITLE, ELEMENT_TAXON, SAMPLE_TITLE, SAMPLE_TYPE, RADIUS_TITLE, MEASUREMENTSERIES_IDENTIFIER, MEASUREMENTSERIES_TITLE, MEASUREMENTSERIES_MEASURINGMETHOD, MEASUREMENTSERIES_VARIABLE, DERIVEDSERIES_TITLE, DERIVEDSERIES_TYPE, DERIVEDSERIES_IDENTIFIER, 
 		IDENTIFIER_DOMAIN;
 	}
 	
@@ -124,6 +124,9 @@ public class TridasMetadataFieldSet extends AbstractTridasMetadataFieldSet {
 		measurementSeriesMeasuringMethod.setNormalTridas(NormalTridasMeasuringMethod.MEASURING_PLATFORM);
 		setDefaultValue(TridasMandatoryField.MEASUREMENTSERIES_MEASURINGMETHOD,
 				new GenericDefaultValue<TridasMeasuringMethod>(measurementSeriesMeasuringMethod));
+		
+		setDefaultValue(TridasMandatoryField.MEASUREMENTSERIES_IDENTIFIER, new StringDefaultValue(UUID.randomUUID()
+				.toString()));
 		
 		TridasVariable measurementSeriesVariable = new TridasVariable();
 		measurementSeriesVariable.setNormalTridas(NormalTridasVariable.RING_WIDTH);
