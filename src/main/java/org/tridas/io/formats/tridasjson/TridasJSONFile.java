@@ -26,6 +26,7 @@ import javax.xml.bind.Marshaller;
 import javax.xml.validation.Schema;
 import javax.xml.validation.SchemaFactory;
 
+import org.apache.commons.lang.math.RandomUtils;
 import org.json.simple.JSONObject;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -1002,7 +1003,12 @@ public class TridasJSONFile implements IDendroFile {
 									}
 									
 									output.put("series.values", data);
-									root.put(measurementseries.getIdentifier().getValue()+variable, output);
+									
+									
+									
+									String key = getUniqueChildKey(root, measurementseries.getIdentifier().getValue()+variable, 0);
+									
+									root.put(key, output);
 									gotData = true;
 									
 								}	
@@ -1162,4 +1168,29 @@ public class TridasJSONFile implements IDendroFile {
 		this.outputVersion = outputVersion;
 	}
 
+	private static String getUniqueChildKey(JSONObject item, String key, int increment)
+	{
+		if(increment>100) {
+			
+			log.error("Increment too high - must be in infinite loop");
+			return key;
+		}
+		
+		String newkey = key;
+		if(increment>0)
+		{
+			newkey = key +"("+increment+")";
+		}
+		
+		
+		if(item.containsKey(newkey))
+		{
+			increment++;
+			return getUniqueChildKey(item, key, increment);
+		}
+		
+		return newkey;
+		
+	}
+	
 }
