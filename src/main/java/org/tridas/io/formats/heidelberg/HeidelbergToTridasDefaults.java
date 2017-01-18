@@ -316,7 +316,7 @@ public class HeidelbergToTridasDefaults extends TridasMetadataFieldSet {
 		
 		if (getDefaultValue(TridasExtraField.ORIGINAL_FILENAME).getValue() != null) {
 			TridasGenericField gf = new ObjectFactory().createTridasGenericField();
-			gf.setName("dccd.treeringdatafile");
+			gf.setName("original.treeringdatafile");
 			gf.setType("xs:string");
 			gf.setValue(getDefaultValue(TridasExtraField.ORIGINAL_FILENAME).getValue().toString());
 			gflist.add(gf);
@@ -450,7 +450,7 @@ public class HeidelbergToTridasDefaults extends TridasMetadataFieldSet {
 		
 		if (getDefaultValue(TridasExtraField.ORIGINAL_FILENAME).getValue() != null) {
 			TridasGenericField gf = new ObjectFactory().createTridasGenericField();
-			gf.setName("dccd.treeringdatafile");
+			gf.setName("original.treeringdatafile");
 			gf.setType("xs:string");
 			gf.setValue(getDefaultValue(TridasExtraField.ORIGINAL_FILENAME).getValue().toString());
 			gflist.add(gf);

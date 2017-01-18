@@ -561,7 +561,7 @@ public class SheffieldToTridasDefaults extends TridasMetadataFieldSet implements
 		
 		if (getDefaultValue(TridasExtraField.ORIGINAL_FILENAME).getValue() != null) {
 			TridasGenericField gf = new ObjectFactory().createTridasGenericField();
-			gf.setName("dccd.treeringdatafile");
+			gf.setName("original.treeringdatafile");
 			gf.setType("xs:string");
 			gf.setValue(getDefaultValue(TridasExtraField.ORIGINAL_FILENAME).getValue().toString());
 			genFields.add(gf);
@@ -601,7 +601,7 @@ public class SheffieldToTridasDefaults extends TridasMetadataFieldSet implements
 		
 		if (getDefaultValue(TridasExtraField.ORIGINAL_FILENAME).getValue() != null) {
 			TridasGenericField gf = new ObjectFactory().createTridasGenericField();
-			gf.setName("dccd.treeringdatafile");
+			gf.setName("original.treeringdatafile");
 			gf.setType("xs:string");
 			gf.setValue(getDefaultValue(TridasExtraField.ORIGINAL_FILENAME).getValue().toString());
 			genFields.add(gf);
