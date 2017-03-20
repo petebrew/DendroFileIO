@@ -505,6 +505,24 @@ public class DateUtils {
 		
 	}
 		
+	public static DateTime parseDateTimeFromShortNaturalString(String str)
+	{
+		// Go the whole hog first and see if that works
+		DateTime dt = parseDateTimeFromNaturalString(str);
+		if(dt!=null) return dt;
+		
+		if(str.length()==4 && str.matches("^[1-2][0-9][0-9][0-9]"))
+		{			
+			return DateUtils.getDateTime(1,1,Integer.valueOf(str));
+		}
+				
+		
+		return null;
+		
+		
+	}
+	
+	
 	/**
 	 * Attempt to parse a DateTime from a natural language string.
 	 * 
