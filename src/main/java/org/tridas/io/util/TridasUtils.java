@@ -248,6 +248,27 @@ public class TridasUtils {
 		
 	}
 	
+	public static ArrayList<TridasSample> getSampleList(TridasObject o)
+	{
+		ArrayList<TridasObject> ols = getObjectList(o);
+		ArrayList<TridasSample> sls = new ArrayList<TridasSample>();
+		
+		for(TridasObject ob : ols)
+		{
+			for(TridasElement el : ob.getElements())
+			{
+				for(TridasSample s : el.getSamples())
+				{
+					sls.add(s);
+				}
+			}
+			
+		}
+		
+		return sls;
+	}
+	
+	
 	/**
 	 * Recursively work through objects and sub-objects compiling a list
 	 * of all the TridasObjects associated with this TridasObject.

@@ -349,9 +349,9 @@ public class TucsonReader extends AbstractDendroFileReader {
 					 */
 
 					// Reset header caches and continue
-					headercache1 = null;
-					headercache2 = null;
-					headercache3 = null;
+					//headercache1 = null;
+					//headercache2 = null;
+					//headercache3 = null;
 				}
 				break;
 
@@ -385,9 +385,9 @@ public class TucsonReader extends AbstractDendroFileReader {
 					 */
 
 					// Reset header cache
-					headercache1 = null;
-					headercache2 = null;
-					headercache3 = null;
+					//headercache1 = null;
+					//headercache2 = null;
+					//headercache3 = null;
 				}
 				break;
 
@@ -417,8 +417,10 @@ public class TucsonReader extends AbstractDendroFileReader {
 							(TucsonToTridasDefaults) defaults.clone());
 
 					// Extract metadata from header
-					loadMetadata(currentSeries, headercache1, headercache2,
-							headercache3);
+					loadMetadata(currentSeries, headercache1, headercache2,headercache3);
+					headercache1 = null;
+					headercache2 = null;
+					headercache3 = null;
 
 					// Clear header, yearMarker and series code caches
 					headercache1 = null;
@@ -446,7 +448,8 @@ public class TucsonReader extends AbstractDendroFileReader {
 						.equals(getSeriesCodeFromLine(line))
 						|| lastYearReached) {
 					// NEW SERIES WITHOUT A HEADER
-
+					
+			
 					//warnAboutNonStandardHeader();
 
 					// Reset 'end of data' and last Year markers flag
@@ -463,6 +466,11 @@ public class TucsonReader extends AbstractDendroFileReader {
 					currentSeries = new TucsonSeries(
 							(TucsonToTridasDefaults) defaults.clone());
 
+					loadMetadata(currentSeries, headercache1, headercache2,headercache3);
+					headercache1 = null;
+					headercache2 = null;
+					headercache3 = null;
+					
 					// Check year marker is valid
 					checkYearMarkerIsValid(lastYearMarker,
 							getYearMarkerFromLine(line));
@@ -643,8 +651,11 @@ public class TucsonReader extends AbstractDendroFileReader {
 		series.defaults = (TucsonToTridasDefaults) defaults.clone();
 
 		// First check whether the three lines are likely to be a header
-		if (isLikelyHeader(line1, line2, line3)) {
-			if (line1.length() > 64) {
+		if (!isLikelyHeader(line1, line2, line3)) {
+			warnAboutNonStandardHeader();
+		}
+		
+			if (line1!=null && line1.length() > 64) {
 				// Attempt to extract data from line 1
 				series.defaults.getStringDefaultValue(
 						TucsonDefaultField.SITE_CODE).setValue(
@@ -656,7 +667,7 @@ public class TucsonReader extends AbstractDendroFileReader {
 						TucsonDefaultField.SPECIES_CODE).setValue(
 						(line1.substring(61, 65)).trim());
 			}
-			if (line2.length() > 75) {
+			if (line2!=null && line2.length() > 75) {
 				// Attempt to extract data from line 2
 				series.defaults.getStringDefaultValue(
 						TucsonDefaultField.STATE_COUNTRY).setValue(
@@ -701,7 +712,7 @@ public class TucsonReader extends AbstractDendroFileReader {
 				}
 
 			}
-			if (line3.length() > 79) {
+			if (line3!=null && line3.length() > 79) {
 				// Attempt to extract data from line 3
 				series.defaults.getStringDefaultValue(
 						TucsonDefaultField.INVESTIGATOR).setValue(
@@ -724,9 +735,9 @@ public class TucsonReader extends AbstractDendroFileReader {
 				}
 			}
 
-		} else {
-			warnAboutNonStandardHeader();
-		}
+			
+			
+	
 
 	}
 
@@ -1375,8 +1386,10 @@ public class TucsonReader extends AbstractDendroFileReader {
 			return m1.find();
 		case HEADER_LINE2:
 			//regex = "^[^\\n]{9}[^\\n]{21}[\\t ]{10}[0-9mMft.]{5}[\\s]{2}[0-9\\t+\\- ]{10}[\\t ]{10}[\\d\\t ]{9}";
-			//regex = "^[\\d\\w ]{7}[2 ][ ][^\\n]{30}[ ][ 0-9mMft.]{5}[ ]{2}[0-9\\t+\\- NWnw]{11}[ ]{9}[0-9 -]{4}[ ][0-9 -]{4}";
+			//regex = "^[\\d\\w ]{7}[2 ][ ][^\\n]{30}[ ][ 0-9mMft.]{5}[ ]{2}[0-9\\t+\\- NWnw]{11}[ ]{9}[0-9 -]{4}[ ][0-9 -]{4}";			
 			regex = "^[\\d\\w ]{7}[2 ][ ][^\\n]{31}[ 0-9mMft.]{5}[ ]{2}[0-9\\t+\\- NWnw]{11}[ _]{9}[0-9 -]{4}[ ][0-9 -]{4}";
+			//regex = "^[\\d\\w ]{7}[2 ][ ][^\\n]{31}[ 0-9mMft.]{5}[ ]{2}[0-9\\t+\\- NWnw]{11}[ _]{8}[0-9 -]{5}[ ][0-9 -]{5}";
+
 
 			p1 = Pattern.compile(regex, Pattern.CASE_INSENSITIVE
 					| Pattern.DOTALL);

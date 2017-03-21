@@ -49,6 +49,11 @@ public class SpatialUtils {
 	
 	// Simplified reference requires coordinates in x,y or long,lat order
 	public static String WGS84 = "EPSG:4326";
+	
+	public enum UTMDatum{
+		NAD27,
+		NAD83
+	}
 		
 	/**
 	 * Convert DMS format coordinate into decimal degrees, where W and S are
@@ -282,6 +287,41 @@ public class SpatialUtils {
 	}
 	
 
+	public static Projection getUTMProjection(UTMDatum datum, Integer zone)
+	{
+		
+		if(datum==UTMDatum.NAD27)
+		{
+			return ProjectionFactory.fromPROJ4Specification(
+					new String[] {	
+							"+proj=utm", 
+							"+zone="+zone,
+							"+ellps=clrk66",
+							"+units=m",
+							"+no_defs" 
+					}
+				);
+		}
+		else if(datum==UTMDatum.NAD83)
+		{
+			return ProjectionFactory.fromPROJ4Specification(
+					new String[] {	
+							"+proj=utm", 
+							"+zone="+zone,
+							"+ellps=GRS80",
+							"towgs84=0,0,0,0,0,0,0",
+							"+units=m",
+							"+no_defs" 
+					}
+				);
+		}
+		else
+		{
+			// Not implemented
+			return null;
+		}
+	}
+
 	
 	/**
 	 * Converts a SN****** style British National Grid coordinate into EPSG:4326 
@@ -458,8 +498,27 @@ public class SpatialUtils {
 		  return point;
 	}
 	
-	
 
+	public static TridasLocation getLocationGeometryFromUTM(UTMDatum datum, Integer zone, Integer easting, Integer northing)
+	{
+
+
+		Projection  proj = getUTMProjection(datum, zone);
+		
+		Point2D.Double point = new Point2D.Double();
+		point.x = easting.doubleValue();
+		point.y = northing.doubleValue();
+		
+		Point2D.Double des = new Point2D.Double();
+		proj.inverseTransform(point, des);
+
+		
+		TridasLocationGeometry geom = getWGS84LocationGeometry(des.getY(), des.getX());
+		TridasLocation loc = new TridasLocation();
+		loc.setLocationGeometry(geom);
+				
+		return loc;
+	}
 		
 	
 	
