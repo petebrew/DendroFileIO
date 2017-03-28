@@ -134,24 +134,19 @@ public class FHX2File implements IDendroFile {
 			OdfTable table; 
 			table = outputDocument.getTableList().get(0);
 			
-			// Write header
-			table.getCellByPosition(0, 0).setStringValue("FHX2");
-			table.getCellByPosition(2, 0).setStringValue("FORMAT");
-			table.getCellByPosition(0, 1).setStringValue(yrRange.getStart().toString());  // Start year
-			table.getCellByPosition(2, 1).setStringValue(seriesList.size()+"");     // Sample size
 			int labelsize = 0;
 			for (FHX2Series s : seriesList) {
 
 				if(getLabelForSeries(s).length()>labelsize) labelsize = getLabelForSeries(s).length();
 			}
-			table.getCellByPosition(4, 1).setStringValue(labelsize+"");
+			//table.getCellByPosition(4, 1).setStringValue(labelsize+"");
 					
 			// Write years column
 			SafeIntYear yr = yrRange.getStart();
-			Integer rowNumber = labelsize+2;
+			Integer rowNumber = labelsize+1;
 			String yearval;
 			while (yr.compareTo(yrRange.getEnd()) <= 0) {
-				yearval = "{"+yr.toString()+"}";
+				yearval = yr.toString();
 				
 				table.getCellByPosition(seriesList.size()+1, rowNumber).setStringValue(yearval);
 				// Increment to next year and row number
@@ -189,7 +184,14 @@ public class FHX2File implements IDendroFile {
 				lines.add(line);
 			}
 			ArrayList<String> metadata = getMetadata();
+			//metadata.add("METADATA DONE");
 			
+			// Write header
+			metadata.add("FHX2 FORMAT");
+			metadata.add(yrRange.getStart().toString()+" "+seriesList.size()+" "+labelsize);	
+			//metadata.add("HEADER DONE");
+			
+			// Add data lines
 			metadata.addAll(lines);
 			
 			return metadata.toArray(new String[0]);
@@ -233,7 +235,7 @@ public class FHX2File implements IDendroFile {
 	}
 	
 	/**
-	 * Write the ring widths for the provided series in the specified column
+	 * Write the year values for the provided series in the specified column
 	 * 
 	 * @param table
 	 * @param col
@@ -245,10 +247,10 @@ public class FHX2File implements IDendroFile {
 		String label = StringUtils.rightPad(getLabelForSeries(series), labelSize);
 		for (int i = 0; i < label.length(); i++){
 		    String c = label.substring(i, i+1);        
-		    table.getCellByPosition(col, i+2).setStringValue(c);
+		    table.getCellByPosition(col, i).setStringValue(c);
 		}
 		
-		int row=labelSize+2;
+		int row=labelSize+1;
 		Boolean isRecording = false;
 		Boolean reachedData = false;
 		for(SafeIntYear currYear = yrRange.getStart(); currYear.compareTo(yrRange.getEnd())<=0; currYear = currYear
