@@ -57,6 +57,19 @@ public class TridasUtils {
 
 	}
 	
+	public static String getGenericFieldValueByName(ITridasGeneric entity, String fieldName)
+	{
+	
+		if(!entity.isSetGenericFields()) return "";
+		
+		for(TridasGenericField field: entity.getGenericFields())
+		{
+			if(field.getName().equals(fieldName)) return field.getValue();
+		}
+		
+		return "";
+	}
+	
 	public static TridasGenericField getGenericFieldByName(ITridasGeneric entity, String fieldName)
 	{
 	
