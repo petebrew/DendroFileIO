@@ -1287,6 +1287,33 @@ public class TridasUtils {
 		return null;
 		
 	}
+	
+	public static void setProject(TridasObjectEx object, TridasProject project)
+	{
+		TridasGenericField gf = null;
+		if(object.isSetGenericFields())
+		{
+		
+			for(TridasGenericField field: object.getGenericFields())
+			{
+				if(field.getName().equals(GENERIC_FIELD_STRING_PROJECT_ID)) 
+				{
+					gf = field;
+				}
+			}
+		}
+		
+		if(gf==null)
+		{
+			
+			gf = new TridasGenericField();
+			gf.setName(GENERIC_FIELD_STRING_PROJECT_ID);
+			gf.setType("xs:string");
+			object.getGenericFields().add(gf);
+		}
+		
+		gf.setValue(project.getIdentifier().getValue());
+	}
 
 	public static void setObjectCode(TridasObjectEx object, String code) {
 		
@@ -1478,5 +1505,6 @@ public class TridasUtils {
 	public static String GENERIC_FIELD_STRING_BOXCODE = "tellervo.boxCode";
 	public static String GENERIC_FIELD_STRING_CURATION_LOCATION = "tellervo.boxCurationLocation";
 	public static String GENERIC_FIELD_STRING_BOX_TRACKING_LOCATION = "tellervo.boxTrackingLocation";
+	public static String GENERIC_FIELD_STRING_PROJECT_ID = "tellervo.object.projectid";
 }
 

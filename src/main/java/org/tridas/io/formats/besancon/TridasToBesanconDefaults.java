@@ -165,7 +165,7 @@ public class TridasToBesanconDefaults extends AbstractMetadataFieldSet
 				case RELATIVE:
 					if(ser.getInterpretation().isSetFirstYear())
 					{
-						getIntegerDefaultValue(DefaultFields.POSITION_IN_MEAN).setValue(ser.getInterpretation().getFirstYear().getValue());
+						getIntegerDefaultValue(DefaultFields.POSITION_IN_MEAN).setValue(ser.getInterpretation().getFirstYear().getValue().intValue());
 					}
 				default:
 					
