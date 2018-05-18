@@ -154,9 +154,16 @@ public class CSVMatrixWriter extends AbstractDendroCollectionWriter {
 		NamingConventionGrouper ncgroup = new NamingConventionGrouper();
 		ncgroup.add(argProject);
 		
-		for (TridasObject o : TridasUtils.getObjectList(argProject)) {			
+		//for (TridasObject o : TridasUtils.getObjectList(argProject)) {			
+		for (TridasObject o : argProject.getObjects()) {
 			defaults.populateFromTridasObject(o);
 			ncgroup.add(o);
+			if(o.isSetObjects())
+			{
+				o = o.getObjects().get(0);
+			}
+			
+			
 			for (TridasElement e : o.getElements()) {
 				defaults.populateFromTridasElement(e);
 				ncgroup.add(e);

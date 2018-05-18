@@ -92,6 +92,9 @@ public class TridasToMatrixDefaults extends AbstractMetadataFieldSet implements
 		OBJECT_LOCATION_STATE,
 		OBJECT_LOCATION_COUNTRY,
 		
+		OBJECT_CODE_1,
+		OBJECT_CODE_2,
+		
 		ELEMENT_TITLE,
 		ELEMENT_IDENTIFIER,
 		ELEMENT_CREATED_TIMESTAMP,
@@ -208,6 +211,9 @@ public class TridasToMatrixDefaults extends AbstractMetadataFieldSet implements
 		setDefaultValue(DefaultFields.OBJECT_LOCATION_CITYTOWN, new StringDefaultValue());
 		setDefaultValue(DefaultFields.OBJECT_LOCATION_STATE, new StringDefaultValue());
 		setDefaultValue(DefaultFields.OBJECT_LOCATION_COUNTRY, new StringDefaultValue());
+		
+		setDefaultValue(DefaultFields.OBJECT_CODE_1, new StringDefaultValue());
+		setDefaultValue(DefaultFields.OBJECT_CODE_2, new StringDefaultValue());
 
 		setDefaultValue(DefaultFields.ELEMENT_TITLE, new StringDefaultValue());
 		setDefaultValue(DefaultFields.ELEMENT_IDENTIFIER, new StringDefaultValue());
@@ -762,6 +768,23 @@ public class TridasToMatrixDefaults extends AbstractMetadataFieldSet implements
 		if(object.isSetDescription())
 		{
 			getStringDefaultValue(DefaultFields.OBJECT_DESCRIPTION).setValue(object.getDescription());
+		}
+		
+		if(object.isSetGenericFields())
+		{
+			if(TridasUtils.getGenericFieldByName(object, "tellervo.objectLabCode")!=null)
+			{
+				getStringDefaultValue(DefaultFields.OBJECT_CODE_1).setValue(TridasUtils.getGenericFieldByName(object, "tellervo.objectLabCode").getValue());
+			}
+		}
+		
+		if(object.isSetObjects())
+		{
+			TridasObject subobj = object.getObjects().get(0);
+			if(TridasUtils.getGenericFieldByName(subobj, "tellervo.objectLabCode")!=null)
+			{
+				getStringDefaultValue(DefaultFields.OBJECT_CODE_2).setValue(TridasUtils.getGenericFieldByName(subobj, "tellervo.objectLabCode").getValue());
+			}
 		}
 		
 		// Set coordinates using the projection handler to make sure we're reading correctly

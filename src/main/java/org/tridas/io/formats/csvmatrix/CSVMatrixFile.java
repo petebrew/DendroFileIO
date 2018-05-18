@@ -130,6 +130,8 @@ public class CSVMatrixFile implements IDendroFile {
 			"Object location city/town",
 			"Object location state",
 			"Object location country",
+			"Object code 1",
+			"Object code 2",
 			"Element title",
 			"Element identifier",
 			"Element created timestamp",
@@ -268,6 +270,8 @@ public class CSVMatrixFile implements IDendroFile {
 			addValueToColumn(valuecolumns, s.def.getStringDefaultValue(DefaultFields.OBJECT_LOCATION_CITYTOWN).getStringValue(), index);  index++;
 			addValueToColumn(valuecolumns, s.def.getStringDefaultValue(DefaultFields.OBJECT_LOCATION_STATE).getStringValue(), index);  index++;
 			addValueToColumn(valuecolumns, s.def.getStringDefaultValue(DefaultFields.OBJECT_LOCATION_COUNTRY).getStringValue(), index);  index++;
+			addValueToColumn(valuecolumns, s.def.getStringDefaultValue(DefaultFields.OBJECT_CODE_1).getStringValue(), index);  index++;
+			addValueToColumn(valuecolumns, s.def.getStringDefaultValue(DefaultFields.OBJECT_CODE_2).getStringValue(), index);  index++;
 			addValueToColumn(valuecolumns, s.def.getStringDefaultValue(DefaultFields.ELEMENT_TITLE).getStringValue(), index);  index++;
 			addValueToColumn(valuecolumns, s.def.getStringDefaultValue(DefaultFields.ELEMENT_IDENTIFIER).getStringValue(), index);  index++;
 			addValueToColumn(valuecolumns, s.def.getDateTimeDefaultValue(DefaultFields.ELEMENT_CREATED_TIMESTAMP).getStringValue(), index);  index++;

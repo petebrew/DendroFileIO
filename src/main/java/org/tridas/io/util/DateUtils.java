@@ -37,6 +37,12 @@ import com.joestelmach.natty.Parser;
 
 public class DateUtils {
 	
+	
+	public enum DatePrecision {
+		DAY, MONTH, YEAR;
+	}
+	
+	
 	/**
 	 * Create a DateTime for right now
 	 * 
@@ -223,10 +229,10 @@ public class DateUtils {
 		int partTwo = 0;
 		int year = 0;
 
-		if(date.matches("\\d{1,2}(/|.|-)\\d{1,2}(/|.|-)(19|20)\\d\\d"))
+		if(date.matches("(\\d{1,2}(/|.|-)\\d{1,2}(/|.|-)(19|20)\\d\\d)$"))
 		{
 			// Old style dd/MM/yyyy or dd-MM-yyyy or dd.MM.yyyy
-			String[] parts = date.split("(/|,|-)");
+			String[] parts = date.split("(/|,|-|.)");
 			
 			if(parts.length==3)
 			{
@@ -236,7 +242,7 @@ public class DateUtils {
 			}
 			
 		}
-		else if(date.matches("\\d{1,2}(/|.|-)\\d{1,2}(/|.|-)\\d\\d"))
+		else if(date.matches("^(\\d{2}(/|.|-)\\d{2}(/|.|-)\\d\\d)$"))
 		{
 			// Old style dd/MM/yy or dd-MM-yy assuming 20th or 21st century year
 			String[] parts = date.split("(/|,|-)");
@@ -256,7 +262,7 @@ public class DateUtils {
 			}
 			
 		}
-		else if(date.matches("\\d{4}(19|20)\\d{2}"))
+		else if(date.matches("(\\d{4}(19|20)\\d{2})$"))
 		{
 			// Newer style ddMMyyyy 
 			// assuming year is in 20th or 21st century
@@ -264,7 +270,7 @@ public class DateUtils {
 			partTwo = Integer.parseInt(date.substring(2,4));
 			year = Integer.parseInt(date.substring(4,8));
 		}
-		else if(date.matches("\\d{4}\\d{2}"))
+		else if(date.matches("(\\d{4}\\d{2})$"))
 		{
 			// Shorter style ddMMyy
 			partOne = Integer.parseInt(date.substring(0,2));
@@ -279,6 +285,33 @@ public class DateUtils {
 				year = year+2000;
 			}
 		}
+		if(date.matches("((18|19|20)\\d\\d[- /.](0[1-9]|1[012])[- /.](0[1-9]|[12][0-9]|3[01]))$"))
+		{
+			// YYYY-MM-DD format
+			String[] parts = date.split("(/| |-)");
+			year = Integer.parseInt(parts[0]);
+			partTwo = Integer.parseInt(parts[2]);
+			partOne = Integer.parseInt(parts[1]);
+			
+		}
+		else if(date.matches("((18|19|20)\\d\\d[- /.](0[1-9]|1[012]))$"))
+		{
+			// YYYY-MM format
+			String[] parts = date.split("(/| |-)");
+			year = Integer.parseInt(parts[0]);
+			partTwo = Integer.parseInt(parts[1]);
+			partOne = 1;
+			
+		}	
+		else if(date.matches("((18|19|20)\\d\\d)$"))
+		{
+			// YYYY format
+			String[] parts = date.split("(/| |-|.)");
+			year = Integer.parseInt(parts[0]);
+			partOne = 1;
+			partTwo = 1;
+			
+		}	
 		else
 		{
 			return null;
@@ -314,6 +347,27 @@ public class DateUtils {
 		}
 
 		return null;
+	}
+	
+	public static DatePrecision getDatePrecision(String date)
+	{
+		
+		if(date.matches("((18|19|20)\\d\\d[- /.](0[1-9]|1[012]))$"))
+		{
+			//YYYY-MM
+			return DatePrecision.MONTH;
+			
+		}	
+		else if(date.matches("((18|19|20)\\d\\d)$"))
+		{
+			//YYYY
+			return DatePrecision.YEAR;
+		}	
+		
+		
+		return DatePrecision.DAY;
+		
+		
 	}
 	
 	/**
@@ -555,7 +609,13 @@ public class DateUtils {
 			{
 				return datetime;
 			}
-		} catch (Exception e) {		}
+		} catch (Exception e) {		
+			
+			e.printStackTrace();
+			System.out.println("Failed to parse manually, now try Natty");
+			
+			
+		}
 		
 		// Failed so now try using Natty		
 		
