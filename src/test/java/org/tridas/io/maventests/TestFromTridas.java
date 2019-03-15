@@ -345,7 +345,7 @@ public class TestFromTridas extends TestCase {
 
 		for (String filename : files) {
 
-			if(!filename.equals("Extensive.xml")) continue;
+			if(!filename.equals("bcadtransition.xml")) continue;
 			
 			log.info(" ");
 			log.info("Converting file: " + filename);

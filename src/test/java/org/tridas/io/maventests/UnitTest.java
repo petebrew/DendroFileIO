@@ -43,7 +43,9 @@ import org.tridas.io.formats.tridas.TridasReader;
 import org.tridas.io.formats.tridas.TridasWriter;
 import org.tridas.io.formats.tucson.TridasToTucsonDefaults;
 import org.tridas.io.formats.tucson.TucsonWriter;
+import org.tridas.io.util.AstronomicalYear;
 import org.tridas.io.util.FilePermissionException;
+import org.tridas.io.util.SafeIntYear;
 import org.tridas.schema.TridasObject;
 import org.tridas.schema.TridasTridas;
 import org.tridas.spatial.GMLPointSRSHandler;
@@ -187,6 +189,52 @@ public class UnitTest extends TestCase {
 		}
 
 		System.out.println("file size =" + filesize);
+	}
+	
+	public void testSafeIntYears(){
+
+		SafeIntYear y1 = new SafeIntYear(2);
+		SafeIntYear y2 = new SafeIntYear(-2);
+		System.out.println("Comparing "+y1.toString()+" with "+y2.toString());
+		System.out.println("Difference in years = "+y1.diff(y2));
+		assertTrue((y1.diff(y2))==3);
+			
+		y1 = new SafeIntYear(-2);
+		y2 = new SafeIntYear(-4);
+		System.out.println("Comparing "+y1.toString()+" with "+y2.toString());
+		System.out.println("Difference in years = "+y1.diff(y2));
+		assertTrue((y1.diff(y2))==2);
+		
+		y1 = new SafeIntYear(4);
+		y2 = new SafeIntYear(2);
+		System.out.println("Comparing "+y1.toString()+" with "+y2.toString());
+		System.out.println("Difference in years = "+y1.diff(y2));
+		assertTrue((y1.diff(y2))==2);
+	}
+	
+	public void testAstronomicalYears(){
+		
+		
+		AstronomicalYear y1 = new AstronomicalYear(2);
+		AstronomicalYear y2 = new AstronomicalYear(-2);
+		System.out.println("Comparing "+y1.toString()+" with "+y2.toString());
+		System.out.println("Difference in years = "+y1.diff(y2));
+		assertTrue((y1.diff(y2))==4);
+			
+		y1 = new AstronomicalYear(-2);
+		y2 = new AstronomicalYear(-4);
+		System.out.println("Comparing "+y1.toString()+" with "+y2.toString());
+		System.out.println("Difference in years = "+y1.diff(y2));
+		assertTrue((y1.diff(y2))==2);
+		
+		y1 = new AstronomicalYear(4);
+		y2 = new AstronomicalYear(2);
+		System.out.println("Comparing "+y1.toString()+" with "+y2.toString());
+		System.out.println("Difference in years = "+y1.diff(y2));
+		assertTrue((y1.diff(y2))==2);
+		
+		
+		
 	}
 	
 	public void testTucson() {

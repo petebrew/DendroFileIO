@@ -12,7 +12,7 @@
 	<modelVersion>4.0.0</modelVersion>
 	<groupId>org.tridas</groupId>
 	<artifactId>dendrofileio</artifactId>
-	<version>1.1.6-SNAPSHOT</version>
+	<version>1.1.7</version>
 
 	<name>DendroFileIO</name>
 	<description>IO library for converting dendro files to and from the TridasJLib Java classes</description>
@@ -54,17 +54,17 @@
 		<project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
 	</properties>
 
-	<!-- Repository to deploy to. When deploying make sure your .m2/settings.xml 
-		file contains the correct username and password for the repository server -->
+	 <!--  Repository to deploy to.  When deploying make sure your .m2/settings.xml
+	 file contains the correct username and password for the repository server -->
 	<distributionManagement>
-		<repository>
-			<id>tridas-releases</id>
-			<url>http://maven.tridas.org/repository/tridas-releases/</url>
-		</repository>
-		<snapshotRepository>
-			<id>tridas-snapshots</id>
-			<url>http://maven.tridas.org/repository/tridas-snapshots/</url>
-		</snapshotRepository>
+	    <repository>
+	      <id>ltrr-releases</id>
+	      <url>https://repo.ltrr.arizona.edu/ltrr-releases/</url>
+	    </repository>
+	    <snapshotRepository>
+	      <id>ltrr-snapshots</id>
+	      <url>https://repo.ltrr.arizona.edu/ltrr-snapshots/</url>
+	    </snapshotRepository>
 	</distributionManagement>
 
 	<!-- Packages DendroFileIO relies upon -->
@@ -172,7 +172,7 @@
 		<dependency>
 			<groupId>org.tridas</groupId>
 			<artifactId>tridasjlib</artifactId>
-			<version>1.22.5-SNAPSHOT</version>
+			<version>1.22.6</version>
 		</dependency>
 		<dependency>
 			<groupId>com.sun.xml.bind</groupId>

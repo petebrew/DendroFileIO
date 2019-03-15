@@ -415,17 +415,33 @@ public final class SafeIntYear implements Comparable {
 	public int diff(SafeIntYear y2) {
 		// copy, and convert to zys
 		int i1 = y;
+		int i2 = y2.y;
+
+		
 		if (i1 < 0) {
 			i1++;
 		}
 		
-		int i2 = y2.y;
 		if (i2 < 0) {
 			i2++;
 		}
+		return i1 - i2;
+
+		
+		/*int diff = i1 - i2;
+		if((i1<0 && i2 > 0) || (i1>0 && i2 < 0 ) )
+		{
+			if(diff>0 ) {
+				diff = diff -1;
+			}
+			else
+			{
+				diff = diff +1;
+			}
+		}
 		
 		// subtract, and return
-		return i1 - i2;
+		return diff;*/
 	}
 	
 	/**

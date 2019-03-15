@@ -20,6 +20,7 @@ import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Date;
 import java.util.GregorianCalendar;
+import java.util.Locale;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
@@ -28,6 +29,9 @@ import javax.xml.datatype.DatatypeConstants;
 import javax.xml.datatype.DatatypeFactory;
 import javax.xml.datatype.XMLGregorianCalendar;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+import org.tridas.io.maventests.TridasTransformTests;
 import org.tridas.schema.Certainty;
 import org.tridas.schema.DateTime;
 import org.tridas.schema.NormalTridasDatingType;
@@ -36,7 +40,8 @@ import com.joestelmach.natty.DateGroup;
 import com.joestelmach.natty.Parser;
 
 public class DateUtils {
-	
+	private static final Logger log = LoggerFactory.getLogger(DateUtils.class);
+
 	
 	public enum DatePrecision {
 		DAY, MONTH, YEAR;
@@ -229,10 +234,11 @@ public class DateUtils {
 		int partTwo = 0;
 		int year = 0;
 
-		if(date.matches("(\\d{1,2}(/|.|-)\\d{1,2}(/|.|-)(19|20)\\d\\d)$"))
+		if(date.matches("(\\d{1,2}(/|\\.|-)\\d{1,2}(/|\\.|-)(19|20)\\d\\d)$"))
 		{
 			// Old style dd/MM/yyyy or dd-MM-yyyy or dd.MM.yyyy
-			String[] parts = date.split("(/|,|-|.)");
+			log.debug("String matches dd/MM/yyyy or dd-MM-yyyy or dd.MM.yyyy");
+			String[] parts = date.split("(/|-|\\.)");
 			
 			if(parts.length==3)
 			{
@@ -242,10 +248,11 @@ public class DateUtils {
 			}
 			
 		}
-		else if(date.matches("^(\\d{2}(/|.|-)\\d{2}(/|.|-)\\d\\d)$"))
+		else if(date.matches("^(\\d{2}(/|\\.|-)\\d{2}(/|\\.|-)\\d\\d)$"))
 		{
 			// Old style dd/MM/yy or dd-MM-yy assuming 20th or 21st century year
-			String[] parts = date.split("(/|,|-)");
+			log.debug("String matches dd/MM/yy or dd-MM-yy assuming 20th or 21st century year");
+			String[] parts = date.split("(/|-|\\.)");
 			if(parts.length==3)
 			{
 				partOne = Integer.parseInt(parts[0]);
@@ -265,7 +272,8 @@ public class DateUtils {
 		else if(date.matches("(\\d{4}(19|20)\\d{2})$"))
 		{
 			// Newer style ddMMyyyy 
-			// assuming year is in 20th or 21st century
+			log.debug("String matches ddMMyyyy");
+
 			partOne = Integer.parseInt(date.substring(0,2));
 			partTwo = Integer.parseInt(date.substring(2,4));
 			year = Integer.parseInt(date.substring(4,8));
@@ -273,6 +281,7 @@ public class DateUtils {
 		else if(date.matches("(\\d{4}\\d{2})$"))
 		{
 			// Shorter style ddMMyy
+			log.debug("String matches ddMMyy");
 			partOne = Integer.parseInt(date.substring(0,2));
 			partTwo = Integer.parseInt(date.substring(2,4));
 			year = Integer.parseInt(date.substring(4,6));
@@ -285,31 +294,55 @@ public class DateUtils {
 				year = year+2000;
 			}
 		}
-		if(date.matches("((18|19|20)\\d\\d[- /.](0[1-9]|1[012])[- /.](0[1-9]|[12][0-9]|3[01]))$"))
+		else if(date.matches("((18|19|20)\\d\\d[- /\\.](0[1-9]|1[012])[- /\\.](0[1-9]|[12][0-9]|3[01]))$"))
 		{
+			log.debug("String matches YYYY-MM-DD, YYYY/MM/DD, YYYY MM DD or YYYY.MM.DD");
 			// YYYY-MM-DD format
-			String[] parts = date.split("(/| |-)");
+			String[] parts = date.split("(/|-|\\.)");
 			year = Integer.parseInt(parts[0]);
 			partTwo = Integer.parseInt(parts[2]);
 			partOne = Integer.parseInt(parts[1]);
 			
 		}
-		else if(date.matches("((18|19|20)\\d\\d[- /.](0[1-9]|1[012]))$"))
+		else if(date.matches("((18|19|20)\\d\\d[- /\\.](0[1-9]|1[012]))$"))
 		{
+			log.debug("String matches YYYY-MM");
 			// YYYY-MM format
-			String[] parts = date.split("(/| |-)");
+			String[] parts = date.split("(/|-|\\.)");
 			year = Integer.parseInt(parts[0]);
-			partTwo = Integer.parseInt(parts[1]);
-			partOne = 1;
+			
+			if(americanOrder)
+			{
+				partOne = Integer.parseInt(parts[1]);
+				partTwo = 1;	
+			}
+			else
+			{
+				partTwo = Integer.parseInt(parts[1]);
+				partOne = 1;	
+			}
+			
+			
 			
 		}	
 		else if(date.matches("((18|19|20)\\d\\d)$"))
 		{
+			log.debug("String matches YYYY");
 			// YYYY format
-			String[] parts = date.split("(/| |-|.)");
-			year = Integer.parseInt(parts[0]);
-			partOne = 1;
-			partTwo = 1;
+			String[] parts = date.split("(/|-|\\.)");
+			
+			if(parts.length>0)
+			{
+				year = Integer.parseInt(parts[0]);
+				partOne = 1;
+				partTwo = 1;
+			}
+			else
+			{
+				year =  Integer.parseInt(date);
+				partOne = 1;
+				partTwo = 1;
+			}
 			
 		}	
 		else
@@ -596,18 +629,45 @@ public class DateUtils {
 		DateTime datetime = null;
 		
 		try {
-			// Try international format first
-			datetime = parseDateFromDayMonthYearString(str, false);
-			if(datetime!=null)	
-			{
-				return datetime;
-			}
 			
-			// Failed so try American format next
-			datetime = parseDateFromDayMonthYearString(str, true);
-			if(datetime!=null)	
+			Locale currentLocale = Locale.getDefault();
+			
+			log.debug("Locale country is "+currentLocale.getCountry());
+			
+			if(currentLocale.getCountry()=="US")
 			{
-				return datetime;
+				
+				
+				// Try American format first
+				datetime = parseDateFromDayMonthYearString(str, true);
+				if(datetime!=null)	
+				{
+					return datetime;
+				}
+				
+				// Failed so try International format
+				datetime = parseDateFromDayMonthYearString(str, false);
+				if(datetime!=null)	
+				{
+					return datetime;
+				}
+			}
+			else
+			{
+			
+				// Try international format first
+				datetime = parseDateFromDayMonthYearString(str, false);
+				if(datetime!=null)	
+				{
+					return datetime;
+				}
+				
+				// Failed so try American format next
+				datetime = parseDateFromDayMonthYearString(str, true);
+				if(datetime!=null)	
+				{
+					return datetime;
+				}
 			}
 		} catch (Exception e) {		
 			
@@ -640,6 +700,17 @@ public class DateUtils {
 				cal.get(Calendar.YEAR));
 		
 		if(datetime== null) return null;
+		
+		Calendar cal2 = Calendar.getInstance();
+		
+		if(cal.get(Calendar.YEAR)==cal2.get(Calendar.YEAR) &&
+				cal.get(Calendar.MONTH)==cal2.get(Calendar.MONTH) &&
+				cal.get(Calendar.DAY_OF_MONTH)==cal2.get(Calendar.DAY_OF_MONTH))
+		{
+			// Same as today so probably failed to parse
+			return null;
+		}
+		
 		
 		if(groups.size()>1 || group.getDates().size()>1)
 		{

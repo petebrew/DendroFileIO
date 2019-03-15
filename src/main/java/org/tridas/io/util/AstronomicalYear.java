@@ -240,15 +240,18 @@ public final class AstronomicalYear implements Comparable {
 	 */
 	public int diff(AstronomicalYear y2) {
 		// copy, and convert to zys
+		
 		int i1 = y;
-		if (i1 < 0) {
+		int i2 = y2.y;
+		
+		/*if (i1 < 0) {
 			i1++;
 		}
 		
-		int i2 = y2.y;
+		
 		if (i2 < 0) {
 			i2++;
-		}
+		}*/
 		
 		// subtract, and return
 		return i1 - i2;

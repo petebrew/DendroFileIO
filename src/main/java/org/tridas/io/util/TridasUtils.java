@@ -1315,6 +1315,48 @@ public class TridasUtils {
 		gf.setValue(project.getIdentifier().getValue());
 	}
 
+	/**
+	 * Get a string representing a (potentially) multi-level object code in the style of:
+	 * grandparentcode > parentcode > childcode
+	 *  
+	 * @param obj
+	 * @return
+	 */
+	public static String getObjectCodeMulti(TridasObjectEx obj)
+	{
+		
+		return getConcatenateObjectCode(obj, null);
+		
+	}
+	
+	private static String getConcatenateObjectCode(TridasObjectEx obj, String runningcode)
+	{
+		TridasObjectEx parent = obj.getParent();
+		String thisobjcode = obj.getLabCode();
+		String combcode;
+		
+		if(runningcode==null)
+		{
+			combcode= thisobjcode;
+		}
+		else
+		{
+			combcode= thisobjcode+">"+runningcode;
+		}
+		
+		if(parent!=null)
+		{
+			return getConcatenateObjectCode(parent, combcode);			 
+		}	
+		else
+		{
+			return combcode;
+		}
+		
+		
+		
+	}
+	
 	public static void setObjectCode(TridasObjectEx object, String code) {
 		
 		TridasGenericField gf = null;

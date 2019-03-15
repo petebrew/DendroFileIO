@@ -32,6 +32,8 @@ import org.tridas.io.util.AstronomicalYear;
 import org.tridas.io.util.SafeIntYear;
 import org.tridas.io.util.StringUtils;
 import org.tridas.io.util.YearRange;
+import org.tridas.schema.DatingSuffix;
+import org.tridas.schema.NormalTridasDatingType;
 import org.tridas.schema.NormalTridasUnit;
 import org.tridas.schema.TridasValue;
 import org.tridas.schema.TridasValues;
@@ -195,13 +197,17 @@ public class TucsonFile implements IDendroFile {
 			// Infinite loop until we reach end of data
 			for (;;) {
 				
+				SafeIntYear safeintyear = y.toSafeIntYear();
+				
 				// Row header column
-				/*log.debug("***** Y  = "+ y);
+				log.debug("***** Y  = "+ y);
+				System.out.println("Astronomical year = "+y);
+				System.out.println("Calendar year     = "+safeintyear.formattedYear(NormalTridasDatingType.ABSOLUTE, DatingSuffix.AD));
 				log.debug("y.column = "+y.column());
 				log.debug("y.equals(new Astronomical Year(0)) : "+y.equals(new AstronomicalYear(0)));
 				
 				log.debug("y.equals(start): "+y.equals(start));
-				*/
+				
 				
 				if (  y.equals(new AstronomicalYear(0))       || 
 					  y.column() == 0   					  || 
@@ -231,8 +237,13 @@ public class TucsonFile implements IDendroFile {
 					}
 				}
 				else {
-					// Extract data value				
-					String thisDataValue = data.get(y.diff(start)).getValue().toString();
+					// Extract data value			
+					int index = y.diff(start);
+					
+					String thisDataValue = data.get(index).getValue().toString();
+					System.out.println("Value = "+thisDataValue);
+					System.out.println("Index = "+index);
+					System.out.println("-----");
 					
 					// If this is a missing ring we should override
 					if(thisDataValue.trim().equals("0"))
