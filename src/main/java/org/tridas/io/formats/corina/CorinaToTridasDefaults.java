@@ -15,8 +15,10 @@
  */
 package org.tridas.io.formats.corina;
 
+import java.io.File;
 import java.util.UUID;
 
+import org.codehaus.plexus.util.FileUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.tridas.io.I18n;
@@ -52,6 +54,8 @@ import org.tridas.schema.TridasUnit;
 import org.tridas.schema.TridasValues;
 import org.tridas.schema.TridasVariable;
 import org.tridas.schema.TridasWoodCompleteness;
+
+import com.google.common.io.Files;
 
 public class CorinaToTridasDefaults extends TridasMetadataFieldSet implements
 		IMetadataFieldSet {
@@ -128,12 +132,27 @@ public class CorinaToTridasDefaults extends TridasMetadataFieldSet implements
 		
 		
 		// ID > Generic field
-		if(getStringDefaultValue(DefaultFields.ID).getValue()!=null)
+		String keycode = null;
+		
+		if(getStringDefaultValue(DefaultFields.FILENAME).getValue()!=null)
+		{		
+			keycode = Files.getNameWithoutExtension(getStringDefaultValue(DefaultFields.FILENAME).getValue());
+			if(keycode.length()>8) keycode=null;
+		}
+		if(keycode==null)
+		{
+			if(getStringDefaultValue(DefaultFields.ID).getValue()!=null)
+			{
+				keycode = getStringDefaultValue(DefaultFields.ID).getValue();
+			}
+		}
+		
+		if(keycode!=null)
 		{
 			TridasGenericField gf = new TridasGenericField();
 			gf.setName("keycode");
 			gf.setType("xs:string");
-			gf.setValue(getStringDefaultValue(DefaultFields.ID).getValue());
+			gf.setValue(keycode);
 			series.getGenericFields().add(gf);
 		}
 		
@@ -287,12 +306,27 @@ public class CorinaToTridasDefaults extends TridasMetadataFieldSet implements
 		}
 		
 		// ID > Generic field
-		if(getStringDefaultValue(DefaultFields.ID).getValue()!=null)
+		String keycode = null;
+		
+		if(getStringDefaultValue(DefaultFields.FILENAME).getValue()!=null)
+		{		
+			keycode = Files.getNameWithoutExtension(getStringDefaultValue(DefaultFields.FILENAME).getValue());
+			if(keycode.length()>8) keycode=null;
+		}
+		if(keycode==null)
+		{
+			if(getStringDefaultValue(DefaultFields.ID).getValue()!=null)
+			{
+				keycode = getStringDefaultValue(DefaultFields.ID).getValue();
+			}
+		}
+		
+		if(keycode!=null)
 		{
 			TridasGenericField gf = new TridasGenericField();
 			gf.setName("keycode");
 			gf.setType("xs:string");
-			gf.setValue(getStringDefaultValue(DefaultFields.ID).getValue());
+			gf.setValue(keycode);
 			series.getGenericFields().add(gf);
 		}
 		

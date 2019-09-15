@@ -4,3 +4,4 @@
 
 mvn install:install-file -DgroupId=com.jhlabs    -DartifactId=jmapprojlib   -Dversion=1.2.0    -Dpackaging=jar -Dfile=jmapprojlib-1.2.0-SNAPSHOT.jar
 mvn install:install-file -DgroupId=gov.nist.math -DartifactId=jama          -Dversion=1.0.2    -Dpackaging=jar -Dfile=jama-1.0.2.jar
+mvn install:install-file -DgroupId=charset       -DartifactId=charset       -Dversion=1.2.1    -Dpackaging=jar -Dfile=charset-1.2.1.jar

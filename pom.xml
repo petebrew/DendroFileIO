@@ -12,7 +12,7 @@
 	<modelVersion>4.0.0</modelVersion>
 	<groupId>org.tridas</groupId>
 	<artifactId>dendrofileio</artifactId>
-	<version>1.1.7</version>
+	<version>1.1.8-SNAPSHOT</version>
 
 	<name>DendroFileIO</name>
 	<description>IO library for converting dendro files to and from the TridasJLib Java classes</description>
@@ -75,11 +75,19 @@
 			<version>2.0</version>
 		</dependency>
 		<dependency>
+		  <groupId>com.google.guava</groupId>
+		  <artifactId>guava</artifactId>
+		  <version>28.1-jre</version>	  
+		</dependency>
+		<dependency>
 			<groupId>junit</groupId>
 			<artifactId>junit</artifactId>
-			<version>4.8.1</version>
-			<type>jar</type>
-			<scope>test</scope>
+			<version>4.12</version>
+		</dependency>
+		<dependency>
+		    <groupId>charset</groupId>
+		    <artifactId>charset</artifactId>
+		    <version>1.2.1</version>
 		</dependency>
 		<dependency>
 			<groupId>com.ibm.icu</groupId>
@@ -249,7 +257,7 @@
 		</repository>
 
 
-		<repository>
+		<!-- <repository>
 			<id>codehaus</id>
 			<name>Codehaus repository</name>
 			<url>http://repository.codehaus.org</url>
@@ -261,7 +269,7 @@
 				<updatePolicy>never</updatePolicy>
 				<checksumPolicy>fail</checksumPolicy>
 			</snapshots>
-		</repository>
+		</repository>-->
 
 		<repository>
 			<id>java.net</id>
