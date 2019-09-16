@@ -58,7 +58,7 @@ public class CorinaReader extends AbstractDendroFileReader {
 	private ArrayList<Integer> countVals = new ArrayList<Integer>();
 	private ArrayList<String> parentSeriesLinks = new ArrayList<String>();
 	private ArrayList<TridasIdentifier> linkIds = new ArrayList<TridasIdentifier>();
-	private TridasProject parentProject = null;
+	private TridasProject parentProject = new TridasProject();
 	private Boolean isDerivedSeries = false;
 	protected Boolean loadRecursively = false;
 	
@@ -218,7 +218,7 @@ public class CorinaReader extends AbstractDendroFileReader {
 			IMetadataFieldSet argDefaultFields)
 			throws InvalidDendroFileException {
 		
-		log.debug("Parsing: " + argFileString);
+		log.debug("Parsing: " + argFileString[3]);
 		defaults = (CorinaToTridasDefaults) argDefaultFields;
 				
 		checkFileIsValid(argFileString);
@@ -432,12 +432,26 @@ public class CorinaReader extends AbstractDendroFileReader {
 	
 	private void readElements(String[] argFileString, Integer dataStartIndex)
 	{
+		ArrayList<String> elementsHandled = new ArrayList<String>();
+	
 		for (int i=dataStartIndex; i<argFileString.length; i++)
 		{
 			// Skip blank lines
 			if(argFileString[i].equals("")) continue;
+			
+			log.debug("Reading element from line "+i);
 				
 			String line = argFileString[i];
+			
+			if(elementsHandled.contains(line))
+			{
+				this.addWarning(new ConversionWarning(WarningType.INFORMATION, "The file '"+line+"' has been included more than once in this chronology.  Duplicate entries will be ignored."));
+				continue;
+			}
+			else
+			{
+				elementsHandled.add(line);
+			}
 			
 			// If line has a ; in it then return
 			if (line.contains(";")) return;
@@ -487,14 +501,21 @@ public class CorinaReader extends AbstractDendroFileReader {
 				}
 				
 				TridasProject currentProject =reader.getProject();
+				if(currentProject.isSetDerivedSeries()) {
+					log.debug("  - Derived series count: "+currentProject.getDerivedSeries().size());
+				}
+				else
+				{
+					log.debug("  - Derived series count: 0");
+				}
 				
 				if(currentProject.isSetDerivedSeries())
 				{
+					
 					if(currentProject.getDerivedSeries().size()>1)
 					{
 						this.addWarning(new ConversionWarning(WarningType.INFORMATION, "The file '"+line+"' contains more than one chronology which shouldn't be possible.  Excluding."));
 						parentSeriesLinks.add(line);
-						continue;
 					}
 					else
 					{
@@ -509,50 +530,46 @@ public class CorinaReader extends AbstractDendroFileReader {
 							parentProject.getObjects().addAll(currentProject.getObjects());
 							parentProject.getDerivedSeries().addAll(currentProject.getDerivedSeries());
 						}
-						continue;
 					}
 				}
-				else 
+				
+
+				ArrayList<TridasMeasurementSeries> series = TridasUtils.getMeasurementSeriesFromTridasProject(currentProject);
+
+				log.debug("  - Measurement series count: "+series.size());
+
+				if((series==null || series.size()==0))
 				{
-					ArrayList<TridasMeasurementSeries> series = TridasUtils.getMeasurementSeriesFromTridasProject(currentProject);
-					
-					if(series==null)
+					if(!currentProject.isSetDerivedSeries())
 					{
 						this.addWarning(new ConversionWarning(WarningType.INFORMATION, "The file '"+line+"' does not include any series so it is being excluded."));
 						parentSeriesLinks.add(line);
 						continue;
 					}
-					else if (series.size()>1)
+				}
+				else if (series.size()>1)
+				{
+					this.addWarning(new ConversionWarning(WarningType.INFORMATION, "The file '"+line+"' contains more than one series which shouldn't be possible.  Excluding."));
+					parentSeriesLinks.add(line);
+					continue;
+				}
+				else
+				{
+					this.linkIds.add(series.get(0).getIdentifier());
+					
+					if(parentProject==null)
 					{
-						this.addWarning(new ConversionWarning(WarningType.INFORMATION, "The file '"+line+"' contains more than one series which shouldn't be possible.  Excluding."));
-						parentSeriesLinks.add(line);
-						continue;
+						parentProject = currentProject;
 					}
 					else
 					{
-						this.linkIds.add(series.get(0).getIdentifier());
-						
-						if(parentProject==null)
-						{
-							parentProject = currentProject;
-						}
-						else
-						{
-							parentProject.getObjects().addAll(currentProject.getObjects());
-							parentProject.getDerivedSeries().addAll(currentProject.getDerivedSeries());
-						}
-												
-						continue;
+						parentProject.getObjects().addAll(currentProject.getObjects());
+						parentProject.getDerivedSeries().addAll(currentProject.getDerivedSeries());
 					}
+											
+					continue;
 				}
-					
-
-				
-
 			}
-			
-			
-			
 		}
 		
 	}

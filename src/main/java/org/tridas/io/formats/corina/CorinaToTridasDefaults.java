@@ -136,7 +136,7 @@ public class CorinaToTridasDefaults extends TridasMetadataFieldSet implements
 		
 		if(getStringDefaultValue(DefaultFields.FILENAME).getValue()!=null)
 		{		
-			keycode = Files.getNameWithoutExtension(getStringDefaultValue(DefaultFields.FILENAME).getValue());
+			keycode = Files.getNameWithoutExtension(getStringDefaultValue(DefaultFields.FILENAME).getValue()).replace("-", "").replace("&", "+");
 			if(keycode.length()>8) keycode=null;
 		}
 		if(keycode==null)
@@ -144,6 +144,11 @@ public class CorinaToTridasDefaults extends TridasMetadataFieldSet implements
 			if(getStringDefaultValue(DefaultFields.ID).getValue()!=null)
 			{
 				keycode = getStringDefaultValue(DefaultFields.ID).getValue();
+			}
+			else
+			{
+				keycode = Files.getNameWithoutExtension(getStringDefaultValue(DefaultFields.FILENAME).getValue()).replace("-", "").replace("&", "+");
+				if(keycode.length()>8) keycode = keycode.substring(0,8);
 			}
 		}
 		
@@ -279,7 +284,7 @@ public class CorinaToTridasDefaults extends TridasMetadataFieldSet implements
 		if(getDefaultValue(DefaultFields.DATING).getValue()!=null)
 		{
 			try{
-				CorinaDatingType dating = CorinaDatingType.valueOf(getStringDefaultValue(DefaultFields.DATING).getValue());
+				CorinaDatingType dating = CorinaDatingType.fromCode(getStringDefaultValue(DefaultFields.DATING).getValue());
 				TridasDating td = new TridasDating();
 				switch (dating)
 				{
@@ -294,6 +299,7 @@ public class CorinaToTridasDefaults extends TridasMetadataFieldSet implements
 				default:
 				}
 			} catch (Exception e){
+				e.printStackTrace();
 				log.warn("Unknown dating type'"+getStringDefaultValue(DefaultFields.DATING).getValue()+"'");
 			}		
 		}
@@ -310,7 +316,7 @@ public class CorinaToTridasDefaults extends TridasMetadataFieldSet implements
 		
 		if(getStringDefaultValue(DefaultFields.FILENAME).getValue()!=null)
 		{		
-			keycode = Files.getNameWithoutExtension(getStringDefaultValue(DefaultFields.FILENAME).getValue());
+			keycode = Files.getNameWithoutExtension(getStringDefaultValue(DefaultFields.FILENAME).getValue()).replace("-", "").replace("&", "+");
 			if(keycode.length()>8) keycode=null;
 		}
 		if(keycode==null)
@@ -318,6 +324,11 @@ public class CorinaToTridasDefaults extends TridasMetadataFieldSet implements
 			if(getStringDefaultValue(DefaultFields.ID).getValue()!=null)
 			{
 				keycode = getStringDefaultValue(DefaultFields.ID).getValue();
+			}
+			else
+			{
+				keycode = Files.getNameWithoutExtension(getStringDefaultValue(DefaultFields.FILENAME).getValue()).replace("-", "").replace("&", "+");
+				if(keycode.length()>8) keycode = keycode.substring(0,8);
 			}
 		}
 		
