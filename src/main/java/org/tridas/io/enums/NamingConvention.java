@@ -31,6 +31,7 @@ public class NamingConvention {
 				org.tridas.io.I18n.getText("namingconvention.seriescode"),
 				org.tridas.io.I18n.getText("namingconvention.seriescode8char"),
 				org.tridas.io.I18n.getText("namingconvention.keycode"),
-				org.tridas.io.I18n.getText("namingconvention.tellervohierarchicalwithvariable")};
+				org.tridas.io.I18n.getText("namingconvention.tellervohierarchicalwithvariable"),
+				"Original filename"};
 	}
 }

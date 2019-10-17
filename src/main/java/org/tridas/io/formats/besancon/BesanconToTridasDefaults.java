@@ -15,15 +15,19 @@
  */
 package org.tridas.io.formats.besancon;
 
+import java.util.ArrayList;
+
 import org.apache.commons.lang.WordUtils;
 import org.tridas.io.I18n;
 import org.tridas.io.defaults.TridasMetadataFieldSet;
+import org.tridas.io.defaults.TridasMetadataFieldSet.TridasExtraField;
 import org.tridas.io.defaults.values.BooleanDefaultValue;
 import org.tridas.io.defaults.values.DateTimeDefaultValue;
 import org.tridas.io.defaults.values.GenericDefaultValue;
 import org.tridas.io.defaults.values.IntegerDefaultValue;
 import org.tridas.io.defaults.values.SafeIntYearDefaultValue;
 import org.tridas.io.defaults.values.StringDefaultValue;
+import org.tridas.io.formats.heidelberg.HeidelbergToTridasDefaults.DefaultFields;
 import org.tridas.io.util.ITRDBTaxonConverter;
 import org.tridas.schema.ComplexPresenceAbsence;
 import org.tridas.schema.ControlledVoc;
@@ -34,6 +38,7 @@ import org.tridas.schema.PresenceAbsence;
 import org.tridas.schema.TridasBark;
 import org.tridas.schema.TridasDating;
 import org.tridas.schema.TridasElement;
+import org.tridas.schema.TridasGenericField;
 import org.tridas.schema.TridasHeartwood;
 import org.tridas.schema.TridasLastRingUnderBark;
 import org.tridas.schema.TridasMeasurementSeries;
@@ -278,6 +283,20 @@ public class BesanconToTridasDefaults extends TridasMetadataFieldSet {
 			
 		// Add wood completeness to series
 		series.setWoodCompleteness(wc);
+		
+		ArrayList<TridasGenericField> gflist = new ArrayList<TridasGenericField>();
+
+		if (getDefaultValue(TridasExtraField.ORIGINAL_FILENAME).getValue() != null) {
+			TridasGenericField gf = new ObjectFactory().createTridasGenericField();
+			gf.setName("original.treeringdatafile");
+			gf.setType("xs:string");
+			gf.setValue(getDefaultValue(TridasExtraField.ORIGINAL_FILENAME).getValue().toString());
+			gflist.add(gf);
+		}
+		
+		series.setGenericFields(gflist);
+		
+		
 		
 		return series;
 	}

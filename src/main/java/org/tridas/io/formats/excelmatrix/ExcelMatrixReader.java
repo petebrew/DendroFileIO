@@ -74,7 +74,7 @@ public class ExcelMatrixReader extends AbstractDendroFileReader {
 	}
 	
 	@Override
-	public void loadFile(String[] argFileStrings) throws InvalidDendroFileException {
+	public void loadFile(String[] argFileStrings, String filename) throws InvalidDendroFileException {
 		throw new UnsupportedOperationException(I18n.getText("general.binaryNotText"));
 	}
 		

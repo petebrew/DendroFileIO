@@ -15,6 +15,7 @@
  */
 package org.tridas.io;
 
+import java.io.File;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Comparator;
@@ -22,6 +23,8 @@ import java.util.Comparator;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.tridas.io.defaults.IMetadataFieldSet;
+import org.tridas.io.defaults.TridasMetadataFieldSet;
+import org.tridas.io.defaults.TridasMetadataFieldSet.TridasExtraField;
 import org.tridas.io.exceptions.ConversionWarning;
 import org.tridas.io.exceptions.IncorrectDefaultFieldsException;
 import org.tridas.io.exceptions.InvalidDendroFileException;
@@ -165,7 +168,7 @@ public abstract class AbstractDendroFileReader implements Comparable<AbstractDen
 		if (strings == null) {
 			throw new IOException(I18n.getText("fileio.loadfailed"));
 		}
-		loadFile(strings, argDefaultFields);
+		loadFile(strings, argDefaultFields, argFilename);
 	}
 	
 	/**
@@ -205,6 +208,7 @@ public abstract class AbstractDendroFileReader implements Comparable<AbstractDen
 		FileHelper fileHelper = new FileHelper(argPath);
 		//log.debug("loading file: " + argFilename);
 		origFilename = argFilename;
+		String fullfilename = argPath+argFilename;
 		String[] strings;
 		if (TridasIO.getReadingCharset() != null) {
 			strings = fileHelper.loadStrings(argFilename, TridasIO.getReadingCharset());
@@ -220,7 +224,7 @@ public abstract class AbstractDendroFileReader implements Comparable<AbstractDen
 		if (strings == null) {
 			throw new IOException(I18n.getText("fileio.loadfailed"));
 		}
-		loadFile(strings, argDefaultFields);
+		loadFile(strings, argDefaultFields, fullfilename);
 	}
 	
 	/**
@@ -247,16 +251,16 @@ public abstract class AbstractDendroFileReader implements Comparable<AbstractDen
 	 * @throws IncorrectDefaultFieldsException
 	 * @throws InvalidDendroFileException
 	 */
-	public void loadFile(String[] argFileStrings, IMetadataFieldSet argDefaults)
+	public void loadFile(String[] argFileStrings, IMetadataFieldSet argDefaults, String inputFilename)
 			throws IncorrectDefaultFieldsException, InvalidDendroFileException {
 		if(argDefaults == null){
-			loadFile(argFileStrings);
+			loadFile(argFileStrings, inputFilename);
 			return;
 		}
 		if (!argDefaults.getClass().equals(defaultFieldsClass)) {
 			throw new IncorrectDefaultFieldsException(defaultFieldsClass);
 		}
-		parseFile(argFileStrings, argDefaults);
+		parseFile(argFileStrings, argDefaults, inputFilename);
 	}
 	
 	/**
@@ -265,8 +269,8 @@ public abstract class AbstractDendroFileReader implements Comparable<AbstractDen
 	 * @param argFileStrings
 	 * @throws InvalidDendroFileException
 	 */
-	public void loadFile(String[] argFileStrings) throws InvalidDendroFileException {
-		parseFile(argFileStrings, constructDefaultMetadata());
+	public void loadFile(String[] argFileStrings, String inputFilename) throws InvalidDendroFileException {
+		parseFile(argFileStrings, constructDefaultMetadata(), inputFilename);
 	}
 	
 	/**
@@ -293,6 +297,21 @@ public abstract class AbstractDendroFileReader implements Comparable<AbstractDen
 	 */
 	protected abstract void parseFile(String[] argFileString, IMetadataFieldSet argDefaultFields)
 			throws InvalidDendroFileException;
+	
+	protected void parseFile(String[] argFileString, IMetadataFieldSet argDefaultFields, String originalFilename) 
+			throws InvalidDendroFileException
+	{
+	
+		TridasMetadataFieldSet defaults = (TridasMetadataFieldSet) argDefaultFields;
+		
+		if(this.getOriginalFilename()!=null)
+		{
+			File file = new File(this.getOriginalFilename());
+			defaults.getStringDefaultValue(TridasExtraField.ORIGINAL_FILENAME).setValue(org.apache.poi.openxml4j.opc.internal.FileHelper.getFilename(file));
+		}
+		
+		parseFile(argFileString, defaults);
+	}
 	
 	/**
 	 * Reset the reader
