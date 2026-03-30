@@ -12,7 +12,7 @@
 	<modelVersion>4.0.0</modelVersion>
 	<groupId>org.tridas</groupId>
 	<artifactId>dendrofileio</artifactId>
-	<version>2.0.0</version>
+	<version>2.0.1-SNAPSHOT</version>
 
 	<name>DendroFileIO</name>
 	<description>IO library for converting dendro files to and from the TridasJLib Java classes</description>
@@ -55,6 +55,14 @@
 		<maven.compiler.release>21</maven.compiler.release>
 		<maven.compiler.parameters>true</maven.compiler.parameters>
 	</properties>
+
+	<distributionManagement>
+		<repository>
+			<id>github-dendrofileio</id>
+			<name>GitHub Packages - petebrew/DendroFileIO</name>
+			<url>https://maven.pkg.github.com/petebrew/DendroFileIO</url>
+		</repository>
+	</distributionManagement>
 
 	<!-- Packages DendroFileIO relies upon -->
 	<dependencies>
