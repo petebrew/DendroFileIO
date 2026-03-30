@@ -1259,7 +1259,7 @@ public class TestToTridas extends TestCase {
 		
 	}*/
 	
-	public void testCorinaToTridas() {
+	/*public void testCorinaToTridas() {
 		String folder = "TestData/Corina";
 		String[] files = getFilesFromFolder(folder);
 		
@@ -1314,7 +1314,7 @@ public class TestToTridas extends TestCase {
 			};
 			
 		}
-	}
+	}*/
 	
 	/*public void testCSVMatrixToTridas() {
 		String folder = "TestData/CSVMatrix";

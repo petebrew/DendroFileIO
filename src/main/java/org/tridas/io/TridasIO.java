@@ -44,6 +44,7 @@ import org.tridas.io.formats.corina.CorinaWriter;
 import org.tridas.io.formats.cracow.CracowReader;
 //import org.tridas.io.formats.csvmatrix.CSVMatrixReader;
 import org.tridas.io.formats.csvmatrix.CSVMatrixWriter;
+import org.tridas.io.formats.csvmatrixremarks.CSVMatrixRemarksWriter;
 import org.tridas.io.formats.csvmetadatamatrix.CSVMetadataWriter;
 import org.tridas.io.formats.dendrodb.DendroDBReader;
 import org.tridas.io.formats.excelmatrix.ExcelMatrixReader;
@@ -151,6 +152,7 @@ public class TridasIO {
 		registerFileWriter(CatrasWriter.class);
 		registerFileWriter(CorinaWriter.class);
 		registerFileWriter(CSVMatrixWriter.class);
+		registerFileWriter(CSVMatrixRemarksWriter.class);
 		registerFileWriter(CSVMetadataWriter.class);
 		registerFileWriter(ExcelMatrixWriter.class);
 		registerFileWriter(FHX2Writer.class);

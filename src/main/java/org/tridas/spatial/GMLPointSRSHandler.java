@@ -89,7 +89,7 @@ public class GMLPointSRSHandler  {
 	public String getProjectionDescription()
 	{
 		if(proj==null) return null;
-		return proj.getProjectionDescription();
+		return proj.getPROJ4Description();
 	}
 	
 	

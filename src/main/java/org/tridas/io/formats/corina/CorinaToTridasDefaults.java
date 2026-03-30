@@ -55,8 +55,6 @@ import org.tridas.schema.TridasValues;
 import org.tridas.schema.TridasVariable;
 import org.tridas.schema.TridasWoodCompleteness;
 
-import com.google.common.io.Files;
-
 public class CorinaToTridasDefaults extends TridasMetadataFieldSet implements
 		IMetadataFieldSet {
 	
@@ -136,7 +134,7 @@ public class CorinaToTridasDefaults extends TridasMetadataFieldSet implements
 		
 		if(getStringDefaultValue(DefaultFields.FILENAME).getValue()!=null)
 		{		
-			keycode = Files.getNameWithoutExtension(getStringDefaultValue(DefaultFields.FILENAME).getValue()).replace("-", "").replace("&", "+");
+			keycode = getNameWithoutExtension(getStringDefaultValue(DefaultFields.FILENAME).getValue()).replace("-", "").replace("&", "+");
 			if(keycode.length()>8) keycode=null;
 		}
 		if(keycode==null)
@@ -147,7 +145,7 @@ public class CorinaToTridasDefaults extends TridasMetadataFieldSet implements
 			}
 			else
 			{
-				keycode = Files.getNameWithoutExtension(getStringDefaultValue(DefaultFields.FILENAME).getValue()).replace("-", "").replace("&", "+");
+				keycode = getNameWithoutExtension(getStringDefaultValue(DefaultFields.FILENAME).getValue()).replace("-", "").replace("&", "+");
 				if(keycode.length()>8) keycode = keycode.substring(0,8);
 			}
 		}
@@ -190,6 +188,17 @@ public class CorinaToTridasDefaults extends TridasMetadataFieldSet implements
 		
 		series.setInterpretation(interp);
 		return series;
+	}
+
+	private String getNameWithoutExtension(String filename)
+	{
+		String basename = new File(filename).getName();
+		int extensionIndex = basename.lastIndexOf('.');
+		if(extensionIndex <= 0)
+		{
+			return basename;
+		}
+		return basename.substring(0, extensionIndex);
 	}
 	
 	@Override
