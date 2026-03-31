@@ -6,7 +6,7 @@ import java.util.ArrayList;
 import net.opengis.gml.schema.PointType;
 import net.opengis.gml.schema.Pos;
 
-import org.apache.commons.lang.WordUtils;
+import org.apache.commons.text.WordUtils;
 import org.tridas.io.I18n;
 import org.tridas.io.defaults.TridasMetadataFieldSet;
 import org.tridas.io.defaults.TridasMetadataFieldSet.TridasMandatoryField;

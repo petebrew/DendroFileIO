@@ -54,7 +54,7 @@ public class ITRDBTaxonConverter {
 			String key = s.substring(0, s.indexOf(","));
 			String value = s.substring(s.indexOf(",") + 1).trim();
 			
-			int secondspacepos = org.apache.commons.lang.StringUtils.ordinalIndexOf(value, " ", 2);
+			int secondspacepos = org.apache.commons.lang3.StringUtils.ordinalIndexOf(value, " ", 2);
 			
 			if(secondspacepos>0)
 			{

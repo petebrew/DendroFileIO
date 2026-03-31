@@ -18,7 +18,7 @@ package org.tridas.io.formats.catras;
 import java.util.ArrayList;
 import java.util.UUID;
 
-import org.apache.commons.lang.WordUtils;
+import org.apache.commons.text.WordUtils;
 import org.tridas.interfaces.ITridasSeries;
 import org.tridas.io.I18n;
 import org.tridas.io.defaults.IMetadataFieldSet;

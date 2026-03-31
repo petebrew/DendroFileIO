@@ -17,7 +17,7 @@ package org.tridas.io.formats.besancon;
 
 import java.util.ArrayList;
 
-import org.apache.commons.lang.WordUtils;
+import org.apache.commons.text.WordUtils;
 import org.tridas.io.I18n;
 import org.tridas.io.defaults.TridasMetadataFieldSet;
 import org.tridas.io.defaults.TridasMetadataFieldSet.TridasExtraField;

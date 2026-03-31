@@ -82,12 +82,12 @@ public class StringUtils {
 			return text.substring(0, size);
 		}
 		
-		return org.apache.commons.lang.StringUtils.rightPad(text, size);
+		return org.apache.commons.lang3.StringUtils.rightPad(text, size);
 		
 	}
 	
 	public static String rightPad(String text, int size) {
-		return org.apache.commons.lang.StringUtils.rightPad(text, size);
+		return org.apache.commons.lang3.StringUtils.rightPad(text, size);
 	}
 	
 	/**
@@ -117,7 +117,7 @@ public class StringUtils {
 		if (stringNum.length() >= argNumCharacters) {
 			return stringNum;
 		}
-		stringNum = org.apache.commons.lang.StringUtils.leftPad(stringNum, argNumCharacters);
+		stringNum = org.apache.commons.lang3.StringUtils.leftPad(stringNum, argNumCharacters);
 		stringNum = stringNum.replace(' ', '0');
 		return stringNum;
 	}
